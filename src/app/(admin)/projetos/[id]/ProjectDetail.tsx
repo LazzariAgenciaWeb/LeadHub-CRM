@@ -7,6 +7,7 @@ import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight }
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
+import VisibilityControl from "@/components/VisibilityControl";
 
 type Project = {
   id:                  string;
@@ -14,6 +15,7 @@ type Project = {
   description:         string | null;
   type:                string | null;
   clickupListId:       string;
+  visibility:          string;
   status:              ProjectStatus;
   startDate:           Date | string | null;
   dueDate:             Date | string | null;
@@ -106,10 +108,12 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 };
 
 export default function ProjectDetail({
-  project, availableUsers, activities, clientCompanies, openTasks, internalTasks, chamados,
+  project, availableUsers, companyUsers, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
+  companyUsers: { id: string; name: string }[];
+  accessUserIds: string[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
   openTasks: OpenTask[];
@@ -554,6 +558,17 @@ export default function ProjectDetail({
             current={project.clientCompany}
             companies={clientCompanies}
           />
+
+          {/* Visibilidade: aberto/restrito + pessoas extras */}
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
+            <VisibilityControl
+              kind="project"
+              id={project.id}
+              visibility={project.visibility ?? "OPEN"}
+              accessUserIds={accessUserIds}
+              users={companyUsers}
+            />
+          </div>
 
           {/* List ID do ClickUp (editável) */}
           <ClickupListIdEditor

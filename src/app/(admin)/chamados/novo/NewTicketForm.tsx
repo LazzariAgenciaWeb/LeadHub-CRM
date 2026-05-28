@@ -59,6 +59,7 @@ export default function NewTicketForm({
     clientCompanyPhone: "",
     clientCompanyEmail: "",
     projetoId: "",
+    visibility: "OPEN",
   });
 
   // Modo "novo cliente": quando o usuário não acha o cliente na lista
@@ -135,6 +136,7 @@ export default function NewTicketForm({
         assigneeId: form.assigneeId || null,
         setorId: form.setorId || null,
         projetoId: form.projetoId || null,
+        visibility: form.visibility,
       };
 
       // Cliente só faz sentido em SUPPORT
@@ -403,6 +405,36 @@ export default function NewTicketForm({
           </p>
         </div>
       )}
+
+      {/* Visibilidade */}
+      <div>
+        <label className="block text-slate-400 text-xs font-medium mb-1.5">Visibilidade</label>
+        <div className="grid grid-cols-2 gap-2 bg-[#0a0e16] border border-[#1e2d45] rounded-lg p-1">
+          <button
+            type="button"
+            onClick={() => setForm({ ...form, visibility: "OPEN" })}
+            className={`py-1.5 rounded-md text-xs font-semibold transition-colors ${
+              form.visibility === "OPEN" ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-white"
+            }`}
+          >
+            🌐 Aberto
+          </button>
+          <button
+            type="button"
+            onClick={() => setForm({ ...form, visibility: "RESTRICTED" })}
+            className={`py-1.5 rounded-md text-xs font-semibold transition-colors ${
+              form.visibility === "RESTRICTED" ? "bg-amber-500/15 text-amber-300 border border-amber-500/30" : "text-slate-500 hover:text-white"
+            }`}
+          >
+            🔒 Restrito
+          </button>
+        </div>
+        <p className="text-[11px] text-slate-600 mt-1">
+          {form.visibility === "OPEN"
+            ? "Toda a empresa vê este chamado."
+            : "Só o setor + responsável veem. Adicione pessoas extras depois, no chamado. ADMIN sempre vê."}
+        </p>
+      </div>
 
       <div>
         <label className="block text-slate-400 text-xs font-medium mb-1.5">

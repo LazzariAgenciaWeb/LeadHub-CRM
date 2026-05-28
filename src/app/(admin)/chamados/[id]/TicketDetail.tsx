@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { diffCalendarDays } from "@/lib/datetime";
+import VisibilityControl from "@/components/VisibilityControl";
 
 interface TicketMessage {
   id: string;
@@ -63,6 +64,8 @@ interface Ticket {
   setorId?: string | null;
   clientCompanyId?: string | null;
   projetoId?: string | null;
+  visibility?: string | null;
+  accessUsers?: { userId: string }[];
   assignee?: { id: string; name: string } | null;
   setor?: { id: string; name: string } | null;
   projeto?: { id: string; name: string } | null;
@@ -1165,6 +1168,19 @@ export default function TicketDetail({
               <p className="text-[10px] text-slate-600 mt-1">
                 Vincular a um projeto com ClickUp move a tarefa pra lista do projeto.
               </p>
+            </div>
+          )}
+
+          {/* Visibilidade: aberto/restrito + pessoas extras */}
+          {canManage && (
+            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+              <VisibilityControl
+                kind="ticket"
+                id={ticket.id}
+                visibility={ticket.visibility ?? "OPEN"}
+                accessUserIds={(ticket.accessUsers ?? []).map((a) => a.userId)}
+                users={(users ?? []).map((u) => ({ id: u.id, name: u.name ?? u.email ?? "—" }))}
+              />
             </div>
           )}
 

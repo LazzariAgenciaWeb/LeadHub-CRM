@@ -5,7 +5,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ProjectStatus } from "@/generated/prisma";
 import {
-  ExternalLink, Filter as FilterIcon, User as UserIcon, Clock, AlertCircle, CalendarOff,
+  ExternalLink, Filter as FilterIcon, User as UserIcon, Clock, AlertCircle, CalendarOff, Lock,
 } from "lucide-react";
 
 type Project = {
@@ -14,6 +14,7 @@ type Project = {
   type:            string | null;
   status:          ProjectStatus;
   clickupListId:   string;
+  visibility?:     string;
   startDate:       Date | string | null;
   dueDate:         Date | string | null;
   deliveredAt:     Date | string | null;
@@ -274,6 +275,9 @@ function ProjectCard({ project }: { project: Project }) {
     >
       <div className="flex items-start gap-2 mb-2">
         <h3 className="text-white text-xs font-semibold line-clamp-2 flex-1">{project.name}</h3>
+        {project.visibility === "RESTRICTED" && (
+          <Lock className="w-3 h-3 text-amber-400 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-label="Restrito" />
+        )}
         {project.type && (
           <span className={`text-[9px] px-1.5 py-0.5 rounded ${TYPE_BADGE[project.type] ?? TYPE_BADGE.OUTRO}`}>
             {project.type}

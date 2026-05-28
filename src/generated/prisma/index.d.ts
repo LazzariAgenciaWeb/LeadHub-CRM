@@ -174,6 +174,16 @@ export type SetorClickupList = $Result.DefaultSelection<Prisma.$SetorClickupList
  */
 export type ProjectTask = $Result.DefaultSelection<Prisma.$ProjectTaskPayload>
 /**
+ * Model TicketAccessUser
+ * 
+ */
+export type TicketAccessUser = $Result.DefaultSelection<Prisma.$TicketAccessUserPayload>
+/**
+ * Model ProjectAccessUser
+ * 
+ */
+export type ProjectAccessUser = $Result.DefaultSelection<Prisma.$ProjectAccessUserPayload>
+/**
  * Model ProjectTaskState
  * 
  */
@@ -1248,6 +1258,26 @@ export class PrismaClient<
   get projectTask(): Prisma.ProjectTaskDelegate<ExtArgs>;
 
   /**
+   * `prisma.ticketAccessUser`: Exposes CRUD operations for the **TicketAccessUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TicketAccessUsers
+    * const ticketAccessUsers = await prisma.ticketAccessUser.findMany()
+    * ```
+    */
+  get ticketAccessUser(): Prisma.TicketAccessUserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.projectAccessUser`: Exposes CRUD operations for the **ProjectAccessUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectAccessUsers
+    * const projectAccessUsers = await prisma.projectAccessUser.findMany()
+    * ```
+    */
+  get projectAccessUser(): Prisma.ProjectAccessUserDelegate<ExtArgs>;
+
+  /**
    * `prisma.projectTaskState`: Exposes CRUD operations for the **ProjectTaskState** model.
     * Example usage:
     * ```ts
@@ -2029,6 +2059,8 @@ export namespace Prisma {
     Setor: 'Setor',
     SetorClickupList: 'SetorClickupList',
     ProjectTask: 'ProjectTask',
+    TicketAccessUser: 'TicketAccessUser',
+    ProjectAccessUser: 'ProjectAccessUser',
     ProjectTaskState: 'ProjectTaskState',
     ProjectActivity: 'ProjectActivity',
     ProjectMember: 'ProjectMember',
@@ -2075,7 +2107,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "billingEvent" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4316,6 +4348,146 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectTaskCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectTaskCountAggregateOutputType> | number
+          }
+        }
+      }
+      TicketAccessUser: {
+        payload: Prisma.$TicketAccessUserPayload<ExtArgs>
+        fields: Prisma.TicketAccessUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TicketAccessUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TicketAccessUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          findFirst: {
+            args: Prisma.TicketAccessUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TicketAccessUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          findMany: {
+            args: Prisma.TicketAccessUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>[]
+          }
+          create: {
+            args: Prisma.TicketAccessUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          createMany: {
+            args: Prisma.TicketAccessUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TicketAccessUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>[]
+          }
+          delete: {
+            args: Prisma.TicketAccessUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          update: {
+            args: Prisma.TicketAccessUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.TicketAccessUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TicketAccessUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TicketAccessUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketAccessUserPayload>
+          }
+          aggregate: {
+            args: Prisma.TicketAccessUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTicketAccessUser>
+          }
+          groupBy: {
+            args: Prisma.TicketAccessUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TicketAccessUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TicketAccessUserCountArgs<ExtArgs>
+            result: $Utils.Optional<TicketAccessUserCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectAccessUser: {
+        payload: Prisma.$ProjectAccessUserPayload<ExtArgs>
+        fields: Prisma.ProjectAccessUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectAccessUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectAccessUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectAccessUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectAccessUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectAccessUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectAccessUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectAccessUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectAccessUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectAccessUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          update: {
+            args: Prisma.ProjectAccessUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectAccessUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectAccessUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectAccessUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectAccessUserPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectAccessUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectAccessUser>
+          }
+          groupBy: {
+            args: Prisma.ProjectAccessUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectAccessUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectAccessUserCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectAccessUserCountAggregateOutputType> | number
           }
         }
       }
@@ -6667,6 +6839,8 @@ export namespace Prisma {
     tasksCreated: number
     projectTasksAssigned: number
     projectTasksCreated: number
+    ticketAccess: number
+    projectAccess: number
     pushSubscriptions: number
   }
 
@@ -6688,6 +6862,8 @@ export namespace Prisma {
     tasksCreated?: boolean | UserCountOutputTypeCountTasksCreatedArgs
     projectTasksAssigned?: boolean | UserCountOutputTypeCountProjectTasksAssignedArgs
     projectTasksCreated?: boolean | UserCountOutputTypeCountProjectTasksCreatedArgs
+    ticketAccess?: boolean | UserCountOutputTypeCountTicketAccessArgs
+    projectAccess?: boolean | UserCountOutputTypeCountProjectAccessArgs
     pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
   }
 
@@ -6819,6 +6995,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountProjectTasksCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectTaskWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTicketAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketAccessUserWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProjectAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectAccessUserWhereInput
   }
 
   /**
@@ -7592,11 +7782,13 @@ export namespace Prisma {
   export type TicketCountOutputType = {
     messages: number
     activities: number
+    accessUsers: number
   }
 
   export type TicketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | TicketCountOutputTypeCountMessagesArgs
     activities?: boolean | TicketCountOutputTypeCountActivitiesArgs
+    accessUsers?: boolean | TicketCountOutputTypeCountAccessUsersArgs
   }
 
   // Custom InputTypes
@@ -7622,6 +7814,13 @@ export namespace Prisma {
    */
   export type TicketCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivityWhereInput
+  }
+
+  /**
+   * TicketCountOutputType without action
+   */
+  export type TicketCountOutputTypeCountAccessUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketAccessUserWhereInput
   }
 
 
@@ -7702,6 +7901,7 @@ export namespace Prisma {
     activities: number
     tickets: number
     internalTasks: number
+    accessUsers: number
   }
 
   export type SetorClickupListCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7710,6 +7910,7 @@ export namespace Prisma {
     activities?: boolean | SetorClickupListCountOutputTypeCountActivitiesArgs
     tickets?: boolean | SetorClickupListCountOutputTypeCountTicketsArgs
     internalTasks?: boolean | SetorClickupListCountOutputTypeCountInternalTasksArgs
+    accessUsers?: boolean | SetorClickupListCountOutputTypeCountAccessUsersArgs
   }
 
   // Custom InputTypes
@@ -7756,6 +7957,13 @@ export namespace Prisma {
    */
   export type SetorClickupListCountOutputTypeCountInternalTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectTaskWhereInput
+  }
+
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountAccessUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectAccessUserWhereInput
   }
 
 
@@ -8126,6 +8334,8 @@ export namespace Prisma {
     tasksCreated?: boolean | User$tasksCreatedArgs<ExtArgs>
     projectTasksAssigned?: boolean | User$projectTasksAssignedArgs<ExtArgs>
     projectTasksCreated?: boolean | User$projectTasksCreatedArgs<ExtArgs>
+    ticketAccess?: boolean | User$ticketAccessArgs<ExtArgs>
+    projectAccess?: boolean | User$projectAccessArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -8182,6 +8392,8 @@ export namespace Prisma {
     tasksCreated?: boolean | User$tasksCreatedArgs<ExtArgs>
     projectTasksAssigned?: boolean | User$projectTasksAssignedArgs<ExtArgs>
     projectTasksCreated?: boolean | User$projectTasksCreatedArgs<ExtArgs>
+    ticketAccess?: boolean | User$ticketAccessArgs<ExtArgs>
+    projectAccess?: boolean | User$projectAccessArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -8212,6 +8424,8 @@ export namespace Prisma {
       tasksCreated: Prisma.$TaskPayload<ExtArgs>[]
       projectTasksAssigned: Prisma.$ProjectTaskPayload<ExtArgs>[]
       projectTasksCreated: Prisma.$ProjectTaskPayload<ExtArgs>[]
+      ticketAccess: Prisma.$TicketAccessUserPayload<ExtArgs>[]
+      projectAccess: Prisma.$ProjectAccessUserPayload<ExtArgs>[]
       pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
       notifPreferences: Prisma.$UserNotifPreferencesPayload<ExtArgs> | null
     }
@@ -8611,6 +8825,8 @@ export namespace Prisma {
     tasksCreated<T extends User$tasksCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
     projectTasksAssigned<T extends User$projectTasksAssignedArgs<ExtArgs> = {}>(args?: Subset<T, User$projectTasksAssignedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
     projectTasksCreated<T extends User$projectTasksCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$projectTasksCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
+    ticketAccess<T extends User$ticketAccessArgs<ExtArgs> = {}>(args?: Subset<T, User$ticketAccessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
+    projectAccess<T extends User$projectAccessArgs<ExtArgs> = {}>(args?: Subset<T, User$projectAccessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
     pushSubscriptions<T extends User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany"> | Null>
     notifPreferences<T extends User$notifPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$notifPreferencesArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
@@ -9339,6 +9555,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectTaskScalarFieldEnum | ProjectTaskScalarFieldEnum[]
+  }
+
+  /**
+   * User.ticketAccess
+   */
+  export type User$ticketAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    where?: TicketAccessUserWhereInput
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    cursor?: TicketAccessUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketAccessUserScalarFieldEnum | TicketAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * User.projectAccess
+   */
+  export type User$projectAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    where?: ProjectAccessUserWhereInput
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    cursor?: ProjectAccessUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectAccessUserScalarFieldEnum | ProjectAccessUserScalarFieldEnum[]
   }
 
   /**
@@ -37682,6 +37938,7 @@ export namespace Prisma {
     createdById: string | null
     setorId: string | null
     projetoId: string | null
+    visibility: string | null
   }
 
   export type TicketMaxAggregateOutputType = {
@@ -37705,6 +37962,7 @@ export namespace Prisma {
     createdById: string | null
     setorId: string | null
     projetoId: string | null
+    visibility: string | null
   }
 
   export type TicketCountAggregateOutputType = {
@@ -37728,6 +37986,7 @@ export namespace Prisma {
     createdById: number
     setorId: number
     projetoId: number
+    visibility: number
     _all: number
   }
 
@@ -37753,6 +38012,7 @@ export namespace Prisma {
     createdById?: true
     setorId?: true
     projetoId?: true
+    visibility?: true
   }
 
   export type TicketMaxAggregateInputType = {
@@ -37776,6 +38036,7 @@ export namespace Prisma {
     createdById?: true
     setorId?: true
     projetoId?: true
+    visibility?: true
   }
 
   export type TicketCountAggregateInputType = {
@@ -37799,6 +38060,7 @@ export namespace Prisma {
     createdById?: true
     setorId?: true
     projetoId?: true
+    visibility?: true
     _all?: true
   }
 
@@ -37895,6 +38157,7 @@ export namespace Prisma {
     createdById: string | null
     setorId: string | null
     projetoId: string | null
+    visibility: string
     _count: TicketCountAggregateOutputType | null
     _min: TicketMinAggregateOutputType | null
     _max: TicketMaxAggregateOutputType | null
@@ -37935,6 +38198,7 @@ export namespace Prisma {
     createdById?: boolean
     setorId?: boolean
     projetoId?: boolean
+    visibility?: boolean
     clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -37943,6 +38207,7 @@ export namespace Prisma {
     projeto?: boolean | Ticket$projetoArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
     activities?: boolean | Ticket$activitiesArgs<ExtArgs>
+    accessUsers?: boolean | Ticket$accessUsersArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
@@ -37967,6 +38232,7 @@ export namespace Prisma {
     createdById?: boolean
     setorId?: boolean
     projetoId?: boolean
+    visibility?: boolean
     clientCompany?: boolean | Ticket$clientCompanyArgs<ExtArgs>
     assignee?: boolean | Ticket$assigneeArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -37996,6 +38262,7 @@ export namespace Prisma {
     createdById?: boolean
     setorId?: boolean
     projetoId?: boolean
+    visibility?: boolean
   }
 
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38007,6 +38274,7 @@ export namespace Prisma {
     projeto?: boolean | Ticket$projetoArgs<ExtArgs>
     messages?: boolean | Ticket$messagesArgs<ExtArgs>
     activities?: boolean | Ticket$activitiesArgs<ExtArgs>
+    accessUsers?: boolean | Ticket$accessUsersArgs<ExtArgs>
     _count?: boolean | TicketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38029,6 +38297,7 @@ export namespace Prisma {
       projeto: Prisma.$SetorClickupListPayload<ExtArgs> | null
       messages: Prisma.$TicketMessagePayload<ExtArgs>[]
       activities: Prisma.$ActivityPayload<ExtArgs>[]
+      accessUsers: Prisma.$TicketAccessUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -38051,6 +38320,7 @@ export namespace Prisma {
       createdById: string | null
       setorId: string | null
       projetoId: string | null
+      visibility: string
     }, ExtArgs["result"]["ticket"]>
     composites: {}
   }
@@ -38423,6 +38693,7 @@ export namespace Prisma {
     projeto<T extends Ticket$projetoArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$projetoArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Ticket$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findMany"> | Null>
     activities<T extends Ticket$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
+    accessUsers<T extends Ticket$accessUsersArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$accessUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -38472,6 +38743,7 @@ export namespace Prisma {
     readonly createdById: FieldRef<"Ticket", 'String'>
     readonly setorId: FieldRef<"Ticket", 'String'>
     readonly projetoId: FieldRef<"Ticket", 'String'>
+    readonly visibility: FieldRef<"Ticket", 'String'>
   }
     
 
@@ -38902,6 +39174,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Ticket.accessUsers
+   */
+  export type Ticket$accessUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    where?: TicketAccessUserWhereInput
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    cursor?: TicketAccessUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketAccessUserScalarFieldEnum | TicketAccessUserScalarFieldEnum[]
   }
 
   /**
@@ -41235,6 +41527,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     deliveredAt: Date | null
+    visibility: string | null
     taskCount: number | null
     taskCompleted: number | null
     taskOverdue: number | null
@@ -41259,6 +41552,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     deliveredAt: Date | null
+    visibility: string | null
     taskCount: number | null
     taskCompleted: number | null
     taskOverdue: number | null
@@ -41283,6 +41577,7 @@ export namespace Prisma {
     startDate: number
     dueDate: number
     deliveredAt: number
+    visibility: number
     taskCount: number
     taskCompleted: number
     taskOverdue: number
@@ -41325,6 +41620,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     deliveredAt?: true
+    visibility?: true
     taskCount?: true
     taskCompleted?: true
     taskOverdue?: true
@@ -41349,6 +41645,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     deliveredAt?: true
+    visibility?: true
     taskCount?: true
     taskCompleted?: true
     taskOverdue?: true
@@ -41373,6 +41670,7 @@ export namespace Prisma {
     startDate?: true
     dueDate?: true
     deliveredAt?: true
+    visibility?: true
     taskCount?: true
     taskCompleted?: true
     taskOverdue?: true
@@ -41484,6 +41782,7 @@ export namespace Prisma {
     startDate: Date | null
     dueDate: Date | null
     deliveredAt: Date | null
+    visibility: string
     taskCount: number
     taskCompleted: number
     taskOverdue: number
@@ -41527,6 +41826,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     deliveredAt?: boolean
+    visibility?: boolean
     taskCount?: boolean
     taskCompleted?: boolean
     taskOverdue?: boolean
@@ -41544,6 +41844,7 @@ export namespace Prisma {
     activities?: boolean | SetorClickupList$activitiesArgs<ExtArgs>
     tickets?: boolean | SetorClickupList$ticketsArgs<ExtArgs>
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
+    accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setorClickupList"]>
 
@@ -41559,6 +41860,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     deliveredAt?: boolean
+    visibility?: boolean
     taskCount?: boolean
     taskCompleted?: boolean
     taskOverdue?: boolean
@@ -41585,6 +41887,7 @@ export namespace Prisma {
     startDate?: boolean
     dueDate?: boolean
     deliveredAt?: boolean
+    visibility?: boolean
     taskCount?: boolean
     taskCompleted?: boolean
     taskOverdue?: boolean
@@ -41605,6 +41908,7 @@ export namespace Prisma {
     activities?: boolean | SetorClickupList$activitiesArgs<ExtArgs>
     tickets?: boolean | SetorClickupList$ticketsArgs<ExtArgs>
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
+    accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -41622,6 +41926,7 @@ export namespace Prisma {
       activities: Prisma.$ProjectActivityPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       internalTasks: Prisma.$ProjectTaskPayload<ExtArgs>[]
+      accessUsers: Prisma.$ProjectAccessUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -41635,6 +41940,7 @@ export namespace Prisma {
       startDate: Date | null
       dueDate: Date | null
       deliveredAt: Date | null
+      visibility: string
       taskCount: number
       taskCompleted: number
       taskOverdue: number
@@ -42016,6 +42322,7 @@ export namespace Prisma {
     activities<T extends SetorClickupList$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends SetorClickupList$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     internalTasks<T extends SetorClickupList$internalTasksArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$internalTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
+    accessUsers<T extends SetorClickupList$accessUsersArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$accessUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -42056,6 +42363,7 @@ export namespace Prisma {
     readonly startDate: FieldRef<"SetorClickupList", 'DateTime'>
     readonly dueDate: FieldRef<"SetorClickupList", 'DateTime'>
     readonly deliveredAt: FieldRef<"SetorClickupList", 'DateTime'>
+    readonly visibility: FieldRef<"SetorClickupList", 'String'>
     readonly taskCount: FieldRef<"SetorClickupList", 'Int'>
     readonly taskCompleted: FieldRef<"SetorClickupList", 'Int'>
     readonly taskOverdue: FieldRef<"SetorClickupList", 'Int'>
@@ -42496,6 +42804,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectTaskScalarFieldEnum | ProjectTaskScalarFieldEnum[]
+  }
+
+  /**
+   * SetorClickupList.accessUsers
+   */
+  export type SetorClickupList$accessUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    where?: ProjectAccessUserWhereInput
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    cursor?: ProjectAccessUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectAccessUserScalarFieldEnum | ProjectAccessUserScalarFieldEnum[]
   }
 
   /**
@@ -43569,6 +43897,1812 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectTaskInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TicketAccessUser
+   */
+
+  export type AggregateTicketAccessUser = {
+    _count: TicketAccessUserCountAggregateOutputType | null
+    _min: TicketAccessUserMinAggregateOutputType | null
+    _max: TicketAccessUserMaxAggregateOutputType | null
+  }
+
+  export type TicketAccessUserMinAggregateOutputType = {
+    ticketId: string | null
+    userId: string | null
+  }
+
+  export type TicketAccessUserMaxAggregateOutputType = {
+    ticketId: string | null
+    userId: string | null
+  }
+
+  export type TicketAccessUserCountAggregateOutputType = {
+    ticketId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type TicketAccessUserMinAggregateInputType = {
+    ticketId?: true
+    userId?: true
+  }
+
+  export type TicketAccessUserMaxAggregateInputType = {
+    ticketId?: true
+    userId?: true
+  }
+
+  export type TicketAccessUserCountAggregateInputType = {
+    ticketId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type TicketAccessUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TicketAccessUser to aggregate.
+     */
+    where?: TicketAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TicketAccessUsers to fetch.
+     */
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TicketAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TicketAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TicketAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TicketAccessUsers
+    **/
+    _count?: true | TicketAccessUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TicketAccessUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TicketAccessUserMaxAggregateInputType
+  }
+
+  export type GetTicketAccessUserAggregateType<T extends TicketAccessUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateTicketAccessUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTicketAccessUser[P]>
+      : GetScalarType<T[P], AggregateTicketAccessUser[P]>
+  }
+
+
+
+
+  export type TicketAccessUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketAccessUserWhereInput
+    orderBy?: TicketAccessUserOrderByWithAggregationInput | TicketAccessUserOrderByWithAggregationInput[]
+    by: TicketAccessUserScalarFieldEnum[] | TicketAccessUserScalarFieldEnum
+    having?: TicketAccessUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TicketAccessUserCountAggregateInputType | true
+    _min?: TicketAccessUserMinAggregateInputType
+    _max?: TicketAccessUserMaxAggregateInputType
+  }
+
+  export type TicketAccessUserGroupByOutputType = {
+    ticketId: string
+    userId: string
+    _count: TicketAccessUserCountAggregateOutputType | null
+    _min: TicketAccessUserMinAggregateOutputType | null
+    _max: TicketAccessUserMaxAggregateOutputType | null
+  }
+
+  type GetTicketAccessUserGroupByPayload<T extends TicketAccessUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TicketAccessUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TicketAccessUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TicketAccessUserGroupByOutputType[P]>
+            : GetScalarType<T[P], TicketAccessUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TicketAccessUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ticketId?: boolean
+    userId?: boolean
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ticketAccessUser"]>
+
+  export type TicketAccessUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ticketId?: boolean
+    userId?: boolean
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ticketAccessUser"]>
+
+  export type TicketAccessUserSelectScalar = {
+    ticketId?: boolean
+    userId?: boolean
+  }
+
+  export type TicketAccessUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TicketAccessUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ticket?: boolean | TicketDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TicketAccessUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TicketAccessUser"
+    objects: {
+      ticket: Prisma.$TicketPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      ticketId: string
+      userId: string
+    }, ExtArgs["result"]["ticketAccessUser"]>
+    composites: {}
+  }
+
+  type TicketAccessUserGetPayload<S extends boolean | null | undefined | TicketAccessUserDefaultArgs> = $Result.GetResult<Prisma.$TicketAccessUserPayload, S>
+
+  type TicketAccessUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TicketAccessUserFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TicketAccessUserCountAggregateInputType | true
+    }
+
+  export interface TicketAccessUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TicketAccessUser'], meta: { name: 'TicketAccessUser' } }
+    /**
+     * Find zero or one TicketAccessUser that matches the filter.
+     * @param {TicketAccessUserFindUniqueArgs} args - Arguments to find a TicketAccessUser
+     * @example
+     * // Get one TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TicketAccessUserFindUniqueArgs>(args: SelectSubset<T, TicketAccessUserFindUniqueArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one TicketAccessUser that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {TicketAccessUserFindUniqueOrThrowArgs} args - Arguments to find a TicketAccessUser
+     * @example
+     * // Get one TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TicketAccessUserFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketAccessUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first TicketAccessUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserFindFirstArgs} args - Arguments to find a TicketAccessUser
+     * @example
+     * // Get one TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TicketAccessUserFindFirstArgs>(args?: SelectSubset<T, TicketAccessUserFindFirstArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first TicketAccessUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserFindFirstOrThrowArgs} args - Arguments to find a TicketAccessUser
+     * @example
+     * // Get one TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TicketAccessUserFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketAccessUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more TicketAccessUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TicketAccessUsers
+     * const ticketAccessUsers = await prisma.ticketAccessUser.findMany()
+     * 
+     * // Get first 10 TicketAccessUsers
+     * const ticketAccessUsers = await prisma.ticketAccessUser.findMany({ take: 10 })
+     * 
+     * // Only select the `ticketId`
+     * const ticketAccessUserWithTicketIdOnly = await prisma.ticketAccessUser.findMany({ select: { ticketId: true } })
+     * 
+     */
+    findMany<T extends TicketAccessUserFindManyArgs>(args?: SelectSubset<T, TicketAccessUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a TicketAccessUser.
+     * @param {TicketAccessUserCreateArgs} args - Arguments to create a TicketAccessUser.
+     * @example
+     * // Create one TicketAccessUser
+     * const TicketAccessUser = await prisma.ticketAccessUser.create({
+     *   data: {
+     *     // ... data to create a TicketAccessUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends TicketAccessUserCreateArgs>(args: SelectSubset<T, TicketAccessUserCreateArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many TicketAccessUsers.
+     * @param {TicketAccessUserCreateManyArgs} args - Arguments to create many TicketAccessUsers.
+     * @example
+     * // Create many TicketAccessUsers
+     * const ticketAccessUser = await prisma.ticketAccessUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TicketAccessUserCreateManyArgs>(args?: SelectSubset<T, TicketAccessUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TicketAccessUsers and returns the data saved in the database.
+     * @param {TicketAccessUserCreateManyAndReturnArgs} args - Arguments to create many TicketAccessUsers.
+     * @example
+     * // Create many TicketAccessUsers
+     * const ticketAccessUser = await prisma.ticketAccessUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TicketAccessUsers and only return the `ticketId`
+     * const ticketAccessUserWithTicketIdOnly = await prisma.ticketAccessUser.createManyAndReturn({ 
+     *   select: { ticketId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TicketAccessUserCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketAccessUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a TicketAccessUser.
+     * @param {TicketAccessUserDeleteArgs} args - Arguments to delete one TicketAccessUser.
+     * @example
+     * // Delete one TicketAccessUser
+     * const TicketAccessUser = await prisma.ticketAccessUser.delete({
+     *   where: {
+     *     // ... filter to delete one TicketAccessUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TicketAccessUserDeleteArgs>(args: SelectSubset<T, TicketAccessUserDeleteArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one TicketAccessUser.
+     * @param {TicketAccessUserUpdateArgs} args - Arguments to update one TicketAccessUser.
+     * @example
+     * // Update one TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TicketAccessUserUpdateArgs>(args: SelectSubset<T, TicketAccessUserUpdateArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more TicketAccessUsers.
+     * @param {TicketAccessUserDeleteManyArgs} args - Arguments to filter TicketAccessUsers to delete.
+     * @example
+     * // Delete a few TicketAccessUsers
+     * const { count } = await prisma.ticketAccessUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TicketAccessUserDeleteManyArgs>(args?: SelectSubset<T, TicketAccessUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TicketAccessUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TicketAccessUsers
+     * const ticketAccessUser = await prisma.ticketAccessUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TicketAccessUserUpdateManyArgs>(args: SelectSubset<T, TicketAccessUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TicketAccessUser.
+     * @param {TicketAccessUserUpsertArgs} args - Arguments to update or create a TicketAccessUser.
+     * @example
+     * // Update or create a TicketAccessUser
+     * const ticketAccessUser = await prisma.ticketAccessUser.upsert({
+     *   create: {
+     *     // ... data to create a TicketAccessUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TicketAccessUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TicketAccessUserUpsertArgs>(args: SelectSubset<T, TicketAccessUserUpsertArgs<ExtArgs>>): Prisma__TicketAccessUserClient<$Result.GetResult<Prisma.$TicketAccessUserPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of TicketAccessUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserCountArgs} args - Arguments to filter TicketAccessUsers to count.
+     * @example
+     * // Count the number of TicketAccessUsers
+     * const count = await prisma.ticketAccessUser.count({
+     *   where: {
+     *     // ... the filter for the TicketAccessUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends TicketAccessUserCountArgs>(
+      args?: Subset<T, TicketAccessUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TicketAccessUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TicketAccessUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TicketAccessUserAggregateArgs>(args: Subset<T, TicketAccessUserAggregateArgs>): Prisma.PrismaPromise<GetTicketAccessUserAggregateType<T>>
+
+    /**
+     * Group by TicketAccessUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TicketAccessUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TicketAccessUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TicketAccessUserGroupByArgs['orderBy'] }
+        : { orderBy?: TicketAccessUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TicketAccessUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTicketAccessUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TicketAccessUser model
+   */
+  readonly fields: TicketAccessUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TicketAccessUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TicketAccessUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ticket<T extends TicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketDefaultArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TicketAccessUser model
+   */ 
+  interface TicketAccessUserFieldRefs {
+    readonly ticketId: FieldRef<"TicketAccessUser", 'String'>
+    readonly userId: FieldRef<"TicketAccessUser", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TicketAccessUser findUnique
+   */
+  export type TicketAccessUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketAccessUser to fetch.
+     */
+    where: TicketAccessUserWhereUniqueInput
+  }
+
+  /**
+   * TicketAccessUser findUniqueOrThrow
+   */
+  export type TicketAccessUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketAccessUser to fetch.
+     */
+    where: TicketAccessUserWhereUniqueInput
+  }
+
+  /**
+   * TicketAccessUser findFirst
+   */
+  export type TicketAccessUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketAccessUser to fetch.
+     */
+    where?: TicketAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TicketAccessUsers to fetch.
+     */
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TicketAccessUsers.
+     */
+    cursor?: TicketAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TicketAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TicketAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TicketAccessUsers.
+     */
+    distinct?: TicketAccessUserScalarFieldEnum | TicketAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * TicketAccessUser findFirstOrThrow
+   */
+  export type TicketAccessUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketAccessUser to fetch.
+     */
+    where?: TicketAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TicketAccessUsers to fetch.
+     */
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TicketAccessUsers.
+     */
+    cursor?: TicketAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TicketAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TicketAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TicketAccessUsers.
+     */
+    distinct?: TicketAccessUserScalarFieldEnum | TicketAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * TicketAccessUser findMany
+   */
+  export type TicketAccessUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketAccessUsers to fetch.
+     */
+    where?: TicketAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TicketAccessUsers to fetch.
+     */
+    orderBy?: TicketAccessUserOrderByWithRelationInput | TicketAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TicketAccessUsers.
+     */
+    cursor?: TicketAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TicketAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TicketAccessUsers.
+     */
+    skip?: number
+    distinct?: TicketAccessUserScalarFieldEnum | TicketAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * TicketAccessUser create
+   */
+  export type TicketAccessUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TicketAccessUser.
+     */
+    data: XOR<TicketAccessUserCreateInput, TicketAccessUserUncheckedCreateInput>
+  }
+
+  /**
+   * TicketAccessUser createMany
+   */
+  export type TicketAccessUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TicketAccessUsers.
+     */
+    data: TicketAccessUserCreateManyInput | TicketAccessUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TicketAccessUser createManyAndReturn
+   */
+  export type TicketAccessUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many TicketAccessUsers.
+     */
+    data: TicketAccessUserCreateManyInput | TicketAccessUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TicketAccessUser update
+   */
+  export type TicketAccessUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TicketAccessUser.
+     */
+    data: XOR<TicketAccessUserUpdateInput, TicketAccessUserUncheckedUpdateInput>
+    /**
+     * Choose, which TicketAccessUser to update.
+     */
+    where: TicketAccessUserWhereUniqueInput
+  }
+
+  /**
+   * TicketAccessUser updateMany
+   */
+  export type TicketAccessUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TicketAccessUsers.
+     */
+    data: XOR<TicketAccessUserUpdateManyMutationInput, TicketAccessUserUncheckedUpdateManyInput>
+    /**
+     * Filter which TicketAccessUsers to update
+     */
+    where?: TicketAccessUserWhereInput
+  }
+
+  /**
+   * TicketAccessUser upsert
+   */
+  export type TicketAccessUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TicketAccessUser to update in case it exists.
+     */
+    where: TicketAccessUserWhereUniqueInput
+    /**
+     * In case the TicketAccessUser found by the `where` argument doesn't exist, create a new TicketAccessUser with this data.
+     */
+    create: XOR<TicketAccessUserCreateInput, TicketAccessUserUncheckedCreateInput>
+    /**
+     * In case the TicketAccessUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TicketAccessUserUpdateInput, TicketAccessUserUncheckedUpdateInput>
+  }
+
+  /**
+   * TicketAccessUser delete
+   */
+  export type TicketAccessUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter which TicketAccessUser to delete.
+     */
+    where: TicketAccessUserWhereUniqueInput
+  }
+
+  /**
+   * TicketAccessUser deleteMany
+   */
+  export type TicketAccessUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TicketAccessUsers to delete
+     */
+    where?: TicketAccessUserWhereInput
+  }
+
+  /**
+   * TicketAccessUser without action
+   */
+  export type TicketAccessUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketAccessUser
+     */
+    select?: TicketAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketAccessUserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectAccessUser
+   */
+
+  export type AggregateProjectAccessUser = {
+    _count: ProjectAccessUserCountAggregateOutputType | null
+    _min: ProjectAccessUserMinAggregateOutputType | null
+    _max: ProjectAccessUserMaxAggregateOutputType | null
+  }
+
+  export type ProjectAccessUserMinAggregateOutputType = {
+    projectId: string | null
+    userId: string | null
+  }
+
+  export type ProjectAccessUserMaxAggregateOutputType = {
+    projectId: string | null
+    userId: string | null
+  }
+
+  export type ProjectAccessUserCountAggregateOutputType = {
+    projectId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type ProjectAccessUserMinAggregateInputType = {
+    projectId?: true
+    userId?: true
+  }
+
+  export type ProjectAccessUserMaxAggregateInputType = {
+    projectId?: true
+    userId?: true
+  }
+
+  export type ProjectAccessUserCountAggregateInputType = {
+    projectId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type ProjectAccessUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectAccessUser to aggregate.
+     */
+    where?: ProjectAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectAccessUsers to fetch.
+     */
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectAccessUsers
+    **/
+    _count?: true | ProjectAccessUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectAccessUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectAccessUserMaxAggregateInputType
+  }
+
+  export type GetProjectAccessUserAggregateType<T extends ProjectAccessUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectAccessUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectAccessUser[P]>
+      : GetScalarType<T[P], AggregateProjectAccessUser[P]>
+  }
+
+
+
+
+  export type ProjectAccessUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectAccessUserWhereInput
+    orderBy?: ProjectAccessUserOrderByWithAggregationInput | ProjectAccessUserOrderByWithAggregationInput[]
+    by: ProjectAccessUserScalarFieldEnum[] | ProjectAccessUserScalarFieldEnum
+    having?: ProjectAccessUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectAccessUserCountAggregateInputType | true
+    _min?: ProjectAccessUserMinAggregateInputType
+    _max?: ProjectAccessUserMaxAggregateInputType
+  }
+
+  export type ProjectAccessUserGroupByOutputType = {
+    projectId: string
+    userId: string
+    _count: ProjectAccessUserCountAggregateOutputType | null
+    _min: ProjectAccessUserMinAggregateOutputType | null
+    _max: ProjectAccessUserMaxAggregateOutputType | null
+  }
+
+  type GetProjectAccessUserGroupByPayload<T extends ProjectAccessUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectAccessUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectAccessUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectAccessUserGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectAccessUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectAccessUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    projectId?: boolean
+    userId?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectAccessUser"]>
+
+  export type ProjectAccessUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    projectId?: boolean
+    userId?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectAccessUser"]>
+
+  export type ProjectAccessUserSelectScalar = {
+    projectId?: boolean
+    userId?: boolean
+  }
+
+  export type ProjectAccessUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProjectAccessUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectAccessUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectAccessUser"
+    objects: {
+      project: Prisma.$SetorClickupListPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      projectId: string
+      userId: string
+    }, ExtArgs["result"]["projectAccessUser"]>
+    composites: {}
+  }
+
+  type ProjectAccessUserGetPayload<S extends boolean | null | undefined | ProjectAccessUserDefaultArgs> = $Result.GetResult<Prisma.$ProjectAccessUserPayload, S>
+
+  type ProjectAccessUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectAccessUserFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectAccessUserCountAggregateInputType | true
+    }
+
+  export interface ProjectAccessUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectAccessUser'], meta: { name: 'ProjectAccessUser' } }
+    /**
+     * Find zero or one ProjectAccessUser that matches the filter.
+     * @param {ProjectAccessUserFindUniqueArgs} args - Arguments to find a ProjectAccessUser
+     * @example
+     * // Get one ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectAccessUserFindUniqueArgs>(args: SelectSubset<T, ProjectAccessUserFindUniqueArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectAccessUser that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectAccessUserFindUniqueOrThrowArgs} args - Arguments to find a ProjectAccessUser
+     * @example
+     * // Get one ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectAccessUserFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectAccessUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectAccessUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserFindFirstArgs} args - Arguments to find a ProjectAccessUser
+     * @example
+     * // Get one ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectAccessUserFindFirstArgs>(args?: SelectSubset<T, ProjectAccessUserFindFirstArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectAccessUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserFindFirstOrThrowArgs} args - Arguments to find a ProjectAccessUser
+     * @example
+     * // Get one ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectAccessUserFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectAccessUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectAccessUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectAccessUsers
+     * const projectAccessUsers = await prisma.projectAccessUser.findMany()
+     * 
+     * // Get first 10 ProjectAccessUsers
+     * const projectAccessUsers = await prisma.projectAccessUser.findMany({ take: 10 })
+     * 
+     * // Only select the `projectId`
+     * const projectAccessUserWithProjectIdOnly = await prisma.projectAccessUser.findMany({ select: { projectId: true } })
+     * 
+     */
+    findMany<T extends ProjectAccessUserFindManyArgs>(args?: SelectSubset<T, ProjectAccessUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectAccessUser.
+     * @param {ProjectAccessUserCreateArgs} args - Arguments to create a ProjectAccessUser.
+     * @example
+     * // Create one ProjectAccessUser
+     * const ProjectAccessUser = await prisma.projectAccessUser.create({
+     *   data: {
+     *     // ... data to create a ProjectAccessUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectAccessUserCreateArgs>(args: SelectSubset<T, ProjectAccessUserCreateArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectAccessUsers.
+     * @param {ProjectAccessUserCreateManyArgs} args - Arguments to create many ProjectAccessUsers.
+     * @example
+     * // Create many ProjectAccessUsers
+     * const projectAccessUser = await prisma.projectAccessUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectAccessUserCreateManyArgs>(args?: SelectSubset<T, ProjectAccessUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectAccessUsers and returns the data saved in the database.
+     * @param {ProjectAccessUserCreateManyAndReturnArgs} args - Arguments to create many ProjectAccessUsers.
+     * @example
+     * // Create many ProjectAccessUsers
+     * const projectAccessUser = await prisma.projectAccessUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectAccessUsers and only return the `projectId`
+     * const projectAccessUserWithProjectIdOnly = await prisma.projectAccessUser.createManyAndReturn({ 
+     *   select: { projectId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectAccessUserCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectAccessUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectAccessUser.
+     * @param {ProjectAccessUserDeleteArgs} args - Arguments to delete one ProjectAccessUser.
+     * @example
+     * // Delete one ProjectAccessUser
+     * const ProjectAccessUser = await prisma.projectAccessUser.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectAccessUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectAccessUserDeleteArgs>(args: SelectSubset<T, ProjectAccessUserDeleteArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectAccessUser.
+     * @param {ProjectAccessUserUpdateArgs} args - Arguments to update one ProjectAccessUser.
+     * @example
+     * // Update one ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectAccessUserUpdateArgs>(args: SelectSubset<T, ProjectAccessUserUpdateArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectAccessUsers.
+     * @param {ProjectAccessUserDeleteManyArgs} args - Arguments to filter ProjectAccessUsers to delete.
+     * @example
+     * // Delete a few ProjectAccessUsers
+     * const { count } = await prisma.projectAccessUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectAccessUserDeleteManyArgs>(args?: SelectSubset<T, ProjectAccessUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectAccessUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectAccessUsers
+     * const projectAccessUser = await prisma.projectAccessUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectAccessUserUpdateManyArgs>(args: SelectSubset<T, ProjectAccessUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectAccessUser.
+     * @param {ProjectAccessUserUpsertArgs} args - Arguments to update or create a ProjectAccessUser.
+     * @example
+     * // Update or create a ProjectAccessUser
+     * const projectAccessUser = await prisma.projectAccessUser.upsert({
+     *   create: {
+     *     // ... data to create a ProjectAccessUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectAccessUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectAccessUserUpsertArgs>(args: SelectSubset<T, ProjectAccessUserUpsertArgs<ExtArgs>>): Prisma__ProjectAccessUserClient<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectAccessUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserCountArgs} args - Arguments to filter ProjectAccessUsers to count.
+     * @example
+     * // Count the number of ProjectAccessUsers
+     * const count = await prisma.projectAccessUser.count({
+     *   where: {
+     *     // ... the filter for the ProjectAccessUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectAccessUserCountArgs>(
+      args?: Subset<T, ProjectAccessUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectAccessUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectAccessUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectAccessUserAggregateArgs>(args: Subset<T, ProjectAccessUserAggregateArgs>): Prisma.PrismaPromise<GetProjectAccessUserAggregateType<T>>
+
+    /**
+     * Group by ProjectAccessUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectAccessUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectAccessUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectAccessUserGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectAccessUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectAccessUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectAccessUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectAccessUser model
+   */
+  readonly fields: ProjectAccessUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectAccessUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectAccessUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectAccessUser model
+   */ 
+  interface ProjectAccessUserFieldRefs {
+    readonly projectId: FieldRef<"ProjectAccessUser", 'String'>
+    readonly userId: FieldRef<"ProjectAccessUser", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectAccessUser findUnique
+   */
+  export type ProjectAccessUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectAccessUser to fetch.
+     */
+    where: ProjectAccessUserWhereUniqueInput
+  }
+
+  /**
+   * ProjectAccessUser findUniqueOrThrow
+   */
+  export type ProjectAccessUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectAccessUser to fetch.
+     */
+    where: ProjectAccessUserWhereUniqueInput
+  }
+
+  /**
+   * ProjectAccessUser findFirst
+   */
+  export type ProjectAccessUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectAccessUser to fetch.
+     */
+    where?: ProjectAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectAccessUsers to fetch.
+     */
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectAccessUsers.
+     */
+    cursor?: ProjectAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectAccessUsers.
+     */
+    distinct?: ProjectAccessUserScalarFieldEnum | ProjectAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectAccessUser findFirstOrThrow
+   */
+  export type ProjectAccessUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectAccessUser to fetch.
+     */
+    where?: ProjectAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectAccessUsers to fetch.
+     */
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectAccessUsers.
+     */
+    cursor?: ProjectAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectAccessUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectAccessUsers.
+     */
+    distinct?: ProjectAccessUserScalarFieldEnum | ProjectAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectAccessUser findMany
+   */
+  export type ProjectAccessUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectAccessUsers to fetch.
+     */
+    where?: ProjectAccessUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectAccessUsers to fetch.
+     */
+    orderBy?: ProjectAccessUserOrderByWithRelationInput | ProjectAccessUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectAccessUsers.
+     */
+    cursor?: ProjectAccessUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectAccessUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectAccessUsers.
+     */
+    skip?: number
+    distinct?: ProjectAccessUserScalarFieldEnum | ProjectAccessUserScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectAccessUser create
+   */
+  export type ProjectAccessUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectAccessUser.
+     */
+    data: XOR<ProjectAccessUserCreateInput, ProjectAccessUserUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectAccessUser createMany
+   */
+  export type ProjectAccessUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectAccessUsers.
+     */
+    data: ProjectAccessUserCreateManyInput | ProjectAccessUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectAccessUser createManyAndReturn
+   */
+  export type ProjectAccessUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectAccessUsers.
+     */
+    data: ProjectAccessUserCreateManyInput | ProjectAccessUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectAccessUser update
+   */
+  export type ProjectAccessUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectAccessUser.
+     */
+    data: XOR<ProjectAccessUserUpdateInput, ProjectAccessUserUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectAccessUser to update.
+     */
+    where: ProjectAccessUserWhereUniqueInput
+  }
+
+  /**
+   * ProjectAccessUser updateMany
+   */
+  export type ProjectAccessUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectAccessUsers.
+     */
+    data: XOR<ProjectAccessUserUpdateManyMutationInput, ProjectAccessUserUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectAccessUsers to update
+     */
+    where?: ProjectAccessUserWhereInput
+  }
+
+  /**
+   * ProjectAccessUser upsert
+   */
+  export type ProjectAccessUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectAccessUser to update in case it exists.
+     */
+    where: ProjectAccessUserWhereUniqueInput
+    /**
+     * In case the ProjectAccessUser found by the `where` argument doesn't exist, create a new ProjectAccessUser with this data.
+     */
+    create: XOR<ProjectAccessUserCreateInput, ProjectAccessUserUncheckedCreateInput>
+    /**
+     * In case the ProjectAccessUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectAccessUserUpdateInput, ProjectAccessUserUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectAccessUser delete
+   */
+  export type ProjectAccessUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectAccessUser to delete.
+     */
+    where: ProjectAccessUserWhereUniqueInput
+  }
+
+  /**
+   * ProjectAccessUser deleteMany
+   */
+  export type ProjectAccessUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectAccessUsers to delete
+     */
+    where?: ProjectAccessUserWhereInput
+  }
+
+  /**
+   * ProjectAccessUser without action
+   */
+  export type ProjectAccessUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectAccessUser
+     */
+    select?: ProjectAccessUserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectAccessUserInclude<ExtArgs> | null
   }
 
 
@@ -75707,7 +77841,8 @@ export namespace Prisma {
     companyId: 'companyId',
     createdById: 'createdById',
     setorId: 'setorId',
-    projetoId: 'projetoId'
+    projetoId: 'projetoId',
+    visibility: 'visibility'
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
@@ -75771,6 +77906,7 @@ export namespace Prisma {
     startDate: 'startDate',
     dueDate: 'dueDate',
     deliveredAt: 'deliveredAt',
+    visibility: 'visibility',
     taskCount: 'taskCount',
     taskCompleted: 'taskCompleted',
     taskOverdue: 'taskOverdue',
@@ -75802,6 +77938,22 @@ export namespace Prisma {
   };
 
   export type ProjectTaskScalarFieldEnum = (typeof ProjectTaskScalarFieldEnum)[keyof typeof ProjectTaskScalarFieldEnum]
+
+
+  export const TicketAccessUserScalarFieldEnum: {
+    ticketId: 'ticketId',
+    userId: 'userId'
+  };
+
+  export type TicketAccessUserScalarFieldEnum = (typeof TicketAccessUserScalarFieldEnum)[keyof typeof TicketAccessUserScalarFieldEnum]
+
+
+  export const ProjectAccessUserScalarFieldEnum: {
+    projectId: 'projectId',
+    userId: 'userId'
+  };
+
+  export type ProjectAccessUserScalarFieldEnum = (typeof ProjectAccessUserScalarFieldEnum)[keyof typeof ProjectAccessUserScalarFieldEnum]
 
 
   export const ProjectTaskStateScalarFieldEnum: {
@@ -76861,6 +79013,8 @@ export namespace Prisma {
     tasksCreated?: TaskListRelationFilter
     projectTasksAssigned?: ProjectTaskListRelationFilter
     projectTasksCreated?: ProjectTaskListRelationFilter
+    ticketAccess?: TicketAccessUserListRelationFilter
+    projectAccess?: ProjectAccessUserListRelationFilter
     pushSubscriptions?: PushSubscriptionListRelationFilter
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
   }
@@ -76897,6 +79051,8 @@ export namespace Prisma {
     tasksCreated?: TaskOrderByRelationAggregateInput
     projectTasksAssigned?: ProjectTaskOrderByRelationAggregateInput
     projectTasksCreated?: ProjectTaskOrderByRelationAggregateInput
+    ticketAccess?: TicketAccessUserOrderByRelationAggregateInput
+    projectAccess?: ProjectAccessUserOrderByRelationAggregateInput
     pushSubscriptions?: PushSubscriptionOrderByRelationAggregateInput
     notifPreferences?: UserNotifPreferencesOrderByWithRelationInput
   }
@@ -76936,6 +79092,8 @@ export namespace Prisma {
     tasksCreated?: TaskListRelationFilter
     projectTasksAssigned?: ProjectTaskListRelationFilter
     projectTasksCreated?: ProjectTaskListRelationFilter
+    ticketAccess?: TicketAccessUserListRelationFilter
+    projectAccess?: ProjectAccessUserListRelationFilter
     pushSubscriptions?: PushSubscriptionListRelationFilter
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
   }, "id" | "email">
@@ -79444,6 +81602,7 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
     projetoId?: StringNullableFilter<"Ticket"> | string | null
+    visibility?: StringFilter<"Ticket"> | string
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -79452,6 +81611,7 @@ export namespace Prisma {
     projeto?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
     messages?: TicketMessageListRelationFilter
     activities?: ActivityListRelationFilter
+    accessUsers?: TicketAccessUserListRelationFilter
   }
 
   export type TicketOrderByWithRelationInput = {
@@ -79475,6 +81635,7 @@ export namespace Prisma {
     createdById?: SortOrderInput | SortOrder
     setorId?: SortOrderInput | SortOrder
     projetoId?: SortOrderInput | SortOrder
+    visibility?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
     assignee?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
@@ -79483,6 +81644,7 @@ export namespace Prisma {
     projeto?: SetorClickupListOrderByWithRelationInput
     messages?: TicketMessageOrderByRelationAggregateInput
     activities?: ActivityOrderByRelationAggregateInput
+    accessUsers?: TicketAccessUserOrderByRelationAggregateInput
   }
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -79509,6 +81671,7 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
     projetoId?: StringNullableFilter<"Ticket"> | string | null
+    visibility?: StringFilter<"Ticket"> | string
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -79517,6 +81680,7 @@ export namespace Prisma {
     projeto?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
     messages?: TicketMessageListRelationFilter
     activities?: ActivityListRelationFilter
+    accessUsers?: TicketAccessUserListRelationFilter
   }, "id">
 
   export type TicketOrderByWithAggregationInput = {
@@ -79540,6 +81704,7 @@ export namespace Prisma {
     createdById?: SortOrderInput | SortOrder
     setorId?: SortOrderInput | SortOrder
     projetoId?: SortOrderInput | SortOrder
+    visibility?: SortOrder
     _count?: TicketCountOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
     _min?: TicketMinOrderByAggregateInput
@@ -79569,6 +81734,7 @@ export namespace Prisma {
     createdById?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     setorId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     projetoId?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    visibility?: StringWithAggregatesFilter<"Ticket"> | string
   }
 
   export type TicketMessageWhereInput = {
@@ -79831,6 +81997,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    visibility?: StringFilter<"SetorClickupList"> | string
     taskCount?: IntFilter<"SetorClickupList"> | number
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
@@ -79848,6 +82015,7 @@ export namespace Prisma {
     activities?: ProjectActivityListRelationFilter
     tickets?: TicketListRelationFilter
     internalTasks?: ProjectTaskListRelationFilter
+    accessUsers?: ProjectAccessUserListRelationFilter
   }
 
   export type SetorClickupListOrderByWithRelationInput = {
@@ -79862,6 +82030,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    visibility?: SortOrder
     taskCount?: SortOrder
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
@@ -79879,6 +82048,7 @@ export namespace Prisma {
     activities?: ProjectActivityOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
     internalTasks?: ProjectTaskOrderByRelationAggregateInput
+    accessUsers?: ProjectAccessUserOrderByRelationAggregateInput
   }
 
   export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
@@ -79897,6 +82067,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    visibility?: StringFilter<"SetorClickupList"> | string
     taskCount?: IntFilter<"SetorClickupList"> | number
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
@@ -79914,6 +82085,7 @@ export namespace Prisma {
     activities?: ProjectActivityListRelationFilter
     tickets?: TicketListRelationFilter
     internalTasks?: ProjectTaskListRelationFilter
+    accessUsers?: ProjectAccessUserListRelationFilter
   }, "id" | "setorId_clickupListId">
 
   export type SetorClickupListOrderByWithAggregationInput = {
@@ -79928,6 +82100,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    visibility?: SortOrder
     taskCount?: SortOrder
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
@@ -79960,6 +82133,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     dueDate?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"SetorClickupList"> | Date | string | null
+    visibility?: StringWithAggregatesFilter<"SetorClickupList"> | string
     taskCount?: IntWithAggregatesFilter<"SetorClickupList"> | number
     taskCompleted?: IntWithAggregatesFilter<"SetorClickupList"> | number
     taskOverdue?: IntWithAggregatesFilter<"SetorClickupList"> | number
@@ -80066,6 +82240,94 @@ export namespace Prisma {
     completedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
+  }
+
+  export type TicketAccessUserWhereInput = {
+    AND?: TicketAccessUserWhereInput | TicketAccessUserWhereInput[]
+    OR?: TicketAccessUserWhereInput[]
+    NOT?: TicketAccessUserWhereInput | TicketAccessUserWhereInput[]
+    ticketId?: StringFilter<"TicketAccessUser"> | string
+    userId?: StringFilter<"TicketAccessUser"> | string
+    ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type TicketAccessUserOrderByWithRelationInput = {
+    ticketId?: SortOrder
+    userId?: SortOrder
+    ticket?: TicketOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TicketAccessUserWhereUniqueInput = Prisma.AtLeast<{
+    ticketId_userId?: TicketAccessUserTicketIdUserIdCompoundUniqueInput
+    AND?: TicketAccessUserWhereInput | TicketAccessUserWhereInput[]
+    OR?: TicketAccessUserWhereInput[]
+    NOT?: TicketAccessUserWhereInput | TicketAccessUserWhereInput[]
+    ticketId?: StringFilter<"TicketAccessUser"> | string
+    userId?: StringFilter<"TicketAccessUser"> | string
+    ticket?: XOR<TicketRelationFilter, TicketWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "ticketId_userId">
+
+  export type TicketAccessUserOrderByWithAggregationInput = {
+    ticketId?: SortOrder
+    userId?: SortOrder
+    _count?: TicketAccessUserCountOrderByAggregateInput
+    _max?: TicketAccessUserMaxOrderByAggregateInput
+    _min?: TicketAccessUserMinOrderByAggregateInput
+  }
+
+  export type TicketAccessUserScalarWhereWithAggregatesInput = {
+    AND?: TicketAccessUserScalarWhereWithAggregatesInput | TicketAccessUserScalarWhereWithAggregatesInput[]
+    OR?: TicketAccessUserScalarWhereWithAggregatesInput[]
+    NOT?: TicketAccessUserScalarWhereWithAggregatesInput | TicketAccessUserScalarWhereWithAggregatesInput[]
+    ticketId?: StringWithAggregatesFilter<"TicketAccessUser"> | string
+    userId?: StringWithAggregatesFilter<"TicketAccessUser"> | string
+  }
+
+  export type ProjectAccessUserWhereInput = {
+    AND?: ProjectAccessUserWhereInput | ProjectAccessUserWhereInput[]
+    OR?: ProjectAccessUserWhereInput[]
+    NOT?: ProjectAccessUserWhereInput | ProjectAccessUserWhereInput[]
+    projectId?: StringFilter<"ProjectAccessUser"> | string
+    userId?: StringFilter<"ProjectAccessUser"> | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type ProjectAccessUserOrderByWithRelationInput = {
+    projectId?: SortOrder
+    userId?: SortOrder
+    project?: SetorClickupListOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ProjectAccessUserWhereUniqueInput = Prisma.AtLeast<{
+    projectId_userId?: ProjectAccessUserProjectIdUserIdCompoundUniqueInput
+    AND?: ProjectAccessUserWhereInput | ProjectAccessUserWhereInput[]
+    OR?: ProjectAccessUserWhereInput[]
+    NOT?: ProjectAccessUserWhereInput | ProjectAccessUserWhereInput[]
+    projectId?: StringFilter<"ProjectAccessUser"> | string
+    userId?: StringFilter<"ProjectAccessUser"> | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "projectId_userId">
+
+  export type ProjectAccessUserOrderByWithAggregationInput = {
+    projectId?: SortOrder
+    userId?: SortOrder
+    _count?: ProjectAccessUserCountOrderByAggregateInput
+    _max?: ProjectAccessUserMaxOrderByAggregateInput
+    _min?: ProjectAccessUserMinOrderByAggregateInput
+  }
+
+  export type ProjectAccessUserScalarWhereWithAggregatesInput = {
+    AND?: ProjectAccessUserScalarWhereWithAggregatesInput | ProjectAccessUserScalarWhereWithAggregatesInput[]
+    OR?: ProjectAccessUserScalarWhereWithAggregatesInput[]
+    NOT?: ProjectAccessUserScalarWhereWithAggregatesInput | ProjectAccessUserScalarWhereWithAggregatesInput[]
+    projectId?: StringWithAggregatesFilter<"ProjectAccessUser"> | string
+    userId?: StringWithAggregatesFilter<"ProjectAccessUser"> | string
   }
 
   export type ProjectTaskStateWhereInput = {
@@ -82674,6 +84936,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -82709,6 +84973,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -82744,6 +85010,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -82779,6 +85047,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -85526,6 +87796,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -85534,6 +87805,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateInput = {
@@ -85557,8 +87829,10 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUpdateInput = {
@@ -85576,6 +87850,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -85584,6 +87859,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
@@ -85607,8 +87883,10 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketCreateManyInput = {
@@ -85632,6 +87910,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type TicketUpdateManyMutationInput = {
@@ -85649,6 +87928,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUncheckedUpdateManyInput = {
@@ -85672,6 +87952,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketMessageCreateInput = {
@@ -85982,6 +88263,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -85999,6 +88281,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateInput = {
@@ -86013,6 +88296,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -86028,6 +88312,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUpdateInput = {
@@ -86040,6 +88325,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -86057,6 +88343,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateInput = {
@@ -86071,6 +88358,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -86086,6 +88374,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateManyInput = {
@@ -86100,6 +88389,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -86122,6 +88412,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -86146,6 +88437,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -86258,6 +88550,74 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TicketAccessUserCreateInput = {
+    ticket: TicketCreateNestedOneWithoutAccessUsersInput
+    user: UserCreateNestedOneWithoutTicketAccessInput
+  }
+
+  export type TicketAccessUserUncheckedCreateInput = {
+    ticketId: string
+    userId: string
+  }
+
+  export type TicketAccessUserUpdateInput = {
+    ticket?: TicketUpdateOneRequiredWithoutAccessUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutTicketAccessNestedInput
+  }
+
+  export type TicketAccessUserUncheckedUpdateInput = {
+    ticketId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TicketAccessUserCreateManyInput = {
+    ticketId: string
+    userId: string
+  }
+
+  export type TicketAccessUserUpdateManyMutationInput = {
+
+  }
+
+  export type TicketAccessUserUncheckedUpdateManyInput = {
+    ticketId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectAccessUserCreateInput = {
+    project: SetorClickupListCreateNestedOneWithoutAccessUsersInput
+    user: UserCreateNestedOneWithoutProjectAccessInput
+  }
+
+  export type ProjectAccessUserUncheckedCreateInput = {
+    projectId: string
+    userId: string
+  }
+
+  export type ProjectAccessUserUpdateInput = {
+    project?: SetorClickupListUpdateOneRequiredWithoutAccessUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectAccessNestedInput
+  }
+
+  export type ProjectAccessUserUncheckedUpdateInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectAccessUserCreateManyInput = {
+    projectId: string
+    userId: string
+  }
+
+  export type ProjectAccessUserUpdateManyMutationInput = {
+
+  }
+
+  export type ProjectAccessUserUncheckedUpdateManyInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProjectTaskStateCreateInput = {
@@ -89232,6 +91592,18 @@ export namespace Prisma {
     none?: ProjectTaskWhereInput
   }
 
+  export type TicketAccessUserListRelationFilter = {
+    every?: TicketAccessUserWhereInput
+    some?: TicketAccessUserWhereInput
+    none?: TicketAccessUserWhereInput
+  }
+
+  export type ProjectAccessUserListRelationFilter = {
+    every?: ProjectAccessUserWhereInput
+    some?: ProjectAccessUserWhereInput
+    none?: ProjectAccessUserWhereInput
+  }
+
   export type PushSubscriptionListRelationFilter = {
     every?: PushSubscriptionWhereInput
     some?: PushSubscriptionWhereInput
@@ -89301,6 +91673,14 @@ export namespace Prisma {
   }
 
   export type ProjectTaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TicketAccessUserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectAccessUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -91554,6 +93934,7 @@ export namespace Prisma {
     createdById?: SortOrder
     setorId?: SortOrder
     projetoId?: SortOrder
+    visibility?: SortOrder
   }
 
   export type TicketMaxOrderByAggregateInput = {
@@ -91577,6 +93958,7 @@ export namespace Prisma {
     createdById?: SortOrder
     setorId?: SortOrder
     projetoId?: SortOrder
+    visibility?: SortOrder
   }
 
   export type TicketMinOrderByAggregateInput = {
@@ -91600,6 +93982,7 @@ export namespace Prisma {
     createdById?: SortOrder
     setorId?: SortOrder
     projetoId?: SortOrder
+    visibility?: SortOrder
   }
 
   export type EnumTicketStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -91796,6 +94179,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     deliveredAt?: SortOrder
+    visibility?: SortOrder
     taskCount?: SortOrder
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
@@ -91828,6 +94212,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     deliveredAt?: SortOrder
+    visibility?: SortOrder
     taskCount?: SortOrder
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
@@ -91852,6 +94237,7 @@ export namespace Prisma {
     startDate?: SortOrder
     dueDate?: SortOrder
     deliveredAt?: SortOrder
+    visibility?: SortOrder
     taskCount?: SortOrder
     taskCompleted?: SortOrder
     taskOverdue?: SortOrder
@@ -91930,6 +94316,46 @@ export namespace Prisma {
     completedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TicketAccessUserTicketIdUserIdCompoundUniqueInput = {
+    ticketId: string
+    userId: string
+  }
+
+  export type TicketAccessUserCountOrderByAggregateInput = {
+    ticketId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TicketAccessUserMaxOrderByAggregateInput = {
+    ticketId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TicketAccessUserMinOrderByAggregateInput = {
+    ticketId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ProjectAccessUserProjectIdUserIdCompoundUniqueInput = {
+    projectId: string
+    userId: string
+  }
+
+  export type ProjectAccessUserCountOrderByAggregateInput = {
+    projectId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ProjectAccessUserMaxOrderByAggregateInput = {
+    projectId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ProjectAccessUserMinOrderByAggregateInput = {
+    projectId?: SortOrder
+    userId?: SortOrder
   }
 
   export type BigIntNullableFilter<$PrismaModel = never> = {
@@ -93847,6 +96273,20 @@ export namespace Prisma {
     connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
   }
 
+  export type TicketAccessUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput> | TicketAccessUserCreateWithoutUserInput[] | TicketAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutUserInput | TicketAccessUserCreateOrConnectWithoutUserInput[]
+    createMany?: TicketAccessUserCreateManyUserInputEnvelope
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+  }
+
+  export type ProjectAccessUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput> | ProjectAccessUserCreateWithoutUserInput[] | ProjectAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutUserInput | ProjectAccessUserCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectAccessUserCreateManyUserInputEnvelope
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+  }
+
   export type PushSubscriptionCreateNestedManyWithoutUserInput = {
     create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
@@ -93983,6 +96423,20 @@ export namespace Prisma {
     connectOrCreate?: ProjectTaskCreateOrConnectWithoutCreatedByInput | ProjectTaskCreateOrConnectWithoutCreatedByInput[]
     createMany?: ProjectTaskCreateManyCreatedByInputEnvelope
     connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+  }
+
+  export type TicketAccessUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput> | TicketAccessUserCreateWithoutUserInput[] | TicketAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutUserInput | TicketAccessUserCreateOrConnectWithoutUserInput[]
+    createMany?: TicketAccessUserCreateManyUserInputEnvelope
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+  }
+
+  export type ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput> | ProjectAccessUserCreateWithoutUserInput[] | ProjectAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutUserInput | ProjectAccessUserCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectAccessUserCreateManyUserInputEnvelope
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
   }
 
   export type PushSubscriptionUncheckedCreateNestedManyWithoutUserInput = {
@@ -94284,6 +96738,34 @@ export namespace Prisma {
     deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
   }
 
+  export type TicketAccessUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput> | TicketAccessUserCreateWithoutUserInput[] | TicketAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutUserInput | TicketAccessUserCreateOrConnectWithoutUserInput[]
+    upsert?: TicketAccessUserUpsertWithWhereUniqueWithoutUserInput | TicketAccessUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TicketAccessUserCreateManyUserInputEnvelope
+    set?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    disconnect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    delete?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    update?: TicketAccessUserUpdateWithWhereUniqueWithoutUserInput | TicketAccessUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TicketAccessUserUpdateManyWithWhereWithoutUserInput | TicketAccessUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
+  }
+
+  export type ProjectAccessUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput> | ProjectAccessUserCreateWithoutUserInput[] | ProjectAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutUserInput | ProjectAccessUserCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectAccessUserUpsertWithWhereUniqueWithoutUserInput | ProjectAccessUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectAccessUserCreateManyUserInputEnvelope
+    set?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    disconnect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    delete?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    update?: ProjectAccessUserUpdateWithWhereUniqueWithoutUserInput | ProjectAccessUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectAccessUserUpdateManyWithWhereWithoutUserInput | ProjectAccessUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
+  }
+
   export type PushSubscriptionUpdateManyWithoutUserNestedInput = {
     create?: XOR<PushSubscriptionCreateWithoutUserInput, PushSubscriptionUncheckedCreateWithoutUserInput> | PushSubscriptionCreateWithoutUserInput[] | PushSubscriptionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
@@ -94554,6 +97036,34 @@ export namespace Prisma {
     update?: ProjectTaskUpdateWithWhereUniqueWithoutCreatedByInput | ProjectTaskUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: ProjectTaskUpdateManyWithWhereWithoutCreatedByInput | ProjectTaskUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
+  }
+
+  export type TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput> | TicketAccessUserCreateWithoutUserInput[] | TicketAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutUserInput | TicketAccessUserCreateOrConnectWithoutUserInput[]
+    upsert?: TicketAccessUserUpsertWithWhereUniqueWithoutUserInput | TicketAccessUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TicketAccessUserCreateManyUserInputEnvelope
+    set?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    disconnect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    delete?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    update?: TicketAccessUserUpdateWithWhereUniqueWithoutUserInput | TicketAccessUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TicketAccessUserUpdateManyWithWhereWithoutUserInput | TicketAccessUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
+  }
+
+  export type ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput> | ProjectAccessUserCreateWithoutUserInput[] | ProjectAccessUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutUserInput | ProjectAccessUserCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectAccessUserUpsertWithWhereUniqueWithoutUserInput | ProjectAccessUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectAccessUserCreateManyUserInputEnvelope
+    set?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    disconnect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    delete?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    update?: ProjectAccessUserUpdateWithWhereUniqueWithoutUserInput | ProjectAccessUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectAccessUserUpdateManyWithWhereWithoutUserInput | ProjectAccessUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
   }
 
   export type PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -98045,6 +100555,13 @@ export namespace Prisma {
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
+  export type TicketAccessUserCreateNestedManyWithoutTicketInput = {
+    create?: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput> | TicketAccessUserCreateWithoutTicketInput[] | TicketAccessUserUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutTicketInput | TicketAccessUserCreateOrConnectWithoutTicketInput[]
+    createMany?: TicketAccessUserCreateManyTicketInputEnvelope
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+  }
+
   export type TicketMessageUncheckedCreateNestedManyWithoutTicketInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -98057,6 +100574,13 @@ export namespace Prisma {
     connectOrCreate?: ActivityCreateOrConnectWithoutTicketInput | ActivityCreateOrConnectWithoutTicketInput[]
     createMany?: ActivityCreateManyTicketInputEnvelope
     connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
+  export type TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput = {
+    create?: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput> | TicketAccessUserCreateWithoutTicketInput[] | TicketAccessUserUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutTicketInput | TicketAccessUserCreateOrConnectWithoutTicketInput[]
+    createMany?: TicketAccessUserCreateManyTicketInputEnvelope
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
   }
 
   export type EnumTicketStatusFieldUpdateOperationsInput = {
@@ -98153,6 +100677,20 @@ export namespace Prisma {
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
+  export type TicketAccessUserUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput> | TicketAccessUserCreateWithoutTicketInput[] | TicketAccessUserUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutTicketInput | TicketAccessUserCreateOrConnectWithoutTicketInput[]
+    upsert?: TicketAccessUserUpsertWithWhereUniqueWithoutTicketInput | TicketAccessUserUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: TicketAccessUserCreateManyTicketInputEnvelope
+    set?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    disconnect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    delete?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    update?: TicketAccessUserUpdateWithWhereUniqueWithoutTicketInput | TicketAccessUserUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: TicketAccessUserUpdateManyWithWhereWithoutTicketInput | TicketAccessUserUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
+  }
+
   export type TicketMessageUncheckedUpdateManyWithoutTicketNestedInput = {
     create?: XOR<TicketMessageCreateWithoutTicketInput, TicketMessageUncheckedCreateWithoutTicketInput> | TicketMessageCreateWithoutTicketInput[] | TicketMessageUncheckedCreateWithoutTicketInput[]
     connectOrCreate?: TicketMessageCreateOrConnectWithoutTicketInput | TicketMessageCreateOrConnectWithoutTicketInput[]
@@ -98179,6 +100717,20 @@ export namespace Prisma {
     update?: ActivityUpdateWithWhereUniqueWithoutTicketInput | ActivityUpdateWithWhereUniqueWithoutTicketInput[]
     updateMany?: ActivityUpdateManyWithWhereWithoutTicketInput | ActivityUpdateManyWithWhereWithoutTicketInput[]
     deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput = {
+    create?: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput> | TicketAccessUserCreateWithoutTicketInput[] | TicketAccessUserUncheckedCreateWithoutTicketInput[]
+    connectOrCreate?: TicketAccessUserCreateOrConnectWithoutTicketInput | TicketAccessUserCreateOrConnectWithoutTicketInput[]
+    upsert?: TicketAccessUserUpsertWithWhereUniqueWithoutTicketInput | TicketAccessUserUpsertWithWhereUniqueWithoutTicketInput[]
+    createMany?: TicketAccessUserCreateManyTicketInputEnvelope
+    set?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    disconnect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    delete?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    connect?: TicketAccessUserWhereUniqueInput | TicketAccessUserWhereUniqueInput[]
+    update?: TicketAccessUserUpdateWithWhereUniqueWithoutTicketInput | TicketAccessUserUpdateWithWhereUniqueWithoutTicketInput[]
+    updateMany?: TicketAccessUserUpdateManyWithWhereWithoutTicketInput | TicketAccessUserUpdateManyWithWhereWithoutTicketInput[]
+    deleteMany?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
   }
 
   export type TicketCreateNestedOneWithoutMessagesInput = {
@@ -98466,6 +101018,13 @@ export namespace Prisma {
     connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
   }
 
+  export type ProjectAccessUserCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput> | ProjectAccessUserCreateWithoutProjectInput[] | ProjectAccessUserUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutProjectInput | ProjectAccessUserCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectAccessUserCreateManyProjectInputEnvelope
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -98499,6 +101058,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectTaskCreateOrConnectWithoutProjectInput | ProjectTaskCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectTaskCreateManyProjectInputEnvelope
     connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+  }
+
+  export type ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput> | ProjectAccessUserCreateWithoutProjectInput[] | ProjectAccessUserUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutProjectInput | ProjectAccessUserCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectAccessUserCreateManyProjectInputEnvelope
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -98593,6 +101159,20 @@ export namespace Prisma {
     deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
   }
 
+  export type ProjectAccessUserUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput> | ProjectAccessUserCreateWithoutProjectInput[] | ProjectAccessUserUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutProjectInput | ProjectAccessUserCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectAccessUserUpsertWithWhereUniqueWithoutProjectInput | ProjectAccessUserUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectAccessUserCreateManyProjectInputEnvelope
+    set?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    disconnect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    delete?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    update?: ProjectAccessUserUpdateWithWhereUniqueWithoutProjectInput | ProjectAccessUserUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectAccessUserUpdateManyWithWhereWithoutProjectInput | ProjectAccessUserUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -98663,6 +101243,20 @@ export namespace Prisma {
     deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
   }
 
+  export type ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput> | ProjectAccessUserCreateWithoutProjectInput[] | ProjectAccessUserUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectAccessUserCreateOrConnectWithoutProjectInput | ProjectAccessUserCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectAccessUserUpsertWithWhereUniqueWithoutProjectInput | ProjectAccessUserUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectAccessUserCreateManyProjectInputEnvelope
+    set?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    disconnect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    delete?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    connect?: ProjectAccessUserWhereUniqueInput | ProjectAccessUserWhereUniqueInput[]
+    update?: ProjectAccessUserUpdateWithWhereUniqueWithoutProjectInput | ProjectAccessUserUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectAccessUserUpdateManyWithWhereWithoutProjectInput | ProjectAccessUserUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
+  }
+
   export type SetorClickupListCreateNestedOneWithoutInternalTasksInput = {
     create?: XOR<SetorClickupListCreateWithoutInternalTasksInput, SetorClickupListUncheckedCreateWithoutInternalTasksInput>
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutInternalTasksInput
@@ -98707,6 +101301,62 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectTasksCreatedInput, UserUpdateWithoutProjectTasksCreatedInput>, UserUncheckedUpdateWithoutProjectTasksCreatedInput>
+  }
+
+  export type TicketCreateNestedOneWithoutAccessUsersInput = {
+    create?: XOR<TicketCreateWithoutAccessUsersInput, TicketUncheckedCreateWithoutAccessUsersInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutAccessUsersInput
+    connect?: TicketWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTicketAccessInput = {
+    create?: XOR<UserCreateWithoutTicketAccessInput, UserUncheckedCreateWithoutTicketAccessInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTicketAccessInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TicketUpdateOneRequiredWithoutAccessUsersNestedInput = {
+    create?: XOR<TicketCreateWithoutAccessUsersInput, TicketUncheckedCreateWithoutAccessUsersInput>
+    connectOrCreate?: TicketCreateOrConnectWithoutAccessUsersInput
+    upsert?: TicketUpsertWithoutAccessUsersInput
+    connect?: TicketWhereUniqueInput
+    update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutAccessUsersInput, TicketUpdateWithoutAccessUsersInput>, TicketUncheckedUpdateWithoutAccessUsersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTicketAccessNestedInput = {
+    create?: XOR<UserCreateWithoutTicketAccessInput, UserUncheckedCreateWithoutTicketAccessInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTicketAccessInput
+    upsert?: UserUpsertWithoutTicketAccessInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTicketAccessInput, UserUpdateWithoutTicketAccessInput>, UserUncheckedUpdateWithoutTicketAccessInput>
+  }
+
+  export type SetorClickupListCreateNestedOneWithoutAccessUsersInput = {
+    create?: XOR<SetorClickupListCreateWithoutAccessUsersInput, SetorClickupListUncheckedCreateWithoutAccessUsersInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutAccessUsersInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutProjectAccessInput = {
+    create?: XOR<UserCreateWithoutProjectAccessInput, UserUncheckedCreateWithoutProjectAccessInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectAccessInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SetorClickupListUpdateOneRequiredWithoutAccessUsersNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutAccessUsersInput, SetorClickupListUncheckedCreateWithoutAccessUsersInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutAccessUsersInput
+    upsert?: SetorClickupListUpsertWithoutAccessUsersInput
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutAccessUsersInput, SetorClickupListUpdateWithoutAccessUsersInput>, SetorClickupListUncheckedUpdateWithoutAccessUsersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutProjectAccessNestedInput = {
+    create?: XOR<UserCreateWithoutProjectAccessInput, UserUncheckedCreateWithoutProjectAccessInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectAccessInput
+    upsert?: UserUpsertWithoutProjectAccessInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectAccessInput, UserUpdateWithoutProjectAccessInput>, UserUncheckedUpdateWithoutProjectAccessInput>
   }
 
   export type SetorClickupListCreateNestedOneWithoutTaskStatesInput = {
@@ -100453,6 +103103,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -100460,6 +103111,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCreatedByInput = {
@@ -100482,8 +103134,10 @@ export namespace Prisma {
     companyId: string
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCreatedByInput = {
@@ -100511,6 +103165,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -100518,6 +103173,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutAssigneeInput = {
@@ -100540,8 +103196,10 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutAssigneeInput = {
@@ -101121,6 +103779,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TicketAccessUserCreateWithoutUserInput = {
+    ticket: TicketCreateNestedOneWithoutAccessUsersInput
+  }
+
+  export type TicketAccessUserUncheckedCreateWithoutUserInput = {
+    ticketId: string
+  }
+
+  export type TicketAccessUserCreateOrConnectWithoutUserInput = {
+    where: TicketAccessUserWhereUniqueInput
+    create: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type TicketAccessUserCreateManyUserInputEnvelope = {
+    data: TicketAccessUserCreateManyUserInput | TicketAccessUserCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectAccessUserCreateWithoutUserInput = {
+    project: SetorClickupListCreateNestedOneWithoutAccessUsersInput
+  }
+
+  export type ProjectAccessUserUncheckedCreateWithoutUserInput = {
+    projectId: string
+  }
+
+  export type ProjectAccessUserCreateOrConnectWithoutUserInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    create: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectAccessUserCreateManyUserInputEnvelope = {
+    data: ProjectAccessUserCreateManyUserInput | ProjectAccessUserCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PushSubscriptionCreateWithoutUserInput = {
     id?: string
     endpoint: string
@@ -101367,6 +104061,7 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"Ticket"> | string | null
     setorId?: StringNullableFilter<"Ticket"> | string | null
     projetoId?: StringNullableFilter<"Ticket"> | string | null
+    visibility?: StringFilter<"Ticket"> | string
   }
 
   export type TicketUpsertWithWhereUniqueWithoutAssigneeInput = {
@@ -101873,6 +104568,54 @@ export namespace Prisma {
     data: XOR<ProjectTaskUpdateManyMutationInput, ProjectTaskUncheckedUpdateManyWithoutCreatedByInput>
   }
 
+  export type TicketAccessUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: TicketAccessUserWhereUniqueInput
+    update: XOR<TicketAccessUserUpdateWithoutUserInput, TicketAccessUserUncheckedUpdateWithoutUserInput>
+    create: XOR<TicketAccessUserCreateWithoutUserInput, TicketAccessUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type TicketAccessUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: TicketAccessUserWhereUniqueInput
+    data: XOR<TicketAccessUserUpdateWithoutUserInput, TicketAccessUserUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TicketAccessUserUpdateManyWithWhereWithoutUserInput = {
+    where: TicketAccessUserScalarWhereInput
+    data: XOR<TicketAccessUserUpdateManyMutationInput, TicketAccessUserUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TicketAccessUserScalarWhereInput = {
+    AND?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
+    OR?: TicketAccessUserScalarWhereInput[]
+    NOT?: TicketAccessUserScalarWhereInput | TicketAccessUserScalarWhereInput[]
+    ticketId?: StringFilter<"TicketAccessUser"> | string
+    userId?: StringFilter<"TicketAccessUser"> | string
+  }
+
+  export type ProjectAccessUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    update: XOR<ProjectAccessUserUpdateWithoutUserInput, ProjectAccessUserUncheckedUpdateWithoutUserInput>
+    create: XOR<ProjectAccessUserCreateWithoutUserInput, ProjectAccessUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectAccessUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    data: XOR<ProjectAccessUserUpdateWithoutUserInput, ProjectAccessUserUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ProjectAccessUserUpdateManyWithWhereWithoutUserInput = {
+    where: ProjectAccessUserScalarWhereInput
+    data: XOR<ProjectAccessUserUpdateManyMutationInput, ProjectAccessUserUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ProjectAccessUserScalarWhereInput = {
+    AND?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
+    OR?: ProjectAccessUserScalarWhereInput[]
+    NOT?: ProjectAccessUserScalarWhereInput | ProjectAccessUserScalarWhereInput[]
+    projectId?: StringFilter<"ProjectAccessUser"> | string
+    userId?: StringFilter<"ProjectAccessUser"> | string
+  }
+
   export type PushSubscriptionUpsertWithWhereUniqueWithoutUserInput = {
     where: PushSubscriptionWhereUniqueInput
     update: XOR<PushSubscriptionUpdateWithoutUserInput, PushSubscriptionUncheckedUpdateWithoutUserInput>
@@ -101959,6 +104702,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -101993,6 +104738,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -102043,6 +104790,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -102077,6 +104826,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -102111,6 +104862,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -102145,6 +104898,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -102195,6 +104950,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -102229,6 +104986,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -102263,6 +105022,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -102297,6 +105058,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -102347,6 +105110,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -102381,6 +105146,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -102718,6 +105485,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -102752,6 +105521,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -102898,6 +105669,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -102914,6 +105686,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
@@ -102927,6 +105700,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -102942,6 +105716,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
@@ -103493,6 +106268,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -103500,6 +106276,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutCompanyInput = {
@@ -103522,8 +106299,10 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutCompanyInput = {
@@ -103551,6 +106330,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
     createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
@@ -103558,6 +106338,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutClientCompanyInput = {
@@ -103580,8 +106361,10 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutClientCompanyInput = {
@@ -104754,6 +107537,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"SetorClickupList"> | Date | string | null
+    visibility?: StringFilter<"SetorClickupList"> | string
     taskCount?: IntFilter<"SetorClickupList"> | number
     taskCompleted?: IntFilter<"SetorClickupList"> | number
     taskOverdue?: IntFilter<"SetorClickupList"> | number
@@ -110085,6 +112869,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -110119,6 +112905,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -110158,6 +112946,8 @@ export namespace Prisma {
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -110192,6 +112982,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -110478,6 +113270,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -110512,6 +113306,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -110557,6 +113353,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -110591,6 +113389,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -111234,6 +114034,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -111268,6 +114070,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -111473,6 +114277,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -111507,6 +114313,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -112316,6 +115124,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -112350,6 +115160,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -112785,6 +115597,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -112819,6 +115633,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -113245,6 +116061,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -113279,6 +116097,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -113745,6 +116565,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -113779,6 +116601,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -114347,6 +117171,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -114354,6 +117179,7 @@ export namespace Prisma {
     setor?: SetorCreateNestedOneWithoutTicketsInput
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutActivitiesInput = {
@@ -114377,7 +117203,9 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutActivitiesInput = {
@@ -114702,6 +117530,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -114709,6 +117538,7 @@ export namespace Prisma {
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutActivitiesInput = {
@@ -114732,7 +117562,9 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type CompanyUpsertWithoutActivitiesInput = {
@@ -115069,6 +117901,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -115103,6 +117937,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -115291,6 +118127,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -115325,6 +118163,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -115409,6 +118249,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -115425,6 +118266,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTicketsInput = {
@@ -115439,6 +118281,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -115453,6 +118296,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTicketsInput = {
@@ -115529,6 +118373,24 @@ export namespace Prisma {
 
   export type ActivityCreateManyTicketInputEnvelope = {
     data: ActivityCreateManyTicketInput | ActivityCreateManyTicketInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketAccessUserCreateWithoutTicketInput = {
+    user: UserCreateNestedOneWithoutTicketAccessInput
+  }
+
+  export type TicketAccessUserUncheckedCreateWithoutTicketInput = {
+    userId: string
+  }
+
+  export type TicketAccessUserCreateOrConnectWithoutTicketInput = {
+    where: TicketAccessUserWhereUniqueInput
+    create: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput>
+  }
+
+  export type TicketAccessUserCreateManyTicketInputEnvelope = {
+    data: TicketAccessUserCreateManyTicketInput | TicketAccessUserCreateManyTicketInput[]
     skipDuplicates?: boolean
   }
 
@@ -115728,6 +118590,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -115762,6 +118626,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -115962,6 +118828,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -115996,6 +118864,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -116092,6 +118962,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -116108,6 +118979,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTicketsInput = {
@@ -116122,6 +118994,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -116136,6 +119009,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -116187,6 +119061,22 @@ export namespace Prisma {
     data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutTicketInput>
   }
 
+  export type TicketAccessUserUpsertWithWhereUniqueWithoutTicketInput = {
+    where: TicketAccessUserWhereUniqueInput
+    update: XOR<TicketAccessUserUpdateWithoutTicketInput, TicketAccessUserUncheckedUpdateWithoutTicketInput>
+    create: XOR<TicketAccessUserCreateWithoutTicketInput, TicketAccessUserUncheckedCreateWithoutTicketInput>
+  }
+
+  export type TicketAccessUserUpdateWithWhereUniqueWithoutTicketInput = {
+    where: TicketAccessUserWhereUniqueInput
+    data: XOR<TicketAccessUserUpdateWithoutTicketInput, TicketAccessUserUncheckedUpdateWithoutTicketInput>
+  }
+
+  export type TicketAccessUserUpdateManyWithWhereWithoutTicketInput = {
+    where: TicketAccessUserScalarWhereInput
+    data: XOR<TicketAccessUserUpdateManyMutationInput, TicketAccessUserUncheckedUpdateManyWithoutTicketInput>
+  }
+
   export type TicketCreateWithoutMessagesInput = {
     id?: string
     title: string
@@ -116202,6 +119092,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -116209,6 +119100,7 @@ export namespace Prisma {
     setor?: SetorCreateNestedOneWithoutTicketsInput
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutMessagesInput = {
@@ -116232,7 +119124,9 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutMessagesInput = {
@@ -116266,6 +119160,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -116273,6 +119168,7 @@ export namespace Prisma {
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutMessagesInput = {
@@ -116296,7 +119192,9 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type CompanyCreateWithoutSetoresInput = {
@@ -116499,6 +119397,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -116506,6 +119405,7 @@ export namespace Prisma {
     projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutSetorInput = {
@@ -116528,8 +119428,10 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     projetoId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutSetorInput = {
@@ -116612,6 +119514,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -116628,6 +119531,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
@@ -116641,6 +119545,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -116656,6 +119561,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSetorInput = {
@@ -117222,6 +120128,7 @@ export namespace Prisma {
     dueDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    visibility?: string
     clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
     assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
     company: CompanyCreateNestedOneWithoutTicketsInput
@@ -117229,6 +120136,7 @@ export namespace Prisma {
     setor?: SetorCreateNestedOneWithoutTicketsInput
     messages?: TicketMessageCreateNestedManyWithoutTicketInput
     activities?: ActivityCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserCreateNestedManyWithoutTicketInput
   }
 
   export type TicketUncheckedCreateWithoutProjetoInput = {
@@ -117251,8 +120159,10 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     setorId?: string | null
+    visibility?: string
     messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
     activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+    accessUsers?: TicketAccessUserUncheckedCreateNestedManyWithoutTicketInput
   }
 
   export type TicketCreateOrConnectWithoutProjetoInput = {
@@ -117300,6 +120210,24 @@ export namespace Prisma {
 
   export type ProjectTaskCreateManyProjectInputEnvelope = {
     data: ProjectTaskCreateManyProjectInput | ProjectTaskCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectAccessUserCreateWithoutProjectInput = {
+    user: UserCreateNestedOneWithoutProjectAccessInput
+  }
+
+  export type ProjectAccessUserUncheckedCreateWithoutProjectInput = {
+    userId: string
+  }
+
+  export type ProjectAccessUserCreateOrConnectWithoutProjectInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    create: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectAccessUserCreateManyProjectInputEnvelope = {
+    data: ProjectAccessUserCreateManyProjectInput | ProjectAccessUserCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -117641,6 +120569,22 @@ export namespace Prisma {
     data: XOR<ProjectTaskUpdateManyMutationInput, ProjectTaskUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ProjectAccessUserUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    update: XOR<ProjectAccessUserUpdateWithoutProjectInput, ProjectAccessUserUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectAccessUserCreateWithoutProjectInput, ProjectAccessUserUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectAccessUserUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectAccessUserWhereUniqueInput
+    data: XOR<ProjectAccessUserUpdateWithoutProjectInput, ProjectAccessUserUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectAccessUserUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectAccessUserScalarWhereInput
+    data: XOR<ProjectAccessUserUpdateManyMutationInput, ProjectAccessUserUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type SetorClickupListCreateWithoutInternalTasksInput = {
     id?: string
     clickupListId: string
@@ -117651,6 +120595,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -117667,6 +120612,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutInternalTasksInput = {
@@ -117681,6 +120627,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -117695,6 +120642,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutInternalTasksInput = {
@@ -117732,6 +120680,8 @@ export namespace Prisma {
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -117766,6 +120716,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -117805,6 +120757,8 @@ export namespace Prisma {
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -117839,6 +120793,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -117869,6 +120825,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -117885,6 +120842,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutInternalTasksInput = {
@@ -117899,6 +120857,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -117913,6 +120872,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksAssignedInput = {
@@ -117956,6 +120916,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -117990,6 +120952,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -118035,6 +120999,8 @@ export namespace Prisma {
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -118069,6 +121035,584 @@ export namespace Prisma {
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type TicketCreateWithoutAccessUsersInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visibility?: string
+    clientCompany?: CompanyCreateNestedOneWithoutTicketsAsClientInput
+    assignee?: UserCreateNestedOneWithoutTicketsAssignedInput
+    company: CompanyCreateNestedOneWithoutTicketsInput
+    createdBy?: UserCreateNestedOneWithoutTicketsCreatedInput
+    setor?: SetorCreateNestedOneWithoutTicketsInput
+    projeto?: SetorClickupListCreateNestedOneWithoutTicketsInput
+    messages?: TicketMessageCreateNestedManyWithoutTicketInput
+    activities?: ActivityCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketUncheckedCreateWithoutAccessUsersInput = {
+    id?: string
+    title: string
+    description: string
+    status?: $Enums.TicketStatus
+    priority?: $Enums.TicketPriority
+    category?: string | null
+    phone?: string | null
+    clickupTaskId?: string | null
+    ticketStage?: string | null
+    isInternal?: boolean
+    type?: string
+    dueDate?: Date | string | null
+    clientCompanyId?: string | null
+    assigneeId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    createdById?: string | null
+    setorId?: string | null
+    projetoId?: string | null
+    visibility?: string
+    messages?: TicketMessageUncheckedCreateNestedManyWithoutTicketInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutTicketInput
+  }
+
+  export type TicketCreateOrConnectWithoutAccessUsersInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutAccessUsersInput, TicketUncheckedCreateWithoutAccessUsersInput>
+  }
+
+  export type UserCreateWithoutTicketAccessInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTicketAccessInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTicketAccessInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTicketAccessInput, UserUncheckedCreateWithoutTicketAccessInput>
+  }
+
+  export type TicketUpsertWithoutAccessUsersInput = {
+    update: XOR<TicketUpdateWithoutAccessUsersInput, TicketUncheckedUpdateWithoutAccessUsersInput>
+    create: XOR<TicketCreateWithoutAccessUsersInput, TicketUncheckedCreateWithoutAccessUsersInput>
+    where?: TicketWhereInput
+  }
+
+  export type TicketUpdateToOneWithWhereWithoutAccessUsersInput = {
+    where?: TicketWhereInput
+    data: XOR<TicketUpdateWithoutAccessUsersInput, TicketUncheckedUpdateWithoutAccessUsersInput>
+  }
+
+  export type TicketUpdateWithoutAccessUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
+    clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
+    assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
+    company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
+    createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
+    setor?: SetorUpdateOneWithoutTicketsNestedInput
+    projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
+    messages?: TicketMessageUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUpdateManyWithoutTicketNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutAccessUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketStage?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    type?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+  }
+
+  export type UserUpsertWithoutTicketAccessInput = {
+    update: XOR<UserUpdateWithoutTicketAccessInput, UserUncheckedUpdateWithoutTicketAccessInput>
+    create: XOR<UserCreateWithoutTicketAccessInput, UserUncheckedCreateWithoutTicketAccessInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTicketAccessInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTicketAccessInput, UserUncheckedUpdateWithoutTicketAccessInput>
+  }
+
+  export type UserUpdateWithoutTicketAccessInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTicketAccessInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type SetorClickupListCreateWithoutAccessUsersInput = {
+    id?: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    tickets?: TicketCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutAccessUsersInput = {
+    id?: string
+    setorId: string
+    clickupListId: string
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutAccessUsersInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutAccessUsersInput, SetorClickupListUncheckedCreateWithoutAccessUsersInput>
+  }
+
+  export type UserCreateWithoutProjectAccessInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutProjectAccessInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutProjectAccessInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProjectAccessInput, UserUncheckedCreateWithoutProjectAccessInput>
+  }
+
+  export type SetorClickupListUpsertWithoutAccessUsersInput = {
+    update: XOR<SetorClickupListUpdateWithoutAccessUsersInput, SetorClickupListUncheckedUpdateWithoutAccessUsersInput>
+    create: XOR<SetorClickupListCreateWithoutAccessUsersInput, SetorClickupListUncheckedCreateWithoutAccessUsersInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutAccessUsersInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutAccessUsersInput, SetorClickupListUncheckedUpdateWithoutAccessUsersInput>
+  }
+
+  export type SetorClickupListUpdateWithoutAccessUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutAccessUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type UserUpsertWithoutProjectAccessInput = {
+    update: XOR<UserUpdateWithoutProjectAccessInput, UserUncheckedUpdateWithoutProjectAccessInput>
+    create: XOR<UserCreateWithoutProjectAccessInput, UserUncheckedCreateWithoutProjectAccessInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProjectAccessInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProjectAccessInput, UserUncheckedUpdateWithoutProjectAccessInput>
+  }
+
+  export type UserUpdateWithoutProjectAccessInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProjectAccessInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -118083,6 +121627,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118099,6 +121644,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
@@ -118113,6 +121659,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118127,6 +121674,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskStatesInput = {
@@ -118155,6 +121703,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118171,6 +121720,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
@@ -118185,6 +121735,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118199,6 +121750,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutActivitiesInput = {
@@ -118211,6 +121763,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118227,6 +121780,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
@@ -118241,6 +121795,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118255,6 +121810,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutActivitiesInput = {
@@ -118283,6 +121839,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118299,6 +121856,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
@@ -118313,6 +121871,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118327,6 +121886,7 @@ export namespace Prisma {
     taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutMembersInput = {
@@ -118339,6 +121899,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118355,6 +121916,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
@@ -118369,6 +121931,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -118383,6 +121946,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMembersInput = {
@@ -118420,6 +121984,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -118454,6 +122020,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -118484,6 +122052,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118500,6 +122069,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
@@ -118514,6 +122084,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -118528,6 +122099,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembershipsInput = {
@@ -118571,6 +122143,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -118605,6 +122179,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -118704,6 +122280,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -118738,6 +122316,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -118859,6 +122439,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -118893,6 +122475,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -124185,6 +127769,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -124219,6 +127805,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -124449,6 +128037,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -124483,6 +128073,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -124709,6 +128301,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -124743,6 +128337,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -124942,6 +128538,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -124976,6 +128574,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -125165,6 +128765,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -125199,6 +128801,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -125398,6 +129002,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -125432,6 +129038,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -125621,6 +129229,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
@@ -125655,6 +129265,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
@@ -125854,6 +129466,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -125888,6 +129502,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -126382,6 +129998,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
   }
 
@@ -126416,6 +130034,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -126466,6 +130086,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
 
@@ -126500,6 +130122,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -126534,6 +130158,8 @@ export namespace Prisma {
     tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
   }
 
@@ -126568,6 +130194,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
     projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
     projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -126618,6 +130246,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
   }
 
@@ -126652,6 +130282,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -126979,6 +130611,7 @@ export namespace Prisma {
     companyId: string
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type TicketCreateManyAssigneeInput = {
@@ -127001,6 +130634,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type SetorUserCreateManyUserInput = {
@@ -127193,6 +130827,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TicketAccessUserCreateManyUserInput = {
+    ticketId: string
+  }
+
+  export type ProjectAccessUserCreateManyUserInput = {
+    projectId: string
+  }
+
   export type PushSubscriptionCreateManyUserInput = {
     id?: string
     endpoint: string
@@ -127219,6 +130861,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -127226,6 +130869,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCreatedByInput = {
@@ -127248,8 +130892,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCreatedByInput = {
@@ -127272,6 +130918,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUpdateWithoutAssigneeInput = {
@@ -127289,6 +130936,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -127296,6 +130944,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutAssigneeInput = {
@@ -127318,8 +130967,10 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutAssigneeInput = {
@@ -127342,6 +130993,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type SetorUserUpdateWithoutUserInput = {
@@ -127922,6 +131574,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TicketAccessUserUpdateWithoutUserInput = {
+    ticket?: TicketUpdateOneRequiredWithoutAccessUsersNestedInput
+  }
+
+  export type TicketAccessUserUncheckedUpdateWithoutUserInput = {
+    ticketId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TicketAccessUserUncheckedUpdateManyWithoutUserInput = {
+    ticketId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectAccessUserUpdateWithoutUserInput = {
+    project?: SetorClickupListUpdateOneRequiredWithoutAccessUsersNestedInput
+  }
+
+  export type ProjectAccessUserUncheckedUpdateWithoutUserInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectAccessUserUncheckedUpdateManyWithoutUserInput = {
+    projectId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type PushSubscriptionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     endpoint?: StringFieldUpdateOperationsInput | string
@@ -128051,6 +131727,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -128263,6 +131940,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type TicketCreateManyClientCompanyInput = {
@@ -128285,6 +131963,7 @@ export namespace Prisma {
     createdById?: string | null
     setorId?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type TrackingLinkCreateManyCompanyInput = {
@@ -128766,6 +132445,8 @@ export namespace Prisma {
     tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
   }
@@ -128800,6 +132481,8 @@ export namespace Prisma {
     tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
     projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
     projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -128951,6 +132634,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -128967,6 +132651,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
@@ -128980,6 +132665,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -128995,6 +132681,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -129008,6 +132695,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -129609,6 +133297,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -129616,6 +133305,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutCompanyInput = {
@@ -129638,8 +133328,10 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutCompanyInput = {
@@ -129662,6 +133354,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUpdateWithoutClientCompanyInput = {
@@ -129679,6 +133372,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
     createdBy?: UserUpdateOneWithoutTicketsCreatedNestedInput
@@ -129686,6 +133380,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutClientCompanyInput = {
@@ -129708,8 +133403,10 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -129732,6 +133429,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type TrackingLinkUpdateWithoutCompanyInput = {
@@ -131901,6 +135599,10 @@ export namespace Prisma {
     companyId: string
   }
 
+  export type TicketAccessUserCreateManyTicketInput = {
+    userId: string
+  }
+
   export type TicketMessageUpdateWithoutTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     body?: StringFieldUpdateOperationsInput | string
@@ -131979,6 +135681,18 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TicketAccessUserUpdateWithoutTicketInput = {
+    user?: UserUpdateOneRequiredWithoutTicketAccessNestedInput
+  }
+
+  export type TicketAccessUserUncheckedUpdateWithoutTicketInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TicketAccessUserUncheckedUpdateManyWithoutTicketInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type SetorUserCreateManySetorInput = {
     userId: string
   }
@@ -132007,6 +135721,7 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     projetoId?: string | null
+    visibility?: string
   }
 
   export type ConversationCreateManySetorInput = {
@@ -132041,6 +135756,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     dueDate?: Date | string | null
     deliveredAt?: Date | string | null
+    visibility?: string
     taskCount?: number
     taskCompleted?: number
     taskOverdue?: number
@@ -132092,6 +135808,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -132099,6 +135816,7 @@ export namespace Prisma {
     projeto?: SetorClickupListUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutSetorInput = {
@@ -132121,8 +135839,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutSetorInput = {
@@ -132145,6 +135865,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     projetoId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConversationUpdateWithoutSetorInput = {
@@ -132228,6 +135949,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -132244,6 +135966,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
@@ -132257,6 +135980,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -132272,6 +135996,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
@@ -132285,6 +136010,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     taskCount?: IntFieldUpdateOperationsInput | number
     taskCompleted?: IntFieldUpdateOperationsInput | number
     taskOverdue?: IntFieldUpdateOperationsInput | number
@@ -132347,6 +136073,7 @@ export namespace Prisma {
     companyId: string
     createdById?: string | null
     setorId?: string | null
+    visibility?: string
   }
 
   export type ProjectTaskCreateManyProjectInput = {
@@ -132361,6 +136088,10 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ProjectAccessUserCreateManyProjectInput = {
+    userId: string
   }
 
   export type ProjectMemberUpdateWithoutProjectInput = {
@@ -132468,6 +136199,7 @@ export namespace Prisma {
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visibility?: StringFieldUpdateOperationsInput | string
     clientCompany?: CompanyUpdateOneWithoutTicketsAsClientNestedInput
     assignee?: UserUpdateOneWithoutTicketsAssignedNestedInput
     company?: CompanyUpdateOneRequiredWithoutTicketsNestedInput
@@ -132475,6 +136207,7 @@ export namespace Prisma {
     setor?: SetorUpdateOneWithoutTicketsNestedInput
     messages?: TicketMessageUpdateManyWithoutTicketNestedInput
     activities?: ActivityUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutProjetoInput = {
@@ -132497,8 +136230,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
     messages?: TicketMessageUncheckedUpdateManyWithoutTicketNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutTicketNestedInput
+    accessUsers?: TicketAccessUserUncheckedUpdateManyWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateManyWithoutProjetoInput = {
@@ -132521,6 +136256,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProjectTaskUpdateWithoutProjectInput = {
@@ -132563,6 +136299,18 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectAccessUserUpdateWithoutProjectInput = {
+    user?: UserUpdateOneRequiredWithoutProjectAccessNestedInput
+  }
+
+  export type ProjectAccessUserUncheckedUpdateWithoutProjectInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProjectAccessUserUncheckedUpdateManyWithoutProjectInput = {
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CompanyCredentialCreateManyAssetInput = {
@@ -132972,6 +136720,14 @@ export namespace Prisma {
      * @deprecated Use ProjectTaskDefaultArgs instead
      */
     export type ProjectTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectTaskDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TicketAccessUserDefaultArgs instead
+     */
+    export type TicketAccessUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TicketAccessUserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectAccessUserDefaultArgs instead
+     */
+    export type ProjectAccessUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectAccessUserDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ProjectTaskStateDefaultArgs instead
      */

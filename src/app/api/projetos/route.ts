@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { getViewer, projectVisibilityWhere } from "@/lib/visibility";
 
 // GET /api/projetos — lista todos os projetos visíveis ao usuário
 export async function GET() {
@@ -14,9 +15,14 @@ export async function GET() {
   const role          = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
-  const where = role === "SUPER_ADMIN"
+  const where: any = role === "SUPER_ADMIN"
     ? {}
     : { setor: { companyId: userCompanyId } };
+
+  // Visibilidade aberto/restrito
+  const viewer = await getViewer(session);
+  const visWhere = projectVisibilityWhere(viewer);
+  if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
 
   const projects = await prisma.setorClickupList.findMany({
     where,

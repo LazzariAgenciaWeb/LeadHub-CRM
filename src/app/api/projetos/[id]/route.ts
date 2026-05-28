@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ProjectStatus } from "@/generated/prisma";
 import { addScoreOnce } from "@/lib/gamification";
 import { assertModule } from "@/lib/billing";
+import { getViewer, canSeeProject } from "@/lib/visibility";
 
 // GET /api/projetos/[id]
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -23,11 +24,22 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       setor:         { select: { id: true, name: true, companyId: true } },
       clientCompany: { select: { id: true, name: true } },
       members:       { include: { user: { select: { id: true, name: true, email: true } } } },
+      accessUsers:   { select: { userId: true } },
     },
   });
   if (!project) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
 
   if (role !== "SUPER_ADMIN" && project.setor.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  const viewer = await getViewer(session);
+  if (!canSeeProject(viewer, {
+    visibility: project.visibility,
+    setorId: project.setorId,
+    memberIds: project.members.map((m) => m.userId),
+    accessUserIds: project.accessUsers.map((a) => a.userId),
+  })) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
@@ -50,15 +62,28 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const existing = await prisma.setorClickupList.findUnique({
     where: { id },
-    include: { setor: { select: { companyId: true } } },
+    include: {
+      setor:       { select: { companyId: true } },
+      members:     { select: { userId: true } },
+      accessUsers: { select: { userId: true } },
+    },
   });
   if (!existing) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
   if (role !== "SUPER_ADMIN" && existing.setor.companyId !== userCompanyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
+  const viewer = await getViewer(session);
+  if (!canSeeProject(viewer, {
+    visibility: existing.visibility,
+    setorId: existing.setorId,
+    memberIds: existing.members.map((m) => m.userId),
+    accessUserIds: existing.accessUsers.map((a) => a.userId),
+  })) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
 
   const body = await req.json();
-  const { name, description, type, status, startDate, dueDate, clientCompanyId, memberIds, clickupListId } = body;
+  const { name, description, type, status, startDate, dueDate, clientCompanyId, memberIds, clickupListId, visibility, accessUserIds } = body;
 
   // Detecta transição pra ENTREGUE — gera pontos pros membros
   const movingToDelivered = status === "ProjectStatus" || status === "ENTREGUE";
@@ -73,6 +98,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (startDate   !== undefined) data.startDate = startDate ? new Date(startDate) : null;
   if (dueDate     !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
   if (clientCompanyId !== undefined) data.clientCompanyId = clientCompanyId ?? null;
+  if (visibility !== undefined) data.visibility = visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN";
   if (clickupListId !== undefined && typeof clickupListId === "string" && clickupListId.trim()) {
     data.clickupListId = clickupListId.trim();
     // Quando muda a lista, descarta snapshot antigo (tasks são de outra lista)
@@ -94,6 +120,22 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (memberIds.length > 0) {
       await prisma.projectMember.createMany({
         data: memberIds.map((uid: string) => ({ projectId: id, userId: uid })),
+        skipDuplicates: true,
+      });
+    }
+  }
+
+  // Pessoas extras autorizadas (visibilidade restrita). Substitui o conjunto;
+  // só usuários da mesma empresa-agência são aceitos.
+  if (Array.isArray(accessUserIds)) {
+    const valid = await prisma.user.findMany({
+      where:  { id: { in: accessUserIds as string[] }, companyId: existing.setor.companyId ?? undefined },
+      select: { id: true },
+    });
+    await prisma.projectAccessUser.deleteMany({ where: { projectId: id } });
+    if (valid.length) {
+      await prisma.projectAccessUser.createMany({
+        data: valid.map((u) => ({ projectId: id, userId: u.id })),
         skipDuplicates: true,
       });
     }
@@ -147,10 +189,23 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   const project = await prisma.setorClickupList.findUnique({
     where: { id },
-    include: { setor: { select: { companyId: true } } },
+    include: {
+      setor:       { select: { companyId: true } },
+      members:     { select: { userId: true } },
+      accessUsers: { select: { userId: true } },
+    },
   });
   if (!project) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
   if (role !== "SUPER_ADMIN" && project.setor.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+  const viewer = await getViewer(session);
+  if (!canSeeProject(viewer, {
+    visibility: project.visibility,
+    setorId: project.setorId,
+    memberIds: project.members.map((m) => m.userId),
+    accessUserIds: project.accessUsers.map((a) => a.userId),
+  })) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 

@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { getViewer, projectVisibilityWhere } from "@/lib/visibility";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProjetosBoard from "./ProjetosBoard";
@@ -23,9 +24,14 @@ export default async function ProjetosPage({
   const sp = await searchParams;
   const filterCompanyId = isSuperAdmin ? (sp.companyId ?? "") : (userCompanyId ?? "");
 
-  const where = isSuperAdmin
+  const where: any = isSuperAdmin
     ? (filterCompanyId ? { setor: { companyId: filterCompanyId } } : {})
     : { setor: { companyId: userCompanyId } };
+
+  // Visibilidade aberto/restrito
+  const viewer = await getViewer(session);
+  const visWhere = projectVisibilityWhere(viewer);
+  if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
 
   const [projects, companies] = await Promise.all([
     prisma.setorClickupList.findMany({

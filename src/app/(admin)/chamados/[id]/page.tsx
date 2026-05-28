@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
+import { getViewer, canSeeTicket } from "@/lib/visibility";
 import { notFound } from "next/navigation";
 import { startOfTodayInSystemTZ, endOfTodayInSystemTZ } from "@/lib/datetime";
 import TicketDetail from "./TicketDetail";
@@ -33,6 +34,7 @@ export default async function TicketPage({
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       projeto:       { select: { id: true, name: true } },
+      accessUsers:   { select: { userId: true } },
       // ATENÇÃO: NUNCA incluir mediaBase64 aqui. Em chamados com 10+ imagens
       // anexadas isso vira MB de base64 no SSR. UI consome `hasMedia` e busca
       // via /api/tickets/messages/[id]/media (browser cacheia).
@@ -56,6 +58,12 @@ export default async function TicketPage({
 
   if (!ticketRaw) notFound();
   if (!isSuperAdmin && ticketRaw.companyId !== userCompanyId) notFound();
+
+  // Visibilidade aberto/restrito
+  const viewer = await getViewer(session);
+  if (!canSeeTicket(viewer, { ...ticketRaw, accessUserIds: ticketRaw.accessUsers.map((a) => a.userId) })) {
+    notFound();
+  }
 
   // Mapeia messages: remove o base64 e expõe só o flag.
   const ticket = {

@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getClickupSettings, createClickupTask } from "@/lib/clickup";
+import { getViewer, canSeeProject } from "@/lib/visibility";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -27,10 +28,23 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const project = await prisma.setorClickupList.findUnique({
     where: { id },
-    include: { setor: { select: { companyId: true } } },
+    include: {
+      setor:       { select: { companyId: true } },
+      members:     { select: { userId: true } },
+      accessUsers: { select: { userId: true } },
+    },
   });
   if (!project) return NextResponse.json({ error: "Projeto não encontrado" }, { status: 404 });
   if (role !== "SUPER_ADMIN" && project.setor.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+  const viewer = await getViewer(session);
+  if (!canSeeProject(viewer, {
+    visibility: project.visibility,
+    setorId: project.setorId,
+    memberIds: project.members.map((m) => m.userId),
+    accessUserIds: project.accessUsers.map((a) => a.userId),
+  })) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 

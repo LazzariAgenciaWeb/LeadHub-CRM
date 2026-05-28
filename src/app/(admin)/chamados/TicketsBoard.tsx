@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Briefcase, ListChecks, AlertCircle, Clock, User as UserIcon,
-  Filter as FilterIcon, Building2, Calendar,
+  Filter as FilterIcon, Building2, Calendar, Lock,
 } from "lucide-react";
 
 interface TicketStage {
@@ -35,6 +35,7 @@ interface Ticket {
   createdAt: string;
   updatedAt: string;
   company: { id: string; name: string };
+  visibility?: string;
   _count: { messages: number };
 }
 
@@ -389,6 +390,13 @@ export default function TicketsBoard({
                             >
                               {ticket.title}
                             </Link>
+                            {ticket.visibility === "RESTRICTED" && (
+                              <Lock
+                                className="w-3 h-3 text-amber-400 flex-shrink-0 mt-1"
+                                strokeWidth={2.5}
+                                aria-label="Restrito"
+                              />
+                            )}
                           </div>
 
                           {/* Cliente (só pra SUPPORT) ou empresa (super admin) */}

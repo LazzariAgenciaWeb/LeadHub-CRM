@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { getViewer, canSeeProject } from "@/lib/visibility";
 import { notFound } from "next/navigation";
 import ProjectDetail from "./ProjectDetail";
 
@@ -21,11 +22,21 @@ export default async function ProjectDetailPage({
       setor:         { select: { id: true, name: true, companyId: true } },
       clientCompany: { select: { id: true, name: true } },
       members:       { include: { user: { select: { id: true, name: true, email: true } } } },
+      accessUsers:   { select: { userId: true } },
     },
   });
   if (!project) notFound();
 
-  if (role !== "SUPER_ADMIN" && project.setor.companyId !== userCompanyId) {
+  const viewer = await getViewer(session);
+  const allowed =
+    (role === "SUPER_ADMIN" || project.setor.companyId === userCompanyId) &&
+    canSeeProject(viewer, {
+      visibility: project.visibility,
+      setorId: project.setorId,
+      memberIds: project.members.map((m) => m.userId),
+      accessUserIds: project.accessUsers.map((a) => a.userId),
+    });
+  if (!allowed) {
     return (
       <div className="p-6">
         <p className="text-slate-500 text-sm">Sem permissão pra ver este projeto.</p>
@@ -37,6 +48,14 @@ export default async function ProjectDetailPage({
   const setorUsers = await prisma.setorUser.findMany({
     where:   { setorId: project.setor.id },
     include: { user: { select: { id: true, name: true } } },
+  });
+
+  // Usuários da empresa-agência (pra liberar acesso extra em projeto restrito).
+  // Exclui SUPER_ADMIN (dono da plataforma, não atendente).
+  const companyUsers = await prisma.user.findMany({
+    where:   { companyId: project.setor.companyId, role: { not: "SUPER_ADMIN" } },
+    select:  { id: true, name: true },
+    orderBy: { name: "asc" },
   });
 
   // Últimas atividades de tarefas do ClickUp (histórico)
@@ -116,6 +135,8 @@ export default async function ProjectDetailPage({
     <ProjectDetail
       project={project as any}
       availableUsers={setorUsers.map((su) => su.user)}
+      companyUsers={companyUsers}
+      accessUserIds={project.accessUsers.map((a) => a.userId)}
       activities={activities}
       clientCompanies={clientCompanies}
       openTasks={openTasks}

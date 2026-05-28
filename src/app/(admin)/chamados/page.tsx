@@ -1,5 +1,6 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { getViewer, ticketVisibilityWhere } from "@/lib/visibility";
 import TicketsBoard from "./TicketsBoard";
 
 const DEFAULT_STAGES = [
@@ -45,6 +46,12 @@ export default async function ChamadosPage({
 
   const where: any = {};
   if (filterCompanyId) where.companyId = filterCompanyId;
+  if (!isSuperAdmin) where.isInternal = false;
+
+  // Visibilidade aberto/restrito
+  const viewer = await getViewer(session);
+  const visWhere = ticketVisibilityWhere(viewer);
+  if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
 
   const [tickets, companies] = await Promise.all([
     prisma.ticket.findMany({

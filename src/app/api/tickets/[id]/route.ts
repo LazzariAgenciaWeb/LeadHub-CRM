@@ -8,6 +8,7 @@ import { ActivityType } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
 import { createConversationEvent } from "@/lib/conversation-events";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { getViewer, canSeeTicket } from "@/lib/visibility";
 
 // GET /api/tickets/[id]
 export async function GET(
@@ -48,12 +49,19 @@ export async function GET(
         },
       },
       activities:    { orderBy: { createdAt: "asc" } },
+      accessUsers:   { select: { userId: true } },
     },
   });
 
   if (!ticket) return NextResponse.json({ error: "Chamado não encontrado" }, { status: 404 });
 
   if (userRole !== "SUPER_ADMIN" && ticket.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // Visibilidade aberto/restrito
+  const viewer = await getViewer(session);
+  if (!canSeeTicket(viewer, { ...ticket, accessUserIds: ticket.accessUsers.map((a) => a.userId) })) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
@@ -78,6 +86,7 @@ export async function PATCH(
   const {
     status, priority, category, title, clickupTaskId, ticketStage, companyId,
     dueDate, assigneeId, setorId, clientCompanyId, projetoId,
+    visibility, accessUserIds,
   } = body;
 
   const userId   = (session.user as any).id as string | undefined;
@@ -93,10 +102,11 @@ export async function PATCH(
       priority: true, ticketStage: true, title: true,
       assigneeId: true, setorId: true, clientCompanyId: true,
       dueDate: true, companyId: true, createdAt: true, projetoId: true,
-      description: true,
+      description: true, visibility: true, createdById: true,
       assignee:      { select: { id: true, name: true } },
       setor:         { select: { id: true, name: true } },
       clientCompany: { select: { id: true, name: true } },
+      accessUsers:   { select: { userId: true } },
     },
   });
 
@@ -108,6 +118,12 @@ export async function PATCH(
   // ticket era da empresa do usuário, nem que ele tinha canViewTickets.
   const userRole = (session.user as any).role as string | undefined;
   if (userRole !== "SUPER_ADMIN" && existing.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  // Visibilidade: quem não enxerga o chamado também não pode editá-lo.
+  const viewer = await getViewer(session);
+  if (!canSeeTicket(viewer, { ...existing, accessUserIds: existing.accessUsers.map((a) => a.userId) })) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
   const perms = await getUserPermissions(session);
@@ -128,6 +144,7 @@ export async function PATCH(
       ...(setorId !== undefined && { setorId: setorId ?? null }),
       ...(clientCompanyId !== undefined && { clientCompanyId: clientCompanyId ?? null }),
       ...(projetoId !== undefined && { projetoId: projetoId ?? null }),
+      ...(visibility !== undefined && { visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN" }),
     },
     include: {
       company:       { select: { id: true, name: true } },
@@ -136,6 +153,22 @@ export async function PATCH(
       setor:         { select: { id: true, name: true } },
     },
   });
+
+  // ── Pessoas extras autorizadas (visibilidade restrita) ───────────────────
+  // Substitui o conjunto. Só usuários da mesma empresa-agência são aceitos.
+  if (Array.isArray(accessUserIds)) {
+    const valid = await prisma.user.findMany({
+      where:  { id: { in: accessUserIds as string[] }, companyId: existing.companyId },
+      select: { id: true },
+    });
+    await prisma.ticketAccessUser.deleteMany({ where: { ticketId: id } });
+    if (valid.length) {
+      await prisma.ticketAccessUser.createMany({
+        data: valid.map((u) => ({ ticketId: id, userId: u.id })),
+        skipDuplicates: true,
+      });
+    }
+  }
 
   // ── Activity log: registra cada mudança como evento na timeline ──────────
   // Patterns reusados de Conversation: STATUS_CHANGED, ASSIGNEE_CHANGED, etc.

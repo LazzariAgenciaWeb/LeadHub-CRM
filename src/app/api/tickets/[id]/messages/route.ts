@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, addCommentToClickupTask } from "@/lib/clickup";
 import { addScoreOnce } from "@/lib/gamification";
+import { getViewer, canSeeTicket } from "@/lib/visibility";
 
 // POST /api/tickets/[id]/messages
 export async function POST(
@@ -17,10 +18,18 @@ export async function POST(
   const userRole = (session.user as any).role;
   const userCompanyId = (session.user as any).companyId;
 
-  const ticket = await prisma.ticket.findUnique({ where: { id: ticketId } });
+  const ticket = await prisma.ticket.findUnique({
+    where: { id: ticketId },
+    include: { accessUsers: { select: { userId: true } } },
+  });
   if (!ticket) return NextResponse.json({ error: "Chamado não encontrado" }, { status: 404 });
 
   if (userRole !== "SUPER_ADMIN" && ticket.companyId !== userCompanyId) {
+    return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+  }
+
+  const viewer = await getViewer(session);
+  if (!canSeeTicket(viewer, { ...ticket, accessUserIds: ticket.accessUsers.map((a) => a.userId) })) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 

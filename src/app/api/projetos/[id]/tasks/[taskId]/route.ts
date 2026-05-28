@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { getViewer, canSeeProject } from "@/lib/visibility";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -15,10 +16,27 @@ async function loadAndAuthorize(
 
   const task = await prisma.projectTask.findUnique({
     where:   { id: taskId },
-    include: { project: { include: { setor: { select: { companyId: true } } } } },
+    include: {
+      project: {
+        include: {
+          setor:       { select: { companyId: true } },
+          members:     { select: { userId: true } },
+          accessUsers: { select: { userId: true } },
+        },
+      },
+    },
   });
   if (!task || task.projectId !== projectId) return { error: "Tarefa não encontrada", status: 404 as const };
   if (role !== "SUPER_ADMIN" && task.project.setor.companyId !== userCompanyId) {
+    return { error: "Sem permissão", status: 403 as const };
+  }
+  const viewer = await getViewer(session);
+  if (!canSeeProject(viewer, {
+    visibility: task.project.visibility,
+    setorId: task.project.setorId,
+    memberIds: task.project.members.map((m) => m.userId),
+    accessUserIds: task.project.accessUsers.map((a) => a.userId),
+  })) {
     return { error: "Sem permissão", status: 403 as const };
   }
   return { task };

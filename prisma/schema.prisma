@@ -52,6 +52,8 @@ model User {
   tasksCreated          Task[]                 @relation("TaskCreatedBy")
   projectTasksAssigned  ProjectTask[]          @relation("ProjectTaskAssignee")
   projectTasksCreated   ProjectTask[]          @relation("ProjectTaskCreatedBy")
+  ticketAccess          TicketAccessUser[]
+  projectAccess         ProjectAccessUser[]
   pushSubscriptions     PushSubscription[]
   notifPreferences      UserNotifPreferences?
 
@@ -998,8 +1000,14 @@ model Ticket {
   projeto   SetorClickupList? @relation("TicketProjeto", fields: [projetoId], references: [id], onDelete: SetNull)
   projetoId String?
 
-  messages   TicketMessage[]
-  activities Activity[]
+  // Visibilidade: "OPEN" (toda a empresa vê) | "RESTRICTED" (só setor do chamado
+  // + pessoas extras em accessUsers + assignee/criador). ADMIN/SUPER_ADMIN sempre
+  // veem. Default OPEN mantém compat com chamados antigos.
+  visibility String @default("OPEN")
+
+  messages    TicketMessage[]
+  activities  Activity[]
+  accessUsers TicketAccessUser[]
 
   @@index([companyId])
   @@index([status])
@@ -1118,6 +1126,10 @@ model SetorClickupList {
   dueDate     DateTime?
   deliveredAt DateTime?
 
+  // Visibilidade: "OPEN" (toda a empresa vê) | "RESTRICTED" (só setor do projeto
+  // + membros + pessoas extras em accessUsers). ADMIN/SUPER_ADMIN sempre veem.
+  visibility String @default("OPEN")
+
   // Cache de sync vindo do ClickUp via cron
   taskCount      Int       @default(0)
   taskCompleted  Int       @default(0)
@@ -1138,6 +1150,7 @@ model SetorClickupList {
   activities    ProjectActivity[]
   tickets       Ticket[]           @relation("TicketProjeto")
   internalTasks ProjectTask[]
+  accessUsers   ProjectAccessUser[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1172,6 +1185,28 @@ model ProjectTask {
 
   @@index([projectId, done])
   @@index([assigneeId])
+}
+
+// Pessoas extras autorizadas a ver um chamado RESTRICTED (além do setor).
+model TicketAccessUser {
+  ticketId String
+  userId   String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([ticketId, userId])
+  @@index([userId])
+}
+
+// Pessoas extras autorizadas a ver um projeto RESTRICTED (além do setor/membros).
+model ProjectAccessUser {
+  projectId String
+  userId    String
+  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@index([userId])
 }
 
 // Snapshot do estado das tarefas do ClickUp — usado pra comparar entre syncs

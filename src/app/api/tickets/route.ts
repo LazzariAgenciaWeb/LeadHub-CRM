@@ -6,6 +6,7 @@ import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { createConversationEvent } from "@/lib/conversation-events";
+import { getViewer, ticketVisibilityWhere } from "@/lib/visibility";
 
 // GET /api/tickets?companyId=&status=&priority=&type=&assigneeId=&overdueOnly=&unassignedOnly=
 export async function GET(req: NextRequest) {
@@ -45,6 +46,12 @@ export async function GET(req: NextRequest) {
   }
   // Clientes não veem chamados internos (criados pelo SUPER_ADMIN para uso interno)
   if (userRole !== "SUPER_ADMIN") where.isInternal = false;
+
+  // Visibilidade aberto/restrito: usuário comum não vê chamados RESTRICTED de
+  // fora do seu setor (a menos que seja envolvido / autorizado).
+  const viewer = await getViewer(session);
+  const visWhere = ticketVisibilityWhere(viewer);
+  if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
 
   const tickets = await prisma.ticket.findMany({
     where,
@@ -93,7 +100,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const {
     title, description, priority, category, companyId, phone, isInternal,
-    type, dueDate, assigneeId, setorId, projetoId,
+    type, dueDate, assigneeId, setorId, projetoId, visibility,
     clientCompanyId, clientCompanyName, clientCompanyPhone, clientCompanyEmail,
   } = body;
 
@@ -169,6 +176,7 @@ export async function POST(req: NextRequest) {
       assigneeId: assigneeId || null,
       setorId: setorId || null,
       projetoId: project?.id ?? null,
+      visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN",
       messages: {
         create: {
           body: description,
