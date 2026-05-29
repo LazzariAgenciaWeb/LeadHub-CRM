@@ -80,7 +80,7 @@ export async function PATCH(
     name, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
     hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
-    moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, serpapiKey,
+    moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, serpapiKey,
     modoAtendimento,
     parentCompanyId,
   } = body;
@@ -100,6 +100,7 @@ export async function PATCH(
         ...(moduleProjetos !== undefined && { moduleProjetos }),
         ...(moduleCalendario !== undefined && { moduleCalendario }),
         ...(moduleProspeccao !== undefined && { moduleProspeccao }),
+        ...(moduleEmailMarketing !== undefined && { moduleEmailMarketing }),
         ...(serpapiKey !== undefined && { serpapiKey: serpapiKey || null }),
         ...(parentCompanyId !== undefined && { parentCompanyId: parentCompanyId || null }),
       }

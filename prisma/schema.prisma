@@ -56,6 +56,7 @@ model User {
   projectAccess         ProjectAccessUser[]
   pushSubscriptions     PushSubscription[]
   notifPreferences      UserNotifPreferences?
+  emailCampaignsCreated EmailCampaign[]        @relation("EmailCampaignCreatedBy")
 
   @@index([companyId])
 }
@@ -161,6 +162,9 @@ model Company {
   moduleGamificacao Boolean @default(false)
   moduleProjetos    Boolean @default(false)
   moduleCalendario  Boolean @default(false)
+  // Disparo de email em massa (campanhas). Quando ligado, a empresa configura
+  // o próprio SMTP em CompanyEmailConfig e dispara campanhas pros leads.
+  moduleEmailMarketing Boolean @default(false)
   // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
   // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
   moduleProspeccao  Boolean @default(false)
@@ -200,6 +204,10 @@ model Company {
   tasks                     Task[]
   tags                      Tag[]
   customFieldDefs           CustomFieldDef[]
+  emailConfig               CompanyEmailConfig?
+  emailTemplates            EmailTemplate[]
+  emailCampaigns            EmailCampaign[]
+  emailUnsubscribes         EmailUnsubscribe[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
   companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
@@ -394,12 +402,13 @@ model Lead {
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
 
-  messages     Message[]
-  comments     LeadComment[]
-  activities   Activity[]
-  tasks        Task[]
-  tags         LeadTag[]
-  customValues LeadCustomValue[]
+  messages       Message[]
+  comments       LeadComment[]
+  activities     Activity[]
+  tasks          Task[]
+  tags           LeadTag[]
+  customValues   LeadCustomValue[]
+  emailRecipients EmailRecipient[]
 
   @@index([companyId])
   @@index([campaignId])
@@ -2031,6 +2040,171 @@ model UserNotifPreferences {
   taskOverdue Boolean @default(false) // ainda não tem cron, deixa off
 
   updatedAt DateTime @updatedAt
+}
+
+// ─── Email Marketing (módulo moduleEmailMarketing) ───────────────────────────
+// Cada empresa-cliente com o módulo ligado configura o próprio SMTP e dispara
+// campanhas pros leads. Worker (pg-boss) processa com cadência. Tracking de
+// abertura/clique + compliance LGPD (unsubscribe + suppression list).
+
+// SMTP próprio da empresa (separado do SMTP global do sistema, que fica em Setting).
+model CompanyEmailConfig {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @unique
+
+  host      String
+  port      Int     @default(465)
+  secure    Boolean @default(true)
+  user      String
+  // Senha em AES-256-GCM (mesmo formato do cofre / crypto.ts).
+  passEnc   String
+  fromEmail String  // remetente fixo das campanhas
+  fromName  String  // "Diego — AZZ Agência"
+
+  // Status da última verificação de conexão
+  verified      Boolean   @default(false)
+  lastVerifiedAt DateTime?
+  lastError     String?   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  name      String              // "Proposta padrão", "Follow-up 7 dias"
+  subject   String              // pode usar {{nome}}
+  html      String   @db.Text   // corpo HTML com {{vars}}
+  text      String?  @db.Text   // fallback texto puro (auto-gerado se vazio)
+
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  campaigns EmailCampaign[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+}
+
+model EmailCampaign {
+  id          String              @id @default(cuid())
+  name        String
+  subject     String
+  template    EmailTemplate       @relation(fields: [templateId], references: [id])
+  templateId  String
+  status      EmailCampaignStatus @default(DRAFT)
+  scheduledAt DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  // Cadência: { maxPerHour, jitterMs:[min,max], windowStart, windowEnd, daysOfWeek, timezone }
+  cadenceConfig Json
+  // Segmento (snapshot): { pipeline?, pipelineStage?, tagIds?: string[], hasEmail: true }
+  segmentFilter Json
+
+  // Stats (atualizados pelo worker)
+  totalRecipients   Int @default(0)
+  sentCount         Int @default(0)
+  deliveredCount    Int @default(0)
+  openedCount       Int @default(0)
+  clickedCount      Int @default(0)
+  bouncedCount      Int @default(0)
+  unsubscribedCount Int @default(0)
+  failedCount       Int @default(0)
+
+  company     Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String
+  createdBy   User?   @relation("EmailCampaignCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  recipients EmailRecipient[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([companyId, status])
+  @@index([scheduledAt])
+}
+
+enum EmailCampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  PAUSED
+  COMPLETED
+  FAILED
+}
+
+model EmailRecipient {
+  id         String   @id @default(cuid())
+  campaign   EmailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+  lead       Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  leadId     String?
+  email      String   // snapshot no momento de criação
+  name       String?
+  vars       Json?    // variáveis renderizadas { nome, empresa, valor… }
+
+  status        EmailRecipientStatus @default(PENDING)
+  sentAt        DateTime?
+  firstOpenedAt DateTime?
+  firstClickedAt DateTime?
+  bouncedAt     DateTime?
+  errorMessage  String?  @db.Text
+
+  // token curto usado em pixel/click/unsubscribe
+  token     String   @unique @default(cuid())
+
+  events    EmailEvent[]
+  createdAt DateTime @default(now())
+
+  @@unique([campaignId, email])
+  @@index([campaignId, status])
+  @@index([token])
+}
+
+enum EmailRecipientStatus {
+  PENDING
+  SENDING
+  SENT
+  BOUNCED
+  FAILED
+  SKIPPED
+}
+
+model EmailEvent {
+  id          String   @id @default(cuid())
+  recipient   EmailRecipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  recipientId String
+  type        EmailEventType
+  targetUrl   String?  @db.Text
+  ipAddress   String?
+  userAgent   String?  @db.Text
+  createdAt   DateTime @default(now())
+
+  @@index([recipientId, type])
+  @@index([type, createdAt])
+}
+
+enum EmailEventType {
+  OPEN
+  CLICK
+  BOUNCE
+  COMPLAINT
+  UNSUBSCRIBE
+}
+
+model EmailUnsubscribe {
+  id        String   @id @default(cuid())
+  email     String   // normalizado (lowercase)
+  reason    String?
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  createdAt DateTime @default(now())
+
+  @@unique([email, companyId])
+  @@index([email])
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

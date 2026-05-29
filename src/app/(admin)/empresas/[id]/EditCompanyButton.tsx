@@ -24,6 +24,7 @@ interface Company {
   moduleProjetos: boolean;
   moduleCalendario: boolean;
   moduleProspeccao: boolean;
+  moduleEmailMarketing: boolean;
   modoAtendimento: "VISAO" | "ATENDE";
 }
 
@@ -55,6 +56,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleProjetos: company.moduleProjetos,
     moduleCalendario: company.moduleCalendario,
     moduleProspeccao: company.moduleProspeccao,
+    moduleEmailMarketing: company.moduleEmailMarketing,
     modoAtendimento: company.modoAtendimento,
   });
 
@@ -87,6 +89,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleProjetos = form.moduleProjetos;
         payload.moduleCalendario = form.moduleCalendario;
         payload.moduleProspeccao = form.moduleProspeccao;
+        payload.moduleEmailMarketing = form.moduleEmailMarketing;
         payload.modoAtendimento = form.modoAtendimento;
       }
 
@@ -233,6 +236,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             { key: "moduleProjetos", label: "Projetos" },
                             { key: "moduleCalendario", label: "Calendário" },
                             { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
+                            { key: "moduleEmailMarketing", label: "E-mail Marketing (campanhas)" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />

@@ -91,5 +91,22 @@ echo "📊 Cron Marketing Sync habilitado — rodará a cada ${MARKETING_SYNC_IN
   done
 ) &
 
+# Cron: Email Marketing — processa fila de EmailRecipient PENDING das campanhas
+# em SENDING, respeitando cadência (janela horária, dias da semana, quota/h).
+# Frequência: a cada 60 segundos (config: EMAIL_WORKER_INTERVAL_SECONDS).
+EMAIL_WORKER_INTERVAL_SECONDS="${EMAIL_WORKER_INTERVAL_SECONDS:-60}"
+echo "📧 Cron Email Worker habilitado — rodará a cada ${EMAIL_WORKER_INTERVAL_SECONDS}s"
+(
+  sleep 75
+  while true; do
+    RES=$(cron_curl -X POST "http://localhost:3000/api/cron/email-worker" --max-time 300 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Email Worker] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$EMAIL_WORKER_INTERVAL_SECONDS"
+  done
+) &
+
 echo "🚀 Starting LeadHub..."
 exec node server.js

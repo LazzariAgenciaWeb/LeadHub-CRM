@@ -37,20 +37,20 @@ export async function POST(
         kind: "OPEN",
       },
     }),
-    autoCreateHotTasks(link.id, link.label ?? link.destination),
+    onLinkClicked(link.id, link.label ?? link.destination),
   ]);
 
   return NextResponse.json({ ok: true });
 }
 
 /**
- * Para cada lead que tem este `trackingLinkId`, cria uma tarefa "sinal quente"
- * se não houver outra auto-tarefa em aberto criada nas últimas N horas (cooldown).
+ * Reação central a um clique de link rastreado, pra cada lead vinculado:
+ *  1. Promove prospect → lead se ele estava em PROSPECCAO (demonstrou interesse).
+ *  2. Cria tarefa "sinal quente" (cooldown) + push pro responsável.
  *
- * Atribui à pessoa responsável pela conversa do lead, se houver — caso contrário
- * fica `assigneeId = null` (qualquer vendedor do setor pode pegar).
+ * Roda em fire-and-forget — nunca quebra o redirect do cliente.
  */
-async function autoCreateHotTasks(trackingLinkId: string, linkLabel: string) {
+async function onLinkClicked(trackingLinkId: string, linkLabel: string) {
   try {
     const leads = await prisma.lead.findMany({
       where: { trackingLinkId },
@@ -59,24 +59,71 @@ async function autoCreateHotTasks(trackingLinkId: string, linkLabel: string) {
         name: true,
         phone: true,
         companyId: true,
+        pipeline: true,
+        pipelineStage: true,
         conversation: { select: { assigneeId: true } },
       },
       take: 50,
     });
     if (leads.length === 0) return;
 
+    // Cache da 1ª etapa do pipeline LEADS por empresa (evita N queries iguais)
+    const firstLeadStageCache = new Map<string, string | null>();
+    async function firstLeadStage(companyId: string): Promise<string | null> {
+      if (firstLeadStageCache.has(companyId)) return firstLeadStageCache.get(companyId)!;
+      const stage = await prisma.pipelineStageConfig.findFirst({
+        where: { companyId, pipeline: "LEADS" },
+        orderBy: { order: "asc" },
+        select: { name: true },
+      });
+      const name = stage?.name ?? "Novo Lead";
+      firstLeadStageCache.set(companyId, name);
+      return name;
+    }
+
     const cooldown = new Date(Date.now() - HOT_TASK_COOLDOWN_HOURS * 60 * 60 * 1000);
     const dueAt = new Date(Date.now() + HOT_TASK_DUE_OFFSET_MIN * 60 * 1000);
 
     await Promise.all(
       leads.map(async (lead) => {
+        const assigneeId = lead.conversation?.assigneeId ?? null;
+        const leadHref = `/crm/leads?lead=${lead.id}`;
+
+        // ── 1) Promoção Prospect → Lead (demonstrou interesse) ──
+        if (lead.pipeline === "PROSPECCAO") {
+          const targetStage = await firstLeadStage(lead.companyId);
+          await prisma.lead.update({
+            where: { id: lead.id },
+            data: { pipeline: "LEADS", pipelineStage: targetStage },
+          });
+          await prisma.activity.create({
+            data: {
+              type: "PIPELINE_CHANGED",
+              leadId: lead.id,
+              companyId: lead.companyId,
+              authorName: "Sistema",
+              body: `Prospect demonstrou interesse (abriu "${linkLabel}") → movido para Leads`,
+              meta: { from: "PROSPECCAO", to: "LEADS", reason: "link_click", linkLabel },
+            },
+          }).catch(() => null);
+
+          if (assigneeId) {
+            await sendPushToUser(
+              assigneeId,
+              {
+                title: "🎯 Prospect demonstrou interesse!",
+                body: `${lead.name ?? lead.phone} abriu "${linkLabel}" e virou Lead. Atenda agora.`,
+                url: leadHref,
+                tag: `promote-${lead.id}`,
+              },
+              "hotSignal"
+            );
+          }
+        }
+
+        // ── 2) Tarefa de sinal quente (com cooldown) ──
         const existing = await prisma.task.findFirst({
-          where: {
-            leadId: lead.id,
-            source: "AUTO_LINK_OPEN",
-            done: false,
-            createdAt: { gte: cooldown },
-          },
+          where: { leadId: lead.id, source: "AUTO_LINK_OPEN", done: false, createdAt: { gte: cooldown } },
           select: { id: true },
         });
         if (existing) return;
@@ -87,17 +134,15 @@ async function autoCreateHotTasks(trackingLinkId: string, linkLabel: string) {
             dueAt,
             leadId: lead.id,
             companyId: lead.companyId,
-            assigneeId: lead.conversation?.assigneeId ?? null,
+            assigneeId,
             source: "AUTO_LINK_OPEN",
             notes: `Auto-criada porque ${lead.name ?? lead.phone} abriu "${linkLabel}" agora.`,
           },
         });
 
-        // Push notification — sinal mais quente que existe em vendas
-        if (lead.conversation?.assigneeId) {
-          const leadHref = `/crm/leads?lead=${lead.id}`; // CRMBoard auto-abre o drawer
+        if (assigneeId) {
           await sendPushToUser(
-            lead.conversation.assigneeId,
+            assigneeId,
             {
               title: "🔥 Cliente abriu sua proposta!",
               body: `${lead.name ?? lead.phone} acabou de abrir "${linkLabel}". Liga agora.`,

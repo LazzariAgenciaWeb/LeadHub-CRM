@@ -38,7 +38,8 @@ export type ModuleName =
   | "cofre"
   | "calendario"
   | "projetos"
-  | "clickup";
+  | "clickup"
+  | "emailMarketing";
 
 export type ModuleGateResult =
   | { ok: true }
@@ -55,6 +56,7 @@ const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   calendario:  "calendario",
   projetos:    "projetos",
   clickup:     null,                // integração — habilitada manualmente, sem feature de plano
+  emailMarketing: null,             // controlado por moduleEmailMarketing (toggle manual)
 };
 
 function denied(reason: string): ModuleGateResult {
@@ -102,6 +104,7 @@ export async function assertModule(
       moduleProjetos: true,
       moduleCalendario: true,
       moduleClickup: true,
+      moduleEmailMarketing: true,
       subscription: {
         select: {
           plan: true,
@@ -123,6 +126,7 @@ export async function assertModule(
     projetos:    company.moduleProjetos,
     calendario:  company.moduleCalendario,
     clickup:     (company as any).moduleClickup ?? false,
+    emailMarketing: (company as any).moduleEmailMarketing ?? false,
     marketing:   null,
     cofre:       null,
   };

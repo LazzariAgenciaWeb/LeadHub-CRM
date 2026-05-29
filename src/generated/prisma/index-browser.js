@@ -192,6 +192,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleGamificacao: 'moduleGamificacao',
   moduleProjetos: 'moduleProjetos',
   moduleCalendario: 'moduleCalendario',
+  moduleEmailMarketing: 'moduleEmailMarketing',
   moduleProspeccao: 'moduleProspeccao',
   serpapiKey: 'serpapiKey',
   moduleClickup: 'moduleClickup',
@@ -984,6 +985,94 @@ exports.Prisma.UserNotifPreferencesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CompanyEmailConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  host: 'host',
+  port: 'port',
+  secure: 'secure',
+  user: 'user',
+  passEnc: 'passEnc',
+  fromEmail: 'fromEmail',
+  fromName: 'fromName',
+  verified: 'verified',
+  lastVerifiedAt: 'lastVerifiedAt',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subject: 'subject',
+  html: 'html',
+  text: 'text',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailCampaignScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subject: 'subject',
+  templateId: 'templateId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  cadenceConfig: 'cadenceConfig',
+  segmentFilter: 'segmentFilter',
+  totalRecipients: 'totalRecipients',
+  sentCount: 'sentCount',
+  deliveredCount: 'deliveredCount',
+  openedCount: 'openedCount',
+  clickedCount: 'clickedCount',
+  bouncedCount: 'bouncedCount',
+  unsubscribedCount: 'unsubscribedCount',
+  failedCount: 'failedCount',
+  companyId: 'companyId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailRecipientScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  leadId: 'leadId',
+  email: 'email',
+  name: 'name',
+  vars: 'vars',
+  status: 'status',
+  sentAt: 'sentAt',
+  firstOpenedAt: 'firstOpenedAt',
+  firstClickedAt: 'firstClickedAt',
+  bouncedAt: 'bouncedAt',
+  errorMessage: 'errorMessage',
+  token: 'token',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EmailEventScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  type: 'type',
+  targetUrl: 'targetUrl',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EmailUnsubscribeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  reason: 'reason',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.BillingEventScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1016,6 +1105,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -1308,6 +1401,32 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   SINAL_QUENTE_RESPONDIDO: 'SINAL_QUENTE_RESPONDIDO'
 };
 
+exports.EmailCampaignStatus = exports.$Enums.EmailCampaignStatus = {
+  DRAFT: 'DRAFT',
+  SCHEDULED: 'SCHEDULED',
+  SENDING: 'SENDING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.EmailRecipientStatus = exports.$Enums.EmailRecipientStatus = {
+  PENDING: 'PENDING',
+  SENDING: 'SENDING',
+  SENT: 'SENT',
+  BOUNCED: 'BOUNCED',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED'
+};
+
+exports.EmailEventType = exports.$Enums.EmailEventType = {
+  OPEN: 'OPEN',
+  CLICK: 'CLICK',
+  BOUNCE: 'BOUNCE',
+  COMPLAINT: 'COMPLAINT',
+  UNSUBSCRIBE: 'UNSUBSCRIBE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VaultEmailChallenge: 'VaultEmailChallenge',
@@ -1372,6 +1491,12 @@ exports.Prisma.ModelName = {
   ScoreRuleConfig: 'ScoreRuleConfig',
   PushSubscription: 'PushSubscription',
   UserNotifPreferences: 'UserNotifPreferences',
+  CompanyEmailConfig: 'CompanyEmailConfig',
+  EmailTemplate: 'EmailTemplate',
+  EmailCampaign: 'EmailCampaign',
+  EmailRecipient: 'EmailRecipient',
+  EmailEvent: 'EmailEvent',
+  EmailUnsubscribe: 'EmailUnsubscribe',
   BillingEvent: 'BillingEvent',
   AdminAuditLog: 'AdminAuditLog'
 };
