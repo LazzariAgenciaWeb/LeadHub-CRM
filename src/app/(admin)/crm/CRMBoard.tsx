@@ -351,6 +351,7 @@ export default function CRMBoard({
   // Filtros rápidos de prospect (header do kanban)
   const [filterHasEmail, setFilterHasEmail] = useState(false);
   const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
+  const [filterHasDiagnosis, setFilterHasDiagnosis] = useState(false);
 
   // Custom fields da empresa + valores do lead aberto
   const [customDefs, setCustomDefs] = useState<CustomFieldDef[]>([]);
@@ -457,6 +458,7 @@ export default function CRMBoard({
     if (tagFilterId && !(l.tags ?? []).some((t) => t.id === tagFilterId)) return false;
     if (filterHasEmail && !l.email) return false;
     if (filterHasWhatsapp && l.hasWhatsapp !== true) return false;
+    if (filterHasDiagnosis && !l.diagnosisAt) return false;
     if (!search) return true;
     const q = search.toLowerCase();
     return (
@@ -1189,6 +1191,17 @@ export default function CRMBoard({
             }`}
           >
             💬 Com WhatsApp
+          </button>
+          <button
+            onClick={() => setFilterHasDiagnosis((v) => !v)}
+            title="Mostrar só leads que já têm diagnóstico gerado"
+            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
+              filterHasDiagnosis
+                ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
+            }`}
+          >
+            🔍 Com diagnóstico
           </button>
           {pipeline === "PROSPECCAO" && (prospeccaoEnabled || isSuperAdmin) && (
             <div className="flex flex-col items-end gap-1">
