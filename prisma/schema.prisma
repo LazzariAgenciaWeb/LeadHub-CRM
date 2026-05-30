@@ -376,6 +376,8 @@ model Lead {
   address   String?
   city      String?
   segment   String? // categoria/segmento (ex: "Clínica Pediátrica", vem do `type` do Google Maps)
+  // Validação Evolution: NULL = não validado, true/false = checado em /chat/whatsappNumbers
+  hasWhatsapp Boolean?
 
   // Atendimento WhatsApp
   // @deprecated — espelho legacy de Conversation.status (mantido pra UI antiga via sync automático).

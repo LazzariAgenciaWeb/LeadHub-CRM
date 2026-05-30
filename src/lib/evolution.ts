@@ -383,6 +383,63 @@ export async function evolutionGetGroupName(instanceName: string, groupJid: stri
   }
 }
 
+/**
+ * Valida quais números da lista possuem WhatsApp ativo via Evolution
+ * `/chat/whatsappNumbers/{instance}`. Retorna um Map<phone, boolean>:
+ * - true  = WhatsApp ativo no número
+ * - false = sem WhatsApp
+ * Números que a Evolution não retornou no array de resposta caem em FALSE
+ * (a Evolution só retorna os que existem; quando não retorna, é sinal de
+ * que não tem). Falha graceful: se nenhuma instância passada ou erro de
+ * rede, retorna Map vazio (caller decide o que fazer com null).
+ */
+export async function evolutionCheckWhatsappNumbers(
+  instanceName: string,
+  numbers: string[],
+  instanceToken?: string | null
+): Promise<Map<string, boolean>> {
+  const result = new Map<string, boolean>();
+  const cleaned = Array.from(new Set(numbers.map((n) => n.replace(/\D/g, "")).filter((n) => n.length >= 8)));
+  if (cleaned.length === 0) return result;
+
+  try {
+    const { baseUrl, apiKey } = await getConfig();
+    const authKey = instanceToken ?? (await evolutionGetInstanceToken(instanceName)) ?? apiKey;
+
+    const res = await fetch(`${baseUrl}/chat/whatsappNumbers/${instanceName}`, {
+      method: "POST",
+      headers: headers(authKey),
+      body: JSON.stringify({ numbers: cleaned }),
+    });
+    if (!res.ok) {
+      // Pré-popula tudo como false em caso de falha — não confiável
+      // mas evita travar o fluxo. Caller decide se quer retry.
+      for (const n of cleaned) result.set(n, false);
+      return result;
+    }
+    const data: any = await res.json().catch(() => []);
+    // Evolution retorna array de { exists, jid, number } ou similar.
+    // O `number` pode vir com ou sem dígitos extras — comparamos por sufixo.
+    const arr = Array.isArray(data) ? data : [];
+    const existsSet = new Set<string>();
+    for (const item of arr) {
+      const exists = item?.exists === true || item?.status === "exists" || !!item?.jid;
+      const num = String(item?.number ?? item?.jid ?? "").replace(/\D/g, "");
+      if (exists && num) existsSet.add(num);
+    }
+    // Marca true se algum sufixo da resposta bate com o número enviado
+    for (const n of cleaned) {
+      const found =
+        existsSet.has(n) ||
+        Array.from(existsSet).some((e) => e.endsWith(n) || n.endsWith(e));
+      result.set(n, found);
+    }
+    return result;
+  } catch {
+    return result; // vazio = "não foi possível validar"
+  }
+}
+
 /** Desconecta / deleta instância da Evolution */
 export async function evolutionDeleteInstance(instanceName: string) {
   const { baseUrl, apiKey } = await getConfig();

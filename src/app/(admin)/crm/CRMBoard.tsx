@@ -48,6 +48,8 @@ export interface CRMLead {
   city: string | null;
   segment: string | null;
   externalId: string | null;
+  // NULL = não validado · true/false = checado via Evolution /chat/whatsappNumbers
+  hasWhatsapp: boolean | null;
   trackingLinkId: string | null;
   trackingLink: {
     id: string;
@@ -314,6 +316,8 @@ export default function CRMBoard({
   const [notesInput, setNotesInput] = useState("");
   const [editingExpected, setEditingExpected] = useState(false);
   const [expectedInput, setExpectedInput] = useState("");
+  const [enrichingProspect, setEnrichingProspect] = useState(false);
+  const [enrichProspectMsg, setEnrichProspectMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   // Tags da empresa (carregadas sob demanda quando o usuário abre o seletor)
   const [allTags, setAllTags] = useState<TagInfo[]>([]);
@@ -477,6 +481,34 @@ export default function CRMBoard({
     startTransition(() => router.refresh());
   }
 
+  async function handleEnrichProspect() {
+    if (!selected) return;
+    setEnrichingProspect(true);
+    setEnrichProspectMsg(null);
+    try {
+      const res = await fetch("/api/prospeccao/enrich", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId: selected.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setEnrichProspectMsg({ ok: false, text: data?.error ?? "Falha ao atualizar" });
+        return;
+      }
+      setEnrichProspectMsg({
+        ok: true,
+        text: data?.message ?? (data?.filled?.length ? `Adicionados: ${data.filled.join(", ")}` : "Sem dados novos"),
+      });
+      // Refresh global pra o drawer re-receber o lead com os novos campos
+      startTransition(() => router.refresh());
+    } catch (err: any) {
+      setEnrichProspectMsg({ ok: false, text: err?.message ?? "Erro inesperado" });
+    } finally {
+      setEnrichingProspect(false);
+    }
+  }
+
   async function openCard(lead: CRMLead) {
     setSelected(lead);
     setNewComment("");
@@ -490,6 +522,8 @@ export default function CRMBoard({
     // O .slice direto crashava o openLead() inteiro, abortando o fetch da
     // timeline e deixando o modal com TODAS as seções vazias.
     setExpectedInput(lead.expectedReturnAt ? new Date(lead.expectedReturnAt).toISOString().slice(0, 10) : "");
+    setEnrichingProspect(false);
+    setEnrichProspectMsg(null);
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
@@ -1132,24 +1166,38 @@ export default function CRMBoard({
                           movingId === lead.id ? "opacity-40" : ""
                         }`}
                       >
-                        {/* Botão WhatsApp rápido — 1 clique */}
-                        <a
-                          href={whatsappEnabled ? leadhubInboxUrl(lead.phone) : waMeUrl(lead.phone)}
-                          target={whatsappEnabled ? "_self" : "_blank"}
-                          rel={whatsappEnabled ? undefined : "noopener noreferrer"}
-                          onClick={(e) => e.stopPropagation()}
-                          onMouseDown={(e) => e.stopPropagation()}
-                          draggable={false}
-                          title={whatsappEnabled ? "Abrir conversa no LeadHub" : "Abrir no WhatsApp Web"}
-                          className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/30 hover:text-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity text-[12px] z-10"
-                          aria-label="WhatsApp"
-                        >
-                          💬
-                        </a>
+                        {/* Botão WhatsApp rápido — escondido quando Evolution validou que não tem WhatsApp */}
+                        {lead.hasWhatsapp !== false && (
+                          <a
+                            href={whatsappEnabled ? leadhubInboxUrl(lead.phone) : waMeUrl(lead.phone)}
+                            target={whatsappEnabled ? "_self" : "_blank"}
+                            rel={whatsappEnabled ? undefined : "noopener noreferrer"}
+                            onClick={(e) => e.stopPropagation()}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            draggable={false}
+                            title={whatsappEnabled ? "Abrir conversa no LeadHub" : "Abrir no WhatsApp Web"}
+                            className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/30 hover:text-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity text-[12px] z-10"
+                            aria-label="WhatsApp"
+                          >
+                            💬
+                          </a>
+                        )}
 
-                        {/* Linha de cima: origem + tarefa-badge + data */}
+                        {/* Linha de cima: origem + WhatsApp badge + tarefa-badge + data */}
                         <div className="flex items-center justify-between gap-2 mb-1.5 pr-7">
-                          <SourceBadge source={lead.source} size="xs" />
+                          <div className="flex items-center gap-1 min-w-0">
+                            <SourceBadge source={lead.source} size="xs" />
+                            {lead.hasWhatsapp === true && (
+                              <span className="text-[9px] px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium" title="Número validado com WhatsApp">
+                                ✓ WA
+                              </span>
+                            )}
+                            {lead.hasWhatsapp === false && (
+                              <span className="text-[9px] px-1 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium" title="Evolution validou: este número não tem WhatsApp">
+                                ✗ Sem WA
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-center gap-1.5">
                             {(() => {
                               const badge = leadTaskBadge(lead.taskSummary);
@@ -1759,9 +1807,32 @@ export default function CRMBoard({
                     </div>
                   )}
 
-                  {(selected.website || selected.instagram || selected.facebook || selected.address || selected.city || selected.segment) && (
+                  {(selected.website || selected.instagram || selected.facebook || selected.address || selected.city || selected.segment || selected.source === "SerpAPI" || selected.externalId) && (
                     <div className="bg-[#161f30] rounded-lg p-3 col-span-2 space-y-2">
-                      <div className="text-slate-500 text-[10px] uppercase tracking-wide">Dados do prospect</div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-slate-500 text-[10px] uppercase tracking-wide">Dados do prospect</div>
+                        {(selected.source === "SerpAPI" || selected.externalId) && (
+                          <button
+                            onClick={handleEnrichProspect}
+                            disabled={enrichingProspect}
+                            className="text-[10px] px-2 py-0.5 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium transition-colors disabled:opacity-60"
+                            title="Re-roda scraper do site + valida WhatsApp pra preencher campos vazios. Não sobrescreve dado editado à mão."
+                          >
+                            {enrichingProspect ? "⏳ Atualizando..." : "🔄 Atualizar dados"}
+                          </button>
+                        )}
+                      </div>
+                      {enrichProspectMsg && (
+                        <div
+                          className={`text-[11px] rounded px-1.5 py-1 ${
+                            enrichProspectMsg.ok
+                              ? "text-emerald-300 bg-emerald-950/40 border border-emerald-900"
+                              : "text-red-300 bg-red-950/40 border border-red-900"
+                          }`}
+                        >
+                          {enrichProspectMsg.ok ? "✅" : "⚠️"} {enrichProspectMsg.text}
+                        </div>
+                      )}
                       {selected.segment && (
                         <div className="flex items-baseline gap-2 text-sm">
                           <span className="text-slate-500 text-[11px] w-16 shrink-0">Segmento</span>
@@ -1966,12 +2037,28 @@ export default function CRMBoard({
                     {integrationsOpen && (
                       <div className="px-4 pb-4 space-y-3 border-t border-[#1e2d45]">
 
-                        {/* WhatsApp — sempre disponível: inbox interno se módulo ativo + WhatsApp Web sempre */}
+                        {/* WhatsApp — escondido quando Evolution validou que o número NÃO tem WhatsApp.
+                            Quando null/true: mostra os botões normalmente. */}
                         <div className="pt-3">
                           <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2 font-semibold flex items-center gap-1.5">
                             <MessageSquare className="w-3 h-3" stroke={gradStroke("whatsapp")} strokeWidth={2.5} />
                             WhatsApp
+                            {selected.hasWhatsapp === true && (
+                              <span className="text-[9px] px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium normal-case tracking-normal">
+                                ✓ validado
+                              </span>
+                            )}
+                            {selected.hasWhatsapp === false && (
+                              <span className="text-[9px] px-1 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium normal-case tracking-normal">
+                                ✗ sem WhatsApp
+                              </span>
+                            )}
                           </div>
+                          {selected.hasWhatsapp === false ? (
+                            <div className="text-xs text-slate-500 italic">
+                              Evolution confirmou que este número não tem WhatsApp. Botões ocultos pra não tentar mensagem em vão.
+                            </div>
+                          ) : (
                           <div className="flex flex-wrap gap-2">
                             {whatsappEnabled && (
                               <a
@@ -2002,7 +2089,8 @@ export default function CRMBoard({
                               </button>
                             )}
                           </div>
-                            {showLinkConv && (
+                          )}
+                            {showLinkConv && selected.hasWhatsapp !== false && (
                               <div className="mt-2 space-y-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
                                 <p className="text-slate-500 text-[10px]">Cole o telefone da conversa para vincular as mensagens a este lead.</p>
                                 <div className="flex gap-2">

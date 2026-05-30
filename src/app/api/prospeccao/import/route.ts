@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { evolutionCheckWhatsappNumbers } from "@/lib/evolution";
 
 type Prospect = {
   placeId?: string | null;
@@ -141,6 +142,20 @@ export async function POST(req: NextRequest) {
     enriched.push(...out);
   }
 
+  // Validação WhatsApp via Evolution: bate em /chat/whatsappNumbers usando a
+  // primeira instância CONNECTED da empresa. Se a empresa não tem instância
+  // ou Evolution falha, hasWhatsappMap fica vazio e gravamos NULL (não-validado).
+  const instance = await prisma.whatsappInstance.findFirst({
+    where: { companyId: effectiveCompanyId, status: "CONNECTED" },
+    select: { instanceName: true, instanceToken: true },
+  });
+  const phonesToCheck = enriched
+    .map((p) => p.phoneDigits)
+    .filter((p): p is string => !!p);
+  const hasWhatsappMap = instance && phonesToCheck.length > 0
+    ? await evolutionCheckWhatsappNumbers(instance.instanceName, phonesToCheck, instance.instanceToken).catch(() => new Map<string, boolean>())
+    : new Map<string, boolean>();
+
   let imported = 0;
   let duplicates = 0;
   let withSite = 0;
@@ -169,6 +184,15 @@ export async function POST(req: NextRequest) {
 
       const city = pickCity(p.address, defaultCity);
 
+      // Validação WhatsApp: se Evolution respondeu, usa o resultado real;
+      // se não respondeu (sem instância CONNECTED/falha), fica NULL.
+      // hasWhatsappLink (achou wa.me no site) eleva a confiança mas não
+      // substitui a checagem real.
+      const waValidated = p.phoneDigits ? hasWhatsappMap.get(p.phoneDigits) : undefined;
+      const hasWhatsapp: boolean | null = waValidated === undefined
+        ? (p.hasWhatsappLink ? true : null) // não validado, mas site tem wa.me → presume true
+        : waValidated;
+
       await prisma.lead.create({
         data: {
           name: p.name ?? null,
@@ -186,14 +210,15 @@ export async function POST(req: NextRequest) {
           address: p.address ?? null,
           city,
           segment: p.type ?? null,
+          hasWhatsapp,
         },
       });
       imported++;
       if (p.website) withSite++;
       if (p.email) withEmail++;
-      // Considera "tem WhatsApp" se: existe telefone (assumimos número de Maps = WhatsApp)
-      // OU se achou link wa.me/api.whatsapp no site.
-      if (p.phoneDigits || p.hasWhatsappLink) withWhatsapp++;
+      // Conta como "com WhatsApp" só quando Evolution confirmou OU site tem
+      // wa.me. Não conta NULL (não-validado) nem false (validado e não tem).
+      if (hasWhatsapp === true) withWhatsapp++;
     } catch (err: any) {
       errors.push(`${p.name ?? p.placeId ?? "?"}: ${err?.message ?? "erro"}`);
     }

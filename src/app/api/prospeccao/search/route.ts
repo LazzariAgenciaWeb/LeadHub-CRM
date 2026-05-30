@@ -51,6 +51,9 @@ export async function POST(req: NextRequest) {
   const query = String(body.query ?? "").trim();
   const city = String(body.city ?? "").trim();
   const limit = Math.min(Math.max(parseInt(String(body.limit ?? 20)) || 20, 1), 60);
+  // SerpAPI Google Maps usa `start` como offset (0, 20, 40…) pra paginar.
+  // UI chama com results.length pra próxima página.
+  const start = Math.max(parseInt(String(body.start ?? 0)) || 0, 0);
 
   if (!query) {
     return NextResponse.json({ error: "Informe o nicho/termo de busca" }, { status: 400 });
@@ -65,6 +68,7 @@ export async function POST(req: NextRequest) {
   url.searchParams.set("type", "search");
   url.searchParams.set("hl", "pt-br");
   url.searchParams.set("google_domain", "google.com.br");
+  if (start > 0) url.searchParams.set("start", String(start));
   url.searchParams.set("api_key", apiKey);
 
   let data: any;
@@ -103,10 +107,10 @@ export async function POST(req: NextRequest) {
     gps: r.gps_coordinates ?? null,
   }));
 
-  // Marca quais resultados já estão no banco — UI mostra tag "Já listado"
-  // e desabilita o checkbox. Lookup por externalId (place_id) OU phone
-  // normalizado. Só checa se temos uma empresa-alvo definida.
-  let alreadyImportedKeys = new Set<string>();
+  // Marca quais resultados já estão no banco — UI mostra tag "Já importado"
+  // e libera botão "🔄 Atualizar dados" (precisa do leadId pra chamar /enrich).
+  const existingByPlace = new Map<string, string>(); // placeId → leadId
+  const existingByPhone = new Map<string, string>(); // phone → leadId
   if (effectiveCompanyId && results.length > 0) {
     const placeIds = results.map((r: any) => r.placeId).filter(Boolean) as string[];
     const phoneDigits = results
@@ -118,26 +122,39 @@ export async function POST(req: NextRequest) {
     if (dedupOr.length > 0) {
       const existing = await prisma.lead.findMany({
         where: { companyId: effectiveCompanyId, OR: dedupOr },
-        select: { externalId: true, phone: true },
+        select: { id: true, externalId: true, phone: true },
       });
       for (const lead of existing) {
-        if (lead.externalId) alreadyImportedKeys.add(`place:${lead.externalId}`);
-        if (lead.phone) alreadyImportedKeys.add(`phone:${lead.phone}`);
+        if (lead.externalId) existingByPlace.set(lead.externalId, lead.id);
+        if (lead.phone) existingByPhone.set(lead.phone, lead.id);
       }
     }
   }
 
   const annotated = results.map((r: any) => {
     const phoneDigits = r.phone ? String(r.phone).replace(/\D/g, "") : null;
-    const alreadyImported =
-      (r.placeId && alreadyImportedKeys.has(`place:${r.placeId}`)) ||
-      (phoneDigits && alreadyImportedKeys.has(`phone:${phoneDigits}`));
-    return { ...r, alreadyImported: !!alreadyImported };
+    const existingLeadId =
+      (r.placeId && existingByPlace.get(r.placeId)) ||
+      (phoneDigits && existingByPhone.get(phoneDigits)) ||
+      null;
+    return { ...r, alreadyImported: !!existingLeadId, existingLeadId };
   });
+
+  // `hasMore` heurístico: SerpAPI retorna 20 por página. Se veio batch cheio,
+  // assume que pode ter mais; se veio menos, é o fim. Também respeita
+  // `serpapi_pagination.next` quando disponível.
+  const hasMore =
+    local.length >= 20 ||
+    !!data?.serpapi_pagination?.next ||
+    !!data?.serpapi_pagination?.next_page_token;
+  const nextStart = hasMore ? start + (annotated.length || 20) : null;
 
   return NextResponse.json({
     query: fullQuery,
     count: annotated.length,
+    start,
+    nextStart,
+    hasMore,
     results: annotated,
   });
 }

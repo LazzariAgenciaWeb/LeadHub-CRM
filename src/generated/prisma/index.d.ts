@@ -18948,6 +18948,7 @@ export namespace Prisma {
     address: string | null
     city: string | null
     segment: string | null
+    hasWhatsapp: boolean | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -18978,6 +18979,7 @@ export namespace Prisma {
     address: string | null
     city: string | null
     segment: string | null
+    hasWhatsapp: boolean | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -19008,6 +19010,7 @@ export namespace Prisma {
     address: number
     city: number
     segment: number
+    hasWhatsapp: number
     attendanceStatus: number
     expectedReturnAt: number
     clickupTaskId: number
@@ -19048,6 +19051,7 @@ export namespace Prisma {
     address?: true
     city?: true
     segment?: true
+    hasWhatsapp?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19078,6 +19082,7 @@ export namespace Prisma {
     address?: true
     city?: true
     segment?: true
+    hasWhatsapp?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19108,6 +19113,7 @@ export namespace Prisma {
     address?: true
     city?: true
     segment?: true
+    hasWhatsapp?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19225,6 +19231,7 @@ export namespace Prisma {
     address: string | null
     city: string | null
     segment: string | null
+    hasWhatsapp: boolean | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -19274,6 +19281,7 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     segment?: boolean
+    hasWhatsapp?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19316,6 +19324,7 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     segment?: boolean
+    hasWhatsapp?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19350,6 +19359,7 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     segment?: boolean
+    hasWhatsapp?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19416,6 +19426,7 @@ export namespace Prisma {
       address: string | null
       city: string | null
       segment: string | null
+      hasWhatsapp: boolean | null
       attendanceStatus: string | null
       expectedReturnAt: Date | null
       clickupTaskId: string | null
@@ -19847,6 +19858,7 @@ export namespace Prisma {
     readonly address: FieldRef<"Lead", 'String'>
     readonly city: FieldRef<"Lead", 'String'>
     readonly segment: FieldRef<"Lead", 'String'>
+    readonly hasWhatsapp: FieldRef<"Lead", 'Boolean'>
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly clickupTaskId: FieldRef<"Lead", 'String'>
@@ -84677,6 +84689,7 @@ export namespace Prisma {
     address: 'address',
     city: 'city',
     segment: 'segment',
+    hasWhatsapp: 'hasWhatsapp',
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
     clickupTaskId: 'clickupTaskId',
@@ -87263,6 +87276,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Lead"> | string | null
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
+    hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -87304,6 +87318,7 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     segment?: SortOrderInput | SortOrder
+    hasWhatsapp?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -87348,6 +87363,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Lead"> | string | null
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
+    hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -87389,6 +87405,7 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     segment?: SortOrderInput | SortOrder
+    hasWhatsapp?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -87427,6 +87444,7 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     city?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     segment?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    hasWhatsapp?: BoolNullableWithAggregatesFilter<"Lead"> | boolean | null
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -93943,6 +93961,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -93980,6 +93999,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94017,6 +94037,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94054,6 +94075,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94091,6 +94113,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94121,6 +94144,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94147,6 +94171,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101245,6 +101270,11 @@ export namespace Prisma {
     not?: NestedEnumLeadStatusFilter<$PrismaModel> | $Enums.LeadStatus
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type TrackingLinkNullableRelationFilter = {
     is?: TrackingLinkWhereInput | null
     isNot?: TrackingLinkWhereInput | null
@@ -101315,6 +101345,7 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     segment?: SortOrder
+    hasWhatsapp?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101349,6 +101380,7 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     segment?: SortOrder
+    hasWhatsapp?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101379,6 +101411,7 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     segment?: SortOrder
+    hasWhatsapp?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101401,6 +101434,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type TagCompanyIdNameCompoundUniqueInput = {
@@ -108577,6 +108618,10 @@ export namespace Prisma {
     set?: $Enums.LeadStatus
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type CompanyUpdateOneRequiredWithoutLeadsNestedInput = {
     create?: XOR<CompanyCreateWithoutLeadsInput, CompanyUncheckedCreateWithoutLeadsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutLeadsInput
@@ -111976,6 +112021,11 @@ export namespace Prisma {
     not?: NestedEnumLeadStatusFilter<$PrismaModel> | $Enums.LeadStatus
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedEnumLeadStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.LeadStatus | EnumLeadStatusFieldRefInput<$PrismaModel>
     in?: $Enums.LeadStatus[] | ListEnumLeadStatusFieldRefInput<$PrismaModel>
@@ -111984,6 +112034,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLeadStatusFilter<$PrismaModel>
     _max?: NestedEnumLeadStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
@@ -115632,6 +115690,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -115668,6 +115727,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -117600,6 +117660,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Lead"> | string | null
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
+    hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -118837,6 +118898,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -118873,6 +118935,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -119480,6 +119543,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -119516,6 +119580,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121318,6 +121383,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121354,6 +121420,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121431,6 +121498,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121467,6 +121535,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121900,6 +121969,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121936,6 +122006,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -122019,6 +122090,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122055,6 +122127,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122882,6 +122955,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -122918,6 +122992,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123287,6 +123362,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123323,6 +123399,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123694,6 +123771,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123730,6 +123808,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123782,6 +123861,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123818,6 +123898,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125341,6 +125422,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -125377,6 +125459,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -125816,6 +125899,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125852,6 +125936,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126871,6 +126956,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -126907,6 +126993,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127522,6 +127609,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127558,6 +127646,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127887,6 +127976,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -127923,6 +128013,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142675,6 +142766,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -142711,6 +142803,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -142852,6 +142945,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142888,6 +142982,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144982,6 +145077,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -146114,6 +146210,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -146150,6 +146247,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -146186,6 +146284,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147657,6 +147756,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -147735,6 +147835,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147771,6 +147872,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147807,6 +147909,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147987,6 +148090,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -148024,6 +148128,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148060,6 +148165,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148096,6 +148202,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148753,6 +148860,7 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     segment?: string | null
+    hasWhatsapp?: boolean | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -148920,6 +149028,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148956,6 +149065,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148992,6 +149102,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null

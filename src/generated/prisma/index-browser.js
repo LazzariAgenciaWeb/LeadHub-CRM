@@ -264,6 +264,7 @@ exports.Prisma.LeadScalarFieldEnum = {
   address: 'address',
   city: 'city',
   segment: 'segment',
+  hasWhatsapp: 'hasWhatsapp',
   attendanceStatus: 'attendanceStatus',
   expectedReturnAt: 'expectedReturnAt',
   clickupTaskId: 'clickupTaskId',
