@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     where: { companyId },
     select: {
       host: true, port: true, secure: true, user: true,
-      fromEmail: true, fromName: true, verified: true,
+      fromEmail: true, fromName: true, replyTo: true, verified: true,
       lastVerifiedAt: true, lastError: true,
       // passEnc NUNCA é retornado
     },
@@ -46,18 +46,23 @@ export async function PUT(req: NextRequest) {
   const companyId = resolveCompanyId(session, body);
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });
 
-  const { host, port, secure, user, pass, fromEmail, fromName } = body;
+  const { host, port, secure, user, pass, fromEmail, fromName, replyTo } = body;
   if (!host?.trim() || !user?.trim() || !fromEmail?.trim() || !fromName?.trim()) {
     return NextResponse.json({ error: "host, user, fromEmail e fromName são obrigatórios" }, { status: 400 });
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fromEmail.trim())) {
     return NextResponse.json({ error: "fromEmail inválido" }, { status: 400 });
   }
+  if (replyTo && typeof replyTo === "string" && replyTo.trim() &&
+      !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(replyTo.trim())) {
+    return NextResponse.json({ error: "replyTo inválido" }, { status: 400 });
+  }
 
   try {
     await upsertCompanyEmailConfig(companyId, {
       host, port: parseInt(String(port ?? 465), 10), secure: secure !== false,
       user, pass, fromEmail, fromName,
+      replyTo: replyTo?.trim() || null,
     });
     return NextResponse.json({ ok: true });
   } catch (e: any) {

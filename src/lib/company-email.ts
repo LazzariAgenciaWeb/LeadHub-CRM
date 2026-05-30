@@ -18,6 +18,8 @@ export interface CompanyEmailConfigInput {
   pass?: string; // opcional no update (mantém a antiga se vazio)
   fromEmail: string;
   fromName: string;
+  /** Opcional. Quando preenchido, vira o header Reply-To. */
+  replyTo?: string | null;
 }
 
 /** Salva/atualiza a config SMTP da empresa. Senha criptografada em AES-256-GCM. */
@@ -34,6 +36,7 @@ export async function upsertCompanyEmailConfig(
   }
   if (!passEnc) throw new Error("Senha SMTP obrigatória na primeira configuração");
 
+  const replyTo = input.replyTo?.trim() || null;
   return prisma.companyEmailConfig.upsert({
     where: { companyId },
     create: {
@@ -45,6 +48,7 @@ export async function upsertCompanyEmailConfig(
       passEnc,
       fromEmail: input.fromEmail.trim(),
       fromName: input.fromName.trim(),
+      replyTo,
     },
     update: {
       host: input.host.trim(),
@@ -54,6 +58,7 @@ export async function upsertCompanyEmailConfig(
       passEnc,
       fromEmail: input.fromEmail.trim(),
       fromName: input.fromName.trim(),
+      replyTo,
       // Reset de verificação: mudou config → precisa testar de novo
       verified: false,
       lastError: null,
@@ -69,6 +74,7 @@ interface ResolvedCompanySmtp {
   pass: string;
   fromEmail: string;
   fromName: string;
+  replyTo: string | null;
 }
 
 /** Lê + descriptografa a config da empresa. null se não configurada. */
@@ -85,6 +91,7 @@ export async function getCompanyEmailConfig(companyId: string): Promise<Resolved
     pass,
     fromEmail: cfg.fromEmail,
     fromName: cfg.fromName,
+    replyTo: cfg.replyTo ?? null,
   };
 }
 
@@ -130,6 +137,7 @@ export async function sendCompanyMail(
   const t = buildTransporter(cfg);
   await t.sendMail({
     from: `${cfg.fromName} <${cfg.fromEmail}>`,
+    ...(cfg.replyTo ? { replyTo: cfg.replyTo } : {}),
     to: opts.to,
     subject: opts.subject,
     html: opts.html,

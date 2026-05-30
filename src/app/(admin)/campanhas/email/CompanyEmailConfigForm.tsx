@@ -9,6 +9,7 @@ interface Config {
   user: string;
   fromEmail: string;
   fromName: string;
+  replyTo: string | null;
   verified: boolean;
   lastVerifiedAt: string | null;
   lastError: string | null;
@@ -23,7 +24,7 @@ export default function CompanyEmailConfigForm({ companyId }: { companyId?: stri
   const [existing, setExisting] = useState<Config | null>(null);
 
   const [form, setForm] = useState({
-    host: "", port: 465, secure: true, user: "", pass: "", fromEmail: "", fromName: "",
+    host: "", port: 465, secure: true, user: "", pass: "", fromEmail: "", fromName: "", replyTo: "",
   });
 
   const qs = companyId ? `?companyId=${companyId}` : "";
@@ -39,6 +40,7 @@ export default function CompanyEmailConfigForm({ companyId }: { companyId?: stri
             setForm({
               host: data.host, port: data.port, secure: data.secure,
               user: data.user, pass: "", fromEmail: data.fromEmail, fromName: data.fromName,
+              replyTo: data.replyTo ?? "",
             });
           }
         }
@@ -150,6 +152,23 @@ export default function CompanyEmailConfigForm({ companyId }: { companyId?: stri
             <label className="block text-slate-400 text-xs font-medium mb-1">Nome remetente <span className="text-red-400">*</span></label>
             <input className={input} value={form.fromName} onChange={(e) => setForm((f) => ({ ...f, fromName: e.target.value }))} placeholder="AZZ Agência de Marketing" />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-slate-400 text-xs font-medium mb-1">
+            E-mail para receber as respostas <span className="text-slate-600">(opcional)</span>
+          </label>
+          <input
+            type="email"
+            className={input}
+            value={form.replyTo}
+            onChange={(e) => setForm((f) => ({ ...f, replyTo: e.target.value }))}
+            placeholder="comercial@suaempresa.com.br"
+          />
+          <p className="text-slate-600 text-[10px] mt-1">
+            Útil quando seu SMTP exige que o remetente seja o usuário autenticado (ex: noreply@…) mas você quer que as respostas caiam em outra caixa.
+            Quando vazio, respostas vão pro e-mail remetente.
+          </p>
         </div>
 
         {msg && (

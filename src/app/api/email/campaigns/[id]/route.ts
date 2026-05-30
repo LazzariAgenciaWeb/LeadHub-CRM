@@ -48,23 +48,36 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const own = await ownCampaign(session, id);
   if ("error" in own) return own.error;
 
-  // Bloqueia edição de conteúdo depois que começou a enviar
-  if (own.status === "SENDING" || own.status === "COMPLETED") {
-    return NextResponse.json({ error: "Campanha já está enviando/concluída — não pode editar" }, { status: 409 });
-  }
-
   const body = await req.json();
   const data: any = {};
-  if (typeof body.name === "string") { const v = body.name.trim(); if (!v) return NextResponse.json({ error: "Nome inválido" }, { status: 400 }); data.name = v; }
-  if (typeof body.subject === "string") data.subject = body.subject.trim();
-  if (body.templateId) {
-    const tpl = await prisma.emailTemplate.findUnique({ where: { id: body.templateId }, select: { companyId: true } });
-    if (!tpl || tpl.companyId !== own.companyId) return NextResponse.json({ error: "Template inválido" }, { status: 400 });
-    data.templateId = body.templateId;
+
+  // Cadência pode ser editada SEMPRE (exceto COMPLETED) — afeta só sends futuros
+  if (body.cadenceConfig && typeof body.cadenceConfig === "object") {
+    if (own.status === "COMPLETED") {
+      return NextResponse.json({ error: "Campanha concluída — não dá pra editar cadência" }, { status: 409 });
+    }
+    data.cadenceConfig = body.cadenceConfig;
   }
-  if (body.scheduledAt !== undefined) data.scheduledAt = body.scheduledAt ? new Date(body.scheduledAt) : null;
-  if (body.cadenceConfig && typeof body.cadenceConfig === "object") data.cadenceConfig = body.cadenceConfig;
-  if (body.segmentFilter !== undefined) data.segmentFilter = sanitizeSegmentFilter(body.segmentFilter) as any;
+
+  // Demais campos só podem ser editados antes de começar (DRAFT/SCHEDULED/PAUSED)
+  const contentLocked = own.status === "SENDING" || own.status === "COMPLETED";
+  if (!contentLocked) {
+    if (typeof body.name === "string") { const v = body.name.trim(); if (!v) return NextResponse.json({ error: "Nome inválido" }, { status: 400 }); data.name = v; }
+    if (typeof body.subject === "string") data.subject = body.subject.trim();
+    if (body.templateId) {
+      const tpl = await prisma.emailTemplate.findUnique({ where: { id: body.templateId }, select: { companyId: true } });
+      if (!tpl || tpl.companyId !== own.companyId) return NextResponse.json({ error: "Template inválido" }, { status: 400 });
+      data.templateId = body.templateId;
+    }
+    if (body.scheduledAt !== undefined) data.scheduledAt = body.scheduledAt ? new Date(body.scheduledAt) : null;
+    if (body.segmentFilter !== undefined) data.segmentFilter = sanitizeSegmentFilter(body.segmentFilter) as any;
+  } else {
+    // Se tentou editar conteúdo enquanto SENDING e mais nada
+    const triedContent = body.name !== undefined || body.subject !== undefined || body.templateId !== undefined || body.scheduledAt !== undefined || body.segmentFilter !== undefined;
+    if (triedContent && !data.cadenceConfig) {
+      return NextResponse.json({ error: "Campanha em envio — só dá pra editar cadência" }, { status: 409 });
+    }
+  }
 
   const updated = await prisma.emailCampaign.update({ where: { id }, data });
   return NextResponse.json(updated);

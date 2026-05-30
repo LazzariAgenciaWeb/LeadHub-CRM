@@ -1001,6 +1001,7 @@ exports.Prisma.CompanyEmailConfigScalarFieldEnum = {
   passEnc: 'passEnc',
   fromEmail: 'fromEmail',
   fromName: 'fromName',
+  replyTo: 'replyTo',
   verified: 'verified',
   lastVerifiedAt: 'lastVerifiedAt',
   lastError: 'lastError',

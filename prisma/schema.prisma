@@ -2071,6 +2071,11 @@ model CompanyEmailConfig {
   passEnc   String
   fromEmail String  // remetente fixo das campanhas
   fromName  String  // "Diego — AZZ Agência"
+  // Quando preenchido, vai no header Reply-To — cliente que responde
+  // o email vai pra este endereço, não pro fromEmail. Útil quando o SMTP
+  // exige que From == usuário autenticado mas você quer receber respostas
+  // numa caixa diferente.
+  replyTo   String?
 
   // Status da última verificação de conexão
   verified      Boolean   @default(false)

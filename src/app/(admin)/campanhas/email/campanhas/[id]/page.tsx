@@ -50,6 +50,7 @@ export default async function CampanhaDetailPage({
         templateName: campaign.template?.name ?? null,
         createdByName: campaign.createdBy?.name ?? null,
         createdAt: campaign.createdAt.toISOString(),
+        cadenceConfig: campaign.cadenceConfig as any,
       }}
     />
   );

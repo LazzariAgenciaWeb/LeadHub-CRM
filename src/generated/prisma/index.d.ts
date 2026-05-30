@@ -76362,6 +76362,7 @@ export namespace Prisma {
     passEnc: string | null
     fromEmail: string | null
     fromName: string | null
+    replyTo: string | null
     verified: boolean | null
     lastVerifiedAt: Date | null
     lastError: string | null
@@ -76379,6 +76380,7 @@ export namespace Prisma {
     passEnc: string | null
     fromEmail: string | null
     fromName: string | null
+    replyTo: string | null
     verified: boolean | null
     lastVerifiedAt: Date | null
     lastError: string | null
@@ -76396,6 +76398,7 @@ export namespace Prisma {
     passEnc: number
     fromEmail: number
     fromName: number
+    replyTo: number
     verified: number
     lastVerifiedAt: number
     lastError: number
@@ -76423,6 +76426,7 @@ export namespace Prisma {
     passEnc?: true
     fromEmail?: true
     fromName?: true
+    replyTo?: true
     verified?: true
     lastVerifiedAt?: true
     lastError?: true
@@ -76440,6 +76444,7 @@ export namespace Prisma {
     passEnc?: true
     fromEmail?: true
     fromName?: true
+    replyTo?: true
     verified?: true
     lastVerifiedAt?: true
     lastError?: true
@@ -76457,6 +76462,7 @@ export namespace Prisma {
     passEnc?: true
     fromEmail?: true
     fromName?: true
+    replyTo?: true
     verified?: true
     lastVerifiedAt?: true
     lastError?: true
@@ -76561,6 +76567,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo: string | null
     verified: boolean
     lastVerifiedAt: Date | null
     lastError: string | null
@@ -76597,6 +76604,7 @@ export namespace Prisma {
     passEnc?: boolean
     fromEmail?: boolean
     fromName?: boolean
+    replyTo?: boolean
     verified?: boolean
     lastVerifiedAt?: boolean
     lastError?: boolean
@@ -76615,6 +76623,7 @@ export namespace Prisma {
     passEnc?: boolean
     fromEmail?: boolean
     fromName?: boolean
+    replyTo?: boolean
     verified?: boolean
     lastVerifiedAt?: boolean
     lastError?: boolean
@@ -76633,6 +76642,7 @@ export namespace Prisma {
     passEnc?: boolean
     fromEmail?: boolean
     fromName?: boolean
+    replyTo?: boolean
     verified?: boolean
     lastVerifiedAt?: boolean
     lastError?: boolean
@@ -76662,6 +76672,7 @@ export namespace Prisma {
       passEnc: string
       fromEmail: string
       fromName: string
+      replyTo: string | null
       verified: boolean
       lastVerifiedAt: Date | null
       lastError: string | null
@@ -77070,6 +77081,7 @@ export namespace Prisma {
     readonly passEnc: FieldRef<"CompanyEmailConfig", 'String'>
     readonly fromEmail: FieldRef<"CompanyEmailConfig", 'String'>
     readonly fromName: FieldRef<"CompanyEmailConfig", 'String'>
+    readonly replyTo: FieldRef<"CompanyEmailConfig", 'String'>
     readonly verified: FieldRef<"CompanyEmailConfig", 'Boolean'>
     readonly lastVerifiedAt: FieldRef<"CompanyEmailConfig", 'DateTime'>
     readonly lastError: FieldRef<"CompanyEmailConfig", 'String'>
@@ -85647,6 +85659,7 @@ export namespace Prisma {
     passEnc: 'passEnc',
     fromEmail: 'fromEmail',
     fromName: 'fromName',
+    replyTo: 'replyTo',
     verified: 'verified',
     lastVerifiedAt: 'lastVerifiedAt',
     lastError: 'lastError',
@@ -92187,6 +92200,7 @@ export namespace Prisma {
     passEnc?: StringFilter<"CompanyEmailConfig"> | string
     fromEmail?: StringFilter<"CompanyEmailConfig"> | string
     fromName?: StringFilter<"CompanyEmailConfig"> | string
+    replyTo?: StringNullableFilter<"CompanyEmailConfig"> | string | null
     verified?: BoolFilter<"CompanyEmailConfig"> | boolean
     lastVerifiedAt?: DateTimeNullableFilter<"CompanyEmailConfig"> | Date | string | null
     lastError?: StringNullableFilter<"CompanyEmailConfig"> | string | null
@@ -92205,6 +92219,7 @@ export namespace Prisma {
     passEnc?: SortOrder
     fromEmail?: SortOrder
     fromName?: SortOrder
+    replyTo?: SortOrderInput | SortOrder
     verified?: SortOrder
     lastVerifiedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -92226,6 +92241,7 @@ export namespace Prisma {
     passEnc?: StringFilter<"CompanyEmailConfig"> | string
     fromEmail?: StringFilter<"CompanyEmailConfig"> | string
     fromName?: StringFilter<"CompanyEmailConfig"> | string
+    replyTo?: StringNullableFilter<"CompanyEmailConfig"> | string | null
     verified?: BoolFilter<"CompanyEmailConfig"> | boolean
     lastVerifiedAt?: DateTimeNullableFilter<"CompanyEmailConfig"> | Date | string | null
     lastError?: StringNullableFilter<"CompanyEmailConfig"> | string | null
@@ -92244,6 +92260,7 @@ export namespace Prisma {
     passEnc?: SortOrder
     fromEmail?: SortOrder
     fromName?: SortOrder
+    replyTo?: SortOrderInput | SortOrder
     verified?: SortOrder
     lastVerifiedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -92269,6 +92286,7 @@ export namespace Prisma {
     passEnc?: StringWithAggregatesFilter<"CompanyEmailConfig"> | string
     fromEmail?: StringWithAggregatesFilter<"CompanyEmailConfig"> | string
     fromName?: StringWithAggregatesFilter<"CompanyEmailConfig"> | string
+    replyTo?: StringNullableWithAggregatesFilter<"CompanyEmailConfig"> | string | null
     verified?: BoolWithAggregatesFilter<"CompanyEmailConfig"> | boolean
     lastVerifiedAt?: DateTimeNullableWithAggregatesFilter<"CompanyEmailConfig"> | Date | string | null
     lastError?: StringNullableWithAggregatesFilter<"CompanyEmailConfig"> | string | null
@@ -99312,6 +99330,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo?: string | null
     verified?: boolean
     lastVerifiedAt?: Date | string | null
     lastError?: string | null
@@ -99330,6 +99349,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo?: string | null
     verified?: boolean
     lastVerifiedAt?: Date | string | null
     lastError?: string | null
@@ -99346,6 +99366,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99364,6 +99385,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99381,6 +99403,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo?: string | null
     verified?: boolean
     lastVerifiedAt?: Date | string | null
     lastError?: string | null
@@ -99397,6 +99420,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99414,6 +99438,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104819,6 +104844,7 @@ export namespace Prisma {
     passEnc?: SortOrder
     fromEmail?: SortOrder
     fromName?: SortOrder
+    replyTo?: SortOrder
     verified?: SortOrder
     lastVerifiedAt?: SortOrder
     lastError?: SortOrder
@@ -104840,6 +104866,7 @@ export namespace Prisma {
     passEnc?: SortOrder
     fromEmail?: SortOrder
     fromName?: SortOrder
+    replyTo?: SortOrder
     verified?: SortOrder
     lastVerifiedAt?: SortOrder
     lastError?: SortOrder
@@ -104857,6 +104884,7 @@ export namespace Prisma {
     passEnc?: SortOrder
     fromEmail?: SortOrder
     fromName?: SortOrder
+    replyTo?: SortOrder
     verified?: SortOrder
     lastVerifiedAt?: SortOrder
     lastError?: SortOrder
@@ -116013,6 +116041,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo?: string | null
     verified?: boolean
     lastVerifiedAt?: Date | string | null
     lastError?: string | null
@@ -116029,6 +116058,7 @@ export namespace Prisma {
     passEnc: string
     fromEmail: string
     fromName: string
+    replyTo?: string | null
     verified?: boolean
     lastVerifiedAt?: Date | string | null
     lastError?: string | null
@@ -117917,6 +117947,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117933,6 +117964,7 @@ export namespace Prisma {
     passEnc?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: StringFieldUpdateOperationsInput | string
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
     verified?: BoolFieldUpdateOperationsInput | boolean
     lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
