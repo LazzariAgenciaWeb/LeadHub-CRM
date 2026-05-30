@@ -399,44 +399,12 @@ export default async function ConfiguracoesPage({
   } else if (secao === "email") {
     if (isSuperAdmin) {
       // SUPER_ADMIN edita o SMTP GLOBAL do sistema (usado pra 2FA do cofre,
-      // convite de portal etc.)
+      // convite de portal etc.). ADMIN da empresa configura o SMTP PRÓPRIO
+      // em E-mail Marketing — esta seção fica escondida do menu pra ele.
       content = <EmailSettings />;
     } else {
-      // ADMIN da empresa edita o SMTP PRÓPRIO usado nas campanhas de email marketing.
-      // Só faz sentido expor se o módulo Email Marketing estiver liberado pra empresa.
-      const { assertModule } = await import("@/lib/billing");
-      const gate = await assertModule(session, "emailMarketing");
-      if (!gate.ok) {
-        content = (
-          <div className="p-6 max-w-lg">
-            <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-6">
-              <h2 className="text-white font-bold text-sm mb-1">📧 Servidor de e-mail (SMTP)</h2>
-              <p className="text-slate-500 text-xs mb-3">
-                A configuração de SMTP da empresa é usada pelas campanhas de E-mail Marketing.
-                Esse módulo não está habilitado para o seu plano.
-              </p>
-              <p className="text-slate-600 text-xs">
-                Fale com o administrador da plataforma para habilitar o módulo de E-mail Marketing.
-              </p>
-            </div>
-          </div>
-        );
-      } else {
-        const CompanyEmailConfigForm = (
-          await import("../campanhas/email/CompanyEmailConfigForm")
-        ).default;
-        content = (
-          <div className="p-6 max-w-2xl space-y-4">
-            <div>
-              <h1 className="text-white font-bold text-base">📧 Servidor de e-mail (SMTP)</h1>
-              <p className="text-slate-500 text-xs mt-0.5">
-                Usado pelas campanhas de E-mail Marketing. As campanhas são enviadas por este servidor.
-              </p>
-            </div>
-            <CompanyEmailConfigForm />
-          </div>
-        );
-      }
+      // ADMIN entrou via URL direta — redireciona pra onde a coisa mora.
+      redirect("/campanhas/email");
     }
   } else if (secao === "atendimento") {
     const cId = userCompanyId ?? "";
@@ -557,7 +525,7 @@ export default async function ConfiguracoesPage({
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <SettingsLayout activeSection={secao} enabledSections={enabledSections}>
+      <SettingsLayout activeSection={secao} enabledSections={enabledSections} isSuperAdmin={isSuperAdmin}>
         {content}
       </SettingsLayout>
     </div>

@@ -117,19 +117,28 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "integracoes-webhook":    "crm",
 };
 
+// Itens visíveis APENAS pro SUPER_ADMIN (Lazzari) — porque referem a config
+// global da plataforma, não da empresa-cliente.
+//   - email = SMTP global do sistema (2FA cofre, convites de portal).
+//     ADMIN da empresa configura o SMTP próprio em /campanhas/email.
+const SUPER_ADMIN_ONLY = new Set<string>(["email"]);
+
 export default function SettingsLayout({
   activeSection,
   children,
   enabledSections,
+  isSuperAdmin = false,
 }: {
   activeSection: string;
   children: React.ReactNode;
   enabledSections?: EnabledSections;
+  isSuperAdmin?: boolean;
 }) {
   const router = useRouter();
   const en = enabledSections ?? ALL_ENABLED;
 
   function isVisible(key: string): boolean {
+    if (SUPER_ADMIN_ONLY.has(key) && !isSuperAdmin) return false;
     const gate = SECTION_GATE[key];
     return gate === null || gate === undefined ? true : en[gate];
   }
