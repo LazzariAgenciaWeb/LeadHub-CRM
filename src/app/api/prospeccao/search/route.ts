@@ -107,10 +107,19 @@ export async function POST(req: NextRequest) {
     gps: r.gps_coordinates ?? null,
   }));
 
-  // Marca quais resultados já estão no banco — UI mostra tag "Já importado"
-  // e libera botão "🔄 Atualizar dados" (precisa do leadId pra chamar /enrich).
-  const existingByPlace = new Map<string, string>(); // placeId → leadId
-  const existingByPhone = new Map<string, string>(); // phone → leadId
+  // Marca quais resultados já estão no banco com o ESTADO completo de cada
+  // lead — UI decide se é "novo" / "incompleto" / "completo" e o botão único
+  // resolve cada caso. Lookup por externalId OU phone normalizado.
+  type ExistingLead = {
+    id: string;
+    hasEmail: boolean;
+    hasInstagram: boolean;
+    hasFacebook: boolean;
+    hasWhatsapp: boolean | null;
+    hasDiagnosis: boolean;
+  };
+  const existingByPlace = new Map<string, ExistingLead>();
+  const existingByPhone = new Map<string, ExistingLead>();
   if (effectiveCompanyId && results.length > 0) {
     const placeIds = results.map((r: any) => r.placeId).filter(Boolean) as string[];
     const phoneDigits = results
@@ -122,22 +131,44 @@ export async function POST(req: NextRequest) {
     if (dedupOr.length > 0) {
       const existing = await prisma.lead.findMany({
         where: { companyId: effectiveCompanyId, OR: dedupOr },
-        select: { id: true, externalId: true, phone: true },
+        select: {
+          id: true,
+          externalId: true,
+          phone: true,
+          email: true,
+          instagram: true,
+          facebook: true,
+          hasWhatsapp: true,
+          diagnosisAt: true,
+        },
       });
       for (const lead of existing) {
-        if (lead.externalId) existingByPlace.set(lead.externalId, lead.id);
-        if (lead.phone) existingByPhone.set(lead.phone, lead.id);
+        const state: ExistingLead = {
+          id: lead.id,
+          hasEmail: !!lead.email,
+          hasInstagram: !!lead.instagram,
+          hasFacebook: !!lead.facebook,
+          hasWhatsapp: lead.hasWhatsapp,
+          hasDiagnosis: !!lead.diagnosisAt,
+        };
+        if (lead.externalId) existingByPlace.set(lead.externalId, state);
+        if (lead.phone) existingByPhone.set(lead.phone, state);
       }
     }
   }
 
   const annotated = results.map((r: any) => {
     const phoneDigits = r.phone ? String(r.phone).replace(/\D/g, "") : null;
-    const existingLeadId =
+    const existing =
       (r.placeId && existingByPlace.get(r.placeId)) ||
       (phoneDigits && existingByPhone.get(phoneDigits)) ||
       null;
-    return { ...r, alreadyImported: !!existingLeadId, existingLeadId };
+    return {
+      ...r,
+      alreadyImported: !!existing,
+      existingLeadId: existing?.id ?? null,
+      existingLead: existing,
+    };
   });
 
   // `hasMore` heurístico: SerpAPI retorna 20 por página. Se veio batch cheio,

@@ -18949,6 +18949,10 @@ export namespace Prisma {
     city: string | null
     segment: string | null
     hasWhatsapp: boolean | null
+    diagnosisAt: Date | null
+    diagnosisSource: string | null
+    diagnosisToken: string | null
+    diagnosisClickedAt: Date | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -18980,6 +18984,10 @@ export namespace Prisma {
     city: string | null
     segment: string | null
     hasWhatsapp: boolean | null
+    diagnosisAt: Date | null
+    diagnosisSource: string | null
+    diagnosisToken: string | null
+    diagnosisClickedAt: Date | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -19011,6 +19019,11 @@ export namespace Prisma {
     city: number
     segment: number
     hasWhatsapp: number
+    diagnosis: number
+    diagnosisAt: number
+    diagnosisSource: number
+    diagnosisToken: number
+    diagnosisClickedAt: number
     attendanceStatus: number
     expectedReturnAt: number
     clickupTaskId: number
@@ -19052,6 +19065,10 @@ export namespace Prisma {
     city?: true
     segment?: true
     hasWhatsapp?: true
+    diagnosisAt?: true
+    diagnosisSource?: true
+    diagnosisToken?: true
+    diagnosisClickedAt?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19083,6 +19100,10 @@ export namespace Prisma {
     city?: true
     segment?: true
     hasWhatsapp?: true
+    diagnosisAt?: true
+    diagnosisSource?: true
+    diagnosisToken?: true
+    diagnosisClickedAt?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19114,6 +19135,11 @@ export namespace Prisma {
     city?: true
     segment?: true
     hasWhatsapp?: true
+    diagnosis?: true
+    diagnosisAt?: true
+    diagnosisSource?: true
+    diagnosisToken?: true
+    diagnosisClickedAt?: true
     attendanceStatus?: true
     expectedReturnAt?: true
     clickupTaskId?: true
@@ -19232,6 +19258,11 @@ export namespace Prisma {
     city: string | null
     segment: string | null
     hasWhatsapp: boolean | null
+    diagnosis: JsonValue | null
+    diagnosisAt: Date | null
+    diagnosisSource: string | null
+    diagnosisToken: string | null
+    diagnosisClickedAt: Date | null
     attendanceStatus: string | null
     expectedReturnAt: Date | null
     clickupTaskId: string | null
@@ -19282,6 +19313,11 @@ export namespace Prisma {
     city?: boolean
     segment?: boolean
     hasWhatsapp?: boolean
+    diagnosis?: boolean
+    diagnosisAt?: boolean
+    diagnosisSource?: boolean
+    diagnosisToken?: boolean
+    diagnosisClickedAt?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19325,6 +19361,11 @@ export namespace Prisma {
     city?: boolean
     segment?: boolean
     hasWhatsapp?: boolean
+    diagnosis?: boolean
+    diagnosisAt?: boolean
+    diagnosisSource?: boolean
+    diagnosisToken?: boolean
+    diagnosisClickedAt?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19360,6 +19401,11 @@ export namespace Prisma {
     city?: boolean
     segment?: boolean
     hasWhatsapp?: boolean
+    diagnosis?: boolean
+    diagnosisAt?: boolean
+    diagnosisSource?: boolean
+    diagnosisToken?: boolean
+    diagnosisClickedAt?: boolean
     attendanceStatus?: boolean
     expectedReturnAt?: boolean
     clickupTaskId?: boolean
@@ -19427,6 +19473,11 @@ export namespace Prisma {
       city: string | null
       segment: string | null
       hasWhatsapp: boolean | null
+      diagnosis: Prisma.JsonValue | null
+      diagnosisAt: Date | null
+      diagnosisSource: string | null
+      diagnosisToken: string | null
+      diagnosisClickedAt: Date | null
       attendanceStatus: string | null
       expectedReturnAt: Date | null
       clickupTaskId: string | null
@@ -19859,6 +19910,11 @@ export namespace Prisma {
     readonly city: FieldRef<"Lead", 'String'>
     readonly segment: FieldRef<"Lead", 'String'>
     readonly hasWhatsapp: FieldRef<"Lead", 'Boolean'>
+    readonly diagnosis: FieldRef<"Lead", 'Json'>
+    readonly diagnosisAt: FieldRef<"Lead", 'DateTime'>
+    readonly diagnosisSource: FieldRef<"Lead", 'String'>
+    readonly diagnosisToken: FieldRef<"Lead", 'String'>
+    readonly diagnosisClickedAt: FieldRef<"Lead", 'DateTime'>
     readonly attendanceStatus: FieldRef<"Lead", 'String'>
     readonly expectedReturnAt: FieldRef<"Lead", 'DateTime'>
     readonly clickupTaskId: FieldRef<"Lead", 'String'>
@@ -84690,6 +84746,11 @@ export namespace Prisma {
     city: 'city',
     segment: 'segment',
     hasWhatsapp: 'hasWhatsapp',
+    diagnosis: 'diagnosis',
+    diagnosisAt: 'diagnosisAt',
+    diagnosisSource: 'diagnosisSource',
+    diagnosisToken: 'diagnosisToken',
+    diagnosisClickedAt: 'diagnosisClickedAt',
     attendanceStatus: 'attendanceStatus',
     expectedReturnAt: 'expectedReturnAt',
     clickupTaskId: 'clickupTaskId',
@@ -85942,6 +86003,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
    * Reference to a field of type 'CustomFieldType'
    */
   export type EnumCustomFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldType'>
@@ -85952,13 +86020,6 @@ export namespace Prisma {
    * Reference to a field of type 'CustomFieldType[]'
    */
   export type ListEnumCustomFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -87277,6 +87338,11 @@ export namespace Prisma {
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
     hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
+    diagnosis?: JsonNullableFilter<"Lead">
+    diagnosisAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    diagnosisSource?: StringNullableFilter<"Lead"> | string | null
+    diagnosisToken?: StringNullableFilter<"Lead"> | string | null
+    diagnosisClickedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -87319,6 +87385,11 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     segment?: SortOrderInput | SortOrder
     hasWhatsapp?: SortOrderInput | SortOrder
+    diagnosis?: SortOrderInput | SortOrder
+    diagnosisAt?: SortOrderInput | SortOrder
+    diagnosisSource?: SortOrderInput | SortOrder
+    diagnosisToken?: SortOrderInput | SortOrder
+    diagnosisClickedAt?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -87342,6 +87413,7 @@ export namespace Prisma {
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    diagnosisToken?: string
     AND?: LeadWhereInput | LeadWhereInput[]
     OR?: LeadWhereInput[]
     NOT?: LeadWhereInput | LeadWhereInput[]
@@ -87364,6 +87436,10 @@ export namespace Prisma {
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
     hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
+    diagnosis?: JsonNullableFilter<"Lead">
+    diagnosisAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    diagnosisSource?: StringNullableFilter<"Lead"> | string | null
+    diagnosisClickedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -87383,7 +87459,7 @@ export namespace Prisma {
     tags?: LeadTagListRelationFilter
     customValues?: LeadCustomValueListRelationFilter
     emailRecipients?: EmailRecipientListRelationFilter
-  }, "id">
+  }, "id" | "diagnosisToken">
 
   export type LeadOrderByWithAggregationInput = {
     id?: SortOrder
@@ -87406,6 +87482,11 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     segment?: SortOrderInput | SortOrder
     hasWhatsapp?: SortOrderInput | SortOrder
+    diagnosis?: SortOrderInput | SortOrder
+    diagnosisAt?: SortOrderInput | SortOrder
+    diagnosisSource?: SortOrderInput | SortOrder
+    diagnosisToken?: SortOrderInput | SortOrder
+    diagnosisClickedAt?: SortOrderInput | SortOrder
     attendanceStatus?: SortOrderInput | SortOrder
     expectedReturnAt?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -87445,6 +87526,11 @@ export namespace Prisma {
     city?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     segment?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     hasWhatsapp?: BoolNullableWithAggregatesFilter<"Lead"> | boolean | null
+    diagnosis?: JsonNullableWithAggregatesFilter<"Lead">
+    diagnosisAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
+    diagnosisSource?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    diagnosisToken?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    diagnosisClickedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     attendanceStatus?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -93962,6 +94048,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94000,6 +94091,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94038,6 +94134,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94076,6 +94177,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94114,6 +94220,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -94145,6 +94256,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94172,6 +94288,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101274,6 +101395,28 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type TrackingLinkNullableRelationFilter = {
     is?: TrackingLinkWhereInput | null
@@ -101346,6 +101489,11 @@ export namespace Prisma {
     city?: SortOrder
     segment?: SortOrder
     hasWhatsapp?: SortOrder
+    diagnosis?: SortOrder
+    diagnosisAt?: SortOrder
+    diagnosisSource?: SortOrder
+    diagnosisToken?: SortOrder
+    diagnosisClickedAt?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101381,6 +101529,10 @@ export namespace Prisma {
     city?: SortOrder
     segment?: SortOrder
     hasWhatsapp?: SortOrder
+    diagnosisAt?: SortOrder
+    diagnosisSource?: SortOrder
+    diagnosisToken?: SortOrder
+    diagnosisClickedAt?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101412,6 +101564,10 @@ export namespace Prisma {
     city?: SortOrder
     segment?: SortOrder
     hasWhatsapp?: SortOrder
+    diagnosisAt?: SortOrder
+    diagnosisSource?: SortOrder
+    diagnosisToken?: SortOrder
+    diagnosisClickedAt?: SortOrder
     attendanceStatus?: SortOrder
     expectedReturnAt?: SortOrder
     clickupTaskId?: SortOrder
@@ -101442,6 +101598,31 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type TagCompanyIdNameCompoundUniqueInput = {
@@ -101526,28 +101707,6 @@ export namespace Prisma {
     notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumCustomFieldTypeFilter<$PrismaModel> | $Enums.CustomFieldType
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type CustomFieldDefCompanyIdKeyCompoundUniqueInput = {
     companyId: string
@@ -101607,31 +101766,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
     _max?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type CustomFieldDefRelationFilter = {
@@ -112043,23 +112177,6 @@ export namespace Prisma {
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
-
-  export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCustomFieldTypeFilter<$PrismaModel> | $Enums.CustomFieldType
-  }
-
-  export type NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.CustomFieldType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
-    _max?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -112081,6 +112198,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumCustomFieldTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeFilter<$PrismaModel> | $Enums.CustomFieldType
+  }
+
+  export type NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CustomFieldType | EnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CustomFieldType[] | ListEnumCustomFieldTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCustomFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.CustomFieldType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
+    _max?: NestedEnumCustomFieldTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumTaskSourceFilter<$PrismaModel = never> = {
@@ -115691,6 +115825,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -115728,6 +115867,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -117661,6 +117805,11 @@ export namespace Prisma {
     city?: StringNullableFilter<"Lead"> | string | null
     segment?: StringNullableFilter<"Lead"> | string | null
     hasWhatsapp?: BoolNullableFilter<"Lead"> | boolean | null
+    diagnosis?: JsonNullableFilter<"Lead">
+    diagnosisAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    diagnosisSource?: StringNullableFilter<"Lead"> | string | null
+    diagnosisToken?: StringNullableFilter<"Lead"> | string | null
+    diagnosisClickedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     attendanceStatus?: StringNullableFilter<"Lead"> | string | null
     expectedReturnAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     clickupTaskId?: StringNullableFilter<"Lead"> | string | null
@@ -118899,6 +119048,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -118936,6 +119090,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -119544,6 +119703,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -119581,6 +119745,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121384,6 +121553,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121421,6 +121595,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -121499,6 +121678,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121536,6 +121720,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121970,6 +122159,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -122007,6 +122201,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -122091,6 +122290,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122128,6 +122332,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122956,6 +123165,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -122993,6 +123207,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123363,6 +123582,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123400,6 +123624,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123772,6 +124001,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123809,6 +124043,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -123862,6 +124101,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123899,6 +124143,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125423,6 +125672,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -125460,6 +125714,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -125900,6 +126159,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125937,6 +126201,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126957,6 +127226,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -126994,6 +127268,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127610,6 +127889,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127647,6 +127931,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -127977,6 +128266,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -128014,6 +128308,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142767,6 +143066,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -142804,6 +143108,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -142946,6 +143255,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142983,6 +143297,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -145078,6 +145397,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -146211,6 +146535,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -146248,6 +146577,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -146285,6 +146619,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147757,6 +148096,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -147836,6 +148180,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147873,6 +148222,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -147910,6 +148264,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148091,6 +148450,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -148129,6 +148493,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148166,6 +148535,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148203,6 +148577,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148861,6 +149240,11 @@ export namespace Prisma {
     city?: string | null
     segment?: string | null
     hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
     attendanceStatus?: string | null
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
@@ -149029,6 +149413,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149066,6 +149455,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149103,6 +149497,11 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     segment?: NullableStringFieldUpdateOperationsInput | string | null
     hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null

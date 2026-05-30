@@ -3,6 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+type ExistingLeadState = {
+  id: string;
+  hasEmail: boolean;
+  hasInstagram: boolean;
+  hasFacebook: boolean;
+  hasWhatsapp: boolean | null;
+  hasDiagnosis: boolean;
+};
+
 type SerpResult = {
   placeId: string | null;
   name: string | null;
@@ -14,13 +23,30 @@ type SerpResult = {
   type: string | null;
   alreadyImported?: boolean;
   existingLeadId?: string | null;
+  existingLead?: ExistingLeadState | null;
 };
 
-type EnrichToast = {
-  key: string;
-  message: string;
-  ok: boolean;
-} | null;
+type ProcessSummary = {
+  total: number;
+  created: number;
+  enriched: number;
+  diagnosed: number;
+  skipped: number;
+  errors?: string[];
+  openaiAvailable: boolean;
+};
+
+// Estado computado de cada item pra UI decidir badge + se entra no processamento
+type ItemState = "new" | "partial" | "complete";
+
+function computeState(r: SerpResult): ItemState {
+  if (!r.existingLead) return "new";
+  const e = r.existingLead;
+  // "Completo": tem diagnóstico + WA validado (true/false) + tem email se tem site
+  const hasContactInfo = e.hasEmail || !!r.website === false; // se tem site, exige email
+  if (e.hasDiagnosis && e.hasWhatsapp !== null && hasContactInfo) return "complete";
+  return "partial";
+}
 
 type ImportResult = {
   imported: number;
@@ -46,15 +72,17 @@ export default function BuscarProspectsModal({
   const [limit, setLimit] = useState(20);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [importing, setImporting] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<SerpResult[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [error, setError] = useState("");
-  const [summary, setSummary] = useState<ImportResult | null>(null);
+  const [summary, setSummary] = useState<ProcessSummary | null>(null);
   const [hasMore, setHasMore] = useState(false);
   const [nextStart, setNextStart] = useState<number | null>(null);
-  const [enrichingKey, setEnrichingKey] = useState<string | null>(null);
-  const [enrichToast, setEnrichToast] = useState<EnrichToast>(null);
+  // Filtros aplicados client-side (em cima de results já carregados)
+  const [filterHasSite, setFilterHasSite] = useState(false);
+  const [filterNotImported, setFilterNotImported] = useState(false);
+  const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
 
   function close() {
     setOpen(false);
@@ -70,6 +98,9 @@ export default function BuscarProspectsModal({
     setSummary(null);
     setHasMore(false);
     setNextStart(null);
+    setFilterHasSite(false);
+    setFilterNotImported(false);
+    setFilterHasWhatsapp(false);
   }
 
   async function fetchPage(start: number, append: boolean) {
@@ -97,11 +128,11 @@ export default function BuscarProspectsModal({
         const fresh = newResults.filter((r) => !seen.has(r.placeId ?? r.name ?? ""));
         return [...prev, ...fresh];
       });
-      // Selecionados anteriores ficam intactos; pré-seleciona novos que NÃO foram importados.
+      // Pré-seleciona novos resultados que NÃO estão completos.
       setSelected((prev) => {
         const next = new Set(prev);
         for (const r of newResults) {
-          if (!r.alreadyImported) {
+          if (computeState(r) !== "complete") {
             const key = r.placeId ?? r.name ?? "";
             if (key) next.add(key);
           }
@@ -110,10 +141,11 @@ export default function BuscarProspectsModal({
       });
     } else {
       setResults(newResults);
+      // Pré-seleciona tudo que não está completo.
       setSelected(
         new Set(
           newResults
-            .filter((r) => !r.alreadyImported)
+            .filter((r) => computeState(r) !== "complete")
             .map((r) => r.placeId ?? r.name ?? "")
             .filter(Boolean)
         )
@@ -144,33 +176,6 @@ export default function BuscarProspectsModal({
     }
   }
 
-  async function handleEnrich(key: string, leadId: string) {
-    setEnrichToast(null);
-    setEnrichingKey(key);
-    try {
-      const res = await fetch("/api/prospeccao/enrich", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ leadId }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setEnrichToast({ key, ok: false, message: data?.error ?? "Falha ao atualizar" });
-        return;
-      }
-      setEnrichToast({
-        key,
-        ok: true,
-        message: data?.message ?? (data?.filled?.length ? `Adicionados: ${data.filled.join(", ")}` : "Sem dados novos"),
-      });
-      router.refresh();
-    } catch (err: any) {
-      setEnrichToast({ key, ok: false, message: err?.message ?? "Erro inesperado" });
-    } finally {
-      setEnrichingKey(null);
-    }
-  }
-
   async function handleLoadMore() {
     if (!hasMore || loadingMore || nextStart === null) return;
     setError("");
@@ -194,35 +199,41 @@ export default function BuscarProspectsModal({
   }
 
   function toggleAll() {
-    const selectable = results.filter((r) => !r.alreadyImported);
-    if (selected.size === selectable.length) {
-      setSelected(new Set());
-    } else {
-      setSelected(new Set(selectable.map((r) => r.placeId ?? r.name ?? "").filter(Boolean)));
-    }
+    // Toggle considera apenas o subconjunto filtrado visível.
+    const visibleKeys = filteredResults.map((r) => r.placeId ?? r.name ?? "").filter(Boolean);
+    const allVisibleSelected = visibleKeys.every((k) => selected.has(k));
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (allVisibleSelected) {
+        for (const k of visibleKeys) next.delete(k);
+      } else {
+        for (const k of visibleKeys) next.add(k);
+      }
+      return next;
+    });
   }
 
-  async function handleImport() {
+  async function handleProcess() {
     setError("");
-    const toImport = results.filter((r) => selected.has(r.placeId ?? r.name ?? ""));
-    if (toImport.length === 0) {
+    const toProcess = results.filter((r) => selected.has(r.placeId ?? r.name ?? ""));
+    if (toProcess.length === 0) {
       setError("Selecione ao menos um prospect");
       return;
     }
-    setImporting(true);
+    setProcessing(true);
     try {
-      const res = await fetch("/api/prospeccao/import", {
+      const res = await fetch("/api/prospeccao/process", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prospects: toImport,
+          prospects: toProcess,
           companyId: isSuperAdmin ? defaultCompanyId : undefined,
           defaultCity: city.trim() || undefined,
         }),
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data?.error ?? "Falha na importação");
+        setError(data?.error ?? "Falha no processamento");
         return;
       }
       setSummary(data);
@@ -230,9 +241,17 @@ export default function BuscarProspectsModal({
     } catch (err: any) {
       setError(err?.message ?? "Erro inesperado");
     } finally {
-      setImporting(false);
+      setProcessing(false);
     }
   }
+
+  // Aplica filtros ao results — não muta o array original
+  const filteredResults = results.filter((r) => {
+    if (filterHasSite && !r.website) return false;
+    if (filterNotImported && r.alreadyImported) return false;
+    if (filterHasWhatsapp && r.existingLead?.hasWhatsapp !== true) return false;
+    return true;
+  });
 
   return (
     <>
@@ -327,16 +346,41 @@ export default function BuscarProspectsModal({
               )}
               {summary && (
                 <div className="mt-3 text-sm text-emerald-300 bg-emerald-950/40 border border-emerald-900 rounded-lg px-3 py-2">
-                  ✅ <strong>{summary.imported}</strong> importados ·{" "}
-                  <strong>{summary.withSite}</strong> com site ·{" "}
-                  <strong>{summary.withEmail}</strong> com email ·{" "}
-                  <strong>{summary.withWhatsapp}</strong> com WhatsApp ·{" "}
-                  <strong>{summary.duplicates}</strong> duplicados
+                  ✅ <strong>{summary.created}</strong> novos importados ·{" "}
+                  <strong>{summary.enriched}</strong> atualizados ·{" "}
+                  <strong>{summary.diagnosed}</strong> diagnósticos ·{" "}
+                  <strong>{summary.skipped}</strong> já estavam ok
+                  {!summary.openaiAvailable && (
+                    <div className="mt-1 text-xs text-amber-300">
+                      ⚠️ OpenAI não configurada — diagnósticos não foram gerados. Configure em Configurações → Integrações → OpenAI.
+                    </div>
+                  )}
                   {summary.errors && summary.errors.length > 0 && (
                     <div className="mt-1 text-xs text-amber-300">
                       Erros: {summary.errors.join("; ")}
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* Filtros (aparecem quando há resultados) */}
+              {results.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2 items-center">
+                  <span className="text-[10px] uppercase tracking-wide text-slate-500 font-semibold">Filtrar:</span>
+                  <FilterChip on={filterHasSite}        onClick={() => setFilterHasSite(!filterHasSite)}              label="🌐 com site" />
+                  <FilterChip on={filterNotImported}    onClick={() => setFilterNotImported(!filterNotImported)}      label="🆕 não importados" />
+                  <FilterChip on={filterHasWhatsapp}    onClick={() => setFilterHasWhatsapp(!filterHasWhatsapp)}      label="✓ com WhatsApp validado" />
+                  {(filterHasSite || filterNotImported || filterHasWhatsapp) && (
+                    <button
+                      onClick={() => { setFilterHasSite(false); setFilterNotImported(false); setFilterHasWhatsapp(false); }}
+                      className="text-[10px] text-slate-400 hover:text-white underline ml-1"
+                    >
+                      limpar
+                    </button>
+                  )}
+                  <span className="text-[10px] text-slate-500 ml-auto">
+                    mostrando {filteredResults.length} de {results.length}
+                  </span>
                 </div>
               )}
             </div>
@@ -356,56 +400,51 @@ export default function BuscarProspectsModal({
                       className="text-xs text-slate-300 hover:text-white"
                     >
                       {(() => {
-                        const selectable = results.filter((r) => !r.alreadyImported).length;
-                        return selected.size === selectable && selectable > 0
-                          ? "✖ Desmarcar todos"
-                          : "✔ Selecionar todos";
+                        const visibleKeys = filteredResults.map((r) => r.placeId ?? r.name ?? "").filter(Boolean);
+                        const allOn = visibleKeys.length > 0 && visibleKeys.every((k) => selected.has(k));
+                        return allOn ? "✖ Desmarcar todos" : "✔ Selecionar todos";
                       })()}
                     </button>
                     <span className="text-xs text-slate-500">
-                      {selected.size} selecionados · {results.filter((r) => r.alreadyImported).length} já importados
+                      {selected.size} selecionados
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {results.map((r, idx) => {
+                    {filteredResults.map((r, idx) => {
                       const key = r.placeId ?? r.name ?? `idx-${idx}`;
                       const isOn = selected.has(key);
-                      const dup = !!r.alreadyImported;
-                      const toastForThis = enrichToast?.key === key ? enrichToast : null;
-                      const isEnriching = enrichingKey === key;
+                      const state = computeState(r);
                       return (
                         <div
                           key={key}
-                          className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                            dup
+                          className={`flex items-start gap-3 p-3 rounded-lg border transition-colors cursor-pointer ${
+                            isOn
+                              ? "bg-sky-950/30 border-sky-700"
+                              : state === "complete"
                               ? "bg-slate-900/40 border-slate-800"
-                              : isOn
-                              ? "bg-sky-950/30 border-sky-700 cursor-pointer"
-                              : "bg-[#0f1623] border-[#1e2d45] hover:border-slate-600 cursor-pointer"
+                              : "bg-[#0f1623] border-[#1e2d45] hover:border-slate-600"
                           }`}
-                          onClick={() => !dup && toggle(key)}
+                          onClick={() => toggle(key)}
                         >
-                          {dup ? (
-                            <span className="mt-1 w-4 h-4 flex items-center justify-center text-amber-400" title="Já importado">
-                              ✓
-                            </span>
-                          ) : (
-                            <input
-                              type="checkbox"
-                              checked={isOn}
-                              onChange={(e) => { e.stopPropagation(); toggle(key); }}
-                              onClick={(e) => e.stopPropagation()}
-                              className="mt-1 accent-sky-500"
-                            />
-                          )}
+                          <input
+                            type="checkbox"
+                            checked={isOn}
+                            onChange={(e) => { e.stopPropagation(); toggle(key); }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="mt-1 accent-sky-500"
+                          />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-baseline gap-2 flex-wrap">
-                              <span className={`font-medium ${dup ? "text-slate-300" : "text-white"}`}>
-                                {r.name ?? "(sem nome)"}
-                              </span>
-                              {dup && (
-                                <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-300 bg-amber-900/40 border border-amber-700/50 px-1.5 py-0.5 rounded">
-                                  Já importado
+                              <span className="font-medium text-white">{r.name ?? "(sem nome)"}</span>
+                              <StateBadge state={state} />
+                              {r.existingLead?.hasWhatsapp === true && (
+                                <span className="text-[10px] px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium">
+                                  ✓ WA
+                                </span>
+                              )}
+                              {r.existingLead?.hasWhatsapp === false && (
+                                <span className="text-[10px] px-1 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium">
+                                  ✗ sem WA
                                 </span>
                               )}
                               {r.rating != null && (
@@ -434,29 +473,7 @@ export default function BuscarProspectsModal({
                                 )}
                               </div>
                             </div>
-                            {toastForThis && (
-                              <div
-                                className={`mt-1.5 text-[11px] rounded px-1.5 py-0.5 inline-block ${
-                                  toastForThis.ok
-                                    ? "text-emerald-300 bg-emerald-950/40 border border-emerald-900"
-                                    : "text-red-300 bg-red-950/40 border border-red-900"
-                                }`}
-                              >
-                                {toastForThis.ok ? "✅" : "⚠️"} {toastForThis.message}
-                              </div>
-                            )}
                           </div>
-                          {dup && r.existingLeadId && (
-                            <button
-                              type="button"
-                              onClick={(e) => { e.stopPropagation(); handleEnrich(key, r.existingLeadId!); }}
-                              disabled={isEnriching}
-                              className="self-center px-2.5 py-1.5 rounded-lg bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs font-medium transition-colors disabled:opacity-60 flex-shrink-0"
-                              title="Re-roda scraper do site + valida WhatsApp pra preencher campos vazios"
-                            >
-                              {isEnriching ? "⏳" : "🔄 Atualizar"}
-                            </button>
-                          )}
                         </div>
                       );
                     })}
@@ -480,7 +497,7 @@ export default function BuscarProspectsModal({
             {/* Footer */}
             <div className="px-6 py-4 border-t border-[#1e2d45] flex items-center justify-between flex-shrink-0">
               <div className="text-xs text-slate-500">
-                Email/Instagram/Facebook são extraídos do site na hora da importação (timeout 6s/site).
+                "Processar" decide por item: importa novos · enriquece incompletos · gera diagnóstico · pula completos.
               </div>
               <div className="flex gap-2">
                 <button
@@ -490,11 +507,12 @@ export default function BuscarProspectsModal({
                   Fechar
                 </button>
                 <button
-                  onClick={handleImport}
-                  disabled={importing || selected.size === 0}
+                  onClick={handleProcess}
+                  disabled={processing || selected.size === 0}
                   className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Importa novos, atualiza incompletos com enrich, gera diagnóstico nos sem diagnóstico, pula os já completos"
                 >
-                  {importing ? "⏳ Importando..." : `📥 Importar ${selected.size}`}
+                  {processing ? "⏳ Processando..." : `🚀 Processar ${selected.size}`}
                 </button>
               </div>
             </div>
@@ -502,5 +520,42 @@ export default function BuscarProspectsModal({
         </div>
       )}
     </>
+  );
+}
+
+function FilterChip({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`text-[11px] px-2 py-0.5 rounded-full border transition-colors ${
+        on
+          ? "bg-sky-500/20 border-sky-500/40 text-sky-200"
+          : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function StateBadge({ state }: { state: ItemState }) {
+  if (state === "new") {
+    return (
+      <span className="text-[10px] uppercase tracking-wide font-semibold text-sky-300 bg-sky-900/40 border border-sky-700/50 px-1.5 py-0.5 rounded">
+        Novo
+      </span>
+    );
+  }
+  if (state === "partial") {
+    return (
+      <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-300 bg-amber-900/40 border border-amber-700/50 px-1.5 py-0.5 rounded" title="Já importado, mas falta enriquecer/diagnosticar">
+        Atualizar
+      </span>
+    );
+  }
+  return (
+    <span className="text-[10px] uppercase tracking-wide font-semibold text-emerald-300 bg-emerald-900/40 border border-emerald-700/50 px-1.5 py-0.5 rounded" title="Importado e com diagnóstico+WhatsApp validado">
+      Completo
+    </span>
   );
 }

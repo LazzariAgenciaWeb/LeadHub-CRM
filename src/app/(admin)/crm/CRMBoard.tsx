@@ -50,6 +50,17 @@ export interface CRMLead {
   externalId: string | null;
   // NULL = não validado · true/false = checado via Evolution /chat/whatsappNumbers
   hasWhatsapp: boolean | null;
+  // Diagnóstico IA (Prospecta IA)
+  diagnosis: {
+    summary?: string;
+    positives?: { title: string; detail: string }[];
+    opportunities?: { title: string; detail: string }[];
+    criticals?: { title: string; detail: string }[];
+  } | null;
+  diagnosisAt: string | null;
+  diagnosisSource: string | null;
+  diagnosisToken: string | null;
+  diagnosisClickedAt: string | null;
   trackingLinkId: string | null;
   trackingLink: {
     id: string;
@@ -318,6 +329,9 @@ export default function CRMBoard({
   const [expectedInput, setExpectedInput] = useState("");
   const [enrichingProspect, setEnrichingProspect] = useState(false);
   const [enrichProspectMsg, setEnrichProspectMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [diagnosingProspect, setDiagnosingProspect] = useState(false);
+  const [diagnoseProspectMsg, setDiagnoseProspectMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [copiedDiagLink, setCopiedDiagLink] = useState(false);
 
   // Tags da empresa (carregadas sob demanda quando o usuário abre o seletor)
   const [allTags, setAllTags] = useState<TagInfo[]>([]);
@@ -481,6 +495,46 @@ export default function CRMBoard({
     startTransition(() => router.refresh());
   }
 
+  async function handleDiagnoseProspect() {
+    if (!selected) return;
+    setDiagnosingProspect(true);
+    setDiagnoseProspectMsg(null);
+    try {
+      const res = await fetch("/api/prospeccao/diagnose", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId: selected.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setDiagnoseProspectMsg({ ok: false, text: data?.error ?? "Falha no diagnóstico" });
+        return;
+      }
+      setDiagnoseProspectMsg({
+        ok: true,
+        text: `Diagnóstico ${selected.diagnosisAt ? "atualizado" : "gerado"} · fonte: ${data.source}`,
+      });
+      startTransition(() => router.refresh());
+    } catch (err: any) {
+      setDiagnoseProspectMsg({ ok: false, text: err?.message ?? "Erro inesperado" });
+    } finally {
+      setDiagnosingProspect(false);
+    }
+  }
+
+  async function handleCopyDiagnosisLink() {
+    if (!selected?.diagnosisToken) return;
+    const url = `${window.location.origin}/d/${selected.diagnosisToken}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedDiagLink(true);
+      setTimeout(() => setCopiedDiagLink(false), 2500);
+    } catch {
+      // Fallback: prompt
+      window.prompt("Copie o link:", url);
+    }
+  }
+
   async function handleEnrichProspect() {
     if (!selected) return;
     setEnrichingProspect(true);
@@ -524,6 +578,9 @@ export default function CRMBoard({
     setExpectedInput(lead.expectedReturnAt ? new Date(lead.expectedReturnAt).toISOString().slice(0, 10) : "");
     setEnrichingProspect(false);
     setEnrichProspectMsg(null);
+    setDiagnosingProspect(false);
+    setDiagnoseProspectMsg(null);
+    setCopiedDiagLink(false);
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
@@ -1106,7 +1163,7 @@ export default function CRMBoard({
       ) : (
         /* Kanban */
         <div className="flex-1 overflow-x-auto px-6 pb-6 pt-4">
-          <div className="flex gap-3 h-full" style={{ minWidth: stages.length * 230 + "px" }}>
+          <div className="flex gap-5 h-full" style={{ minWidth: stages.length * 280 + "px" }}>
             {stages.map((stage) => {
               const stageLeads = byStage[stage.name] ?? [];
               const stageValue = pipeline === "OPORTUNIDADES"
@@ -1162,7 +1219,7 @@ export default function CRMBoard({
                         onClick={() => openCard(lead)}
                         title={lead.score ? `Score ${lead.score.value}: ${SCORE_TIER_LABEL[lead.score.tier]}` : undefined}
                         style={lead.score ? { borderLeftWidth: 3, borderLeftColor: SCORE_TIER_BORDER[lead.score.tier] } : undefined}
-                        className={`relative bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
+                        className={`relative bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3.5 mb-2 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
                           movingId === lead.id ? "opacity-40" : ""
                         }`}
                       >
@@ -1210,11 +1267,20 @@ export default function CRMBoard({
                                 />
                               );
                             })()}
-                            <span className="text-slate-700 text-[10px] flex-shrink-0">
-                              {new Date(lead.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
+                            <span className="text-slate-700 text-[10px] flex-shrink-0" title={`Criado em ${new Date(lead.createdAt).toLocaleDateString("pt-BR")} · Atualizado em ${new Date(lead.updatedAt).toLocaleString("pt-BR")}`}>
+                              {relativeShort(lead.updatedAt)}
                             </span>
                           </div>
                         </div>
+
+                        {/* Termômetro de engajamento — só renderiza pra prospects/leads com source SerpAPI
+                            ou que tenham diagnóstico/clique (não polui leads de outras origens). */}
+                        {(lead.source === "SerpAPI" || lead.diagnosisAt || lead.diagnosisClickedAt) && (
+                          <EngagementMeter
+                            hasDiagnosis={!!lead.diagnosisAt}
+                            clickedLink={!!lead.diagnosisClickedAt}
+                          />
+                        )}
 
                         {/* Nome */}
                         <div className="text-white text-[13px] font-semibold mb-0.5 truncate">
@@ -1399,7 +1465,26 @@ export default function CRMBoard({
             <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#1e2d45] flex-shrink-0 bg-[#0f1825]">
               <div className="min-w-0 flex-1">
                 <h2 className="text-white font-bold text-lg truncate">{selected.name ?? selected.phone}</h2>
-                {selected.name && <div className="text-slate-500 text-xs font-mono mt-0.5">{selected.phone}</div>}
+                {selected.name && (
+                  <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                    <span className="text-slate-500 text-xs font-mono">{selected.phone}</span>
+                    {selected.hasWhatsapp === true && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium">
+                        ✓ Tem WhatsApp
+                      </span>
+                    )}
+                    {selected.hasWhatsapp === false && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium">
+                        ✗ Sem WhatsApp
+                      </span>
+                    )}
+                    {selected.hasWhatsapp === null && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/80 border border-amber-500/20 font-medium" title="Número ainda não foi validado via Evolution. Use 🔄 Atualizar dados pra validar.">
+                        ⏳ Não validado
+                      </span>
+                    )}
+                  </div>
+                )}
 
                 {/* Dropdowns de Pipeline e Etapa */}
                 <div className="flex items-center gap-2 mt-2.5 flex-wrap">
@@ -1889,6 +1974,82 @@ export default function CRMBoard({
                             👤 {selected.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, "/")}
                           </a>
                         </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* ── Diagnóstico IA (Prospecta IA) ───────────────────── */}
+                  {(selected.source === "SerpAPI" || selected.externalId || selected.website || selected.instagram) && (
+                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2 space-y-2">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="text-slate-500 text-[10px] uppercase tracking-wide">
+                          Diagnóstico IA
+                          {selected.diagnosisAt && (
+                            <span className="text-slate-600 normal-case ml-2">
+                              · gerado {new Date(selected.diagnosisAt).toLocaleDateString("pt-BR")}
+                              {selected.diagnosisSource && ` · fonte: ${selected.diagnosisSource}`}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex gap-1.5">
+                          {selected.diagnosis && selected.diagnosisToken && (
+                            <button
+                              onClick={handleCopyDiagnosisLink}
+                              className="text-[10px] px-2 py-0.5 rounded bg-[#1e2d45] hover:bg-[#2a3a55] text-slate-300 hover:text-white font-medium transition-colors"
+                              title="Copia o link público que mostra o diagnóstico e converte o prospect em lead quando clicado"
+                            >
+                              {copiedDiagLink ? "✓ Copiado!" : "📋 Copiar link"}
+                            </button>
+                          )}
+                          <button
+                            onClick={handleDiagnoseProspect}
+                            disabled={diagnosingProspect}
+                            className="text-[10px] px-2 py-0.5 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium transition-colors disabled:opacity-60"
+                            title="Gera análise IA do site/Instagram. Custa ~$0.001 (OpenAI) + 1 chamada PageSpeed gratuita."
+                          >
+                            {diagnosingProspect
+                              ? "⏳ Gerando..."
+                              : selected.diagnosisAt
+                              ? "🔄 Regenerar"
+                              : "🔍 Gerar diagnóstico"}
+                          </button>
+                        </div>
+                      </div>
+                      {diagnoseProspectMsg && (
+                        <div
+                          className={`text-[11px] rounded px-1.5 py-1 ${
+                            diagnoseProspectMsg.ok
+                              ? "text-emerald-300 bg-emerald-950/40 border border-emerald-900"
+                              : "text-red-300 bg-red-950/40 border border-red-900"
+                          }`}
+                        >
+                          {diagnoseProspectMsg.ok ? "✅" : "⚠️"} {diagnoseProspectMsg.text}
+                        </div>
+                      )}
+                      {selected.diagnosisClickedAt && (
+                        <div className="text-[11px] text-rose-300 bg-rose-950/30 border border-rose-900/50 rounded px-1.5 py-1">
+                          🔥 Prospect clicou no link em {new Date(selected.diagnosisClickedAt).toLocaleDateString("pt-BR")} — promovido pra Leads automaticamente
+                        </div>
+                      )}
+                      {selected.diagnosis ? (
+                        <div className="space-y-2 mt-1">
+                          {selected.diagnosis.summary && (
+                            <p className="text-slate-300 text-xs italic leading-relaxed">{selected.diagnosis.summary}</p>
+                          )}
+                          {(selected.diagnosis.positives ?? []).length > 0 && (
+                            <DiagBlock title="✅ Pontos fortes" tint="emerald" items={selected.diagnosis.positives ?? []} />
+                          )}
+                          {(selected.diagnosis.opportunities ?? []).length > 0 && (
+                            <DiagBlock title="⚠️ Oportunidades" tint="amber" items={selected.diagnosis.opportunities ?? []} />
+                          )}
+                          {(selected.diagnosis.criticals ?? []).length > 0 && (
+                            <DiagBlock title="🔴 Quick wins" tint="rose" items={selected.diagnosis.criticals ?? []} />
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-slate-500 italic">
+                          Ainda não há diagnóstico. Clique em "🔍 Gerar diagnóstico" pra analisar site/Instagram via IA.
+                        </p>
                       )}
                     </div>
                   )}
@@ -2644,6 +2805,77 @@ function CustomFieldRow({
           ))}
         </select>
       )}
+    </div>
+  );
+}
+
+// Tempo relativo curto — "hoje", "ontem", "3d", "2sem", "1mo".
+// Usado no card pra mostrar "atualizado há X".
+function relativeShort(input: string | Date | null | undefined): string {
+  if (!input) return "—";
+  const date = typeof input === "string" ? new Date(input) : input;
+  const ms = Date.now() - date.getTime();
+  if (ms < 0) return "agora";
+  const minutes = Math.floor(ms / 60000);
+  if (minutes < 60) return minutes < 1 ? "agora" : `${minutes}m`;
+  const hours = Math.floor(ms / 3_600_000);
+  if (hours < 24) return `${hours}h`;
+  const days = Math.floor(ms / 86_400_000);
+  if (days === 1) return "ontem";
+  if (days < 7) return `${days}d`;
+  if (days < 30) return `${Math.floor(days / 7)}sem`;
+  return `${Math.floor(days / 30)}mo`;
+}
+
+// Termômetro de engajamento do prospect — 4 etapas em pontinhos.
+// Etapas 3-4 (email enviado/aberto) ficam cinza-placeholder até a Fase 3.
+function EngagementMeter({
+  hasDiagnosis,
+  clickedLink,
+}: {
+  hasDiagnosis: boolean;
+  clickedLink: boolean;
+}) {
+  // 4 dots: importado (sempre on se chegou aqui), diagnóstico, email (placeholder), clicou
+  const dotClass = (active: boolean, color: string) =>
+    `w-1.5 h-1.5 rounded-full ${active ? color : "bg-slate-800"}`;
+  return (
+    <div className="flex items-center gap-0.5 mt-1.5" title="Engajamento: importado · diagnóstico · email (em breve) · clicou">
+      <div className={dotClass(true, "bg-sky-500")} title="Importado" />
+      <div className={dotClass(hasDiagnosis, "bg-amber-400")} title={hasDiagnosis ? "Diagnóstico gerado" : "Sem diagnóstico"} />
+      <div className="w-1.5 h-1.5 rounded-full bg-slate-800 opacity-50" title="Email enviado/aberto (disponível na Fase 3)" />
+      <div className={dotClass(clickedLink, "bg-rose-500")} title={clickedLink ? "🔥 Clicou no link do diagnóstico" : "Não clicou no link"} />
+      {clickedLink && <span className="text-[9px] text-rose-300 font-semibold ml-1">🔥</span>}
+    </div>
+  );
+}
+
+// Bloco visual de pontos do diagnóstico no drawer (reutilizado pelos 3 tipos)
+function DiagBlock({
+  title,
+  tint,
+  items,
+}: {
+  title: string;
+  tint: "emerald" | "amber" | "rose";
+  items: { title: string; detail: string }[];
+}) {
+  const colors = {
+    emerald: { border: "border-emerald-700/40", bg: "bg-emerald-950/20", t: "text-emerald-300" },
+    amber:   { border: "border-amber-700/40",   bg: "bg-amber-950/20",   t: "text-amber-300"   },
+    rose:    { border: "border-rose-700/40",    bg: "bg-rose-950/20",    t: "text-rose-300"    },
+  }[tint];
+  return (
+    <div className={`${colors.bg} ${colors.border} border rounded-md p-2`}>
+      <div className={`text-[10px] font-semibold uppercase tracking-wide ${colors.t} mb-1`}>{title}</div>
+      <ul className="space-y-1.5">
+        {items.map((it, i) => (
+          <li key={i} className="text-[11px] text-slate-200 leading-snug">
+            <strong className="text-white">{it.title}</strong>
+            {it.detail && <span className="text-slate-400"> — {it.detail}</span>}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -378,6 +378,14 @@ model Lead {
   segment   String? // categoria/segmento (ex: "Clínica Pediátrica", vem do `type` do Google Maps)
   // Validação Evolution: NULL = não validado, true/false = checado em /chat/whatsappNumbers
   hasWhatsapp Boolean?
+  // Diagnóstico IA (Prospecta IA → /api/prospeccao/diagnose). JSON com summary,
+  // positives[], opportunities[], criticals[], sourceData{}. Token público leva
+  // pro /d/[token] que mostra a análise e auto-promove o prospect pra LEADS no clique.
+  diagnosis          Json?
+  diagnosisAt        DateTime?
+  diagnosisSource    String?  // "website" | "instagram" | "none"
+  diagnosisToken     String?  @unique
+  diagnosisClickedAt DateTime?
 
   // Atendimento WhatsApp
   // @deprecated — espelho legacy de Conversation.status (mantido pra UI antiga via sync automático).
