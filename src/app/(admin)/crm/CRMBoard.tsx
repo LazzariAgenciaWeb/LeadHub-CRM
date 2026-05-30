@@ -332,6 +332,12 @@ export default function CRMBoard({
   const [diagnosingProspect, setDiagnosingProspect] = useState(false);
   const [diagnoseProspectMsg, setDiagnoseProspectMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [copiedDiagLink, setCopiedDiagLink] = useState(false);
+  // Edição inline dos dados de contato/prospect no drawer
+  const [editingContact, setEditingContact] = useState(false);
+  const [savingContact, setSavingContact] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "", phone: "", email: "", website: "", instagram: "", facebook: "", city: "", segment: "",
+  });
 
   // Tags da empresa (carregadas sob demanda quando o usuário abre o seletor)
   const [allTags, setAllTags] = useState<TagInfo[]>([]);
@@ -342,6 +348,9 @@ export default function CRMBoard({
 
   // Filtro por tag no header do Kanban
   const [tagFilterId, setTagFilterId] = useState<string | null>(null);
+  // Filtros rápidos de prospect (header do kanban)
+  const [filterHasEmail, setFilterHasEmail] = useState(false);
+  const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
 
   // Custom fields da empresa + valores do lead aberto
   const [customDefs, setCustomDefs] = useState<CustomFieldDef[]>([]);
@@ -367,7 +376,7 @@ export default function CRMBoard({
 
   // Adicionar novo lead/prospect manualmente
   const [showAddModal, setShowAddModal] = useState(false);
-  const [addForm, setAddForm] = useState({ name: "", phone: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
+  const [addForm, setAddForm] = useState({ name: "", phone: "", email: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
@@ -446,6 +455,8 @@ export default function CRMBoard({
   // Filtro de busca + tag
   const filteredLeads = leads.filter((l) => {
     if (tagFilterId && !(l.tags ?? []).some((t) => t.id === tagFilterId)) return false;
+    if (filterHasEmail && !l.email) return false;
+    if (filterHasWhatsapp && l.hasWhatsapp !== true) return false;
     if (!search) return true;
     const q = search.toLowerCase();
     return (
@@ -535,6 +546,60 @@ export default function CRMBoard({
     }
   }
 
+  function startEditingContact() {
+    if (!selected) return;
+    setContactForm({
+      name: selected.name ?? "",
+      phone: selected.phone ?? "",
+      email: selected.email ?? "",
+      website: selected.website ?? "",
+      instagram: selected.instagram ?? "",
+      facebook: selected.facebook ?? "",
+      city: selected.city ?? "",
+      segment: selected.segment ?? "",
+    });
+    setEditingContact(true);
+  }
+
+  async function handleSaveContact() {
+    if (!selected) return;
+    if (!contactForm.phone.trim()) {
+      alert("Telefone é obrigatório.");
+      return;
+    }
+    setSavingContact(true);
+    try {
+      const payload = {
+        name: contactForm.name.trim() || null,
+        phone: contactForm.phone.trim(),
+        email: contactForm.email.trim() || null,
+        website: contactForm.website.trim() || null,
+        instagram: contactForm.instagram.trim() || null,
+        facebook: contactForm.facebook.trim() || null,
+        city: contactForm.city.trim() || null,
+        segment: contactForm.segment.trim() || null,
+      };
+      const res = await fetch(`/api/leads/${selected.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data?.error ?? "Erro ao salvar contato.");
+        return;
+      }
+      // Atualiza o lead aberto localmente pra refletir na hora
+      setSelected((prev) => (prev ? { ...prev, ...payload } as CRMLead : prev));
+      setEditingContact(false);
+      startTransition(() => router.refresh());
+    } catch (err: any) {
+      alert(err?.message ?? "Erro ao salvar.");
+    } finally {
+      setSavingContact(false);
+    }
+  }
+
   async function handleEnrichProspect() {
     if (!selected) return;
     setEnrichingProspect(true);
@@ -581,6 +646,7 @@ export default function CRMBoard({
     setDiagnosingProspect(false);
     setDiagnoseProspectMsg(null);
     setCopiedDiagLink(false);
+    setEditingContact(false);
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
@@ -1007,6 +1073,7 @@ export default function CRMBoard({
       body: JSON.stringify({
         name: addForm.name.trim() || null,
         phone: addForm.phone.trim(),
+        email: addForm.email.trim() || null,
         notes: addForm.notes.trim() || null,
         value: pipeline === "OPORTUNIDADES" && addForm.value ? parseFloat(addForm.value.replace(",", ".")) : null,
         pipeline,
@@ -1017,7 +1084,7 @@ export default function CRMBoard({
     if (res.ok) {
       const newLead = await res.json();
       setLeads((prev) => [newLead, ...prev]);
-      setAddForm({ name: "", phone: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
+      setAddForm({ name: "", phone: "", email: "", notes: "", value: "", companyId: defaultCompanyId ?? "" });
       setShowAddModal(false);
       startTransition(() => router.refresh());
     } else {
@@ -1100,6 +1167,29 @@ export default function CRMBoard({
               ))}
             </select>
           )}
+          {/* Filtros rápidos de contato */}
+          <button
+            onClick={() => setFilterHasEmail((v) => !v)}
+            title="Mostrar só leads com e-mail"
+            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
+              filterHasEmail
+                ? "bg-orange-500/20 border-orange-500/40 text-orange-200"
+                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
+            }`}
+          >
+            📧 Com email
+          </button>
+          <button
+            onClick={() => setFilterHasWhatsapp((v) => !v)}
+            title="Mostrar só leads com WhatsApp validado"
+            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
+              filterHasWhatsapp
+                ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-200"
+                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
+            }`}
+          >
+            💬 Com WhatsApp
+          </button>
           {pipeline === "PROSPECCAO" && (prospeccaoEnabled || isSuperAdmin) && (
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-2">
@@ -1397,6 +1487,17 @@ export default function CRMBoard({
                   value={addForm.phone}
                   onChange={(e) => setAddForm((f) => ({ ...f, phone: e.target.value }))}
                   placeholder="Ex: 5511999999999"
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1.5">E-mail</label>
+                <input
+                  type="email"
+                  value={addForm.email}
+                  onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))}
+                  placeholder="Ex: contato@empresa.com.br"
                   className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
                 />
               </div>
@@ -1830,11 +1931,64 @@ export default function CRMBoard({
                 </div>
 
                 {/* ─── Grupo 3: INFORMAÇÕES ─── */}
-                <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-3 border-t border-[#1e2d45]">
-                  Informações
+                <div className="flex items-center justify-between pt-3 border-t border-[#1e2d45]">
+                  <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold">
+                    Informações
+                  </div>
+                  {!editingContact && (
+                    <button
+                      onClick={startEditingContact}
+                      className="text-[10px] px-2 py-0.5 rounded bg-[#1e2d45] hover:bg-[#2a3a55] text-slate-300 hover:text-white font-medium transition-colors"
+                      title="Editar nome, telefone, e-mail, site e redes sociais"
+                    >
+                      ✏️ Editar contato
+                    </button>
+                  )}
                 </div>
 
+                {/* Form de edição de contato (substitui a grade quando ativo) */}
+                {editingContact && (
+                  <div className="bg-[#0f1623] border border-indigo-700/40 rounded-lg p-3 space-y-2">
+                    {([
+                      ["name", "Nome", "text"],
+                      ["phone", "Telefone *", "text"],
+                      ["email", "E-mail", "email"],
+                      ["website", "Site", "text"],
+                      ["instagram", "Instagram (URL)", "text"],
+                      ["facebook", "Facebook (URL)", "text"],
+                      ["city", "Cidade", "text"],
+                      ["segment", "Segmento", "text"],
+                    ] as const).map(([field, label, type]) => (
+                      <div key={field}>
+                        <label className="text-[10px] text-slate-500 uppercase tracking-wide block mb-0.5">{label}</label>
+                        <input
+                          type={type}
+                          value={(contactForm as any)[field]}
+                          onChange={(e) => setContactForm((f) => ({ ...f, [field]: e.target.value }))}
+                          className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                        />
+                      </div>
+                    ))}
+                    <div className="flex gap-2 pt-1">
+                      <button
+                        onClick={handleSaveContact}
+                        disabled={savingContact}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors disabled:opacity-60"
+                      >
+                        {savingContact ? "Salvando..." : "Salvar"}
+                      </button>
+                      <button
+                        onClick={() => setEditingContact(false)}
+                        className="px-3 py-1.5 rounded-lg bg-[#1e2d45] hover:bg-[#2a3a55] text-slate-300 text-xs transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* Grid de dados principais */}
+                {!editingContact && (
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-[#161f30] rounded-lg p-3">
                     <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">Abertura</div>
@@ -2071,6 +2225,7 @@ export default function CRMBoard({
                     </div>
                   )}
                 </div>
+                )}
 
                 {/* ── Campos customizados (renderiza se a empresa tem defs) ── */}
                 {customDefs.length > 0 && (

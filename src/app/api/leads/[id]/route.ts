@@ -63,7 +63,8 @@ export async function PATCH(
   const userId = (session.user as any).id as string | undefined;
 
   const body = await req.json();
-  const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId, trackingLinkId } = body;
+  const { name, phone, email, source, status, notes, value, campaignId, pipeline, pipelineStage, attendanceStatus, expectedReturnAt, clickupTaskId, trackingLinkId,
+    website, instagram, facebook, address, city, segment, hasWhatsapp } = body;
 
   // Atendente (CLIENT) sem canViewLeads PODE atualizar campos de atendimento
   // — agendar retorno, mudar attendanceStatus, anotar — desde que pertença
@@ -126,6 +127,14 @@ export async function PATCH(
       ...(clearReturn && { expectedReturnAt: null }),
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
       ...(trackingLinkId !== undefined && { trackingLinkId: trackingLinkId ?? null }),
+      // Campos de prospect (editáveis manualmente no drawer)
+      ...(website !== undefined && { website: website || null }),
+      ...(instagram !== undefined && { instagram: instagram || null }),
+      ...(facebook !== undefined && { facebook: facebook || null }),
+      ...(address !== undefined && { address: address || null }),
+      ...(city !== undefined && { city: city || null }),
+      ...(segment !== undefined && { segment: segment || null }),
+      ...(hasWhatsapp !== undefined && { hasWhatsapp: hasWhatsapp === null ? null : !!hasWhatsapp }),
     },
     include: {
       company: { select: { id: true, name: true } },
