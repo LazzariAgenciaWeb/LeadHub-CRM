@@ -56,7 +56,7 @@ const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   calendario:  "calendario",
   projetos:    "projetos",
   clickup:     null,                // integração — habilitada manualmente, sem feature de plano
-  emailMarketing: null,             // controlado por moduleEmailMarketing (toggle manual)
+  emailMarketing: "emailMassa",     // feature do plano (PlanFeatures.emailMassa) + override custom
 };
 
 function denied(reason: string): ModuleGateResult {
