@@ -2173,7 +2173,10 @@ model EmailRecipient {
 
   events    EmailEvent[]
   createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  // @default(now()) garante que linhas existentes recebam um valor quando
+  // a coluna for adicionada via `db push` (sem isso, Prisma não consegue
+  // adicionar a coluna NOT NULL e pula silenciosamente).
+  updatedAt DateTime     @default(now()) @updatedAt
 
   @@unique([campaignId, email])
   @@index([campaignId, status])
