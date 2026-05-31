@@ -79682,6 +79682,7 @@ export namespace Prisma {
     errorMessage: string | null
     token: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmailRecipientMaxAggregateOutputType = {
@@ -79698,6 +79699,7 @@ export namespace Prisma {
     errorMessage: string | null
     token: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmailRecipientCountAggregateOutputType = {
@@ -79715,6 +79717,7 @@ export namespace Prisma {
     errorMessage: number
     token: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -79733,6 +79736,7 @@ export namespace Prisma {
     errorMessage?: true
     token?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type EmailRecipientMaxAggregateInputType = {
@@ -79749,6 +79753,7 @@ export namespace Prisma {
     errorMessage?: true
     token?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type EmailRecipientCountAggregateInputType = {
@@ -79766,6 +79771,7 @@ export namespace Prisma {
     errorMessage?: true
     token?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -79856,6 +79862,7 @@ export namespace Prisma {
     errorMessage: string | null
     token: string
     createdAt: Date
+    updatedAt: Date
     _count: EmailRecipientCountAggregateOutputType | null
     _min: EmailRecipientMinAggregateOutputType | null
     _max: EmailRecipientMaxAggregateOutputType | null
@@ -79890,6 +79897,7 @@ export namespace Prisma {
     errorMessage?: boolean
     token?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     campaign?: boolean | EmailCampaignDefaultArgs<ExtArgs>
     lead?: boolean | EmailRecipient$leadArgs<ExtArgs>
     events?: boolean | EmailRecipient$eventsArgs<ExtArgs>
@@ -79911,6 +79919,7 @@ export namespace Prisma {
     errorMessage?: boolean
     token?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     campaign?: boolean | EmailCampaignDefaultArgs<ExtArgs>
     lead?: boolean | EmailRecipient$leadArgs<ExtArgs>
   }, ExtArgs["result"]["emailRecipient"]>
@@ -79930,6 +79939,7 @@ export namespace Prisma {
     errorMessage?: boolean
     token?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type EmailRecipientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -79965,6 +79975,7 @@ export namespace Prisma {
       errorMessage: string | null
       token: string
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["emailRecipient"]>
     composites: {}
   }
@@ -80375,6 +80386,7 @@ export namespace Prisma {
     readonly errorMessage: FieldRef<"EmailRecipient", 'String'>
     readonly token: FieldRef<"EmailRecipient", 'String'>
     readonly createdAt: FieldRef<"EmailRecipient", 'DateTime'>
+    readonly updatedAt: FieldRef<"EmailRecipient", 'DateTime'>
   }
     
 
@@ -85726,7 +85738,8 @@ export namespace Prisma {
     bouncedAt: 'bouncedAt',
     errorMessage: 'errorMessage',
     token: 'token',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type EmailRecipientScalarFieldEnum = (typeof EmailRecipientScalarFieldEnum)[keyof typeof EmailRecipientScalarFieldEnum]
@@ -92536,6 +92549,7 @@ export namespace Prisma {
     errorMessage?: StringNullableFilter<"EmailRecipient"> | string | null
     token?: StringFilter<"EmailRecipient"> | string
     createdAt?: DateTimeFilter<"EmailRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailRecipient"> | Date | string
     campaign?: XOR<EmailCampaignRelationFilter, EmailCampaignWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     events?: EmailEventListRelationFilter
@@ -92556,6 +92570,7 @@ export namespace Prisma {
     errorMessage?: SortOrderInput | SortOrder
     token?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     campaign?: EmailCampaignOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     events?: EmailEventOrderByRelationAggregateInput
@@ -92580,6 +92595,7 @@ export namespace Prisma {
     bouncedAt?: DateTimeNullableFilter<"EmailRecipient"> | Date | string | null
     errorMessage?: StringNullableFilter<"EmailRecipient"> | string | null
     createdAt?: DateTimeFilter<"EmailRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailRecipient"> | Date | string
     campaign?: XOR<EmailCampaignRelationFilter, EmailCampaignWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     events?: EmailEventListRelationFilter
@@ -92600,6 +92616,7 @@ export namespace Prisma {
     errorMessage?: SortOrderInput | SortOrder
     token?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: EmailRecipientCountOrderByAggregateInput
     _max?: EmailRecipientMaxOrderByAggregateInput
     _min?: EmailRecipientMinOrderByAggregateInput
@@ -92623,6 +92640,7 @@ export namespace Prisma {
     errorMessage?: StringNullableWithAggregatesFilter<"EmailRecipient"> | string | null
     token?: StringWithAggregatesFilter<"EmailRecipient"> | string
     createdAt?: DateTimeWithAggregatesFilter<"EmailRecipient"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EmailRecipient"> | Date | string
   }
 
   export type EmailEventWhereInput = {
@@ -99715,6 +99733,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     campaign: EmailCampaignCreateNestedOneWithoutRecipientsInput
     lead?: LeadCreateNestedOneWithoutEmailRecipientsInput
     events?: EmailEventCreateNestedManyWithoutRecipientInput
@@ -99735,6 +99754,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     events?: EmailEventUncheckedCreateNestedManyWithoutRecipientInput
   }
 
@@ -99751,6 +99771,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: EmailCampaignUpdateOneRequiredWithoutRecipientsNestedInput
     lead?: LeadUpdateOneWithoutEmailRecipientsNestedInput
     events?: EmailEventUpdateManyWithoutRecipientNestedInput
@@ -99771,6 +99792,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EmailEventUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
@@ -99789,6 +99811,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EmailRecipientUpdateManyMutationInput = {
@@ -99804,6 +99827,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmailRecipientUncheckedUpdateManyInput = {
@@ -99821,6 +99845,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmailEventCreateInput = {
@@ -105133,6 +105158,7 @@ export namespace Prisma {
     errorMessage?: SortOrder
     token?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmailRecipientMaxOrderByAggregateInput = {
@@ -105149,6 +105175,7 @@ export namespace Prisma {
     errorMessage?: SortOrder
     token?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmailRecipientMinOrderByAggregateInput = {
@@ -105165,6 +105192,7 @@ export namespace Prisma {
     errorMessage?: SortOrder
     token?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumEmailRecipientStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -120689,6 +120717,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     campaign: EmailCampaignCreateNestedOneWithoutRecipientsInput
     events?: EmailEventCreateNestedManyWithoutRecipientInput
   }
@@ -120707,6 +120736,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     events?: EmailEventUncheckedCreateNestedManyWithoutRecipientInput
   }
 
@@ -121202,6 +121232,7 @@ export namespace Prisma {
     errorMessage?: StringNullableFilter<"EmailRecipient"> | string | null
     token?: StringFilter<"EmailRecipient"> | string
     createdAt?: DateTimeFilter<"EmailRecipient"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailRecipient"> | Date | string
   }
 
   export type CompanyCreateWithoutTagsInput = {
@@ -142692,6 +142723,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     lead?: LeadCreateNestedOneWithoutEmailRecipientsInput
     events?: EmailEventCreateNestedManyWithoutRecipientInput
   }
@@ -142710,6 +142742,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     events?: EmailEventUncheckedCreateNestedManyWithoutRecipientInput
   }
 
@@ -143392,6 +143425,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     campaign: EmailCampaignCreateNestedOneWithoutRecipientsInput
     lead?: LeadCreateNestedOneWithoutEmailRecipientsInput
   }
@@ -143411,6 +143445,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EmailRecipientCreateOrConnectWithoutEventsInput = {
@@ -143442,6 +143477,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: EmailCampaignUpdateOneRequiredWithoutRecipientsNestedInput
     lead?: LeadUpdateOneWithoutEmailRecipientsNestedInput
   }
@@ -143461,6 +143497,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateWithoutEmailUnsubscribesInput = {
@@ -148735,6 +148772,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MessageUpdateWithoutLeadInput = {
@@ -148972,6 +149010,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: EmailCampaignUpdateOneRequiredWithoutRecipientsNestedInput
     events?: EmailEventUpdateManyWithoutRecipientNestedInput
   }
@@ -148990,6 +149029,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EmailEventUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
@@ -149007,6 +149047,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadTagCreateManyTagInput = {
@@ -150601,6 +150642,7 @@ export namespace Prisma {
     errorMessage?: string | null
     token?: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EmailRecipientUpdateWithoutCampaignInput = {
@@ -150616,6 +150658,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lead?: LeadUpdateOneWithoutEmailRecipientsNestedInput
     events?: EmailEventUpdateManyWithoutRecipientNestedInput
   }
@@ -150634,6 +150677,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EmailEventUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
@@ -150651,6 +150695,7 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmailEventCreateManyRecipientInput = {

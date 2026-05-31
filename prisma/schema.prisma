@@ -2173,9 +2173,11 @@ model EmailRecipient {
 
   events    EmailEvent[]
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([campaignId, email])
   @@index([campaignId, status])
+  @@index([status, updatedAt])    // pra resetar SENDING travado
   @@index([token])
 }
 

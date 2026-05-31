@@ -95,6 +95,38 @@ export default function CampaignDetail({ campaign: initial }: { campaign: Campai
     setBusy(false);
   }
 
+  async function runWorkerNow() {
+    setBusy(true); setMsg(null);
+    try {
+      const res = await fetch("/api/cron/email-worker", { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setMsg({ type: "err", text: data.error ?? `HTTP ${res.status}` });
+        return;
+      }
+      const mine = (data.summary ?? []).find((s: any) => s.campaign === campaign.id);
+      if (!mine) {
+        setMsg({ type: "ok", text: "Worker rodou mas não tinha nada pra esta campanha agora (provavelmente fora da cadência)." });
+      } else if (mine.sent || mine.failed) {
+        setMsg({ type: "ok", text: `Processou: ${mine.sent} enviados, ${mine.failed ?? 0} falhas.` });
+      } else if (mine.skipped) {
+        setMsg({ type: "err", text: `Worker pulou: ${mine.skipped}` });
+      } else if (mine.completed) {
+        setMsg({ type: "ok", text: "Campanha concluída." });
+      } else {
+        setMsg({ type: "ok", text: JSON.stringify(mine) });
+      }
+      // Refresh stats
+      const dataRes = await fetch(`/api/email/campaigns/${campaign.id}`);
+      if (dataRes.ok) {
+        const d = await dataRes.json();
+        setCampaign((c) => ({ ...c, ...d }));
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function testSend() {
     setBusy(true); setMsg(null);
     const res = await fetch(`/api/email/campaigns/${campaign.id}/test-send`, {
@@ -205,9 +237,14 @@ export default function CampaignDetail({ campaign: initial }: { campaign: Campai
             </button>
           )}
           {campaign.status === "SENDING" && (
-            <button onClick={() => action("pause", "Pausada")} disabled={busy} className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium disabled:opacity-50">
-              ⏸️ Pausar
-            </button>
+            <>
+              <button onClick={runWorkerNow} disabled={busy} className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium disabled:opacity-50">
+                ⚡ Processar agora
+              </button>
+              <button onClick={() => action("pause", "Pausada")} disabled={busy} className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium disabled:opacity-50">
+                ⏸️ Pausar
+              </button>
+            </>
           )}
           {campaign.status === "PAUSED" && (
             <button onClick={() => action("resume", "Retomada")} disabled={busy} className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-medium disabled:opacity-50">

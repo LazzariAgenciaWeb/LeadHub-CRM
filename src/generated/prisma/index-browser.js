@@ -1059,7 +1059,8 @@ exports.Prisma.EmailRecipientScalarFieldEnum = {
   bouncedAt: 'bouncedAt',
   errorMessage: 'errorMessage',
   token: 'token',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.EmailEventScalarFieldEnum = {

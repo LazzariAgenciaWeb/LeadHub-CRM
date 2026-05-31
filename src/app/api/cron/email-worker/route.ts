@@ -21,9 +21,13 @@ import { sendCompanyMail, getCompanyEmailConfig } from "@/lib/company-email";
 import {
   checkCadence, jitterDelayMs, sleep, DEFAULT_CADENCE, type CadenceConfig,
 } from "@/lib/email-cadence";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 // Quantos recipients no MÁXIMO por tick por campanha (evita travar handler)
 const MAX_PER_TICK = 20;
+// Recipient em SENDING há mais que isso é considerado travado e volta pra PENDING.
+const STUCK_SENDING_MIN = 5;
 
 export async function GET(req: NextRequest) {
   return handle(req);
@@ -33,17 +37,32 @@ export async function POST(req: NextRequest) {
 }
 
 async function handle(req: NextRequest) {
-  // Auth via CRON_SECRET se definido (mesmo padrão do start.sh em outras crons)
+  // Auth: cron secret OU sessão (SUPER_ADMIN ou ADMIN da empresa)
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const auth = req.headers.get("authorization") ?? "";
-    if (auth !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    }
+  const authHeader = req.headers.get("authorization") ?? "";
+  const hasCronAuth = !cronSecret || authHeader === `Bearer ${cronSecret}`;
+
+  let authed = hasCronAuth;
+  if (!authed) {
+    const session = await getServerSession(authOptions);
+    const role = (session?.user as any)?.role;
+    if (role === "SUPER_ADMIN" || role === "ADMIN") authed = true;
+  }
+  if (!authed) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const startedAt = new Date();
   const summary: any[] = [];
+
+  // 0) Auto-recovery: recipients que ficaram travados em SENDING (worker
+  // crashou no meio do envio) voltam pra PENDING pra próxima rodada pegar.
+  const stuckCutoff = new Date(Date.now() - STUCK_SENDING_MIN * 60 * 1000);
+  const recovered = await prisma.emailRecipient.updateMany({
+    where: { status: "SENDING", updatedAt: { lt: stuckCutoff } },
+    data: { status: "PENDING" },
+  });
+  if (recovered.count > 0) summary.push({ recovered: recovered.count });
 
   // 1) Promove SCHEDULED → SENDING quando chega a hora
   await prisma.emailCampaign.updateMany({
