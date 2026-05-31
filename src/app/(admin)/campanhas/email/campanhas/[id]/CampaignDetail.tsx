@@ -101,7 +101,9 @@ export default function CampaignDetail({ campaign: initial }: { campaign: Campai
       const res = await fetch("/api/cron/email-worker", { method: "POST" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setMsg({ type: "err", text: data.error ?? `HTTP ${res.status}` });
+        const detail = data.message ?? data.error ?? `HTTP ${res.status}`;
+        setMsg({ type: "err", text: `Worker erro: ${detail}` });
+        if (data.stack) console.error("[email-worker stack]", data.stack);
         return;
       }
       const mine = (data.summary ?? []).find((s: any) => s.campaign === campaign.id);

@@ -37,6 +37,17 @@ export async function POST(req: NextRequest) {
 }
 
 async function handle(req: NextRequest) {
+  try {
+    return await handleInner(req);
+  } catch (err: any) {
+    const message = err?.message ?? String(err);
+    const stack = err?.stack ? String(err.stack).split("\n").slice(0, 5).join("\n") : null;
+    console.error("[email-worker] crash:", message, stack);
+    return NextResponse.json({ error: "internal", message, stack }, { status: 500 });
+  }
+}
+
+async function handleInner(req: NextRequest) {
   // Auth: cron secret OU sessão (SUPER_ADMIN ou ADMIN da empresa)
   const cronSecret = process.env.CRON_SECRET;
   const authHeader = req.headers.get("authorization") ?? "";
@@ -57,12 +68,18 @@ async function handle(req: NextRequest) {
 
   // 0) Auto-recovery: recipients que ficaram travados em SENDING (worker
   // crashou no meio do envio) voltam pra PENDING pra próxima rodada pegar.
-  const stuckCutoff = new Date(Date.now() - STUCK_SENDING_MIN * 60 * 1000);
-  const recovered = await prisma.emailRecipient.updateMany({
-    where: { status: "SENDING", updatedAt: { lt: stuckCutoff } },
-    data: { status: "PENDING" },
-  });
-  if (recovered.count > 0) summary.push({ recovered: recovered.count });
+  // Se a coluna updatedAt ainda não existe no banco (db push não rodou),
+  // pula esta etapa sem quebrar o resto do worker.
+  try {
+    const stuckCutoff = new Date(Date.now() - STUCK_SENDING_MIN * 60 * 1000);
+    const recovered = await prisma.emailRecipient.updateMany({
+      where: { status: "SENDING", updatedAt: { lt: stuckCutoff } },
+      data: { status: "PENDING" },
+    });
+    if (recovered.count > 0) summary.push({ recovered: recovered.count });
+  } catch (e: any) {
+    summary.push({ recoverySkipped: e?.message ?? "erro no auto-recovery" });
+  }
 
   // 1) Promove SCHEDULED → SENDING quando chega a hora
   await prisma.emailCampaign.updateMany({
