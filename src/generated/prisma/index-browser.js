@@ -277,6 +277,10 @@ exports.Prisma.LeadScalarFieldEnum = {
   companyId: 'companyId',
   campaignId: 'campaignId',
   trackingLinkId: 'trackingLinkId',
+  promotedFromPipeline: 'promotedFromPipeline',
+  promotedAt: 'promotedAt',
+  promotedReason: 'promotedReason',
+  promotedViaEmailCampaignId: 'promotedViaEmailCampaignId',
   conversationId: 'conversationId'
 };
 

@@ -94,7 +94,14 @@ async function onLinkClicked(trackingLinkId: string, linkLabel: string) {
           const targetStage = await firstLeadStage(lead.companyId);
           await prisma.lead.update({
             where: { id: lead.id },
-            data: { pipeline: "LEADS", pipelineStage: targetStage },
+            data: {
+              pipeline: "LEADS",
+              pipelineStage: targetStage,
+              // Atribuição: clique foi via shortlink (sem campanha de email associada).
+              promotedFromPipeline: "PROSPECCAO",
+              promotedAt: new Date(),
+              promotedReason: "link_click",
+            },
           });
           await prisma.activity.create({
             data: {

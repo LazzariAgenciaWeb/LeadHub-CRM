@@ -85,7 +85,15 @@ async function recordClick(token: string, targetUrl: string, req: NextRequest) {
 
     await prisma.lead.update({
       where: { id: lead.id },
-      data: { pipeline: "LEADS", pipelineStage: targetStage },
+      data: {
+        pipeline: "LEADS",
+        pipelineStage: targetStage,
+        // Atribuição: rastreia DE ONDE veio + por QUE foi promovido + QUAL campanha
+        promotedFromPipeline: "PROSPECCAO",
+        promotedAt: new Date(),
+        promotedReason: "email_click",
+        promotedViaEmailCampaignId: recipient.campaignId,
+      },
     });
     await prisma.activity.create({
       data: {
@@ -94,7 +102,7 @@ async function recordClick(token: string, targetUrl: string, req: NextRequest) {
         companyId: lead.companyId,
         authorName: "Sistema",
         body: `Prospect demonstrou interesse (clicou no email) → movido para Leads`,
-        meta: { from: "PROSPECCAO", to: "LEADS", reason: "email_click", url: targetUrl },
+        meta: { from: "PROSPECCAO", to: "LEADS", reason: "email_click", url: targetUrl, campaignId: recipient.campaignId },
       },
     }).catch(() => null);
 

@@ -8736,10 +8736,12 @@ export namespace Prisma {
 
   export type EmailCampaignCountOutputType = {
     recipients: number
+    promotedLeads: number
   }
 
   export type EmailCampaignCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recipients?: boolean | EmailCampaignCountOutputTypeCountRecipientsArgs
+    promotedLeads?: boolean | EmailCampaignCountOutputTypeCountPromotedLeadsArgs
   }
 
   // Custom InputTypes
@@ -8758,6 +8760,13 @@ export namespace Prisma {
    */
   export type EmailCampaignCountOutputTypeCountRecipientsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmailRecipientWhereInput
+  }
+
+  /**
+   * EmailCampaignCountOutputType without action
+   */
+  export type EmailCampaignCountOutputTypeCountPromotedLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadWhereInput
   }
 
 
@@ -18960,6 +18969,10 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    promotedFromPipeline: string | null
+    promotedAt: Date | null
+    promotedReason: string | null
+    promotedViaEmailCampaignId: string | null
     conversationId: string | null
   }
 
@@ -18995,6 +19008,10 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    promotedFromPipeline: string | null
+    promotedAt: Date | null
+    promotedReason: string | null
+    promotedViaEmailCampaignId: string | null
     conversationId: string | null
   }
 
@@ -19031,6 +19048,10 @@ export namespace Prisma {
     companyId: number
     campaignId: number
     trackingLinkId: number
+    promotedFromPipeline: number
+    promotedAt: number
+    promotedReason: number
+    promotedViaEmailCampaignId: number
     conversationId: number
     _all: number
   }
@@ -19076,6 +19097,10 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    promotedFromPipeline?: true
+    promotedAt?: true
+    promotedReason?: true
+    promotedViaEmailCampaignId?: true
     conversationId?: true
   }
 
@@ -19111,6 +19136,10 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    promotedFromPipeline?: true
+    promotedAt?: true
+    promotedReason?: true
+    promotedViaEmailCampaignId?: true
     conversationId?: true
   }
 
@@ -19147,6 +19176,10 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    promotedFromPipeline?: true
+    promotedAt?: true
+    promotedReason?: true
+    promotedViaEmailCampaignId?: true
     conversationId?: true
     _all?: true
   }
@@ -19270,6 +19303,10 @@ export namespace Prisma {
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
+    promotedFromPipeline: string | null
+    promotedAt: Date | null
+    promotedReason: string | null
+    promotedViaEmailCampaignId: string | null
     conversationId: string | null
     _count: LeadCountAggregateOutputType | null
     _avg: LeadAvgAggregateOutputType | null
@@ -19325,10 +19362,15 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    promotedFromPipeline?: boolean
+    promotedAt?: boolean
+    promotedReason?: boolean
+    promotedViaEmailCampaignId?: boolean
     conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
@@ -19373,10 +19415,15 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    promotedFromPipeline?: boolean
+    promotedAt?: boolean
+    promotedReason?: boolean
+    promotedViaEmailCampaignId?: boolean
     conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -19413,6 +19460,10 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    promotedFromPipeline?: boolean
+    promotedAt?: boolean
+    promotedReason?: boolean
+    promotedViaEmailCampaignId?: boolean
     conversationId?: boolean
   }
 
@@ -19420,6 +19471,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
     messages?: boolean | Lead$messagesArgs<ExtArgs>
     comments?: boolean | Lead$commentsArgs<ExtArgs>
@@ -19434,6 +19486,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
     trackingLink?: boolean | Lead$trackingLinkArgs<ExtArgs>
+    promotedViaEmailCampaign?: boolean | Lead$promotedViaEmailCampaignArgs<ExtArgs>
     conversation?: boolean | Lead$conversationArgs<ExtArgs>
   }
 
@@ -19443,6 +19496,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       trackingLink: Prisma.$TrackingLinkPayload<ExtArgs> | null
+      promotedViaEmailCampaign: Prisma.$EmailCampaignPayload<ExtArgs> | null
       conversation: Prisma.$ConversationPayload<ExtArgs> | null
       messages: Prisma.$MessagePayload<ExtArgs>[]
       comments: Prisma.$LeadCommentPayload<ExtArgs>[]
@@ -19485,6 +19539,10 @@ export namespace Prisma {
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
+      promotedFromPipeline: string | null
+      promotedAt: Date | null
+      promotedReason: string | null
+      promotedViaEmailCampaignId: string | null
       conversationId: string | null
     }, ExtArgs["result"]["lead"]>
     composites: {}
@@ -19853,6 +19911,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     campaign<T extends Lead$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     trackingLink<T extends Lead$trackingLinkArgs<ExtArgs> = {}>(args?: Subset<T, Lead$trackingLinkArgs<ExtArgs>>): Prisma__TrackingLinkClient<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    promotedViaEmailCampaign<T extends Lead$promotedViaEmailCampaignArgs<ExtArgs> = {}>(args?: Subset<T, Lead$promotedViaEmailCampaignArgs<ExtArgs>>): Prisma__EmailCampaignClient<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     conversation<T extends Lead$conversationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$conversationArgs<ExtArgs>>): Prisma__ConversationClient<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     messages<T extends Lead$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     comments<T extends Lead$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCommentPayload<ExtArgs>, T, "findMany"> | Null>
@@ -19922,6 +19981,10 @@ export namespace Prisma {
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
+    readonly promotedFromPipeline: FieldRef<"Lead", 'String'>
+    readonly promotedAt: FieldRef<"Lead", 'DateTime'>
+    readonly promotedReason: FieldRef<"Lead", 'String'>
+    readonly promotedViaEmailCampaignId: FieldRef<"Lead", 'String'>
     readonly conversationId: FieldRef<"Lead", 'String'>
   }
     
@@ -20268,6 +20331,21 @@ export namespace Prisma {
      */
     include?: TrackingLinkInclude<ExtArgs> | null
     where?: TrackingLinkWhereInput
+  }
+
+  /**
+   * Lead.promotedViaEmailCampaign
+   */
+  export type Lead$promotedViaEmailCampaignArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailCampaign
+     */
+    select?: EmailCampaignSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailCampaignInclude<ExtArgs> | null
+    where?: EmailCampaignWhereInput
   }
 
   /**
@@ -78772,6 +78850,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | EmailCampaign$createdByArgs<ExtArgs>
     recipients?: boolean | EmailCampaign$recipientsArgs<ExtArgs>
+    promotedLeads?: boolean | EmailCampaign$promotedLeadsArgs<ExtArgs>
     _count?: boolean | EmailCampaignCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emailCampaign"]>
 
@@ -78833,6 +78912,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     createdBy?: boolean | EmailCampaign$createdByArgs<ExtArgs>
     recipients?: boolean | EmailCampaign$recipientsArgs<ExtArgs>
+    promotedLeads?: boolean | EmailCampaign$promotedLeadsArgs<ExtArgs>
     _count?: boolean | EmailCampaignCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmailCampaignIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -78848,6 +78928,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       recipients: Prisma.$EmailRecipientPayload<ExtArgs>[]
+      promotedLeads: Prisma.$LeadPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -79240,6 +79321,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     createdBy<T extends EmailCampaign$createdByArgs<ExtArgs> = {}>(args?: Subset<T, EmailCampaign$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     recipients<T extends EmailCampaign$recipientsArgs<ExtArgs> = {}>(args?: Subset<T, EmailCampaign$recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailRecipientPayload<ExtArgs>, T, "findMany"> | Null>
+    promotedLeads<T extends EmailCampaign$promotedLeadsArgs<ExtArgs> = {}>(args?: Subset<T, EmailCampaign$promotedLeadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -79641,6 +79723,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmailRecipientScalarFieldEnum | EmailRecipientScalarFieldEnum[]
+  }
+
+  /**
+   * EmailCampaign.promotedLeads
+   */
+  export type EmailCampaign$promotedLeadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+    orderBy?: LeadOrderByWithRelationInput | LeadOrderByWithRelationInput[]
+    cursor?: LeadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadScalarFieldEnum | LeadScalarFieldEnum[]
   }
 
   /**
@@ -84782,6 +84884,10 @@ export namespace Prisma {
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId',
+    promotedFromPipeline: 'promotedFromPipeline',
+    promotedAt: 'promotedAt',
+    promotedReason: 'promotedReason',
+    promotedViaEmailCampaignId: 'promotedViaEmailCampaignId',
     conversationId: 'conversationId'
   };
 
@@ -87376,10 +87482,15 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
+    promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    promotedReason?: StringNullableFilter<"Lead"> | string | null
+    promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
@@ -87423,10 +87534,15 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    promotedFromPipeline?: SortOrderInput | SortOrder
+    promotedAt?: SortOrderInput | SortOrder
+    promotedReason?: SortOrderInput | SortOrder
+    promotedViaEmailCampaignId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
     trackingLink?: TrackingLinkOrderByWithRelationInput
+    promotedViaEmailCampaign?: EmailCampaignOrderByWithRelationInput
     conversation?: ConversationOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
     comments?: LeadCommentOrderByRelationAggregateInput
@@ -87473,10 +87589,15 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
+    promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    promotedReason?: StringNullableFilter<"Lead"> | string | null
+    promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
     trackingLink?: XOR<TrackingLinkNullableRelationFilter, TrackingLinkWhereInput> | null
+    promotedViaEmailCampaign?: XOR<EmailCampaignNullableRelationFilter, EmailCampaignWhereInput> | null
     conversation?: XOR<ConversationNullableRelationFilter, ConversationWhereInput> | null
     messages?: MessageListRelationFilter
     comments?: LeadCommentListRelationFilter
@@ -87520,6 +87641,10 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    promotedFromPipeline?: SortOrderInput | SortOrder
+    promotedAt?: SortOrderInput | SortOrder
+    promotedReason?: SortOrderInput | SortOrder
+    promotedViaEmailCampaignId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     _count?: LeadCountOrderByAggregateInput
     _avg?: LeadAvgOrderByAggregateInput
@@ -87564,6 +87689,10 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    promotedFromPipeline?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    promotedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
+    promotedReason?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    promotedViaEmailCampaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     conversationId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
   }
 
@@ -92410,6 +92539,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     recipients?: EmailRecipientListRelationFilter
+    promotedLeads?: LeadListRelationFilter
   }
 
   export type EmailCampaignOrderByWithRelationInput = {
@@ -92439,6 +92569,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     recipients?: EmailRecipientOrderByRelationAggregateInput
+    promotedLeads?: LeadOrderByRelationAggregateInput
   }
 
   export type EmailCampaignWhereUniqueInput = Prisma.AtLeast<{
@@ -92471,6 +92602,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     recipients?: EmailRecipientListRelationFilter
+    promotedLeads?: LeadListRelationFilter
   }, "id">
 
   export type EmailCampaignOrderByWithAggregationInput = {
@@ -94093,9 +94225,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -94139,6 +94275,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -94179,9 +94319,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -94225,6 +94369,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -94268,6 +94416,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
   }
 
@@ -94301,6 +94453,9 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -94336,6 +94491,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -99568,6 +99727,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutEmailCampaignsInput
     createdBy?: UserCreateNestedOneWithoutEmailCampaignsCreatedInput
     recipients?: EmailRecipientCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUncheckedCreateInput = {
@@ -99594,6 +99754,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     recipients?: EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUpdateInput = {
@@ -99620,6 +99781,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutEmailCampaignsNestedInput
     createdBy?: UserUpdateOneWithoutEmailCampaignsCreatedNestedInput
     recipients?: EmailRecipientUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateInput = {
@@ -99646,6 +99808,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipients?: EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignCreateManyInput = {
@@ -101473,6 +101636,11 @@ export namespace Prisma {
     isNot?: TrackingLinkWhereInput | null
   }
 
+  export type EmailCampaignNullableRelationFilter = {
+    is?: EmailCampaignWhereInput | null
+    isNot?: EmailCampaignWhereInput | null
+  }
+
   export type ConversationNullableRelationFilter = {
     is?: ConversationWhereInput | null
     isNot?: ConversationWhereInput | null
@@ -101551,6 +101719,10 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    promotedFromPipeline?: SortOrder
+    promotedAt?: SortOrder
+    promotedReason?: SortOrder
+    promotedViaEmailCampaignId?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -101590,6 +101762,10 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    promotedFromPipeline?: SortOrder
+    promotedAt?: SortOrder
+    promotedReason?: SortOrder
+    promotedViaEmailCampaignId?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -101625,6 +101801,10 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    promotedFromPipeline?: SortOrder
+    promotedAt?: SortOrder
+    promotedReason?: SortOrder
+    promotedViaEmailCampaignId?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -108700,6 +108880,12 @@ export namespace Prisma {
     connect?: TrackingLinkWhereUniqueInput
   }
 
+  export type EmailCampaignCreateNestedOneWithoutPromotedLeadsInput = {
+    create?: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
+    connectOrCreate?: EmailCampaignCreateOrConnectWithoutPromotedLeadsInput
+    connect?: EmailCampaignWhereUniqueInput
+  }
+
   export type ConversationCreateNestedOneWithoutLeadsInput = {
     create?: XOR<ConversationCreateWithoutLeadsInput, ConversationUncheckedCreateWithoutLeadsInput>
     connectOrCreate?: ConversationCreateOrConnectWithoutLeadsInput
@@ -108838,6 +109024,16 @@ export namespace Prisma {
     delete?: TrackingLinkWhereInput | boolean
     connect?: TrackingLinkWhereUniqueInput
     update?: XOR<XOR<TrackingLinkUpdateToOneWithWhereWithoutLeadsInput, TrackingLinkUpdateWithoutLeadsInput>, TrackingLinkUncheckedUpdateWithoutLeadsInput>
+  }
+
+  export type EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput = {
+    create?: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
+    connectOrCreate?: EmailCampaignCreateOrConnectWithoutPromotedLeadsInput
+    upsert?: EmailCampaignUpsertWithoutPromotedLeadsInput
+    disconnect?: EmailCampaignWhereInput | boolean
+    delete?: EmailCampaignWhereInput | boolean
+    connect?: EmailCampaignWhereUniqueInput
+    update?: XOR<XOR<EmailCampaignUpdateToOneWithWhereWithoutPromotedLeadsInput, EmailCampaignUpdateWithoutPromotedLeadsInput>, EmailCampaignUncheckedUpdateWithoutPromotedLeadsInput>
   }
 
   export type ConversationUpdateOneWithoutLeadsNestedInput = {
@@ -111697,11 +111893,25 @@ export namespace Prisma {
     connect?: EmailRecipientWhereUniqueInput | EmailRecipientWhereUniqueInput[]
   }
 
+  export type LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput = {
+    create?: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput> | LeadCreateWithoutPromotedViaEmailCampaignInput[] | LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput | LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput[]
+    createMany?: LeadCreateManyPromotedViaEmailCampaignInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
   export type EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput = {
     create?: XOR<EmailRecipientCreateWithoutCampaignInput, EmailRecipientUncheckedCreateWithoutCampaignInput> | EmailRecipientCreateWithoutCampaignInput[] | EmailRecipientUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: EmailRecipientCreateOrConnectWithoutCampaignInput | EmailRecipientCreateOrConnectWithoutCampaignInput[]
     createMany?: EmailRecipientCreateManyCampaignInputEnvelope
     connect?: EmailRecipientWhereUniqueInput | EmailRecipientWhereUniqueInput[]
+  }
+
+  export type LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput = {
+    create?: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput> | LeadCreateWithoutPromotedViaEmailCampaignInput[] | LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput | LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput[]
+    createMany?: LeadCreateManyPromotedViaEmailCampaignInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
   }
 
   export type EnumEmailCampaignStatusFieldUpdateOperationsInput = {
@@ -111748,6 +111958,20 @@ export namespace Prisma {
     deleteMany?: EmailRecipientScalarWhereInput | EmailRecipientScalarWhereInput[]
   }
 
+  export type LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput = {
+    create?: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput> | LeadCreateWithoutPromotedViaEmailCampaignInput[] | LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput | LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutPromotedViaEmailCampaignInput | LeadUpsertWithWhereUniqueWithoutPromotedViaEmailCampaignInput[]
+    createMany?: LeadCreateManyPromotedViaEmailCampaignInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutPromotedViaEmailCampaignInput | LeadUpdateWithWhereUniqueWithoutPromotedViaEmailCampaignInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutPromotedViaEmailCampaignInput | LeadUpdateManyWithWhereWithoutPromotedViaEmailCampaignInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
   export type EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput = {
     create?: XOR<EmailRecipientCreateWithoutCampaignInput, EmailRecipientUncheckedCreateWithoutCampaignInput> | EmailRecipientCreateWithoutCampaignInput[] | EmailRecipientUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: EmailRecipientCreateOrConnectWithoutCampaignInput | EmailRecipientCreateOrConnectWithoutCampaignInput[]
@@ -111760,6 +111984,20 @@ export namespace Prisma {
     update?: EmailRecipientUpdateWithWhereUniqueWithoutCampaignInput | EmailRecipientUpdateWithWhereUniqueWithoutCampaignInput[]
     updateMany?: EmailRecipientUpdateManyWithWhereWithoutCampaignInput | EmailRecipientUpdateManyWithWhereWithoutCampaignInput[]
     deleteMany?: EmailRecipientScalarWhereInput | EmailRecipientScalarWhereInput[]
+  }
+
+  export type LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput = {
+    create?: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput> | LeadCreateWithoutPromotedViaEmailCampaignInput[] | LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput | LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutPromotedViaEmailCampaignInput | LeadUpsertWithWhereUniqueWithoutPromotedViaEmailCampaignInput[]
+    createMany?: LeadCreateManyPromotedViaEmailCampaignInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutPromotedViaEmailCampaignInput | LeadUpdateWithWhereUniqueWithoutPromotedViaEmailCampaignInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutPromotedViaEmailCampaignInput | LeadUpdateManyWithWhereWithoutPromotedViaEmailCampaignInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
   }
 
   export type EmailCampaignCreateNestedOneWithoutRecipientsInput = {
@@ -113722,6 +113960,7 @@ export namespace Prisma {
     template: EmailTemplateCreateNestedOneWithoutCampaignsInput
     company: CompanyCreateNestedOneWithoutEmailCampaignsInput
     recipients?: EmailRecipientCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUncheckedCreateWithoutCreatedByInput = {
@@ -113747,6 +113986,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     recipients?: EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignCreateOrConnectWithoutCreatedByInput = {
@@ -115890,8 +116130,12 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -115934,6 +116178,10 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -116154,6 +116402,7 @@ export namespace Prisma {
     template: EmailTemplateCreateNestedOneWithoutCampaignsInput
     createdBy?: UserCreateNestedOneWithoutEmailCampaignsCreatedInput
     recipients?: EmailRecipientCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUncheckedCreateWithoutCompanyInput = {
@@ -116179,6 +116428,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     recipients?: EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignCreateOrConnectWithoutCompanyInput = {
@@ -117875,6 +118125,10 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
+    promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
+    promotedReason?: StringNullableFilter<"Lead"> | string | null
+    promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
   }
 
@@ -119117,8 +119371,12 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -119161,6 +119419,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -119772,8 +120034,12 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -119816,6 +120082,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -120441,6 +120711,63 @@ export namespace Prisma {
     create: XOR<TrackingLinkCreateWithoutLeadsInput, TrackingLinkUncheckedCreateWithoutLeadsInput>
   }
 
+  export type EmailCampaignCreateWithoutPromotedLeadsInput = {
+    id?: string
+    name: string
+    subject: string
+    status?: $Enums.EmailCampaignStatus
+    scheduledAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    cadenceConfig: JsonNullValueInput | InputJsonValue
+    segmentFilter: JsonNullValueInput | InputJsonValue
+    totalRecipients?: number
+    sentCount?: number
+    deliveredCount?: number
+    openedCount?: number
+    clickedCount?: number
+    bouncedCount?: number
+    unsubscribedCount?: number
+    failedCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    template: EmailTemplateCreateNestedOneWithoutCampaignsInput
+    company: CompanyCreateNestedOneWithoutEmailCampaignsInput
+    createdBy?: UserCreateNestedOneWithoutEmailCampaignsCreatedInput
+    recipients?: EmailRecipientCreateNestedManyWithoutCampaignInput
+  }
+
+  export type EmailCampaignUncheckedCreateWithoutPromotedLeadsInput = {
+    id?: string
+    name: string
+    subject: string
+    templateId: string
+    status?: $Enums.EmailCampaignStatus
+    scheduledAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    cadenceConfig: JsonNullValueInput | InputJsonValue
+    segmentFilter: JsonNullValueInput | InputJsonValue
+    totalRecipients?: number
+    sentCount?: number
+    deliveredCount?: number
+    openedCount?: number
+    clickedCount?: number
+    bouncedCount?: number
+    unsubscribedCount?: number
+    failedCount?: number
+    companyId: string
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    recipients?: EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type EmailCampaignCreateOrConnectWithoutPromotedLeadsInput = {
+    where: EmailCampaignWhereUniqueInput
+    create: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
+  }
+
   export type ConversationCreateWithoutLeadsInput = {
     id?: string
     phone: string
@@ -121005,6 +121332,69 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     clickEvents?: ClickEventUncheckedUpdateManyWithoutTrackingLinkNestedInput
+  }
+
+  export type EmailCampaignUpsertWithoutPromotedLeadsInput = {
+    update: XOR<EmailCampaignUpdateWithoutPromotedLeadsInput, EmailCampaignUncheckedUpdateWithoutPromotedLeadsInput>
+    create: XOR<EmailCampaignCreateWithoutPromotedLeadsInput, EmailCampaignUncheckedCreateWithoutPromotedLeadsInput>
+    where?: EmailCampaignWhereInput
+  }
+
+  export type EmailCampaignUpdateToOneWithWhereWithoutPromotedLeadsInput = {
+    where?: EmailCampaignWhereInput
+    data: XOR<EmailCampaignUpdateWithoutPromotedLeadsInput, EmailCampaignUncheckedUpdateWithoutPromotedLeadsInput>
+  }
+
+  export type EmailCampaignUpdateWithoutPromotedLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailCampaignStatusFieldUpdateOperationsInput | $Enums.EmailCampaignStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cadenceConfig?: JsonNullValueInput | InputJsonValue
+    segmentFilter?: JsonNullValueInput | InputJsonValue
+    totalRecipients?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    deliveredCount?: IntFieldUpdateOperationsInput | number
+    openedCount?: IntFieldUpdateOperationsInput | number
+    clickedCount?: IntFieldUpdateOperationsInput | number
+    bouncedCount?: IntFieldUpdateOperationsInput | number
+    unsubscribedCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: EmailTemplateUpdateOneRequiredWithoutCampaignsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutEmailCampaignsNestedInput
+    createdBy?: UserUpdateOneWithoutEmailCampaignsCreatedNestedInput
+    recipients?: EmailRecipientUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type EmailCampaignUncheckedUpdateWithoutPromotedLeadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailCampaignStatusFieldUpdateOperationsInput | $Enums.EmailCampaignStatus
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cadenceConfig?: JsonNullValueInput | InputJsonValue
+    segmentFilter?: JsonNullValueInput | InputJsonValue
+    totalRecipients?: IntFieldUpdateOperationsInput | number
+    sentCount?: IntFieldUpdateOperationsInput | number
+    deliveredCount?: IntFieldUpdateOperationsInput | number
+    openedCount?: IntFieldUpdateOperationsInput | number
+    clickedCount?: IntFieldUpdateOperationsInput | number
+    bouncedCount?: IntFieldUpdateOperationsInput | number
+    unsubscribedCount?: IntFieldUpdateOperationsInput | number
+    failedCount?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipients?: EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput
   }
 
   export type ConversationUpsertWithoutLeadsInput = {
@@ -121625,9 +122015,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -121670,6 +122064,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -121750,9 +122148,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -121795,6 +122197,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -122231,9 +122637,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -122276,6 +122686,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -122362,9 +122776,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -122407,6 +122825,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -123237,9 +123659,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -123282,6 +123708,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -123654,9 +124084,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -123699,6 +124133,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -124073,9 +124511,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
@@ -124118,6 +124560,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -124173,9 +124619,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
@@ -124218,6 +124668,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -125744,9 +126198,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
@@ -125789,6 +126247,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -126231,9 +126693,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
@@ -126276,6 +126742,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -127298,9 +127768,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
     activities?: ActivityCreateNestedManyWithoutLeadInput
@@ -127343,6 +127817,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -127961,9 +128439,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -128006,6 +128488,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -128338,9 +128824,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -128383,6 +128873,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -142227,6 +142721,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutEmailCampaignsInput
     createdBy?: UserCreateNestedOneWithoutEmailCampaignsCreatedInput
     recipients?: EmailRecipientCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUncheckedCreateWithoutTemplateInput = {
@@ -142252,6 +142747,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     recipients?: EmailRecipientUncheckedCreateNestedManyWithoutCampaignInput
+    promotedLeads?: LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignCreateOrConnectWithoutTemplateInput = {
@@ -142756,6 +143252,108 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LeadCreateWithoutPromotedViaEmailCampaignInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    company: CompanyCreateNestedOneWithoutLeadsInput
+    campaign?: CampaignCreateNestedOneWithoutLeadsInput
+    trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    conversation?: ConversationCreateNestedOneWithoutLeadsInput
+    messages?: MessageCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentCreateNestedManyWithoutLeadInput
+    activities?: ActivityCreateNestedManyWithoutLeadInput
+    tasks?: TaskCreateNestedManyWithoutLeadInput
+    tags?: LeadTagCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    conversationId?: string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
+    comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutLeadInput
+    tags?: LeadTagUncheckedCreateNestedManyWithoutLeadInput
+    customValues?: LeadCustomValueUncheckedCreateNestedManyWithoutLeadInput
+    emailRecipients?: EmailRecipientUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutPromotedViaEmailCampaignInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput>
+  }
+
+  export type LeadCreateManyPromotedViaEmailCampaignInputEnvelope = {
+    data: LeadCreateManyPromotedViaEmailCampaignInput | LeadCreateManyPromotedViaEmailCampaignInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EmailTemplateUpsertWithoutCampaignsInput = {
     update: XOR<EmailTemplateUpdateWithoutCampaignsInput, EmailTemplateUncheckedUpdateWithoutCampaignsInput>
     create: XOR<EmailTemplateCreateWithoutCampaignsInput, EmailTemplateUncheckedCreateWithoutCampaignsInput>
@@ -143055,6 +143653,22 @@ export namespace Prisma {
     data: XOR<EmailRecipientUpdateManyMutationInput, EmailRecipientUncheckedUpdateManyWithoutCampaignInput>
   }
 
+  export type LeadUpsertWithWhereUniqueWithoutPromotedViaEmailCampaignInput = {
+    where: LeadWhereUniqueInput
+    update: XOR<LeadUpdateWithoutPromotedViaEmailCampaignInput, LeadUncheckedUpdateWithoutPromotedViaEmailCampaignInput>
+    create: XOR<LeadCreateWithoutPromotedViaEmailCampaignInput, LeadUncheckedCreateWithoutPromotedViaEmailCampaignInput>
+  }
+
+  export type LeadUpdateWithWhereUniqueWithoutPromotedViaEmailCampaignInput = {
+    where: LeadWhereUniqueInput
+    data: XOR<LeadUpdateWithoutPromotedViaEmailCampaignInput, LeadUncheckedUpdateWithoutPromotedViaEmailCampaignInput>
+  }
+
+  export type LeadUpdateManyWithWhereWithoutPromotedViaEmailCampaignInput = {
+    where: LeadScalarWhereInput
+    data: XOR<LeadUpdateManyMutationInput, LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignInput>
+  }
+
   export type EmailCampaignCreateWithoutRecipientsInput = {
     id?: string
     name: string
@@ -143078,6 +143692,7 @@ export namespace Prisma {
     template: EmailTemplateCreateNestedOneWithoutCampaignsInput
     company: CompanyCreateNestedOneWithoutEmailCampaignsInput
     createdBy?: UserCreateNestedOneWithoutEmailCampaignsCreatedInput
+    promotedLeads?: LeadCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignUncheckedCreateWithoutRecipientsInput = {
@@ -143103,6 +143718,7 @@ export namespace Prisma {
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    promotedLeads?: LeadUncheckedCreateNestedManyWithoutPromotedViaEmailCampaignInput
   }
 
   export type EmailCampaignCreateOrConnectWithoutRecipientsInput = {
@@ -143140,9 +143756,13 @@ export namespace Prisma {
     expectedReturnAt?: Date | string | null
     clickupTaskId?: string | null
     isInternal?: boolean
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
+    promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
     conversation?: ConversationCreateNestedOneWithoutLeadsInput
     messages?: MessageCreateNestedManyWithoutLeadInput
     comments?: LeadCommentCreateNestedManyWithoutLeadInput
@@ -143185,6 +143805,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -143261,6 +143885,7 @@ export namespace Prisma {
     template?: EmailTemplateUpdateOneRequiredWithoutCampaignsNestedInput
     company?: CompanyUpdateOneRequiredWithoutEmailCampaignsNestedInput
     createdBy?: UserUpdateOneWithoutEmailCampaignsCreatedNestedInput
+    promotedLeads?: LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateWithoutRecipientsInput = {
@@ -143286,6 +143911,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    promotedLeads?: LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type LeadUpsertWithoutEmailRecipientsInput = {
@@ -143329,9 +143955,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -143374,6 +144004,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -145235,6 +145869,7 @@ export namespace Prisma {
     template?: EmailTemplateUpdateOneRequiredWithoutCampaignsNestedInput
     company?: CompanyUpdateOneRequiredWithoutEmailCampaignsNestedInput
     recipients?: EmailRecipientUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateWithoutCreatedByInput = {
@@ -145260,6 +145895,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipients?: EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateManyWithoutCreatedByInput = {
@@ -145477,6 +146113,10 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
   }
 
@@ -146613,8 +147253,12 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -146657,6 +147301,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -146699,6 +147347,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -146869,6 +147521,7 @@ export namespace Prisma {
     template?: EmailTemplateUpdateOneRequiredWithoutCampaignsNestedInput
     createdBy?: UserUpdateOneWithoutEmailCampaignsCreatedNestedInput
     recipients?: EmailRecipientUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateWithoutCompanyInput = {
@@ -146894,6 +147547,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipients?: EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateManyWithoutCompanyInput = {
@@ -148176,6 +148830,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
   }
 
@@ -148258,8 +148916,12 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -148302,6 +148964,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -148344,6 +149010,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -148530,6 +149200,10 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
     conversationId?: string | null
   }
 
@@ -148571,8 +149245,12 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     conversation?: ConversationUpdateOneWithoutLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
@@ -148615,6 +149293,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -148657,6 +149339,10 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -149325,6 +150011,10 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    promotedViaEmailCampaignId?: string | null
   }
 
   export type MessageUpdateWithoutConversationInput = {
@@ -149495,9 +150185,13 @@ export namespace Prisma {
     expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
     messages?: MessageUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUpdateManyWithoutLeadNestedInput
     activities?: ActivityUpdateManyWithoutLeadNestedInput
@@ -149540,6 +150234,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -149582,6 +150280,10 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketMessageCreateManyTicketInput = {
@@ -150577,6 +151279,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutEmailCampaignsNestedInput
     createdBy?: UserUpdateOneWithoutEmailCampaignsCreatedNestedInput
     recipients?: EmailRecipientUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateWithoutTemplateInput = {
@@ -150602,6 +151305,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipients?: EmailRecipientUncheckedUpdateManyWithoutCampaignNestedInput
+    promotedLeads?: LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignNestedInput
   }
 
   export type EmailCampaignUncheckedUpdateManyWithoutTemplateInput = {
@@ -150643,6 +151347,45 @@ export namespace Prisma {
     token?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type LeadCreateManyPromotedViaEmailCampaignInput = {
+    id?: string
+    name?: string | null
+    phone: string
+    email?: string | null
+    source?: string | null
+    status?: $Enums.LeadStatus
+    notes?: string | null
+    value?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pipeline?: string | null
+    pipelineStage?: string | null
+    externalId?: string | null
+    website?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    address?: string | null
+    city?: string | null
+    segment?: string | null
+    hasWhatsapp?: boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: Date | string | null
+    diagnosisSource?: string | null
+    diagnosisToken?: string | null
+    diagnosisClickedAt?: Date | string | null
+    attendanceStatus?: string | null
+    expectedReturnAt?: Date | string | null
+    clickupTaskId?: string | null
+    isInternal?: boolean
+    companyId: string
+    campaignId?: string | null
+    trackingLinkId?: string | null
+    promotedFromPipeline?: string | null
+    promotedAt?: Date | string | null
+    promotedReason?: string | null
+    conversationId?: string | null
   }
 
   export type EmailRecipientUpdateWithoutCampaignInput = {
@@ -150696,6 +151439,137 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeadUpdateWithoutPromotedViaEmailCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
+    campaign?: CampaignUpdateOneWithoutLeadsNestedInput
+    trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
+    conversation?: ConversationUpdateOneWithoutLeadsNestedInput
+    messages?: MessageUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutPromotedViaEmailCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
+    comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutLeadNestedInput
+    tags?: LeadTagUncheckedUpdateManyWithoutLeadNestedInput
+    customValues?: LeadCustomValueUncheckedUpdateManyWithoutLeadNestedInput
+    emailRecipients?: EmailRecipientUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateManyWithoutPromotedViaEmailCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    pipelineStage?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    hasWhatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    diagnosis?: NullableJsonNullValueInput | InputJsonValue
+    diagnosisAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    diagnosisSource?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisToken?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosisClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attendanceStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    expectedReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    isInternal?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
+    promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmailEventCreateManyRecipientInput = {

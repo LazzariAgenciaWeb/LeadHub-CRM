@@ -76,6 +76,7 @@ export default async function ProspeccaoPage({
       company: { select: { id: true, name: true } },
       trackingLink: { select: { id: true, code: true, label: true, clicks: true, destination: true, isActive: true, _count: { select: { clickEvents: true } } } },
       tags: { include: { tag: true } },
+      promotedViaEmailCampaign: { select: { id: true, name: true } },
     },
   });
   const leadsWithTaskSummary = await attachTaskSummaries(rawLeads);

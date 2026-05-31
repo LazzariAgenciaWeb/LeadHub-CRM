@@ -39,6 +39,11 @@ export interface CRMLead {
   attendanceStatus: string | null;
   campaign: { id: string; name: string } | null;
   company: { id: string; name: string } | null;
+  // Rastreabilidade de promoção (de onde foi convertido)
+  promotedFromPipeline?: string | null;
+  promotedAt?: string | null;
+  promotedReason?: string | null;
+  promotedViaEmailCampaign?: { id: string; name: string } | null;
   clickupTaskId: string | null;
   // Campos preenchidos pela busca SerpAPI + scraper (módulo Prospecção).
   website: string | null;
@@ -1700,6 +1705,44 @@ export default function CRMBoard({
                       </span>
                     )}
                   </div>
+
+                  {/* Rastreabilidade da promoção: veio de outro pipeline + via qual gatilho */}
+                  {selected.promotedFromPipeline && (
+                    <div className="mt-2.5 pt-2.5 border-t border-[#1e2d45] space-y-1.5">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold">↗️ Conversão</div>
+                      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/25">
+                          {selected.promotedFromPipeline === "PROSPECCAO" ? "🔎 Veio de Prospecção" :
+                           selected.promotedFromPipeline === "LEADS" ? "🎯 Veio de Leads" :
+                           `↗️ Veio de ${selected.promotedFromPipeline}`}
+                        </span>
+                        {selected.promotedReason === "email_click" && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/25">
+                            📧 Clicou no e-mail
+                          </span>
+                        )}
+                        {selected.promotedReason === "link_click" && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/25">
+                            🔗 Clicou no link
+                          </span>
+                        )}
+                        {selected.promotedViaEmailCampaign && (
+                          <a
+                            href={`/campanhas/email/campanhas/${selected.promotedViaEmailCampaign.id}`}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/25 hover:bg-violet-500/20 transition-colors"
+                            title="Abrir campanha"
+                          >
+                            🚀 {selected.promotedViaEmailCampaign.name}
+                          </a>
+                        )}
+                        {selected.promotedAt && (
+                          <span className="text-slate-600 text-[10px]">
+                            em {new Date(selected.promotedAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* ── Tags ── */}

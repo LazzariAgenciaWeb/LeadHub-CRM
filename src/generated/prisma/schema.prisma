@@ -408,6 +408,15 @@ model Lead {
   trackingLink   TrackingLink? @relation(fields: [trackingLinkId], references: [id])
   trackingLinkId String?
 
+  // ─── Rastreabilidade da promoção entre pipelines (atribuição) ─────────────
+  // Setado pelos handlers de clique (shortlink e email) quando movem o lead
+  // automático entre pipelines — alimenta relatórios de conversão.
+  promotedFromPipeline       String? // "PROSPECCAO" | "LEADS"
+  promotedAt                 DateTime?
+  promotedReason             String? // "link_click" | "email_click" | "whatsapp_reply"
+  promotedViaEmailCampaign   EmailCampaign? @relation("CampaignPromotedLeads", fields: [promotedViaEmailCampaignId], references: [id], onDelete: SetNull)
+  promotedViaEmailCampaignId String?
+
   // Conversa unificada (uma conversa por telefone × empresa, criada no Sprint 1)
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
@@ -2134,9 +2143,11 @@ model EmailCampaign {
   createdBy   User?   @relation("EmailCampaignCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
-  recipients EmailRecipient[]
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
+  recipients    EmailRecipient[]
+  // Leads que foram promovidos (Prospect→Lead etc.) por engajamento com esta campanha.
+  promotedLeads Lead[]           @relation("CampaignPromotedLeads")
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@index([companyId, status])
   @@index([scheduledAt])
