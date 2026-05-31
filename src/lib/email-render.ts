@@ -100,12 +100,50 @@ function diagSectionHtml(
 </div>`.trim();
 }
 
+/**
+ * Constrói o link WhatsApp wa.me com mensagem pré-preenchida E tag de
+ * referência (ref:TOKEN) que o webhook do WhatsApp reconhece pra linkar
+ * automaticamente a conversa de volta ao lead que recebeu o email.
+ *
+ * Quando o recipient clica → wa.me abre → digita Enviar → mensagem chega no
+ * Evolution → webhook detecta "(ref: TOKEN)" → encontra o lead por
+ * diagnosisToken e vincula. Bypass do match por phone que pode falhar
+ * (recipient usa um número diferente do que está no Lead.phone).
+ */
+function buildWhatsappCta(
+  companyPhone: string | null | undefined,
+  empresaName: string,
+  diagnosisToken: string | null | undefined
+): string {
+  if (!companyPhone) return "";
+  const number = companyPhone.replace(/\D/g, "");
+  if (!number) return "";
+  const refTag = diagnosisToken ? `\n\n(ref: ${diagnosisToken})` : "";
+  const msg = `Olá! Acabei de ver o diagnóstico que vocês prepararam para ${empresaName} e gostaria de solicitar a avaliação completa.${refTag}`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+}
+
+function ctaButtonsHtml(diagnosticoUrl: string, whatsappUrl: string): string {
+  if (!diagnosticoUrl && !whatsappUrl) return "";
+  const verDiagBtn = diagnosticoUrl
+    ? `<a href="${diagnosticoUrl}" style="display:inline-block;background:#6366f1;color:#fff;padding:13px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:6px 4px;font-size:14px;">📊 Ver diagnóstico</a>`
+    : "";
+  const waBtn = whatsappUrl
+    ? `<a href="${whatsappUrl}" style="display:inline-block;background:#10b981;color:#fff;padding:13px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:6px 4px;font-size:14px;">💬 Solicitar via WhatsApp</a>`
+    : "";
+  return `
+<div style="text-align:center;margin:28px 0;">
+  ${verDiagBtn}
+  ${waBtn}
+</div>`.trim();
+}
+
 /** Constrói o vars padrão a partir do lead. Quem chama pode mesclar customs. */
 export function defaultVarsFromLead(lead: {
   name?: string | null;
   email?: string | null;
   phone?: string;
-  company?: { name?: string | null } | null;
+  company?: { name?: string | null; phone?: string | null } | null;
   diagnosis?: unknown;
   diagnosisToken?: string | null;
 }, opts?: { baseUrl?: string }): RenderVars {
@@ -117,7 +155,10 @@ export function defaultVarsFromLead(lead: {
   ).replace(/\/$/, "");
   const token = lead.diagnosisToken ?? null;
   const diagnosticoUrl = token && base ? `${base}/d/${encodeURIComponent(token)}` : "";
+  const empresaName = lead.company?.name ?? "sua empresa";
+  const whatsappAvaliacaoUrl = buildWhatsappCta(lead.company?.phone, empresaName, token);
   const diag = (lead.diagnosis ?? {}) as DiagnosisData;
+  const ctaDuplo = ctaButtonsHtml(diagnosticoUrl, whatsappAvaliacaoUrl);
 
   return {
     nome: lead.name ?? "",
@@ -127,6 +168,7 @@ export function defaultVarsFromLead(lead: {
     empresa: lead.company?.name ?? "",
     // ── Diagnóstico (Prospecta IA) ─────────────────────────────────────────
     diagnosticoUrl,
+    whatsappAvaliacaoUrl,
     diagnosticoSummary: diag.summary ?? "",
     diagnosticoPontosFortes: diagSectionHtml(diag.positives, {
       color: "#10b981", titleText: "Pontos fortes", icon: "✅",
@@ -140,13 +182,15 @@ export function defaultVarsFromLead(lead: {
       color: "#ef4444", titleText: "Quick wins (solução rápida)", icon: "🔴",
       linkUrl: diagnosticoUrl, anchor: "criticals",
     }),
-    // Bloco "tudo junto" pra usuário que quer só uma variável
+    // 2 botões side-by-side: Ver diagnóstico + Solicitar via WhatsApp
+    diagnosticoCtaDuplo: ctaDuplo,
+    // "Tudo junto" — resumo + 3 seções + 2 botões
     diagnosticoCompleto: [
       diag.summary ? `<p style="color:#374151;line-height:1.6;margin:14px 0;">${esc(diag.summary)}</p>` : "",
       diagSectionHtml(diag.positives, { color: "#10b981", titleText: "Pontos fortes", icon: "✅", linkUrl: diagnosticoUrl, anchor: "positives" }),
       diagSectionHtml(diag.opportunities, { color: "#f59e0b", titleText: "Oportunidades", icon: "⚠️", linkUrl: diagnosticoUrl, anchor: "opportunities" }),
       diagSectionHtml(diag.criticals, { color: "#ef4444", titleText: "Quick wins (solução rápida)", icon: "🔴", linkUrl: diagnosticoUrl, anchor: "criticals" }),
-      diagnosticoUrl ? `<p style="text-align:center;margin:24px 0;"><a href="${diagnosticoUrl}" style="display:inline-block;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Ver diagnóstico completo →</a></p>` : "",
+      ctaDuplo,
     ].filter(Boolean).join("\n"),
   };
 }

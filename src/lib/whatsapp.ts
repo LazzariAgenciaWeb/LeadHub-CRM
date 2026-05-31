@@ -713,6 +713,50 @@ export async function processInboundMessage(payload: {
   }
   // Se matchResult ainda é null → empresa sem regras
 
+  // ── Detectar "(ref: TOKEN)" no corpo da mensagem ───────────────────────────
+  // Quando o cliente clica no botão "Solicitar via WhatsApp" no email de
+  // campanha, o link wa.me vem com a mensagem pré-preenchida contendo o
+  // token do diagnóstico do lead. Aqui reconhecemos esse token e linkamos
+  // a conversa de volta ao lead — mesmo que o phone do remetente seja
+  // diferente do Lead.phone original.
+  const refMatch = body.match(/\(ref:\s*([a-zA-Z0-9_-]{6,})\s*\)/i);
+  if (refMatch) {
+    const refToken = refMatch[1];
+    const refLead = await prisma.lead.findFirst({
+      where: { diagnosisToken: refToken, companyId },
+      select: { id: true, phone: true, name: true, pipeline: true },
+    });
+    if (refLead && refLead.phone !== phone) {
+      console.log(`[WA inbound] ref token "${refToken}" → atualizando lead ${refLead.id} (phone ${refLead.phone} → ${phone})`);
+      await prisma.lead.update({
+        where: { id: refLead.id },
+        data: { phone },
+      }).catch(() => null);
+      await prisma.activity.create({
+        data: {
+          type: "NOTE_ADDED",
+          leadId: refLead.id,
+          companyId,
+          authorName: "Sistema",
+          body: `📲 Lead respondeu via WhatsApp solicitando avaliação completa (vindo do email de diagnóstico)`,
+          meta: { kind: "wa_diagnostic_request", refToken, oldPhone: refLead.phone, newPhone: phone },
+        },
+      }).catch(() => null);
+    } else if (refLead) {
+      // Phone já bate — só registra a Activity
+      await prisma.activity.create({
+        data: {
+          type: "NOTE_ADDED",
+          leadId: refLead.id,
+          companyId,
+          authorName: "Sistema",
+          body: `📲 Lead solicitou avaliação completa via WhatsApp (vindo do email de diagnóstico)`,
+          meta: { kind: "wa_diagnostic_request", refToken },
+        },
+      }).catch(() => null);
+    }
+  }
+
   // Verificar se já existe lead com este telefone nesta empresa
   // (se tem campaignId, prioriza o lead da mesma campanha)
   let lead = await prisma.lead.findFirst({

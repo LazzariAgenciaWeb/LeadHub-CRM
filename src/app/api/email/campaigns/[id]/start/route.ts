@@ -50,8 +50,9 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
 
   const leads = await prisma.lead.findMany({
     where,
-    include: { company: { select: { name: true } } },
-    // diagnosis + diagnosisToken vão direto via select (são escalares na Lead)
+    // phone é usado pra construir o link de WhatsApp no diagnóstico do email.
+    // diagnosis + diagnosisToken (escalares na Lead) já vêm por default.
+    include: { company: { select: { name: true, phone: true } } },
     take: 5000, // hard cap MVP
   });
 

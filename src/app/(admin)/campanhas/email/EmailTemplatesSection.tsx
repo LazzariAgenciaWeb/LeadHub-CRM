@@ -13,6 +13,7 @@ interface Template {
 
 const VARS_HINT_BASIC = "Básicas: {{nome}}, {{primeiroNome}}, {{email}}, {{phone}}, {{empresa}}";
 const VARS_HINT_DIAG = "Diagnóstico IA: {{diagnosticoSummary}}, {{diagnosticoPontosFortes}}, {{diagnosticoOportunidades}}, {{diagnosticoQuickWins}}, {{diagnosticoUrl}}, {{diagnosticoCompleto}}";
+const VARS_HINT_CTA = "CTAs: {{whatsappAvaliacaoUrl}} (link WA com ref), {{diagnosticoCtaDuplo}} (2 botões: Ver + WhatsApp)";
 
 export default function EmailTemplatesSection({ companyId }: { companyId?: string }) {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -169,9 +170,10 @@ function TemplateEditor({
               <div className="text-slate-500 text-[10px] mb-2 space-y-1">
                 <p>{VARS_HINT_BASIC}</p>
                 <p>{VARS_HINT_DIAG}</p>
+                <p>{VARS_HINT_CTA}</p>
                 <p className="text-slate-600 italic">
-                  💡 Quick wins viram links automaticamente apontando pra página pública do diagnóstico.
-                  Use <code className="text-slate-400">{`{{diagnosticoCompleto}}`}</code> pra inserir resumo + 3 seções + CTA num bloco só.
+                  💡 <code className="text-slate-400">{`{{diagnosticoCtaDuplo}}`}</code> renderiza 2 botões: <strong>Ver diagnóstico</strong> + <strong>Solicitar via WhatsApp</strong>.
+                  O link do WA já vem com mensagem pré-preenchida + tag <code className="text-slate-400">(ref:&nbsp;TOKEN)</code> — quando o cliente envia, o sistema reconhece e linka o lead direto à conversa.
                 </p>
               </div>
               <textarea
