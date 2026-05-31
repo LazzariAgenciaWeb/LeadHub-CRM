@@ -47,6 +47,7 @@ export const GRADIENTS = {
   cofre:        ["#f59e0b", "#dc2626"],   // amber → red (segurança)
   marketing:    ["#3b82f6", "#a855f7"],   // blue → purple (analytics)
   gamificacao:  ["#fbbf24", "#f97316"],   // yellow → orange (troféu)
+  planos:       ["#6366f1", "#a855f7"],   // indigo → purple (assinaturas)
 } as const;
 
 export type GradientKey = keyof typeof GRADIENTS;

@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -132,6 +132,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
     { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
     { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
+    { href: "/planos",     Icon: CreditCard,    label: "Planos",        grad: "planos",    show: _isSuperAdmin },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
   // Sub-itens do grupo Dashboard
