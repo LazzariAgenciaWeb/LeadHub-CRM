@@ -51,6 +51,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   const leads = await prisma.lead.findMany({
     where,
     include: { company: { select: { name: true } } },
+    // diagnosis + diagnosisToken vão direto via select (são escalares na Lead)
     take: 5000, // hard cap MVP
   });
 

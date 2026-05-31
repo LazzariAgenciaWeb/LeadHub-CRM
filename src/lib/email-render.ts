@@ -56,18 +56,97 @@ export function renderTemplate(
   return { subject, html, text };
 }
 
+/** Item de uma seção do diagnóstico IA (gerado em /api/prospeccao/diagnose). */
+interface DiagPoint { title: string; detail?: string; }
+interface DiagnosisData {
+  summary?: string;
+  positives?: DiagPoint[];
+  opportunities?: DiagPoint[];
+  criticals?: DiagPoint[];
+}
+
+/** Escape básico de HTML pra texto vindo de IA/usuário (proteção contra HTML quebrado). */
+function esc(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]!));
+}
+
+/**
+ * Renderiza uma seção do diagnóstico como HTML com estilos inline (boa
+ * portabilidade entre clientes de email).
+ *
+ * Se `linkUrl` é passado, cada item vira clicável apontando pra `linkUrl#anchor`.
+ */
+function diagSectionHtml(
+  items: DiagPoint[] | undefined,
+  opts: { color: string; titleText: string; icon: string; linkUrl?: string; anchor?: string }
+): string {
+  if (!items || items.length === 0) return "";
+  const target = opts.linkUrl ? `${opts.linkUrl}${opts.anchor ? `#${opts.anchor}` : ""}` : "";
+  const lis = items.map((it) => {
+    const detail = it.detail ? `<div style="color:#666;margin-top:4px;font-size:13px;">${esc(it.detail)}</div>` : "";
+    const titleEl = target
+      ? `<a href="${target}" style="color:${opts.color};text-decoration:none;font-weight:bold;">${esc(it.title)}</a>`
+      : `<strong style="color:#111;">${esc(it.title)}</strong>`;
+    return `<li style="margin-bottom:10px;color:#333;line-height:1.5;">${titleEl}${detail}</li>`;
+  }).join("");
+  return `
+<div style="background:#f9fafb;border-left:4px solid ${opts.color};padding:14px 18px;border-radius:6px;margin:14px 0;">
+  <div style="font-size:12px;font-weight:bold;color:${opts.color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+    ${opts.icon} ${esc(opts.titleText)}
+  </div>
+  <ul style="padding-left:20px;margin:0;">${lis}</ul>
+</div>`.trim();
+}
+
 /** Constrói o vars padrão a partir do lead. Quem chama pode mesclar customs. */
 export function defaultVarsFromLead(lead: {
   name?: string | null;
   email?: string | null;
   phone?: string;
   company?: { name?: string | null } | null;
-}): RenderVars {
+  diagnosis?: unknown;
+  diagnosisToken?: string | null;
+}, opts?: { baseUrl?: string }): RenderVars {
+  const base = (
+    opts?.baseUrl
+    ?? process.env.NEXT_PUBLIC_BASE_URL
+    ?? process.env.NEXTAUTH_URL
+    ?? ""
+  ).replace(/\/$/, "");
+  const token = lead.diagnosisToken ?? null;
+  const diagnosticoUrl = token && base ? `${base}/d/${encodeURIComponent(token)}` : "";
+  const diag = (lead.diagnosis ?? {}) as DiagnosisData;
+
   return {
     nome: lead.name ?? "",
     primeiroNome: (lead.name ?? "").split(" ")[0] ?? "",
     email: lead.email ?? "",
     phone: lead.phone ?? "",
     empresa: lead.company?.name ?? "",
+    // ── Diagnóstico (Prospecta IA) ─────────────────────────────────────────
+    diagnosticoUrl,
+    diagnosticoSummary: diag.summary ?? "",
+    diagnosticoPontosFortes: diagSectionHtml(diag.positives, {
+      color: "#10b981", titleText: "Pontos fortes", icon: "✅",
+      linkUrl: diagnosticoUrl, anchor: "positives",
+    }),
+    diagnosticoOportunidades: diagSectionHtml(diag.opportunities, {
+      color: "#f59e0b", titleText: "Oportunidades", icon: "⚠️",
+      linkUrl: diagnosticoUrl, anchor: "opportunities",
+    }),
+    diagnosticoQuickWins: diagSectionHtml(diag.criticals, {
+      color: "#ef4444", titleText: "Quick wins (solução rápida)", icon: "🔴",
+      linkUrl: diagnosticoUrl, anchor: "criticals",
+    }),
+    // Bloco "tudo junto" pra usuário que quer só uma variável
+    diagnosticoCompleto: [
+      diag.summary ? `<p style="color:#374151;line-height:1.6;margin:14px 0;">${esc(diag.summary)}</p>` : "",
+      diagSectionHtml(diag.positives, { color: "#10b981", titleText: "Pontos fortes", icon: "✅", linkUrl: diagnosticoUrl, anchor: "positives" }),
+      diagSectionHtml(diag.opportunities, { color: "#f59e0b", titleText: "Oportunidades", icon: "⚠️", linkUrl: diagnosticoUrl, anchor: "opportunities" }),
+      diagSectionHtml(diag.criticals, { color: "#ef4444", titleText: "Quick wins (solução rápida)", icon: "🔴", linkUrl: diagnosticoUrl, anchor: "criticals" }),
+      diagnosticoUrl ? `<p style="text-align:center;margin:24px 0;"><a href="${diagnosticoUrl}" style="display:inline-block;background:#10b981;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Ver diagnóstico completo →</a></p>` : "",
+    ].filter(Boolean).join("\n"),
   };
 }

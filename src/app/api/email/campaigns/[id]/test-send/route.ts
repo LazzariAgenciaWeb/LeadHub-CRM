@@ -35,13 +35,20 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "Email de destino inválido" }, { status: 400 });
   }
 
-  // Vars de exemplo — qualquer {{var}} sem valor real fica em branco
+  // Vars de exemplo — qualquer {{var}} sem valor real fica em branco.
+  // Inclui um diagnóstico fake pra você ver como ficam as seções renderizadas.
   const sampleVars = {
     nome: "Teste LeadHub",
     primeiroNome: "Teste",
     email: to,
     phone: "5511999999999",
     empresa: "Empresa Exemplo",
+    diagnosticoUrl: "https://exemplo.com/d/exemplo",
+    diagnosticoSummary: "Sua empresa tem boa presença digital, mas há oportunidades de otimização que podem melhorar conversão.",
+    diagnosticoPontosFortes: `<div style="background:#f9fafb;border-left:4px solid #10b981;padding:14px 18px;border-radius:6px;margin:14px 0;"><div style="font-size:12px;font-weight:bold;color:#10b981;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">✅ Pontos fortes</div><ul style="padding-left:20px;margin:0;"><li style="margin-bottom:10px;color:#333;line-height:1.5;"><strong style="color:#111;">Estrutura de SEO básica</strong><div style="color:#666;margin-top:4px;font-size:13px;">Título e meta description configurados.</div></li></ul></div>`,
+    diagnosticoOportunidades: `<div style="background:#f9fafb;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:6px;margin:14px 0;"><div style="font-size:12px;font-weight:bold;color:#f59e0b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">⚠️ Oportunidades</div><ul style="padding-left:20px;margin:0;"><li style="margin-bottom:10px;color:#333;line-height:1.5;"><strong style="color:#111;">Otimização de imagens</strong><div style="color:#666;margin-top:4px;font-size:13px;">Algumas imagens sem texto ALT.</div></li></ul></div>`,
+    diagnosticoQuickWins: `<div style="background:#f9fafb;border-left:4px solid #ef4444;padding:14px 18px;border-radius:6px;margin:14px 0;"><div style="font-size:12px;font-weight:bold;color:#ef4444;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">🔴 Quick wins (solução rápida)</div><ul style="padding-left:20px;margin:0;"><li style="margin-bottom:10px;color:#333;line-height:1.5;"><a href="https://exemplo.com/d/exemplo#criticals" style="color:#ef4444;text-decoration:none;font-weight:bold;">Pagespeed indisponível</a><div style="color:#666;margin-top:4px;font-size:13px;">Sem dados sobre velocidade do site.</div></li></ul></div>`,
+    diagnosticoCompleto: "",  // worker preenche com tudo junto
   };
 
   const rendered = renderTemplate(

@@ -11,7 +11,8 @@ interface Template {
   updatedAt: string;
 }
 
-const VARS_HINT = "Variáveis disponíveis: {{nome}}, {{primeiroNome}}, {{email}}, {{phone}}, {{empresa}}";
+const VARS_HINT_BASIC = "Básicas: {{nome}}, {{primeiroNome}}, {{email}}, {{phone}}, {{empresa}}";
+const VARS_HINT_DIAG = "Diagnóstico IA: {{diagnosticoSummary}}, {{diagnosticoPontosFortes}}, {{diagnosticoOportunidades}}, {{diagnosticoQuickWins}}, {{diagnosticoUrl}}, {{diagnosticoCompleto}}";
 
 export default function EmailTemplatesSection({ companyId }: { companyId?: string }) {
   const [templates, setTemplates] = useState<Template[]>([]);
@@ -165,7 +166,14 @@ function TemplateEditor({
         <div className="flex-1 overflow-y-auto p-5">
           {tab === "editor" ? (
             <>
-              <p className="text-slate-500 text-[10px] mb-2">{VARS_HINT}</p>
+              <div className="text-slate-500 text-[10px] mb-2 space-y-1">
+                <p>{VARS_HINT_BASIC}</p>
+                <p>{VARS_HINT_DIAG}</p>
+                <p className="text-slate-600 italic">
+                  💡 Quick wins viram links automaticamente apontando pra página pública do diagnóstico.
+                  Use <code className="text-slate-400">{`{{diagnosticoCompleto}}`}</code> pra inserir resumo + 3 seções + CTA num bloco só.
+                </p>
+              </div>
               <textarea
                 value={html} onChange={(e) => setHtml(e.target.value)}
                 placeholder="<p>Olá {{primeiroNome}},</p><p>...</p>"
