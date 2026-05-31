@@ -132,6 +132,11 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
     { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
     { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
+  ] satisfies SidebarLink[]).filter((l) => l.show);
+
+  // Links renderizados ACIMA do grupo Dashboard. Planos é atalho comercial
+  // do super admin e fica no topo do menu.
+  const preDashLinks: SidebarLink[] = ([
     { href: "/planos",     Icon: CreditCard,    label: "Planos",        grad: "planos",    show: _isSuperAdmin },
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
@@ -164,8 +169,8 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
     { href: "/campanhas/email", Icon: Mail,       label: "E-mail Marketing", grad: "email",      show: _isSuperAdmin || _isAdmin },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
-    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
+    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
     { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
     { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
@@ -200,6 +205,22 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
         <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider px-2 mb-2">
           {_isSuperAdmin ? "Administração" : "Menu"}
         </div>
+
+        {/* Links acima do Dashboard (Planos) */}
+        {preDashLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
+              isActive(link.href)
+                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
+                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+            }`}
+          >
+            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
+            {link.label}
+          </Link>
+        ))}
 
         {/* Dashboard — grupo expansível */}
         {dashSubItems.length > 0 && (
