@@ -94,6 +94,7 @@ async function handleInner(req: NextRequest) {
   });
 
   for (const campaign of active) {
+    let sent = 0, failed = 0;
     const cfg: CadenceConfig = { ...DEFAULT_CADENCE, ...(campaign.cadenceConfig as any) };
     const now = new Date();
 
@@ -124,42 +125,28 @@ async function handleInner(req: NextRequest) {
       take: toProcess,
     });
 
-    if (recipients.length === 0) {
-      // Acabaram os pendentes: confere se TUDO já saiu e marca COMPLETED
-      const remaining = await prisma.emailRecipient.count({
-        where: { campaignId: campaign.id, status: { in: ["PENDING", "SENDING"] } },
-      });
-      if (remaining === 0) {
+    // Se há pendentes, processa. Senão pula direto pro check de COMPLETED no final.
+    if (recipients.length > 0) {
+      // Pega template + SMTP da empresa
+      const [template, smtpOk] = await Promise.all([
+        prisma.emailTemplate.findUnique({ where: { id: campaign.templateId } }),
+        getCompanyEmailConfig(campaign.companyId).then((c) => !!c),
+      ]);
+
+      if (!template) {
         await prisma.emailCampaign.update({
           where: { id: campaign.id },
-          data: { status: "COMPLETED", completedAt: new Date() },
+          data: { status: "FAILED" },
         });
-        summary.push({ campaign: campaign.id, completed: true });
+        summary.push({ campaign: campaign.id, failed: "template removido" });
+        continue;
       }
-      continue;
-    }
+      if (!smtpOk) {
+        summary.push({ campaign: campaign.id, skipped: "SMTP não configurado" });
+        continue;
+      }
 
-    // Pega template + SMTP da empresa
-    const [template, smtpOk] = await Promise.all([
-      prisma.emailTemplate.findUnique({ where: { id: campaign.templateId } }),
-      getCompanyEmailConfig(campaign.companyId).then((c) => !!c),
-    ]);
-
-    if (!template) {
-      await prisma.emailCampaign.update({
-        where: { id: campaign.id },
-        data: { status: "FAILED" },
-      });
-      summary.push({ campaign: campaign.id, failed: "template removido" });
-      continue;
-    }
-    if (!smtpOk) {
-      summary.push({ campaign: campaign.id, skipped: "SMTP não configurado" });
-      continue;
-    }
-
-    let sent = 0, failed = 0;
-    for (const r of recipients) {
+      for (const r of recipients) {
       // Marca SENDING pra outros ticks não pegarem o mesmo
       await prisma.emailRecipient.update({
         where: { id: r.id },
@@ -231,8 +218,22 @@ async function handleInner(req: NextRequest) {
       });
       if (recheck >= cfg.maxPerHour) break;
     }
+    }  // fecha if (recipients.length > 0)
 
-    summary.push({ campaign: campaign.id, sent, failed });
+    // Acabou o tick desta campanha. Se não sobrou ninguém pendente nem em
+    // envio, marca COMPLETED na hora (em vez de esperar a próxima rodada).
+    const remaining = await prisma.emailRecipient.count({
+      where: { campaignId: campaign.id, status: { in: ["PENDING", "SENDING"] } },
+    });
+    if (remaining === 0) {
+      await prisma.emailCampaign.update({
+        where: { id: campaign.id },
+        data: { status: "COMPLETED", completedAt: new Date() },
+      });
+      summary.push({ campaign: campaign.id, sent, failed, completed: true });
+    } else {
+      summary.push({ campaign: campaign.id, sent, failed, remaining });
+    }
   }
 
   return NextResponse.json({
