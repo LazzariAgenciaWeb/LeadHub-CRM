@@ -32,11 +32,11 @@ export const SOURCE_META: Record<string, SourceMeta> = {
   indicação:   { label: "Indicação",   icon: "🤝", color: "amber" },
   organico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
   orgânico:    { label: "Orgânico",    icon: "🌱", color: "emerald" },
-  // Origens da feature "Prospecta IA · LeadHub" — busca via SerpAPI/Google Maps
-  // dentro do CRM. "serpapi" é o canal técnico; "prospecta leadhub" é o rótulo
-  // do produto (ambos coexistem porque um lead pode ter qualquer das duas).
-  serpapi:             { label: "SerpAPI",          icon: "🔎", color: "cyan"   },
-  "prospecta leadhub": { label: "Prospecta LeadHub", icon: "🎯", color: "indigo" },
+  // Origens da feature "LeadHub Prospecta" — busca de empresas no Google Maps
+  // dentro do CRM. "serpapi" é só o canal técnico interno (valor legado gravado
+  // no banco); pro usuário SEMPRE exibimos o rótulo de produto "LeadHub Prospecta".
+  serpapi:             { label: "LeadHub Prospecta", icon: "🎯", color: "indigo" },
+  "prospecta leadhub": { label: "LeadHub Prospecta", icon: "🎯", color: "indigo" },
 };
 
 export function getSourceMeta(source: string | null | undefined): SourceMeta {

@@ -280,7 +280,7 @@ export default function BuscarProspectsModal({
               <div>
                 <h2 className="text-white font-semibold text-lg">🔍 Buscar prospects</h2>
                 <p className="text-slate-400 text-xs mt-0.5">
-                  Google Maps via SerpAPI · scraper inline pra email/Instagram/Facebook
+                  Busca empresas no Google Maps e enriquece com e-mail, Instagram e Facebook
                 </p>
               </div>
               <button

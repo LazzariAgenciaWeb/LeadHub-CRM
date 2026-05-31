@@ -5,8 +5,11 @@
  * por plano vem daqui. UI da pricing page, helpers de limite e Stripe consomem
  * este módulo.
  *
- * Estrutura comercial (revisão 2026-05-15):
- *  - 4 planos públicos: FREE (trial 14d), ESSENCIAL, MARKETING, PREMIUM
+ * Estrutura comercial (revisão 2026-05-31):
+ *  - 2 planos públicos (lançamento): FREE (grátis pra sempre) e ESSENCIAL
+ *  - MARKETING e PREMIUM: definidos e prontos, mas FORA da pricing page por ora
+ *    (ainda atribuíveis manualmente pelo super admin). Pra publicar, basta
+ *    voltar a incluí-los em PLAN_ORDER.
  *  - ENTERPRISE: sob consulta, atribuído manualmente, fora do catálogo público
  *  - CRESCIMENTO: legado (mantido no enum pra subscriptions existentes, fora
  *    da pricing page)
@@ -172,8 +175,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
   FREE: {
     tier: "FREE",
     label: "Free",
-    tagline: "14 dias para experimentar",
-    description: "Experimente o LeadHub em modo Visão (somente leitura) — organize seu WhatsApp sem risco de bloqueio.",
+    tagline: "Grátis pra sempre",
+    description: "Organize seu WhatsApp em modo Visão (somente leitura), sem risco de bloqueio — de graça, sem prazo pra acabar.",
     priceMonthly: 0,
     priceAnnualPerMonth: 0,
     priceAnnualTotal: 0,
@@ -192,11 +195,11 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "14 dias para experimentar",
+      "Grátis pra sempre, sem cartão",
       "1 WhatsApp · 2 atendentes",
       "Modo Visão: equipe responde pelo celular",
       "CRM Leads + Inbox + Calendário",
-      "Sem cartão de crédito",
+      "Sem prazo pra acabar",
     ],
   },
 
@@ -222,7 +225,6 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       inboxAvancado: true,
       tickets: true,
       crmPipelineLeads: true,
-      crmPipelineOportunidades: true,
       calendario: true,
       links: true,
     }),
@@ -230,7 +232,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     highlights: [
       "1 WhatsApp · 2 atendentes",
       "Inbox completo (SLA + transferência)",
-      "CRM com Leads e Oportunidades",
+      "CRM com pipeline de Leads",
       "Tickets/Chamados",
       "Links de rastreio",
       "Calendário + Google Calendar",
@@ -390,7 +392,6 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     highlights: [
       "Tudo do Premium +",
       "Todos os add-ons inclusos",
-      "White-label completo",
       "SLA contratual (99.5% uptime)",
       "Account manager dedicado",
       "Integrações sob medida",
@@ -469,8 +470,12 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
   },
 };
 
-/** Ordem em que os planos aparecem na pricing page (público). */
-export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
+/**
+ * Ordem em que os planos aparecem na pricing page (público).
+ * Lançamento: só FREE e ESSENCIAL. Pra publicar MARKETING/PREMIUM, adicione-os
+ * de volta aqui — as definições já estão prontas em PLANS.
+ */
+export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL"];
 
 /** Planos legados/internos — não aparecem na pricing page. */
 export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
@@ -490,8 +495,11 @@ export type AddonKey =
   | "gamificacao"
   | "clickupSync"
   | "bannerLgpd"
-  | "whiteLabel"
   | "customDomain";
+// Nota: white-label fora da oferta por ora (decisão 2026-05-31). A feature
+// `whiteLabel` segue no PlanFeatures (flag interno do Enterprise), mas não é
+// mais contratável como add-on nem aparece na UI. Pra reativar: readicionar
+// "whiteLabel" aqui + o bloco em ADDONS + os labels em PricingClient/CompanySubscription.
 
 export interface AddonDefinition {
   key: AddonKey;
@@ -508,8 +516,8 @@ export interface AddonDefinition {
 export const ADDONS: Record<AddonKey, AddonDefinition> = {
   prospectaIa: {
     key: "prospectaIa",
-    label: "Prospecta IA",
-    description: "Busca prospects no Google Maps com sua própria SerpAPI key.",
+    label: "LeadHub Prospecta",
+    description: "Busca empresas no Google Maps e enriquece com e-mail, Instagram e Facebook. Leads entram identificados como LeadHub Prospecta.",
     priceMonthly: 49,
     minTier: "ESSENCIAL",
     feature: "prospectaIa",
@@ -561,14 +569,6 @@ export const ADDONS: Record<AddonKey, AddonDefinition> = {
     priceMonthly: 19,
     minTier: "ESSENCIAL",
     feature: "bannerLgpd",
-  },
-  whiteLabel: {
-    key: "whiteLabel",
-    label: "White-label",
-    description: "Sua marca no painel — sem referência ao LeadHub.",
-    priceMonthly: 199,
-    minTier: "MARKETING",
-    feature: "whiteLabel",
   },
   customDomain: {
     key: "customDomain",

@@ -94,7 +94,7 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "crmPipelineLeads",         label: "CRM — Pipeline Leads" },
       { key: "crmPipelineOportunidades", label: "CRM — Pipeline Oportunidades" },
       { key: "crmPipelineProspeccao",    label: "CRM — Pipeline Prospecção" },
-      { key: "prospectaIa",              label: "Prospecta IA (SerpAPI)" },
+      { key: "prospectaIa",              label: "LeadHub Prospecta" },
       { key: "emailMassa",               label: "Email em massa" },
       { key: "projetos",                 label: "Projetos" },
       { key: "calendario",               label: "Calendário" },
@@ -149,7 +149,6 @@ const FEATURE_GROUPS: FeatureGroup[] = [
     icon: "🏢",
     features: [
       { key: "apiAccess",          label: "API completa" },
-      { key: "whiteLabel",         label: "White-label" },
       { key: "customDomain",       label: "Domínio próprio" },
       { key: "suportePrioritario", label: "Suporte prioritário" },
       { key: "accountManager",     label: "Account manager" },

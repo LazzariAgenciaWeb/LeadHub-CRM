@@ -54,13 +54,13 @@ export default function PricingClient({
       <section className="px-5 pt-16 pb-10 text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-3 py-1 text-emerald-300 text-xs font-medium mb-5">
           <Sparkles className="w-3.5 h-3.5" />
-          14 dias grátis · sem cartão
+          Grátis pra sempre · sem cartão
         </div>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-          Marketing intel <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">sem precisar de agência</span>
+          Seu WhatsApp organizado, <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">sem perder cliente</span>
         </h1>
         <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-          WhatsApp + CRM + Marketing num só painel. Veja seu negócio em tempo real, não no fim do mês.
+          WhatsApp + CRM num só painel. Atenda, acompanhe cada lead e feche mais — sem planilha, sem bagunça.
         </p>
       </section>
 
@@ -95,7 +95,7 @@ export default function PricingClient({
 
       {/* Cards de planos */}
       <section className="max-w-7xl mx-auto px-5 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
           {plans.map((plan) => (
             <PlanCard key={plan.tier} plan={plan} cycle={cycle} />
           ))}
@@ -186,9 +186,9 @@ export default function PricingClient({
       <section className="max-w-3xl mx-auto px-5 py-12 border-t border-[#1e2d45]">
         <h2 className="text-2xl font-bold text-center mb-8">Perguntas frequentes</h2>
         <div className="space-y-3">
-          <Faq q="Posso testar sem cartão de crédito?">
-            Sim. O trial de 14 dias libera todas as funcionalidades do plano Marketing,
-            sem cartão. Você só precisa cadastrar e-mail e nome.
+          <Faq q="Posso usar sem cartão de crédito?">
+            Sim. O plano Free é grátis pra sempre, sem cartão e sem prazo pra acabar.
+            Você só precisa cadastrar e-mail e nome pra começar a organizar seu WhatsApp.
           </Faq>
           <Faq q="Como funciona o WhatsApp?">
             Cada plano inclui um número de instâncias (chip + WhatsApp Business). Você
@@ -224,7 +224,7 @@ export default function PricingClient({
       <section className="max-w-3xl mx-auto px-5 py-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Comece grátis hoje</h2>
         <p className="text-slate-400 text-lg mb-6">
-          14 dias completos com tudo liberado. Sem cartão. Cancela quando quiser.
+          Plano Free pra sempre, sem cartão. Faça upgrade pro Essencial quando quiser.
         </p>
         <Link
           href="/cadastro"
@@ -329,7 +329,7 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "CRM — Pipeline Leads", key: "crmPipelineLeads", isFeature: true },
     { label: "CRM — Pipeline Oportunidades", key: "crmPipelineOportunidades", isFeature: true },
     { label: "CRM — Pipeline Prospecção", key: "crmPipelineProspeccao", isFeature: true },
-    { label: "Prospecta IA (SerpAPI)", key: "prospectaIa", isFeature: true },
+    { label: "LeadHub Prospecta", key: "prospectaIa", isFeature: true },
     { label: "Email em massa", key: "emailMassa", isFeature: true },
     { label: "Projetos", key: "projetos", isFeature: true },
     { label: "Calendário", key: "calendario", isFeature: true },
@@ -352,7 +352,6 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     // 🏢 Enterprise
     { label: "API completa", key: "apiAccess", isFeature: true },
     { label: "Domínio próprio", key: "customDomain", isFeature: true },
-    { label: "White-label", key: "whiteLabel", isFeature: true },
     { label: "Suporte prioritário", key: "suportePrioritario", isFeature: true },
     { label: "Account manager", key: "accountManager", isFeature: true },
   ];
@@ -361,6 +360,13 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     if (v === -1) return "Ilimitado";
     return v.toLocaleString("pt-BR");
   }
+
+  // Esconde linhas de feature que nenhum plano visível oferece — evita uma
+  // parede de "❌" expondo tudo que falta quando só há planos de entrada no ar.
+  // Limites sempre aparecem (são números comparáveis, não ausência).
+  const visibleRows = rows.filter(
+    (row) => row.isLimit || plans.some((p) => (p.features as any)[row.key] === true),
+  );
 
   return (
     <div className="overflow-x-auto -mx-5 px-5">
@@ -376,7 +382,7 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {visibleRows.map((row) => (
             <tr key={row.key} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
               <td className="py-2.5 text-slate-300 text-xs">{row.label}</td>
               {plans.map((p) => {
