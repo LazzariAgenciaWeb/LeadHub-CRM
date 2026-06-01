@@ -225,8 +225,14 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       inboxAvancado: true,
       tickets: true,
       crmPipelineLeads: true,
-      calendario: true,
       links: true,
+      // Ferramentas gratuitas do Google: dashboard + Analytics + Search
+      // Console. GBP (depende de aprovação) e Ads (pago) ficam no
+      // Marketing/Premium. Cliente conecta a própria conta Google via OAuth.
+      // Calendário sai do Essencial pra abrir espaço pro Marketing entrar.
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
     }),
     modoAtendimentoDefault: "ATENDE",
     highlights: [
@@ -234,8 +240,8 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Inbox completo (SLA + transferência)",
       "CRM com pipeline de Leads",
       "Tickets/Chamados",
+      "Dashboard Marketing + Google Analytics + Search Console",
       "Links de rastreio",
-      "Calendário + Google Calendar",
       "Suporte por e-mail",
     ],
   },
