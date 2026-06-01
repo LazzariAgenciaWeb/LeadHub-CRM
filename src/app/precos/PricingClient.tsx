@@ -313,7 +313,14 @@ function PlanCard({ plan, cycle }: { plan: PlanDefinition; cycle: "monthly" | "a
 // ─── Tabela comparativa ──────────────────────────────────────────────────────
 
 function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
-  type Row = { label: string; key: string; isFeature?: boolean; isLimit?: boolean; format?: (v: any) => string };
+  type Row = {
+    label: string;
+    key: string;
+    isFeature?: boolean;
+    isLimit?: boolean;
+    isMode?: boolean;     // pega de plan.modoAtendimentoDefault e renderiza badge
+    format?: (v: any) => string;
+  };
   const rows: Row[] = [
     // Limites
     { label: "WhatsApp", key: "whatsappInstances", isLimit: true, format: limitFmt },
@@ -322,6 +329,11 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "Leads/mês", key: "leadsPerMonth", isLimit: true, format: limitFmt },
     // 🟢 Atendimento
     { label: "WhatsApp (Inbox)", key: "whatsapp", isFeature: true },
+    // Linha dedicada que mostra se o painel responde (ATENDE) ou só
+    // acompanha (VISÃO — equipe responde pelo celular). Diferencial
+    // crítico entre os planos de entrada (Free/Essencial = Visão) e
+    // os pagos a partir de Marketing (Atende).
+    { label: "Modo de atendimento", key: "modoAtendimentoDefault", isMode: true },
     { label: "Inbox avançado (SLA, transferência)", key: "inboxAvancado", isFeature: true },
     { label: "Ver grupos no inbox", key: "whatsappGrupos", isFeature: true },
     { label: "Tickets/Chamados", key: "tickets", isFeature: true },
@@ -365,7 +377,7 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
   // parede de "❌" expondo tudo que falta quando só há planos de entrada no ar.
   // Limites sempre aparecem (são números comparáveis, não ausência).
   const visibleRows = rows.filter(
-    (row) => row.isLimit || plans.some((p) => (p.features as any)[row.key] === true),
+    (row) => row.isLimit || row.isMode || plans.some((p) => (p.features as any)[row.key] === true),
   );
 
   return (
@@ -388,7 +400,9 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
               {plans.map((p) => {
                 const v = row.isLimit
                   ? (p.limits as any)[row.key]
-                  : (p.features as any)[row.key];
+                  : row.isMode
+                    ? (p as any).modoAtendimentoDefault
+                    : (p.features as any)[row.key];
                 return (
                   <td key={p.tier} className="py-2.5 text-center">
                     {row.isFeature ? (
@@ -397,6 +411,14 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
                       ) : (
                         <X className="w-4 h-4 text-slate-700 mx-auto" strokeWidth={2} />
                       )
+                    ) : row.isMode ? (
+                      <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                        v === "ATENDE"
+                          ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+                          : "bg-amber-500/10 text-amber-300 border border-amber-500/30"
+                      }`}>
+                        {v === "ATENDE" ? "Atende pelo painel" : "Modo Visão"}
+                      </span>
                     ) : (
                       <span className="text-slate-300 text-xs font-mono">
                         {row.format ? row.format(v) : v}

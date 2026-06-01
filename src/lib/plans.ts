@@ -234,10 +234,10 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       googleAnalytics: true,
       googleSearchConsole: true,
     }),
-    modoAtendimentoDefault: "ATENDE",
+    modoAtendimentoDefault: "VISAO",
     highlights: [
       "1 WhatsApp · 2 atendentes",
-      "Inbox completo (SLA + transferência)",
+      "WhatsApp em modo Visão (equipe responde pelo celular)",
       "CRM com pipeline de Leads",
       "Tickets/Chamados",
       "Dashboard Marketing + Google Analytics + Search Console",
