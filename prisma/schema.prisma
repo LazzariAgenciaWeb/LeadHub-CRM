@@ -2057,6 +2057,7 @@ model UserNotifPreferences {
   newMessage  Boolean @default(true) // chegou mensagem WhatsApp em conversa que é minha
   hotSignal   Boolean @default(true) // tarefa AUTO_LINK_OPEN criada
   taskOverdue Boolean @default(false) // ainda não tem cron, deixa off
+  followUp    Boolean @default(true) // resumo diário: leads/oportunidades pra retornar + esfriando
 
   updatedAt DateTime @updatedAt
 }

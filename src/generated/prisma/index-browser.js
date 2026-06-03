@@ -992,6 +992,7 @@ exports.Prisma.UserNotifPreferencesScalarFieldEnum = {
   newMessage: 'newMessage',
   hotSignal: 'hotSignal',
   taskOverdue: 'taskOverdue',
+  followUp: 'followUp',
   updatedAt: 'updatedAt'
 };
 

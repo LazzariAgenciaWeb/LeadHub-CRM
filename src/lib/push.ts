@@ -54,14 +54,15 @@ export interface PushPayload {
 export async function sendPushToUser(
   userId: string,
   payload: PushPayload,
-  categoryFilter?: "newMessage" | "hotSignal" | "taskOverdue"
+  categoryFilter?: "newMessage" | "hotSignal" | "taskOverdue" | "followUp"
 ): Promise<void> {
   if (!ensureConfigured()) return;
 
   try {
     if (categoryFilter) {
       const prefs = await prisma.userNotifPreferences.findUnique({ where: { userId } });
-      // Default = ligado pra newMessage e hotSignal, desligado pra taskOverdue.
+      // Default = ligado pra tudo MENOS taskOverdue (que ainda não tem cron).
+      // followUp default ligado → cai no ramo `!== "taskOverdue"` = true.
       const enabled = prefs
         ? (prefs as any)[categoryFilter] !== false
         : (categoryFilter !== "taskOverdue");

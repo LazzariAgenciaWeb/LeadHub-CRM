@@ -8,6 +8,7 @@ import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 import MyTasksToday from "./MyTasksToday";
+import FollowUpsToday from "./FollowUpsToday";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -297,6 +298,9 @@ export default async function DashboardPage() {
 
       {/* Minhas tarefas de hoje — primeira ação do dia do vendedor */}
       <MyTasksToday />
+
+      {/* Follow-ups do CRM — leads/oportunidades pra retornar + esfriando */}
+      <FollowUpsToday />
 
       {/* Conquistas (medalhões) + ranking lateral — primeira coisa que se vê */}
       <DashboardGamificacaoTop />

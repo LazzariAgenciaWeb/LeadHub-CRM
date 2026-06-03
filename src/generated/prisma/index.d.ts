@@ -75492,6 +75492,7 @@ export namespace Prisma {
     newMessage: boolean | null
     hotSignal: boolean | null
     taskOverdue: boolean | null
+    followUp: boolean | null
     updatedAt: Date | null
   }
 
@@ -75500,6 +75501,7 @@ export namespace Prisma {
     newMessage: boolean | null
     hotSignal: boolean | null
     taskOverdue: boolean | null
+    followUp: boolean | null
     updatedAt: Date | null
   }
 
@@ -75508,6 +75510,7 @@ export namespace Prisma {
     newMessage: number
     hotSignal: number
     taskOverdue: number
+    followUp: number
     updatedAt: number
     _all: number
   }
@@ -75518,6 +75521,7 @@ export namespace Prisma {
     newMessage?: true
     hotSignal?: true
     taskOverdue?: true
+    followUp?: true
     updatedAt?: true
   }
 
@@ -75526,6 +75530,7 @@ export namespace Prisma {
     newMessage?: true
     hotSignal?: true
     taskOverdue?: true
+    followUp?: true
     updatedAt?: true
   }
 
@@ -75534,6 +75539,7 @@ export namespace Prisma {
     newMessage?: true
     hotSignal?: true
     taskOverdue?: true
+    followUp?: true
     updatedAt?: true
     _all?: true
   }
@@ -75615,6 +75621,7 @@ export namespace Prisma {
     newMessage: boolean
     hotSignal: boolean
     taskOverdue: boolean
+    followUp: boolean
     updatedAt: Date
     _count: UserNotifPreferencesCountAggregateOutputType | null
     _min: UserNotifPreferencesMinAggregateOutputType | null
@@ -75640,6 +75647,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userNotifPreferences"]>
@@ -75649,6 +75657,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userNotifPreferences"]>
@@ -75658,6 +75667,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: boolean
   }
 
@@ -75678,6 +75688,7 @@ export namespace Prisma {
       newMessage: boolean
       hotSignal: boolean
       taskOverdue: boolean
+      followUp: boolean
       updatedAt: Date
     }, ExtArgs["result"]["userNotifPreferences"]>
     composites: {}
@@ -76077,6 +76088,7 @@ export namespace Prisma {
     readonly newMessage: FieldRef<"UserNotifPreferences", 'Boolean'>
     readonly hotSignal: FieldRef<"UserNotifPreferences", 'Boolean'>
     readonly taskOverdue: FieldRef<"UserNotifPreferences", 'Boolean'>
+    readonly followUp: FieldRef<"UserNotifPreferences", 'Boolean'>
     readonly updatedAt: FieldRef<"UserNotifPreferences", 'DateTime'>
   }
     
@@ -85761,6 +85773,7 @@ export namespace Prisma {
     newMessage: 'newMessage',
     hotSignal: 'hotSignal',
     taskOverdue: 'taskOverdue',
+    followUp: 'followUp',
     updatedAt: 'updatedAt'
   };
 
@@ -92282,6 +92295,7 @@ export namespace Prisma {
     newMessage?: BoolFilter<"UserNotifPreferences"> | boolean
     hotSignal?: BoolFilter<"UserNotifPreferences"> | boolean
     taskOverdue?: BoolFilter<"UserNotifPreferences"> | boolean
+    followUp?: BoolFilter<"UserNotifPreferences"> | boolean
     updatedAt?: DateTimeFilter<"UserNotifPreferences"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -92291,6 +92305,7 @@ export namespace Prisma {
     newMessage?: SortOrder
     hotSignal?: SortOrder
     taskOverdue?: SortOrder
+    followUp?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -92303,6 +92318,7 @@ export namespace Prisma {
     newMessage?: BoolFilter<"UserNotifPreferences"> | boolean
     hotSignal?: BoolFilter<"UserNotifPreferences"> | boolean
     taskOverdue?: BoolFilter<"UserNotifPreferences"> | boolean
+    followUp?: BoolFilter<"UserNotifPreferences"> | boolean
     updatedAt?: DateTimeFilter<"UserNotifPreferences"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "userId">
@@ -92312,6 +92328,7 @@ export namespace Prisma {
     newMessage?: SortOrder
     hotSignal?: SortOrder
     taskOverdue?: SortOrder
+    followUp?: SortOrder
     updatedAt?: SortOrder
     _count?: UserNotifPreferencesCountOrderByAggregateInput
     _max?: UserNotifPreferencesMaxOrderByAggregateInput
@@ -92326,6 +92343,7 @@ export namespace Prisma {
     newMessage?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
     hotSignal?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
     taskOverdue?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
+    followUp?: BoolWithAggregatesFilter<"UserNotifPreferences"> | boolean
     updatedAt?: DateTimeWithAggregatesFilter<"UserNotifPreferences"> | Date | string
   }
 
@@ -99447,6 +99465,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutNotifPreferencesInput
   }
@@ -99456,6 +99475,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: Date | string
   }
 
@@ -99463,6 +99483,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutNotifPreferencesNestedInput
   }
@@ -99472,6 +99493,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -99480,6 +99502,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: Date | string
   }
 
@@ -99487,6 +99510,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -99495,6 +99519,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -105020,6 +105045,7 @@ export namespace Prisma {
     newMessage?: SortOrder
     hotSignal?: SortOrder
     taskOverdue?: SortOrder
+    followUp?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -105028,6 +105054,7 @@ export namespace Prisma {
     newMessage?: SortOrder
     hotSignal?: SortOrder
     taskOverdue?: SortOrder
+    followUp?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -105036,6 +105063,7 @@ export namespace Prisma {
     newMessage?: SortOrder
     hotSignal?: SortOrder
     taskOverdue?: SortOrder
+    followUp?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -113922,6 +113950,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: Date | string
   }
 
@@ -113929,6 +113958,7 @@ export namespace Prisma {
     newMessage?: boolean
     hotSignal?: boolean
     taskOverdue?: boolean
+    followUp?: boolean
     updatedAt?: Date | string
   }
 
@@ -114805,6 +114835,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -114812,6 +114843,7 @@ export namespace Prisma {
     newMessage?: BoolFieldUpdateOperationsInput | boolean
     hotSignal?: BoolFieldUpdateOperationsInput | boolean
     taskOverdue?: BoolFieldUpdateOperationsInput | boolean
+    followUp?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -33,6 +33,119 @@ export interface CalendarDataInput {
   userSetorIds: string[];
 }
 
+/** Dias sem interação pra um lead sem prazo entrar em "esfriando". */
+export const STALE_AFTER_DAYS = 5;
+
+/**
+ * Guard de "oportunidade não-fechada" — fonte ÚNICA usada nos buckets de
+ * follow-up (6 e 7) e no cron de lembrete diário. Mantém a regra de exclusão
+ * de leads encerrados num lugar só pra não divergir.
+ *
+ * Exclui:
+ *   - status CLOSED/LOST
+ *   - etapas finais por NOME (Fechado/Ganho/Perdido/Vendido) — pega o caso
+ *     legado onde o pipelineStage virou final mas o status não sincronizou
+ *   - conversa vinculada já CLOSED (não há o que retornar)
+ */
+export const NOT_CLOSED_LEAD_WHERE: any = {
+  status: { notIn: ["CLOSED", "LOST"] },
+  NOT: {
+    OR: [
+      { pipelineStage: { contains: "echado",  mode: "insensitive" } }, // Fechado
+      { pipelineStage: { contains: "ganho",   mode: "insensitive" } },
+      { pipelineStage: { contains: "perdid",  mode: "insensitive" } }, // Perdido/Perdida
+      { pipelineStage: { contains: "vendid",  mode: "insensitive" } }, // Vendido/Vendida
+      { conversation: { is: { status: "CLOSED" } } },
+    ],
+  },
+};
+
+/**
+ * Buckets de follow-up de leads/oportunidades (6 + 7 do "Meu Dia"):
+ *   - leadsFollowUp → Lead com expectedReturnAt vencido/hoje (prazo formal)
+ *   - staleLeads    → Lead sem prazo + sem interação há STALE_AFTER_DAYS dias
+ *
+ * Escopo (mesma regra do resto do Meu Dia): meus + sem responsável
+ * (manager vê qualquer setor; CLIENT só os dele). Reaproveitado pelo widget
+ * do dashboard e — em modo company-wide — referência pro cron de lembrete.
+ */
+export async function getLeadFollowUps(input: CalendarDataInput) {
+  const { companyId, userId, isManager, userSetorIds } = input;
+
+  const now      = new Date();
+  const todayEnd = endOfTodayInSystemTZ(now);
+  const staleCutoff = new Date(now);
+  staleCutoff.setDate(staleCutoff.getDate() - STALE_AFTER_DAYS);
+
+  const cf = companyId ? { companyId } : {};
+
+  // Scope: lead herda responsável da Conversation vinculada.
+  const scopeOr: any[] = [
+    { conversation: { is: { assigneeId: userId } } },
+    isManager
+      ? { conversation: { is: { assigneeId: null } } }
+      : (userSetorIds.length > 0
+          ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
+          : { id: "__never__" }),
+  ];
+
+  const [leadsFollowUp, staleLeads] = await Promise.all([
+    // ── 6. Follow-ups de leads (prazo formal vencido/hoje) ────────────────────
+    prisma.lead.findMany({
+      where: {
+        ...cf,
+        ...NOT_CLOSED_LEAD_WHERE,
+        expectedReturnAt: { lte: todayEnd },
+        OR: scopeOr,
+      },
+      select: {
+        id: true, name: true, phone: true, companyId: true,
+        pipeline: true, pipelineStage: true,
+        expectedReturnAt: true, status: true,
+      },
+      orderBy: { expectedReturnAt: "asc" },
+      take: 20,
+    }),
+
+    // ── 7. Leads sem prazo, esfriando ─────────────────────────────────────────
+    // Sai sozinho da lista quando o lead ganha um expectedReturnAt (vira bucket 6)
+    // ou quando alguém manda mensagem (lastMessageAt sobe acima do cutoff).
+    prisma.lead.findMany({
+      where: {
+        ...cf,
+        ...NOT_CLOSED_LEAD_WHERE,
+        expectedReturnAt: null,
+        AND: [
+          {
+            OR: [
+              ...scopeOr,
+              // Lead sem conversa: só manager pega (CLIENT não tem como derivar setor).
+              ...(isManager ? [{ conversation: { is: null } }] : []),
+            ],
+          },
+          // "Esfriando": conversa parada OU (sem conversa E updatedAt antigo).
+          {
+            OR: [
+              { conversation: { is: { lastMessageAt: { lt: staleCutoff } } } },
+              { AND: [{ conversation: { is: null } }, { updatedAt: { lt: staleCutoff } }] },
+            ],
+          },
+        ],
+      },
+      select: {
+        id: true, name: true, phone: true, companyId: true,
+        pipeline: true, pipelineStage: true,
+        status: true, updatedAt: true,
+        conversation: { select: { lastMessageAt: true } },
+      },
+      orderBy: { updatedAt: "asc" }, // mais antigos primeiro = mais frios
+      take: 15,
+    }),
+  ]);
+
+  return { leadsFollowUp, staleLeads };
+}
+
 export async function getCalendarData(input: CalendarDataInput) {
   const { companyId, userId, isManager, userSetorIds } = input;
 
@@ -40,11 +153,6 @@ export async function getCalendarData(input: CalendarDataInput) {
   const today    = startOfTodayInSystemTZ(now);
   const todayEnd = endOfTodayInSystemTZ(now);
   const nextWeek = new Date(now); nextWeek.setDate(nextWeek.getDate() + 7);
-  // Cutoff pra "lead esfriando": sem prazo definido + sem interação há 5 dias.
-  // Constante porque ainda não tem UI de configurar — fácil ajustar depois.
-  const STALE_AFTER_DAYS = 5;
-  const staleCutoff = new Date(now);
-  staleCutoff.setDate(staleCutoff.getDate() - STALE_AFTER_DAYS);
 
   const cf = companyId ? { companyId } : {};
 
@@ -66,8 +174,7 @@ export async function getCalendarData(input: CalendarDataInput) {
     inProgressConvs,
     myTickets,
     unassignedTickets,
-    leadsFollowUp,
-    staleLeads,
+    followUps,
   ] = await Promise.all([
     // ── 1. Retornos agendados ─────────────────────────────────────────────────
     // Filtra por scheduledReturnAt (não pelo status) — se o cliente responder
@@ -206,102 +313,13 @@ export async function getCalendarData(input: CalendarDataInput) {
           })
         : Promise.resolve([] as never[]),
 
-    // ── 6. Follow-ups de leads ────────────────────────────────────────────────
-    // Lead não tem assigneeId direto — herda da Conversation vinculada.
-    prisma.lead.findMany({
-      where: {
-        ...cf,
-        expectedReturnAt: { lte: todayEnd },
-        status: { notIn: ["CLOSED", "LOST"] },
-        // Robustez: alguns leads viram "Oportunidade · Fechado" só no
-        // pipelineStage, sem o status sincronizar pra CLOSED (fechado por
-        // path legado / kanban antigo). Excluímos também:
-        //  - etapas finais por nome (Fechado/Ganho/Perdido/Vendido)
-        //  - conversa já finalizada (status CLOSED) — não há o que retornar
-        NOT: {
-          OR: [
-            { pipelineStage: { contains: "echado",  mode: "insensitive" } }, // Fechado
-            { pipelineStage: { contains: "ganho",   mode: "insensitive" } },
-            { pipelineStage: { contains: "perdid",  mode: "insensitive" } }, // Perdido/Perdida
-            { pipelineStage: { contains: "vendid",  mode: "insensitive" } }, // Vendido/Vendida
-            { conversation: { is: { status: "CLOSED" } } },
-          ],
-        },
-        OR: [
-          { conversation: { is: { assigneeId: userId } } },
-          isManager
-            ? { conversation: { is: { assigneeId: null } } }
-            : (userSetorIds.length > 0
-                ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
-                : { id: "__never__" }),
-        ],
-      },
-      select: {
-        id: true, name: true, phone: true, companyId: true,
-        pipeline: true, pipelineStage: true,
-        expectedReturnAt: true, status: true,
-      },
-      orderBy: { expectedReturnAt: "asc" },
-      take: 20,
-    }),
-
-    // ── 7. Leads sem prazo, esfriando ────────────────────────────────────────
-    // Antecipa followup quando o lead/oportunidade está sem prazo definido E
-    // sem interação há mais de N dias. "Última interação" = lastMessageAt da
-    // conversa vinculada; se não tem conversa, usa Lead.updatedAt como fallback.
-    // Sai automaticamente da lista quando o lead recebe um expectedReturnAt
-    // (vira followup formal no bucket 6) ou quando alguém manda mensagem
-    // (lastMessageAt sobe acima do cutoff).
-    prisma.lead.findMany({
-      where: {
-        ...cf,
-        expectedReturnAt: null,
-        status: { notIn: ["CLOSED", "LOST"] },
-        // Mesma blindagem do bucket 6: oportunidade fechada não esfria.
-        NOT: {
-          OR: [
-            { pipelineStage: { contains: "echado",  mode: "insensitive" } },
-            { pipelineStage: { contains: "ganho",   mode: "insensitive" } },
-            { pipelineStage: { contains: "perdid",  mode: "insensitive" } },
-            { pipelineStage: { contains: "vendid",  mode: "insensitive" } },
-            { conversation: { is: { status: "CLOSED" } } },
-          ],
-        },
-        AND: [
-          // Scope: meus + sem responsável (com filtro de setor pra CLIENT)
-          {
-            OR: [
-              { conversation: { is: { assigneeId: userId } } },
-              isManager
-                ? { conversation: { is: { assigneeId: null } } }
-                : (userSetorIds.length > 0
-                    ? { conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } }
-                    : { id: "__never__" }),
-              // Lead sem conversa (manager pega; CLIENT precisa de setor —
-              // mas como não tem como derivar setor do lead, fica de fora
-              // pra CLIENT na MVP. Manager vê.).
-              ...(isManager ? [{ conversation: { is: null } }] : []),
-            ],
-          },
-          // "Esfriando": ou conversa parada ou (sem conversa E updatedAt antigo)
-          {
-            OR: [
-              { conversation: { is: { lastMessageAt: { lt: staleCutoff } } } },
-              { AND: [{ conversation: { is: null } }, { updatedAt: { lt: staleCutoff } }] },
-            ],
-          },
-        ],
-      },
-      select: {
-        id: true, name: true, phone: true, companyId: true,
-        pipeline: true, pipelineStage: true,
-        status: true, updatedAt: true,
-        conversation: { select: { lastMessageAt: true } },
-      },
-      orderBy: { updatedAt: "asc" }, // mais antigos primeiro = mais frios
-      take: 15,
-    }),
+    // ── 6 + 7. Follow-ups de leads + leads esfriando ──────────────────────────
+    // Extraídos pra getLeadFollowUps() — fonte única reaproveitada pelo widget
+    // do dashboard (/api/followups/me) e pelo cron de lembrete diário.
+    getLeadFollowUps(input),
   ]);
+
+  const { leadsFollowUp, staleLeads } = followUps;
 
   return {
     scheduledConvs,

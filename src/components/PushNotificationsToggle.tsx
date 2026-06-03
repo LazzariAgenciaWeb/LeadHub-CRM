@@ -184,7 +184,7 @@ export default function PushNotificationsToggle() {
             🔔 Notificações no navegador
           </h3>
           <p className="text-slate-500 text-xs mt-1">
-            Receba alertas no seu computador quando chegar mensagem nova ou sinal quente — mesmo com o LeadHub fechado.
+            Receba alertas no seu computador quando chegar mensagem nova, sinal quente ou o resumo diário de follow-ups — mesmo com o LeadHub fechado.
           </p>
         </div>
         <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded border flex-shrink-0 ${
