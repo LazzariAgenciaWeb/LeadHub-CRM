@@ -34,9 +34,19 @@ interface TrackingLink {
 interface Campaign { id: string; name: string; companyId: string }
 interface Company { id: string; name: string; phone: string | null }
 
+interface ActivityEvent {
+  id: string;
+  createdAt: string;
+  kind: "OPEN" | "INTERNAL";
+  linkLabel: string;
+  linkCode: string;
+  targetLabel: string | null;
+  targetUrl: string;
+}
+
 export default function LinksManager({
   isSuperAdmin, initialLinks, campaigns, companies, defaultCompanyId, baseUrl,
-  totalClicks, totalLeads, clicksByDay, clicksByLink,
+  totalClicks, totalLeads, clicksByDay, clicksByLink, activityFeed,
 }: {
   isSuperAdmin: boolean;
   initialLinks: TrackingLink[];
@@ -46,8 +56,9 @@ export default function LinksManager({
   baseUrl: string;
   totalClicks: number;
   totalLeads: number;
-  clicksByDay: { date: string; internos: number }[];
+  clicksByDay: { date: string; aberturas: number; internos: number }[];
   clicksByLink: { label: string; cliques: number; internos: number }[];
+  activityFeed: ActivityEvent[];
 }) {
   const router = useRouter();
   const [links, setLinks] = useState(initialLinks);
@@ -202,11 +213,15 @@ export default function LinksManager({
           {/* Área: cliques internos por dia */}
           <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
             <h3 className="text-white font-semibold text-sm mb-4">
-              Cliques internos por dia <span className="text-slate-500 font-normal text-xs">(últimos 30 dias)</span>
+              Aberturas e cliques por dia <span className="text-slate-500 font-normal text-xs">(últimos 30 dias)</span>
             </h3>
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={240}>
               <AreaChart data={clicksByDay} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
                 <defs>
+                  <linearGradient id="gradAberturas" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                  </linearGradient>
                   <linearGradient id="gradInternos" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.25} />
                     <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
@@ -216,7 +231,9 @@ export default function LinksManager({
                 <XAxis dataKey="date" tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} interval={4} />
                 <YAxis tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} allowDecimals={false} />
                 <Tooltip contentStyle={{ background: "#0f1623", border: "1px solid #1e2d45", borderRadius: 8, fontSize: 12 }}
-                  labelStyle={{ color: "#94a3b8" }} itemStyle={{ color: "#f59e0b" }} />
+                  labelStyle={{ color: "#94a3b8" }} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#64748b", paddingTop: 8 }} />
+                <Area type="monotone" dataKey="aberturas" name="Aberturas do link" stroke="#6366f1" strokeWidth={2} fill="url(#gradAberturas)" dot={false} />
                 <Area type="monotone" dataKey="internos" name="Cliques internos" stroke="#f59e0b" strokeWidth={2} fill="url(#gradInternos)" dot={false} />
               </AreaChart>
             </ResponsiveContainer>
@@ -280,6 +297,77 @@ export default function LinksManager({
                 })}
               </tbody>
             </table>
+          </div>
+
+          {/* Timeline de atividade — eventos cronológicos */}
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+            <div className="px-5 py-3 border-b border-[#1e2d45] flex items-center justify-between">
+              <h3 className="text-white font-semibold text-sm">Atividade recente</h3>
+              <span className="text-slate-500 text-[11px]">últimos {activityFeed.length} eventos</span>
+            </div>
+            {activityFeed.length === 0 ? (
+              <div className="text-center text-slate-500 text-sm py-10">Nenhuma atividade registrada ainda.</div>
+            ) : (
+              <div className="divide-y divide-[#1e2d45]/40">
+                {(() => {
+                  // Agrupa por dia (YYYY-MM-DD)
+                  const groups = new Map<string, ActivityEvent[]>();
+                  for (const ev of activityFeed) {
+                    const day = ev.createdAt.slice(0, 10);
+                    if (!groups.has(day)) groups.set(day, []);
+                    groups.get(day)!.push(ev);
+                  }
+                  const today = new Date().toISOString().slice(0, 10);
+                  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+                  return Array.from(groups.entries()).map(([day, events]) => {
+                    const d = new Date(day + "T12:00:00");
+                    const dayLabel =
+                      day === today ? "Hoje"
+                      : day === yesterday ? "Ontem"
+                      : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", weekday: "short" });
+                    return (
+                      <div key={day}>
+                        <div className="px-5 py-2 bg-[#080b12] sticky top-0 z-10">
+                          <p className="text-amber-400 text-[10px] font-semibold uppercase tracking-wide">{dayLabel}</p>
+                        </div>
+                        <div className="px-5 py-1">
+                          {events.map((ev) => {
+                            const time = new Date(ev.createdAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+                            const isOpen = ev.kind === "OPEN";
+                            const isWa = ev.targetLabel?.startsWith("WhatsApp");
+                            const icon = isOpen ? "👁️" : isWa ? "💬" : "🖱️";
+                            const action = isOpen ? "Abriu o link" : "Clicou";
+                            const actionColor = isOpen ? "text-indigo-300" : isWa ? "text-green-300" : "text-slate-200";
+                            return (
+                              <div key={ev.id} className="flex items-start gap-3 py-2 border-b border-[#1e2d45]/20 last:border-0">
+                                <span className="flex-shrink-0 text-sm mt-0.5">{icon}</span>
+                                <div className="flex-1 min-w-0">
+                                  <p className={`text-[12px] leading-tight ${actionColor}`}>
+                                    <span className="font-semibold">{action}</span>
+                                    <span className="text-slate-500"> em </span>
+                                    <span className="text-white font-medium">{ev.linkLabel}</span>
+                                    {!isOpen && ev.targetLabel && (
+                                      <>
+                                        <span className="text-slate-500"> → </span>
+                                        <span className={isWa ? "text-green-400" : "text-amber-300"}>{ev.targetLabel}</span>
+                                      </>
+                                    )}
+                                  </p>
+                                  {!isOpen && ev.targetUrl && (
+                                    <p className="text-slate-600 text-[10px] truncate max-w-[600px] mt-0.5">{ev.targetUrl}</p>
+                                  )}
+                                </div>
+                                <span className="flex-shrink-0 text-amber-400 text-[11px] font-mono mt-0.5">{time}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            )}
           </div>
         </div>
       )}

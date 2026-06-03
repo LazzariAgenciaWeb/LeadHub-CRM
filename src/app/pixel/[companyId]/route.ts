@@ -47,10 +47,22 @@ export async function GET(
     } catch(e) {}
   }
 
-  // Extrai label rico do elemento clicado
+  // Extrai label rico do elemento clicado.
+  // Prioriza data-lh-track (rótulo explícito do site) > aria-label > texto visível > title/alt.
+  // Sobe na árvore procurando data-lh-track (até 4 níveis) — útil quando o atributo
+  // está num wrapper e o clique acontece num filho (ex.: <a data-lh-track="cta-hero"><svg/></a>).
   function getLabel(el) {
-    return (el.innerText || el.textContent || el.getAttribute('aria-label') || el.getAttribute('title') || el.getAttribute('alt') || '')
-      .trim().replace(/\\s+/g, ' ').slice(0, 150);
+    var node = el;
+    for (var i = 0; i < 4 && node && node !== document.body; i++) {
+      var tag = node.getAttribute && node.getAttribute('data-lh-track');
+      if (tag) return String(tag).trim().slice(0, 150);
+      node = node.parentElement;
+    }
+    var aria = el.getAttribute && el.getAttribute('aria-label');
+    if (aria) return aria.trim().replace(/\\s+/g, ' ').slice(0, 150);
+    var txt = (el.innerText || el.textContent || '').trim().replace(/\\s+/g, ' ');
+    if (txt) return txt.slice(0, 150);
+    return ((el.getAttribute && (el.getAttribute('title') || el.getAttribute('alt'))) || '').trim().slice(0, 150);
   }
 
   // Detecta e decodifica mensagem de links WhatsApp

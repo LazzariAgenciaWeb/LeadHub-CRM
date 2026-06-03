@@ -52,24 +52,27 @@ export default async function LinksPage() {
       createdAt: { gte: since30 },
       trackingLink: isSuperAdmin ? {} : { companyId: userCompanyId },
     },
-    select: { createdAt: true, trackingLinkId: true },
+    select: { createdAt: true, trackingLinkId: true, kind: true },
     orderBy: { createdAt: "asc" },
   });
 
-  // Cliques por dia (internos)
-  const clicksByDayMap: Record<string, number> = {};
+  // Aberturas e cliques internos por dia
+  const dayMap: Record<string, { aberturas: number; internos: number }> = {};
   for (let i = 0; i < 30; i++) {
     const d = new Date(since30);
     d.setDate(d.getDate() + i);
-    clicksByDayMap[d.toISOString().slice(0, 10)] = 0;
+    dayMap[d.toISOString().slice(0, 10)] = { aberturas: 0, internos: 0 };
   }
   allClickEvents.forEach((ev) => {
     const day = ev.createdAt.toISOString().slice(0, 10);
-    if (day in clicksByDayMap) clicksByDayMap[day]++;
+    if (!(day in dayMap)) return;
+    if (ev.kind === "OPEN") dayMap[day].aberturas++;
+    else dayMap[day].internos++;
   });
-  const clicksByDay = Object.entries(clicksByDayMap).map(([date, count]) => ({
+  const clicksByDay = Object.entries(dayMap).map(([date, v]) => ({
     date: date.slice(5), // MM-DD
-    internos: count,
+    aberturas: v.aberturas,
+    internos: v.internos,
   }));
 
   // Cliques por link (top 10)
@@ -81,6 +84,33 @@ export default async function LinksPage() {
     }))
     .sort((a, b) => b.cliques + b.internos - (a.cliques + a.internos))
     .slice(0, 10);
+
+  // Timeline de atividade — últimos 200 eventos (OPEN + INTERNAL) cronológicos
+  const recentEvents = await prisma.clickEvent.findMany({
+    where: {
+      trackingLink: isSuperAdmin ? {} : { companyId: userCompanyId },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+    select: {
+      id: true,
+      createdAt: true,
+      kind: true,
+      targetUrl: true,
+      targetLabel: true,
+      trackingLink: { select: { code: true, label: true } },
+    },
+  });
+
+  const activityFeed = recentEvents.map((ev) => ({
+    id: ev.id,
+    createdAt: ev.createdAt.toISOString(),
+    kind: ev.kind as "OPEN" | "INTERNAL",
+    linkLabel: ev.trackingLink.label ?? ev.trackingLink.code,
+    linkCode: ev.trackingLink.code,
+    targetLabel: ev.targetLabel,
+    targetUrl: ev.targetUrl,
+  }));
 
   return (
     <LinksManager
@@ -94,6 +124,7 @@ export default async function LinksPage() {
       totalLeads={totalLeads}
       clicksByDay={clicksByDay}
       clicksByLink={clicksByLink}
+      activityFeed={activityFeed}
     />
   );
 
