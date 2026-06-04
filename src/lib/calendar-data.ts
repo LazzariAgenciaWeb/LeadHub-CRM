@@ -37,6 +37,13 @@ export interface CalendarDataInput {
 export const STALE_AFTER_DAYS = 5;
 
 /**
+ * Pipelines que entram nos follow-ups. Prospect (PROSPECCAO) fica DE FORA —
+ * é fila de prospecção em massa (dezenas/centenas), polui o painel e o push.
+ * Follow-up é sobre não deixar esfriar quem já é lead/oportunidade.
+ */
+export const FOLLOWUP_PIPELINES = ["LEADS", "OPORTUNIDADES"];
+
+/**
  * Guard de "oportunidade não-fechada" — fonte ÚNICA usada nos buckets de
  * follow-up (6 e 7) e no cron de lembrete diário. Mantém a regra de exclusão
  * de leads encerrados num lugar só pra não divergir.
@@ -95,6 +102,7 @@ export async function getLeadFollowUps(input: CalendarDataInput) {
       where: {
         ...cf,
         ...NOT_CLOSED_LEAD_WHERE,
+        pipeline: { in: FOLLOWUP_PIPELINES as any },
         expectedReturnAt: { lte: todayEnd },
         OR: scopeOr,
       },
@@ -114,6 +122,7 @@ export async function getLeadFollowUps(input: CalendarDataInput) {
       where: {
         ...cf,
         ...NOT_CLOSED_LEAD_WHERE,
+        pipeline: { in: FOLLOWUP_PIPELINES as any },
         expectedReturnAt: null,
         AND: [
           {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendPushToUser } from "@/lib/push";
-import { STALE_AFTER_DAYS, NOT_CLOSED_LEAD_WHERE } from "@/lib/calendar-data";
+import { STALE_AFTER_DAYS, NOT_CLOSED_LEAD_WHERE, FOLLOWUP_PIPELINES } from "@/lib/calendar-data";
 import { endOfTodayInSystemTZ } from "@/lib/datetime";
 
 /**
@@ -52,6 +52,7 @@ async function handle(req: NextRequest) {
     where: {
       companyId: { in: companyIds },
       ...NOT_CLOSED_LEAD_WHERE,
+      pipeline: { in: FOLLOWUP_PIPELINES as any },
       expectedReturnAt: { lte: todayEnd },
     },
     select: { id: true, companyId: true, conversation: { select: { assigneeId: true } } },
@@ -62,6 +63,7 @@ async function handle(req: NextRequest) {
     where: {
       companyId: { in: companyIds },
       ...NOT_CLOSED_LEAD_WHERE,
+      pipeline: { in: FOLLOWUP_PIPELINES as any },
       expectedReturnAt: null,
       OR: [
         { conversation: { is: { lastMessageAt: { lt: staleCutoff } } } },
