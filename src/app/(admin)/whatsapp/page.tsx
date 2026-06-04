@@ -59,8 +59,11 @@ export default async function WhatsappPage({
 
   const convRecords = await prisma.conversation.findMany({
     where: convFilter,
+    // 200 = balanço entre carga inicial razoável e cobrir maioria das fronts
+    // de atendimento. Busca server-side em /api/conversations/search cobre o
+    // histórico inteiro quando o user digita nome/telefone.
     orderBy: { lastMessageAt: { sort: "desc", nulls: "last" } },
-    take: 100,
+    take: 200,
     select: {
       id: true, phone: true, companyId: true,
       status: true, statusUpdatedAt: true, unreadCount: true,

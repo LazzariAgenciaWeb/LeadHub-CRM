@@ -440,6 +440,36 @@ export default function WhatsappManager({
   }, []);
 
   const [search, setSearch] = useState("");
+  // Conversas vindas do endpoint de busca server-side (cobre histórico além
+  // das 100 mais recentes que o page.tsx carrega de cara). Indexadas por
+  // phone pra dedup com a lista local.
+  const [serverSearchResults, setServerSearchResults] = useState<Conversation[]>([]);
+  const [serverSearchLoading, setServerSearchLoading] = useState(false);
+
+  // Busca server-side debounced. Roda quando o usuário digita >=2 chars.
+  // Resultados são mesclados em `filteredConvs` (próximo useMemo abaixo),
+  // permitindo achar contato fora das 100 mais recentes que vieram do SSR.
+  useEffect(() => {
+    const q = search.trim();
+    if (q.length < 2) { setServerSearchResults([]); setServerSearchLoading(false); return; }
+    let cancelled = false;
+    setServerSearchLoading(true);
+    const timer = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({ q });
+        if (isSuperAdmin && defaultCompanyId) params.set("companyId", defaultCompanyId);
+        const res = await fetch(`/api/conversations/search?${params.toString()}`);
+        if (!res.ok) { if (!cancelled) setServerSearchResults([]); return; }
+        const data = await res.json();
+        if (!cancelled) setServerSearchResults((data.conversations ?? []) as Conversation[]);
+      } catch {
+        if (!cancelled) setServerSearchResults([]);
+      } finally {
+        if (!cancelled) setServerSearchLoading(false);
+      }
+    }, 300);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [search, isSuperAdmin, defaultCompanyId]);
   const [instanceFilter, setInstanceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -967,9 +997,19 @@ export default function WhatsappManager({
     return [...new Set(names)];
   }, [conversations, isSuperAdmin, defaultCompanyId]);
 
-  // Filtered conversations
+  // Filtered conversations.
+  // Quando há busca server-side ativa, mescla os resultados (dedup por phone)
+  // antes de filtrar — assim contatos que não estão nas 100 conversas mais
+  // recentes do SSR também aparecem ao digitar nome/telefone na busca.
   const filteredConvs = useMemo(() => {
-    return conversations.filter((c) => {
+    const base = (() => {
+      if (serverSearchResults.length === 0) return conversations;
+      const byPhone = new Map<string, Conversation>();
+      for (const c of conversations) byPhone.set(c.phone, c);
+      for (const c of serverSearchResults) if (!byPhone.has(c.phone)) byPhone.set(c.phone, c);
+      return [...byPhone.values()];
+    })();
+    return base.filter((c) => {
       // Filtro de empresa (client-side, defesa contra dados misturados no refresh)
       if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) return false;
 
@@ -1021,7 +1061,7 @@ export default function WhatsappManager({
       }
       return true;
     });
-  }, [conversations, search, instanceFilter, statusFilter, convStatusOverride, hideGroups, isSuperAdmin, defaultCompanyId]);
+  }, [conversations, serverSearchResults, search, instanceFilter, statusFilter, convStatusOverride, hideGroups, isSuperAdmin, defaultCompanyId]);
 
   // Contagem por filtro de status (para mostrar badges nos chips)
   const filterCounts = useMemo(() => {
@@ -2448,7 +2488,11 @@ export default function WhatsappManager({
           <div className="min-w-0">
             <h1 className="text-white font-bold text-lg md:text-xl">🗨️ Mensagens</h1>
             <p className="text-slate-500 text-xs md:text-sm mt-0.5">
-              {conversations.length} conversa{conversations.length !== 1 ? "s" : ""}
+              {conversations.length} conversa{conversations.length !== 1 ? "s" : ""} recente{conversations.length !== 1 ? "s" : ""}
+              {serverSearchResults.length > 0 && (
+                <span className="ml-1 text-indigo-400">· +{serverSearchResults.filter((c) => !conversations.some((x) => x.phone === c.phone)).length} no histórico</span>
+              )}
+              {serverSearchLoading && <span className="ml-1 text-slate-600">· buscando…</span>}
             </p>
           </div>
 
