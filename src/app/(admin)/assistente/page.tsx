@@ -269,14 +269,35 @@ export default async function AssistentePage() {
     taxaResposta: s.total > 0 ? Math.round((s.respondidas / s.total) * 100) : 0,
   }));
 
+  // Exclusão de finalizados (reusada em pendingLeads + stalledOpps): status
+  // fechado/perdido, etapa final (isFinal) ou nome de etapa de encerramento.
+  const finalStageRows = userCompanyId
+    ? await prisma.pipelineStageConfig.findMany({
+        where: { companyId: userCompanyId, isFinal: true },
+        select: { name: true },
+      })
+    : [];
+  const finalNames = finalStageRows.map((s) => s.name);
+  const closedExclusion: any = {
+    status: { notIn: ["CLOSED", "LOST"] },
+    ...(finalNames.length ? { pipelineStage: { notIn: finalNames } } : {}),
+    NOT: {
+      OR: [
+        { attendanceStatus: { in: ["RESOLVED", "CLOSED"] } },
+        { pipelineStage: { contains: "echado", mode: "insensitive" } }, // Fechado
+        { pipelineStage: { contains: "ganho",  mode: "insensitive" } },
+        { pipelineStage: { contains: "perdid", mode: "insensitive" } }, // Perdido/Perdida
+        { pipelineStage: { contains: "vendid", mode: "insensitive" } }, // Vendido/Vendida
+      ],
+    },
+  };
+
   // ── pendingLeads ───────────────────────────────────────────────────────────
   const pendingLeadsRaw = await prisma.lead.findMany({
     where: {
       ...companyFilter,
       expectedReturnAt: { lte: todayEnd },
-      NOT: {
-        attendanceStatus: { in: ["RESOLVED", "CLOSED"] },
-      },
+      ...closedExclusion,
     },
     select: {
       id: true,
@@ -305,9 +326,7 @@ export default async function AssistentePage() {
       ...companyFilter,
       pipeline: "OPORTUNIDADES",
       updatedAt: { lt: sevenDaysAgo },
-      NOT: {
-        attendanceStatus: { in: ["RESOLVED", "CLOSED"] },
-      },
+      ...closedExclusion,
     },
     select: {
       id: true,
