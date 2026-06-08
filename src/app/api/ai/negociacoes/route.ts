@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
-import { getLeadFollowUps } from "@/lib/calendar-data";
+import { NOT_CLOSED_LEAD_WHERE, FOLLOWUP_PIPELINES, STALE_AFTER_DAYS } from "@/lib/calendar-data";
 
 // Extrai um resumo curto do bloco "[Qualificação IA]" gravado em Lead.notes
 // (Bloco B). Mostra "o que é o contato" sem custo de IA.
@@ -16,9 +16,15 @@ function extractResumo(notes: string | null): string | null {
   return servico ? `Interesse: ${servico}` : null;
 }
 
-// GET /api/ai/negociacoes  → negociações que precisam de ação (retorno vencido +
-// esfriando), enriquecidas com o resumo da qualificação. Diagnóstico determinístico
-// (sem custo de IA); o follow-up por IA é gerado individualmente sob demanda.
+// Oportunidades primeiro (mais importantes), depois leads.
+function pipelineRank(p: string | null): number {
+  return p === "OPORTUNIDADES" ? 0 : 1;
+}
+
+// GET /api/ai/negociacoes  → negociações (LEADS + OPORTUNIDADES) que precisam de
+// ação. Diferente do widget "Meu Dia": é o cockpit COMERCIAL — gestor vê a
+// empresa toda, oportunidades aparecem mesmo sem conversa vinculada e vêm
+// priorizadas. Diagnóstico determinístico (sem custo de IA).
 export async function GET() {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -31,20 +37,85 @@ export async function GET() {
   const companyId = (session.user as any).companyId as string | undefined;
   const isManager = role === "SUPER_ADMIN" || role === "ADMIN";
 
-  const userSetorIds = isManager
-    ? []
-    : (await prisma.setorUser.findMany({ where: { userId }, select: { setorId: true } })).map((s) => s.setorId);
+  const now = new Date();
+  const todayEnd = new Date(now); todayEnd.setHours(23, 59, 59, 999);
+  const staleCutoff = new Date(now); staleCutoff.setDate(staleCutoff.getDate() - STALE_AFTER_DAYS);
 
-  const data = await getLeadFollowUps({ companyId, userId, isManager, userSetorIds });
+  const cf = companyId ? { companyId } : {};
 
-  const ids = [...data.leadsFollowUp, ...data.staleLeads].map((l) => l.id);
-  const notesRows = ids.length
-    ? await prisma.lead.findMany({ where: { id: { in: ids } }, select: { id: true, notes: true } })
+  // Etapas finais (isFinal) — encerradas, sem follow-up.
+  const finalStageRows = companyId
+    ? await prisma.pipelineStageConfig.findMany({ where: { companyId, isFinal: true }, select: { name: true } })
     : [];
-  const resumoById = new Map(notesRows.map((r) => [r.id, extractResumo(r.notes)]));
+  const notFinalStage = finalStageRows.length
+    ? { pipelineStage: { notIn: finalStageRows.map((s) => s.name) } }
+    : {};
+
+  // Escopo: gestor vê a empresa toda; atendente vê os seus + sem responsável do
+  // seu setor. Oportunidades SEM conversa entram (não exigimos vínculo aqui).
+  let scopeFilter: any = {};
+  if (!isManager) {
+    const userSetorIds = (await prisma.setorUser.findMany({ where: { userId }, select: { setorId: true } }))
+      .map((s) => s.setorId);
+    const scopeOr: any[] = [{ conversation: { is: { assigneeId: userId } } }];
+    if (userSetorIds.length) {
+      scopeOr.push({ conversation: { is: { assigneeId: null, setorId: { in: userSetorIds } } } });
+    }
+    scopeFilter = { OR: scopeOr };
+  }
+
+  const baseWhere = {
+    ...cf,
+    ...NOT_CLOSED_LEAD_WHERE,
+    ...notFinalStage,
+    pipeline: { in: FOLLOWUP_PIPELINES as any },
+    ...scopeFilter,
+  };
+
+  const [overdueRaw, staleRaw] = await Promise.all([
+    // Retorno vencido/hoje
+    prisma.lead.findMany({
+      where: { ...baseWhere, expectedReturnAt: { lte: todayEnd } },
+      select: {
+        id: true, name: true, phone: true, companyId: true,
+        pipeline: true, pipelineStage: true, status: true, notes: true,
+        expectedReturnAt: true,
+      },
+      orderBy: { expectedReturnAt: "asc" },
+      take: 40,
+    }),
+    // Esfriando: sem prazo + (conversa parada OU sem conversa e atualizado há tempo)
+    prisma.lead.findMany({
+      where: {
+        ...baseWhere,
+        expectedReturnAt: null,
+        OR: [
+          { conversation: { is: { lastMessageAt: { lt: staleCutoff } } } },
+          { AND: [{ conversation: { is: null } }, { updatedAt: { lt: staleCutoff } }] },
+        ],
+      },
+      select: {
+        id: true, name: true, phone: true, companyId: true,
+        pipeline: true, pipelineStage: true, status: true, notes: true,
+        updatedAt: true,
+        conversation: { select: { lastMessageAt: true } },
+      },
+      orderBy: { updatedAt: "asc" },
+      take: 30,
+    }),
+  ]);
+
+  // Oportunidades primeiro em cada bucket.
+  const sortByPriority = <T extends { pipeline: string | null }>(arr: T[]) =>
+    [...arr].sort((a, b) => pipelineRank(a.pipeline) - pipelineRank(b.pipeline));
+
+  const mapItem = (l: any) => {
+    const { notes, ...rest } = l;
+    return { ...rest, resumo: extractResumo(notes) };
+  };
 
   return NextResponse.json({
-    leadsFollowUp: data.leadsFollowUp.map((l) => ({ ...l, resumo: resumoById.get(l.id) ?? null })),
-    staleLeads: data.staleLeads.map((l) => ({ ...l, resumo: resumoById.get(l.id) ?? null })),
+    leadsFollowUp: sortByPriority(overdueRaw).map(mapItem),
+    staleLeads: sortByPriority(staleRaw).map(mapItem),
   });
 }

@@ -25,6 +25,16 @@ function leadHref(l: { id: string; pipeline: string | null }) {
   return `${PIPELINE_HREF[l.pipeline ?? ""] ?? "/crm/leads"}?lead=${l.id}`;
 }
 
+const PIPELINE_BADGE: Record<string, { label: string; color: string }> = {
+  LEADS:         { label: "Lead",         color: "text-indigo-400 bg-indigo-500/15 border-indigo-500/30" },
+  OPORTUNIDADES: { label: "Oportunidade", color: "text-amber-400 bg-amber-500/15 border-amber-500/30" },
+};
+function PipelineBadge({ pipeline }: { pipeline: string | null }) {
+  const b = PIPELINE_BADGE[pipeline ?? ""];
+  if (!b) return null;
+  return <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded border ${b.color} flex-shrink-0`}>{b.label}</span>;
+}
+
 function returnLabel(iso: string | null | undefined): { label: string; color: string } {
   if (!iso) return { label: "sem prazo", color: "text-slate-500" };
   const d = new Date(iso);
@@ -72,9 +82,12 @@ function NegItem({ neg, label }: { neg: Negociacao; label: { label: string; colo
     <li className="rounded-lg bg-[#0a0f1a] border border-[#1e2d45] p-3">
       <div className="flex items-start gap-2">
         <div className="flex-1 min-w-0">
-          <Link href={leadHref(neg)} className="text-slate-200 text-[13px] font-medium hover:text-white truncate block">
-            {neg.name ?? neg.phone}
-          </Link>
+          <div className="flex items-center gap-1.5">
+            <Link href={leadHref(neg)} className="text-slate-200 text-[13px] font-medium hover:text-white truncate">
+              {neg.name ?? neg.phone}
+            </Link>
+            <PipelineBadge pipeline={neg.pipeline} />
+          </div>
           <span className={`text-[11px] ${label.color}`}>{label.label}</span>
           {neg.resumo && (
             <p className="text-slate-500 text-[11px] mt-1 leading-snug line-clamp-2">📝 {neg.resumo}</p>
