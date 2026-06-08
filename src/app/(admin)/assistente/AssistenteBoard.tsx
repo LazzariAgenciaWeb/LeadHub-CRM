@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import NegociacoesPanel from "./NegociacoesPanel";
 import {
   BarChart,
   Bar,
@@ -475,6 +476,9 @@ export default function AssistenteBoard({
 
   return (
     <div className="min-h-screen bg-[#080b12] text-white p-6 space-y-5">
+
+      {/* ── Negociações pra agir (assistente comercial) ── */}
+      <NegociacoesPanel />
 
       {/* ── Header ── */}
       <div className="flex items-start justify-between gap-4 flex-wrap">

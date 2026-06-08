@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { hasModule } from "@/lib/permissions";
 import AssistenteBoard from "./AssistenteBoard";
 
 export default async function AssistentePage() {
@@ -8,6 +9,9 @@ export default async function AssistentePage() {
   if (!session) redirect("/login");
 
   const isSuperAdmin = (session.user as any)?.role === "SUPER_ADMIN";
+  // Gate: módulo IA. Quem não contratou nem acessa (a Sidebar já esconde o item;
+  // isto defende o acesso por URL direta).
+  if (!isSuperAdmin && !hasModule(session, "ai")) redirect("/dashboard");
   const userCompanyId = (session.user as any)?.companyId as string | undefined;
   const companyFilter = isSuperAdmin ? {} : { companyId: userCompanyId };
 
