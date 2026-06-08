@@ -86,6 +86,19 @@ export async function getLeadFollowUps(input: CalendarDataInput) {
 
   const cf = companyId ? { companyId } : {};
 
+  // Etapas finais configuráveis (isFinal) — leads nessas etapas estão encerrados
+  // (ganho/perdido/concluído etc.) e NÃO precisam de follow-up. Mais robusto que
+  // casar por palavra-chave no nome, pois respeita a config de pipeline da empresa.
+  const finalStageRows = companyId
+    ? await prisma.pipelineStageConfig.findMany({
+        where: { companyId, isFinal: true },
+        select: { name: true },
+      })
+    : [];
+  const notFinalStage = finalStageRows.length
+    ? { pipelineStage: { notIn: finalStageRows.map((s) => s.name) } }
+    : {};
+
   // Scope: lead herda responsável da Conversation vinculada.
   const scopeOr: any[] = [
     { conversation: { is: { assigneeId: userId } } },
@@ -102,6 +115,7 @@ export async function getLeadFollowUps(input: CalendarDataInput) {
       where: {
         ...cf,
         ...NOT_CLOSED_LEAD_WHERE,
+        ...notFinalStage,
         pipeline: { in: FOLLOWUP_PIPELINES as any },
         expectedReturnAt: { lte: todayEnd },
         OR: scopeOr,
@@ -122,6 +136,7 @@ export async function getLeadFollowUps(input: CalendarDataInput) {
       where: {
         ...cf,
         ...NOT_CLOSED_LEAD_WHERE,
+        ...notFinalStage,
         pipeline: { in: FOLLOWUP_PIPELINES as any },
         expectedReturnAt: null,
         AND: [
