@@ -72,6 +72,7 @@ export async function POST(req: NextRequest) {
       manual,
       instanceId,
       isActive: body.isActive ?? true,
+      schedulingLink: (body.schedulingLink ?? "").trim() || null,
       model: (body.model ?? "").trim() || null,
       temperature: typeof body.temperature === "number" ? body.temperature : null,
       createdById: (session.user as any).id ?? null,

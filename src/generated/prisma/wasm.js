@@ -1121,6 +1121,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   type: 'type',
   manual: 'manual',
   isActive: 'isActive',
+  schedulingLink: 'schedulingLink',
   instanceId: 'instanceId',
   model: 'model',
   temperature: 'temperature',

@@ -55,6 +55,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
   if ("model" in body) data.model = (body.model ?? "").trim() || null;
   if ("temperature" in body) data.temperature = typeof body.temperature === "number" ? body.temperature : null;
+  if ("schedulingLink" in body) data.schedulingLink = (body.schedulingLink ?? "").trim() || null;
 
   if ("instanceId" in body) {
     let instanceId: string | null = body.instanceId ?? null;

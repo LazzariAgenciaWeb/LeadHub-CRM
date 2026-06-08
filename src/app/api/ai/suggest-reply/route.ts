@@ -88,9 +88,15 @@ export async function GET(req: NextRequest) {
   // regras de formato, pra o agente reconhecer o serviço e qualificar.
   const catalogBlock = await getServicesCatalogBlock(companyId);
   const manual = assistant?.manual?.trim() || DEFAULT_MANUAL;
+  // Link de agendamento: injetado como valor limpo e dedicado, pra o modelo
+  // copiar EXATAMENTE (mais confiável que depender da URL no meio do manual).
+  const link = assistant?.schedulingLink?.trim();
+  const schedulingBlock = link
+    ? `\n\n# LINK DE AGENDAMENTO (quando for marcar reunião/agendar, envie SEMPRE este link, copiado EXATAMENTE, sem alterar nenhum caractere)\n${link}`
+    : "";
   // Estrutura que maximiza adesão do modelo às proibições:
-  // preâmbulo forte → manual → catálogo → regras de formato → checagem final.
-  const systemPrompt = STRICT_PREAMBLE + manual + catalogBlock + FORMAT_RULES + CLOSING_GUARD;
+  // preâmbulo → manual → catálogo → link → regras de formato → checagem final.
+  const systemPrompt = STRICT_PREAMBLE + manual + catalogBlock + schedulingBlock + FORMAT_RULES + CLOSING_GUARD;
 
   const run = await runAssistant({
     companyId,

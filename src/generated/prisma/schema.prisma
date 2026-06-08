@@ -2318,6 +2318,11 @@ model Assistant {
   manual    String        @db.Text
   isActive  Boolean       @default(true)
 
+  // Link de agendamento (Google Calendar, Calendly, etc.). Quando preenchido, o
+  // sistema injeta a URL EXATA no prompt — o modelo copia sem errar, em vez de
+  // depender de lembrar o link do meio do manual.
+  schedulingLink String?
+
   // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
   instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
   instanceId String?

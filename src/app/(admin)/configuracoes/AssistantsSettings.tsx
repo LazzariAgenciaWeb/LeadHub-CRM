@@ -48,6 +48,7 @@ interface Assistant {
   manual: string;
   isActive: boolean;
   instanceId: string | null;
+  schedulingLink: string | null;
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
@@ -86,6 +87,7 @@ export default function AssistantsSettings({
   const [fType, setFType] = useState<AssistantType>("VENDAS");
   const [fManual, setFManual] = useState("");
   const [fInstance, setFInstance] = useState<string>("");
+  const [fSchedulingLink, setFSchedulingLink] = useState("");
   const [fActive, setFActive] = useState(true);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -104,12 +106,12 @@ export default function AssistantsSettings({
 
   function openNew() {
     setEditing("new");
-    setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFActive(true); setErr(null);
+    setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
   }
   function openEdit(a: Assistant) {
     setEditing(a);
     setFName(a.name); setFType(a.type); setFManual(a.manual);
-    setFInstance(a.instanceId ?? ""); setFActive(a.isActive); setErr(null);
+    setFInstance(a.instanceId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
   }
   function closeForm() { setEditing(null); setErr(null); }
 
@@ -118,7 +120,7 @@ export default function AssistantsSettings({
     setSaving(true); setErr(null);
     const payload: any = {
       companyId, name: fName, type: fType, manual: fManual,
-      instanceId: fInstance || null, isActive: fActive,
+      instanceId: fInstance || null, schedulingLink: fSchedulingLink, isActive: fActive,
     };
     const isNew = editing === "new";
     const url = isNew ? "/api/ai/assistants" : `/api/ai/assistants/${(editing as Assistant).id}`;
@@ -275,6 +277,17 @@ export default function AssistantsSettings({
                 placeholder={MANUAL_PLACEHOLDER}
                 rows={8}
                 className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y leading-relaxed"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Link de agendamento <span className="text-slate-600 normal-case">(opcional — o sistema envia a URL exata ao marcar reunião)</span>
+              </label>
+              <input
+                value={fSchedulingLink} onChange={(e) => setFSchedulingLink(e.target.value)}
+                placeholder="https://calendar.app.google/..."
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
               />
             </div>
 

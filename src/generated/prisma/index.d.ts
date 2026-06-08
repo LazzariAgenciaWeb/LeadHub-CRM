@@ -85272,6 +85272,7 @@ export namespace Prisma {
     type: $Enums.AssistantType | null
     manual: string | null
     isActive: boolean | null
+    schedulingLink: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -85287,6 +85288,7 @@ export namespace Prisma {
     type: $Enums.AssistantType | null
     manual: string | null
     isActive: boolean | null
+    schedulingLink: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -85302,6 +85304,7 @@ export namespace Prisma {
     type: number
     manual: number
     isActive: number
+    schedulingLink: number
     instanceId: number
     model: number
     temperature: number
@@ -85327,6 +85330,7 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    schedulingLink?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -85342,6 +85346,7 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    schedulingLink?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -85357,6 +85362,7 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    schedulingLink?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -85459,6 +85465,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive: boolean
+    schedulingLink: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -85493,6 +85500,7 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -85513,6 +85521,7 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -85531,6 +85540,7 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -85567,6 +85577,7 @@ export namespace Prisma {
       type: $Enums.AssistantType
       manual: string
       isActive: boolean
+      schedulingLink: string | null
       instanceId: string | null
       model: string | null
       temperature: number | null
@@ -85976,6 +85987,7 @@ export namespace Prisma {
     readonly type: FieldRef<"Assistant", 'AssistantType'>
     readonly manual: FieldRef<"Assistant", 'String'>
     readonly isActive: FieldRef<"Assistant", 'Boolean'>
+    readonly schedulingLink: FieldRef<"Assistant", 'String'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
     readonly temperature: FieldRef<"Assistant", 'Float'>
@@ -89697,6 +89709,7 @@ export namespace Prisma {
     type: 'type',
     manual: 'manual',
     isActive: 'isActive',
+    schedulingLink: 'schedulingLink',
     instanceId: 'instanceId',
     model: 'model',
     temperature: 'temperature',
@@ -96947,6 +96960,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -96966,6 +96980,7 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    schedulingLink?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -96988,6 +97003,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -97007,6 +97023,7 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    schedulingLink?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -97030,6 +97047,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeWithAggregatesFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringWithAggregatesFilter<"Assistant"> | string
     isActive?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    schedulingLink?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
@@ -104528,6 +104546,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -104545,6 +104564,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -104560,6 +104580,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -104577,6 +104598,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -104593,6 +104615,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -104607,6 +104630,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -104620,6 +104644,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -110123,6 +110148,7 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -110142,6 +110168,7 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -110157,6 +110184,7 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -119125,6 +119153,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -119141,6 +119170,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -120059,6 +120089,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -122844,6 +122875,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -122859,6 +122891,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -131455,6 +131488,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -131471,6 +131505,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -152262,6 +152297,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -152278,6 +152314,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -152485,6 +152522,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152501,6 +152539,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -153143,6 +153182,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -154017,6 +154057,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -154033,6 +154074,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -154048,6 +154090,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -154726,6 +154769,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -156999,6 +157043,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -157014,6 +157059,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -157029,6 +157075,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -158172,6 +158219,7 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -158269,6 +158317,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -158285,6 +158334,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158300,6 +158350,7 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
