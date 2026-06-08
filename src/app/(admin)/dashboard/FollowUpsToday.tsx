@@ -70,6 +70,79 @@ function PipelineBadge({ pipeline }: { pipeline: string | null }) {
   );
 }
 
+// Item da lista com botão "✨ Follow-up": a IA lê a negociação (tempo parado,
+// quem falou por último, clicou no link) e escreve a mensagem pronta pra enviar.
+function FollowUpItem({
+  lead, subtitle, subtitleColor, hoverBorder,
+}: {
+  lead: { id: string; name: string | null; phone: string; pipeline: string | null };
+  subtitle: string; subtitleColor: string; hoverBorder: string;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  async function generate() {
+    setLoading(true); setErr(null); setMsg(null);
+    try {
+      const res = await fetch("/api/ai/generate-followup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId: lead.id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) setMsg(data.message ?? null);
+      else setErr(data.error ?? "Erro ao gerar follow-up.");
+    } catch {
+      setErr("Falha de conexão.");
+    }
+    setLoading(false);
+  }
+  function copy() {
+    if (!msg) return;
+    navigator.clipboard?.writeText(msg);
+    setCopied(true); setTimeout(() => setCopied(false), 1500);
+  }
+
+  return (
+    <li className={`rounded-lg bg-[#0a0f1a] border border-[#1e2d45] ${hoverBorder} transition-colors`}>
+      <div className="flex items-center gap-2 px-3 py-2">
+        <Link href={leadHref(lead)} className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-slate-200 text-[12.5px] font-medium truncate">{lead.name ?? lead.phone}</span>
+            <PipelineBadge pipeline={lead.pipeline} />
+          </div>
+          <span className={`text-[11px] ${subtitleColor}`}>{subtitle}</span>
+        </Link>
+        <button
+          onClick={generate}
+          disabled={loading}
+          className="text-[10px] px-2 py-1 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 font-medium hover:bg-emerald-600/30 disabled:opacity-50 flex-shrink-0"
+        >
+          {loading ? "..." : "✨ Follow-up"}
+        </button>
+      </div>
+      {err && <div className="px-3 pb-2 text-[11px] text-amber-300">{err}</div>}
+      {msg && (
+        <div className="px-3 pb-2.5">
+          <div className="bg-[#0f1623] border border-emerald-500/20 rounded-lg p-2.5 text-slate-200 text-[12px] leading-relaxed whitespace-pre-wrap">
+            {msg}
+          </div>
+          <div className="flex gap-1.5 mt-1.5">
+            <button onClick={copy} className="text-[10px] px-2 py-1 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:bg-[#1e2d45]">
+              {copied ? "✓ Copiado" : "Copiar"}
+            </button>
+            <Link href={leadHref(lead)} className="text-[10px] px-2 py-1 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/30">
+              Abrir conversa →
+            </Link>
+          </div>
+        </div>
+      )}
+    </li>
+  );
+}
+
 export default function FollowUpsToday() {
   const [data, setData] = useState<{ leadsFollowUp: FollowUpLead[]; staleLeads: StaleLead[] } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -124,23 +197,13 @@ export default function FollowUpsToday() {
               {followUps.map((l) => {
                 const r = returnLabel(l.expectedReturnAt);
                 return (
-                  <li key={l.id}>
-                    <Link
-                      href={leadHref(l)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0a0f1a] border border-[#1e2d45] hover:border-amber-500/30 transition-colors"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-slate-200 text-[12.5px] font-medium truncate">
-                            {l.name ?? l.phone}
-                          </span>
-                          <PipelineBadge pipeline={l.pipeline} />
-                        </div>
-                        <span className={`text-[11px] ${r.color}`}>{r.label}</span>
-                      </div>
-                      <span className="text-slate-600 hover:text-white text-xs flex-shrink-0">→</span>
-                    </Link>
-                  </li>
+                  <FollowUpItem
+                    key={l.id}
+                    lead={l}
+                    subtitle={r.label}
+                    subtitleColor={r.color}
+                    hoverBorder="hover:border-amber-500/30"
+                  />
                 );
               })}
             </ul>
@@ -159,25 +222,13 @@ export default function FollowUpsToday() {
               {stale.map((l) => {
                 const days = daysSince(l);
                 return (
-                  <li key={l.id}>
-                    <Link
-                      href={leadHref(l)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0a0f1a] border border-[#1e2d45] hover:border-sky-500/30 transition-colors"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-slate-200 text-[12.5px] font-medium truncate">
-                            {l.name ?? l.phone}
-                          </span>
-                          <PipelineBadge pipeline={l.pipeline} />
-                        </div>
-                        <span className="text-[11px] text-sky-400/80">
-                          {days === 0 ? "sem contato hoje" : `${days}d sem contato`}
-                        </span>
-                      </div>
-                      <span className="text-slate-600 hover:text-white text-xs flex-shrink-0">→</span>
-                    </Link>
-                  </li>
+                  <FollowUpItem
+                    key={l.id}
+                    lead={l}
+                    subtitle={days === 0 ? "sem contato hoje" : `${days}d sem contato`}
+                    subtitleColor="text-sky-400/80"
+                    hoverBorder="hover:border-sky-500/30"
+                  />
                 );
               })}
             </ul>
