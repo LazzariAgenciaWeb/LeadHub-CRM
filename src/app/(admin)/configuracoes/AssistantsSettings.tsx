@@ -14,13 +14,24 @@ const TYPE_META: Record<AssistantType, { label: string; icon: string; desc: stri
 const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "GESTOR"];
 
 // Estimativa de custo por interação (só pro SUPER_ADMIN ter ideia do limite).
-// Base: gpt-4o-mini + tamanho típico de uma sugestão (suggest-reply).
+// Base: gpt-4o-mini. O custo de ENTRADA varia com o tamanho do manual do agente,
+// então a estimativa soma: histórico + regras de formato + manual real do agente.
 // Ajuste aqui se a OpenAI mudar preço ou se trocar o modelo padrão.
 const PRICE_USD_PER_1M = { input: 0.15, output: 0.60 }; // gpt-4o-mini
-const EST_TOKENS = { input: 1500, output: 180 };         // ~25 msgs + manual / resposta curta
-const USD_PER_INTERACTION =
-  (EST_TOKENS.input * PRICE_USD_PER_1M.input + EST_TOKENS.output * PRICE_USD_PER_1M.output) / 1_000_000;
-const USD_TO_BRL = 5.5; // câmbio aproximado — só pra dar ordem de grandeza
+const HISTORY_TOKENS = 1500; // ~25 mensagens de contexto da conversa
+const FORMAT_TOKENS = 150;   // regras de formato anexadas pelo sistema
+const OUTPUT_TOKENS = 180;   // resposta curta sugerida
+const USD_TO_BRL = 5.5;      // câmbio aproximado — só pra dar ordem de grandeza
+
+// ~4 caracteres por token (regra de bolso para pt-BR).
+function estTokens(text: string) {
+  return Math.ceil((text?.length ?? 0) / 4);
+}
+// Custo USD de 1 interação dado o tamanho do manual (em tokens).
+function usdPerInteraction(manualTokens: number) {
+  const input = HISTORY_TOKENS + FORMAT_TOKENS + manualTokens;
+  return (input * PRICE_USD_PER_1M.input + OUTPUT_TOKENS * PRICE_USD_PER_1M.output) / 1_000_000;
+}
 
 function fmtUsd(v: number) {
   return v < 0.01 ? `US$ ${v.toFixed(4)}` : `US$ ${v.toFixed(2)}`;
@@ -84,6 +95,12 @@ export default function AssistantsSettings({
   const [savingQuota, setSavingQuota] = useState(false);
   const remaining = Math.max(0, quota.aiMonthlyQuota - quota.aiUsedThisMonth);
   const pct = quota.aiMonthlyQuota > 0 ? Math.min(100, Math.round((quota.aiUsedThisMonth / quota.aiMonthlyQuota) * 100)) : 0;
+
+  // Custo por interação reflete o manual do agente VENDAS ativo (que alimenta o
+  // "Sugerir resposta" hoje). Sem agente, usa um manual médio de ~500 tokens.
+  const activeVendas = assistants.find((a) => a.type === "VENDAS" && a.isActive);
+  const manualTokens = activeVendas ? estTokens(activeVendas.manual) : 500;
+  const costPerInteraction = usdPerInteraction(manualTokens);
 
   function openNew() {
     setEditing("new");
@@ -201,11 +218,11 @@ export default function AssistantsSettings({
               <span>💰</span>
               <span>
                 Custo estimado deste limite:{" "}
-                <strong className="text-slate-200">{fmtUsd(quotaVal * USD_PER_INTERACTION)}</strong>
-                {" "}<span className="text-slate-500">(~{fmtBrl(quotaVal * USD_PER_INTERACTION * USD_TO_BRL)})</span>
+                <strong className="text-slate-200">{fmtUsd(quotaVal * costPerInteraction)}</strong>
+                {" "}<span className="text-slate-500">(~{fmtBrl(quotaVal * costPerInteraction * USD_TO_BRL)})</span>
                 {" "}/mês
               </span>
-              <span className="text-slate-600 ml-auto">~{fmtUsd(USD_PER_INTERACTION)}/interação · gpt-4o-mini</span>
+              <span className="text-slate-600 ml-auto">~{fmtUsd(costPerInteraction)}/interação · gpt-4o-mini · manual ~{manualTokens} tokens</span>
             </div>
           </div>
         ) : (
