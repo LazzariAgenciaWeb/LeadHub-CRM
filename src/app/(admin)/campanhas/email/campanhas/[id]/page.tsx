@@ -30,6 +30,20 @@ export default async function CampanhaDetailPage({
   if (!campaign) notFound();
   if (role !== "SUPER_ADMIN" && campaign.companyId !== userCompanyId) notFound();
 
+  // Tags + stages da empresa pra alimentar o editor de segmento (DRAFT/PAUSED/SCHEDULED).
+  const [tags, stages] = await Promise.all([
+    prisma.tag.findMany({
+      where: { companyId: campaign.companyId },
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+      select: { id: true, name: true, color: true },
+    }),
+    prisma.pipelineStageConfig.findMany({
+      where: { companyId: campaign.companyId, pipeline: { in: ["PROSPECCAO", "LEADS", "OPORTUNIDADES"] } },
+      orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+      select: { name: true, pipeline: true },
+    }),
+  ]);
+
   return (
     <CampaignDetail
       campaign={{
@@ -51,7 +65,11 @@ export default async function CampanhaDetailPage({
         createdByName: campaign.createdBy?.name ?? null,
         createdAt: campaign.createdAt.toISOString(),
         cadenceConfig: campaign.cadenceConfig as any,
+        segmentFilter: campaign.segmentFilter as any,
+        companyId: campaign.companyId,
       }}
+      tags={tags}
+      stages={stages}
     />
   );
 }

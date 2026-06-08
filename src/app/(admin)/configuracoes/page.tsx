@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getEffectiveSession } from "@/lib/effective-session";
+import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getCompanyPlan } from "@/lib/limits";
 import SettingsLayout, { type EnabledSections } from "./SettingsLayout";
@@ -31,6 +31,11 @@ export default async function ConfiguracoesPage({
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
   const userCompanyId = (session?.user as any)?.companyId as string | undefined;
+  // Super admin REAL: durante impersonação o role efetivo vira ADMIN, mas só um
+  // SUPER_ADMIN consegue impersonar — então isImpersonating prova que o usuário
+  // real é Lazzari. Usado pra liberar controles SUPER_ADMIN-only (ex.: cota de IA)
+  // mesmo enquanto ele está "Visualizando como cliente".
+  const realIsSuperAdmin = isSuperAdmin || isImpersonating(session);
 
   const sp = await searchParams;
   const secao = sp.secao ?? "instancias";
@@ -378,7 +383,7 @@ export default async function ConfiguracoesPage({
       content = (
         <AssistantsSettings
           companyId={targetCompanyId}
-          isSuperAdmin={isSuperAdmin}
+          isSuperAdmin={realIsSuperAdmin}
           initialAssistants={assistants.map((a) => ({
             ...a,
             createdAt: a.createdAt.toISOString(),

@@ -32,7 +32,23 @@ interface CampaignData {
   createdByName: string | null;
   createdAt: string;
   cadenceConfig: CadenceConfig;
+  segmentFilter: {
+    pipeline?: string | null;
+    pipelineStage?: string | null;
+    tagIds?: string[];
+  } | null;
+  companyId: string;
 }
+
+export interface TagOption { id: string; name: string; color: string; }
+export interface StageOption { name: string; pipeline: string; }
+
+const PIPELINES = [
+  { value: "",              label: "Qualquer pipeline" },
+  { value: "PROSPECCAO",    label: "🔎 Prospecção" },
+  { value: "LEADS",         label: "🎯 Leads" },
+  { value: "OPORTUNIDADES", label: "💡 Oportunidades" },
+];
 
 const DAYS = [
   { idx: 1, label: "Seg" }, { idx: 2, label: "Ter" }, { idx: 3, label: "Qua" },
@@ -48,12 +64,74 @@ const STATUS_META: Record<CampaignData["status"], { label: string; color: string
   FAILED:    { label: "Falhou",     color: "bg-red-500/20 text-red-300 border-red-500/40" },
 };
 
-export default function CampaignDetail({ campaign: initial }: { campaign: CampaignData }) {
+export default function CampaignDetail({
+  campaign: initial,
+  tags = [],
+  stages = [],
+}: {
+  campaign: CampaignData;
+  tags?: TagOption[];
+  stages?: StageOption[];
+}) {
   const router = useRouter();
   const [campaign, setCampaign] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [testTo, setTestTo] = useState("");
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  // ── Editor de segmento (DRAFT/SCHEDULED/PAUSED) ────────────────────────
+  const [segPipeline, setSegPipeline] = useState(initial.segmentFilter?.pipeline ?? "");
+  const [segStage, setSegStage] = useState(initial.segmentFilter?.pipelineStage ?? "");
+  const [segTagIds, setSegTagIds] = useState<string[]>(initial.segmentFilter?.tagIds ?? []);
+  const [segPreview, setSegPreview] = useState<{ count: number; deliverable: number; suppressed: number } | null>(null);
+  const [segPreviewLoading, setSegPreviewLoading] = useState(false);
+  const [savingSegment, setSavingSegment] = useState(false);
+  const segCanEdit = campaign.status === "DRAFT" || campaign.status === "SCHEDULED" || campaign.status === "PAUSED";
+  const segDirty =
+    segPipeline !== (campaign.segmentFilter?.pipeline ?? "") ||
+    segStage !== (campaign.segmentFilter?.pipelineStage ?? "") ||
+    JSON.stringify([...segTagIds].sort()) !== JSON.stringify([...(campaign.segmentFilter?.tagIds ?? [])].sort());
+
+  const filteredStages = stages.filter((s) => segPipeline && s.pipeline === segPipeline);
+
+  // Recarrega preview com debounce ao mudar
+  useEffect(() => {
+    if (!segCanEdit) return;
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      setSegPreviewLoading(true);
+      try {
+        const res = await fetch("/api/email/preview-segment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            companyId: campaign.companyId,
+            segmentFilter: { pipeline: segPipeline || null, pipelineStage: segStage || null, tagIds: segTagIds },
+          }),
+        });
+        if (res.ok && !cancelled) setSegPreview(await res.json());
+      } finally { if (!cancelled) setSegPreviewLoading(false); }
+    }, 400);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [segPipeline, segStage, segTagIds, segCanEdit, campaign.companyId]);
+
+  async function saveSegment() {
+    setSavingSegment(true); setMsg(null);
+    const filter = { pipeline: segPipeline || null, pipelineStage: segStage || null, tagIds: segTagIds };
+    const res = await fetch(`/api/email/campaigns/${campaign.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ segmentFilter: filter }),
+    });
+    if (res.ok) {
+      setMsg({ type: "ok", text: "Segmento atualizado ✓" });
+      setCampaign((c) => ({ ...c, segmentFilter: filter }));
+    } else {
+      const d = await res.json().catch(() => ({}));
+      setMsg({ type: "err", text: d.error ?? "Erro ao salvar segmento" });
+    }
+    setSavingSegment(false);
+  }
 
   // Polling de stats quando SENDING (a cada 10s)
   useEffect(() => {
@@ -188,6 +266,89 @@ export default function CampaignDetail({ campaign: initial }: { campaign: Campai
           <div className="flex justify-between text-[10px] text-slate-500">
             <span>{campaign.sentCount + campaign.bouncedCount + campaign.failedCount} processados</span>
             <span>{total - campaign.sentCount - campaign.bouncedCount - campaign.failedCount} pendentes</span>
+          </div>
+        </div>
+      )}
+
+      {/* Editor de Segmento — DRAFT/SCHEDULED/PAUSED */}
+      {segCanEdit && (
+        <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
+          <h2 className="text-white font-bold text-sm mb-1">🎯 Quem vai receber</h2>
+          <p className="text-slate-500 text-xs mb-4">
+            Edite o pipeline, etapa e tags pra ajustar o público desta campanha. Só vale enquanto a campanha não começou.
+          </p>
+
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1">Pipeline</label>
+                <select value={segPipeline} onChange={(e) => { setSegPipeline(e.target.value); setSegStage(""); }}
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                  {PIPELINES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-slate-400 text-xs font-medium mb-1">Etapa</label>
+                <select value={segStage} onChange={(e) => setSegStage(e.target.value)} disabled={!segPipeline}
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 disabled:opacity-50">
+                  <option value="">Qualquer etapa</option>
+                  {filteredStages.map((s) => <option key={s.name} value={s.name}>{s.name}</option>)}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-slate-400 text-xs font-medium mb-1">Tags <span className="text-slate-600">(qualquer das selecionadas)</span></label>
+              {tags.length === 0 ? (
+                <p className="text-slate-600 text-xs italic">Nenhuma tag cadastrada nessa empresa.</p>
+              ) : (
+                <div className="flex flex-wrap gap-1.5">
+                  {tags.map((t) => {
+                    const active = segTagIds.includes(t.id);
+                    return (
+                      <button key={t.id} type="button"
+                        onClick={() => setSegTagIds((cur) => cur.includes(t.id) ? cur.filter((x) => x !== t.id) : [...cur, t.id])}
+                        className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border transition-colors"
+                        style={active ? { backgroundColor: `${t.color}33`, borderColor: t.color, color: t.color }
+                          : { backgroundColor: "transparent", borderColor: "#1e2d45", color: "#94a3b8" }}>
+                        {t.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-[#0a0f1a] border border-indigo-500/20 rounded-lg p-3">
+              {segPreviewLoading ? (
+                <p className="text-slate-500 text-xs">Calculando...</p>
+              ) : segPreview ? (
+                <div className="text-sm">
+                  <span className="text-white font-bold">{segPreview.deliverable}</span>
+                  <span className="text-slate-400"> leads serão atingidos</span>
+                  {segPreview.suppressed > 0 && (
+                    <span className="text-orange-400 text-xs ml-2">({segPreview.suppressed} descadastrados pulados)</span>
+                  )}
+                </div>
+              ) : <span className="text-slate-600 text-xs">—</span>}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={saveSegment}
+                disabled={!segDirty || savingSegment || (segPreview?.deliverable ?? 0) === 0}
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium disabled:opacity-40">
+                {savingSegment ? "Salvando..." : "Salvar segmento"}
+              </button>
+              {!segDirty && <span className="text-slate-600 text-xs">Sem alterações</span>}
+              {segDirty && (segPreview?.deliverable ?? 0) === 0 && (
+                <span className="text-amber-400 text-xs">Filtros não atingem nenhum lead — ajuste antes de salvar</span>
+              )}
+            </div>
+
+            <p className="text-slate-600 text-[10px]">
+              ⚠️ A lista de destinatários é materializada quando você clica em <strong>🚀 Disparar campanha</strong>. Antes disso, o segmento pode ser ajustado livremente.
+            </p>
           </div>
         </div>
       )}

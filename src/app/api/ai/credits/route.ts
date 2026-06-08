@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getEffectiveSession } from "@/lib/effective-session";
+import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 import { getAiUsage } from "@/lib/assistant";
@@ -30,8 +30,11 @@ export async function PUT(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
+  // Super admin REAL: durante impersonação o role efetivo é ADMIN, mas só um
+  // SUPER_ADMIN consegue impersonar. Aceita ambos os casos.
   const role = (session.user as any).role as string;
-  if (role !== "SUPER_ADMIN") {
+  const realSuperAdmin = role === "SUPER_ADMIN" || isImpersonating(session);
+  if (!realSuperAdmin) {
     return NextResponse.json({ error: "Apenas o administrador da plataforma define a cota." }, { status: 403 });
   }
 

@@ -358,6 +358,14 @@ export default function CRMBoard({
   const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
   const [filterHasDiagnosis, setFilterHasDiagnosis] = useState(false);
 
+  // Seleção em massa (multi-select de cards)
+  const [selectMode, setSelectMode] = useState(false);
+  const [bulkSelected, setBulkSelected] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkTagPickerOpen, setBulkTagPickerOpen] = useState(false);
+  const [bulkStagePickerOpen, setBulkStagePickerOpen] = useState(false);
+  const [bulkMsg, setBulkMsg] = useState<string | null>(null);
+
   // Custom fields da empresa + valores do lead aberto
   const [customDefs, setCustomDefs] = useState<CustomFieldDef[]>([]);
   const [customValues, setCustomValues] = useState<Record<string, string>>({});
@@ -498,6 +506,96 @@ export default function CRMBoard({
     });
     setMovingId(null);
     startTransition(() => router.refresh());
+  }
+
+  // ── Seleção em massa ───────────────────────────────────────────────
+  function toggleBulkSelect(leadId: string) {
+    setBulkSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(leadId)) next.delete(leadId);
+      else next.add(leadId);
+      return next;
+    });
+  }
+
+  function exitSelectMode() {
+    setSelectMode(false);
+    setBulkSelected(new Set());
+    setBulkTagPickerOpen(false);
+    setBulkStagePickerOpen(false);
+    setBulkMsg(null);
+  }
+
+  function selectAllVisible() {
+    const ids = filteredLeads.map((l) => l.id);
+    setBulkSelected((prev) => {
+      const allSelected = ids.length > 0 && ids.every((id) => prev.has(id));
+      if (allSelected) return new Set();
+      return new Set(ids);
+    });
+  }
+
+  async function bulkApplyTag(tag: TagInfo) {
+    if (bulkSelected.size === 0) return;
+    setBulkBusy(true);
+    setBulkMsg(null);
+    const ids = [...bulkSelected];
+    // Otimista: aplica local
+    setLeads((prev) =>
+      prev.map((l) =>
+        ids.includes(l.id) && !(l.tags ?? []).some((t) => t.id === tag.id)
+          ? { ...l, tags: [...(l.tags ?? []), tag] }
+          : l
+      )
+    );
+    try {
+      const res = await fetch("/api/leads/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadIds: ids, action: "addTag", tagId: tag.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBulkMsg(`⚠️ ${data?.error ?? "Falha ao aplicar tag"}`);
+      } else {
+        setBulkMsg(`✅ Tag "${tag.name}" aplicada em ${data.affected} lead(s)`);
+      }
+      startTransition(() => router.refresh());
+    } catch (err: any) {
+      setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
+    } finally {
+      setBulkBusy(false);
+      setBulkTagPickerOpen(false);
+    }
+  }
+
+  async function bulkSetStage(stageName: string) {
+    if (bulkSelected.size === 0) return;
+    setBulkBusy(true);
+    setBulkMsg(null);
+    const ids = [...bulkSelected];
+    setLeads((prev) =>
+      prev.map((l) => (ids.includes(l.id) ? { ...l, pipelineStage: stageName } : l))
+    );
+    try {
+      const res = await fetch("/api/leads/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadIds: ids, action: "setStage", pipelineStage: stageName }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBulkMsg(`⚠️ ${data?.error ?? "Falha ao mover"}`);
+      } else {
+        setBulkMsg(`✅ ${data.affected} lead(s) movido(s) para "${stageName}"`);
+      }
+      startTransition(() => router.refresh());
+    } catch (err: any) {
+      setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
+    } finally {
+      setBulkBusy(false);
+      setBulkStagePickerOpen(false);
+    }
   }
 
   async function moveToPipeline(leadId: string, newPipeline: string) {
@@ -1134,7 +1232,7 @@ export default function CRMBoard({
     : 0;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0 border-b border-[#1e2d45]">
         <div>
@@ -1245,6 +1343,17 @@ export default function CRMBoard({
               )}
             </div>
           )}
+          <button
+            onClick={() => { if (selectMode) exitSelectMode(); else setSelectMode(true); }}
+            title="Selecionar vários cards para aplicar tag ou mudar etapa em massa"
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex-shrink-0 border ${
+              selectMode
+                ? "bg-sky-600 border-sky-500 text-white hover:bg-sky-500"
+                : "bg-[#0f1623] border-[#1e2d45] text-slate-300 hover:text-white hover:border-slate-600"
+            }`}
+          >
+            {selectMode ? "✕ Sair da seleção" : "☑️ Selecionar"}
+          </button>
           <ImportLeads pipeline={pipeline} />
           <button
             onClick={() => { setShowAddModal(true); setAddError(""); }}
@@ -1319,18 +1428,36 @@ export default function CRMBoard({
                         Arraste aqui
                       </div>
                     )}
-                    {stageLeads.map((lead) => (
+                    {stageLeads.map((lead) => {
+                      const isBulkOn = bulkSelected.has(lead.id);
+                      return (
                       <div
                         key={lead.id}
-                        draggable
-                        onDragStart={(e) => onDragStart(e, lead.id)}
-                        onClick={() => openCard(lead)}
+                        draggable={!selectMode}
+                        onDragStart={(e) => { if (!selectMode) onDragStart(e, lead.id); }}
+                        onClick={() => { if (selectMode) toggleBulkSelect(lead.id); else openCard(lead); }}
                         title={lead.score ? `Score ${lead.score.value}: ${SCORE_TIER_LABEL[lead.score.tier]}` : undefined}
                         style={lead.score ? { borderLeftWidth: 3, borderLeftColor: SCORE_TIER_BORDER[lead.score.tier] } : undefined}
-                        className={`relative bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3.5 mb-2 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all group ${
+                        className={`relative bg-[#0f1623] border rounded-lg p-3.5 mb-2 transition-all group ${
+                          selectMode ? "cursor-pointer" : "cursor-grab active:cursor-grabbing"
+                        } ${
+                          isBulkOn ? "border-sky-500 ring-1 ring-sky-500/50" : "border-[#1e2d45] hover:border-white/20"
+                        } ${
                           movingId === lead.id ? "opacity-40" : ""
                         }`}
                       >
+                        {/* Checkbox de seleção em massa */}
+                        {selectMode && (
+                          <div className="absolute top-2 left-2 z-20">
+                            <input
+                              type="checkbox"
+                              checked={isBulkOn}
+                              onChange={() => toggleBulkSelect(lead.id)}
+                              onClick={(e) => e.stopPropagation()}
+                              className="w-4 h-4 accent-sky-500 cursor-pointer"
+                            />
+                          </div>
+                        )}
                         {/* Botão WhatsApp rápido — escondido quando Evolution validou que não tem WhatsApp */}
                         {lead.hasWhatsapp !== false && (
                           <a
@@ -1438,11 +1565,101 @@ export default function CRMBoard({
                           </div>
                         )}
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Barra de ações em massa (aparece quando há cards selecionados) */}
+      {selectMode && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(720px,calc(100%-2rem))]">
+          {bulkMsg && (
+            <div className="mb-2 text-center text-xs text-slate-200 bg-[#0c1220] border border-[#1e2d45] rounded-lg px-3 py-1.5 shadow-lg">
+              {bulkMsg}
+            </div>
+          )}
+          <div className="bg-[#0c1220] border border-sky-700/50 rounded-xl shadow-2xl px-4 py-3 flex items-center gap-3 flex-wrap">
+            <span className="text-white text-sm font-semibold">
+              {bulkSelected.size} selecionado{bulkSelected.size !== 1 ? "s" : ""}
+            </span>
+            <button
+              onClick={selectAllVisible}
+              className="text-xs text-slate-300 hover:text-white underline"
+            >
+              {filteredLeads.length > 0 && filteredLeads.every((l) => bulkSelected.has(l.id))
+                ? "desmarcar todos"
+                : "selecionar todos visíveis"}
+            </button>
+
+            <div className="flex-1" />
+
+            {/* Aplicar tag */}
+            <div className="relative">
+              <button
+                onClick={() => { setBulkTagPickerOpen((v) => !v); setBulkStagePickerOpen(false); loadAllTags(); }}
+                disabled={bulkSelected.size === 0 || bulkBusy}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                🏷️ Aplicar tag
+              </button>
+              {bulkTagPickerOpen && (
+                <div className="absolute bottom-full mb-2 right-0 w-64 max-h-72 overflow-y-auto bg-[#0c1220] border border-[#1e2d45] rounded-lg shadow-2xl p-2">
+                  {loadingAllTags && <div className="text-slate-500 text-xs p-2">Carregando...</div>}
+                  {!loadingAllTags && allTags.length === 0 && (
+                    <div className="text-slate-500 text-xs p-2">Nenhuma tag criada ainda. Crie em um card individual primeiro.</div>
+                  )}
+                  {allTags.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => bulkApplyTag(t)}
+                      disabled={bulkBusy}
+                      className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/5 transition-colors disabled:opacity-50"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: t.color }} />
+                      <span className="text-sm text-white truncate">{t.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Mover etapa */}
+            <div className="relative">
+              <button
+                onClick={() => { setBulkStagePickerOpen((v) => !v); setBulkTagPickerOpen(false); }}
+                disabled={bulkSelected.size === 0 || bulkBusy}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                ↔️ Mover etapa
+              </button>
+              {bulkStagePickerOpen && (
+                <div className="absolute bottom-full mb-2 right-0 w-56 max-h-72 overflow-y-auto bg-[#0c1220] border border-[#1e2d45] rounded-lg shadow-2xl p-2">
+                  {stages.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => bulkSetStage(s.name)}
+                      disabled={bulkBusy}
+                      className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/5 transition-colors disabled:opacity-50"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
+                      <span className="text-sm text-white truncate">{s.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={exitSelectMode}
+              className="px-3 py-1.5 rounded-lg bg-[#1e2d45] hover:bg-[#2a3a55] text-white text-sm transition-colors"
+            >
+              Fechar
+            </button>
           </div>
         </div>
       )}
