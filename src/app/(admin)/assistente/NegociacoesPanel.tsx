@@ -44,11 +44,12 @@ function staleLabel(l: Negociacao): { label: string; color: string } {
 function NegItem({ neg, label }: { neg: Negociacao; label: { label: string; color: string } }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [resumoIa, setResumoIa] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   async function generate() {
-    setLoading(true); setErr(null); setMsg(null);
+    setLoading(true); setErr(null); setMsg(null); setResumoIa(null);
     try {
       const res = await fetch("/api/ai/generate-followup", {
         method: "POST",
@@ -56,7 +57,7 @@ function NegItem({ neg, label }: { neg: Negociacao; label: { label: string; colo
         body: JSON.stringify({ leadId: neg.id }),
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok) setMsg(data.message ?? null);
+      if (res.ok) { setMsg(data.message ?? null); setResumoIa(data.resumo ?? null); }
       else setErr(data.error ?? "Erro ao gerar follow-up.");
     } catch { setErr("Falha de conexão."); }
     setLoading(false);
@@ -90,6 +91,12 @@ function NegItem({ neg, label }: { neg: Negociacao; label: { label: string; colo
       {err && <div className="mt-2 text-[11px] text-amber-300">{err}</div>}
       {msg && (
         <div className="mt-2">
+          {resumoIa && (
+            <div className="mb-1.5 bg-[#0b1220] border border-[#1e2d45] rounded-lg p-2 text-slate-400 text-[11px] leading-snug">
+              <span className="text-slate-600 font-semibold">Resumo da negociação:</span> {resumoIa}
+            </div>
+          )}
+          <p className="text-slate-600 text-[10px] font-semibold uppercase tracking-wide mb-1">Mensagem sugerida</p>
           <div className="bg-[#0f1623] border border-emerald-500/20 rounded-lg p-2.5 text-slate-200 text-[12px] leading-relaxed whitespace-pre-wrap">{msg}</div>
           <div className="flex gap-1.5 mt-1.5">
             <button onClick={copy} className="text-[10px] px-2 py-1 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:bg-[#1e2d45]">{copied ? "✓ Copiado" : "Copiar"}</button>

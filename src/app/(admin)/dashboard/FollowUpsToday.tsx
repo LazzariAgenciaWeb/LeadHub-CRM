@@ -80,11 +80,12 @@ function FollowUpItem({
 }) {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [resumoIa, setResumoIa] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   async function generate() {
-    setLoading(true); setErr(null); setMsg(null);
+    setLoading(true); setErr(null); setMsg(null); setResumoIa(null);
     try {
       const res = await fetch("/api/ai/generate-followup", {
         method: "POST",
@@ -92,7 +93,7 @@ function FollowUpItem({
         body: JSON.stringify({ leadId: lead.id }),
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok) setMsg(data.message ?? null);
+      if (res.ok) { setMsg(data.message ?? null); setResumoIa(data.resumo ?? null); }
       else setErr(data.error ?? "Erro ao gerar follow-up.");
     } catch {
       setErr("Falha de conexão.");
@@ -126,6 +127,11 @@ function FollowUpItem({
       {err && <div className="px-3 pb-2 text-[11px] text-amber-300">{err}</div>}
       {msg && (
         <div className="px-3 pb-2.5">
+          {resumoIa && (
+            <div className="mb-1.5 bg-[#0b1220] border border-[#1e2d45] rounded-lg p-2 text-slate-400 text-[11px] leading-snug">
+              <span className="text-slate-600 font-semibold">Resumo:</span> {resumoIa}
+            </div>
+          )}
           <div className="bg-[#0f1623] border border-emerald-500/20 rounded-lg p-2.5 text-slate-200 text-[12px] leading-relaxed whitespace-pre-wrap">
             {msg}
           </div>

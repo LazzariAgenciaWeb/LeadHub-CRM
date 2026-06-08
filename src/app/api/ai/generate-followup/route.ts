@@ -82,9 +82,13 @@ export async function POST(req: NextRequest) {
     ? `\n\n# LINK DE AGENDAMENTO (se for marcar reunião, envie EXATAMENTE este link, sem alterar):\n${link}`
     : "";
 
-  const followupInstr = `\n\n# TAREFA: GERAR FOLLOW-UP
-Você vai escrever UMA mensagem proativa de WhatsApp para retomar esta negociação, de forma leve e humana, considerando o estado abaixo.
-Regras: 1 a 2 frases curtas (~130 caracteres), use emoji se o manual pedir, respeite TODAS as proibições do manual (NUNCA informe preço). Se fizer sentido marcar reunião, inclua o link de agendamento. Retorne APENAS o texto da mensagem (sem aspas, sem prefixo).`;
+  const followupInstr = `\n\n# TAREFA: RESUMIR A NEGOCIAÇÃO + GERAR FOLLOW-UP
+Analise a conversa e responda APENAS um JSON válido (sem markdown, sem texto fora do JSON) com EXATAMENTE estas chaves:
+{
+  "resumo": "1 a 2 frases: o que está sendo negociado, em que estágio, e o sinal mais relevante (ex.: clicou no link, não responde há X dias)",
+  "mensagem": "a mensagem de follow-up de WhatsApp pronta pra enviar"
+}
+Regras da "mensagem": 1 a 2 frases curtas (~130 caracteres), use emoji se o manual pedir, respeite TODAS as proibições do manual (NUNCA informe preço). Se fizer sentido marcar reunião, inclua o link de agendamento. NÃO invente dados que não estejam na conversa.`;
 
   const systemPrompt = manual + catalogBlock + linkBlock + followupInstr;
 
@@ -95,12 +99,12 @@ Regras: 1 a 2 frases curtas (~130 caracteres), use emoji se o manual pedir, resp
     userId: (session.user as any)?.id ?? null,
     model: assistant?.model ?? null,
     temperature: assistant?.temperature ?? 0.4,
-    maxTokens: 200,
+    maxTokens: 320,
     messages: [
       { role: "system", content: systemPrompt },
       {
         role: "user",
-        content: `Estado da negociação:\n${estado}\n\nÚltimas mensagens:\n${chatLines}\n\nEscreva a mensagem de follow-up:`,
+        content: `Estado da negociação:\n${estado}\n\nÚltimas mensagens:\n${chatLines}\n\nResponda o JSON (resumo + mensagem):`,
       },
     ],
   });
@@ -110,10 +114,26 @@ Regras: 1 a 2 frases curtas (~130 caracteres), use emoji se o manual pedir, resp
     return NextResponse.json({ error: run.error, code: run.code }, { status });
   }
 
+  // Parse defensivo do JSON {resumo, mensagem}. Se falhar, usa o texto cru como
+  // mensagem (não quebra o fluxo).
+  const parsed = parseJsonLoose(run.text);
+  const resumo = typeof parsed?.resumo === "string" ? parsed.resumo.trim() : null;
+  const message = typeof parsed?.mensagem === "string" ? parsed.mensagem.trim() : run.text;
+
   return NextResponse.json({
-    message: run.text,
+    resumo,
+    message,
     diagnostico: estadoLinhas,
     phone: lead.phone,
     remaining: run.remaining,
   });
+}
+
+function parseJsonLoose(text: string | null): any | null {
+  if (!text) return null;
+  const cleaned = text.replace(/```json/gi, "").replace(/```/g, "").trim();
+  try { return JSON.parse(cleaned); } catch { /* tenta extrair {...} */ }
+  const m = cleaned.match(/\{[\s\S]*\}/);
+  if (m) { try { return JSON.parse(m[0]); } catch { return null; } }
+  return null;
 }
