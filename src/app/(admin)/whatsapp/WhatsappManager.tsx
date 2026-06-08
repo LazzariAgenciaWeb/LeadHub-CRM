@@ -629,6 +629,14 @@ export default function WhatsappManager({
   const [aiSuggestedReply, setAiSuggestedReply] = useState<string | null>(null);
   const [aiLoadingSummary, setAiLoadingSummary] = useState(false);
   const [aiLoadingReply, setAiLoadingReply] = useState(false);
+  // Qualificação (Bloco B): extrai dados do lead da conversa
+  type AiQualifyData = {
+    nome: string | null; servicoInteresse: string | null; objetivo: string | null;
+    observacoes: string | null; proximoPasso: string | null; resumo: string | null;
+  };
+  const [aiQualify, setAiQualify] = useState<{ data: AiQualifyData; leadUpdated: boolean; hasLead: boolean } | null>(null);
+  const [aiQualifyError, setAiQualifyError] = useState<string | null>(null);
+  const [aiLoadingQualify, setAiLoadingQualify] = useState(false);
 
   useEffect(() => {
     if (!showActionsMenu) return;
@@ -2177,6 +2185,28 @@ export default function WhatsappManager({
     setAiLoadingReply(false);
   }
 
+  async function handleAiQualify() {
+    if (!selectedConv) return;
+    setAiLoadingQualify(true);
+    setAiQualify(null);
+    setAiQualifyError(null);
+    const params = new URLSearchParams({ phone: selectedConv.phone, companyId: selectedConv.companyId });
+    try {
+      const res = await fetch(`/api/ai/qualify?${params}`, { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        setAiQualify({ data: data.data, leadUpdated: data.leadUpdated, hasLead: data.hasLead });
+        if (data.leadUpdated) router.refresh();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setAiQualifyError(err.error ?? "Erro ao qualificar.");
+      }
+    } catch {
+      setAiQualifyError("Falha de conexão ao chamar a IA.");
+    }
+    setAiLoadingQualify(false);
+  }
+
   async function handleSetAttendance(status: string) {
     if (!selectedConv) return;
     setSavingAttendance(true);
@@ -3369,6 +3399,13 @@ export default function WhatsappManager({
                     >
                       {aiLoadingReply ? "Gerando..." : "💡 Sugerir resposta"}
                     </button>
+                    <button
+                      onClick={handleAiQualify}
+                      disabled={aiLoadingQualify || aiLoadingSummary || aiLoadingReply}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600/20 border border-amber-500/30 text-amber-300 text-xs font-medium hover:bg-amber-600/30 disabled:opacity-50 transition-colors"
+                    >
+                      {aiLoadingQualify ? "Qualificando..." : "🎯 Qualificar lead"}
+                    </button>
                   </div>
 
                   {/* Resultado: Resumo */}
@@ -3428,6 +3465,32 @@ export default function WhatsappManager({
                       >
                         ✏️ Usar como resposta
                       </button>
+                    </div>
+                  )}
+
+                  {/* Resultado: Qualificação do lead */}
+                  {aiQualifyError && (
+                    <div className="mt-3 text-amber-300 text-xs bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">{aiQualifyError}</div>
+                  )}
+                  {aiQualify && (
+                    <div className="mt-3">
+                      <p className="text-slate-500 text-[10px] font-semibold uppercase tracking-wide mb-1.5">
+                        Qualificação {aiQualify.leadUpdated ? <span className="text-emerald-400 normal-case">· ✓ Lead atualizado</span> : (!aiQualify.hasLead ? <span className="text-amber-400 normal-case">· sem lead vinculado</span> : null)}
+                      </p>
+                      <div className="bg-[#0f1623] border border-amber-500/20 rounded-lg p-3 space-y-1.5 text-xs">
+                        {aiQualify.data.resumo && (
+                          <p className="text-slate-200 leading-relaxed">{aiQualify.data.resumo}</p>
+                        )}
+                        <div className="grid grid-cols-1 gap-1 pt-1">
+                          {aiQualify.data.nome && <p className="text-slate-400"><span className="text-slate-600">Nome:</span> {aiQualify.data.nome}</p>}
+                          {aiQualify.data.servicoInteresse && <p className="text-slate-400"><span className="text-slate-600">Interesse:</span> {aiQualify.data.servicoInteresse}</p>}
+                          {aiQualify.data.objetivo && <p className="text-slate-400"><span className="text-slate-600">Objetivo:</span> {aiQualify.data.objetivo}</p>}
+                          {aiQualify.data.observacoes && <p className="text-slate-400"><span className="text-slate-600">Obs.:</span> {aiQualify.data.observacoes}</p>}
+                          {aiQualify.data.proximoPasso && (
+                            <p className="text-amber-300 font-medium pt-0.5">→ {aiQualify.data.proximoPasso}</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
