@@ -10,10 +10,10 @@ import { getActiveAssistant, runAssistant, getServicesCatalogBlock } from "@/lib
 const FORMAT_RULES = `
 
 [Formato da resposta — siga sempre]
-- Escreva em português brasileiro informal mas profissional (mensagem real de WhatsApp).
-- Seja direto, empático e objetivo. Máximo 3 frases.
-- NÃO inclua saudações desnecessárias se a conversa já está em andamento.
-- NÃO use aspas, prefixos ou explicações — retorne APENAS o texto da mensagem.`;
+- Retorne APENAS o texto da mensagem (sem aspas, sem prefixo, sem explicação). Uma única mensagem pronta para enviar no WhatsApp.
+- Siga o TOM, o TAMANHO e o uso de EMOJIS definidos no manual. Se o manual pede emojis, USE emojis; se pede mensagens curtas, seja bem curto (1 a 2 frases, ~130 caracteres).
+- Não repita saudação se a conversa já está em andamento.
+- Se a conversa chegar no momento de marcar reunião/agendar, INCLUA o link de agendamento do manual LITERALMENTE (copie a URL exata) — nunca apenas diga "podemos agendar" sem o link.`;
 
 const DEFAULT_MANUAL = `Você é um assistente de atendimento ao cliente via WhatsApp.
 Com base no histórico da conversa, sugira UMA única resposta para o atendente enviar agora.`;
@@ -98,8 +98,9 @@ export async function GET(req: NextRequest) {
     assistantId: assistant?.id ?? null,
     userId: (session.user as any)?.id ?? null,
     model: assistant?.model ?? null,
-    // Temperatura baixa = mais obediente às regras/proibições, menos "criativo".
-    temperature: assistant?.temperature ?? 0.3,
+    // Temperatura baixa = mais obediente às regras/proibições. 0.4 dá um pouco
+    // de calor/emoji sem soltar as proibições (preâmbulo + checagem seguram).
+    temperature: assistant?.temperature ?? 0.4,
     maxTokens: 180,
     messages: [
       { role: "system", content: systemPrompt },
