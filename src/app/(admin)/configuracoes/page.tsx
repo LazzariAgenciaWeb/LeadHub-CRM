@@ -10,6 +10,7 @@ import CustomFieldsSettings from "./CustomFieldsSettings";
 import ClickupSettings from "./ClickupSettings";
 import OpenAISettings from "./OpenAISettings";
 import AssistantsSettings from "./AssistantsSettings";
+import ServicesCatalog from "./ServicesCatalog";
 import SetoresSection from "./SetoresSection";
 import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
@@ -363,7 +364,7 @@ export default async function ConfiguracoesPage({
         </div>
       );
     } else {
-      const [assistants, instances, company] = await Promise.all([
+      const [assistants, instances, company, servicesRaw] = await Promise.all([
         prisma.assistant.findMany({
           where: { companyId: targetCompanyId },
           orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
@@ -378,24 +379,33 @@ export default async function ConfiguracoesPage({
           where: { id: targetCompanyId },
           select: { aiMonthlyQuota: true, aiUsedThisMonth: true, aiQuotaResetAt: true },
         }),
+        prisma.service.findMany({
+          where: { companyId: targetCompanyId },
+          orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        }),
       ]);
 
       content = (
-        <AssistantsSettings
-          companyId={targetCompanyId}
-          isSuperAdmin={realIsSuperAdmin}
-          initialAssistants={assistants.map((a) => ({
-            ...a,
-            createdAt: a.createdAt.toISOString(),
-            updatedAt: a.updatedAt.toISOString(),
-          })) as any}
-          instances={instances as any}
-          quota={{
-            aiMonthlyQuota:  company?.aiMonthlyQuota ?? 0,
-            aiUsedThisMonth: company?.aiUsedThisMonth ?? 0,
-            aiQuotaResetAt:  company?.aiQuotaResetAt?.toISOString() ?? null,
-          }}
-        />
+        <div className="space-y-8 pb-6">
+          <AssistantsSettings
+            companyId={targetCompanyId}
+            isSuperAdmin={realIsSuperAdmin}
+            initialAssistants={assistants.map((a) => ({
+              ...a,
+              createdAt: a.createdAt.toISOString(),
+              updatedAt: a.updatedAt.toISOString(),
+            })) as any}
+            instances={instances as any}
+            quota={{
+              aiMonthlyQuota:  company?.aiMonthlyQuota ?? 0,
+              aiUsedThisMonth: company?.aiUsedThisMonth ?? 0,
+              aiQuotaResetAt:  company?.aiQuotaResetAt?.toISOString() ?? null,
+            }}
+          />
+          <div className="px-6 max-w-3xl">
+            <ServicesCatalog companyId={targetCompanyId} initialServices={servicesRaw as any} />
+          </div>
+        </div>
       );
     }
   } else if (secao === "custom-fields") {

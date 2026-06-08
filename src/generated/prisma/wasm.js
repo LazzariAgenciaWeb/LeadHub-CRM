@@ -1142,6 +1142,21 @@ exports.Prisma.AiUsageLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ServiceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  description: 'description',
+  qualifyingQuestions: 'qualifyingQuestions',
+  salesArguments: 'salesArguments',
+  references: 'references',
+  priceRange: 'priceRange',
+  isActive: 'isActive',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1551,7 +1566,8 @@ exports.Prisma.ModelName = {
   BillingEvent: 'BillingEvent',
   AdminAuditLog: 'AdminAuditLog',
   Assistant: 'Assistant',
-  AiUsageLog: 'AiUsageLog'
+  AiUsageLog: 'AiUsageLog',
+  Service: 'Service'
 };
 
 /**

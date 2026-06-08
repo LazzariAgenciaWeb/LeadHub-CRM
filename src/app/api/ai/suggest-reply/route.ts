@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
-import { getActiveAssistant, runAssistant } from "@/lib/assistant";
+import { getActiveAssistant, runAssistant, getServicesCatalogBlock } from "@/lib/assistant";
 
 // Regras de formato sempre anexadas ao manual do agente (ou ao prompt default),
 // pra garantir que a saída seja uma mensagem pronta de WhatsApp.
@@ -17,6 +17,18 @@ const FORMAT_RULES = `
 
 const DEFAULT_MANUAL = `Você é um assistente de atendimento ao cliente via WhatsApp.
 Com base no histórico da conversa, sugira UMA única resposta para o atendente enviar agora.`;
+
+// Cabeçalho forte ANTES do manual: eleva as proibições a regra absoluta.
+const STRICT_PREAMBLE = `Você deve seguir o MANUAL abaixo À RISCA. As PROIBIÇÕES do manual são ABSOLUTAS e inegociáveis: nunca as quebre, mesmo que o cliente peça diretamente, insista ou pressione. Se o cliente pedir algo que o manual proíbe (por exemplo, preço/valor/faixa/orçamento quando o manual proíbe), NÃO forneça — responda do jeito que o manual orienta para esses casos (normalmente conduzindo para a reunião/diagnóstico).
+
+===== MANUAL DO AGENTE =====
+`;
+
+// Checagem final DEPOIS de tudo (último texto que o modelo lê = maior adesão).
+const CLOSING_GUARD = `
+
+[CHECAGEM OBRIGATÓRIA ANTES DE RESPONDER]
+Reveja sua resposta: ela respeita TODAS as proibições do manual? Se ela menciona ou oferece algo proibido — por exemplo preço, valor, faixa, orçamento, tabela de preços, ou "posso te enviar os preços" quando o manual proíbe — então REESCREVA sem isso, conduzindo para a reunião/diagnóstico. Nunca entregue uma resposta que viole o manual.`;
 
 // GET /api/ai/suggest-reply?phone=&companyId=
 export async function GET(req: NextRequest) {
@@ -72,7 +84,13 @@ export async function GET(req: NextRequest) {
   // system prompt (a "persona"); senão, cai no manual default. Em ambos os casos
   // as regras de formato são anexadas para garantir uma mensagem pronta.
   const assistant = await getActiveAssistant(companyId, "VENDAS");
-  const systemPrompt = (assistant?.manual?.trim() || DEFAULT_MANUAL) + FORMAT_RULES;
+  // Catálogo de serviços da empresa (sem preço) — injetado entre o manual e as
+  // regras de formato, pra o agente reconhecer o serviço e qualificar.
+  const catalogBlock = await getServicesCatalogBlock(companyId);
+  const manual = assistant?.manual?.trim() || DEFAULT_MANUAL;
+  // Estrutura que maximiza adesão do modelo às proibições:
+  // preâmbulo forte → manual → catálogo → regras de formato → checagem final.
+  const systemPrompt = STRICT_PREAMBLE + manual + catalogBlock + FORMAT_RULES + CLOSING_GUARD;
 
   const run = await runAssistant({
     companyId,
@@ -80,7 +98,8 @@ export async function GET(req: NextRequest) {
     assistantId: assistant?.id ?? null,
     userId: (session.user as any)?.id ?? null,
     model: assistant?.model ?? null,
-    temperature: assistant?.temperature ?? 0.7,
+    // Temperatura baixa = mais obediente às regras/proibições, menos "criativo".
+    temperature: assistant?.temperature ?? 0.3,
     maxTokens: 180,
     messages: [
       { role: "system", content: systemPrompt },

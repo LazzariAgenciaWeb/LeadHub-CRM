@@ -250,6 +250,7 @@ model Company {
   billingEvents             BillingEvent[]
   assistants                Assistant[]
   aiUsageLogs               AiUsageLog[]
+  services                  Service[]
   triggerOnly               Boolean                  @default(false)
   webhookToken              String?                  @unique // token público para receber leads via webhook
 
@@ -2365,4 +2366,34 @@ model AiUsageLog {
 
   @@index([companyId, createdAt])
   @@index([assistantId])
+}
+
+// ─── Catálogo de Serviços ─────────────────────────────────────────────────────
+// Serviço = CONHECIMENTO que os agentes consultam (não é um agente). O agente de
+// Vendas/Pré-atendente usa o catálogo pra reconhecer o que o contato quer e fazer
+// as perguntas de qualificação certas. priceRange é de USO INTERNO — NÃO é
+// injetado no prompt do SDR (que nunca informa preço).
+model Service {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  name        String        // "Criação de Sites", "Gestão de Redes Sociais"
+  description String? @db.Text
+  // Perguntas de qualificação (uma por linha) — o agente usa pra coletar.
+  qualifyingQuestions String? @db.Text
+  // Argumentos de venda / como apresentar (pro futuro agente de Vendas).
+  salesArguments String? @db.Text
+  // Referências, cases, materiais, links.
+  references String? @db.Text
+  // Faixa de preço — uso interno do gestor. NÃO entra no prompt do SDR.
+  priceRange String?
+
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, isActive])
 }

@@ -98,6 +98,38 @@ export async function getActiveAssistant(
 }
 
 /**
+ * Monta o bloco "CATÁLOGO DE SERVIÇOS" pra injetar no prompt do agente.
+ * Inclui nome, descrição, perguntas de qualificação, argumentos e referências.
+ * NÃO inclui priceRange (uso interno — o SDR nunca informa preço).
+ * Retorna "" se a empresa não tem serviços ativos.
+ */
+export async function getServicesCatalogBlock(companyId: string): Promise<string> {
+  const services = await prisma.service.findMany({
+    where: { companyId, isActive: true },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: {
+      name: true,
+      description: true,
+      qualifyingQuestions: true,
+      salesArguments: true,
+      references: true,
+    },
+  });
+  if (!services.length) return "";
+
+  const parts = services.map((s, i) => {
+    const lines: string[] = [`## ${i + 1}. ${s.name}`];
+    if (s.description?.trim()) lines.push(s.description.trim());
+    if (s.qualifyingQuestions?.trim()) lines.push(`Perguntas de qualificação:\n${s.qualifyingQuestions.trim()}`);
+    if (s.salesArguments?.trim()) lines.push(`Argumentos:\n${s.salesArguments.trim()}`);
+    if (s.references?.trim()) lines.push(`Referências:\n${s.references.trim()}`);
+    return lines.join("\n");
+  });
+
+  return `\n\n# CATÁLOGO DE SERVIÇOS (consulte para reconhecer o que o contato quer e qualificar; faça UMA pergunta por vez; nunca informe preço)\n${parts.join("\n\n")}`;
+}
+
+/**
  * Executa uma interação de IA cobrável. Verifica/consome cota, chama a OpenAI
  * com a key global, e registra o consumo. Retorna texto ou um erro tipado.
  */
