@@ -13,6 +13,22 @@ const TYPE_META: Record<AssistantType, { label: string; icon: string; desc: stri
 };
 const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "GESTOR"];
 
+// Estimativa de custo por interação (só pro SUPER_ADMIN ter ideia do limite).
+// Base: gpt-4o-mini + tamanho típico de uma sugestão (suggest-reply).
+// Ajuste aqui se a OpenAI mudar preço ou se trocar o modelo padrão.
+const PRICE_USD_PER_1M = { input: 0.15, output: 0.60 }; // gpt-4o-mini
+const EST_TOKENS = { input: 1500, output: 180 };         // ~25 msgs + manual / resposta curta
+const USD_PER_INTERACTION =
+  (EST_TOKENS.input * PRICE_USD_PER_1M.input + EST_TOKENS.output * PRICE_USD_PER_1M.output) / 1_000_000;
+const USD_TO_BRL = 5.5; // câmbio aproximado — só pra dar ordem de grandeza
+
+function fmtUsd(v: number) {
+  return v < 0.01 ? `US$ ${v.toFixed(4)}` : `US$ ${v.toFixed(2)}`;
+}
+function fmtBrl(v: number) {
+  return `R$ ${v.toFixed(2).replace(".", ",")}`;
+}
+
 interface Instance { id: string; label: string | null; instanceName: string; phone: string | null; status?: string }
 interface Assistant {
   id: string;
@@ -162,22 +178,35 @@ export default function AssistantsSettings({
         )}
 
         {isSuperAdmin ? (
-          <div className="flex items-center gap-2 mt-4 pt-4 border-t border-[#1e2d45]">
-            <label className="text-slate-400 text-xs">Cota mensal:</label>
-            <input
-              type="number" min={0}
-              value={quotaVal}
-              onChange={(e) => setQuotaVal(parseInt(e.target.value || "0", 10))}
-              className="w-28 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500"
-            />
-            <button
-              onClick={saveQuota}
-              disabled={savingQuota}
-              className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40"
-            >
-              {savingQuota ? "Salvando..." : "Salvar cota"}
-            </button>
-            <span className="text-[10px] text-slate-600 ml-auto">Só o admin da plataforma define a cota.</span>
+          <div className="mt-4 pt-4 border-t border-[#1e2d45]">
+            <div className="flex items-center gap-2">
+              <label className="text-slate-400 text-xs">Cota mensal:</label>
+              <input
+                type="number" min={0}
+                value={quotaVal}
+                onChange={(e) => setQuotaVal(parseInt(e.target.value || "0", 10))}
+                className="w-28 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500"
+              />
+              <button
+                onClick={saveQuota}
+                disabled={savingQuota}
+                className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40"
+              >
+                {savingQuota ? "Salvando..." : "Salvar cota"}
+              </button>
+              <span className="text-[10px] text-slate-600 ml-auto">Só o admin da plataforma define a cota.</span>
+            </div>
+            {/* Estimativa de custo do limite — visível só pro super admin */}
+            <div className="mt-2 flex items-center gap-2 text-[11px] text-slate-400 bg-[#161f30]/60 border border-[#1e2d45] rounded-lg px-3 py-2">
+              <span>💰</span>
+              <span>
+                Custo estimado deste limite:{" "}
+                <strong className="text-slate-200">{fmtUsd(quotaVal * USD_PER_INTERACTION)}</strong>
+                {" "}<span className="text-slate-500">(~{fmtBrl(quotaVal * USD_PER_INTERACTION * USD_TO_BRL)})</span>
+                {" "}/mês
+              </span>
+              <span className="text-slate-600 ml-auto">~{fmtUsd(USD_PER_INTERACTION)}/interação · gpt-4o-mini</span>
+            </div>
           </div>
         ) : (
           <p className="text-slate-600 text-[10px] mt-3">Precisa de mais interações? Fale com o suporte para ampliar sua cota.</p>
