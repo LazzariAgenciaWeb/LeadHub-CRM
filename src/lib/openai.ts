@@ -25,15 +25,28 @@ export async function getOpenAIConfig(): Promise<OpenAIConfig | null> {
   };
 }
 
+export interface TokenUsage {
+  prompt: number;
+  completion: number;
+  total: number;
+}
+
+export interface ChatResult {
+  text: string | null;
+  usage: TokenUsage | null;
+  model: string;
+}
+
 /**
- * Faz uma chamada ao endpoint /chat/completions da OpenAI.
- * Retorna o texto gerado ou null em caso de erro.
+ * Versão detalhada: retorna texto + uso de tokens (response.usage) + modelo.
+ * Usada pelo controle de consumo (AiUsageLog / cota por empresa).
  */
-export async function chatCompletion(
+export async function chatCompletionDetailed(
   config: OpenAIConfig,
   messages: { role: "system" | "user" | "assistant"; content: string }[],
-  options?: { maxTokens?: number; temperature?: number }
-): Promise<string | null> {
+  options?: { maxTokens?: number; temperature?: number; model?: string }
+): Promise<ChatResult> {
+  const model = options?.model?.trim() || config.model;
   try {
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -42,7 +55,7 @@ export async function chatCompletion(
         Authorization: `Bearer ${config.apiKey}`,
       },
       body: JSON.stringify({
-        model:       config.model,
+        model,
         messages,
         max_tokens:  options?.maxTokens  ?? 512,
         temperature: options?.temperature ?? 0.7,
@@ -51,13 +64,38 @@ export async function chatCompletion(
 
     if (!res.ok) {
       console.error("[OpenAI] chatCompletion error:", res.status, await res.text());
-      return null;
+      return { text: null, usage: null, model };
     }
 
     const data = await res.json();
-    return data.choices?.[0]?.message?.content?.trim() ?? null;
+    const text = data.choices?.[0]?.message?.content?.trim() ?? null;
+    const u = data.usage;
+    const usage: TokenUsage | null = u
+      ? {
+          prompt: u.prompt_tokens ?? 0,
+          completion: u.completion_tokens ?? 0,
+          total: u.total_tokens ?? 0,
+        }
+      : null;
+    return { text, usage, model };
   } catch (err) {
     console.error("[OpenAI] chatCompletion exception:", err);
-    return null;
+    return { text: null, usage: null, model };
   }
+}
+
+/**
+ * Faz uma chamada ao endpoint /chat/completions da OpenAI.
+ * Retorna o texto gerado ou null em caso de erro.
+ *
+ * NOTA: este wrapper NÃO controla cota nem registra consumo. Para fluxos de
+ * Assistente com cobrança por interação, use `runAssistant()` em lib/assistant.ts.
+ */
+export async function chatCompletion(
+  config: OpenAIConfig,
+  messages: { role: "system" | "user" | "assistant"; content: string }[],
+  options?: { maxTokens?: number; temperature?: number }
+): Promise<string | null> {
+  const { text } = await chatCompletionDetailed(config, messages, options);
+  return text;
 }

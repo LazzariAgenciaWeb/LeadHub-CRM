@@ -9,6 +9,7 @@ import PipelineSettings from "./PipelineSettings";
 import CustomFieldsSettings from "./CustomFieldsSettings";
 import ClickupSettings from "./ClickupSettings";
 import OpenAISettings from "./OpenAISettings";
+import AssistantsSettings from "./AssistantsSettings";
 import SetoresSection from "./SetoresSection";
 import WebhookSettings from "./WebhookSettings";
 import AtendimentoSettings from "./AtendimentoSettings";
@@ -347,6 +348,51 @@ export default async function ConfiguracoesPage({
         selectedCompanyId={pipelineCompanyId ?? ""}
       />
     );
+  } else if (secao === "assistentes") {
+    // Empresa-alvo: SUPER_ADMIN pode passar ?companyId=, fallback pra sessão.
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    if (!targetCompanyId) {
+      content = (
+        <div className="p-6 text-slate-500 text-sm">
+          Assistentes de IA são configurados por empresa. Impersone uma empresa-cliente ou passe ?companyId=.
+        </div>
+      );
+    } else {
+      const [assistants, instances, company] = await Promise.all([
+        prisma.assistant.findMany({
+          where: { companyId: targetCompanyId },
+          orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
+          include: { instance: { select: { id: true, label: true, instanceName: true, phone: true } } },
+        }),
+        prisma.whatsappInstance.findMany({
+          where: { companyId: targetCompanyId },
+          select: { id: true, label: true, instanceName: true, phone: true, status: true },
+          orderBy: { instanceName: "asc" },
+        }),
+        prisma.company.findUnique({
+          where: { id: targetCompanyId },
+          select: { aiMonthlyQuota: true, aiUsedThisMonth: true, aiQuotaResetAt: true },
+        }),
+      ]);
+
+      content = (
+        <AssistantsSettings
+          companyId={targetCompanyId}
+          isSuperAdmin={isSuperAdmin}
+          initialAssistants={assistants.map((a) => ({
+            ...a,
+            createdAt: a.createdAt.toISOString(),
+            updatedAt: a.updatedAt.toISOString(),
+          })) as any}
+          instances={instances as any}
+          quota={{
+            aiMonthlyQuota:  company?.aiMonthlyQuota ?? 0,
+            aiUsedThisMonth: company?.aiUsedThisMonth ?? 0,
+            aiQuotaResetAt:  company?.aiQuotaResetAt?.toISOString() ?? null,
+          }}
+        />
+      );
+    }
   } else if (secao === "custom-fields") {
     let customCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
     if (!customCompanyId) {

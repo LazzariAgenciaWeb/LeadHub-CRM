@@ -199,6 +199,9 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleCampanhas: 'moduleCampanhas',
   moduleLinks: 'moduleLinks',
   modoAtendimento: 'modoAtendimento',
+  aiMonthlyQuota: 'aiMonthlyQuota',
+  aiUsedThisMonth: 'aiUsedThisMonth',
+  aiQuotaResetAt: 'aiQuotaResetAt',
   parentCompanyId: 'parentCompanyId',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'
@@ -1111,6 +1114,34 @@ exports.Prisma.AdminAuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AssistantScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  type: 'type',
+  manual: 'manual',
+  isActive: 'isActive',
+  instanceId: 'instanceId',
+  model: 'model',
+  temperature: 'temperature',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AiUsageLogScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  assistantId: 'assistantId',
+  endpoint: 'endpoint',
+  model: 'model',
+  tokensPrompt: 'tokensPrompt',
+  tokensCompletion: 'tokensCompletion',
+  tokensTotal: 'tokensTotal',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1440,6 +1471,13 @@ exports.EmailEventType = exports.$Enums.EmailEventType = {
   UNSUBSCRIBE: 'UNSUBSCRIBE'
 };
 
+exports.AssistantType = exports.$Enums.AssistantType = {
+  PRE_ATENDENTE: 'PRE_ATENDENTE',
+  VENDAS: 'VENDAS',
+  SUPORTE: 'SUPORTE',
+  GESTOR: 'GESTOR'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VaultEmailChallenge: 'VaultEmailChallenge',
@@ -1511,7 +1549,9 @@ exports.Prisma.ModelName = {
   EmailEvent: 'EmailEvent',
   EmailUnsubscribe: 'EmailUnsubscribe',
   BillingEvent: 'BillingEvent',
-  AdminAuditLog: 'AdminAuditLog'
+  AdminAuditLog: 'AdminAuditLog',
+  Assistant: 'Assistant',
+  AiUsageLog: 'AiUsageLog'
 };
 
 /**

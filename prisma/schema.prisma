@@ -57,6 +57,7 @@ model User {
   pushSubscriptions     PushSubscription[]
   notifPreferences      UserNotifPreferences?
   emailCampaignsCreated EmailCampaign[]        @relation("EmailCampaignCreatedBy")
+  assistantsCreated     Assistant[]
 
   @@index([companyId])
 }
@@ -185,6 +186,16 @@ model Company {
   // das contas existentes — só contas novas no plano de entrada nascem como VISAO.
   modoAtendimento ModoAtendimento @default(ATENDE)
 
+  // ─── Cota de uso de IA (Assistentes) ──────────────────────────────────────
+  // A key da OpenAI é GLOBAL (do sistema). O controle de consumo é por empresa:
+  // 1 "interação" = 1 chamada de IA (sugestão/resposta). Cota mensal que reseta.
+  // aiMonthlyQuota  = limite de interações/mês (0 = bloqueado; setado pelo admin).
+  // aiUsedThisMonth = contador do período atual.
+  // aiQuotaResetAt  = quando o contador zera (início do próximo período mensal).
+  aiMonthlyQuota  Int       @default(0)
+  aiUsedThisMonth Int       @default(0)
+  aiQuotaResetAt  DateTime?
+
   // Hierarquia: empresa-pai gerencia sub-empresas (clientes da empresa)
   parentCompanyId String?
   parentCompany   Company?  @relation("SubCompanies", fields: [parentCompanyId], references: [id])
@@ -237,6 +248,8 @@ model Company {
   gbpProfileSnapshots       GbpProfileSnapshot[]
   subscription              Subscription?
   billingEvents             BillingEvent[]
+  assistants                Assistant[]
+  aiUsageLogs               AiUsageLog[]
   triggerOnly               Boolean                  @default(false)
   webhookToken              String?                  @unique // token público para receber leads via webhook
 
@@ -721,6 +734,7 @@ model WhatsappInstance {
 
   messages Message[]
   setores  SetorInstance[]
+  assistants Assistant[]
 
   @@index([companyId])
 }
@@ -2284,4 +2298,71 @@ model AdminAuditLog {
   @@index([adminUserId, createdAt])
   @@index([targetCompanyId, createdAt])
   @@index([action, createdAt])
+}
+
+// ─── Assistentes de IA (configuráveis por empresa) ────────────────────────────
+// Cada Assistant é um "agente" com comportamento próprio definido por um manual
+// editável (system prompt). O `type` define o papel; a UI/lógica usa o agente
+// ATIVO de cada tipo. `instanceId` (opcional) vincula o agente a uma instância
+// WhatsApp específica (ex.: número de vendas → agente VENDAS). A key da OpenAI é
+// global; o consumo é controlado pela cota mensal da Company (ver aiMonthlyQuota).
+model Assistant {
+  id        String        @id @default(cuid())
+  company   Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  name      String        // nome amigável ("Closer de Vendas", "Suporte Financeiro")
+  type      AssistantType
+  // Manual de instruções = system prompt. Como agir, tom, objetivo, o que pode/
+  // não pode dizer. É o coração do agente — editado pelo admin da empresa.
+  manual    String        @db.Text
+  isActive  Boolean       @default(true)
+
+  // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
+  instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
+  instanceId String?
+
+  // Overrides opcionais do modelo (caem no default global quando nulos).
+  model       String?  // ex.: "gpt-4o-mini"
+  temperature Float?
+
+  usageLogs AiUsageLog[]
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, type, isActive])
+  @@index([instanceId])
+}
+
+enum AssistantType {
+  PRE_ATENDENTE // triagem / 1º contato / roteamento
+  VENDAS        // negociação: conduz lead/oportunidade até comprar
+  SUPORTE       // atendimento a quem já é cliente
+  GESTOR        // resumos e apoio à decisão do dono
+}
+
+// Log de cada chamada de IA — base do controle de consumo e relatório de custo.
+// 1 registro = 1 interação. tokensPrompt/tokensCompletion vêm do response.usage
+// da OpenAI (custo real), mesmo que a cobrança ao cliente seja por interação.
+model AiUsageLog {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  assistant   Assistant? @relation(fields: [assistantId], references: [id], onDelete: SetNull)
+  assistantId String?
+
+  endpoint         String  // "suggest-reply" | "summarize" | "atendimento" | etc.
+  model            String  // modelo efetivamente usado
+  tokensPrompt     Int     @default(0)
+  tokensCompletion Int     @default(0)
+  tokensTotal      Int     @default(0)
+  userId           String? // quem disparou (opcional)
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId, createdAt])
+  @@index([assistantId])
 }

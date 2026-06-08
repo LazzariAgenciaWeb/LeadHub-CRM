@@ -368,6 +368,16 @@ export type BillingEvent = $Result.DefaultSelection<Prisma.$BillingEventPayload>
  * 
  */
 export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayload>
+/**
+ * Model Assistant
+ * 
+ */
+export type Assistant = $Result.DefaultSelection<Prisma.$AssistantPayload>
+/**
+ * Model AiUsageLog
+ * 
+ */
+export type AiUsageLog = $Result.DefaultSelection<Prisma.$AiUsageLogPayload>
 
 /**
  * Enums
@@ -765,6 +775,16 @@ export const EmailEventType: {
 
 export type EmailEventType = (typeof EmailEventType)[keyof typeof EmailEventType]
 
+
+export const AssistantType: {
+  PRE_ATENDENTE: 'PRE_ATENDENTE',
+  VENDAS: 'VENDAS',
+  SUPORTE: 'SUPORTE',
+  GESTOR: 'GESTOR'
+};
+
+export type AssistantType = (typeof AssistantType)[keyof typeof AssistantType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -890,6 +910,10 @@ export const EmailRecipientStatus: typeof $Enums.EmailRecipientStatus
 export type EmailEventType = $Enums.EmailEventType
 
 export const EmailEventType: typeof $Enums.EmailEventType
+
+export type AssistantType = $Enums.AssistantType
+
+export const AssistantType: typeof $Enums.AssistantType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1723,6 +1747,26 @@ export class PrismaClient<
     * ```
     */
   get adminAuditLog(): Prisma.AdminAuditLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.assistant`: Exposes CRUD operations for the **Assistant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assistants
+    * const assistants = await prisma.assistant.findMany()
+    * ```
+    */
+  get assistant(): Prisma.AssistantDelegate<ExtArgs>;
+
+  /**
+   * `prisma.aiUsageLog`: Exposes CRUD operations for the **AiUsageLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AiUsageLogs
+    * const aiUsageLogs = await prisma.aiUsageLog.findMany()
+    * ```
+    */
+  get aiUsageLog(): Prisma.AiUsageLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -2234,7 +2278,9 @@ export namespace Prisma {
     EmailEvent: 'EmailEvent',
     EmailUnsubscribe: 'EmailUnsubscribe',
     BillingEvent: 'BillingEvent',
-    AdminAuditLog: 'AdminAuditLog'
+    AdminAuditLog: 'AdminAuditLog',
+    Assistant: 'Assistant',
+    AiUsageLog: 'AiUsageLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2250,7 +2296,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7224,6 +7270,146 @@ export namespace Prisma {
           }
         }
       }
+      Assistant: {
+        payload: Prisma.$AssistantPayload<ExtArgs>
+        fields: Prisma.AssistantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          findMany: {
+            args: Prisma.AssistantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>[]
+          }
+          create: {
+            args: Prisma.AssistantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          createMany: {
+            args: Prisma.AssistantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          update: {
+            args: Prisma.AssistantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantPayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistant>
+          }
+          groupBy: {
+            args: Prisma.AssistantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantCountAggregateOutputType> | number
+          }
+        }
+      }
+      AiUsageLog: {
+        payload: Prisma.$AiUsageLogPayload<ExtArgs>
+        fields: Prisma.AiUsageLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AiUsageLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AiUsageLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          findFirst: {
+            args: Prisma.AiUsageLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AiUsageLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          findMany: {
+            args: Prisma.AiUsageLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>[]
+          }
+          create: {
+            args: Prisma.AiUsageLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          createMany: {
+            args: Prisma.AiUsageLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AiUsageLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>[]
+          }
+          delete: {
+            args: Prisma.AiUsageLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          update: {
+            args: Prisma.AiUsageLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.AiUsageLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AiUsageLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AiUsageLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUsageLogPayload>
+          }
+          aggregate: {
+            args: Prisma.AiUsageLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAiUsageLog>
+          }
+          groupBy: {
+            args: Prisma.AiUsageLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AiUsageLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AiUsageLogCountArgs<ExtArgs>
+            result: $Utils.Optional<AiUsageLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -7406,6 +7592,7 @@ export namespace Prisma {
     projectAccess: number
     pushSubscriptions: number
     emailCampaignsCreated: number
+    assistantsCreated: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7430,6 +7617,7 @@ export namespace Prisma {
     projectAccess?: boolean | UserCountOutputTypeCountProjectAccessArgs
     pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
     emailCampaignsCreated?: boolean | UserCountOutputTypeCountEmailCampaignsCreatedArgs
+    assistantsCreated?: boolean | UserCountOutputTypeCountAssistantsCreatedArgs
   }
 
   // Custom InputTypes
@@ -7590,6 +7778,13 @@ export namespace Prisma {
     where?: EmailCampaignWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -7640,6 +7835,8 @@ export namespace Prisma {
     gbpSearchKeywords: number
     gbpProfileSnapshots: number
     billingEvents: number
+    assistants: number
+    aiUsageLogs: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7687,6 +7884,8 @@ export namespace Prisma {
     gbpSearchKeywords?: boolean | CompanyCountOutputTypeCountGbpSearchKeywordsArgs
     gbpProfileSnapshots?: boolean | CompanyCountOutputTypeCountGbpProfileSnapshotsArgs
     billingEvents?: boolean | CompanyCountOutputTypeCountBillingEventsArgs
+    assistants?: boolean | CompanyCountOutputTypeCountAssistantsArgs
+    aiUsageLogs?: boolean | CompanyCountOutputTypeCountAiUsageLogsArgs
   }
 
   // Custom InputTypes
@@ -8008,6 +8207,20 @@ export namespace Prisma {
     where?: BillingEventWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAiUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiUsageLogWhereInput
+  }
+
 
   /**
    * Count Type CampaignCountOutputType
@@ -8292,11 +8505,13 @@ export namespace Prisma {
   export type WhatsappInstanceCountOutputType = {
     messages: number
     setores: number
+    assistants: number
   }
 
   export type WhatsappInstanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | WhatsappInstanceCountOutputTypeCountMessagesArgs
     setores?: boolean | WhatsappInstanceCountOutputTypeCountSetoresArgs
+    assistants?: boolean | WhatsappInstanceCountOutputTypeCountAssistantsArgs
   }
 
   // Custom InputTypes
@@ -8322,6 +8537,13 @@ export namespace Prisma {
    */
   export type WhatsappInstanceCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorInstanceWhereInput
+  }
+
+  /**
+   * WhatsappInstanceCountOutputType without action
+   */
+  export type WhatsappInstanceCountOutputTypeCountAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
   }
 
 
@@ -8802,6 +9024,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type AssistantCountOutputType
+   */
+
+  export type AssistantCountOutputType = {
+    usageLogs: number
+  }
+
+  export type AssistantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usageLogs?: boolean | AssistantCountOutputTypeCountUsageLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssistantCountOutputType without action
+   */
+  export type AssistantCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantCountOutputType
+     */
+    select?: AssistantCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssistantCountOutputType without action
+   */
+  export type AssistantCountOutputTypeCountUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiUsageLogWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -9049,6 +9302,7 @@ export namespace Prisma {
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
+    assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9108,6 +9362,7 @@ export namespace Prisma {
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
+    assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9141,6 +9396,7 @@ export namespace Prisma {
       pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
       notifPreferences: Prisma.$UserNotifPreferencesPayload<ExtArgs> | null
       emailCampaignsCreated: Prisma.$EmailCampaignPayload<ExtArgs>[]
+      assistantsCreated: Prisma.$AssistantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9543,6 +9799,7 @@ export namespace Prisma {
     pushSubscriptions<T extends User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany"> | Null>
     notifPreferences<T extends User$notifPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$notifPreferencesArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     emailCampaignsCreated<T extends User$emailCampaignsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$emailCampaignsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantsCreated<T extends User$assistantsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10364,6 +10621,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmailCampaignScalarFieldEnum | EmailCampaignScalarFieldEnum[]
+  }
+
+  /**
+   * User.assistantsCreated
+   */
+  export type User$assistantsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    cursor?: AssistantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
   }
 
   /**
@@ -13348,8 +13625,20 @@ export namespace Prisma {
 
   export type AggregateCompany = {
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
+  }
+
+  export type CompanyAvgAggregateOutputType = {
+    aiMonthlyQuota: number | null
+    aiUsedThisMonth: number | null
+  }
+
+  export type CompanySumAggregateOutputType = {
+    aiMonthlyQuota: number | null
+    aiUsedThisMonth: number | null
   }
 
   export type CompanyMinAggregateOutputType = {
@@ -13379,6 +13668,9 @@ export namespace Prisma {
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
+    aiMonthlyQuota: number | null
+    aiUsedThisMonth: number | null
+    aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -13411,6 +13703,9 @@ export namespace Prisma {
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
+    aiMonthlyQuota: number | null
+    aiUsedThisMonth: number | null
+    aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     triggerOnly: boolean | null
     webhookToken: string | null
@@ -13443,12 +13738,25 @@ export namespace Prisma {
     moduleCampanhas: number
     moduleLinks: number
     modoAtendimento: number
+    aiMonthlyQuota: number
+    aiUsedThisMonth: number
+    aiQuotaResetAt: number
     parentCompanyId: number
     triggerOnly: number
     webhookToken: number
     _all: number
   }
 
+
+  export type CompanyAvgAggregateInputType = {
+    aiMonthlyQuota?: true
+    aiUsedThisMonth?: true
+  }
+
+  export type CompanySumAggregateInputType = {
+    aiMonthlyQuota?: true
+    aiUsedThisMonth?: true
+  }
 
   export type CompanyMinAggregateInputType = {
     id?: true
@@ -13477,6 +13785,9 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     modoAtendimento?: true
+    aiMonthlyQuota?: true
+    aiUsedThisMonth?: true
+    aiQuotaResetAt?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -13509,6 +13820,9 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     modoAtendimento?: true
+    aiMonthlyQuota?: true
+    aiUsedThisMonth?: true
+    aiQuotaResetAt?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -13541,6 +13855,9 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     modoAtendimento?: true
+    aiMonthlyQuota?: true
+    aiUsedThisMonth?: true
+    aiQuotaResetAt?: true
     parentCompanyId?: true
     triggerOnly?: true
     webhookToken?: true
@@ -13585,6 +13902,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CompanyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompanySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CompanyMinAggregateInputType
@@ -13615,6 +13944,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CompanyCountAggregateInputType | true
+    _avg?: CompanyAvgAggregateInputType
+    _sum?: CompanySumAggregateInputType
     _min?: CompanyMinAggregateInputType
     _max?: CompanyMaxAggregateInputType
   }
@@ -13646,10 +13977,15 @@ export namespace Prisma {
     moduleCampanhas: boolean
     moduleLinks: boolean
     modoAtendimento: $Enums.ModoAtendimento
+    aiMonthlyQuota: number
+    aiUsedThisMonth: number
+    aiQuotaResetAt: Date | null
     parentCompanyId: string | null
     triggerOnly: boolean
     webhookToken: string | null
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
   }
@@ -13695,6 +14031,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: boolean
+    aiMonthlyQuota?: boolean
+    aiUsedThisMonth?: boolean
+    aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -13745,6 +14084,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
+    assistants?: boolean | Company$assistantsArgs<ExtArgs>
+    aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -13775,6 +14116,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: boolean
+    aiMonthlyQuota?: boolean
+    aiUsedThisMonth?: boolean
+    aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -13808,6 +14152,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: boolean
+    aiMonthlyQuota?: boolean
+    aiUsedThisMonth?: boolean
+    aiQuotaResetAt?: boolean
     parentCompanyId?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
@@ -13861,6 +14208,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
+    assistants?: boolean | Company$assistantsArgs<ExtArgs>
+    aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13917,6 +14266,8 @@ export namespace Prisma {
       gbpProfileSnapshots: Prisma.$GbpProfileSnapshotPayload<ExtArgs>[]
       subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
       billingEvents: Prisma.$BillingEventPayload<ExtArgs>[]
+      assistants: Prisma.$AssistantPayload<ExtArgs>[]
+      aiUsageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13945,6 +14296,9 @@ export namespace Prisma {
       moduleCampanhas: boolean
       moduleLinks: boolean
       modoAtendimento: $Enums.ModoAtendimento
+      aiMonthlyQuota: number
+      aiUsedThisMonth: number
+      aiQuotaResetAt: Date | null
       parentCompanyId: string | null
       triggerOnly: boolean
       webhookToken: string | null
@@ -14359,6 +14713,8 @@ export namespace Prisma {
     gbpProfileSnapshots<T extends Company$gbpProfileSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpProfileSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
     subscription<T extends Company$subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Company$subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     billingEvents<T extends Company$billingEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$billingEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingEventPayload<ExtArgs>, T, "findMany"> | Null>
+    assistants<T extends Company$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
+    aiUsageLogs<T extends Company$aiUsageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$aiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14414,6 +14770,9 @@ export namespace Prisma {
     readonly moduleCampanhas: FieldRef<"Company", 'Boolean'>
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
     readonly modoAtendimento: FieldRef<"Company", 'ModoAtendimento'>
+    readonly aiMonthlyQuota: FieldRef<"Company", 'Int'>
+    readonly aiUsedThisMonth: FieldRef<"Company", 'Int'>
+    readonly aiQuotaResetAt: FieldRef<"Company", 'DateTime'>
     readonly parentCompanyId: FieldRef<"Company", 'String'>
     readonly triggerOnly: FieldRef<"Company", 'Boolean'>
     readonly webhookToken: FieldRef<"Company", 'String'>
@@ -15657,6 +16016,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BillingEventScalarFieldEnum | BillingEventScalarFieldEnum[]
+  }
+
+  /**
+   * Company.assistants
+   */
+  export type Company$assistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    cursor?: AssistantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * Company.aiUsageLogs
+   */
+  export type Company$aiUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    where?: AiUsageLogWhereInput
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    cursor?: AiUsageLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AiUsageLogScalarFieldEnum | AiUsageLogScalarFieldEnum[]
   }
 
   /**
@@ -30692,6 +31091,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
+    assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whatsappInstance"]>
 
@@ -30728,6 +31128,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
+    assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WhatsappInstanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30740,6 +31141,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
       setores: Prisma.$SetorInstancePayload<ExtArgs>[]
+      assistants: Prisma.$AssistantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -31120,6 +31522,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     messages<T extends WhatsappInstance$messagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     setores<T extends WhatsappInstance$setoresArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
+    assistants<T extends WhatsappInstance$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -31515,6 +31918,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetorInstanceScalarFieldEnum | SetorInstanceScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappInstance.assistants
+   */
+  export type WhatsappInstance$assistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    cursor?: AssistantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
   }
 
   /**
@@ -84704,6 +85127,2181 @@ export namespace Prisma {
 
 
   /**
+   * Model Assistant
+   */
+
+  export type AggregateAssistant = {
+    _count: AssistantCountAggregateOutputType | null
+    _avg: AssistantAvgAggregateOutputType | null
+    _sum: AssistantSumAggregateOutputType | null
+    _min: AssistantMinAggregateOutputType | null
+    _max: AssistantMaxAggregateOutputType | null
+  }
+
+  export type AssistantAvgAggregateOutputType = {
+    temperature: number | null
+  }
+
+  export type AssistantSumAggregateOutputType = {
+    temperature: number | null
+  }
+
+  export type AssistantMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    type: $Enums.AssistantType | null
+    manual: string | null
+    isActive: boolean | null
+    instanceId: string | null
+    model: string | null
+    temperature: number | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    type: $Enums.AssistantType | null
+    manual: string | null
+    isActive: boolean | null
+    instanceId: string | null
+    model: string | null
+    temperature: number | null
+    createdById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantCountAggregateOutputType = {
+    id: number
+    companyId: number
+    name: number
+    type: number
+    manual: number
+    isActive: number
+    instanceId: number
+    model: number
+    temperature: number
+    createdById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssistantAvgAggregateInputType = {
+    temperature?: true
+  }
+
+  export type AssistantSumAggregateInputType = {
+    temperature?: true
+  }
+
+  export type AssistantMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    manual?: true
+    isActive?: true
+    instanceId?: true
+    model?: true
+    temperature?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    manual?: true
+    isActive?: true
+    instanceId?: true
+    model?: true
+    temperature?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    manual?: true
+    isActive?: true
+    instanceId?: true
+    model?: true
+    temperature?: true
+    createdById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssistantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assistant to aggregate.
+     */
+    where?: AssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assistants to fetch.
+     */
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Assistants
+    **/
+    _count?: true | AssistantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssistantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssistantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantMaxAggregateInputType
+  }
+
+  export type GetAssistantAggregateType<T extends AssistantAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistant[P]>
+      : GetScalarType<T[P], AggregateAssistant[P]>
+  }
+
+
+
+
+  export type AssistantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithAggregationInput | AssistantOrderByWithAggregationInput[]
+    by: AssistantScalarFieldEnum[] | AssistantScalarFieldEnum
+    having?: AssistantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantCountAggregateInputType | true
+    _avg?: AssistantAvgAggregateInputType
+    _sum?: AssistantSumAggregateInputType
+    _min?: AssistantMinAggregateInputType
+    _max?: AssistantMaxAggregateInputType
+  }
+
+  export type AssistantGroupByOutputType = {
+    id: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive: boolean
+    instanceId: string | null
+    model: string | null
+    temperature: number | null
+    createdById: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AssistantCountAggregateOutputType | null
+    _avg: AssistantAvgAggregateOutputType | null
+    _sum: AssistantSumAggregateOutputType | null
+    _min: AssistantMinAggregateOutputType | null
+    _max: AssistantMaxAggregateOutputType | null
+  }
+
+  type GetAssistantGroupByPayload<T extends AssistantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    manual?: boolean
+    isActive?: boolean
+    instanceId?: boolean
+    model?: boolean
+    temperature?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
+    createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
+    _count?: boolean | AssistantCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistant"]>
+
+  export type AssistantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    manual?: boolean
+    isActive?: boolean
+    instanceId?: boolean
+    model?: boolean
+    temperature?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["assistant"]>
+
+  export type AssistantSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    manual?: boolean
+    isActive?: boolean
+    instanceId?: boolean
+    model?: boolean
+    temperature?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssistantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
+    createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
+    _count?: boolean | AssistantCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AssistantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | Assistant$instanceArgs<ExtArgs>
+    createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
+  }
+
+  export type $AssistantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Assistant"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
+      usageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
+      createdBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      name: string
+      type: $Enums.AssistantType
+      manual: string
+      isActive: boolean
+      instanceId: string | null
+      model: string | null
+      temperature: number | null
+      createdById: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assistant"]>
+    composites: {}
+  }
+
+  type AssistantGetPayload<S extends boolean | null | undefined | AssistantDefaultArgs> = $Result.GetResult<Prisma.$AssistantPayload, S>
+
+  type AssistantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantCountAggregateInputType | true
+    }
+
+  export interface AssistantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Assistant'], meta: { name: 'Assistant' } }
+    /**
+     * Find zero or one Assistant that matches the filter.
+     * @param {AssistantFindUniqueArgs} args - Arguments to find a Assistant
+     * @example
+     * // Get one Assistant
+     * const assistant = await prisma.assistant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantFindUniqueArgs>(args: SelectSubset<T, AssistantFindUniqueArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Assistant that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantFindUniqueOrThrowArgs} args - Arguments to find a Assistant
+     * @example
+     * // Get one Assistant
+     * const assistant = await prisma.assistant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Assistant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantFindFirstArgs} args - Arguments to find a Assistant
+     * @example
+     * // Get one Assistant
+     * const assistant = await prisma.assistant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantFindFirstArgs>(args?: SelectSubset<T, AssistantFindFirstArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Assistant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantFindFirstOrThrowArgs} args - Arguments to find a Assistant
+     * @example
+     * // Get one Assistant
+     * const assistant = await prisma.assistant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Assistants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assistants
+     * const assistants = await prisma.assistant.findMany()
+     * 
+     * // Get first 10 Assistants
+     * const assistants = await prisma.assistant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantWithIdOnly = await prisma.assistant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantFindManyArgs>(args?: SelectSubset<T, AssistantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Assistant.
+     * @param {AssistantCreateArgs} args - Arguments to create a Assistant.
+     * @example
+     * // Create one Assistant
+     * const Assistant = await prisma.assistant.create({
+     *   data: {
+     *     // ... data to create a Assistant
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantCreateArgs>(args: SelectSubset<T, AssistantCreateArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Assistants.
+     * @param {AssistantCreateManyArgs} args - Arguments to create many Assistants.
+     * @example
+     * // Create many Assistants
+     * const assistant = await prisma.assistant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantCreateManyArgs>(args?: SelectSubset<T, AssistantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assistants and returns the data saved in the database.
+     * @param {AssistantCreateManyAndReturnArgs} args - Arguments to create many Assistants.
+     * @example
+     * // Create many Assistants
+     * const assistant = await prisma.assistant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assistants and only return the `id`
+     * const assistantWithIdOnly = await prisma.assistant.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Assistant.
+     * @param {AssistantDeleteArgs} args - Arguments to delete one Assistant.
+     * @example
+     * // Delete one Assistant
+     * const Assistant = await prisma.assistant.delete({
+     *   where: {
+     *     // ... filter to delete one Assistant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantDeleteArgs>(args: SelectSubset<T, AssistantDeleteArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Assistant.
+     * @param {AssistantUpdateArgs} args - Arguments to update one Assistant.
+     * @example
+     * // Update one Assistant
+     * const assistant = await prisma.assistant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantUpdateArgs>(args: SelectSubset<T, AssistantUpdateArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Assistants.
+     * @param {AssistantDeleteManyArgs} args - Arguments to filter Assistants to delete.
+     * @example
+     * // Delete a few Assistants
+     * const { count } = await prisma.assistant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantDeleteManyArgs>(args?: SelectSubset<T, AssistantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assistants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assistants
+     * const assistant = await prisma.assistant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantUpdateManyArgs>(args: SelectSubset<T, AssistantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Assistant.
+     * @param {AssistantUpsertArgs} args - Arguments to update or create a Assistant.
+     * @example
+     * // Update or create a Assistant
+     * const assistant = await prisma.assistant.upsert({
+     *   create: {
+     *     // ... data to create a Assistant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Assistant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantUpsertArgs>(args: SelectSubset<T, AssistantUpsertArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Assistants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantCountArgs} args - Arguments to filter Assistants to count.
+     * @example
+     * // Count the number of Assistants
+     * const count = await prisma.assistant.count({
+     *   where: {
+     *     // ... the filter for the Assistants we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantCountArgs>(
+      args?: Subset<T, AssistantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Assistant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantAggregateArgs>(args: Subset<T, AssistantAggregateArgs>): Prisma.PrismaPromise<GetAssistantAggregateType<T>>
+
+    /**
+     * Group by Assistant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Assistant model
+   */
+  readonly fields: AssistantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Assistant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    instance<T extends Assistant$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    usageLogs<T extends Assistant$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
+    createdBy<T extends Assistant$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Assistant model
+   */ 
+  interface AssistantFieldRefs {
+    readonly id: FieldRef<"Assistant", 'String'>
+    readonly companyId: FieldRef<"Assistant", 'String'>
+    readonly name: FieldRef<"Assistant", 'String'>
+    readonly type: FieldRef<"Assistant", 'AssistantType'>
+    readonly manual: FieldRef<"Assistant", 'String'>
+    readonly isActive: FieldRef<"Assistant", 'Boolean'>
+    readonly instanceId: FieldRef<"Assistant", 'String'>
+    readonly model: FieldRef<"Assistant", 'String'>
+    readonly temperature: FieldRef<"Assistant", 'Float'>
+    readonly createdById: FieldRef<"Assistant", 'String'>
+    readonly createdAt: FieldRef<"Assistant", 'DateTime'>
+    readonly updatedAt: FieldRef<"Assistant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Assistant findUnique
+   */
+  export type AssistantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which Assistant to fetch.
+     */
+    where: AssistantWhereUniqueInput
+  }
+
+  /**
+   * Assistant findUniqueOrThrow
+   */
+  export type AssistantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which Assistant to fetch.
+     */
+    where: AssistantWhereUniqueInput
+  }
+
+  /**
+   * Assistant findFirst
+   */
+  export type AssistantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which Assistant to fetch.
+     */
+    where?: AssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assistants to fetch.
+     */
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assistants.
+     */
+    cursor?: AssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assistants.
+     */
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * Assistant findFirstOrThrow
+   */
+  export type AssistantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which Assistant to fetch.
+     */
+    where?: AssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assistants to fetch.
+     */
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assistants.
+     */
+    cursor?: AssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assistants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assistants.
+     */
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * Assistant findMany
+   */
+  export type AssistantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter, which Assistants to fetch.
+     */
+    where?: AssistantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assistants to fetch.
+     */
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Assistants.
+     */
+    cursor?: AssistantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assistants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assistants.
+     */
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * Assistant create
+   */
+  export type AssistantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Assistant.
+     */
+    data: XOR<AssistantCreateInput, AssistantUncheckedCreateInput>
+  }
+
+  /**
+   * Assistant createMany
+   */
+  export type AssistantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Assistants.
+     */
+    data: AssistantCreateManyInput | AssistantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Assistant createManyAndReturn
+   */
+  export type AssistantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Assistants.
+     */
+    data: AssistantCreateManyInput | AssistantCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Assistant update
+   */
+  export type AssistantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Assistant.
+     */
+    data: XOR<AssistantUpdateInput, AssistantUncheckedUpdateInput>
+    /**
+     * Choose, which Assistant to update.
+     */
+    where: AssistantWhereUniqueInput
+  }
+
+  /**
+   * Assistant updateMany
+   */
+  export type AssistantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Assistants.
+     */
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyInput>
+    /**
+     * Filter which Assistants to update
+     */
+    where?: AssistantWhereInput
+  }
+
+  /**
+   * Assistant upsert
+   */
+  export type AssistantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Assistant to update in case it exists.
+     */
+    where: AssistantWhereUniqueInput
+    /**
+     * In case the Assistant found by the `where` argument doesn't exist, create a new Assistant with this data.
+     */
+    create: XOR<AssistantCreateInput, AssistantUncheckedCreateInput>
+    /**
+     * In case the Assistant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantUpdateInput, AssistantUncheckedUpdateInput>
+  }
+
+  /**
+   * Assistant delete
+   */
+  export type AssistantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    /**
+     * Filter which Assistant to delete.
+     */
+    where: AssistantWhereUniqueInput
+  }
+
+  /**
+   * Assistant deleteMany
+   */
+  export type AssistantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assistants to delete
+     */
+    where?: AssistantWhereInput
+  }
+
+  /**
+   * Assistant.instance
+   */
+  export type Assistant$instanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappInstance
+     */
+    select?: WhatsappInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhatsappInstanceInclude<ExtArgs> | null
+    where?: WhatsappInstanceWhereInput
+  }
+
+  /**
+   * Assistant.usageLogs
+   */
+  export type Assistant$usageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    where?: AiUsageLogWhereInput
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    cursor?: AiUsageLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AiUsageLogScalarFieldEnum | AiUsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * Assistant.createdBy
+   */
+  export type Assistant$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Assistant without action
+   */
+  export type AssistantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AiUsageLog
+   */
+
+  export type AggregateAiUsageLog = {
+    _count: AiUsageLogCountAggregateOutputType | null
+    _avg: AiUsageLogAvgAggregateOutputType | null
+    _sum: AiUsageLogSumAggregateOutputType | null
+    _min: AiUsageLogMinAggregateOutputType | null
+    _max: AiUsageLogMaxAggregateOutputType | null
+  }
+
+  export type AiUsageLogAvgAggregateOutputType = {
+    tokensPrompt: number | null
+    tokensCompletion: number | null
+    tokensTotal: number | null
+  }
+
+  export type AiUsageLogSumAggregateOutputType = {
+    tokensPrompt: number | null
+    tokensCompletion: number | null
+    tokensTotal: number | null
+  }
+
+  export type AiUsageLogMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    assistantId: string | null
+    endpoint: string | null
+    model: string | null
+    tokensPrompt: number | null
+    tokensCompletion: number | null
+    tokensTotal: number | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type AiUsageLogMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    assistantId: string | null
+    endpoint: string | null
+    model: string | null
+    tokensPrompt: number | null
+    tokensCompletion: number | null
+    tokensTotal: number | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type AiUsageLogCountAggregateOutputType = {
+    id: number
+    companyId: number
+    assistantId: number
+    endpoint: number
+    model: number
+    tokensPrompt: number
+    tokensCompletion: number
+    tokensTotal: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AiUsageLogAvgAggregateInputType = {
+    tokensPrompt?: true
+    tokensCompletion?: true
+    tokensTotal?: true
+  }
+
+  export type AiUsageLogSumAggregateInputType = {
+    tokensPrompt?: true
+    tokensCompletion?: true
+    tokensTotal?: true
+  }
+
+  export type AiUsageLogMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    assistantId?: true
+    endpoint?: true
+    model?: true
+    tokensPrompt?: true
+    tokensCompletion?: true
+    tokensTotal?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type AiUsageLogMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    assistantId?: true
+    endpoint?: true
+    model?: true
+    tokensPrompt?: true
+    tokensCompletion?: true
+    tokensTotal?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type AiUsageLogCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    assistantId?: true
+    endpoint?: true
+    model?: true
+    tokensPrompt?: true
+    tokensCompletion?: true
+    tokensTotal?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AiUsageLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiUsageLog to aggregate.
+     */
+    where?: AiUsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUsageLogs to fetch.
+     */
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AiUsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AiUsageLogs
+    **/
+    _count?: true | AiUsageLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AiUsageLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AiUsageLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AiUsageLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AiUsageLogMaxAggregateInputType
+  }
+
+  export type GetAiUsageLogAggregateType<T extends AiUsageLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateAiUsageLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAiUsageLog[P]>
+      : GetScalarType<T[P], AggregateAiUsageLog[P]>
+  }
+
+
+
+
+  export type AiUsageLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiUsageLogWhereInput
+    orderBy?: AiUsageLogOrderByWithAggregationInput | AiUsageLogOrderByWithAggregationInput[]
+    by: AiUsageLogScalarFieldEnum[] | AiUsageLogScalarFieldEnum
+    having?: AiUsageLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AiUsageLogCountAggregateInputType | true
+    _avg?: AiUsageLogAvgAggregateInputType
+    _sum?: AiUsageLogSumAggregateInputType
+    _min?: AiUsageLogMinAggregateInputType
+    _max?: AiUsageLogMaxAggregateInputType
+  }
+
+  export type AiUsageLogGroupByOutputType = {
+    id: string
+    companyId: string
+    assistantId: string | null
+    endpoint: string
+    model: string
+    tokensPrompt: number
+    tokensCompletion: number
+    tokensTotal: number
+    userId: string | null
+    createdAt: Date
+    _count: AiUsageLogCountAggregateOutputType | null
+    _avg: AiUsageLogAvgAggregateOutputType | null
+    _sum: AiUsageLogSumAggregateOutputType | null
+    _min: AiUsageLogMinAggregateOutputType | null
+    _max: AiUsageLogMaxAggregateOutputType | null
+  }
+
+  type GetAiUsageLogGroupByPayload<T extends AiUsageLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AiUsageLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AiUsageLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AiUsageLogGroupByOutputType[P]>
+            : GetScalarType<T[P], AiUsageLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AiUsageLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    assistantId?: boolean
+    endpoint?: boolean
+    model?: boolean
+    tokensPrompt?: boolean
+    tokensCompletion?: boolean
+    tokensTotal?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assistant?: boolean | AiUsageLog$assistantArgs<ExtArgs>
+  }, ExtArgs["result"]["aiUsageLog"]>
+
+  export type AiUsageLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    assistantId?: boolean
+    endpoint?: boolean
+    model?: boolean
+    tokensPrompt?: boolean
+    tokensCompletion?: boolean
+    tokensTotal?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assistant?: boolean | AiUsageLog$assistantArgs<ExtArgs>
+  }, ExtArgs["result"]["aiUsageLog"]>
+
+  export type AiUsageLogSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    assistantId?: boolean
+    endpoint?: boolean
+    model?: boolean
+    tokensPrompt?: boolean
+    tokensCompletion?: boolean
+    tokensTotal?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type AiUsageLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assistant?: boolean | AiUsageLog$assistantArgs<ExtArgs>
+  }
+  export type AiUsageLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    assistant?: boolean | AiUsageLog$assistantArgs<ExtArgs>
+  }
+
+  export type $AiUsageLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AiUsageLog"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      assistant: Prisma.$AssistantPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      assistantId: string | null
+      endpoint: string
+      model: string
+      tokensPrompt: number
+      tokensCompletion: number
+      tokensTotal: number
+      userId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["aiUsageLog"]>
+    composites: {}
+  }
+
+  type AiUsageLogGetPayload<S extends boolean | null | undefined | AiUsageLogDefaultArgs> = $Result.GetResult<Prisma.$AiUsageLogPayload, S>
+
+  type AiUsageLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AiUsageLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AiUsageLogCountAggregateInputType | true
+    }
+
+  export interface AiUsageLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AiUsageLog'], meta: { name: 'AiUsageLog' } }
+    /**
+     * Find zero or one AiUsageLog that matches the filter.
+     * @param {AiUsageLogFindUniqueArgs} args - Arguments to find a AiUsageLog
+     * @example
+     * // Get one AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AiUsageLogFindUniqueArgs>(args: SelectSubset<T, AiUsageLogFindUniqueArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AiUsageLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AiUsageLogFindUniqueOrThrowArgs} args - Arguments to find a AiUsageLog
+     * @example
+     * // Get one AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AiUsageLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AiUsageLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AiUsageLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogFindFirstArgs} args - Arguments to find a AiUsageLog
+     * @example
+     * // Get one AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AiUsageLogFindFirstArgs>(args?: SelectSubset<T, AiUsageLogFindFirstArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AiUsageLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogFindFirstOrThrowArgs} args - Arguments to find a AiUsageLog
+     * @example
+     * // Get one AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AiUsageLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AiUsageLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AiUsageLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AiUsageLogs
+     * const aiUsageLogs = await prisma.aiUsageLog.findMany()
+     * 
+     * // Get first 10 AiUsageLogs
+     * const aiUsageLogs = await prisma.aiUsageLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aiUsageLogWithIdOnly = await prisma.aiUsageLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AiUsageLogFindManyArgs>(args?: SelectSubset<T, AiUsageLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AiUsageLog.
+     * @param {AiUsageLogCreateArgs} args - Arguments to create a AiUsageLog.
+     * @example
+     * // Create one AiUsageLog
+     * const AiUsageLog = await prisma.aiUsageLog.create({
+     *   data: {
+     *     // ... data to create a AiUsageLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends AiUsageLogCreateArgs>(args: SelectSubset<T, AiUsageLogCreateArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AiUsageLogs.
+     * @param {AiUsageLogCreateManyArgs} args - Arguments to create many AiUsageLogs.
+     * @example
+     * // Create many AiUsageLogs
+     * const aiUsageLog = await prisma.aiUsageLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AiUsageLogCreateManyArgs>(args?: SelectSubset<T, AiUsageLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AiUsageLogs and returns the data saved in the database.
+     * @param {AiUsageLogCreateManyAndReturnArgs} args - Arguments to create many AiUsageLogs.
+     * @example
+     * // Create many AiUsageLogs
+     * const aiUsageLog = await prisma.aiUsageLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AiUsageLogs and only return the `id`
+     * const aiUsageLogWithIdOnly = await prisma.aiUsageLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AiUsageLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AiUsageLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AiUsageLog.
+     * @param {AiUsageLogDeleteArgs} args - Arguments to delete one AiUsageLog.
+     * @example
+     * // Delete one AiUsageLog
+     * const AiUsageLog = await prisma.aiUsageLog.delete({
+     *   where: {
+     *     // ... filter to delete one AiUsageLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AiUsageLogDeleteArgs>(args: SelectSubset<T, AiUsageLogDeleteArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AiUsageLog.
+     * @param {AiUsageLogUpdateArgs} args - Arguments to update one AiUsageLog.
+     * @example
+     * // Update one AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AiUsageLogUpdateArgs>(args: SelectSubset<T, AiUsageLogUpdateArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AiUsageLogs.
+     * @param {AiUsageLogDeleteManyArgs} args - Arguments to filter AiUsageLogs to delete.
+     * @example
+     * // Delete a few AiUsageLogs
+     * const { count } = await prisma.aiUsageLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AiUsageLogDeleteManyArgs>(args?: SelectSubset<T, AiUsageLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiUsageLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AiUsageLogs
+     * const aiUsageLog = await prisma.aiUsageLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AiUsageLogUpdateManyArgs>(args: SelectSubset<T, AiUsageLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AiUsageLog.
+     * @param {AiUsageLogUpsertArgs} args - Arguments to update or create a AiUsageLog.
+     * @example
+     * // Update or create a AiUsageLog
+     * const aiUsageLog = await prisma.aiUsageLog.upsert({
+     *   create: {
+     *     // ... data to create a AiUsageLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AiUsageLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AiUsageLogUpsertArgs>(args: SelectSubset<T, AiUsageLogUpsertArgs<ExtArgs>>): Prisma__AiUsageLogClient<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AiUsageLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogCountArgs} args - Arguments to filter AiUsageLogs to count.
+     * @example
+     * // Count the number of AiUsageLogs
+     * const count = await prisma.aiUsageLog.count({
+     *   where: {
+     *     // ... the filter for the AiUsageLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends AiUsageLogCountArgs>(
+      args?: Subset<T, AiUsageLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AiUsageLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AiUsageLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AiUsageLogAggregateArgs>(args: Subset<T, AiUsageLogAggregateArgs>): Prisma.PrismaPromise<GetAiUsageLogAggregateType<T>>
+
+    /**
+     * Group by AiUsageLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUsageLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AiUsageLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AiUsageLogGroupByArgs['orderBy'] }
+        : { orderBy?: AiUsageLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AiUsageLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAiUsageLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AiUsageLog model
+   */
+  readonly fields: AiUsageLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AiUsageLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AiUsageLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assistant<T extends AiUsageLog$assistantArgs<ExtArgs> = {}>(args?: Subset<T, AiUsageLog$assistantArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AiUsageLog model
+   */ 
+  interface AiUsageLogFieldRefs {
+    readonly id: FieldRef<"AiUsageLog", 'String'>
+    readonly companyId: FieldRef<"AiUsageLog", 'String'>
+    readonly assistantId: FieldRef<"AiUsageLog", 'String'>
+    readonly endpoint: FieldRef<"AiUsageLog", 'String'>
+    readonly model: FieldRef<"AiUsageLog", 'String'>
+    readonly tokensPrompt: FieldRef<"AiUsageLog", 'Int'>
+    readonly tokensCompletion: FieldRef<"AiUsageLog", 'Int'>
+    readonly tokensTotal: FieldRef<"AiUsageLog", 'Int'>
+    readonly userId: FieldRef<"AiUsageLog", 'String'>
+    readonly createdAt: FieldRef<"AiUsageLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AiUsageLog findUnique
+   */
+  export type AiUsageLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUsageLog to fetch.
+     */
+    where: AiUsageLogWhereUniqueInput
+  }
+
+  /**
+   * AiUsageLog findUniqueOrThrow
+   */
+  export type AiUsageLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUsageLog to fetch.
+     */
+    where: AiUsageLogWhereUniqueInput
+  }
+
+  /**
+   * AiUsageLog findFirst
+   */
+  export type AiUsageLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUsageLog to fetch.
+     */
+    where?: AiUsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUsageLogs to fetch.
+     */
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiUsageLogs.
+     */
+    cursor?: AiUsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiUsageLogs.
+     */
+    distinct?: AiUsageLogScalarFieldEnum | AiUsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * AiUsageLog findFirstOrThrow
+   */
+  export type AiUsageLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUsageLog to fetch.
+     */
+    where?: AiUsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUsageLogs to fetch.
+     */
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiUsageLogs.
+     */
+    cursor?: AiUsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUsageLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiUsageLogs.
+     */
+    distinct?: AiUsageLogScalarFieldEnum | AiUsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * AiUsageLog findMany
+   */
+  export type AiUsageLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUsageLogs to fetch.
+     */
+    where?: AiUsageLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUsageLogs to fetch.
+     */
+    orderBy?: AiUsageLogOrderByWithRelationInput | AiUsageLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AiUsageLogs.
+     */
+    cursor?: AiUsageLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUsageLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUsageLogs.
+     */
+    skip?: number
+    distinct?: AiUsageLogScalarFieldEnum | AiUsageLogScalarFieldEnum[]
+  }
+
+  /**
+   * AiUsageLog create
+   */
+  export type AiUsageLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AiUsageLog.
+     */
+    data: XOR<AiUsageLogCreateInput, AiUsageLogUncheckedCreateInput>
+  }
+
+  /**
+   * AiUsageLog createMany
+   */
+  export type AiUsageLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AiUsageLogs.
+     */
+    data: AiUsageLogCreateManyInput | AiUsageLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiUsageLog createManyAndReturn
+   */
+  export type AiUsageLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AiUsageLogs.
+     */
+    data: AiUsageLogCreateManyInput | AiUsageLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiUsageLog update
+   */
+  export type AiUsageLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AiUsageLog.
+     */
+    data: XOR<AiUsageLogUpdateInput, AiUsageLogUncheckedUpdateInput>
+    /**
+     * Choose, which AiUsageLog to update.
+     */
+    where: AiUsageLogWhereUniqueInput
+  }
+
+  /**
+   * AiUsageLog updateMany
+   */
+  export type AiUsageLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AiUsageLogs.
+     */
+    data: XOR<AiUsageLogUpdateManyMutationInput, AiUsageLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AiUsageLogs to update
+     */
+    where?: AiUsageLogWhereInput
+  }
+
+  /**
+   * AiUsageLog upsert
+   */
+  export type AiUsageLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AiUsageLog to update in case it exists.
+     */
+    where: AiUsageLogWhereUniqueInput
+    /**
+     * In case the AiUsageLog found by the `where` argument doesn't exist, create a new AiUsageLog with this data.
+     */
+    create: XOR<AiUsageLogCreateInput, AiUsageLogUncheckedCreateInput>
+    /**
+     * In case the AiUsageLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AiUsageLogUpdateInput, AiUsageLogUncheckedUpdateInput>
+  }
+
+  /**
+   * AiUsageLog delete
+   */
+  export type AiUsageLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+    /**
+     * Filter which AiUsageLog to delete.
+     */
+    where: AiUsageLogWhereUniqueInput
+  }
+
+  /**
+   * AiUsageLog deleteMany
+   */
+  export type AiUsageLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiUsageLogs to delete
+     */
+    where?: AiUsageLogWhereInput
+  }
+
+  /**
+   * AiUsageLog.assistant
+   */
+  export type AiUsageLog$assistantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+  }
+
+  /**
+   * AiUsageLog without action
+   */
+  export type AiUsageLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUsageLog
+     */
+    select?: AiUsageLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUsageLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -84806,6 +87404,9 @@ export namespace Prisma {
     moduleCampanhas: 'moduleCampanhas',
     moduleLinks: 'moduleLinks',
     modoAtendimento: 'modoAtendimento',
+    aiMonthlyQuota: 'aiMonthlyQuota',
+    aiUsedThisMonth: 'aiUsedThisMonth',
+    aiQuotaResetAt: 'aiQuotaResetAt',
     parentCompanyId: 'parentCompanyId',
     triggerOnly: 'triggerOnly',
     webhookToken: 'webhookToken'
@@ -85919,6 +88520,40 @@ export namespace Prisma {
   export type AdminAuditLogScalarFieldEnum = (typeof AdminAuditLogScalarFieldEnum)[keyof typeof AdminAuditLogScalarFieldEnum]
 
 
+  export const AssistantScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    name: 'name',
+    type: 'type',
+    manual: 'manual',
+    isActive: 'isActive',
+    instanceId: 'instanceId',
+    model: 'model',
+    temperature: 'temperature',
+    createdById: 'createdById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssistantScalarFieldEnum = (typeof AssistantScalarFieldEnum)[keyof typeof AssistantScalarFieldEnum]
+
+
+  export const AiUsageLogScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    assistantId: 'assistantId',
+    endpoint: 'endpoint',
+    model: 'model',
+    tokensPrompt: 'tokensPrompt',
+    tokensCompletion: 'tokensCompletion',
+    tokensTotal: 'tokensTotal',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type AiUsageLogScalarFieldEnum = (typeof AiUsageLogScalarFieldEnum)[keyof typeof AiUsageLogScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -86488,6 +89123,20 @@ export namespace Prisma {
    */
   export type ListEnumEmailEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailEventType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AssistantType'
+   */
+  export type EnumAssistantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssistantType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AssistantType[]'
+   */
+  export type ListEnumAssistantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssistantType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -86533,6 +89182,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionListRelationFilter
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
     emailCampaignsCreated?: EmailCampaignListRelationFilter
+    assistantsCreated?: AssistantListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -86572,6 +89222,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionOrderByRelationAggregateInput
     notifPreferences?: UserNotifPreferencesOrderByWithRelationInput
     emailCampaignsCreated?: EmailCampaignOrderByRelationAggregateInput
+    assistantsCreated?: AssistantOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -86614,6 +89265,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionListRelationFilter
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
     emailCampaignsCreated?: EmailCampaignListRelationFilter
+    assistantsCreated?: AssistantListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -86905,6 +89557,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFilter<"Company"> | number
+    aiUsedThisMonth?: IntFilter<"Company"> | number
+    aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -86955,6 +89610,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
+    assistants?: AssistantListRelationFilter
+    aiUsageLogs?: AiUsageLogListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -86984,6 +89641,9 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     modoAtendimento?: SortOrder
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
+    aiQuotaResetAt?: SortOrderInput | SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
@@ -87034,6 +89694,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotOrderByRelationAggregateInput
     subscription?: SubscriptionOrderByWithRelationInput
     billingEvents?: BillingEventOrderByRelationAggregateInput
+    assistants?: AssistantOrderByRelationAggregateInput
+    aiUsageLogs?: AiUsageLogOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -87067,6 +89729,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFilter<"Company"> | number
+    aiUsedThisMonth?: IntFilter<"Company"> | number
+    aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
@@ -87116,6 +89781,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
+    assistants?: AssistantListRelationFilter
+    aiUsageLogs?: AiUsageLogListRelationFilter
   }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -87145,12 +89812,17 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     modoAtendimento?: SortOrder
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
+    aiQuotaResetAt?: SortOrderInput | SortOrder
     parentCompanyId?: SortOrderInput | SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
     _count?: CompanyCountOrderByAggregateInput
+    _avg?: CompanyAvgOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
     _min?: CompanyMinOrderByAggregateInput
+    _sum?: CompanySumOrderByAggregateInput
   }
 
   export type CompanyScalarWhereWithAggregatesInput = {
@@ -87183,6 +89855,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoWithAggregatesFilter<"Company"> | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntWithAggregatesFilter<"Company"> | number
+    aiUsedThisMonth?: IntWithAggregatesFilter<"Company"> | number
+    aiQuotaResetAt?: DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     triggerOnly?: BoolWithAggregatesFilter<"Company"> | boolean
     webhookToken?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -88462,6 +91137,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
     setores?: SetorInstanceListRelationFilter
+    assistants?: AssistantListRelationFilter
   }
 
   export type WhatsappInstanceOrderByWithRelationInput = {
@@ -88479,6 +91155,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
     setores?: SetorInstanceOrderByRelationAggregateInput
+    assistants?: AssistantOrderByRelationAggregateInput
   }
 
   export type WhatsappInstanceWhereUniqueInput = Prisma.AtLeast<{
@@ -88499,6 +91176,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
     setores?: SetorInstanceListRelationFilter
+    assistants?: AssistantListRelationFilter
   }, "id">
 
   export type WhatsappInstanceOrderByWithAggregationInput = {
@@ -93068,6 +95746,192 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
   }
 
+  export type AssistantWhereInput = {
+    AND?: AssistantWhereInput | AssistantWhereInput[]
+    OR?: AssistantWhereInput[]
+    NOT?: AssistantWhereInput | AssistantWhereInput[]
+    id?: StringFilter<"Assistant"> | string
+    companyId?: StringFilter<"Assistant"> | string
+    name?: StringFilter<"Assistant"> | string
+    type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
+    manual?: StringFilter<"Assistant"> | string
+    isActive?: BoolFilter<"Assistant"> | boolean
+    instanceId?: StringNullableFilter<"Assistant"> | string | null
+    model?: StringNullableFilter<"Assistant"> | string | null
+    temperature?: FloatNullableFilter<"Assistant"> | number | null
+    createdById?: StringNullableFilter<"Assistant"> | string | null
+    createdAt?: DateTimeFilter<"Assistant"> | Date | string
+    updatedAt?: DateTimeFilter<"Assistant"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+    usageLogs?: AiUsageLogListRelationFilter
+    createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type AssistantOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    manual?: SortOrder
+    isActive?: SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    model?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    instance?: WhatsappInstanceOrderByWithRelationInput
+    usageLogs?: AiUsageLogOrderByRelationAggregateInput
+    createdBy?: UserOrderByWithRelationInput
+  }
+
+  export type AssistantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AssistantWhereInput | AssistantWhereInput[]
+    OR?: AssistantWhereInput[]
+    NOT?: AssistantWhereInput | AssistantWhereInput[]
+    companyId?: StringFilter<"Assistant"> | string
+    name?: StringFilter<"Assistant"> | string
+    type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
+    manual?: StringFilter<"Assistant"> | string
+    isActive?: BoolFilter<"Assistant"> | boolean
+    instanceId?: StringNullableFilter<"Assistant"> | string | null
+    model?: StringNullableFilter<"Assistant"> | string | null
+    temperature?: FloatNullableFilter<"Assistant"> | number | null
+    createdById?: StringNullableFilter<"Assistant"> | string | null
+    createdAt?: DateTimeFilter<"Assistant"> | Date | string
+    updatedAt?: DateTimeFilter<"Assistant"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+    usageLogs?: AiUsageLogListRelationFilter
+    createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type AssistantOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    manual?: SortOrder
+    isActive?: SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    model?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssistantCountOrderByAggregateInput
+    _avg?: AssistantAvgOrderByAggregateInput
+    _max?: AssistantMaxOrderByAggregateInput
+    _min?: AssistantMinOrderByAggregateInput
+    _sum?: AssistantSumOrderByAggregateInput
+  }
+
+  export type AssistantScalarWhereWithAggregatesInput = {
+    AND?: AssistantScalarWhereWithAggregatesInput | AssistantScalarWhereWithAggregatesInput[]
+    OR?: AssistantScalarWhereWithAggregatesInput[]
+    NOT?: AssistantScalarWhereWithAggregatesInput | AssistantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Assistant"> | string
+    companyId?: StringWithAggregatesFilter<"Assistant"> | string
+    name?: StringWithAggregatesFilter<"Assistant"> | string
+    type?: EnumAssistantTypeWithAggregatesFilter<"Assistant"> | $Enums.AssistantType
+    manual?: StringWithAggregatesFilter<"Assistant"> | string
+    isActive?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
+    createdById?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
+  }
+
+  export type AiUsageLogWhereInput = {
+    AND?: AiUsageLogWhereInput | AiUsageLogWhereInput[]
+    OR?: AiUsageLogWhereInput[]
+    NOT?: AiUsageLogWhereInput | AiUsageLogWhereInput[]
+    id?: StringFilter<"AiUsageLog"> | string
+    companyId?: StringFilter<"AiUsageLog"> | string
+    assistantId?: StringNullableFilter<"AiUsageLog"> | string | null
+    endpoint?: StringFilter<"AiUsageLog"> | string
+    model?: StringFilter<"AiUsageLog"> | string
+    tokensPrompt?: IntFilter<"AiUsageLog"> | number
+    tokensCompletion?: IntFilter<"AiUsageLog"> | number
+    tokensTotal?: IntFilter<"AiUsageLog"> | number
+    userId?: StringNullableFilter<"AiUsageLog"> | string | null
+    createdAt?: DateTimeFilter<"AiUsageLog"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    assistant?: XOR<AssistantNullableRelationFilter, AssistantWhereInput> | null
+  }
+
+  export type AiUsageLogOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    assistantId?: SortOrderInput | SortOrder
+    endpoint?: SortOrder
+    model?: SortOrder
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    assistant?: AssistantOrderByWithRelationInput
+  }
+
+  export type AiUsageLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AiUsageLogWhereInput | AiUsageLogWhereInput[]
+    OR?: AiUsageLogWhereInput[]
+    NOT?: AiUsageLogWhereInput | AiUsageLogWhereInput[]
+    companyId?: StringFilter<"AiUsageLog"> | string
+    assistantId?: StringNullableFilter<"AiUsageLog"> | string | null
+    endpoint?: StringFilter<"AiUsageLog"> | string
+    model?: StringFilter<"AiUsageLog"> | string
+    tokensPrompt?: IntFilter<"AiUsageLog"> | number
+    tokensCompletion?: IntFilter<"AiUsageLog"> | number
+    tokensTotal?: IntFilter<"AiUsageLog"> | number
+    userId?: StringNullableFilter<"AiUsageLog"> | string | null
+    createdAt?: DateTimeFilter<"AiUsageLog"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    assistant?: XOR<AssistantNullableRelationFilter, AssistantWhereInput> | null
+  }, "id">
+
+  export type AiUsageLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    assistantId?: SortOrderInput | SortOrder
+    endpoint?: SortOrder
+    model?: SortOrder
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AiUsageLogCountOrderByAggregateInput
+    _avg?: AiUsageLogAvgOrderByAggregateInput
+    _max?: AiUsageLogMaxOrderByAggregateInput
+    _min?: AiUsageLogMinOrderByAggregateInput
+    _sum?: AiUsageLogSumOrderByAggregateInput
+  }
+
+  export type AiUsageLogScalarWhereWithAggregatesInput = {
+    AND?: AiUsageLogScalarWhereWithAggregatesInput | AiUsageLogScalarWhereWithAggregatesInput[]
+    OR?: AiUsageLogScalarWhereWithAggregatesInput[]
+    NOT?: AiUsageLogScalarWhereWithAggregatesInput | AiUsageLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AiUsageLog"> | string
+    companyId?: StringWithAggregatesFilter<"AiUsageLog"> | string
+    assistantId?: StringNullableWithAggregatesFilter<"AiUsageLog"> | string | null
+    endpoint?: StringWithAggregatesFilter<"AiUsageLog"> | string
+    model?: StringWithAggregatesFilter<"AiUsageLog"> | string
+    tokensPrompt?: IntWithAggregatesFilter<"AiUsageLog"> | number
+    tokensCompletion?: IntWithAggregatesFilter<"AiUsageLog"> | number
+    tokensTotal?: IntWithAggregatesFilter<"AiUsageLog"> | number
+    userId?: StringNullableWithAggregatesFilter<"AiUsageLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AiUsageLog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -93104,6 +95968,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -93142,6 +96007,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUpdateInput = {
@@ -93180,6 +96046,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -93218,6 +96085,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -93533,6 +96401,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -93582,6 +96453,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -93611,6 +96484,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93660,6 +96536,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -93689,6 +96567,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -93738,6 +96619,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -93767,6 +96650,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93816,6 +96702,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -93845,6 +96733,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -93877,6 +96768,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -93908,6 +96802,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95281,6 +98178,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateInput = {
@@ -95297,6 +98195,7 @@ export namespace Prisma {
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUpdateInput = {
@@ -95313,6 +98212,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateInput = {
@@ -95329,6 +98229,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceCreateManyInput = {
@@ -100334,6 +103235,201 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantCreateInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantCreateManyInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogCreateInput = {
+    id?: string
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAiUsageLogsInput
+    assistant?: AssistantCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type AiUsageLogUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    assistantId?: string | null
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiUsageLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAiUsageLogsNestedInput
+    assistant?: AssistantUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type AiUsageLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogCreateManyInput = {
+    id?: string
+    companyId: string
+    assistantId?: string | null
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiUsageLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    assistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -100528,6 +103624,12 @@ export namespace Prisma {
     none?: EmailCampaignWhereInput
   }
 
+  export type AssistantListRelationFilter = {
+    every?: AssistantWhereInput
+    some?: AssistantWhereInput
+    none?: AssistantWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -100602,6 +103704,10 @@ export namespace Prisma {
   }
 
   export type EmailCampaignOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssistantOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -101126,6 +104232,12 @@ export namespace Prisma {
     none?: BillingEventWhereInput
   }
 
+  export type AiUsageLogListRelationFilter = {
+    every?: AiUsageLogWhereInput
+    some?: AiUsageLogWhereInput
+    none?: AiUsageLogWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -101262,6 +104374,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AiUsageLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -101289,9 +104405,17 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     modoAtendimento?: SortOrder
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
+    aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
+  }
+
+  export type CompanyAvgOrderByAggregateInput = {
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
@@ -101321,6 +104445,9 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     modoAtendimento?: SortOrder
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
+    aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
@@ -101353,9 +104480,17 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     modoAtendimento?: SortOrder
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
+    aiQuotaResetAt?: SortOrder
     parentCompanyId?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrder
+  }
+
+  export type CompanySumOrderByAggregateInput = {
+    aiMonthlyQuota?: SortOrder
+    aiUsedThisMonth?: SortOrder
   }
 
   export type EnumCompanyStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -105573,6 +108708,132 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumAssistantTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssistantType | EnumAssistantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssistantTypeFilter<$PrismaModel> | $Enums.AssistantType
+  }
+
+  export type AssistantCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    manual?: SortOrder
+    isActive?: SortOrder
+    instanceId?: SortOrder
+    model?: SortOrder
+    temperature?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantAvgOrderByAggregateInput = {
+    temperature?: SortOrder
+  }
+
+  export type AssistantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    manual?: SortOrder
+    isActive?: SortOrder
+    instanceId?: SortOrder
+    model?: SortOrder
+    temperature?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    manual?: SortOrder
+    isActive?: SortOrder
+    instanceId?: SortOrder
+    model?: SortOrder
+    temperature?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantSumOrderByAggregateInput = {
+    temperature?: SortOrder
+  }
+
+  export type EnumAssistantTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssistantType | EnumAssistantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssistantTypeWithAggregatesFilter<$PrismaModel> | $Enums.AssistantType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
+    _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
+  export type AssistantNullableRelationFilter = {
+    is?: AssistantWhereInput | null
+    isNot?: AssistantWhereInput | null
+  }
+
+  export type AiUsageLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    assistantId?: SortOrder
+    endpoint?: SortOrder
+    model?: SortOrder
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiUsageLogAvgOrderByAggregateInput = {
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+  }
+
+  export type AiUsageLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    assistantId?: SortOrder
+    endpoint?: SortOrder
+    model?: SortOrder
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiUsageLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    assistantId?: SortOrder
+    endpoint?: SortOrder
+    model?: SortOrder
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiUsageLogSumOrderByAggregateInput = {
+    tokensPrompt?: SortOrder
+    tokensCompletion?: SortOrder
+    tokensTotal?: SortOrder
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -105738,6 +108999,13 @@ export namespace Prisma {
     connect?: EmailCampaignWhereUniqueInput | EmailCampaignWhereUniqueInput[]
   }
 
+  export type AssistantCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput> | AssistantCreateWithoutCreatedByInput[] | AssistantUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCreatedByInput | AssistantCreateOrConnectWithoutCreatedByInput[]
+    createMany?: AssistantCreateManyCreatedByInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -105895,6 +109163,13 @@ export namespace Prisma {
     connectOrCreate?: EmailCampaignCreateOrConnectWithoutCreatedByInput | EmailCampaignCreateOrConnectWithoutCreatedByInput[]
     createMany?: EmailCampaignCreateManyCreatedByInputEnvelope
     connect?: EmailCampaignWhereUniqueInput | EmailCampaignWhereUniqueInput[]
+  }
+
+  export type AssistantUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput> | AssistantCreateWithoutCreatedByInput[] | AssistantUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCreatedByInput | AssistantCreateOrConnectWithoutCreatedByInput[]
+    createMany?: AssistantCreateManyCreatedByInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -106249,6 +109524,20 @@ export namespace Prisma {
     deleteMany?: EmailCampaignScalarWhereInput | EmailCampaignScalarWhereInput[]
   }
 
+  export type AssistantUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput> | AssistantCreateWithoutCreatedByInput[] | AssistantUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCreatedByInput | AssistantCreateOrConnectWithoutCreatedByInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCreatedByInput | AssistantUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: AssistantCreateManyCreatedByInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCreatedByInput | AssistantUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCreatedByInput | AssistantUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -106561,6 +109850,20 @@ export namespace Prisma {
     update?: EmailCampaignUpdateWithWhereUniqueWithoutCreatedByInput | EmailCampaignUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: EmailCampaignUpdateManyWithWhereWithoutCreatedByInput | EmailCampaignUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: EmailCampaignScalarWhereInput | EmailCampaignScalarWhereInput[]
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput> | AssistantCreateWithoutCreatedByInput[] | AssistantUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCreatedByInput | AssistantCreateOrConnectWithoutCreatedByInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCreatedByInput | AssistantUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: AssistantCreateManyCreatedByInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCreatedByInput | AssistantUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCreatedByInput | AssistantUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutVaultChallengesInput = {
@@ -106948,6 +110251,20 @@ export namespace Prisma {
     connect?: BillingEventWhereUniqueInput | BillingEventWhereUniqueInput[]
   }
 
+  export type AssistantCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput> | AssistantCreateWithoutCompanyInput[] | AssistantUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCompanyInput | AssistantCreateOrConnectWithoutCompanyInput[]
+    createMany?: AssistantCreateManyCompanyInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type AiUsageLogCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput> | AiUsageLogCreateWithoutCompanyInput[] | AiUsageLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutCompanyInput | AiUsageLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: AiUsageLogCreateManyCompanyInputEnvelope
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -107266,6 +110583,20 @@ export namespace Prisma {
     connectOrCreate?: BillingEventCreateOrConnectWithoutCompanyInput | BillingEventCreateOrConnectWithoutCompanyInput[]
     createMany?: BillingEventCreateManyCompanyInputEnvelope
     connect?: BillingEventWhereUniqueInput | BillingEventWhereUniqueInput[]
+  }
+
+  export type AssistantUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput> | AssistantCreateWithoutCompanyInput[] | AssistantUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCompanyInput | AssistantCreateOrConnectWithoutCompanyInput[]
+    createMany?: AssistantCreateManyCompanyInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput> | AiUsageLogCreateWithoutCompanyInput[] | AiUsageLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutCompanyInput | AiUsageLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: AiUsageLogCreateManyCompanyInputEnvelope
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -107922,6 +111253,34 @@ export namespace Prisma {
     deleteMany?: BillingEventScalarWhereInput | BillingEventScalarWhereInput[]
   }
 
+  export type AssistantUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput> | AssistantCreateWithoutCompanyInput[] | AssistantUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCompanyInput | AssistantCreateOrConnectWithoutCompanyInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCompanyInput | AssistantUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AssistantCreateManyCompanyInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCompanyInput | AssistantUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCompanyInput | AssistantUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type AiUsageLogUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput> | AiUsageLogCreateWithoutCompanyInput[] | AiUsageLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutCompanyInput | AiUsageLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput | AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AiUsageLogCreateManyCompanyInputEnvelope
+    set?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    disconnect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    delete?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    update?: AiUsageLogUpdateWithWhereUniqueWithoutCompanyInput | AiUsageLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AiUsageLogUpdateManyWithWhereWithoutCompanyInput | AiUsageLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -108556,6 +111915,34 @@ export namespace Prisma {
     update?: BillingEventUpdateWithWhereUniqueWithoutCompanyInput | BillingEventUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: BillingEventUpdateManyWithWhereWithoutCompanyInput | BillingEventUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: BillingEventScalarWhereInput | BillingEventScalarWhereInput[]
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput> | AssistantCreateWithoutCompanyInput[] | AssistantUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCompanyInput | AssistantCreateOrConnectWithoutCompanyInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCompanyInput | AssistantUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AssistantCreateManyCompanyInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCompanyInput | AssistantUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCompanyInput | AssistantUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput> | AiUsageLogCreateWithoutCompanyInput[] | AiUsageLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutCompanyInput | AiUsageLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput | AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AiUsageLogCreateManyCompanyInputEnvelope
+    set?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    disconnect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    delete?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    update?: AiUsageLogUpdateWithWhereUniqueWithoutCompanyInput | AiUsageLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AiUsageLogUpdateManyWithWhereWithoutCompanyInput | AiUsageLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -109668,6 +113055,13 @@ export namespace Prisma {
     connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
   }
 
+  export type AssistantCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput> | AssistantCreateWithoutInstanceInput[] | AssistantUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutInstanceInput | AssistantCreateOrConnectWithoutInstanceInput[]
+    createMany?: AssistantCreateManyInstanceInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutInstanceInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
@@ -109680,6 +113074,13 @@ export namespace Prisma {
     connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
     createMany?: SetorInstanceCreateManyInstanceInputEnvelope
     connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+  }
+
+  export type AssistantUncheckedCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput> | AssistantCreateWithoutInstanceInput[] | AssistantUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutInstanceInput | AssistantCreateOrConnectWithoutInstanceInput[]
+    createMany?: AssistantCreateManyInstanceInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
   export type EnumInstanceStatusFieldUpdateOperationsInput = {
@@ -109722,6 +113123,20 @@ export namespace Prisma {
     deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
   }
 
+  export type AssistantUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput> | AssistantCreateWithoutInstanceInput[] | AssistantUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutInstanceInput | AssistantCreateOrConnectWithoutInstanceInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutInstanceInput | AssistantUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: AssistantCreateManyInstanceInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutInstanceInput | AssistantUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutInstanceInput | AssistantUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutInstanceNestedInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
@@ -109748,6 +113163,20 @@ export namespace Prisma {
     update?: SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput | SetorInstanceUpdateWithWhereUniqueWithoutInstanceInput[]
     updateMany?: SetorInstanceUpdateManyWithWhereWithoutInstanceInput | SetorInstanceUpdateManyWithWhereWithoutInstanceInput[]
     deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput> | AssistantCreateWithoutInstanceInput[] | AssistantUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutInstanceInput | AssistantCreateOrConnectWithoutInstanceInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutInstanceInput | AssistantUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: AssistantCreateManyInstanceInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutInstanceInput | AssistantUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutInstanceInput | AssistantUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutMessagesInput = {
@@ -112150,6 +115579,128 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBillingEventsInput, CompanyUpdateWithoutBillingEventsInput>, CompanyUncheckedUpdateWithoutBillingEventsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutAssistantsInput = {
+    create?: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAssistantsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type WhatsappInstanceCreateNestedOneWithoutAssistantsInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutAssistantsInput
+    connect?: WhatsappInstanceWhereUniqueInput
+  }
+
+  export type AiUsageLogCreateNestedManyWithoutAssistantInput = {
+    create?: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput> | AiUsageLogCreateWithoutAssistantInput[] | AiUsageLogUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
+    createMany?: AiUsageLogCreateManyAssistantInputEnvelope
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutAssistantsCreatedInput = {
+    create?: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantsCreatedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput = {
+    create?: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput> | AiUsageLogCreateWithoutAssistantInput[] | AiUsageLogUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
+    createMany?: AiUsageLogCreateManyAssistantInputEnvelope
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+  }
+
+  export type EnumAssistantTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AssistantType
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAssistantsNestedInput = {
+    create?: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAssistantsInput
+    upsert?: CompanyUpsertWithoutAssistantsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAssistantsInput, CompanyUpdateWithoutAssistantsInput>, CompanyUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type WhatsappInstanceUpdateOneWithoutAssistantsNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutAssistantsInput
+    upsert?: WhatsappInstanceUpsertWithoutAssistantsInput
+    disconnect?: WhatsappInstanceWhereInput | boolean
+    delete?: WhatsappInstanceWhereInput | boolean
+    connect?: WhatsappInstanceWhereUniqueInput
+    update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutAssistantsInput, WhatsappInstanceUpdateWithoutAssistantsInput>, WhatsappInstanceUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type AiUsageLogUpdateManyWithoutAssistantNestedInput = {
+    create?: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput> | AiUsageLogCreateWithoutAssistantInput[] | AiUsageLogUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
+    upsert?: AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput | AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput[]
+    createMany?: AiUsageLogCreateManyAssistantInputEnvelope
+    set?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    disconnect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    delete?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    update?: AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput | AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput[]
+    updateMany?: AiUsageLogUpdateManyWithWhereWithoutAssistantInput | AiUsageLogUpdateManyWithWhereWithoutAssistantInput[]
+    deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+  }
+
+  export type UserUpdateOneWithoutAssistantsCreatedNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantsCreatedInput
+    upsert?: UserUpsertWithoutAssistantsCreatedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantsCreatedInput, UserUpdateWithoutAssistantsCreatedInput>, UserUncheckedUpdateWithoutAssistantsCreatedInput>
+  }
+
+  export type AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput = {
+    create?: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput> | AiUsageLogCreateWithoutAssistantInput[] | AiUsageLogUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
+    upsert?: AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput | AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput[]
+    createMany?: AiUsageLogCreateManyAssistantInputEnvelope
+    set?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    disconnect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    delete?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+    update?: AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput | AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput[]
+    updateMany?: AiUsageLogUpdateManyWithWhereWithoutAssistantInput | AiUsageLogUpdateManyWithWhereWithoutAssistantInput[]
+    deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutAiUsageLogsInput = {
+    create?: XOR<CompanyCreateWithoutAiUsageLogsInput, CompanyUncheckedCreateWithoutAiUsageLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAiUsageLogsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type AssistantCreateNestedOneWithoutUsageLogsInput = {
+    create?: XOR<AssistantCreateWithoutUsageLogsInput, AssistantUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: AssistantCreateOrConnectWithoutUsageLogsInput
+    connect?: AssistantWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAiUsageLogsNestedInput = {
+    create?: XOR<CompanyCreateWithoutAiUsageLogsInput, CompanyUncheckedCreateWithoutAiUsageLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAiUsageLogsInput
+    upsert?: CompanyUpsertWithoutAiUsageLogsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAiUsageLogsInput, CompanyUpdateWithoutAiUsageLogsInput>, CompanyUncheckedUpdateWithoutAiUsageLogsInput>
+  }
+
+  export type AssistantUpdateOneWithoutUsageLogsNestedInput = {
+    create?: XOR<AssistantCreateWithoutUsageLogsInput, AssistantUncheckedCreateWithoutUsageLogsInput>
+    connectOrCreate?: AssistantCreateOrConnectWithoutUsageLogsInput
+    upsert?: AssistantUpsertWithoutUsageLogsInput
+    disconnect?: AssistantWhereInput | boolean
+    delete?: AssistantWhereInput | boolean
+    connect?: AssistantWhereUniqueInput
+    update?: XOR<XOR<AssistantUpdateToOneWithWhereWithoutUsageLogsInput, AssistantUpdateWithoutUsageLogsInput>, AssistantUncheckedUpdateWithoutUsageLogsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -113028,6 +116579,23 @@ export namespace Prisma {
     _max?: NestedEnumEmailEventTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumAssistantTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssistantType | EnumAssistantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssistantTypeFilter<$PrismaModel> | $Enums.AssistantType
+  }
+
+  export type NestedEnumAssistantTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AssistantType | EnumAssistantTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AssistantType[] | ListEnumAssistantTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAssistantTypeWithAggregatesFilter<$PrismaModel> | $Enums.AssistantType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
+    _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -113055,6 +116623,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -113103,6 +116674,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -113132,6 +116705,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -113180,6 +116756,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -114029,6 +117607,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssistantCreateWithoutCreatedByInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutCreatedByInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type AssistantCreateManyCreatedByInputEnvelope = {
+    data: AssistantCreateManyCreatedByInput | AssistantCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -114067,6 +117685,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -114115,6 +117736,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -114144,6 +117767,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114192,6 +117818,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -114891,6 +118519,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EmailCampaign"> | Date | string
   }
 
+  export type AssistantUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: AssistantWhereUniqueInput
+    update: XOR<AssistantUpdateWithoutCreatedByInput, AssistantUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type AssistantUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: AssistantWhereUniqueInput
+    data: XOR<AssistantUpdateWithoutCreatedByInput, AssistantUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type AssistantUpdateManyWithWhereWithoutCreatedByInput = {
+    where: AssistantScalarWhereInput
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutCreatedByInput>
+  }
+
+  export type AssistantScalarWhereInput = {
+    AND?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+    OR?: AssistantScalarWhereInput[]
+    NOT?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+    id?: StringFilter<"Assistant"> | string
+    companyId?: StringFilter<"Assistant"> | string
+    name?: StringFilter<"Assistant"> | string
+    type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
+    manual?: StringFilter<"Assistant"> | string
+    isActive?: BoolFilter<"Assistant"> | boolean
+    instanceId?: StringNullableFilter<"Assistant"> | string | null
+    model?: StringNullableFilter<"Assistant"> | string | null
+    temperature?: FloatNullableFilter<"Assistant"> | number | null
+    createdById?: StringNullableFilter<"Assistant"> | string | null
+    createdAt?: DateTimeFilter<"Assistant"> | Date | string
+    updatedAt?: DateTimeFilter<"Assistant"> | Date | string
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -114926,6 +118588,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -114963,6 +118626,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -115016,6 +118680,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -115053,6 +118718,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -115090,6 +118756,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -115127,6 +118794,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -115180,6 +118848,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -115217,6 +118886,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -115254,6 +118924,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -115291,6 +118962,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -115344,6 +119016,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -115381,6 +119054,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -115410,6 +119084,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -115458,6 +119135,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -115487,6 +119166,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -115535,6 +119217,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -115569,6 +119253,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
@@ -115617,6 +119304,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -115646,6 +119335,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
@@ -115694,6 +119386,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -115741,6 +119435,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -115778,6 +119473,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -116570,6 +120266,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutCompanyInput = {
@@ -116585,6 +120282,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutCompanyInput = {
@@ -117622,6 +121320,80 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssistantCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutCompanyInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AssistantCreateManyCompanyInputEnvelope = {
+    data: AssistantCreateManyCompanyInput | AssistantCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AiUsageLogCreateWithoutCompanyInput = {
+    id?: string
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+    assistant?: AssistantCreateNestedOneWithoutUsageLogsInput
+  }
+
+  export type AiUsageLogUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    assistantId?: string | null
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiUsageLogCreateOrConnectWithoutCompanyInput = {
+    where: AiUsageLogWhereUniqueInput
+    create: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AiUsageLogCreateManyCompanyInputEnvelope = {
+    data: AiUsageLogCreateManyCompanyInput | AiUsageLogCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -117660,6 +121432,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -117708,6 +121483,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -117737,6 +121514,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117785,6 +121565,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -117833,6 +121615,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFilter<"Company"> | number
+    aiUsedThisMonth?: IntFilter<"Company"> | number
+    aiQuotaResetAt?: DateTimeNullableFilter<"Company"> | Date | string | null
     parentCompanyId?: StringNullableFilter<"Company"> | string | null
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
@@ -119214,6 +122999,54 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BillingEvent"> | Date | string
   }
 
+  export type AssistantUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AssistantWhereUniqueInput
+    update: XOR<AssistantUpdateWithoutCompanyInput, AssistantUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AssistantCreateWithoutCompanyInput, AssistantUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AssistantUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AssistantWhereUniqueInput
+    data: XOR<AssistantUpdateWithoutCompanyInput, AssistantUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AssistantUpdateManyWithWhereWithoutCompanyInput = {
+    where: AssistantScalarWhereInput
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AiUsageLogWhereUniqueInput
+    update: XOR<AiUsageLogUpdateWithoutCompanyInput, AiUsageLogUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AiUsageLogUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AiUsageLogWhereUniqueInput
+    data: XOR<AiUsageLogUpdateWithoutCompanyInput, AiUsageLogUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AiUsageLogUpdateManyWithWhereWithoutCompanyInput = {
+    where: AiUsageLogScalarWhereInput
+    data: XOR<AiUsageLogUpdateManyMutationInput, AiUsageLogUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AiUsageLogScalarWhereInput = {
+    AND?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+    OR?: AiUsageLogScalarWhereInput[]
+    NOT?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+    id?: StringFilter<"AiUsageLog"> | string
+    companyId?: StringFilter<"AiUsageLog"> | string
+    assistantId?: StringNullableFilter<"AiUsageLog"> | string | null
+    endpoint?: StringFilter<"AiUsageLog"> | string
+    model?: StringFilter<"AiUsageLog"> | string
+    tokensPrompt?: IntFilter<"AiUsageLog"> | number
+    tokensCompletion?: IntFilter<"AiUsageLog"> | number
+    tokensTotal?: IntFilter<"AiUsageLog"> | number
+    userId?: StringNullableFilter<"AiUsageLog"> | string | null
+    createdAt?: DateTimeFilter<"AiUsageLog"> | Date | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -119241,6 +123074,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -119289,6 +123125,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -119318,6 +123156,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -119366,6 +123207,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -119645,6 +123488,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -119693,6 +123539,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -119722,6 +123570,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -119770,6 +123621,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -119904,6 +123757,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -119952,6 +123808,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -119981,6 +123839,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -120029,6 +123890,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -120249,6 +124112,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -120297,6 +124163,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -120326,6 +124194,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -120374,6 +124245,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -120531,6 +124404,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -120579,6 +124455,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -120608,6 +124486,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -120656,6 +124537,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -121147,6 +125030,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -121195,6 +125081,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -121224,6 +125112,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121272,6 +125163,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -121684,6 +125577,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -121732,6 +125628,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -121761,6 +125659,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -121809,6 +125710,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -121874,6 +125777,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -121922,6 +125828,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -121951,6 +125859,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -121999,6 +125910,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -122300,6 +126213,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -122348,6 +126264,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -122377,6 +126295,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -122425,6 +126346,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -122496,6 +126419,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -122544,6 +126470,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -122573,6 +126501,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122621,6 +126552,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -122934,6 +126867,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -122982,6 +126918,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -123011,6 +126949,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -123059,6 +127000,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -123130,6 +127073,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -123178,6 +127124,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -123207,6 +127155,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123255,6 +127206,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -123300,6 +127253,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -123348,6 +127304,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -123377,6 +127335,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -123425,6 +127386,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -123499,6 +127462,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -123547,6 +127513,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -123576,6 +127544,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123624,6 +127595,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -123785,6 +127758,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -123833,6 +127809,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -123862,6 +127840,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -123910,6 +127891,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -123952,6 +127935,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -123989,6 +127973,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -124031,6 +128016,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -124068,6 +128054,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -124216,6 +128203,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -124264,6 +128254,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -124293,6 +128285,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124341,6 +128336,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -124389,6 +128386,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -124426,6 +128424,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -124474,6 +128473,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -124511,6 +128511,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -124740,6 +128741,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -124788,6 +128792,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -124817,6 +128823,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -124865,6 +128874,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -124910,6 +128921,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -124958,6 +128972,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -124987,6 +129003,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125035,6 +129054,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -125064,6 +129085,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -125112,6 +129136,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -125141,6 +129167,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -125189,6 +129218,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -125231,6 +129262,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -125268,6 +129300,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -125313,6 +129346,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -125361,6 +129397,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -125390,6 +129428,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125438,6 +129479,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -125486,6 +129529,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -125523,6 +129567,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -125552,6 +129597,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -125600,6 +129648,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -125629,6 +129679,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -125677,6 +129730,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -125760,6 +129815,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssistantCreateWithoutInstanceInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutInstanceInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutInstanceInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type AssistantCreateManyInstanceInputEnvelope = {
+    data: AssistantCreateManyInstanceInput | AssistantCreateManyInstanceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
     update: XOR<CompanyUpdateWithoutWhatsappInstancesInput, CompanyUncheckedUpdateWithoutWhatsappInstancesInput>
     create: XOR<CompanyCreateWithoutWhatsappInstancesInput, CompanyUncheckedCreateWithoutWhatsappInstancesInput>
@@ -125798,6 +129893,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -125846,6 +129944,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -125875,6 +129975,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125923,6 +130026,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -125965,6 +130070,22 @@ export namespace Prisma {
     instanceId?: StringFilter<"SetorInstance"> | string
   }
 
+  export type AssistantUpsertWithWhereUniqueWithoutInstanceInput = {
+    where: AssistantWhereUniqueInput
+    update: XOR<AssistantUpdateWithoutInstanceInput, AssistantUncheckedUpdateWithoutInstanceInput>
+    create: XOR<AssistantCreateWithoutInstanceInput, AssistantUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type AssistantUpdateWithWhereUniqueWithoutInstanceInput = {
+    where: AssistantWhereUniqueInput
+    data: XOR<AssistantUpdateWithoutInstanceInput, AssistantUncheckedUpdateWithoutInstanceInput>
+  }
+
+  export type AssistantUpdateManyWithWhereWithoutInstanceInput = {
+    where: AssistantScalarWhereInput
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutInstanceInput>
+  }
+
   export type CompanyCreateWithoutMessagesInput = {
     id?: string
     name: string
@@ -125992,6 +130113,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -126040,6 +130164,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -126069,6 +130195,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -126117,6 +130246,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -126137,6 +130268,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutMessagesInput = {
@@ -126152,6 +130284,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutMessagesInput = {
@@ -126387,6 +130520,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -126424,6 +130558,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -126469,6 +130604,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -126517,6 +130655,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -126546,6 +130686,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126594,6 +130737,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -126620,6 +130765,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutMessagesInput = {
@@ -126635,6 +130781,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CampaignUpsertWithoutMessagesInput = {
@@ -126894,6 +131041,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -126931,6 +131079,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -126960,6 +131109,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -127008,6 +131160,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -127037,6 +131191,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -127085,6 +131242,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -127171,6 +131330,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -127219,6 +131381,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -127248,6 +131412,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -127296,6 +131463,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -127380,6 +131549,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -127417,6 +131587,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -127516,6 +131687,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -127564,6 +131738,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -127593,6 +131769,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -127641,6 +131820,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -127918,6 +132099,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -127955,6 +132137,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -128066,6 +132249,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -128114,6 +132300,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -128143,6 +132331,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -128191,6 +132382,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -128622,6 +132815,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -128670,6 +132866,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -128699,6 +132897,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -128747,6 +132948,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -129019,6 +133222,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -129067,6 +133273,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -129096,6 +133304,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -129144,6 +133355,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -129173,6 +133386,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -129221,6 +133437,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -129250,6 +133468,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -129298,6 +133519,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -129340,6 +133563,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -129377,6 +133601,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -129411,6 +133636,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -129459,6 +133687,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -129488,6 +133718,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -129536,6 +133769,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -129578,6 +133813,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -129615,6 +133851,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -129880,6 +134117,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -129928,6 +134168,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -129957,6 +134199,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -130005,6 +134250,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -130053,6 +134300,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -130090,6 +134338,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -130130,6 +134379,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -130178,6 +134430,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -130207,6 +134461,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -130255,6 +134512,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -130303,6 +134562,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -130340,6 +134600,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -130696,6 +134957,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -130744,6 +135008,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -130773,6 +135039,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -130821,6 +135090,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -131094,6 +135365,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -131142,6 +135416,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -131171,6 +135447,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -131219,6 +135498,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -131393,6 +135674,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -131441,6 +135725,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -131470,6 +135756,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -131518,6 +135807,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -131842,6 +136133,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -131890,6 +136184,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -131919,6 +136215,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -131967,6 +136266,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
@@ -132197,6 +136498,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -132234,6 +136536,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -132276,6 +136579,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -132313,6 +136617,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -132437,6 +136742,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -132474,6 +136780,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -132522,6 +136829,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -132559,6 +136867,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type TicketCreateWithoutAccessUsersInput = {
@@ -132653,6 +136962,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -132690,6 +137000,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -132806,6 +137117,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -132843,6 +137155,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -132945,6 +137258,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -132982,6 +137296,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -133106,6 +137421,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -133143,6 +137459,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -133517,6 +137834,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -133554,6 +137872,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -133678,6 +137997,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -133715,6 +138035,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorCreateWithoutUsersInput = {
@@ -133817,6 +138138,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -133854,6 +138176,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -133978,6 +138301,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -134015,6 +138339,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -134095,6 +138420,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutSetoresInput = {
@@ -134110,6 +138436,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutSetoresInput = {
@@ -134212,6 +138539,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutSetoresInput = {
@@ -134227,6 +138555,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CompanyCreateWithoutAssetsInput = {
@@ -134256,6 +138585,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -134304,6 +138636,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -134333,6 +138667,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -134381,6 +138718,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -134476,6 +138815,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -134524,6 +138866,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -134553,6 +138897,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -134601,6 +138948,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -134852,6 +139201,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -134900,6 +139252,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -134929,6 +139283,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -134977,6 +139334,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -135073,6 +139432,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -135121,6 +139483,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -135150,6 +139514,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135198,6 +139565,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -135227,6 +139596,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -135275,6 +139647,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -135304,6 +139678,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -135352,6 +139729,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -135397,6 +139776,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -135445,6 +139827,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -135474,6 +139858,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135522,6 +139909,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -135551,6 +139940,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -135599,6 +139991,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -135628,6 +140022,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -135676,6 +140073,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -135721,6 +140120,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -135769,6 +140171,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -135798,6 +140202,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135846,6 +140253,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -135875,6 +140284,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -135923,6 +140335,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -135952,6 +140366,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -136000,6 +140417,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -136045,6 +140464,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -136093,6 +140515,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -136122,6 +140546,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -136170,6 +140597,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -136199,6 +140628,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -136247,6 +140679,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -136276,6 +140710,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -136324,6 +140761,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -136369,6 +140808,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -136417,6 +140859,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -136446,6 +140890,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -136494,6 +140941,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -136523,6 +140972,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -136571,6 +141023,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -136600,6 +141054,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -136648,6 +141105,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -136693,6 +141152,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -136741,6 +141203,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -136770,6 +141234,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -136818,6 +141285,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -136847,6 +141316,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -136895,6 +141367,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -136924,6 +141398,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -136972,6 +141449,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -137017,6 +141496,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -137065,6 +141547,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -137094,6 +141578,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -137142,6 +141629,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -137171,6 +141660,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -137219,6 +141711,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -137248,6 +141742,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -137296,6 +141793,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -137341,6 +141840,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -137389,6 +141891,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -137418,6 +141922,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -137466,6 +141973,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -137495,6 +142004,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -137543,6 +142055,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -137572,6 +142086,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -137620,6 +142137,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -137665,6 +142184,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -137713,6 +142235,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -137742,6 +142266,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -137790,6 +142317,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -137819,6 +142348,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -137867,6 +142399,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -137896,6 +142430,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -137944,6 +142481,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -137989,6 +142528,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -138037,6 +142579,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -138066,6 +142610,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -138114,6 +142661,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -138143,6 +142692,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -138191,6 +142743,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -138220,6 +142774,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -138268,6 +142825,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -138313,6 +142872,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -138361,6 +142923,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -138390,6 +142954,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -138438,6 +143005,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -138467,6 +143036,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -138515,6 +143087,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -138544,6 +143118,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -138592,6 +143169,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -138637,6 +143216,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -138685,6 +143267,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -138714,6 +143298,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -138762,6 +143349,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -138791,6 +143380,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -138839,6 +143431,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -138868,6 +143462,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -138916,6 +143513,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -138985,6 +143584,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -139033,6 +143635,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -139062,6 +143666,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -139110,6 +143717,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -139226,6 +143835,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -139274,6 +143886,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -139303,6 +143917,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -139351,6 +143968,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -139432,6 +144051,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -139480,6 +144102,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -139509,6 +144133,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -139557,6 +144184,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -139610,6 +144239,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -139647,6 +144277,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -139681,6 +144312,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -139729,6 +144363,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -139758,6 +144394,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -139806,6 +144445,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -139890,6 +144531,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -139927,6 +144569,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -139967,6 +144610,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -140015,6 +144661,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -140044,6 +144692,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -140092,6 +144743,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -140166,6 +144819,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -140203,6 +144857,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -140237,6 +144892,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -140285,6 +144943,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -140314,6 +144974,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -140362,6 +145025,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -140415,6 +145080,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -140452,6 +145118,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -140492,6 +145159,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -140540,6 +145210,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -140569,6 +145241,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -140617,6 +145292,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -140654,6 +145331,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -140691,6 +145369,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -140725,6 +145404,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -140773,6 +145455,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -140802,6 +145486,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -140850,6 +145537,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -140903,6 +145592,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -140940,6 +145630,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -140980,6 +145671,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -141028,6 +145722,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -141057,6 +145753,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141105,6 +145804,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -141142,6 +145843,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -141179,6 +145881,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -141213,6 +145916,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -141261,6 +145967,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -141290,6 +145998,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -141338,6 +146049,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -141391,6 +146104,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -141428,6 +146142,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -141468,6 +146183,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -141516,6 +146234,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -141545,6 +146265,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141593,6 +146316,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -141622,6 +146347,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -141670,6 +146398,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -141699,6 +146429,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -141747,6 +146480,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -141792,6 +146527,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -141840,6 +146578,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -141869,6 +146609,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141917,6 +146660,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -141954,6 +146699,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -141991,6 +146737,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -142044,6 +146791,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -142081,6 +146829,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -142118,6 +146867,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -142155,6 +146905,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -142208,6 +146959,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -142245,6 +146997,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -142274,6 +147027,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -142322,6 +147078,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -142351,6 +147109,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -142399,6 +147160,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -142444,6 +147207,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -142492,6 +147258,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -142521,6 +147289,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142569,6 +147340,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -142598,6 +147371,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -142646,6 +147422,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -142675,6 +147453,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -142723,6 +147504,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -142830,6 +147613,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -142878,6 +147664,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -142907,6 +147695,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142955,6 +147746,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -143027,6 +147820,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -143075,6 +147871,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -143104,6 +147902,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -143152,6 +147953,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -143194,6 +147997,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -143231,6 +148035,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -143457,6 +148262,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -143505,6 +148313,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -143534,6 +148344,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143582,6 +148395,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -143630,6 +148445,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -143667,6 +148483,7 @@ export namespace Prisma {
     projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -144193,6 +149010,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -144241,6 +149061,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -144270,6 +149092,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -144318,6 +149143,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -144363,6 +149190,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -144411,6 +149241,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -144440,6 +149272,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144488,6 +149323,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBillingEventsInput = {
@@ -144517,6 +149354,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
@@ -144565,6 +149405,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -144594,6 +149436,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     parentCompanyId?: string | null
     triggerOnly?: boolean
     webhookToken?: string | null
@@ -144642,6 +149487,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -144687,6 +149534,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
@@ -144735,6 +149585,8 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -144764,6 +149616,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144812,6 +149667,1070 @@ export namespace Prisma {
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAssistantsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAssistantsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAssistantsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
+  }
+
+  export type WhatsappInstanceCreateWithoutAssistantsInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    messages?: MessageCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceUncheckedCreateWithoutAssistantsInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceCreateOrConnectWithoutAssistantsInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    create: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
+  }
+
+  export type AiUsageLogCreateWithoutAssistantInput = {
+    id?: string
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAiUsageLogsInput
+  }
+
+  export type AiUsageLogUncheckedCreateWithoutAssistantInput = {
+    id?: string
+    companyId: string
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiUsageLogCreateOrConnectWithoutAssistantInput = {
+    where: AiUsageLogWhereUniqueInput
+    create: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput>
+  }
+
+  export type AiUsageLogCreateManyAssistantInputEnvelope = {
+    data: AiUsageLogCreateManyAssistantInput | AiUsageLogCreateManyAssistantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutAssistantsCreatedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
+  }
+
+  export type CompanyUpsertWithoutAssistantsInput = {
+    update: XOR<CompanyUpdateWithoutAssistantsInput, CompanyUncheckedUpdateWithoutAssistantsInput>
+    create: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAssistantsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAssistantsInput, CompanyUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type CompanyUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type WhatsappInstanceUpsertWithoutAssistantsInput = {
+    update: XOR<WhatsappInstanceUpdateWithoutAssistantsInput, WhatsappInstanceUncheckedUpdateWithoutAssistantsInput>
+    create: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
+    where?: WhatsappInstanceWhereInput
+  }
+
+  export type WhatsappInstanceUpdateToOneWithWhereWithoutAssistantsInput = {
+    where?: WhatsappInstanceWhereInput
+    data: XOR<WhatsappInstanceUpdateWithoutAssistantsInput, WhatsappInstanceUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type WhatsappInstanceUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    messages?: MessageUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateWithoutAssistantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput = {
+    where: AiUsageLogWhereUniqueInput
+    update: XOR<AiUsageLogUpdateWithoutAssistantInput, AiUsageLogUncheckedUpdateWithoutAssistantInput>
+    create: XOR<AiUsageLogCreateWithoutAssistantInput, AiUsageLogUncheckedCreateWithoutAssistantInput>
+  }
+
+  export type AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput = {
+    where: AiUsageLogWhereUniqueInput
+    data: XOR<AiUsageLogUpdateWithoutAssistantInput, AiUsageLogUncheckedUpdateWithoutAssistantInput>
+  }
+
+  export type AiUsageLogUpdateManyWithWhereWithoutAssistantInput = {
+    where: AiUsageLogScalarWhereInput
+    data: XOR<AiUsageLogUpdateManyMutationInput, AiUsageLogUncheckedUpdateManyWithoutAssistantInput>
+  }
+
+  export type UserUpsertWithoutAssistantsCreatedInput = {
+    update: XOR<UserUpdateWithoutAssistantsCreatedInput, UserUncheckedUpdateWithoutAssistantsCreatedInput>
+    create: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantsCreatedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantsCreatedInput, UserUncheckedUpdateWithoutAssistantsCreatedInput>
+  }
+
+  export type UserUpdateWithoutAssistantsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type CompanyCreateWithoutAiUsageLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAiUsageLogsInput, CompanyUncheckedCreateWithoutAiUsageLogsInput>
+  }
+
+  export type AssistantCreateWithoutUsageLogsInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutUsageLogsInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantCreateOrConnectWithoutUsageLogsInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutUsageLogsInput, AssistantUncheckedCreateWithoutUsageLogsInput>
+  }
+
+  export type CompanyUpsertWithoutAiUsageLogsInput = {
+    update: XOR<CompanyUpdateWithoutAiUsageLogsInput, CompanyUncheckedUpdateWithoutAiUsageLogsInput>
+    create: XOR<CompanyCreateWithoutAiUsageLogsInput, CompanyUncheckedCreateWithoutAiUsageLogsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAiUsageLogsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAiUsageLogsInput, CompanyUncheckedUpdateWithoutAiUsageLogsInput>
+  }
+
+  export type CompanyUpdateWithoutAiUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type AssistantUpsertWithoutUsageLogsInput = {
+    update: XOR<AssistantUpdateWithoutUsageLogsInput, AssistantUncheckedUpdateWithoutUsageLogsInput>
+    create: XOR<AssistantCreateWithoutUsageLogsInput, AssistantUncheckedCreateWithoutUsageLogsInput>
+    where?: AssistantWhereInput
+  }
+
+  export type AssistantUpdateToOneWithWhereWithoutUsageLogsInput = {
+    where?: AssistantWhereInput
+    data: XOR<AssistantUpdateWithoutUsageLogsInput, AssistantUncheckedUpdateWithoutUsageLogsInput>
+  }
+
+  export type AssistantUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutUsageLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -145089,6 +151008,20 @@ export namespace Prisma {
     unsubscribedCount?: number
     failedCount?: number
     companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantCreateManyCreatedByInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -145954,6 +151887,50 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -145981,6 +151958,9 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
     triggerOnly?: boolean
     webhookToken?: string | null
   }
@@ -146616,6 +152596,32 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AssistantCreateManyCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiUsageLogCreateManyCompanyInput = {
+    id?: string
+    assistantId?: string | null
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -146643,6 +152649,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
@@ -146691,6 +152700,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -146720,6 +152731,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
@@ -146768,6 +152782,8 @@ export namespace Prisma {
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -146797,6 +152813,9 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -146836,6 +152855,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -146873,6 +152893,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -147699,6 +153720,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutCompanyInput = {
@@ -147714,6 +153736,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyInput = {
@@ -148830,6 +154853,86 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssistantUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assistant?: AssistantUpdateOneWithoutUsageLogsNestedInput
+  }
+
+  export type AiUsageLogUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: NullableStringFieldUpdateOperationsInput | string | null
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LeadCreateManyCampaignInput = {
     id?: string
     name?: string | null
@@ -149880,6 +155983,20 @@ export namespace Prisma {
     setorId: string
   }
 
+  export type AssistantCreateManyInstanceInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MessageUpdateWithoutInstanceInput = {
     id?: StringFieldUpdateOperationsInput | string
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149962,6 +156079,50 @@ export namespace Prisma {
 
   export type SetorInstanceUncheckedUpdateManyWithoutInstanceInput = {
     setorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssistantUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyConversationInput = {
@@ -151640,6 +157801,54 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AiUsageLogCreateManyAssistantInput = {
+    id?: string
+    companyId: string
+    endpoint: string
+    model: string
+    tokensPrompt?: number
+    tokensCompletion?: number
+    tokensTotal?: number
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiUsageLogUpdateWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAiUsageLogsNestedInput
+  }
+
+  export type AiUsageLogUncheckedUpdateWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUsageLogUncheckedUpdateManyWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    tokensPrompt?: IntFieldUpdateOperationsInput | number
+    tokensCompletion?: IntFieldUpdateOperationsInput | number
+    tokensTotal?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -151725,6 +157934,10 @@ export namespace Prisma {
      * @deprecated Use EmailRecipientCountOutputTypeDefaultArgs instead
      */
     export type EmailRecipientCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EmailRecipientCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantCountOutputTypeDefaultArgs instead
+     */
+    export type AssistantCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -152009,6 +158222,14 @@ export namespace Prisma {
      * @deprecated Use AdminAuditLogDefaultArgs instead
      */
     export type AdminAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdminAuditLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantDefaultArgs instead
+     */
+    export type AssistantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AiUsageLogDefaultArgs instead
+     */
+    export type AiUsageLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AiUsageLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

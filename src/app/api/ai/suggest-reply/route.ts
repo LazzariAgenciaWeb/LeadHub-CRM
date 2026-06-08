@@ -2,8 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getOpenAIConfig, chatCompletion } from "@/lib/openai";
 import { assertModule } from "@/lib/billing";
+import { getActiveAssistant, runAssistant } from "@/lib/assistant";
+
+// Regras de formato sempre anexadas ao manual do agente (ou ao prompt default),
+// pra garantir que a saída seja uma mensagem pronta de WhatsApp.
+const FORMAT_RULES = `
+
+[Formato da resposta — siga sempre]
+- Escreva em português brasileiro informal mas profissional (mensagem real de WhatsApp).
+- Seja direto, empático e objetivo. Máximo 3 frases.
+- NÃO inclua saudações desnecessárias se a conversa já está em andamento.
+- NÃO use aspas, prefixos ou explicações — retorne APENAS o texto da mensagem.`;
+
+const DEFAULT_MANUAL = `Você é um assistente de atendimento ao cliente via WhatsApp.
+Com base no histórico da conversa, sugira UMA única resposta para o atendente enviar agora.`;
 
 // GET /api/ai/suggest-reply?phone=&companyId=
 export async function GET(req: NextRequest) {
@@ -27,14 +40,7 @@ export async function GET(req: NextRequest) {
   const companyId = searchParams.get("companyId");
 
   if (!phone) return NextResponse.json({ error: "phone obrigatório" }, { status: 400 });
-
-  const config = await getOpenAIConfig();
-  if (!config) {
-    return NextResponse.json(
-      { error: "OpenAI não configurada. Acesse Configurações → Integrações → OpenAI." },
-      { status: 503 }
-    );
-  }
+  if (!companyId) return NextResponse.json({ error: "companyId obrigatório" }, { status: 400 });
 
   // Últimas 25 mensagens para contexto da conversa (do mais antigo ao mais recente)
   const messages = await prisma.message.findMany({
@@ -62,27 +68,34 @@ export async function GET(req: NextRequest) {
     })
     .join("\n");
 
-  const result = await chatCompletion(
-    config,
-    [
-      {
-        role: "system",
-        content: `Você é um assistente de atendimento ao cliente via WhatsApp.
-Com base no histórico da conversa, sugira UMA única resposta para o atendente enviar agora.
-Regras:
-- Escreva em português brasileiro informal mas profissional (como se fosse uma mensagem de WhatsApp real)
-- Seja direto, empático e objetivo
-- NÃO inclua saudações desnecessárias se a conversa já está em andamento
-- NÃO use aspas, prefixos ou explicações — retorne APENAS o texto da mensagem
-- Máximo 3 frases`,
-      },
+  // Carrega o agente VENDAS ativo da empresa. Se houver, o manual dele vira o
+  // system prompt (a "persona"); senão, cai no manual default. Em ambos os casos
+  // as regras de formato são anexadas para garantir uma mensagem pronta.
+  const assistant = await getActiveAssistant(companyId, "VENDAS");
+  const systemPrompt = (assistant?.manual?.trim() || DEFAULT_MANUAL) + FORMAT_RULES;
+
+  const run = await runAssistant({
+    companyId,
+    endpoint: "suggest-reply",
+    assistantId: assistant?.id ?? null,
+    userId: (session.user as any)?.id ?? null,
+    model: assistant?.model ?? null,
+    temperature: assistant?.temperature ?? 0.7,
+    maxTokens: 180,
+    messages: [
+      { role: "system", content: systemPrompt },
       {
         role: "user",
         content: `Histórico da conversa:\n${chatLines}${lastClientMsg ? `\n\nÚltima mensagem do cliente: "${lastClientMsg.body}"` : ""}\n\nSugira a próxima resposta do atendente:`,
       },
     ],
-    { maxTokens: 180, temperature: 0.7 }
-  );
+  });
 
-  return NextResponse.json({ reply: result ?? "Como posso ajudar?" });
+  if (!run.ok) {
+    // QUOTA → 429 (cota esgotada/não liberada); NO_CONFIG → 503; AI_ERROR → 502
+    const status = run.code === "QUOTA" ? 429 : run.code === "NO_CONFIG" ? 503 : 502;
+    return NextResponse.json({ error: run.error, code: run.code }, { status });
+  }
+
+  return NextResponse.json({ reply: run.text, remaining: run.remaining });
 }

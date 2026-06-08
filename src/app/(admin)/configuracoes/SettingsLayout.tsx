@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
-  UserCircle, Search,
+  UserCircle, Search, Bot,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -59,6 +59,7 @@ const SECTIONS: SectionItem[] = [
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
   { type: "item", key: "custom-fields", Icon: FileText, grad: "pipeline",  label: "Campos personalizados", desc: "Atributos extras dos leads" },
+  { type: "item", key: "assistentes", Icon: Bot,      grad: "openai",      label: "Assistentes de IA", desc: "Agentes, manuais e cota" },
 ];
 
 function isIntegSubKey(key: string) {
@@ -99,6 +100,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "instancias":    "whatsapp",
   "pipeline":      "crm",
   "custom-fields": "crm",
+  "assistentes":   "ai",
   // Minha Empresa
   "minha-empresa-dados":    null,
   "minha-empresa-contatos": null,

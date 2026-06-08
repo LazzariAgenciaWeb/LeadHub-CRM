@@ -1,0 +1,93 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getEffectiveSession } from "@/lib/effective-session";
+import { assertModule } from "@/lib/billing";
+import { prisma } from "@/lib/prisma";
+
+const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "GESTOR"] as const;
+
+async function loadOwned(session: any, id: string) {
+  const role = session.user.role as string;
+  const userCompanyId = session.user.companyId as string | undefined;
+  const a = await prisma.assistant.findUnique({
+    where: { id },
+    select: { id: true, companyId: true },
+  });
+  if (!a) return { error: NextResponse.json({ error: "Agente não encontrado" }, { status: 404 }) };
+  if (role !== "SUPER_ADMIN" && a.companyId !== userCompanyId) {
+    return { error: NextResponse.json({ error: "forbidden" }, { status: 403 }) };
+  }
+  return { assistant: a };
+}
+
+// PATCH /api/ai/assistants/[id]  → edita o agente
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "ai");
+  if (!gate.ok) return gate.response;
+
+  const role = (session.user as any).role as string;
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  const { id } = await params;
+  const owned = await loadOwned(session, id);
+  if (owned.error) return owned.error;
+
+  const body = await req.json().catch(() => ({}));
+  const data: Record<string, unknown> = {};
+
+  if (typeof body.name === "string") {
+    const name = body.name.trim();
+    if (!name) return NextResponse.json({ error: "Nome obrigatório" }, { status: 400 });
+    data.name = name;
+  }
+  if (typeof body.manual === "string") {
+    const manual = body.manual.trim();
+    if (!manual) return NextResponse.json({ error: "Manual obrigatório" }, { status: 400 });
+    data.manual = manual;
+  }
+  if (typeof body.type === "string") {
+    if (!VALID_TYPES.includes(body.type)) return NextResponse.json({ error: "Tipo inválido" }, { status: 400 });
+    data.type = body.type;
+  }
+  if (typeof body.isActive === "boolean") data.isActive = body.isActive;
+  if ("model" in body) data.model = (body.model ?? "").trim() || null;
+  if ("temperature" in body) data.temperature = typeof body.temperature === "number" ? body.temperature : null;
+
+  if ("instanceId" in body) {
+    let instanceId: string | null = body.instanceId ?? null;
+    if (instanceId) {
+      const inst = await prisma.whatsappInstance.findFirst({
+        where: { id: instanceId, companyId: owned.assistant!.companyId },
+        select: { id: true },
+      });
+      if (!inst) return NextResponse.json({ error: "Instância inválida" }, { status: 400 });
+    }
+    data.instanceId = instanceId;
+  }
+
+  const updated = await prisma.assistant.update({ where: { id }, data });
+  return NextResponse.json(updated);
+}
+
+// DELETE /api/ai/assistants/[id]
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const gate = await assertModule(session, "ai");
+  if (!gate.ok) return gate.response;
+
+  const role = (session.user as any).role as string;
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+
+  const { id } = await params;
+  const owned = await loadOwned(session, id);
+  if (owned.error) return owned.error;
+
+  await prisma.assistant.delete({ where: { id } });
+  return NextResponse.json({ ok: true });
+}
