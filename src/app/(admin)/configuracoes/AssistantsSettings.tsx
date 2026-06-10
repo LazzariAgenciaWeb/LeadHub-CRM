@@ -3,15 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type AssistantType = "PRE_ATENDENTE" | "VENDAS" | "SUPORTE" | "GESTOR";
+type AssistantType = "PRE_ATENDENTE" | "VENDAS" | "SUPORTE" | "FINANCEIRO" | "GESTOR";
 
 const TYPE_META: Record<AssistantType, { label: string; icon: string; desc: string }> = {
   PRE_ATENDENTE: { label: "Pré-atendente", icon: "🚪", desc: "Triagem / 1º contato / roteamento" },
   VENDAS:        { label: "Vendas",        icon: "💼", desc: "Negociação: conduz o lead até comprar" },
   SUPORTE:       { label: "Suporte",       icon: "🎧", desc: "Atende quem já é cliente" },
+  FINANCEIRO:    { label: "Financeiro",    icon: "💰", desc: "Boletos, notas e cobranças" },
   GESTOR:        { label: "Gestor",        icon: "📊", desc: "Resumos e apoio à decisão do dono" },
 };
-const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "GESTOR"];
+const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR"];
 
 // Estimativa de custo por interação (só pro SUPER_ADMIN ter ideia do limite).
 // Base: gpt-4o-mini. O custo de ENTRADA varia com o tamanho do manual do agente,

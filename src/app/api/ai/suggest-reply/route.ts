@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
-import { getActiveAssistant, runAssistant, getServicesCatalogBlock } from "@/lib/assistant";
+import { getActiveAssistant, getAssistantForInstance, runAssistant, getServicesCatalogBlock } from "@/lib/assistant";
 
 // Regras de formato sempre anexadas ao manual do agente (ou ao prompt default),
 // pra garantir que a saída seja uma mensagem pronta de WhatsApp.
@@ -62,8 +62,10 @@ export async function GET(req: NextRequest) {
     },
     orderBy: { receivedAt: "desc" },
     take: 25,
-    select: { body: true, direction: true, receivedAt: true },
+    select: { body: true, direction: true, receivedAt: true, instanceId: true },
   });
+  // Instância da conversa (mensagem mais recente com instância) → roteamento.
+  const convInstanceId = messages.find((m) => m.instanceId)?.instanceId ?? null;
   messages.reverse(); // mais antigo primeiro
 
   if (!messages.length) {
@@ -80,13 +82,16 @@ export async function GET(req: NextRequest) {
     })
     .join("\n");
 
-  // Carrega o agente VENDAS ativo da empresa. Se houver, o manual dele vira o
-  // system prompt (a "persona"); senão, cai no manual default. Em ambos os casos
-  // as regras de formato são anexadas para garantir uma mensagem pronta.
-  const assistant = await getActiveAssistant(companyId, "VENDAS");
-  // Catálogo de serviços da empresa (sem preço) — injetado entre o manual e as
-  // regras de formato, pra o agente reconhecer o serviço e qualificar.
-  const catalogBlock = await getServicesCatalogBlock(companyId);
+  // Roteamento por instância: se houver agente vinculado à instância da conversa
+  // (ex.: número do financeiro → agente FINANCEIRO), usa ele — independente do
+  // tipo. Senão, cai no agente VENDAS ativo (default comercial).
+  const assistant =
+    (await getAssistantForInstance(companyId, convInstanceId)) ??
+    (await getActiveAssistant(companyId, "VENDAS"));
+  // Catálogo de serviços (sem preço) só faz sentido pra agentes comerciais
+  // (vendas / pré-atendente). Financeiro/suporte não precisam — economiza tokens.
+  const wantsCatalog = !assistant || assistant.type === "VENDAS" || assistant.type === "PRE_ATENDENTE";
+  const catalogBlock = wantsCatalog ? await getServicesCatalogBlock(companyId) : "";
   const manual = assistant?.manual?.trim() || DEFAULT_MANUAL;
   // Link de agendamento: injetado como valor limpo e dedicado, pra o modelo
   // copiar EXATAMENTE (mais confiável que depender da URL no meio do manual).

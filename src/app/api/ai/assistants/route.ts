@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 
-const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "GESTOR"] as const;
+const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR"] as const;
 type AssistantTypeStr = (typeof VALID_TYPES)[number];
 
 function resolveCompanyId(session: any, fallback?: string | null): string | null {

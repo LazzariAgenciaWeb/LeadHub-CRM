@@ -2346,6 +2346,7 @@ enum AssistantType {
   PRE_ATENDENTE // triagem / 1º contato / roteamento
   VENDAS // negociação: conduz lead/oportunidade até comprar
   SUPORTE // atendimento a quem já é cliente
+  FINANCEIRO // boletos, notas, cobranças (hospedagem/domínio)
   GESTOR // resumos e apoio à decisão do dono
 }
 

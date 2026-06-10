@@ -1491,6 +1491,7 @@ exports.AssistantType = exports.$Enums.AssistantType = {
   PRE_ATENDENTE: 'PRE_ATENDENTE',
   VENDAS: 'VENDAS',
   SUPORTE: 'SUPORTE',
+  FINANCEIRO: 'FINANCEIRO',
   GESTOR: 'GESTOR'
 };
 

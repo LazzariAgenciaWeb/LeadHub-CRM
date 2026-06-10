@@ -98,6 +98,20 @@ export async function getActiveAssistant(
 }
 
 /**
+ * Roteamento por instância: retorna o agente ATIVO vinculado a uma instância
+ * WhatsApp, INDEPENDENTE do tipo. É o que permite que o número do financeiro use
+ * o agente FINANCEIRO, o de vendas use o VENDAS, etc. Retorna null se nenhum
+ * agente está vinculado àquela instância.
+ */
+export async function getAssistantForInstance(companyId: string, instanceId: string | null) {
+  if (!instanceId) return null;
+  return prisma.assistant.findFirst({
+    where: { companyId, instanceId, isActive: true },
+    orderBy: { updatedAt: "desc" },
+  });
+}
+
+/**
  * Monta o bloco "CATÁLOGO DE SERVIÇOS" pra injetar no prompt do agente.
  * Inclui nome, descrição, perguntas de qualificação, argumentos e referências.
  * NÃO inclui priceRange (uso interno — o SDR nunca informa preço).
