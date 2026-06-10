@@ -326,6 +326,8 @@ export default function CRMBoard({
   const [timelineFilter, setTimelineFilter] = useState<TimelineFilter>("all");
   const [actionsOpen, setActionsOpen] = useState(false);
   const [integrationsOpen, setIntegrationsOpen] = useState(true);
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState("");
   const [editingValue, setEditingValue] = useState(false);
   const [valueInput, setValueInput] = useState("");
   const [editingNotes, setEditingNotes] = useState(false);
@@ -736,6 +738,8 @@ export default function CRMBoard({
   async function openCard(lead: CRMLead) {
     setSelected(lead);
     setNewComment("");
+    setEditingName(false);
+    setNameInput(lead.name ?? "");
     setEditingValue(false);
     setValueInput(lead.value?.toString() ?? "");
     setEditingNotes(false);
@@ -1015,6 +1019,20 @@ export default function CRMBoard({
     setSelected({ ...selected, value: val });
     setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, value: val } : l)));
     setEditingValue(false);
+  }
+
+  async function handleSaveName(e?: React.FormEvent) {
+    e?.preventDefault();
+    if (!selected) return;
+    const trimmed = nameInput.trim() || null;
+    await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: trimmed }),
+    });
+    setSelected({ ...selected, name: trimmed });
+    setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, name: trimmed } : l)));
+    setEditingName(false);
   }
 
   async function handleSaveExpected(e: React.FormEvent) {
@@ -1800,7 +1818,31 @@ export default function CRMBoard({
             {/* ── Header ── */}
             <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-[#1e2d45] flex-shrink-0 bg-[#0f1825]">
               <div className="min-w-0 flex-1">
-                <h2 className="text-white font-bold text-lg truncate">{selected.name ?? selected.phone}</h2>
+                {/* Nome editável inline */}
+                {editingName ? (
+                  <form onSubmit={handleSaveName} className="flex items-center gap-2">
+                    <input
+                      autoFocus
+                      value={nameInput}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      onBlur={handleSaveName}
+                      onKeyDown={(e) => e.key === "Escape" && setEditingName(false)}
+                      placeholder={selected.phone}
+                      className="flex-1 bg-[#1e2d45] border border-indigo-500/50 rounded-lg px-3 py-1 text-white font-bold text-lg focus:outline-none focus:border-indigo-400 min-w-0"
+                    />
+                    <button type="submit" className="text-indigo-400 hover:text-indigo-300 text-sm px-2">✓</button>
+                    <button type="button" onClick={() => setEditingName(false)} className="text-slate-500 hover:text-white text-sm">✕</button>
+                  </form>
+                ) : (
+                  <button
+                    onClick={() => { setNameInput(selected.name ?? ""); setEditingName(true); }}
+                    className="group flex items-center gap-2 text-left"
+                    title="Clique para renomear"
+                  >
+                    <h2 className="text-white font-bold text-lg truncate">{selected.name ?? selected.phone}</h2>
+                    <span className="opacity-0 group-hover:opacity-60 text-slate-400 text-xs transition-opacity flex-shrink-0">✏️</span>
+                  </button>
+                )}
                 {selected.name && (
                   <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                     <span className="text-slate-500 text-xs font-mono">{selected.phone}</span>
