@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { evolutionDeleteInstance, evolutionSetSettings } from "@/lib/evolution";
+import { evolutionDeleteInstance, evolutionSetSettings, evolutionSetWebhookEvents } from "@/lib/evolution";
+import { buildWhatsappWebhookUrl } from "@/lib/webhook-auth";
 import { assertModule } from "@/lib/billing";
 
 // PATCH /api/whatsapp/[id]
@@ -30,10 +31,40 @@ export async function PATCH(
   const body = await req.json();
   const { instanceName, phone, status, webhookUrl, instanceToken, acceptGroups } = body;
 
+  // ── Troca do slug (instanceName) ─────────────────────────────────────────
+  // O instanceName é a chave que casa mensagem↔instância em todo o sistema e
+  // precisa bater EXATAMENTE com o nome da instância na Evolution. Editá-lo é
+  // o que permite apontar o LeadHub pra uma instância que já existe na
+  // Evolution (em vez de criar uma nova). Por ser sensível, só SUPER_ADMIN
+  // pode, e validamos formato + unicidade antes de gravar.
+  let slugChangedTo: string | null = null;
+  if (instanceName !== undefined) {
+    if (userRole !== "SUPER_ADMIN") {
+      return NextResponse.json({ error: "Apenas SUPER_ADMIN pode editar o slug da instância" }, { status: 403 });
+    }
+    const nextSlug = String(instanceName).trim();
+    if (!nextSlug) {
+      return NextResponse.json({ error: "O slug não pode ficar vazio" }, { status: 400 });
+    }
+    if (!/^[A-Za-z0-9._-]+$/.test(nextSlug)) {
+      return NextResponse.json({ error: "Slug inválido. Use só letras, números, ponto, hífen ou underscore (sem espaço/acento)." }, { status: 400 });
+    }
+    if (nextSlug !== existing.instanceName) {
+      const clash = await prisma.whatsappInstance.findFirst({
+        where: { instanceName: nextSlug, id: { not: id } },
+        select: { id: true },
+      });
+      if (clash) {
+        return NextResponse.json({ error: `Já existe uma instância com o slug "${nextSlug}"` }, { status: 409 });
+      }
+      slugChangedTo = nextSlug;
+    }
+  }
+
   const instance = await (prisma.whatsappInstance.update as any)({
     where: { id },
     data: {
-      ...(instanceName !== undefined  && { instanceName }),
+      ...(slugChangedTo !== null      && { instanceName: slugChangedTo }),
       ...(phone !== undefined         && { phone }),
       ...(status !== undefined        && { status }),
       ...(webhookUrl !== undefined    && { webhookUrl }),
@@ -41,6 +72,24 @@ export async function PATCH(
       ...(acceptGroups !== undefined  && { acceptGroups: !!acceptGroups }),
     },
   });
+
+  // Slug apontado pra outra instância da Evolution → reconfigura o webhook
+  // nela (best-effort) pra que as mensagens passem a chegar no LeadHub.
+  // Se a Evolution não confirmar, não desfaz a troca — devolve um warning
+  // e o admin pode usar "Reconfigurar webhooks".
+  if (slugChangedTo) {
+    try {
+      const wbBase = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? req.nextUrl.origin;
+      const wbUrl = buildWhatsappWebhookUrl(wbBase);
+      await evolutionSetWebhookEvents(slugChangedTo, wbUrl, instanceToken ?? (existing as any).instanceToken ?? null);
+    } catch (err: any) {
+      console.warn(`[WA PATCH] Slug trocado para "${slugChangedTo}" mas falhou ao reconfigurar webhook na Evolution:`, err?.message ?? err);
+      return NextResponse.json({
+        ...instance,
+        warning: `Slug salvo, mas a Evolution não confirmou o webhook (${err?.message ?? "erro"}). Confira se a instância "${slugChangedTo}" existe lá e use "Reconfigurar webhooks".`,
+      });
+    }
+  }
 
   // Se o toggle "aceita grupos" foi alterado, propaga pra Evolution
   // (groupsIgnore = !acceptGroups). A flag só afeta recebimento — a instância

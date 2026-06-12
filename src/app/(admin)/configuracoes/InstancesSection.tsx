@@ -48,6 +48,13 @@ export default function InstancesSection({
   const [editingToken, setEditingToken] = useState<string | null>(null);
   const [tokenInput, setTokenInput] = useState("");
 
+  // Editar slug (instanceName) — só SUPER_ADMIN. Usado pra apontar o LeadHub
+  // pra uma instância que já existe na Evolution.
+  const [editingSlug, setEditingSlug] = useState<string | null>(null); // instanceId
+  const [slugInput, setSlugInput] = useState("");
+  const [savingSlug, setSavingSlug] = useState(false);
+  const [slugError, setSlugError] = useState<string | null>(null);
+
   // Editar número (phone) da instância
   const [editingPhone, setEditingPhone] = useState<string | null>(null); // instanceId
   const [phoneInput, setPhoneInput] = useState("");
@@ -160,6 +167,35 @@ export default function InstancesSection({
     setEditingToken(null);
     setTokenInput("");
     router.refresh();
+  }
+
+  async function handleSaveSlug(inst: Instance) {
+    const next = slugInput.trim();
+    if (!next) { setSlugError("O slug não pode ficar vazio"); return; }
+    if (next === inst.instanceName) { setEditingSlug(null); return; }
+    if (!confirm(`Apontar esta instância para o slug "${next}" da Evolution?\n\nO LeadHub vai usar esse nome para casar mensagens e status. Tem que bater EXATAMENTE com o nome da instância na Evolution.`)) return;
+    setSavingSlug(true);
+    setSlugError(null);
+    try {
+      const r = await fetch(`/api/whatsapp/${inst.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instanceName: next }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        setSlugError(d.error ?? `Erro ${r.status} ao salvar slug`);
+        return;
+      }
+      if (d.warning) alert(`⚠️ ${d.warning}`);
+      setEditingSlug(null);
+      setSlugInput("");
+      router.refresh();
+    } catch {
+      setSlugError("Erro de conexão ao salvar o slug");
+    } finally {
+      setSavingSlug(false);
+    }
   }
 
   async function handleSavePhone(instId: string) {
@@ -548,6 +584,17 @@ export default function InstancesSection({
                       {copied === inst.id ? "✓ Copiado" : "📋 Copiar slug"}
                     </button>
 
+                    {/* Editar slug — só SUPER_ADMIN. Aponta pra instância existente na Evolution */}
+                    {isSuperAdmin && (
+                      <button
+                        onClick={() => { setEditingSlug(inst.id); setSlugInput(inst.instanceName); setSlugError(null); }}
+                        title={`Slug atual: ${inst.instanceName} — clique para editar e apontar para uma instância existente na Evolution`}
+                        className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 hover:text-white text-xs transition-colors"
+                      >
+                        ✏️ Slug
+                      </button>
+                    )}
+
                     {/* Token da instância */}
                     <button
                       onClick={() => { setEditingToken(inst.id); setTokenInput(inst.instanceToken ?? ""); }}
@@ -595,6 +642,37 @@ export default function InstancesSection({
                     </button>
                   </div>
                 </div>
+
+                {/* Painel de editar slug (SUPER_ADMIN) */}
+                {editingSlug === inst.id && (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <p className="text-slate-500 text-xs mb-2">
+                      Slug técnico que casa com a instância na <strong className="text-slate-300">Evolution API</strong>. Edite para apontar este registro a uma instância que <strong className="text-slate-300">já existe</strong> na Evolution (precisa bater exatamente com o nome lá, ex: <code className="text-indigo-300">Atendimento_provacin</code>). Depois clique em <strong className="text-slate-300">🔄 Sincronizar todas</strong> pra puxar o status.
+                    </p>
+                    {slugError && (
+                      <div className="mb-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-1.5 text-red-400 text-xs">❌ {slugError}</div>
+                    )}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={slugInput}
+                        onChange={e => setSlugInput(e.target.value)}
+                        placeholder="Atendimento_provacin"
+                        className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                      />
+                      <button
+                        onClick={() => handleSaveSlug(inst)}
+                        disabled={savingSlug}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+                      >
+                        {savingSlug ? "..." : "Salvar"}
+                      </button>
+                      <button onClick={() => { setEditingSlug(null); setSlugError(null); }} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white transition-colors">
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Painel de token */}
                 {editingToken === inst.id && (
