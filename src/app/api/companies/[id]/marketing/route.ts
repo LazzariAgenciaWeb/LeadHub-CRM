@@ -304,6 +304,112 @@ export async function GET(
     { clicks: 0, impressions: 0 }
   );
 
+  // ─── 6. Eventos + config (conversões LeadHub) ───────────────────────────
+  // O sync popula AnalyticsEventDaily com TODOS os eventos. A config diz
+  // quais contam como conversão pelo critério do cliente do LeadHub —
+  // independente do que o admin do GA4 marcou como key event.
+  const [eventAggRows, eventConfigs] = await Promise.all([
+    prisma.analyticsEventDaily.groupBy({
+      by: ["eventName"],
+      where: { companyId, source: "ga4", date: { gte: periodStart, lte: periodEnd } },
+      _sum: { eventCount: true, users: true },
+    }),
+    prisma.marketingEventConfig.findMany({ where: { companyId, source: "ga4" } }),
+  ]);
+  const configByName = new Map(eventConfigs.map((c) => [c.eventName, c]));
+
+  const events = eventAggRows
+    .map((r) => {
+      const cfg = configByName.get(r.eventName);
+      return {
+        eventName: r.eventName,
+        label: cfg?.displayLabel || r.eventName,
+        count: r._sum.eventCount ?? 0,
+        users: r._sum.users ?? 0,
+        isConversion: cfg?.isConversion ?? false,
+        hidden: cfg?.hidden ?? false,
+      };
+    })
+    .sort((a, b) => b.count - a.count);
+
+  const conversionsLeadHub = events
+    .filter((e) => e.isConversion)
+    .reduce((sum, e) => sum + e.count, 0);
+
+  const conversionEvents = events.filter((e) => e.isConversion);
+
+  // ─── 7. Funil adaptativo + Ganho/Perdido ────────────────────────────────
+  // Perfil detectado pelos módulos contratados:
+  //   básico   = só Marketing                       → 3 estágios
+  //   captação = Marketing + Prospecção             → 4 estágios
+  //   completo = Marketing + Prospecção + Oportun.  → 6 estágios + Ganho/Perdido
+  const companyForFunnel = await prisma.company.findUnique({
+    where: { id: companyId },
+    select: { moduleProspeccao: true, moduleCrm: true, subscription: { select: { planId: true } } },
+  });
+
+  // Sub-pipeline Oportunidades vem de PlanFeatures (não flag direta) — reusa o
+  // mesmo loader que o effective-session faz. Tolerante a empresa sem plano.
+  let hasOportunidades = false;
+  try {
+    const { getCompanyPlan } = await import("@/lib/limits");
+    const ctx = await getCompanyPlan(companyId);
+    hasOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+  } catch {
+    // sem subscription / loader falhou → assume sem
+  }
+
+  const hasProspeccao = (companyForFunnel?.moduleProspeccao ?? false) || (companyForFunnel?.moduleCrm ?? false);
+
+  // Leads contados no período corrente
+  const [leadsTotal, leadsWon, leadsLost] = await Promise.all([
+    prisma.lead.count({ where: { companyId, createdAt: { gte: periodStart, lte: periodEnd } } }),
+    prisma.lead.count({ where: { companyId, status: "CLOSED", updatedAt: { gte: periodStart, lte: periodEnd } } }),
+    prisma.lead.count({ where: { companyId, status: "LOST", updatedAt: { gte: periodStart, lte: periodEnd } } }),
+  ]);
+
+  // Oportunidades = leads no pipeline "OPORTUNIDADES" (modelo Lead com `pipeline`)
+  let opsCount = 0;
+  if (hasOportunidades) {
+    opsCount = await prisma.lead.count({
+      where: { companyId, pipeline: "OPORTUNIDADES", createdAt: { gte: periodStart, lte: periodEnd } },
+    });
+  }
+
+  type FunnelStage = { key: string; label: string; value: number };
+  const stages: FunnelStage[] = [
+    { key: "sessions", label: "Sessões", value: snapsCurrent._sum.sessions ?? 0 },
+    { key: "users", label: "Usuários", value: snapsCurrent._sum.users ?? 0 },
+    { key: "conversions", label: "Eventos de conversão", value: conversionsLeadHub },
+  ];
+  let profile: "basico" | "captacao" | "completo" = "basico";
+  if (hasProspeccao) {
+    stages.push({ key: "leads", label: "Leads no CRM", value: leadsTotal });
+    profile = "captacao";
+  }
+  if (hasOportunidades) {
+    stages.push({ key: "oportunidades", label: "Oportunidades", value: opsCount });
+    profile = "completo";
+  }
+
+  const funnel = {
+    profile,
+    stages,
+    won: hasOportunidades || hasProspeccao ? leadsWon : null,
+    lost: hasOportunidades || hasProspeccao ? leadsLost : null,
+  };
+
+  // ─── 8. Status das integrações (pra UI mostrar lastSync por bloco) ──────
+  const integStatusRows = await prisma.marketingIntegration.findMany({
+    where: { companyId, provider: { in: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE"] } },
+    select: { provider: true, status: true, lastSyncAt: true, lastSyncStatus: true, accountId: true, accountLabel: true },
+  });
+  const integrationStatus = {
+    ga4: integStatusRows.find((i) => i.provider === "GA4") ?? null,
+    sc:  integStatusRows.find((i) => i.provider === "SEARCH_CONSOLE") ?? null,
+    gbp: integStatusRows.find((i) => i.provider === "BUSINESS_PROFILE") ?? null,
+  };
+
   // ─── Resposta ────────────────────────────────────────────────────────────
   function pct(curr: number, prev: number): number | null {
     if (prev === 0) return curr > 0 ? 100 : null;
@@ -352,6 +458,11 @@ export async function GET(
       totalImpressions: scTotal.impressions,
       avgCtr: scTotal.impressions > 0 ? scTotal.clicks / scTotal.impressions : 0,
     },
+    events,
+    conversionEvents,
+    conversionsLeadHub,
+    funnel,
+    integrationStatus,
     hasData: (snapsCurrent._sum.sessions ?? 0) > 0 || scRows.length > 0,
   });
 }

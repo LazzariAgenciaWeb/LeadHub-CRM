@@ -9,6 +9,8 @@ import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 import MyTasksToday from "./MyTasksToday";
 import FollowUpsToday from "./FollowUpsToday";
+import MarketingDashboardWidget from "./MarketingDashboardWidget";
+import { getCompanyPlan } from "@/lib/limits";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -269,6 +271,18 @@ export default async function DashboardPage() {
   const totalClicksNum = totalLinkClicks._sum.clicks ?? 0;
 
   // KPI card helper
+  // Widget de marketing — aparece só pra empresas com módulo Marketing contratado.
+  // SUPER_ADMIN sem companyId (visão global) não mostra.
+  let marketingEnabled = false;
+  if (companyId) {
+    try {
+      const planCtx = await getCompanyPlan(companyId);
+      marketingEnabled = planCtx.effectiveFeatures.marketingDashboard;
+    } catch {
+      // sem subscription / loader falhou → assume sem
+    }
+  }
+
   const KPI = ({
     label, value, sub, subColor, barColor, href, icon,
   }: {
@@ -321,6 +335,11 @@ export default async function DashboardPage() {
         <KPI label="Campanhas"    value={campaigns}          sub="Ativas"          subColor="text-amber-400"  barColor="bg-amber-500"    href="/campanhas"       icon="📣" />
         <KPI label="Cliques"      value={totalClicksNum}     sub="Em todos os links" subColor="text-orange-400" barColor="bg-orange-500" href="/links"           icon="🔗" />
       </div>
+
+      {/* Marketing — só se empresa tem o módulo */}
+      {marketingEnabled && companyId && (
+        <MarketingDashboardWidget companyId={companyId} />
+      )}
 
       {/* KPIs de Atendimento (Sprint 4) */}
       <AtendimentoStats />

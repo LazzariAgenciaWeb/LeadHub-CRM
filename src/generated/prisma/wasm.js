@@ -789,6 +789,30 @@ exports.Prisma.AnalyticsGeoDataScalarFieldEnum = {
   users: 'users'
 };
 
+exports.Prisma.AnalyticsEventDailyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  eventName: 'eventName',
+  eventCount: 'eventCount',
+  users: 'users',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MarketingEventConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  source: 'source',
+  eventName: 'eventName',
+  isConversion: 'isConversion',
+  displayLabel: 'displayLabel',
+  hidden: 'hidden',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SearchConsoleQueryScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1543,6 +1567,8 @@ exports.Prisma.ModelName = {
   AnalyticsTopPage: 'AnalyticsTopPage',
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',
   AnalyticsGeoData: 'AnalyticsGeoData',
+  AnalyticsEventDaily: 'AnalyticsEventDaily',
+  MarketingEventConfig: 'MarketingEventConfig',
   SearchConsoleQuery: 'SearchConsoleQuery',
   GbpInsight: 'GbpInsight',
   GbpReview: 'GbpReview',

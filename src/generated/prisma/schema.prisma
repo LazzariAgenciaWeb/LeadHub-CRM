@@ -241,6 +241,8 @@ model Company {
   analyticsTopPages         AnalyticsTopPage[]
   analyticsTrafficSources   AnalyticsTrafficSource[]
   analyticsGeoData          AnalyticsGeoData[]
+  analyticsEventDaily       AnalyticsEventDaily[]
+  marketingEventConfig      MarketingEventConfig[]
   searchConsoleQueries      SearchConsoleQuery[]
   gbpInsights               GbpInsight[]
   gbpReviews                GbpReview[]
@@ -1592,6 +1594,48 @@ model AnalyticsGeoData {
   @@index([companyId, date])
 }
 
+// Eventos GA4 por dia (padrão como page_view/scroll/click + personalizados).
+// Sync diário popula. UI mostra a lista pra cliente marcar quais são conversão (ver MarketingEventConfig).
+model AnalyticsEventDaily {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4"
+
+  eventName  String
+  eventCount Int    @default(0)
+  users      Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, date, source, eventName])
+  @@index([companyId, date])
+  @@index([companyId, eventName])
+}
+
+// Config por empresa: quais eventos contam como conversão no LeadHub, rótulo amigável,
+// e se devem ser ocultados da lista do dashboard. Independente do que o admin do GA4
+// marcou como "key event" — o cliente do LeadHub decide aqui.
+model MarketingEventConfig {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  source    String // "ga4"
+  eventName String
+
+  isConversion Boolean @default(false)
+  displayLabel String? // "Lead WhatsApp" / "Formulário enviado" — usado nos cards
+  hidden       Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, source, eventName])
+  @@index([companyId])
+}
+
 model SearchConsoleQuery {
   id        String   @id @default(cuid())
   companyId String
@@ -1724,7 +1768,7 @@ model GbpProfileSnapshot {
   @@index([companyId, syncedAt])
 }
 
-// ─── Cobrança / Assinaturas ─────────────────────────────────────────────────���─
+// ─── Cobrança / Assinaturas ───────────────────────────────────────────────────
 //
 // Cada Company tem 1 Subscription. Na pivô pra "vender pro cliente final", a
 // hierarquia é simplificada: top-level companies (parentCompanyId=null) pagam.

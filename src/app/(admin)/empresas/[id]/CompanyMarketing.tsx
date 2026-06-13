@@ -14,6 +14,8 @@ import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
 import WorldGeoMap from "@/components/WorldGeoMap";
 import CompanyGbpSection from "./CompanyGbpSection";
+import MarketingEventsBlock from "./MarketingEventsBlock";
+import MarketingFunnel from "./MarketingFunnel";
 
 interface Kpi { value: number; delta?: number | null }
 interface MarketingData {
@@ -45,6 +47,20 @@ interface MarketingData {
     positionDelta: number | null;  // positivo = subiu (posição menor é melhor)
   }[];
   searchConsole: { totalClicks: number; totalImpressions: number; avgCtr: number };
+  events: { eventName: string; label: string; count: number; users: number; isConversion: boolean; hidden: boolean }[];
+  conversionEvents: { eventName: string; label: string; count: number; users: number; isConversion: boolean; hidden: boolean }[];
+  conversionsLeadHub: number;
+  funnel: {
+    profile: "basico" | "captacao" | "completo";
+    stages: { key: string; label: string; value: number }[];
+    won: number | null;
+    lost: number | null;
+  };
+  integrationStatus: {
+    ga4: { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+    sc:  { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+    gbp: { provider: string; status: string; lastSyncAt: string | null; lastSyncStatus: string | null; accountId: string | null; accountLabel: string | null } | null;
+  };
   hasData: boolean;
 }
 
@@ -87,6 +103,31 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyId, days]);
+
+  // Auto-refresh: se algum provider conectado ficou > 2h sem sync, dispara em
+  // background. Sem força — o endpoint /sync respeita o throttle de 2h pra
+  // evitar estouro de cota das APIs do Google.
+  useEffect(() => {
+    if (!data) return;
+    const THRESHOLD_MS = 2 * 60 * 60 * 1000;
+    const now = Date.now();
+    const stale = (["ga4", "sc", "gbp"] as const).some((k) => {
+      const integ = data.integrationStatus?.[k];
+      if (!integ || !integ.accountId) return false;
+      if (!integ.lastSyncAt) return true;
+      return now - new Date(integ.lastSyncAt).getTime() > THRESHOLD_MS;
+    });
+    if (!stale) return;
+    void (async () => {
+      try {
+        await fetch(`/api/companies/${companyId}/marketing/sync?provider=all`, { method: "POST" });
+        void load();
+      } catch {
+        // silencioso — usuário pode forçar pelo botão
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.period.end]);
 
   // Ordena as queries conforme a coluna selecionada. Position usa lógica
   // invertida — posição menor (1ª, 2ª) é melhor que maior (15ª, 30ª).
@@ -188,6 +229,13 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         </div>
       )}
 
+      {/* Status das integrações — botão refresh por bloco */}
+      <IntegrationStatusBar
+        companyId={companyId}
+        status={data.integrationStatus}
+        onSynced={() => void load()}
+      />
+
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <KpiCard icon={Users}         iconColor="text-cyan-400"    label="Sessões"        value={data.kpis.sessions.value} delta={data.kpis.sessions.delta} />
@@ -203,12 +251,16 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         <SmallKpi label="Sess. engajadas" value={data.kpis.engagedSessions.value} />
       </div>
 
-      {/* Funil de conversão */}
-      <MarketingFunnel
-        impressions={data.searchConsole.totalImpressions}
-        sessions={data.kpis.sessions.value}
-        users={data.kpis.users.value}
-        conversions={data.kpis.conversions.value}
+      {/* Funil de conversão adaptativo (estágios variam pelo plano contratado) */}
+      <MarketingFunnel funnel={data.funnel} />
+
+      {/* Eventos detectados + config de quais contam como conversão */}
+      <MarketingEventsBlock
+        companyId={companyId}
+        events={data.events}
+        conversionEvents={data.conversionEvents}
+        conversionsLeadHub={data.conversionsLeadHub}
+        onConfigSaved={() => void load()}
       />
 
       {/* Série diária — multi-linha (visualizações + sessões + conversões) */}
@@ -557,77 +609,84 @@ function fmtSeconds(s: number): string {
   return `${mins}m ${secs}s`;
 }
 
-// ─── Funil de marketing ──────────────────────────────────────────────────────
-// Mostra a jornada Impressões → Sessões → Usuários → Conversões em 4 etapas
-// com a taxa de conversão entre cada uma. Largura proporcional ao volume.
+// ─── Status das integrações (timestamps + força refresh por bloco) ───────────
 
-function MarketingFunnel({
-  impressions, sessions, users, conversions,
+function IntegrationStatusBar({
+  companyId,
+  status,
+  onSynced,
 }: {
-  impressions: number; sessions: number; users: number; conversions: number;
+  companyId: string;
+  status: MarketingData["integrationStatus"];
+  onSynced: () => void;
 }) {
-  // Etapas em ordem de afunilamento. Filtra etapas zeradas pra não confundir
-  // (ex: cliente sem Search Console conectado não tem impressões).
-  const stages = [
-    { key: "impressions", label: "Impressões",   value: impressions, color: "from-amber-500 to-orange-500",   accent: "text-amber-300",   bg: "bg-amber-500/10" },
-    { key: "sessions",    label: "Sessões",      value: sessions,    color: "from-indigo-500 to-blue-500",    accent: "text-indigo-300",  bg: "bg-indigo-500/10" },
-    { key: "users",       label: "Usuários",     value: users,       color: "from-cyan-500 to-teal-500",      accent: "text-cyan-300",    bg: "bg-cyan-500/10" },
-    { key: "conversions", label: "Conversões",   value: conversions, color: "from-emerald-500 to-green-500",  accent: "text-emerald-300", bg: "bg-emerald-500/10" },
-  ].filter((s) => s.value > 0);
+  const [syncing, setSyncing] = useState<string | null>(null);
 
-  if (stages.length < 2) {
-    // Sem dados suficientes pra montar funil — não polui a tela
-    return null;
+  const blocks: Array<{ key: "ga4" | "sc" | "gbp"; label: string; param: string }> = [
+    { key: "ga4", label: "Google Analytics", param: "ga4" },
+    { key: "sc",  label: "Search Console",   param: "sc"  },
+    { key: "gbp", label: "Meu Negócio",      param: "gbp" },
+  ];
+
+  async function refresh(param: string) {
+    setSyncing(param);
+    try {
+      await fetch(`/api/companies/${companyId}/marketing/sync?provider=${param}&force=1`, { method: "POST" });
+      onSynced();
+    } finally {
+      setSyncing(null);
+    }
   }
 
-  const max = stages[0].value;
-
   return (
-    <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-      <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
-        <Target className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
-        Funil de conversão
-      </h3>
-      <div className="space-y-2">
-        {stages.map((s, i) => {
-          const widthPct = (s.value / max) * 100;
-          const prev = i > 0 ? stages[i - 1] : null;
-          const conversionRate = prev && prev.value > 0 ? (s.value / prev.value) * 100 : null;
-          return (
-            <div key={s.key}>
-              {/* Indicador de conversão entre etapas */}
-              {prev && conversionRate !== null && (
-                <div className="flex items-center gap-2 mb-1 ml-2 text-[10px]">
-                  <ArrowDown className="w-3 h-3 text-slate-600" strokeWidth={2} />
-                  <span className={s.accent}>
-                    {conversionRate.toFixed(1)}% conversão
-                  </span>
-                  <span className="text-slate-700">
-                    ({prev.value.toLocaleString("pt-BR")} → {s.value.toLocaleString("pt-BR")})
-                  </span>
-                </div>
-              )}
-              {/* Barra do estágio */}
-              <div className="relative">
-                <div
-                  className={`h-12 rounded-lg bg-gradient-to-r ${s.color} flex items-center px-3 transition-all`}
-                  style={{ width: `${Math.max(widthPct, 12)}%` }}
-                >
-                  <span className="text-white text-xs font-bold uppercase tracking-wide drop-shadow">
-                    {s.label}
-                  </span>
-                </div>
-                {/* Valor à direita da barra */}
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-200 font-bold text-base font-mono">
-                  {s.value.toLocaleString("pt-BR")}
-                </span>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      {blocks.map((b) => {
+        const integ = status?.[b.key];
+        const connected = !!integ?.accountId;
+        return (
+          <div
+            key={b.key}
+            className="flex items-center justify-between gap-2 bg-[#0a1220]/40 border border-[#1e2d45] rounded-lg px-3 py-2"
+          >
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 text-slate-300 text-xs font-semibold">
+                <span className={`w-1.5 h-1.5 rounded-full ${connected ? "bg-emerald-400" : "bg-slate-600"}`} />
+                {b.label}
+              </div>
+              <div className="text-slate-500 text-[10px] truncate">
+                {connected
+                  ? integ?.lastSyncAt
+                    ? `Sync: ${formatRelative(new Date(integ.lastSyncAt))}`
+                    : "Pendente de 1º sync"
+                  : "Não conectado"}
               </div>
             </div>
-          );
-        })}
-      </div>
+            {connected && (
+              <button
+                onClick={() => void refresh(b.param)}
+                disabled={syncing === b.param}
+                className="p-1 rounded hover:bg-white/10 disabled:opacity-40"
+                title="Atualizar agora"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 text-slate-400 ${syncing === b.param ? "animate-spin" : ""}`} />
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
+}
+
+function formatRelative(d: Date): string {
+  const diff = Date.now() - d.getTime();
+  const min = Math.floor(diff / 60_000);
+  if (min < 1) return "agora";
+  if (min < 60) return `há ${min}min`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `há ${h}h`;
+  const days = Math.floor(h / 24);
+  return `há ${days}d`;
 }
 
 // ─── Cabeçalho de coluna clicável (ordenação) ─────────────────────────────────

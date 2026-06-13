@@ -6,6 +6,7 @@
  *  - AnalyticsTopPage       (top 50 páginas/dia)
  *  - AnalyticsTrafficSource (cada source/medium → bucket classificado)
  *  - AnalyticsGeoData       (cada país/cidade)
+ *  - AnalyticsEventDaily    (cada eventName/dia — padrão e personalizados)
  *
  * Usa upsert pra ser idempotente — pode rodar várias vezes ao dia sem duplicar.
  *
@@ -76,6 +77,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
   topPages: number;
   trafficSources: number;
   geoRows: number;
+  events: number;
 }> {
   const integ = await prisma.marketingIntegration.findUnique({
     where: { id: integrationId },
@@ -93,6 +95,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
   let topPagesCount = 0;
   let trafficCount = 0;
   let geoCount = 0;
+  let eventsCount = 0;
 
   try {
     // ─── 1. KPIs diários (sessions, users, pageviews, bounceRate, conversions, sessionDuration) ───
@@ -326,13 +329,62 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       geoCount++;
     }
 
+    // ─── 5. Eventos por dia (padrão + personalizados) ───────────────────────
+    // GA4 entrega aqui TODOS os eventos disparados (page_view, scroll, click,
+    // session_start... + os personalizados criados via gtag/GTM tipo whatsapp_click
+    // ou form_submit). Quem decide quais contam como conversão no LeadHub é a
+    // MarketingEventConfig — esta tabela é o universo bruto.
+    const eventRows = await runReport(integrationId, {
+      propertyId,
+      startDate,
+      endDate,
+      dimensions: ["date", "eventName"],
+      metrics: ["eventCount", "totalUsers"],
+      limit: 10000,
+    });
+
+    const eventsEarliest = eventRows.length > 0
+      ? parseGADate(eventRows[0].dimensionValues[0].value)
+      : parseGADate(compactDate(daysAgo(daysBack)));
+    await prisma.analyticsEventDaily.deleteMany({
+      where: { companyId: integ.companyId, source: "ga4", date: { gte: eventsEarliest } },
+    });
+
+    for (const row of eventRows) {
+      const date = parseGADate(row.dimensionValues[0].value);
+      const eventName = row.dimensionValues[1].value || "(unknown)";
+      await prisma.analyticsEventDaily.upsert({
+        where: {
+          companyId_date_source_eventName: {
+            companyId: integ.companyId,
+            date,
+            source: "ga4",
+            eventName,
+          },
+        },
+        create: {
+          companyId: integ.companyId,
+          date,
+          source: "ga4",
+          eventName,
+          eventCount: parseInt(row.metricValues[0].value, 10) || 0,
+          users: parseInt(row.metricValues[1].value, 10) || 0,
+        },
+        update: {
+          eventCount: parseInt(row.metricValues[0].value, 10) || 0,
+          users: parseInt(row.metricValues[1].value, 10) || 0,
+        },
+      });
+      eventsCount++;
+    }
+
     // Marca como ok
     await prisma.marketingIntegration.update({
       where: { id: integrationId },
       data: { lastSyncAt: new Date(), lastSyncStatus: "ok", lastError: null, status: "ACTIVE" },
     });
 
-    return { snapshots: snapshotsCount, topPages: topPagesCount, trafficSources: trafficCount, geoRows: geoCount };
+    return { snapshots: snapshotsCount, topPages: topPagesCount, trafficSources: trafficCount, geoRows: geoCount, events: eventsCount };
   } catch (e: any) {
     await prisma.marketingIntegration.update({
       where: { id: integrationId },
