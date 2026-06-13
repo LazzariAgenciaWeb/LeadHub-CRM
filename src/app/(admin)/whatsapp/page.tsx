@@ -169,6 +169,15 @@ export default async function WhatsappPage({
   });
   const finalStageNames = [...new Set(finalStageConfigs.map((s) => s.name))];
 
+  // Etapas completas dos pipelines — usado pra mover o lead de etapa direto
+  // da conversa (barra de ações, incl. modo Visão). Filtra por empresa quando
+  // há companyId; client-side o componente filtra de novo por conversa.
+  const pipelineStages = await prisma.pipelineStageConfig.findMany({
+    where: { ...(companyId ? { companyId } : {}) },
+    select: { pipeline: true, name: true, color: true, order: true, isFinal: true, companyId: true },
+    orderBy: [{ pipeline: "asc" }, { order: "asc" }],
+  });
+
   // Setores e atendentes para o modal de transferência.
   // - Se companyId está setado (ADMIN/CLIENT ou SuperAdmin filtrando) → só dessa empresa
   // - Se SuperAdmin sem filtro → busca de todas as empresas que têm conversas visíveis
@@ -223,6 +232,7 @@ export default async function WhatsappPage({
       conversations={conversationsEnriched as any}
       defaultPhone={defaultPhone}
       finalStageNames={finalStageNames}
+      pipelineStages={pipelineStages}
       userSignature={dbUser?.whatsappSignature ?? ""}
       userSignatureDefault={dbUser?.whatsappSignatureDefault ?? true}
       userName={dbUser?.name ?? currentUser?.name ?? ""}

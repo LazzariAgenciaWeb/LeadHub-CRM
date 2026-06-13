@@ -281,6 +281,7 @@ export default function WhatsappManager({
   hasCrmModule = true,
   hasTicketsModule = true,
   modoAtendimento = "ATENDE",
+  pipelineStages = [],
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -298,6 +299,7 @@ export default function WhatsappManager({
   hasCrmModule?: boolean;
   hasTicketsModule?: boolean;
   modoAtendimento?: "VISAO" | "ATENDE";
+  pipelineStages?: { pipeline: string; name: string; color: string; order: number; isFinal: boolean; companyId: string }[];
 }) {
   // Toggle de assinatura por mensagem. Default vem da preferência do user
   // (Configurações → Meu Perfil): se ele desligou o default, começa desmarcado
@@ -1721,6 +1723,31 @@ export default function WhatsappManager({
     if (data.lead) {
       setSelectedConv({ ...selectedConv, lead: { ...data.lead, notes: null } });
       router.refresh();
+    }
+  }
+
+  // Move o lead da conversa para outra etapa do pipeline. Usado pela barra de
+  // ações (inclusive no modo Visão, onde não há menu + Ações). Mantém o
+  // pipeline atual do lead; se ele não tinha pipeline, assume LEADS.
+  const [movingStage, setMovingStage] = useState(false);
+  async function handleMoveLeadStage(stageName: string) {
+    if (!selectedConv?.lead?.id || !stageName) return;
+    const targetPipeline = selectedConv.lead.pipeline ?? "LEADS";
+    setMovingStage(true);
+    try {
+      const res = await fetch(`/api/leads/${selectedConv.lead.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ pipeline: targetPipeline, pipelineStage: stageName }),
+      });
+      if (res.ok) {
+        setSelectedConv((prev) => prev?.lead
+          ? { ...prev, lead: { ...prev.lead, pipeline: targetPipeline, pipelineStage: stageName } }
+          : prev);
+        router.refresh();
+      }
+    } finally {
+      setMovingStage(false);
     }
   }
 
@@ -4469,6 +4496,56 @@ export default function WhatsappManager({
                       <p className="text-amber-400/70 text-[11px] mt-0.5 leading-relaxed">
                         Sua empresa está em <strong>modo Visão</strong>. Responda este cliente pelo WhatsApp do celular — o LeadHub registra suas respostas automaticamente e atualiza o status da conversa.
                       </p>
+
+                      {/* Ações de CRM disponíveis mesmo sem composer:
+                          - sem lead ativo → Criar Lead
+                          - com lead → mover etapa no pipeline */}
+                      {hasCrmModule && !selectedConv.phone.includes("@g.us") && (
+                        <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+                          {!isActiveLead && !isActiveOportunidade ? (
+                            <button
+                              type="button"
+                              onClick={() => { setShowConvertForm(true); setShowOportunidadeForm(false); setShowTicketForm(false); }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-300 text-xs font-medium hover:bg-blue-500/25 transition-colors"
+                            >
+                              <Target className="w-3.5 h-3.5" strokeWidth={2.5} /> Criar Lead
+                            </button>
+                          ) : (() => {
+                            const lead = selectedConv.lead;
+                            if (!lead) return null;
+                            const pipe = lead.pipeline ?? "LEADS";
+                            const stages = pipelineStages
+                              .filter((s) => s.pipeline === pipe && (!selectedConv.companyId || s.companyId === selectedConv.companyId))
+                              .sort((a, b) => a.order - b.order);
+                            return (
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-amber-400/70 text-[11px]">Etapa:</span>
+                                {stages.length > 0 ? (
+                                  <select
+                                    value={lead.pipelineStage ?? ""}
+                                    onChange={(e) => handleMoveLeadStage(e.target.value)}
+                                    disabled={movingStage}
+                                    className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 disabled:opacity-50"
+                                  >
+                                    {!lead.pipelineStage && <option value="">— Selecione —</option>}
+                                    {stages.map((s) => (
+                                      <option key={s.name} value={s.name}>{s.name}</option>
+                                    ))}
+                                  </select>
+                                ) : (
+                                  <span className="text-slate-500 text-[11px]">Nenhuma etapa configurada</span>
+                                )}
+                                <Link
+                                  href={`/crm/${pipe === "OPORTUNIDADES" ? "oportunidades" : "leads"}?lead=${lead.id}`}
+                                  className="text-[11px] text-indigo-400 hover:text-indigo-300 font-medium"
+                                >
+                                  abrir no CRM ↗
+                                </Link>
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
