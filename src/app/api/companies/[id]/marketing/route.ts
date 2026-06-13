@@ -345,7 +345,7 @@ export async function GET(
   //   completo = Marketing + Prospecção + Oportun.  → 6 estágios + Ganho/Perdido
   const companyForFunnel = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { moduleProspeccao: true, moduleCrm: true, subscription: { select: { planId: true } } },
+    select: { moduleProspeccao: true, moduleCrm: true },
   });
 
   // Sub-pipeline Oportunidades vem de PlanFeatures (não flag direta) — reusa o
