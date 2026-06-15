@@ -42,7 +42,7 @@ interface GbpResponse {
     };
     rating: { average: number | null; total: number; source?: "local" | "google" };
   };
-  dailySeries?: { date: string; search: number; maps: number }[];
+  dailySeries?: { date: string; search: number; maps: number; calls: number; website: number; directions: number }[];
   reviews?: {
     id: string;
     googleReviewId: string;
@@ -309,34 +309,43 @@ export default function CompanyGbpSection({ companyId, days = 30 }: { companyId:
         </div>
       )}
 
-      {/* Gráfico Search vs Maps */}
+      {/* Gráfico Visualizações + Ações
+          Eixo Y esquerdo: visualizações (Busca, Maps) — geralmente em escala maior
+          Eixo Y direito:  ações (Ligação, Site, Rota) — escala menor, mereceria sumir
+                           se compartilhasse eixo único. */}
       <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
-            <h3 className="text-white font-semibold text-sm">Visualizações por canal</h3>
+            <h3 className="text-white font-semibold text-sm">Visualizações & Ações por canal</h3>
           </div>
-          <div className="flex items-center gap-3 text-[11px]">
+          <div className="flex items-center gap-3 text-[11px] flex-wrap">
             <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-emerald-400" /> Busca</span>
             <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-blue-400" /> Maps</span>
+            <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-amber-400" /> Ligação</span>
+            <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-cyan-400" /> Site</span>
+            <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-violet-400" /> Rota</span>
           </div>
         </div>
         {!dailySeries || dailySeries.length === 0 ? (
           <div className="text-slate-600 text-xs text-center py-12">Sem dados ainda. Aguarde a primeira sincronização.</div>
         ) : (
-          <div style={{ height: 220 }}>
+          <div style={{ height: 260 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dailySeries.map((d) => ({ ...d, date: shortDate(d.date) }))}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e2d45" />
                 <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={{ stroke: "#1e2d45" }} />
-                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} axisLine={{ stroke: "#1e2d45" }} />
+                <YAxis yAxisId="views" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={{ stroke: "#1e2d45" }} />
+                <YAxis yAxisId="actions" orientation="right" tick={{ fill: "#64748b", fontSize: 10 }} axisLine={{ stroke: "#1e2d45" }} />
                 <Tooltip
                   contentStyle={{ backgroundColor: "#0a1220", border: "1px solid #1e2d45", borderRadius: 8, fontSize: 11 }}
                   labelStyle={{ color: "#cbd5e1" }}
                 />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Line type="monotone" dataKey="search" stroke="#34d399" strokeWidth={2} name="Busca" dot={false} />
-                <Line type="monotone" dataKey="maps" stroke="#60a5fa" strokeWidth={2} name="Maps" dot={false} />
+                <Line yAxisId="views"   type="monotone" dataKey="search"     stroke="#34d399" strokeWidth={2} name="Busca"    dot={false} />
+                <Line yAxisId="views"   type="monotone" dataKey="maps"       stroke="#60a5fa" strokeWidth={2} name="Maps"     dot={false} />
+                <Line yAxisId="actions" type="monotone" dataKey="calls"      stroke="#fbbf24" strokeWidth={2} name="Ligação"  dot={false} strokeDasharray="4 2" />
+                <Line yAxisId="actions" type="monotone" dataKey="website"    stroke="#22d3ee" strokeWidth={2} name="Site"     dot={false} strokeDasharray="4 2" />
+                <Line yAxisId="actions" type="monotone" dataKey="directions" stroke="#a78bfa" strokeWidth={2} name="Rota"     dot={false} strokeDasharray="4 2" />
               </LineChart>
             </ResponsiveContainer>
           </div>

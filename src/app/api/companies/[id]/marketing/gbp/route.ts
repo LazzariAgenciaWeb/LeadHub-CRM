@@ -76,13 +76,14 @@ export async function GET(
         callClicks: true, websiteClicks: true, directionRequests: true,
       },
     }),
-    // Série diária pro gráfico (search vs maps)
+    // Série diária pro gráfico (search/maps + ações)
     prisma.gbpInsight.findMany({
       where: { companyId, date: { gte: periodStart, lte: periodEnd } },
       select: {
         date: true,
         impressionsSearchDesktop: true, impressionsSearchMobile: true,
         impressionsMapsDesktop: true, impressionsMapsMobile: true,
+        callClicks: true, websiteClicks: true, directionRequests: true,
       },
       orderBy: { date: "asc" },
     }),
@@ -198,6 +199,10 @@ export async function GET(
       date: row.date,
       search: (row.impressionsSearchDesktop ?? 0) + (row.impressionsSearchMobile ?? 0),
       maps: (row.impressionsMapsDesktop ?? 0) + (row.impressionsMapsMobile ?? 0),
+      // Ações detalhadas — mesmo agregado dos KPI cards, exposto diário pro gráfico.
+      calls: row.callClicks ?? 0,
+      website: row.websiteClicks ?? 0,
+      directions: row.directionRequests ?? 0,
     })),
     reviews: recentReviews.map((r) => ({
       id: r.id,

@@ -338,6 +338,46 @@ export async function GET(
 
   const conversionEvents = events.filter((e) => e.isConversion);
 
+  // Nomes dos eventos marcados como conversão — usados pra (a) calcular o total
+  // do período anterior (delta) e (b) montar série diária pro gráfico de tráfego.
+  const conversionEventNames = eventConfigs
+    .filter((c) => c.isConversion)
+    .map((c) => c.eventName);
+
+  // Conversões LeadHub do período anterior — pra mostrar delta no card.
+  let conversionsLeadHubPrev = 0;
+  // Série diária de conversões LeadHub (data → contagem somada dos eventos marcados).
+  const conversionsByDay = new Map<string, number>();
+
+  if (conversionEventNames.length > 0) {
+    const [prevAgg, dailyAgg] = await Promise.all([
+      prisma.analyticsEventDaily.aggregate({
+        where: {
+          companyId,
+          source: "ga4",
+          date: { gte: prevStart, lte: prevEnd },
+          eventName: { in: conversionEventNames },
+        },
+        _sum: { eventCount: true },
+      }),
+      prisma.analyticsEventDaily.groupBy({
+        by: ["date"],
+        where: {
+          companyId,
+          source: "ga4",
+          date: { gte: periodStart, lte: periodEnd },
+          eventName: { in: conversionEventNames },
+        },
+        _sum: { eventCount: true },
+      }),
+    ]);
+    conversionsLeadHubPrev = prevAgg._sum.eventCount ?? 0;
+    for (const row of dailyAgg) {
+      const key = row.date.toISOString().slice(0, 10);
+      conversionsByDay.set(key, row._sum.eventCount ?? 0);
+    }
+  }
+
   // ─── 7. Funil adaptativo + Ganho/Perdido ────────────────────────────────
   // Perfil detectado pelos módulos contratados:
   //   básico   = só Marketing                       → 3 estágios
@@ -427,20 +467,27 @@ export async function GET(
     kpis: {
       sessions:    { value: snapsCurrent._sum.sessions ?? 0,    delta: pct(snapsCurrent._sum.sessions ?? 0,    snapsPrev._sum.sessions ?? 0) },
       users:       { value: snapsCurrent._sum.users ?? 0,       delta: pct(snapsCurrent._sum.users ?? 0,       snapsPrev._sum.users ?? 0) },
-      conversions: { value: snapsCurrent._sum.conversions ?? 0, delta: pct(snapsCurrent._sum.conversions ?? 0, snapsPrev._sum.conversions ?? 0) },
+      // Conversões = soma dos eventos marcados como conversão no LeadHub.
+      // Quem não marcou nada vê 0 (com hint na UI pra configurar). Delta vs período anterior.
+      conversions: { value: conversionsLeadHub, delta: pct(conversionsLeadHub, conversionsLeadHubPrev) },
       pageviews:   { value: snapsCurrent._sum.pageviews ?? 0 },
       newUsers:    { value: snapsCurrent._sum.newUsers ?? 0 },
       bounceRate:  { value: snapsCurrent._avg.bounceRate ?? 0 },
       avgSessionSec: { value: snapsCurrent._avg.avgSessionSec ?? 0 },
       engagedSessions: { value: snapsCurrent._sum.engagedSessions ?? 0 },
     },
-    dailySeries: dailySeries.map((d) => ({
-      date: d.date.toISOString().slice(0, 10),
-      sessions: d.sessions,
-      users: d.users,
-      conversions: d.conversions,
-      pageviews: d.pageviews,
-    })),
+    dailySeries: dailySeries.map((d) => {
+      const dateKey = d.date.toISOString().slice(0, 10);
+      return {
+        date: dateKey,
+        sessions: d.sessions,
+        users: d.users,
+        // Conversões diárias derivadas dos eventos marcados como conversão no LeadHub
+        // (cai pra 0 nos dias sem eventos marcados — não usa mais d.conversions nativa do GA4).
+        conversions: conversionsByDay.get(dateKey) ?? 0,
+        pageviews: d.pageviews,
+      };
+    }),
     trafficBuckets,
     topPages,
     countries,
