@@ -25,10 +25,10 @@ async function recordClick(token: string, targetUrl: string, req: NextRequest) {
   const recipient = await prisma.emailRecipient.findUnique({
     where: { token },
     select: {
-      id: true, firstClickedAt: true, campaignId: true, leadId: true,
+      id: true, firstClickedAt: true, campaignId: true, leadId: true, email: true,
       lead: {
         select: {
-          id: true, name: true, phone: true, pipeline: true, companyId: true,
+          id: true, name: true, phone: true, email: true, pipeline: true, companyId: true,
           conversation: { select: { assigneeId: true } },
         },
       },
@@ -60,6 +60,15 @@ async function recordClick(token: string, targetUrl: string, req: NextRequest) {
   // Activity + Prospect→Lead promotion + push (mesma lógica do shortlink)
   const lead = recipient.lead;
   if (!lead) return;
+
+  // Se o lead ainda não tinha email cadastrado, preenche com o email que
+  // recebeu a campanha — a gente sabe que é dele, foi quem clicou.
+  if (!lead.email && recipient.email) {
+    await prisma.lead.update({
+      where: { id: lead.id },
+      data: { email: recipient.email },
+    }).catch(() => null);
+  }
 
   await prisma.activity.create({
     data: {

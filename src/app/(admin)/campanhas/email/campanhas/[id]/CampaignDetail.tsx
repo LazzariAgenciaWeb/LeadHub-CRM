@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -268,6 +268,11 @@ export default function CampaignDetail({
             <span>{total - campaign.sentCount - campaign.bouncedCount - campaign.failedCount} pendentes</span>
           </div>
         </div>
+      )}
+
+      {/* Destinatários — só faz sentido depois que começou a enviar */}
+      {(campaign.status === "SENDING" || campaign.status === "PAUSED" || campaign.status === "COMPLETED" || campaign.status === "FAILED") && (
+        <RecipientsTable campaignId={campaign.id} sentCount={campaign.sentCount} />
       )}
 
       {/* Editor de Segmento — DRAFT/SCHEDULED/PAUSED */}
@@ -561,6 +566,241 @@ function CadenceEditor({
       <p className="text-slate-600 text-[10px] mt-2">
         Timezone: {cadence.timezone}. Vale a partir do próximo tick do worker (~60s).
       </p>
+    </div>
+  );
+}
+
+// ─── Listagem de destinatários + modal de preview do email ───────────────────
+
+type RecipientStatus = "PENDING" | "SENDING" | "SENT" | "BOUNCED" | "FAILED" | "SKIPPED";
+interface RecipientEvent { id: string; type: string; targetUrl: string | null; createdAt: string; }
+interface Recipient {
+  id: string; email: string; name: string | null; status: RecipientStatus;
+  sentAt: string | null; firstOpenedAt: string | null; firstClickedAt: string | null;
+  bouncedAt: string | null; errorMessage: string | null; leadId: string | null;
+  lead: { id: string; name: string | null; phone: string; pipeline: string | null } | null;
+  events: RecipientEvent[];
+  _count: { events: number };
+}
+
+const FILTERS: { value: string; label: string }[] = [
+  { value: "all",     label: "Todos" },
+  { value: "sent",    label: "Enviados" },
+  { value: "opened",  label: "Abertos" },
+  { value: "clicked", label: "Cliques" },
+  { value: "bounced", label: "Bounces" },
+  { value: "failed",  label: "Falhas" },
+  { value: "pending", label: "Pendentes" },
+];
+
+function fmt(dt: string | null): string {
+  if (!dt) return "—";
+  const d = new Date(dt);
+  return d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
+
+function statusPill(s: RecipientStatus): { label: string; cls: string } {
+  switch (s) {
+    case "SENT":    return { label: "Enviado",  cls: "bg-green-500/15 text-green-300 border-green-500/30" };
+    case "PENDING": return { label: "Pendente", cls: "bg-slate-500/15 text-slate-300 border-slate-500/30" };
+    case "SENDING": return { label: "Enviando", cls: "bg-amber-500/15 text-amber-300 border-amber-500/30" };
+    case "BOUNCED": return { label: "Bounce",   cls: "bg-red-500/15 text-red-300 border-red-500/30" };
+    case "FAILED":  return { label: "Falha",    cls: "bg-red-600/15 text-red-400 border-red-600/30" };
+    case "SKIPPED": return { label: "Pulado",   cls: "bg-orange-500/15 text-orange-300 border-orange-500/30" };
+  }
+}
+
+function RecipientsTable({ campaignId, sentCount }: { campaignId: string; sentCount: number }) {
+  const [filter, setFilter] = useState<string>("all");
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(50);
+  const [data, setData] = useState<{ total: number; rows: Recipient[] } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [previewId, setPreviewId] = useState<string | null>(null);
+
+  // Recarrega quando muda filtro/page OU quando sentCount muda (envios novos)
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    fetch(`/api/email/campaigns/${campaignId}/recipients?page=${page}&pageSize=${pageSize}&filter=${filter}`)
+      .then((r) => r.ok ? r.json() : Promise.reject(r))
+      .then((d) => { if (!cancelled) setData(d); })
+      .catch(() => { if (!cancelled) setData({ total: 0, rows: [] }); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [campaignId, filter, page, pageSize, sentCount]);
+
+  // Reseta página ao trocar filtro
+  useEffect(() => { setPage(1); }, [filter]);
+
+  const totalPages = data ? Math.max(1, Math.ceil(data.total / pageSize)) : 1;
+
+  return (
+    <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <h2 className="text-white font-bold text-sm">📋 Destinatários{data ? ` (${data.total})` : ""}</h2>
+        <div className="flex flex-wrap gap-1">
+          {FILTERS.map((f) => (
+            <button key={f.value} onClick={() => setFilter(f.value)}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-medium border transition-colors ${
+                filter === f.value
+                  ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                  : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
+              }`}>{f.label}</button>
+          ))}
+        </div>
+      </div>
+
+      {loading && !data ? (
+        <p className="text-slate-500 text-xs">Carregando...</p>
+      ) : !data || data.rows.length === 0 ? (
+        <p className="text-slate-600 text-xs italic">Nenhum destinatário neste filtro.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-left text-slate-500 border-b border-[#1e2d45]">
+                <th className="py-2 pr-2 font-medium">Email</th>
+                <th className="py-2 pr-2 font-medium">Status</th>
+                <th className="py-2 pr-2 font-medium">Enviado</th>
+                <th className="py-2 pr-2 font-medium">Abriu</th>
+                <th className="py-2 pr-2 font-medium">Clicou</th>
+                <th className="py-2 pr-2 font-medium text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.rows.map((r) => {
+                const exp = expandedId === r.id;
+                const pill = statusPill(r.status);
+                return (
+                  <Fragment key={r.id}>
+                    <tr className="border-b border-[#1e2d45]/50 hover:bg-[#0a0f1a]/50">
+                      <td className="py-2 pr-2 text-white">
+                        <div className="truncate max-w-[240px]" title={r.email}>{r.email}</div>
+                        {r.name && <div className="text-slate-500 text-[10px] truncate max-w-[240px]">{r.name}</div>}
+                      </td>
+                      <td className="py-2 pr-2">
+                        <span className={`text-[10px] font-bold uppercase border px-1.5 py-0.5 rounded ${pill.cls}`}>{pill.label}</span>
+                        {r.errorMessage && (
+                          <div className="text-red-400 text-[10px] mt-0.5 truncate max-w-[200px]" title={r.errorMessage}>{r.errorMessage}</div>
+                        )}
+                      </td>
+                      <td className="py-2 pr-2 text-slate-300">{fmt(r.sentAt)}</td>
+                      <td className="py-2 pr-2 text-slate-300">{fmt(r.firstOpenedAt)}</td>
+                      <td className="py-2 pr-2 text-slate-300">{fmt(r.firstClickedAt)}</td>
+                      <td className="py-2 pr-2 text-right whitespace-nowrap">
+                        {r._count.events > 0 && (
+                          <button onClick={() => setExpandedId(exp ? null : r.id)}
+                            className="text-indigo-400 hover:text-indigo-300 mr-2">
+                            {exp ? "Ocultar" : `Eventos (${r._count.events})`}
+                          </button>
+                        )}
+                        <button onClick={() => setPreviewId(r.id)}
+                          className="text-slate-400 hover:text-white mr-2">Ver email</button>
+                        {r.lead && (
+                          <Link href={`/crm/leads?lead=${r.lead.id}`}
+                            className="text-cyan-400 hover:text-cyan-300">Lead →</Link>
+                        )}
+                      </td>
+                    </tr>
+                    {exp && r.events.length > 0 && (
+                      <tr className="border-b border-[#1e2d45]/50 bg-[#0a0f1a]/30">
+                        <td colSpan={6} className="py-2 px-3">
+                          <div className="text-[10px] text-slate-500 mb-1">Eventos ({r.events.length}{r._count.events > r.events.length ? `, mais ${r._count.events - r.events.length} não exibidos` : ""}):</div>
+                          <ul className="space-y-0.5">
+                            {r.events.map((ev) => (
+                              <li key={ev.id} className="text-[11px] flex items-start gap-2">
+                                <span className="text-slate-500 shrink-0 w-24">{fmt(ev.createdAt)}</span>
+                                <span className={ev.type === "CLICK" ? "text-cyan-400" : ev.type === "OPEN" ? "text-amber-400" : "text-slate-400"}>
+                                  {ev.type}
+                                </span>
+                                {ev.targetUrl && (
+                                  <span className="text-slate-400 truncate" title={ev.targetUrl}>→ {ev.targetUrl}</span>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {data && data.total > pageSize && (
+        <div className="flex items-center justify-between mt-3 text-xs">
+          <span className="text-slate-500">Página {page} de {totalPages}</span>
+          <div className="flex gap-1">
+            <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}
+              className="px-2 py-1 rounded border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30">‹</button>
+            <button disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}
+              className="px-2 py-1 rounded border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-30">›</button>
+          </div>
+        </div>
+      )}
+
+      {previewId && (
+        <PreviewModal
+          campaignId={campaignId}
+          recipientId={previewId}
+          onClose={() => setPreviewId(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function PreviewModal({ campaignId, recipientId, onClose }: { campaignId: string; recipientId: string; onClose: () => void }) {
+  const [data, setData] = useState<{ to: string; subject: string; html: string; sentAt: string | null } | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/email/campaigns/${campaignId}/recipients/${recipientId}/preview`)
+      .then((r) => r.ok ? r.json() : r.json().then((d) => Promise.reject(d.error)))
+      .then((d) => { if (!cancelled) setData(d); })
+      .catch((e) => { if (!cancelled) setErr(String(e)); });
+    return () => { cancelled = true; };
+  }, [campaignId, recipientId]);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto"
+      onClick={onClose}>
+      <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl w-full max-w-3xl my-8 flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-start justify-between p-4 border-b border-[#1e2d45]">
+          <div className="min-w-0">
+            <h3 className="text-white font-bold text-sm">📧 Email enviado</h3>
+            {data && (
+              <div className="text-slate-400 text-xs mt-1 space-y-0.5">
+                <div><span className="text-slate-500">Para:</span> {data.to}</div>
+                <div><span className="text-slate-500">Assunto:</span> {data.subject}</div>
+                {data.sentAt && <div><span className="text-slate-500">Enviado:</span> {fmt(data.sentAt)}</div>}
+              </div>
+            )}
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-white text-xl shrink-0">×</button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-2 bg-white">
+          {err ? (
+            <p className="text-red-400 text-sm p-4">{err}</p>
+          ) : !data ? (
+            <p className="text-slate-500 text-sm p-4">Carregando...</p>
+          ) : (
+            <iframe
+              srcDoc={data.html}
+              sandbox=""
+              className="w-full min-h-[600px] border-0"
+              title="Preview do email"
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
