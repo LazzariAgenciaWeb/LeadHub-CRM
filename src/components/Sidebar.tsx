@@ -26,7 +26,7 @@ interface Company {
   hasSystemAccess?: boolean;
 }
 
-const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades"];
+const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades", "/crm"];
 const DASH_ROUTES = ["/dashboard", "/relatorios", "/calendario"];
 
 export default function Sidebar({ session, onClose }: SidebarProps) {
@@ -94,6 +94,9 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     // Separa pathname do query string do href
     const [hrefPath, hrefQuery] = href.split("?");
 
+    // /crm é uma página própria, não um prefixo dos sub-routes do CRM
+    if (hrefPath === "/crm") return pathname === "/crm";
+
     // 1. Pathname precisa bater (exato ou descendente)
     if (pathname !== hrefPath && !pathname.startsWith(hrefPath + "/")) return false;
 
@@ -153,6 +156,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   // CRM sub-itens gateados por pipeline individual (super_admin vê tudo).
   // crmPipeline* vem das features efetivas do plano (plan + customFeatures).
   const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = ([
+    { href: "/crm",               Icon: BarChart3, label: "Painel",        grad: "crm" as GradientKey,           show: showCrm },
     { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" as GradientKey,    show: _isSuperAdmin || hasModule(session, "crmPipelineProspeccao") },
     { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads" as GradientKey,         show: _isSuperAdmin || hasModule(session, "crmPipelineLeads") },
     { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" as GradientKey, show: _isSuperAdmin || hasModule(session, "crmPipelineOportunidades") },

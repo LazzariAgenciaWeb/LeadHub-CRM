@@ -8,9 +8,9 @@ import AtendimentoStats from "./AtendimentoStats";
 import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 import MyTasksToday from "./MyTasksToday";
-import FollowUpsToday from "./FollowUpsToday";
 import MarketingDashboardWidget from "./MarketingDashboardWidget";
 import { getCompanyPlan } from "@/lib/limits";
+import { getLeadFollowUps, STALE_AFTER_DAYS } from "@/lib/calendar-data";
 
 // Sem cache — ranking, conquistas e progresso atualizam imediatamente
 // quando alguém pontua em outras páginas.
@@ -21,6 +21,9 @@ export default async function DashboardPage() {
   const session = await getEffectiveSession();
   const isSuperAdmin = (session?.user as any)?.role === "SUPER_ADMIN";
   const companyId = (session?.user as any)?.companyId as string | undefined;
+  const userId    = (session?.user as any)?.id as string;
+  const role      = (session?.user as any)?.role as string;
+  const isManager = isSuperAdmin || role === "ADMIN";
 
   const where    = isSuperAdmin ? {} : { companyId };
   const linkWhere = isSuperAdmin ? {} : { companyId };
@@ -271,6 +274,22 @@ export default async function DashboardPage() {
   const totalClicksNum = totalLinkClicks._sum.clicks ?? 0;
 
   // KPI card helper
+  // Contagem de atenção para o card CRM — user-scoped
+  const userSetorIds = isManager
+    ? []
+    : (await prisma.setorUser.findMany({ where: { userId }, select: { setorId: true } }))
+        .map((s) => s.setorId);
+  const followUpData = await getLeadFollowUps({ companyId, userId, isManager, userSetorIds });
+  const unansweredCrmCount = await prisma.lead.count({
+    where: {
+      ...where,
+      pipeline: { in: ["LEADS", "OPORTUNIDADES"] },
+      status: { notIn: ["CLOSED", "LOST"] },
+      conversation: { is: { lastMessageDirection: "INBOUND", status: { in: ["OPEN", "PENDING", "IN_PROGRESS"] } } },
+    },
+  });
+  const attentionCount = followUpData.leadsFollowUp.length + followUpData.staleLeads.length + unansweredCrmCount;
+
   // Widget de marketing — aparece só pra empresas com módulo Marketing contratado.
   // SUPER_ADMIN sem companyId (visão global) não mostra.
   let marketingEnabled = false;
@@ -313,9 +332,6 @@ export default async function DashboardPage() {
       {/* Minhas tarefas de hoje — primeira ação do dia do vendedor */}
       <MyTasksToday />
 
-      {/* Follow-ups do CRM — leads/oportunidades pra retornar + esfriando */}
-      <FollowUpsToday />
-
       {/* Conquistas (medalhões) + ranking lateral — primeira coisa que se vê */}
       <DashboardGamificacaoTop />
 
@@ -327,6 +343,19 @@ export default async function DashboardPage() {
         {isSuperAdmin && (
           <KPI label="Empresas"    value={companies}         sub="Ativas"          subColor="text-green-400"  barColor="bg-gradient-to-r from-indigo-500 to-purple-600" href="/empresas"         icon="🏢" />
         )}
+        <Link href="/crm" className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 relative overflow-hidden hover:border-white/20 transition-colors group block">
+          <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-xl ${attentionCount > 0 ? "bg-red-500" : "bg-slate-700"}`} />
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Atenção CRM</span>
+            <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-sm group-hover:bg-white/10 transition-colors">
+              {attentionCount > 0 ? "🚨" : "✅"}
+            </div>
+          </div>
+          <div className={`text-2xl font-bold ${attentionCount > 0 ? "text-red-400" : "text-white"}`}>{attentionCount}</div>
+          <div className={`text-[11px] mt-1 ${attentionCount > 0 ? "text-red-400/70" : "text-slate-500"}`}>
+            {attentionCount > 0 ? "Precisam de atenção" : "Tudo em dia 👏"}
+          </div>
+        </Link>
         <KPI label="Prospectos"   value={prospeccaoCount}   sub="No BDR"          subColor="text-violet-400" barColor="bg-violet-500"   href="/crm/prospeccao"  icon="🔎" />
         <KPI label="Leads"        value={leadsCount}         sub="Em qualificação" subColor="text-blue-400"   barColor="bg-blue-500"     href="/crm/leads"       icon="🎯" />
         <KPI label="Oportunidades" value={oportunidadesCount} sub="Em negociação"  subColor="text-amber-400"  barColor="bg-amber-500"    href="/crm/oportunidades" icon="💡" />
