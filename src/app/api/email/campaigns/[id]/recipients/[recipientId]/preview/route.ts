@@ -13,12 +13,12 @@ export async function GET(
   { params }: { params: Promise<{ id: string; recipientId: string }> }
 ) {
   const session = await getEffectiveSession();
-  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  if (!session?.user) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "emailMarketing");
   if (!gate.ok) return gate.response;
 
   const { id, recipientId } = await params;
-  const role = session.user.role as string;
+  const role = (session.user as any).role as string;
   const userCompanyId = (session.user as any).companyId as string | undefined;
 
   const recipient = await prisma.emailRecipient.findUnique({
