@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getRecentIgCallbacks } from "@/lib/instagram-debug";
+import { instagramConfig } from "@/lib/instagram-oauth";
 
 // GET /api/integrations/instagram/admin/debug
 //
@@ -22,6 +23,9 @@ export async function GET(_req: NextRequest) {
       hasAppSecret: !!process.env.INSTAGRAM_APP_SECRET,
       hasVerifyToken: !!process.env.INSTAGRAM_WEBHOOK_VERIFY_TOKEN,
       baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? null,
+      // redirect_uri EXATO que nosso código envia — compare byte-a-byte com o
+      // cadastrado no painel do Meta.
+      redirectUri: instagramConfig.redirectUri,
     },
     count: traces.length,
     traces,

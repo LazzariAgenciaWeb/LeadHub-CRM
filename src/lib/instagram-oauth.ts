@@ -90,7 +90,12 @@ export async function exchangeCodeForToken(code: string): Promise<IgShortTokenRe
   });
   if (!r.ok) {
     const txt = await r.text();
-    throw new Error(`Falha ao trocar code por token: ${r.status} ${txt}`);
+    // Diagnóstico: inclui o redirect_uri que enviamos + tamanho/formato do code
+    // (sem expor o code inteiro) pra comparar com o cadastrado no Meta.
+    const codeInfo = `codeLen=${code.length} hasHash=${code.includes("#")} hasSpace=${code.includes(" ")}`;
+    throw new Error(
+      `Falha ao trocar code por token: ${r.status} ${txt} | redirect_uri=${REDIRECT_URI} | ${codeInfo}`,
+    );
   }
   const json: any = await r.json();
   const node = Array.isArray(json?.data) ? json.data[0] : json;
