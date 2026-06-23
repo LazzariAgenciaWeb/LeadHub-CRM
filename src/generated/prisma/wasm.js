@@ -739,6 +739,7 @@ exports.Prisma.InstagramAccountScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
   igUserId: 'igUserId',
+  igScopedId: 'igScopedId',
   username: 'username',
   name: 'name',
   profilePictureUrl: 'profilePictureUrl',

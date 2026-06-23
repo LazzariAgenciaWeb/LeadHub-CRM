@@ -57000,6 +57000,7 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     igUserId: string | null
+    igScopedId: string | null
     username: string | null
     name: string | null
     profilePictureUrl: string | null
@@ -57016,6 +57017,7 @@ export namespace Prisma {
     id: string | null
     companyId: string | null
     igUserId: string | null
+    igScopedId: string | null
     username: string | null
     name: string | null
     profilePictureUrl: string | null
@@ -57032,6 +57034,7 @@ export namespace Prisma {
     id: number
     companyId: number
     igUserId: number
+    igScopedId: number
     username: number
     name: number
     profilePictureUrl: number
@@ -57051,6 +57054,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     igUserId?: true
+    igScopedId?: true
     username?: true
     name?: true
     profilePictureUrl?: true
@@ -57067,6 +57071,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     igUserId?: true
+    igScopedId?: true
     username?: true
     name?: true
     profilePictureUrl?: true
@@ -57083,6 +57088,7 @@ export namespace Prisma {
     id?: true
     companyId?: true
     igUserId?: true
+    igScopedId?: true
     username?: true
     name?: true
     profilePictureUrl?: true
@@ -57173,6 +57179,7 @@ export namespace Prisma {
     id: string
     companyId: string
     igUserId: string
+    igScopedId: string | null
     username: string | null
     name: string | null
     profilePictureUrl: string | null
@@ -57207,6 +57214,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     igUserId?: boolean
+    igScopedId?: boolean
     username?: boolean
     name?: boolean
     profilePictureUrl?: boolean
@@ -57228,6 +57236,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     igUserId?: boolean
+    igScopedId?: boolean
     username?: boolean
     name?: boolean
     profilePictureUrl?: boolean
@@ -57246,6 +57255,7 @@ export namespace Prisma {
     id?: boolean
     companyId?: boolean
     igUserId?: boolean
+    igScopedId?: boolean
     username?: boolean
     name?: boolean
     profilePictureUrl?: boolean
@@ -57280,6 +57290,7 @@ export namespace Prisma {
       id: string
       companyId: string
       igUserId: string
+      igScopedId: string | null
       username: string | null
       name: string | null
       profilePictureUrl: string | null
@@ -57690,6 +57701,7 @@ export namespace Prisma {
     readonly id: FieldRef<"InstagramAccount", 'String'>
     readonly companyId: FieldRef<"InstagramAccount", 'String'>
     readonly igUserId: FieldRef<"InstagramAccount", 'String'>
+    readonly igScopedId: FieldRef<"InstagramAccount", 'String'>
     readonly username: FieldRef<"InstagramAccount", 'String'>
     readonly name: FieldRef<"InstagramAccount", 'String'>
     readonly profilePictureUrl: FieldRef<"InstagramAccount", 'String'>
@@ -95244,6 +95256,7 @@ export namespace Prisma {
     id: 'id',
     companyId: 'companyId',
     igUserId: 'igUserId',
+    igScopedId: 'igScopedId',
     username: 'username',
     name: 'name',
     profilePictureUrl: 'profilePictureUrl',
@@ -100704,6 +100717,7 @@ export namespace Prisma {
     id?: StringFilter<"InstagramAccount"> | string
     companyId?: StringFilter<"InstagramAccount"> | string
     igUserId?: StringFilter<"InstagramAccount"> | string
+    igScopedId?: StringNullableFilter<"InstagramAccount"> | string | null
     username?: StringNullableFilter<"InstagramAccount"> | string | null
     name?: StringNullableFilter<"InstagramAccount"> | string | null
     profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
@@ -100724,6 +100738,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     igUserId?: SortOrder
+    igScopedId?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     profilePictureUrl?: SortOrderInput | SortOrder
@@ -100747,6 +100762,7 @@ export namespace Prisma {
     OR?: InstagramAccountWhereInput[]
     NOT?: InstagramAccountWhereInput | InstagramAccountWhereInput[]
     companyId?: StringFilter<"InstagramAccount"> | string
+    igScopedId?: StringNullableFilter<"InstagramAccount"> | string | null
     username?: StringNullableFilter<"InstagramAccount"> | string | null
     name?: StringNullableFilter<"InstagramAccount"> | string | null
     profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
@@ -100767,6 +100783,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     igUserId?: SortOrder
+    igScopedId?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     profilePictureUrl?: SortOrderInput | SortOrder
@@ -100790,6 +100807,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"InstagramAccount"> | string
     companyId?: StringWithAggregatesFilter<"InstagramAccount"> | string
     igUserId?: StringWithAggregatesFilter<"InstagramAccount"> | string
+    igScopedId?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
     username?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
     name?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
     profilePictureUrl?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
@@ -108578,6 +108596,7 @@ export namespace Prisma {
   export type InstagramAccountCreateInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -108598,6 +108617,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -108616,6 +108636,7 @@ export namespace Prisma {
   export type InstagramAccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108636,6 +108657,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108655,6 +108677,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -108671,6 +108694,7 @@ export namespace Prisma {
   export type InstagramAccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -108688,6 +108712,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115739,6 +115764,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     igUserId?: SortOrder
+    igScopedId?: SortOrder
     username?: SortOrder
     name?: SortOrder
     profilePictureUrl?: SortOrder
@@ -115756,6 +115782,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     igUserId?: SortOrder
+    igScopedId?: SortOrder
     username?: SortOrder
     name?: SortOrder
     profilePictureUrl?: SortOrder
@@ -115772,6 +115799,7 @@ export namespace Prisma {
     id?: SortOrder
     companyId?: SortOrder
     igUserId?: SortOrder
+    igScopedId?: SortOrder
     username?: SortOrder
     name?: SortOrder
     profilePictureUrl?: SortOrder
@@ -130673,6 +130701,7 @@ export namespace Prisma {
   export type InstagramAccountCreateWithoutCompanyInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -130691,6 +130720,7 @@ export namespace Prisma {
   export type InstagramAccountUncheckedCreateWithoutCompanyInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -132658,6 +132688,7 @@ export namespace Prisma {
     id?: StringFilter<"InstagramAccount"> | string
     companyId?: StringFilter<"InstagramAccount"> | string
     igUserId?: StringFilter<"InstagramAccount"> | string
+    igScopedId?: StringNullableFilter<"InstagramAccount"> | string | null
     username?: StringNullableFilter<"InstagramAccount"> | string | null
     name?: StringNullableFilter<"InstagramAccount"> | string | null
     profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
@@ -151448,6 +151479,7 @@ export namespace Prisma {
   export type InstagramAccountCreateWithoutAutomationsInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -151467,6 +151499,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -151731,6 +151764,7 @@ export namespace Prisma {
   export type InstagramAccountUpdateWithoutAutomationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151750,6 +151784,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151966,6 +152001,7 @@ export namespace Prisma {
   export type InstagramAccountCreateWithoutRunsInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -151985,6 +152021,7 @@ export namespace Prisma {
     id?: string
     companyId: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -152256,6 +152293,7 @@ export namespace Prisma {
   export type InstagramAccountUpdateWithoutRunsInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -152275,6 +152313,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166696,6 +166735,7 @@ export namespace Prisma {
   export type InstagramAccountCreateManyCompanyInput = {
     id?: string
     igUserId: string
+    igScopedId?: string | null
     username?: string | null
     name?: string | null
     profilePictureUrl?: string | null
@@ -168796,6 +168836,7 @@ export namespace Prisma {
   export type InstagramAccountUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168814,6 +168855,7 @@ export namespace Prisma {
   export type InstagramAccountUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168832,6 +168874,7 @@ export namespace Prisma {
   export type InstagramAccountUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     igUserId?: StringFieldUpdateOperationsInput | string
+    igScopedId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null

@@ -149,13 +149,16 @@ export async function refreshLongLivedToken(longToken: string): Promise<IgLongTo
 }
 
 export interface IgProfile {
-  user_id: string; // id numérico da conta IG — casa com entry[].id do webhook
+  user_id: string; // campo `user_id` do /me (id "profissional")
+  // campo `id` do /me (app-scoped) — geralmente é o que o webhook usa em
+  // entry.id. Pode ser igual ou diferente de user_id.
+  scoped_id: string | null;
   username?: string;
   name?: string;
   profile_picture_url?: string;
 }
 
-/** Busca o perfil da conta autenticada. */
+/** Busca o perfil da conta autenticada. Captura os DOIS ids (user_id e id). */
 export async function fetchProfile(accessToken: string): Promise<IgProfile> {
   const params = new URLSearchParams({
     fields: "user_id,username,name,profile_picture_url",
@@ -167,8 +170,11 @@ export async function fetchProfile(accessToken: string): Promise<IgProfile> {
     throw new Error(`Falha ao buscar perfil IG: ${r.status} ${txt}`);
   }
   const j: any = await r.json();
+  const userId = j.user_id != null ? String(j.user_id) : null;
+  const nodeId = j.id != null ? String(j.id) : null;
   return {
-    user_id: String(j.user_id ?? j.id),
+    user_id: String(userId ?? nodeId),
+    scoped_id: nodeId && nodeId !== userId ? nodeId : null,
     username: j.username,
     name: j.name,
     profile_picture_url: j.profile_picture_url,

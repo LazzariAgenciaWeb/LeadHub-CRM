@@ -91,13 +91,15 @@ export async function GET(req: NextRequest) {
         ? shortToken.permissions.split(",").map((s) => s.trim()).filter(Boolean)
         : IG_SCOPES;
 
-    // 4) upsert InstagramAccount por igUserId
+    // 4) upsert InstagramAccount por igUserId. Guardamos os DOIS ids (user_id e
+    //    o app-scoped `id`) porque o webhook pode usar qualquer um em entry.id.
     try {
       await prisma.instagramAccount.upsert({
         where: { igUserId: profile.user_id },
         create: {
           companyId: payload.c,
           igUserId: profile.user_id,
+          igScopedId: profile.scoped_id,
           username: profile.username ?? null,
           name: profile.name ?? null,
           profilePictureUrl: profile.profile_picture_url ?? null,
@@ -110,6 +112,7 @@ export async function GET(req: NextRequest) {
         },
         update: {
           companyId: payload.c,
+          igScopedId: profile.scoped_id,
           username: profile.username ?? null,
           name: profile.name ?? null,
           profilePictureUrl: profile.profile_picture_url ?? null,
@@ -128,7 +131,8 @@ export async function GET(req: NextRequest) {
       companyId: payload.c,
       step: "saved",
       ok: true,
-      detail: `@${profile.username ?? profile.user_id}`,
+      // registra os dois ids pra conferir contra o entry.id do webhook
+      detail: `@${profile.username ?? profile.user_id} user_id=${profile.user_id} scoped_id=${profile.scoped_id ?? "-"}`,
     });
     return redirectToCompany(payload.c, "?integration_success=instagram");
   } catch (e: any) {

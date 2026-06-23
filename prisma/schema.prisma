@@ -1542,7 +1542,12 @@ model InstagramAccount {
 
   // ID numérico da conta IG (do token / GET /me). Chave que casa o webhook
   // (entry[].id) de volta com a empresa dona da conta.
+  // id do /me (user_id). NEM SEMPRE é o mesmo que o webhook usa em entry.id —
+  // o Instagram tem 2 namespaces. Por isso guardamos os dois e casamos por
+  // qualquer um (ver findAccountByWebhookId).
   igUserId          String  @unique
+  // id app-scoped que o webhook envia em entry.id (campo `id` do /me).
+  igScopedId        String?
   username          String?
   name              String?
   profilePictureUrl String? @db.Text
@@ -1565,6 +1570,7 @@ model InstagramAccount {
 
   @@index([companyId])
   @@index([status, tokenExpiresAt])
+  @@index([igScopedId])
 }
 
 model IgAutomation {

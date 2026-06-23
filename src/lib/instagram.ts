@@ -55,10 +55,14 @@ export interface IgWebhookBody {
 
 // ─── Resolução de tenant ──────────────────────────────────────────────────────
 
-/** Acha a conta IG conectada (+ empresa) pelo id numérico que vem no webhook. */
-export async function findAccountByIgUserId(igUserId: string) {
-  return prisma.instagramAccount.findUnique({
-    where: { igUserId },
+/**
+ * Acha a conta IG conectada (+ empresa) pelo id que vem no webhook (entry.id).
+ * O Instagram pode mandar tanto o `user_id` quanto o `id` app-scoped, então
+ * casamos contra os dois campos.
+ */
+export async function findAccountByWebhookId(entryId: string) {
+  return prisma.instagramAccount.findFirst({
+    where: { OR: [{ igUserId: entryId }, { igScopedId: entryId }] },
     select: {
       id: true,
       companyId: true,
@@ -88,7 +92,7 @@ export async function processInstagramWebhook(body: IgWebhookBody): Promise<void
   }
 
   for (const entry of body.entry) {
-    const account = await findAccountByIgUserId(entry.id);
+    const account = await findAccountByWebhookId(entry.id);
     if (!account) {
       console.warn(`[IG] conta ${entry.id} não conectada a nenhuma empresa — ignorando`);
       recordIgWebhookEvent({ type: "no_account", accountIgUserId: entry.id, note: "conta não conectada" });
