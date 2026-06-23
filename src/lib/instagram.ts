@@ -15,6 +15,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { instagramConfig, tokenCrypto } from "@/lib/instagram-oauth";
+import { recordIgWebhookEvent } from "@/lib/instagram-debug";
 
 // ─── Tipos do payload do webhook ──────────────────────────────────────────────
 
@@ -90,6 +91,7 @@ export async function processInstagramWebhook(body: IgWebhookBody): Promise<void
     const account = await findAccountByIgUserId(entry.id);
     if (!account) {
       console.warn(`[IG] conta ${entry.id} não conectada a nenhuma empresa — ignorando`);
+      recordIgWebhookEvent({ type: "no_account", accountIgUserId: entry.id, note: "conta não conectada" });
       continue;
     }
     if (account.status !== "ACTIVE") {
@@ -125,6 +127,15 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
     `[IG] comentário empresa=${account.companyId} media=${value.media?.id} ` +
       `de=@${value.from?.username ?? value.from?.id} texto=${JSON.stringify(value.text)}`,
   );
+  recordIgWebhookEvent({
+    type: "comment",
+    accountIgUserId: account.igUserId,
+    companyId: account.companyId,
+    from: value.from?.id ?? null,
+    username: value.from?.username ?? null,
+    text: value.text ?? null,
+    mediaId: value.media?.id ?? null,
+  });
 
   // TODO Fase 2:
   //   1. Buscar IgAutomation enabled da conta que casa (mediaId == value.media.id
@@ -145,6 +156,14 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     `[IG] DM empresa=${account.companyId} de=${senderId} ` +
       `texto=${JSON.stringify(msg.message?.text)} postback=${msg.postback?.payload ?? "-"}`,
   );
+  recordIgWebhookEvent({
+    type: "message",
+    accountIgUserId: account.igUserId,
+    companyId: account.companyId,
+    from: senderId,
+    text: msg.message?.text ?? msg.postback?.payload ?? null,
+    note: msg.postback ? "postback" : null,
+  });
 
   // TODO Fase 3:
   //   1. Se há IgAutomationRun em AWAITING_FOLLOW para este senderId →
