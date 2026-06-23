@@ -198,6 +198,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleClickup: 'moduleClickup',
   moduleCampanhas: 'moduleCampanhas',
   moduleLinks: 'moduleLinks',
+  moduleInstagram: 'moduleInstagram',
   modoAtendimento: 'modoAtendimento',
   aiMonthlyQuota: 'aiMonthlyQuota',
   aiUsedThisMonth: 'aiUsedThisMonth',
@@ -732,6 +733,62 @@ exports.Prisma.MarketingIntegrationScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById'
+};
+
+exports.Prisma.InstagramAccountScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  igUserId: 'igUserId',
+  username: 'username',
+  name: 'name',
+  profilePictureUrl: 'profilePictureUrl',
+  accessTokenEnc: 'accessTokenEnc',
+  tokenExpiresAt: 'tokenExpiresAt',
+  scopes: 'scopes',
+  status: 'status',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.IgAutomationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  accountId: 'accountId',
+  name: 'name',
+  enabled: 'enabled',
+  mediaId: 'mediaId',
+  mediaLabel: 'mediaLabel',
+  triggerType: 'triggerType',
+  keywords: 'keywords',
+  replyToComment: 'replyToComment',
+  commentReplies: 'commentReplies',
+  sendDm: 'sendDm',
+  dmText: 'dmText',
+  dmLinkUrl: 'dmLinkUrl',
+  dmButtonLabel: 'dmButtonLabel',
+  requireFollow: 'requireFollow',
+  notFollowingText: 'notFollowingText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IgAutomationRunScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  accountId: 'accountId',
+  automationId: 'automationId',
+  igCommenterId: 'igCommenterId',
+  username: 'username',
+  mediaId: 'mediaId',
+  commentId: 'commentId',
+  commentText: 'commentText',
+  status: 'status',
+  followState: 'followState',
+  errorDetail: 'errorDetail',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
@@ -1384,6 +1441,27 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
   DISCONNECTED: 'DISCONNECTED'
 };
 
+exports.IgTriggerType = exports.$Enums.IgTriggerType = {
+  KEYWORD: 'KEYWORD',
+  ANY: 'ANY'
+};
+
+exports.IgRunStatus = exports.$Enums.IgRunStatus = {
+  PENDING: 'PENDING',
+  COMMENT_REPLIED: 'COMMENT_REPLIED',
+  DM_SENT: 'DM_SENT',
+  AWAITING_FOLLOW: 'AWAITING_FOLLOW',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED'
+};
+
+exports.IgFollowState = exports.$Enums.IgFollowState = {
+  UNKNOWN: 'UNKNOWN',
+  NOT_FOLLOWING: 'NOT_FOLLOWING',
+  FOLLOWING: 'FOLLOWING'
+};
+
 exports.PlanTier = exports.$Enums.PlanTier = {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
@@ -1563,6 +1641,9 @@ exports.Prisma.ModelName = {
   CompanyCredential: 'CompanyCredential',
   CredentialAccessLog: 'CredentialAccessLog',
   MarketingIntegration: 'MarketingIntegration',
+  InstagramAccount: 'InstagramAccount',
+  IgAutomation: 'IgAutomation',
+  IgAutomationRun: 'IgAutomationRun',
   AnalyticsSnapshot: 'AnalyticsSnapshot',
   AnalyticsTopPage: 'AnalyticsTopPage',
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',

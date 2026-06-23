@@ -180,6 +180,10 @@ model Company {
   moduleCampanhas      Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
   moduleLinks          Boolean @default(false)
+  // Módulo Instagram (automação estilo ManyChat): conecta a conta IG
+  // Profissional via "API com Login do Instagram" e dispara respostas a
+  // comentários + DM (private reply). Cada empresa conecta a própria conta.
+  moduleInstagram      Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
@@ -237,6 +241,9 @@ model Company {
   assets                    CompanyAsset[]
   credentialAccessLogs      CredentialAccessLog[]
   marketingIntegrations     MarketingIntegration[]
+  instagramAccounts         InstagramAccount[]
+  igAutomations             IgAutomation[]
+  igAutomationRuns          IgAutomationRun[]
   analyticsSnapshots        AnalyticsSnapshot[]
   analyticsTopPages         AnalyticsTopPage[]
   analyticsTrafficSources   AnalyticsTrafficSource[]
@@ -1511,6 +1518,150 @@ enum IntegrationStatus {
   EXPIRED // refresh token inválido / revogado
   ERROR // falha repetida no sync
   DISCONNECTED // usuário desconectou manualmente
+}
+
+// ─── Instagram — Automação estilo ManyChat ─────────────────────────────────────
+//
+// Conexão via "API com Login do Instagram" (fluxo novo da Meta, sem Página do
+// Facebook). Diferente de MarketingIntegration (dados organicos via Windsor),
+// aqui guardamos a conta para AÇÃO: responder comentários e mandar DM.
+//
+// Fluxo do módulo:
+//   1. Empresa conecta a conta IG → InstagramAccount (token longo 60d cifrado).
+//   2. Webhook (/api/webhook/instagram) recebe `comments` e `messages`.
+//   3. IgAutomation casa comentário↔regra por palavra-chave no post escolhido.
+//   4. Ações: responde o comentário publicamente + manda DM (private reply).
+//   5. Follow-gate opcional: só libera o link depois de confirmar follow
+//      (is_user_follow_business no contexto de DM — best-effort, igual ManyChat).
+//   6. Cada disparo vira IgAutomationRun (idempotência + métricas).
+
+model InstagramAccount {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  // ID numérico da conta IG (do token / GET /me). Chave que casa o webhook
+  // (entry[].id) de volta com a empresa dona da conta.
+  igUserId          String  @unique
+  username          String?
+  name              String?
+  profilePictureUrl String? @db.Text
+
+  // Token de longa duração (60 dias) cifrado (AES-256-GCM) + validade para o
+  // cron renovar antes de expirar (ig_refresh_token).
+  accessTokenEnc String?   @db.Text
+  tokenExpiresAt DateTime?
+  scopes         String[]  @default([])
+
+  status    IntegrationStatus @default(ACTIVE)
+  lastError String?           @db.Text
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+
+  automations IgAutomation[]
+  runs        IgAutomationRun[]
+
+  @@index([companyId])
+  @@index([status, tokenExpiresAt])
+}
+
+model IgAutomation {
+  id        String           @id @default(cuid())
+  companyId String
+  company   Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  accountId String
+  account   InstagramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  name    String
+  enabled Boolean @default(true)
+
+  // Post-alvo: null = qualquer post da conta; senão o media id do IG.
+  mediaId    String?
+  mediaLabel String? // legenda curta / thumb pra UI
+
+  // Gatilho por comentário
+  triggerType IgTriggerType @default(KEYWORD)
+  // Palavras-chave (lower-case). Vazio + triggerType=ANY = qualquer comentário.
+  keywords    String[]      @default([])
+
+  // Ação 1: resposta pública ao comentário
+  replyToComment Boolean  @default(true)
+  // Lista de respostas — escolhe uma aleatória pra não parecer robô.
+  commentReplies String[] @default([])
+
+  // Ação 2: DM (private reply) ao autor do comentário
+  sendDm        Boolean @default(true)
+  dmText        String? @db.Text
+  dmLinkUrl     String?
+  dmButtonLabel String?
+
+  // Follow-gate: só libera o link/DM final depois de confirmar o follow.
+  requireFollow    Boolean @default(false)
+  notFollowingText String? @db.Text // "me segue aqui e responde 'ok' que te mando 🚀"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  runs IgAutomationRun[]
+
+  @@index([companyId])
+  @@index([accountId, enabled])
+  @@index([mediaId])
+}
+
+model IgAutomationRun {
+  id           String           @id @default(cuid())
+  companyId    String
+  company      Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  accountId    String
+  account      InstagramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  automationId String?
+  automation   IgAutomation?    @relation(fields: [automationId], references: [id], onDelete: SetNull)
+
+  // Quem comentou / abriu DM
+  igCommenterId String
+  username      String?
+
+  // Origem do disparo
+  mediaId     String?
+  commentId   String?
+  commentText String? @db.Text
+
+  status      IgRunStatus   @default(PENDING)
+  followState IgFollowState @default(UNKNOWN)
+  errorDetail String?       @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Idempotência: no máximo 1 disparo por comentário por automação.
+  @@unique([automationId, commentId])
+  @@index([companyId])
+  @@index([accountId, status])
+  @@index([igCommenterId])
+}
+
+enum IgTriggerType {
+  KEYWORD // comentário contém alguma das palavras-chave
+  ANY // qualquer comentário no post dispara
+}
+
+enum IgRunStatus {
+  PENDING
+  COMMENT_REPLIED
+  DM_SENT
+  AWAITING_FOLLOW // mandou pedido de follow, esperando confirmação
+  COMPLETED
+  FAILED
+  SKIPPED
+}
+
+enum IgFollowState {
+  UNKNOWN
+  NOT_FOLLOWING
+  FOLLOWING
 }
 
 model AnalyticsSnapshot {

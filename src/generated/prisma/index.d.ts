@@ -229,6 +229,21 @@ export type CredentialAccessLog = $Result.DefaultSelection<Prisma.$CredentialAcc
  */
 export type MarketingIntegration = $Result.DefaultSelection<Prisma.$MarketingIntegrationPayload>
 /**
+ * Model InstagramAccount
+ * 
+ */
+export type InstagramAccount = $Result.DefaultSelection<Prisma.$InstagramAccountPayload>
+/**
+ * Model IgAutomation
+ * 
+ */
+export type IgAutomation = $Result.DefaultSelection<Prisma.$IgAutomationPayload>
+/**
+ * Model IgAutomationRun
+ * 
+ */
+export type IgAutomationRun = $Result.DefaultSelection<Prisma.$IgAutomationRunPayload>
+/**
  * Model AnalyticsSnapshot
  * 
  */
@@ -640,6 +655,36 @@ export const IntegrationStatus: {
 export type IntegrationStatus = (typeof IntegrationStatus)[keyof typeof IntegrationStatus]
 
 
+export const IgTriggerType: {
+  KEYWORD: 'KEYWORD',
+  ANY: 'ANY'
+};
+
+export type IgTriggerType = (typeof IgTriggerType)[keyof typeof IgTriggerType]
+
+
+export const IgRunStatus: {
+  PENDING: 'PENDING',
+  COMMENT_REPLIED: 'COMMENT_REPLIED',
+  DM_SENT: 'DM_SENT',
+  AWAITING_FOLLOW: 'AWAITING_FOLLOW',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED'
+};
+
+export type IgRunStatus = (typeof IgRunStatus)[keyof typeof IgRunStatus]
+
+
+export const IgFollowState: {
+  UNKNOWN: 'UNKNOWN',
+  NOT_FOLLOWING: 'NOT_FOLLOWING',
+  FOLLOWING: 'FOLLOWING'
+};
+
+export type IgFollowState = (typeof IgFollowState)[keyof typeof IgFollowState]
+
+
 export const PlanTier: {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
@@ -894,6 +939,18 @@ export const IntegrationProvider: typeof $Enums.IntegrationProvider
 export type IntegrationStatus = $Enums.IntegrationStatus
 
 export const IntegrationStatus: typeof $Enums.IntegrationStatus
+
+export type IgTriggerType = $Enums.IgTriggerType
+
+export const IgTriggerType: typeof $Enums.IgTriggerType
+
+export type IgRunStatus = $Enums.IgRunStatus
+
+export const IgRunStatus: typeof $Enums.IgRunStatus
+
+export type IgFollowState = $Enums.IgFollowState
+
+export const IgFollowState: typeof $Enums.IgFollowState
 
 export type PlanTier = $Enums.PlanTier
 
@@ -1483,6 +1540,36 @@ export class PrismaClient<
     * ```
     */
   get marketingIntegration(): Prisma.MarketingIntegrationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.instagramAccount`: Exposes CRUD operations for the **InstagramAccount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InstagramAccounts
+    * const instagramAccounts = await prisma.instagramAccount.findMany()
+    * ```
+    */
+  get instagramAccount(): Prisma.InstagramAccountDelegate<ExtArgs>;
+
+  /**
+   * `prisma.igAutomation`: Exposes CRUD operations for the **IgAutomation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IgAutomations
+    * const igAutomations = await prisma.igAutomation.findMany()
+    * ```
+    */
+  get igAutomation(): Prisma.IgAutomationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.igAutomationRun`: Exposes CRUD operations for the **IgAutomationRun** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IgAutomationRuns
+    * const igAutomationRuns = await prisma.igAutomationRun.findMany()
+    * ```
+    */
+  get igAutomationRun(): Prisma.IgAutomationRunDelegate<ExtArgs>;
 
   /**
    * `prisma.analyticsSnapshot`: Exposes CRUD operations for the **AnalyticsSnapshot** model.
@@ -2297,6 +2384,9 @@ export namespace Prisma {
     CompanyCredential: 'CompanyCredential',
     CredentialAccessLog: 'CredentialAccessLog',
     MarketingIntegration: 'MarketingIntegration',
+    InstagramAccount: 'InstagramAccount',
+    IgAutomation: 'IgAutomation',
+    IgAutomationRun: 'IgAutomationRun',
     AnalyticsSnapshot: 'AnalyticsSnapshot',
     AnalyticsTopPage: 'AnalyticsTopPage',
     AnalyticsTrafficSource: 'AnalyticsTrafficSource',
@@ -2345,7 +2435,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5359,6 +5449,216 @@ export namespace Prisma {
           }
         }
       }
+      InstagramAccount: {
+        payload: Prisma.$InstagramAccountPayload<ExtArgs>
+        fields: Prisma.InstagramAccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstagramAccountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstagramAccountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          findFirst: {
+            args: Prisma.InstagramAccountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstagramAccountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          findMany: {
+            args: Prisma.InstagramAccountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>[]
+          }
+          create: {
+            args: Prisma.InstagramAccountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          createMany: {
+            args: Prisma.InstagramAccountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstagramAccountCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>[]
+          }
+          delete: {
+            args: Prisma.InstagramAccountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          update: {
+            args: Prisma.InstagramAccountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstagramAccountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstagramAccountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InstagramAccountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstagramAccountPayload>
+          }
+          aggregate: {
+            args: Prisma.InstagramAccountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstagramAccount>
+          }
+          groupBy: {
+            args: Prisma.InstagramAccountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstagramAccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstagramAccountCountArgs<ExtArgs>
+            result: $Utils.Optional<InstagramAccountCountAggregateOutputType> | number
+          }
+        }
+      }
+      IgAutomation: {
+        payload: Prisma.$IgAutomationPayload<ExtArgs>
+        fields: Prisma.IgAutomationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IgAutomationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IgAutomationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          findFirst: {
+            args: Prisma.IgAutomationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IgAutomationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          findMany: {
+            args: Prisma.IgAutomationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>[]
+          }
+          create: {
+            args: Prisma.IgAutomationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          createMany: {
+            args: Prisma.IgAutomationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IgAutomationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>[]
+          }
+          delete: {
+            args: Prisma.IgAutomationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          update: {
+            args: Prisma.IgAutomationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          deleteMany: {
+            args: Prisma.IgAutomationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IgAutomationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.IgAutomationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationPayload>
+          }
+          aggregate: {
+            args: Prisma.IgAutomationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIgAutomation>
+          }
+          groupBy: {
+            args: Prisma.IgAutomationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IgAutomationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IgAutomationCountArgs<ExtArgs>
+            result: $Utils.Optional<IgAutomationCountAggregateOutputType> | number
+          }
+        }
+      }
+      IgAutomationRun: {
+        payload: Prisma.$IgAutomationRunPayload<ExtArgs>
+        fields: Prisma.IgAutomationRunFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IgAutomationRunFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IgAutomationRunFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          findFirst: {
+            args: Prisma.IgAutomationRunFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IgAutomationRunFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          findMany: {
+            args: Prisma.IgAutomationRunFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>[]
+          }
+          create: {
+            args: Prisma.IgAutomationRunCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          createMany: {
+            args: Prisma.IgAutomationRunCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IgAutomationRunCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>[]
+          }
+          delete: {
+            args: Prisma.IgAutomationRunDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          update: {
+            args: Prisma.IgAutomationRunUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          deleteMany: {
+            args: Prisma.IgAutomationRunDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IgAutomationRunUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.IgAutomationRunUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IgAutomationRunPayload>
+          }
+          aggregate: {
+            args: Prisma.IgAutomationRunAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIgAutomationRun>
+          }
+          groupBy: {
+            args: Prisma.IgAutomationRunGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IgAutomationRunGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IgAutomationRunCountArgs<ExtArgs>
+            result: $Utils.Optional<IgAutomationRunCountAggregateOutputType> | number
+          }
+        }
+      }
       AnalyticsSnapshot: {
         payload: Prisma.$AnalyticsSnapshotPayload<ExtArgs>
         fields: Prisma.AnalyticsSnapshotFieldRefs
@@ -8084,6 +8384,9 @@ export namespace Prisma {
     assets: number
     credentialAccessLogs: number
     marketingIntegrations: number
+    instagramAccounts: number
+    igAutomations: number
+    igAutomationRuns: number
     analyticsSnapshots: number
     analyticsTopPages: number
     analyticsTrafficSources: number
@@ -8136,6 +8439,9 @@ export namespace Prisma {
     assets?: boolean | CompanyCountOutputTypeCountAssetsArgs
     credentialAccessLogs?: boolean | CompanyCountOutputTypeCountCredentialAccessLogsArgs
     marketingIntegrations?: boolean | CompanyCountOutputTypeCountMarketingIntegrationsArgs
+    instagramAccounts?: boolean | CompanyCountOutputTypeCountInstagramAccountsArgs
+    igAutomations?: boolean | CompanyCountOutputTypeCountIgAutomationsArgs
+    igAutomationRuns?: boolean | CompanyCountOutputTypeCountIgAutomationRunsArgs
     analyticsSnapshots?: boolean | CompanyCountOutputTypeCountAnalyticsSnapshotsArgs
     analyticsTopPages?: boolean | CompanyCountOutputTypeCountAnalyticsTopPagesArgs
     analyticsTrafficSources?: boolean | CompanyCountOutputTypeCountAnalyticsTrafficSourcesArgs
@@ -8400,6 +8706,27 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountMarketingIntegrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MarketingIntegrationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountInstagramAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstagramAccountWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountIgAutomationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountIgAutomationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationRunWhereInput
   }
 
   /**
@@ -9142,6 +9469,77 @@ export namespace Prisma {
    */
   export type CompanyCredentialCountOutputTypeCountAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CredentialAccessLogWhereInput
+  }
+
+
+  /**
+   * Count Type InstagramAccountCountOutputType
+   */
+
+  export type InstagramAccountCountOutputType = {
+    automations: number
+    runs: number
+  }
+
+  export type InstagramAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    automations?: boolean | InstagramAccountCountOutputTypeCountAutomationsArgs
+    runs?: boolean | InstagramAccountCountOutputTypeCountRunsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InstagramAccountCountOutputType without action
+   */
+  export type InstagramAccountCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccountCountOutputType
+     */
+    select?: InstagramAccountCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InstagramAccountCountOutputType without action
+   */
+  export type InstagramAccountCountOutputTypeCountAutomationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * InstagramAccountCountOutputType without action
+   */
+  export type InstagramAccountCountOutputTypeCountRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationRunWhereInput
+  }
+
+
+  /**
+   * Count Type IgAutomationCountOutputType
+   */
+
+  export type IgAutomationCountOutputType = {
+    runs: number
+  }
+
+  export type IgAutomationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    runs?: boolean | IgAutomationCountOutputTypeCountRunsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * IgAutomationCountOutputType without action
+   */
+  export type IgAutomationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationCountOutputType
+     */
+    select?: IgAutomationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * IgAutomationCountOutputType without action
+   */
+  export type IgAutomationCountOutputTypeCountRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationRunWhereInput
   }
 
 
@@ -13953,6 +14351,7 @@ export namespace Prisma {
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
+    moduleInstagram: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -13988,6 +14387,7 @@ export namespace Prisma {
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
+    moduleInstagram: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -14023,6 +14423,7 @@ export namespace Prisma {
     moduleClickup: number
     moduleCampanhas: number
     moduleLinks: number
+    moduleInstagram: number
     modoAtendimento: number
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -14070,6 +14471,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleLinks?: true
+    moduleInstagram?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -14105,6 +14507,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleLinks?: true
+    moduleInstagram?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -14140,6 +14543,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleLinks?: true
+    moduleInstagram?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -14262,6 +14666,7 @@ export namespace Prisma {
     moduleClickup: boolean
     moduleCampanhas: boolean
     moduleLinks: boolean
+    moduleInstagram: boolean
     modoAtendimento: $Enums.ModoAtendimento
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -14316,6 +14721,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -14359,6 +14765,9 @@ export namespace Prisma {
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
+    igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
+    igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
     analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
     analyticsTopPages?: boolean | Company$analyticsTopPagesArgs<ExtArgs>
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
@@ -14404,6 +14813,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -14440,6 +14850,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -14486,6 +14897,9 @@ export namespace Prisma {
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
+    igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
+    igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
     analyticsSnapshots?: boolean | Company$analyticsSnapshotsArgs<ExtArgs>
     analyticsTopPages?: boolean | Company$analyticsTopPagesArgs<ExtArgs>
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
@@ -14547,6 +14961,9 @@ export namespace Prisma {
       assets: Prisma.$CompanyAssetPayload<ExtArgs>[]
       credentialAccessLogs: Prisma.$CredentialAccessLogPayload<ExtArgs>[]
       marketingIntegrations: Prisma.$MarketingIntegrationPayload<ExtArgs>[]
+      instagramAccounts: Prisma.$InstagramAccountPayload<ExtArgs>[]
+      igAutomations: Prisma.$IgAutomationPayload<ExtArgs>[]
+      igAutomationRuns: Prisma.$IgAutomationRunPayload<ExtArgs>[]
       analyticsSnapshots: Prisma.$AnalyticsSnapshotPayload<ExtArgs>[]
       analyticsTopPages: Prisma.$AnalyticsTopPagePayload<ExtArgs>[]
       analyticsTrafficSources: Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>[]
@@ -14590,6 +15007,7 @@ export namespace Prisma {
       moduleClickup: boolean
       moduleCampanhas: boolean
       moduleLinks: boolean
+      moduleInstagram: boolean
       modoAtendimento: $Enums.ModoAtendimento
       aiMonthlyQuota: number
       aiUsedThisMonth: number
@@ -14997,6 +15415,9 @@ export namespace Prisma {
     assets<T extends Company$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findMany"> | Null>
     credentialAccessLogs<T extends Company$credentialAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$credentialAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
     marketingIntegrations<T extends Company$marketingIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$marketingIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findMany"> | Null>
+    instagramAccounts<T extends Company$instagramAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Company$instagramAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findMany"> | Null>
+    igAutomations<T extends Company$igAutomationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
+    igAutomationRuns<T extends Company$igAutomationRunsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
     analyticsSnapshots<T extends Company$analyticsSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
     analyticsTopPages<T extends Company$analyticsTopPagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTopPagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTopPagePayload<ExtArgs>, T, "findMany"> | Null>
     analyticsTrafficSources<T extends Company$analyticsTrafficSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTrafficSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findMany"> | Null>
@@ -15067,6 +15488,7 @@ export namespace Prisma {
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
     readonly moduleCampanhas: FieldRef<"Company", 'Boolean'>
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
+    readonly moduleInstagram: FieldRef<"Company", 'Boolean'>
     readonly modoAtendimento: FieldRef<"Company", 'ModoAtendimento'>
     readonly aiMonthlyQuota: FieldRef<"Company", 'Int'>
     readonly aiUsedThisMonth: FieldRef<"Company", 'Int'>
@@ -16099,6 +16521,66 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.instagramAccounts
+   */
+  export type Company$instagramAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    where?: InstagramAccountWhereInput
+    orderBy?: InstagramAccountOrderByWithRelationInput | InstagramAccountOrderByWithRelationInput[]
+    cursor?: InstagramAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstagramAccountScalarFieldEnum | InstagramAccountScalarFieldEnum[]
+  }
+
+  /**
+   * Company.igAutomations
+   */
+  export type Company$igAutomationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    where?: IgAutomationWhereInput
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    cursor?: IgAutomationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAutomationScalarFieldEnum | IgAutomationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.igAutomationRuns
+   */
+  export type Company$igAutomationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    where?: IgAutomationRunWhereInput
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    cursor?: IgAutomationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
   }
 
   /**
@@ -56505,6 +56987,3286 @@ export namespace Prisma {
 
 
   /**
+   * Model InstagramAccount
+   */
+
+  export type AggregateInstagramAccount = {
+    _count: InstagramAccountCountAggregateOutputType | null
+    _min: InstagramAccountMinAggregateOutputType | null
+    _max: InstagramAccountMaxAggregateOutputType | null
+  }
+
+  export type InstagramAccountMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    igUserId: string | null
+    username: string | null
+    name: string | null
+    profilePictureUrl: string | null
+    accessTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: $Enums.IntegrationStatus | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type InstagramAccountMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    igUserId: string | null
+    username: string | null
+    name: string | null
+    profilePictureUrl: string | null
+    accessTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: $Enums.IntegrationStatus | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type InstagramAccountCountAggregateOutputType = {
+    id: number
+    companyId: number
+    igUserId: number
+    username: number
+    name: number
+    profilePictureUrl: number
+    accessTokenEnc: number
+    tokenExpiresAt: number
+    scopes: number
+    status: number
+    lastError: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type InstagramAccountMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    igUserId?: true
+    username?: true
+    name?: true
+    profilePictureUrl?: true
+    accessTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type InstagramAccountMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    igUserId?: true
+    username?: true
+    name?: true
+    profilePictureUrl?: true
+    accessTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type InstagramAccountCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    igUserId?: true
+    username?: true
+    name?: true
+    profilePictureUrl?: true
+    accessTokenEnc?: true
+    tokenExpiresAt?: true
+    scopes?: true
+    status?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type InstagramAccountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstagramAccount to aggregate.
+     */
+    where?: InstagramAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstagramAccounts to fetch.
+     */
+    orderBy?: InstagramAccountOrderByWithRelationInput | InstagramAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstagramAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstagramAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstagramAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InstagramAccounts
+    **/
+    _count?: true | InstagramAccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstagramAccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstagramAccountMaxAggregateInputType
+  }
+
+  export type GetInstagramAccountAggregateType<T extends InstagramAccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstagramAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstagramAccount[P]>
+      : GetScalarType<T[P], AggregateInstagramAccount[P]>
+  }
+
+
+
+
+  export type InstagramAccountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstagramAccountWhereInput
+    orderBy?: InstagramAccountOrderByWithAggregationInput | InstagramAccountOrderByWithAggregationInput[]
+    by: InstagramAccountScalarFieldEnum[] | InstagramAccountScalarFieldEnum
+    having?: InstagramAccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstagramAccountCountAggregateInputType | true
+    _min?: InstagramAccountMinAggregateInputType
+    _max?: InstagramAccountMaxAggregateInputType
+  }
+
+  export type InstagramAccountGroupByOutputType = {
+    id: string
+    companyId: string
+    igUserId: string
+    username: string | null
+    name: string | null
+    profilePictureUrl: string | null
+    accessTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    scopes: string[]
+    status: $Enums.IntegrationStatus
+    lastError: string | null
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: InstagramAccountCountAggregateOutputType | null
+    _min: InstagramAccountMinAggregateOutputType | null
+    _max: InstagramAccountMaxAggregateOutputType | null
+  }
+
+  type GetInstagramAccountGroupByPayload<T extends InstagramAccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstagramAccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstagramAccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstagramAccountGroupByOutputType[P]>
+            : GetScalarType<T[P], InstagramAccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstagramAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    igUserId?: boolean
+    username?: boolean
+    name?: boolean
+    profilePictureUrl?: boolean
+    accessTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
+    runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
+    _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["instagramAccount"]>
+
+  export type InstagramAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    igUserId?: boolean
+    username?: boolean
+    name?: boolean
+    profilePictureUrl?: boolean
+    accessTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["instagramAccount"]>
+
+  export type InstagramAccountSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    igUserId?: boolean
+    username?: boolean
+    name?: boolean
+    profilePictureUrl?: boolean
+    accessTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    scopes?: boolean
+    status?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type InstagramAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    automations?: boolean | InstagramAccount$automationsArgs<ExtArgs>
+    runs?: boolean | InstagramAccount$runsArgs<ExtArgs>
+    _count?: boolean | InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InstagramAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $InstagramAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InstagramAccount"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      automations: Prisma.$IgAutomationPayload<ExtArgs>[]
+      runs: Prisma.$IgAutomationRunPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      igUserId: string
+      username: string | null
+      name: string | null
+      profilePictureUrl: string | null
+      accessTokenEnc: string | null
+      tokenExpiresAt: Date | null
+      scopes: string[]
+      status: $Enums.IntegrationStatus
+      lastError: string | null
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["instagramAccount"]>
+    composites: {}
+  }
+
+  type InstagramAccountGetPayload<S extends boolean | null | undefined | InstagramAccountDefaultArgs> = $Result.GetResult<Prisma.$InstagramAccountPayload, S>
+
+  type InstagramAccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InstagramAccountFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InstagramAccountCountAggregateInputType | true
+    }
+
+  export interface InstagramAccountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InstagramAccount'], meta: { name: 'InstagramAccount' } }
+    /**
+     * Find zero or one InstagramAccount that matches the filter.
+     * @param {InstagramAccountFindUniqueArgs} args - Arguments to find a InstagramAccount
+     * @example
+     * // Get one InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstagramAccountFindUniqueArgs>(args: SelectSubset<T, InstagramAccountFindUniqueArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InstagramAccount that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InstagramAccountFindUniqueOrThrowArgs} args - Arguments to find a InstagramAccount
+     * @example
+     * // Get one InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstagramAccountFindUniqueOrThrowArgs>(args: SelectSubset<T, InstagramAccountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InstagramAccount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountFindFirstArgs} args - Arguments to find a InstagramAccount
+     * @example
+     * // Get one InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstagramAccountFindFirstArgs>(args?: SelectSubset<T, InstagramAccountFindFirstArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InstagramAccount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountFindFirstOrThrowArgs} args - Arguments to find a InstagramAccount
+     * @example
+     * // Get one InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstagramAccountFindFirstOrThrowArgs>(args?: SelectSubset<T, InstagramAccountFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InstagramAccounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InstagramAccounts
+     * const instagramAccounts = await prisma.instagramAccount.findMany()
+     * 
+     * // Get first 10 InstagramAccounts
+     * const instagramAccounts = await prisma.instagramAccount.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const instagramAccountWithIdOnly = await prisma.instagramAccount.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstagramAccountFindManyArgs>(args?: SelectSubset<T, InstagramAccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InstagramAccount.
+     * @param {InstagramAccountCreateArgs} args - Arguments to create a InstagramAccount.
+     * @example
+     * // Create one InstagramAccount
+     * const InstagramAccount = await prisma.instagramAccount.create({
+     *   data: {
+     *     // ... data to create a InstagramAccount
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstagramAccountCreateArgs>(args: SelectSubset<T, InstagramAccountCreateArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InstagramAccounts.
+     * @param {InstagramAccountCreateManyArgs} args - Arguments to create many InstagramAccounts.
+     * @example
+     * // Create many InstagramAccounts
+     * const instagramAccount = await prisma.instagramAccount.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstagramAccountCreateManyArgs>(args?: SelectSubset<T, InstagramAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InstagramAccounts and returns the data saved in the database.
+     * @param {InstagramAccountCreateManyAndReturnArgs} args - Arguments to create many InstagramAccounts.
+     * @example
+     * // Create many InstagramAccounts
+     * const instagramAccount = await prisma.instagramAccount.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InstagramAccounts and only return the `id`
+     * const instagramAccountWithIdOnly = await prisma.instagramAccount.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstagramAccountCreateManyAndReturnArgs>(args?: SelectSubset<T, InstagramAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InstagramAccount.
+     * @param {InstagramAccountDeleteArgs} args - Arguments to delete one InstagramAccount.
+     * @example
+     * // Delete one InstagramAccount
+     * const InstagramAccount = await prisma.instagramAccount.delete({
+     *   where: {
+     *     // ... filter to delete one InstagramAccount
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstagramAccountDeleteArgs>(args: SelectSubset<T, InstagramAccountDeleteArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InstagramAccount.
+     * @param {InstagramAccountUpdateArgs} args - Arguments to update one InstagramAccount.
+     * @example
+     * // Update one InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstagramAccountUpdateArgs>(args: SelectSubset<T, InstagramAccountUpdateArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InstagramAccounts.
+     * @param {InstagramAccountDeleteManyArgs} args - Arguments to filter InstagramAccounts to delete.
+     * @example
+     * // Delete a few InstagramAccounts
+     * const { count } = await prisma.instagramAccount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstagramAccountDeleteManyArgs>(args?: SelectSubset<T, InstagramAccountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InstagramAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InstagramAccounts
+     * const instagramAccount = await prisma.instagramAccount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstagramAccountUpdateManyArgs>(args: SelectSubset<T, InstagramAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InstagramAccount.
+     * @param {InstagramAccountUpsertArgs} args - Arguments to update or create a InstagramAccount.
+     * @example
+     * // Update or create a InstagramAccount
+     * const instagramAccount = await prisma.instagramAccount.upsert({
+     *   create: {
+     *     // ... data to create a InstagramAccount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InstagramAccount we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstagramAccountUpsertArgs>(args: SelectSubset<T, InstagramAccountUpsertArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InstagramAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountCountArgs} args - Arguments to filter InstagramAccounts to count.
+     * @example
+     * // Count the number of InstagramAccounts
+     * const count = await prisma.instagramAccount.count({
+     *   where: {
+     *     // ... the filter for the InstagramAccounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstagramAccountCountArgs>(
+      args?: Subset<T, InstagramAccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstagramAccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InstagramAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstagramAccountAggregateArgs>(args: Subset<T, InstagramAccountAggregateArgs>): Prisma.PrismaPromise<GetInstagramAccountAggregateType<T>>
+
+    /**
+     * Group by InstagramAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstagramAccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstagramAccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstagramAccountGroupByArgs['orderBy'] }
+        : { orderBy?: InstagramAccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstagramAccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstagramAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InstagramAccount model
+   */
+  readonly fields: InstagramAccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InstagramAccount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstagramAccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    automations<T extends InstagramAccount$automationsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$automationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
+    runs<T extends InstagramAccount$runsArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccount$runsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InstagramAccount model
+   */ 
+  interface InstagramAccountFieldRefs {
+    readonly id: FieldRef<"InstagramAccount", 'String'>
+    readonly companyId: FieldRef<"InstagramAccount", 'String'>
+    readonly igUserId: FieldRef<"InstagramAccount", 'String'>
+    readonly username: FieldRef<"InstagramAccount", 'String'>
+    readonly name: FieldRef<"InstagramAccount", 'String'>
+    readonly profilePictureUrl: FieldRef<"InstagramAccount", 'String'>
+    readonly accessTokenEnc: FieldRef<"InstagramAccount", 'String'>
+    readonly tokenExpiresAt: FieldRef<"InstagramAccount", 'DateTime'>
+    readonly scopes: FieldRef<"InstagramAccount", 'String[]'>
+    readonly status: FieldRef<"InstagramAccount", 'IntegrationStatus'>
+    readonly lastError: FieldRef<"InstagramAccount", 'String'>
+    readonly createdAt: FieldRef<"InstagramAccount", 'DateTime'>
+    readonly updatedAt: FieldRef<"InstagramAccount", 'DateTime'>
+    readonly createdById: FieldRef<"InstagramAccount", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InstagramAccount findUnique
+   */
+  export type InstagramAccountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which InstagramAccount to fetch.
+     */
+    where: InstagramAccountWhereUniqueInput
+  }
+
+  /**
+   * InstagramAccount findUniqueOrThrow
+   */
+  export type InstagramAccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which InstagramAccount to fetch.
+     */
+    where: InstagramAccountWhereUniqueInput
+  }
+
+  /**
+   * InstagramAccount findFirst
+   */
+  export type InstagramAccountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which InstagramAccount to fetch.
+     */
+    where?: InstagramAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstagramAccounts to fetch.
+     */
+    orderBy?: InstagramAccountOrderByWithRelationInput | InstagramAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstagramAccounts.
+     */
+    cursor?: InstagramAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstagramAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstagramAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstagramAccounts.
+     */
+    distinct?: InstagramAccountScalarFieldEnum | InstagramAccountScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount findFirstOrThrow
+   */
+  export type InstagramAccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which InstagramAccount to fetch.
+     */
+    where?: InstagramAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstagramAccounts to fetch.
+     */
+    orderBy?: InstagramAccountOrderByWithRelationInput | InstagramAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstagramAccounts.
+     */
+    cursor?: InstagramAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstagramAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstagramAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstagramAccounts.
+     */
+    distinct?: InstagramAccountScalarFieldEnum | InstagramAccountScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount findMany
+   */
+  export type InstagramAccountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which InstagramAccounts to fetch.
+     */
+    where?: InstagramAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstagramAccounts to fetch.
+     */
+    orderBy?: InstagramAccountOrderByWithRelationInput | InstagramAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InstagramAccounts.
+     */
+    cursor?: InstagramAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstagramAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstagramAccounts.
+     */
+    skip?: number
+    distinct?: InstagramAccountScalarFieldEnum | InstagramAccountScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount create
+   */
+  export type InstagramAccountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InstagramAccount.
+     */
+    data: XOR<InstagramAccountCreateInput, InstagramAccountUncheckedCreateInput>
+  }
+
+  /**
+   * InstagramAccount createMany
+   */
+  export type InstagramAccountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InstagramAccounts.
+     */
+    data: InstagramAccountCreateManyInput | InstagramAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InstagramAccount createManyAndReturn
+   */
+  export type InstagramAccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InstagramAccounts.
+     */
+    data: InstagramAccountCreateManyInput | InstagramAccountCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InstagramAccount update
+   */
+  export type InstagramAccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InstagramAccount.
+     */
+    data: XOR<InstagramAccountUpdateInput, InstagramAccountUncheckedUpdateInput>
+    /**
+     * Choose, which InstagramAccount to update.
+     */
+    where: InstagramAccountWhereUniqueInput
+  }
+
+  /**
+   * InstagramAccount updateMany
+   */
+  export type InstagramAccountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InstagramAccounts.
+     */
+    data: XOR<InstagramAccountUpdateManyMutationInput, InstagramAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which InstagramAccounts to update
+     */
+    where?: InstagramAccountWhereInput
+  }
+
+  /**
+   * InstagramAccount upsert
+   */
+  export type InstagramAccountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InstagramAccount to update in case it exists.
+     */
+    where: InstagramAccountWhereUniqueInput
+    /**
+     * In case the InstagramAccount found by the `where` argument doesn't exist, create a new InstagramAccount with this data.
+     */
+    create: XOR<InstagramAccountCreateInput, InstagramAccountUncheckedCreateInput>
+    /**
+     * In case the InstagramAccount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstagramAccountUpdateInput, InstagramAccountUncheckedUpdateInput>
+  }
+
+  /**
+   * InstagramAccount delete
+   */
+  export type InstagramAccountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+    /**
+     * Filter which InstagramAccount to delete.
+     */
+    where: InstagramAccountWhereUniqueInput
+  }
+
+  /**
+   * InstagramAccount deleteMany
+   */
+  export type InstagramAccountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstagramAccounts to delete
+     */
+    where?: InstagramAccountWhereInput
+  }
+
+  /**
+   * InstagramAccount.automations
+   */
+  export type InstagramAccount$automationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    where?: IgAutomationWhereInput
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    cursor?: IgAutomationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAutomationScalarFieldEnum | IgAutomationScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount.runs
+   */
+  export type InstagramAccount$runsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    where?: IgAutomationRunWhereInput
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    cursor?: IgAutomationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * InstagramAccount without action
+   */
+  export type InstagramAccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstagramAccount
+     */
+    select?: InstagramAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstagramAccountInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model IgAutomation
+   */
+
+  export type AggregateIgAutomation = {
+    _count: IgAutomationCountAggregateOutputType | null
+    _min: IgAutomationMinAggregateOutputType | null
+    _max: IgAutomationMaxAggregateOutputType | null
+  }
+
+  export type IgAutomationMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    name: string | null
+    enabled: boolean | null
+    mediaId: string | null
+    mediaLabel: string | null
+    triggerType: $Enums.IgTriggerType | null
+    replyToComment: boolean | null
+    sendDm: boolean | null
+    dmText: string | null
+    dmLinkUrl: string | null
+    dmButtonLabel: string | null
+    requireFollow: boolean | null
+    notFollowingText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAutomationMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    name: string | null
+    enabled: boolean | null
+    mediaId: string | null
+    mediaLabel: string | null
+    triggerType: $Enums.IgTriggerType | null
+    replyToComment: boolean | null
+    sendDm: boolean | null
+    dmText: string | null
+    dmLinkUrl: string | null
+    dmButtonLabel: string | null
+    requireFollow: boolean | null
+    notFollowingText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAutomationCountAggregateOutputType = {
+    id: number
+    companyId: number
+    accountId: number
+    name: number
+    enabled: number
+    mediaId: number
+    mediaLabel: number
+    triggerType: number
+    keywords: number
+    replyToComment: number
+    commentReplies: number
+    sendDm: number
+    dmText: number
+    dmLinkUrl: number
+    dmButtonLabel: number
+    requireFollow: number
+    notFollowingText: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IgAutomationMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    name?: true
+    enabled?: true
+    mediaId?: true
+    mediaLabel?: true
+    triggerType?: true
+    replyToComment?: true
+    sendDm?: true
+    dmText?: true
+    dmLinkUrl?: true
+    dmButtonLabel?: true
+    requireFollow?: true
+    notFollowingText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAutomationMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    name?: true
+    enabled?: true
+    mediaId?: true
+    mediaLabel?: true
+    triggerType?: true
+    replyToComment?: true
+    sendDm?: true
+    dmText?: true
+    dmLinkUrl?: true
+    dmButtonLabel?: true
+    requireFollow?: true
+    notFollowingText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAutomationCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    name?: true
+    enabled?: true
+    mediaId?: true
+    mediaLabel?: true
+    triggerType?: true
+    keywords?: true
+    replyToComment?: true
+    commentReplies?: true
+    sendDm?: true
+    dmText?: true
+    dmLinkUrl?: true
+    dmButtonLabel?: true
+    requireFollow?: true
+    notFollowingText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IgAutomationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAutomation to aggregate.
+     */
+    where?: IgAutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomations to fetch.
+     */
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IgAutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IgAutomations
+    **/
+    _count?: true | IgAutomationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IgAutomationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IgAutomationMaxAggregateInputType
+  }
+
+  export type GetIgAutomationAggregateType<T extends IgAutomationAggregateArgs> = {
+        [P in keyof T & keyof AggregateIgAutomation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIgAutomation[P]>
+      : GetScalarType<T[P], AggregateIgAutomation[P]>
+  }
+
+
+
+
+  export type IgAutomationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationWhereInput
+    orderBy?: IgAutomationOrderByWithAggregationInput | IgAutomationOrderByWithAggregationInput[]
+    by: IgAutomationScalarFieldEnum[] | IgAutomationScalarFieldEnum
+    having?: IgAutomationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IgAutomationCountAggregateInputType | true
+    _min?: IgAutomationMinAggregateInputType
+    _max?: IgAutomationMaxAggregateInputType
+  }
+
+  export type IgAutomationGroupByOutputType = {
+    id: string
+    companyId: string
+    accountId: string
+    name: string
+    enabled: boolean
+    mediaId: string | null
+    mediaLabel: string | null
+    triggerType: $Enums.IgTriggerType
+    keywords: string[]
+    replyToComment: boolean
+    commentReplies: string[]
+    sendDm: boolean
+    dmText: string | null
+    dmLinkUrl: string | null
+    dmButtonLabel: string | null
+    requireFollow: boolean
+    notFollowingText: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: IgAutomationCountAggregateOutputType | null
+    _min: IgAutomationMinAggregateOutputType | null
+    _max: IgAutomationMaxAggregateOutputType | null
+  }
+
+  type GetIgAutomationGroupByPayload<T extends IgAutomationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IgAutomationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IgAutomationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IgAutomationGroupByOutputType[P]>
+            : GetScalarType<T[P], IgAutomationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IgAutomationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    name?: boolean
+    enabled?: boolean
+    mediaId?: boolean
+    mediaLabel?: boolean
+    triggerType?: boolean
+    keywords?: boolean
+    replyToComment?: boolean
+    commentReplies?: boolean
+    sendDm?: boolean
+    dmText?: boolean
+    dmLinkUrl?: boolean
+    dmButtonLabel?: boolean
+    requireFollow?: boolean
+    notFollowingText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    runs?: boolean | IgAutomation$runsArgs<ExtArgs>
+    _count?: boolean | IgAutomationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["igAutomation"]>
+
+  export type IgAutomationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    name?: boolean
+    enabled?: boolean
+    mediaId?: boolean
+    mediaLabel?: boolean
+    triggerType?: boolean
+    keywords?: boolean
+    replyToComment?: boolean
+    commentReplies?: boolean
+    sendDm?: boolean
+    dmText?: boolean
+    dmLinkUrl?: boolean
+    dmButtonLabel?: boolean
+    requireFollow?: boolean
+    notFollowingText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["igAutomation"]>
+
+  export type IgAutomationSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    name?: boolean
+    enabled?: boolean
+    mediaId?: boolean
+    mediaLabel?: boolean
+    triggerType?: boolean
+    keywords?: boolean
+    replyToComment?: boolean
+    commentReplies?: boolean
+    sendDm?: boolean
+    dmText?: boolean
+    dmLinkUrl?: boolean
+    dmButtonLabel?: boolean
+    requireFollow?: boolean
+    notFollowingText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IgAutomationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    runs?: boolean | IgAutomation$runsArgs<ExtArgs>
+    _count?: boolean | IgAutomationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type IgAutomationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $IgAutomationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IgAutomation"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      account: Prisma.$InstagramAccountPayload<ExtArgs>
+      runs: Prisma.$IgAutomationRunPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      accountId: string
+      name: string
+      enabled: boolean
+      mediaId: string | null
+      mediaLabel: string | null
+      triggerType: $Enums.IgTriggerType
+      keywords: string[]
+      replyToComment: boolean
+      commentReplies: string[]
+      sendDm: boolean
+      dmText: string | null
+      dmLinkUrl: string | null
+      dmButtonLabel: string | null
+      requireFollow: boolean
+      notFollowingText: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["igAutomation"]>
+    composites: {}
+  }
+
+  type IgAutomationGetPayload<S extends boolean | null | undefined | IgAutomationDefaultArgs> = $Result.GetResult<Prisma.$IgAutomationPayload, S>
+
+  type IgAutomationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<IgAutomationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: IgAutomationCountAggregateInputType | true
+    }
+
+  export interface IgAutomationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IgAutomation'], meta: { name: 'IgAutomation' } }
+    /**
+     * Find zero or one IgAutomation that matches the filter.
+     * @param {IgAutomationFindUniqueArgs} args - Arguments to find a IgAutomation
+     * @example
+     * // Get one IgAutomation
+     * const igAutomation = await prisma.igAutomation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IgAutomationFindUniqueArgs>(args: SelectSubset<T, IgAutomationFindUniqueArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one IgAutomation that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {IgAutomationFindUniqueOrThrowArgs} args - Arguments to find a IgAutomation
+     * @example
+     * // Get one IgAutomation
+     * const igAutomation = await prisma.igAutomation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IgAutomationFindUniqueOrThrowArgs>(args: SelectSubset<T, IgAutomationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first IgAutomation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationFindFirstArgs} args - Arguments to find a IgAutomation
+     * @example
+     * // Get one IgAutomation
+     * const igAutomation = await prisma.igAutomation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IgAutomationFindFirstArgs>(args?: SelectSubset<T, IgAutomationFindFirstArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first IgAutomation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationFindFirstOrThrowArgs} args - Arguments to find a IgAutomation
+     * @example
+     * // Get one IgAutomation
+     * const igAutomation = await prisma.igAutomation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IgAutomationFindFirstOrThrowArgs>(args?: SelectSubset<T, IgAutomationFindFirstOrThrowArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more IgAutomations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IgAutomations
+     * const igAutomations = await prisma.igAutomation.findMany()
+     * 
+     * // Get first 10 IgAutomations
+     * const igAutomations = await prisma.igAutomation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const igAutomationWithIdOnly = await prisma.igAutomation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IgAutomationFindManyArgs>(args?: SelectSubset<T, IgAutomationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a IgAutomation.
+     * @param {IgAutomationCreateArgs} args - Arguments to create a IgAutomation.
+     * @example
+     * // Create one IgAutomation
+     * const IgAutomation = await prisma.igAutomation.create({
+     *   data: {
+     *     // ... data to create a IgAutomation
+     *   }
+     * })
+     * 
+     */
+    create<T extends IgAutomationCreateArgs>(args: SelectSubset<T, IgAutomationCreateArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many IgAutomations.
+     * @param {IgAutomationCreateManyArgs} args - Arguments to create many IgAutomations.
+     * @example
+     * // Create many IgAutomations
+     * const igAutomation = await prisma.igAutomation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IgAutomationCreateManyArgs>(args?: SelectSubset<T, IgAutomationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IgAutomations and returns the data saved in the database.
+     * @param {IgAutomationCreateManyAndReturnArgs} args - Arguments to create many IgAutomations.
+     * @example
+     * // Create many IgAutomations
+     * const igAutomation = await prisma.igAutomation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IgAutomations and only return the `id`
+     * const igAutomationWithIdOnly = await prisma.igAutomation.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IgAutomationCreateManyAndReturnArgs>(args?: SelectSubset<T, IgAutomationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a IgAutomation.
+     * @param {IgAutomationDeleteArgs} args - Arguments to delete one IgAutomation.
+     * @example
+     * // Delete one IgAutomation
+     * const IgAutomation = await prisma.igAutomation.delete({
+     *   where: {
+     *     // ... filter to delete one IgAutomation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IgAutomationDeleteArgs>(args: SelectSubset<T, IgAutomationDeleteArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one IgAutomation.
+     * @param {IgAutomationUpdateArgs} args - Arguments to update one IgAutomation.
+     * @example
+     * // Update one IgAutomation
+     * const igAutomation = await prisma.igAutomation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IgAutomationUpdateArgs>(args: SelectSubset<T, IgAutomationUpdateArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more IgAutomations.
+     * @param {IgAutomationDeleteManyArgs} args - Arguments to filter IgAutomations to delete.
+     * @example
+     * // Delete a few IgAutomations
+     * const { count } = await prisma.igAutomation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IgAutomationDeleteManyArgs>(args?: SelectSubset<T, IgAutomationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IgAutomations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IgAutomations
+     * const igAutomation = await prisma.igAutomation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IgAutomationUpdateManyArgs>(args: SelectSubset<T, IgAutomationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one IgAutomation.
+     * @param {IgAutomationUpsertArgs} args - Arguments to update or create a IgAutomation.
+     * @example
+     * // Update or create a IgAutomation
+     * const igAutomation = await prisma.igAutomation.upsert({
+     *   create: {
+     *     // ... data to create a IgAutomation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IgAutomation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IgAutomationUpsertArgs>(args: SelectSubset<T, IgAutomationUpsertArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of IgAutomations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationCountArgs} args - Arguments to filter IgAutomations to count.
+     * @example
+     * // Count the number of IgAutomations
+     * const count = await prisma.igAutomation.count({
+     *   where: {
+     *     // ... the filter for the IgAutomations we want to count
+     *   }
+     * })
+    **/
+    count<T extends IgAutomationCountArgs>(
+      args?: Subset<T, IgAutomationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IgAutomationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IgAutomation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IgAutomationAggregateArgs>(args: Subset<T, IgAutomationAggregateArgs>): Prisma.PrismaPromise<GetIgAutomationAggregateType<T>>
+
+    /**
+     * Group by IgAutomation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IgAutomationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IgAutomationGroupByArgs['orderBy'] }
+        : { orderBy?: IgAutomationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IgAutomationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIgAutomationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IgAutomation model
+   */
+  readonly fields: IgAutomationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IgAutomation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IgAutomationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    account<T extends InstagramAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccountDefaultArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    runs<T extends IgAutomation$runsArgs<ExtArgs> = {}>(args?: Subset<T, IgAutomation$runsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IgAutomation model
+   */ 
+  interface IgAutomationFieldRefs {
+    readonly id: FieldRef<"IgAutomation", 'String'>
+    readonly companyId: FieldRef<"IgAutomation", 'String'>
+    readonly accountId: FieldRef<"IgAutomation", 'String'>
+    readonly name: FieldRef<"IgAutomation", 'String'>
+    readonly enabled: FieldRef<"IgAutomation", 'Boolean'>
+    readonly mediaId: FieldRef<"IgAutomation", 'String'>
+    readonly mediaLabel: FieldRef<"IgAutomation", 'String'>
+    readonly triggerType: FieldRef<"IgAutomation", 'IgTriggerType'>
+    readonly keywords: FieldRef<"IgAutomation", 'String[]'>
+    readonly replyToComment: FieldRef<"IgAutomation", 'Boolean'>
+    readonly commentReplies: FieldRef<"IgAutomation", 'String[]'>
+    readonly sendDm: FieldRef<"IgAutomation", 'Boolean'>
+    readonly dmText: FieldRef<"IgAutomation", 'String'>
+    readonly dmLinkUrl: FieldRef<"IgAutomation", 'String'>
+    readonly dmButtonLabel: FieldRef<"IgAutomation", 'String'>
+    readonly requireFollow: FieldRef<"IgAutomation", 'Boolean'>
+    readonly notFollowingText: FieldRef<"IgAutomation", 'String'>
+    readonly createdAt: FieldRef<"IgAutomation", 'DateTime'>
+    readonly updatedAt: FieldRef<"IgAutomation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IgAutomation findUnique
+   */
+  export type IgAutomationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomation to fetch.
+     */
+    where: IgAutomationWhereUniqueInput
+  }
+
+  /**
+   * IgAutomation findUniqueOrThrow
+   */
+  export type IgAutomationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomation to fetch.
+     */
+    where: IgAutomationWhereUniqueInput
+  }
+
+  /**
+   * IgAutomation findFirst
+   */
+  export type IgAutomationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomation to fetch.
+     */
+    where?: IgAutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomations to fetch.
+     */
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAutomations.
+     */
+    cursor?: IgAutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAutomations.
+     */
+    distinct?: IgAutomationScalarFieldEnum | IgAutomationScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomation findFirstOrThrow
+   */
+  export type IgAutomationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomation to fetch.
+     */
+    where?: IgAutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomations to fetch.
+     */
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAutomations.
+     */
+    cursor?: IgAutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAutomations.
+     */
+    distinct?: IgAutomationScalarFieldEnum | IgAutomationScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomation findMany
+   */
+  export type IgAutomationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomations to fetch.
+     */
+    where?: IgAutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomations to fetch.
+     */
+    orderBy?: IgAutomationOrderByWithRelationInput | IgAutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IgAutomations.
+     */
+    cursor?: IgAutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomations.
+     */
+    skip?: number
+    distinct?: IgAutomationScalarFieldEnum | IgAutomationScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomation create
+   */
+  export type IgAutomationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IgAutomation.
+     */
+    data: XOR<IgAutomationCreateInput, IgAutomationUncheckedCreateInput>
+  }
+
+  /**
+   * IgAutomation createMany
+   */
+  export type IgAutomationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IgAutomations.
+     */
+    data: IgAutomationCreateManyInput | IgAutomationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IgAutomation createManyAndReturn
+   */
+  export type IgAutomationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many IgAutomations.
+     */
+    data: IgAutomationCreateManyInput | IgAutomationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IgAutomation update
+   */
+  export type IgAutomationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IgAutomation.
+     */
+    data: XOR<IgAutomationUpdateInput, IgAutomationUncheckedUpdateInput>
+    /**
+     * Choose, which IgAutomation to update.
+     */
+    where: IgAutomationWhereUniqueInput
+  }
+
+  /**
+   * IgAutomation updateMany
+   */
+  export type IgAutomationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IgAutomations.
+     */
+    data: XOR<IgAutomationUpdateManyMutationInput, IgAutomationUncheckedUpdateManyInput>
+    /**
+     * Filter which IgAutomations to update
+     */
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * IgAutomation upsert
+   */
+  export type IgAutomationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IgAutomation to update in case it exists.
+     */
+    where: IgAutomationWhereUniqueInput
+    /**
+     * In case the IgAutomation found by the `where` argument doesn't exist, create a new IgAutomation with this data.
+     */
+    create: XOR<IgAutomationCreateInput, IgAutomationUncheckedCreateInput>
+    /**
+     * In case the IgAutomation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IgAutomationUpdateInput, IgAutomationUncheckedUpdateInput>
+  }
+
+  /**
+   * IgAutomation delete
+   */
+  export type IgAutomationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    /**
+     * Filter which IgAutomation to delete.
+     */
+    where: IgAutomationWhereUniqueInput
+  }
+
+  /**
+   * IgAutomation deleteMany
+   */
+  export type IgAutomationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAutomations to delete
+     */
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * IgAutomation.runs
+   */
+  export type IgAutomation$runsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    where?: IgAutomationRunWhereInput
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    cursor?: IgAutomationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomation without action
+   */
+  export type IgAutomationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model IgAutomationRun
+   */
+
+  export type AggregateIgAutomationRun = {
+    _count: IgAutomationRunCountAggregateOutputType | null
+    _min: IgAutomationRunMinAggregateOutputType | null
+    _max: IgAutomationRunMaxAggregateOutputType | null
+  }
+
+  export type IgAutomationRunMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    automationId: string | null
+    igCommenterId: string | null
+    username: string | null
+    mediaId: string | null
+    commentId: string | null
+    commentText: string | null
+    status: $Enums.IgRunStatus | null
+    followState: $Enums.IgFollowState | null
+    errorDetail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAutomationRunMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accountId: string | null
+    automationId: string | null
+    igCommenterId: string | null
+    username: string | null
+    mediaId: string | null
+    commentId: string | null
+    commentText: string | null
+    status: $Enums.IgRunStatus | null
+    followState: $Enums.IgFollowState | null
+    errorDetail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IgAutomationRunCountAggregateOutputType = {
+    id: number
+    companyId: number
+    accountId: number
+    automationId: number
+    igCommenterId: number
+    username: number
+    mediaId: number
+    commentId: number
+    commentText: number
+    status: number
+    followState: number
+    errorDetail: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IgAutomationRunMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    igCommenterId?: true
+    username?: true
+    mediaId?: true
+    commentId?: true
+    commentText?: true
+    status?: true
+    followState?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAutomationRunMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    igCommenterId?: true
+    username?: true
+    mediaId?: true
+    commentId?: true
+    commentText?: true
+    status?: true
+    followState?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IgAutomationRunCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    accountId?: true
+    automationId?: true
+    igCommenterId?: true
+    username?: true
+    mediaId?: true
+    commentId?: true
+    commentText?: true
+    status?: true
+    followState?: true
+    errorDetail?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IgAutomationRunAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAutomationRun to aggregate.
+     */
+    where?: IgAutomationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomationRuns to fetch.
+     */
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IgAutomationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IgAutomationRuns
+    **/
+    _count?: true | IgAutomationRunCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IgAutomationRunMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IgAutomationRunMaxAggregateInputType
+  }
+
+  export type GetIgAutomationRunAggregateType<T extends IgAutomationRunAggregateArgs> = {
+        [P in keyof T & keyof AggregateIgAutomationRun]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIgAutomationRun[P]>
+      : GetScalarType<T[P], AggregateIgAutomationRun[P]>
+  }
+
+
+
+
+  export type IgAutomationRunGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IgAutomationRunWhereInput
+    orderBy?: IgAutomationRunOrderByWithAggregationInput | IgAutomationRunOrderByWithAggregationInput[]
+    by: IgAutomationRunScalarFieldEnum[] | IgAutomationRunScalarFieldEnum
+    having?: IgAutomationRunScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IgAutomationRunCountAggregateInputType | true
+    _min?: IgAutomationRunMinAggregateInputType
+    _max?: IgAutomationRunMaxAggregateInputType
+  }
+
+  export type IgAutomationRunGroupByOutputType = {
+    id: string
+    companyId: string
+    accountId: string
+    automationId: string | null
+    igCommenterId: string
+    username: string | null
+    mediaId: string | null
+    commentId: string | null
+    commentText: string | null
+    status: $Enums.IgRunStatus
+    followState: $Enums.IgFollowState
+    errorDetail: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: IgAutomationRunCountAggregateOutputType | null
+    _min: IgAutomationRunMinAggregateOutputType | null
+    _max: IgAutomationRunMaxAggregateOutputType | null
+  }
+
+  type GetIgAutomationRunGroupByPayload<T extends IgAutomationRunGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IgAutomationRunGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IgAutomationRunGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IgAutomationRunGroupByOutputType[P]>
+            : GetScalarType<T[P], IgAutomationRunGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IgAutomationRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    mediaId?: boolean
+    commentId?: boolean
+    commentText?: boolean
+    status?: boolean
+    followState?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAutomationRun$automationArgs<ExtArgs>
+  }, ExtArgs["result"]["igAutomationRun"]>
+
+  export type IgAutomationRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    mediaId?: boolean
+    commentId?: boolean
+    commentText?: boolean
+    status?: boolean
+    followState?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAutomationRun$automationArgs<ExtArgs>
+  }, ExtArgs["result"]["igAutomationRun"]>
+
+  export type IgAutomationRunSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    accountId?: boolean
+    automationId?: boolean
+    igCommenterId?: boolean
+    username?: boolean
+    mediaId?: boolean
+    commentId?: boolean
+    commentText?: boolean
+    status?: boolean
+    followState?: boolean
+    errorDetail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IgAutomationRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAutomationRun$automationArgs<ExtArgs>
+  }
+  export type IgAutomationRunIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    account?: boolean | InstagramAccountDefaultArgs<ExtArgs>
+    automation?: boolean | IgAutomationRun$automationArgs<ExtArgs>
+  }
+
+  export type $IgAutomationRunPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IgAutomationRun"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      account: Prisma.$InstagramAccountPayload<ExtArgs>
+      automation: Prisma.$IgAutomationPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      accountId: string
+      automationId: string | null
+      igCommenterId: string
+      username: string | null
+      mediaId: string | null
+      commentId: string | null
+      commentText: string | null
+      status: $Enums.IgRunStatus
+      followState: $Enums.IgFollowState
+      errorDetail: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["igAutomationRun"]>
+    composites: {}
+  }
+
+  type IgAutomationRunGetPayload<S extends boolean | null | undefined | IgAutomationRunDefaultArgs> = $Result.GetResult<Prisma.$IgAutomationRunPayload, S>
+
+  type IgAutomationRunCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<IgAutomationRunFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: IgAutomationRunCountAggregateInputType | true
+    }
+
+  export interface IgAutomationRunDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IgAutomationRun'], meta: { name: 'IgAutomationRun' } }
+    /**
+     * Find zero or one IgAutomationRun that matches the filter.
+     * @param {IgAutomationRunFindUniqueArgs} args - Arguments to find a IgAutomationRun
+     * @example
+     * // Get one IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IgAutomationRunFindUniqueArgs>(args: SelectSubset<T, IgAutomationRunFindUniqueArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one IgAutomationRun that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {IgAutomationRunFindUniqueOrThrowArgs} args - Arguments to find a IgAutomationRun
+     * @example
+     * // Get one IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IgAutomationRunFindUniqueOrThrowArgs>(args: SelectSubset<T, IgAutomationRunFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first IgAutomationRun that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunFindFirstArgs} args - Arguments to find a IgAutomationRun
+     * @example
+     * // Get one IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IgAutomationRunFindFirstArgs>(args?: SelectSubset<T, IgAutomationRunFindFirstArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first IgAutomationRun that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunFindFirstOrThrowArgs} args - Arguments to find a IgAutomationRun
+     * @example
+     * // Get one IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IgAutomationRunFindFirstOrThrowArgs>(args?: SelectSubset<T, IgAutomationRunFindFirstOrThrowArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more IgAutomationRuns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IgAutomationRuns
+     * const igAutomationRuns = await prisma.igAutomationRun.findMany()
+     * 
+     * // Get first 10 IgAutomationRuns
+     * const igAutomationRuns = await prisma.igAutomationRun.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const igAutomationRunWithIdOnly = await prisma.igAutomationRun.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IgAutomationRunFindManyArgs>(args?: SelectSubset<T, IgAutomationRunFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a IgAutomationRun.
+     * @param {IgAutomationRunCreateArgs} args - Arguments to create a IgAutomationRun.
+     * @example
+     * // Create one IgAutomationRun
+     * const IgAutomationRun = await prisma.igAutomationRun.create({
+     *   data: {
+     *     // ... data to create a IgAutomationRun
+     *   }
+     * })
+     * 
+     */
+    create<T extends IgAutomationRunCreateArgs>(args: SelectSubset<T, IgAutomationRunCreateArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many IgAutomationRuns.
+     * @param {IgAutomationRunCreateManyArgs} args - Arguments to create many IgAutomationRuns.
+     * @example
+     * // Create many IgAutomationRuns
+     * const igAutomationRun = await prisma.igAutomationRun.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IgAutomationRunCreateManyArgs>(args?: SelectSubset<T, IgAutomationRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IgAutomationRuns and returns the data saved in the database.
+     * @param {IgAutomationRunCreateManyAndReturnArgs} args - Arguments to create many IgAutomationRuns.
+     * @example
+     * // Create many IgAutomationRuns
+     * const igAutomationRun = await prisma.igAutomationRun.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IgAutomationRuns and only return the `id`
+     * const igAutomationRunWithIdOnly = await prisma.igAutomationRun.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IgAutomationRunCreateManyAndReturnArgs>(args?: SelectSubset<T, IgAutomationRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a IgAutomationRun.
+     * @param {IgAutomationRunDeleteArgs} args - Arguments to delete one IgAutomationRun.
+     * @example
+     * // Delete one IgAutomationRun
+     * const IgAutomationRun = await prisma.igAutomationRun.delete({
+     *   where: {
+     *     // ... filter to delete one IgAutomationRun
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IgAutomationRunDeleteArgs>(args: SelectSubset<T, IgAutomationRunDeleteArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one IgAutomationRun.
+     * @param {IgAutomationRunUpdateArgs} args - Arguments to update one IgAutomationRun.
+     * @example
+     * // Update one IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IgAutomationRunUpdateArgs>(args: SelectSubset<T, IgAutomationRunUpdateArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more IgAutomationRuns.
+     * @param {IgAutomationRunDeleteManyArgs} args - Arguments to filter IgAutomationRuns to delete.
+     * @example
+     * // Delete a few IgAutomationRuns
+     * const { count } = await prisma.igAutomationRun.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IgAutomationRunDeleteManyArgs>(args?: SelectSubset<T, IgAutomationRunDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IgAutomationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IgAutomationRuns
+     * const igAutomationRun = await prisma.igAutomationRun.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IgAutomationRunUpdateManyArgs>(args: SelectSubset<T, IgAutomationRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one IgAutomationRun.
+     * @param {IgAutomationRunUpsertArgs} args - Arguments to update or create a IgAutomationRun.
+     * @example
+     * // Update or create a IgAutomationRun
+     * const igAutomationRun = await prisma.igAutomationRun.upsert({
+     *   create: {
+     *     // ... data to create a IgAutomationRun
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IgAutomationRun we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IgAutomationRunUpsertArgs>(args: SelectSubset<T, IgAutomationRunUpsertArgs<ExtArgs>>): Prisma__IgAutomationRunClient<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of IgAutomationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunCountArgs} args - Arguments to filter IgAutomationRuns to count.
+     * @example
+     * // Count the number of IgAutomationRuns
+     * const count = await prisma.igAutomationRun.count({
+     *   where: {
+     *     // ... the filter for the IgAutomationRuns we want to count
+     *   }
+     * })
+    **/
+    count<T extends IgAutomationRunCountArgs>(
+      args?: Subset<T, IgAutomationRunCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IgAutomationRunCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IgAutomationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IgAutomationRunAggregateArgs>(args: Subset<T, IgAutomationRunAggregateArgs>): Prisma.PrismaPromise<GetIgAutomationRunAggregateType<T>>
+
+    /**
+     * Group by IgAutomationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IgAutomationRunGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IgAutomationRunGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IgAutomationRunGroupByArgs['orderBy'] }
+        : { orderBy?: IgAutomationRunGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IgAutomationRunGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIgAutomationRunGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IgAutomationRun model
+   */
+  readonly fields: IgAutomationRunFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IgAutomationRun.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IgAutomationRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    account<T extends InstagramAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstagramAccountDefaultArgs<ExtArgs>>): Prisma__InstagramAccountClient<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    automation<T extends IgAutomationRun$automationArgs<ExtArgs> = {}>(args?: Subset<T, IgAutomationRun$automationArgs<ExtArgs>>): Prisma__IgAutomationClient<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IgAutomationRun model
+   */ 
+  interface IgAutomationRunFieldRefs {
+    readonly id: FieldRef<"IgAutomationRun", 'String'>
+    readonly companyId: FieldRef<"IgAutomationRun", 'String'>
+    readonly accountId: FieldRef<"IgAutomationRun", 'String'>
+    readonly automationId: FieldRef<"IgAutomationRun", 'String'>
+    readonly igCommenterId: FieldRef<"IgAutomationRun", 'String'>
+    readonly username: FieldRef<"IgAutomationRun", 'String'>
+    readonly mediaId: FieldRef<"IgAutomationRun", 'String'>
+    readonly commentId: FieldRef<"IgAutomationRun", 'String'>
+    readonly commentText: FieldRef<"IgAutomationRun", 'String'>
+    readonly status: FieldRef<"IgAutomationRun", 'IgRunStatus'>
+    readonly followState: FieldRef<"IgAutomationRun", 'IgFollowState'>
+    readonly errorDetail: FieldRef<"IgAutomationRun", 'String'>
+    readonly createdAt: FieldRef<"IgAutomationRun", 'DateTime'>
+    readonly updatedAt: FieldRef<"IgAutomationRun", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IgAutomationRun findUnique
+   */
+  export type IgAutomationRunFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomationRun to fetch.
+     */
+    where: IgAutomationRunWhereUniqueInput
+  }
+
+  /**
+   * IgAutomationRun findUniqueOrThrow
+   */
+  export type IgAutomationRunFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomationRun to fetch.
+     */
+    where: IgAutomationRunWhereUniqueInput
+  }
+
+  /**
+   * IgAutomationRun findFirst
+   */
+  export type IgAutomationRunFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomationRun to fetch.
+     */
+    where?: IgAutomationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomationRuns to fetch.
+     */
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAutomationRuns.
+     */
+    cursor?: IgAutomationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAutomationRuns.
+     */
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomationRun findFirstOrThrow
+   */
+  export type IgAutomationRunFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomationRun to fetch.
+     */
+    where?: IgAutomationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomationRuns to fetch.
+     */
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IgAutomationRuns.
+     */
+    cursor?: IgAutomationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IgAutomationRuns.
+     */
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomationRun findMany
+   */
+  export type IgAutomationRunFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which IgAutomationRuns to fetch.
+     */
+    where?: IgAutomationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IgAutomationRuns to fetch.
+     */
+    orderBy?: IgAutomationRunOrderByWithRelationInput | IgAutomationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IgAutomationRuns.
+     */
+    cursor?: IgAutomationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IgAutomationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IgAutomationRuns.
+     */
+    skip?: number
+    distinct?: IgAutomationRunScalarFieldEnum | IgAutomationRunScalarFieldEnum[]
+  }
+
+  /**
+   * IgAutomationRun create
+   */
+  export type IgAutomationRunCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IgAutomationRun.
+     */
+    data: XOR<IgAutomationRunCreateInput, IgAutomationRunUncheckedCreateInput>
+  }
+
+  /**
+   * IgAutomationRun createMany
+   */
+  export type IgAutomationRunCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IgAutomationRuns.
+     */
+    data: IgAutomationRunCreateManyInput | IgAutomationRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IgAutomationRun createManyAndReturn
+   */
+  export type IgAutomationRunCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many IgAutomationRuns.
+     */
+    data: IgAutomationRunCreateManyInput | IgAutomationRunCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IgAutomationRun update
+   */
+  export type IgAutomationRunUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IgAutomationRun.
+     */
+    data: XOR<IgAutomationRunUpdateInput, IgAutomationRunUncheckedUpdateInput>
+    /**
+     * Choose, which IgAutomationRun to update.
+     */
+    where: IgAutomationRunWhereUniqueInput
+  }
+
+  /**
+   * IgAutomationRun updateMany
+   */
+  export type IgAutomationRunUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IgAutomationRuns.
+     */
+    data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyInput>
+    /**
+     * Filter which IgAutomationRuns to update
+     */
+    where?: IgAutomationRunWhereInput
+  }
+
+  /**
+   * IgAutomationRun upsert
+   */
+  export type IgAutomationRunUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IgAutomationRun to update in case it exists.
+     */
+    where: IgAutomationRunWhereUniqueInput
+    /**
+     * In case the IgAutomationRun found by the `where` argument doesn't exist, create a new IgAutomationRun with this data.
+     */
+    create: XOR<IgAutomationRunCreateInput, IgAutomationRunUncheckedCreateInput>
+    /**
+     * In case the IgAutomationRun was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IgAutomationRunUpdateInput, IgAutomationRunUncheckedUpdateInput>
+  }
+
+  /**
+   * IgAutomationRun delete
+   */
+  export type IgAutomationRunDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+    /**
+     * Filter which IgAutomationRun to delete.
+     */
+    where: IgAutomationRunWhereUniqueInput
+  }
+
+  /**
+   * IgAutomationRun deleteMany
+   */
+  export type IgAutomationRunDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IgAutomationRuns to delete
+     */
+    where?: IgAutomationRunWhereInput
+  }
+
+  /**
+   * IgAutomationRun.automation
+   */
+  export type IgAutomationRun$automationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomation
+     */
+    select?: IgAutomationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationInclude<ExtArgs> | null
+    where?: IgAutomationWhereInput
+  }
+
+  /**
+   * IgAutomationRun without action
+   */
+  export type IgAutomationRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IgAutomationRun
+     */
+    select?: IgAutomationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IgAutomationRunInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AnalyticsSnapshot
    */
 
@@ -90824,6 +94586,7 @@ export namespace Prisma {
     moduleClickup: 'moduleClickup',
     moduleCampanhas: 'moduleCampanhas',
     moduleLinks: 'moduleLinks',
+    moduleInstagram: 'moduleInstagram',
     modoAtendimento: 'modoAtendimento',
     aiMonthlyQuota: 'aiMonthlyQuota',
     aiUsedThisMonth: 'aiUsedThisMonth',
@@ -91475,6 +95238,71 @@ export namespace Prisma {
   };
 
   export type MarketingIntegrationScalarFieldEnum = (typeof MarketingIntegrationScalarFieldEnum)[keyof typeof MarketingIntegrationScalarFieldEnum]
+
+
+  export const InstagramAccountScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    igUserId: 'igUserId',
+    username: 'username',
+    name: 'name',
+    profilePictureUrl: 'profilePictureUrl',
+    accessTokenEnc: 'accessTokenEnc',
+    tokenExpiresAt: 'tokenExpiresAt',
+    scopes: 'scopes',
+    status: 'status',
+    lastError: 'lastError',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type InstagramAccountScalarFieldEnum = (typeof InstagramAccountScalarFieldEnum)[keyof typeof InstagramAccountScalarFieldEnum]
+
+
+  export const IgAutomationScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    accountId: 'accountId',
+    name: 'name',
+    enabled: 'enabled',
+    mediaId: 'mediaId',
+    mediaLabel: 'mediaLabel',
+    triggerType: 'triggerType',
+    keywords: 'keywords',
+    replyToComment: 'replyToComment',
+    commentReplies: 'commentReplies',
+    sendDm: 'sendDm',
+    dmText: 'dmText',
+    dmLinkUrl: 'dmLinkUrl',
+    dmButtonLabel: 'dmButtonLabel',
+    requireFollow: 'requireFollow',
+    notFollowingText: 'notFollowingText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IgAutomationScalarFieldEnum = (typeof IgAutomationScalarFieldEnum)[keyof typeof IgAutomationScalarFieldEnum]
+
+
+  export const IgAutomationRunScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    accountId: 'accountId',
+    automationId: 'automationId',
+    igCommenterId: 'igCommenterId',
+    username: 'username',
+    mediaId: 'mediaId',
+    commentId: 'commentId',
+    commentText: 'commentText',
+    status: 'status',
+    followState: 'followState',
+    errorDetail: 'errorDetail',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IgAutomationRunScalarFieldEnum = (typeof IgAutomationRunScalarFieldEnum)[keyof typeof IgAutomationRunScalarFieldEnum]
 
 
   export const AnalyticsSnapshotScalarFieldEnum: {
@@ -92484,6 +96312,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'IgTriggerType'
+   */
+  export type EnumIgTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgTriggerType'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgTriggerType[]'
+   */
+  export type ListEnumIgTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgTriggerType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgRunStatus'
+   */
+  export type EnumIgRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgRunStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgRunStatus[]'
+   */
+  export type ListEnumIgRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgRunStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgFollowState'
+   */
+  export type EnumIgFollowStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgFollowState'>
+    
+
+
+  /**
+   * Reference to a field of type 'IgFollowState[]'
+   */
+  export type ListEnumIgFollowStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IgFollowState[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PlanTier'
    */
   export type EnumPlanTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanTier'>
@@ -93026,6 +96896,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
+    moduleInstagram?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -93069,6 +96940,9 @@ export namespace Prisma {
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
+    instagramAccounts?: InstagramAccountListRelationFilter
+    igAutomations?: IgAutomationListRelationFilter
+    igAutomationRuns?: IgAutomationRunListRelationFilter
     analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
     analyticsTopPages?: AnalyticsTopPageListRelationFilter
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
@@ -93113,6 +96987,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
+    moduleInstagram?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -93156,6 +97031,9 @@ export namespace Prisma {
     assets?: CompanyAssetOrderByRelationAggregateInput
     credentialAccessLogs?: CredentialAccessLogOrderByRelationAggregateInput
     marketingIntegrations?: MarketingIntegrationOrderByRelationAggregateInput
+    instagramAccounts?: InstagramAccountOrderByRelationAggregateInput
+    igAutomations?: IgAutomationOrderByRelationAggregateInput
+    igAutomationRuns?: IgAutomationRunOrderByRelationAggregateInput
     analyticsSnapshots?: AnalyticsSnapshotOrderByRelationAggregateInput
     analyticsTopPages?: AnalyticsTopPageOrderByRelationAggregateInput
     analyticsTrafficSources?: AnalyticsTrafficSourceOrderByRelationAggregateInput
@@ -93204,6 +97082,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
+    moduleInstagram?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -93246,6 +97125,9 @@ export namespace Prisma {
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
+    instagramAccounts?: InstagramAccountListRelationFilter
+    igAutomations?: IgAutomationListRelationFilter
+    igAutomationRuns?: IgAutomationRunListRelationFilter
     analyticsSnapshots?: AnalyticsSnapshotListRelationFilter
     analyticsTopPages?: AnalyticsTopPageListRelationFilter
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
@@ -93290,6 +97172,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
+    moduleInstagram?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -93333,6 +97216,7 @@ export namespace Prisma {
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCampanhas?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleInstagram?: BoolWithAggregatesFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoWithAggregatesFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntWithAggregatesFilter<"Company"> | number
     aiUsedThisMonth?: IntWithAggregatesFilter<"Company"> | number
@@ -96813,6 +100697,350 @@ export namespace Prisma {
     createdById?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
   }
 
+  export type InstagramAccountWhereInput = {
+    AND?: InstagramAccountWhereInput | InstagramAccountWhereInput[]
+    OR?: InstagramAccountWhereInput[]
+    NOT?: InstagramAccountWhereInput | InstagramAccountWhereInput[]
+    id?: StringFilter<"InstagramAccount"> | string
+    companyId?: StringFilter<"InstagramAccount"> | string
+    igUserId?: StringFilter<"InstagramAccount"> | string
+    username?: StringNullableFilter<"InstagramAccount"> | string | null
+    name?: StringNullableFilter<"InstagramAccount"> | string | null
+    profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
+    accessTokenEnc?: StringNullableFilter<"InstagramAccount"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"InstagramAccount"> | Date | string | null
+    scopes?: StringNullableListFilter<"InstagramAccount">
+    status?: EnumIntegrationStatusFilter<"InstagramAccount"> | $Enums.IntegrationStatus
+    lastError?: StringNullableFilter<"InstagramAccount"> | string | null
+    createdAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    createdById?: StringNullableFilter<"InstagramAccount"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    automations?: IgAutomationListRelationFilter
+    runs?: IgAutomationRunListRelationFilter
+  }
+
+  export type InstagramAccountOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    igUserId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    profilePictureUrl?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    automations?: IgAutomationOrderByRelationAggregateInput
+    runs?: IgAutomationRunOrderByRelationAggregateInput
+  }
+
+  export type InstagramAccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    igUserId?: string
+    AND?: InstagramAccountWhereInput | InstagramAccountWhereInput[]
+    OR?: InstagramAccountWhereInput[]
+    NOT?: InstagramAccountWhereInput | InstagramAccountWhereInput[]
+    companyId?: StringFilter<"InstagramAccount"> | string
+    username?: StringNullableFilter<"InstagramAccount"> | string | null
+    name?: StringNullableFilter<"InstagramAccount"> | string | null
+    profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
+    accessTokenEnc?: StringNullableFilter<"InstagramAccount"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"InstagramAccount"> | Date | string | null
+    scopes?: StringNullableListFilter<"InstagramAccount">
+    status?: EnumIntegrationStatusFilter<"InstagramAccount"> | $Enums.IntegrationStatus
+    lastError?: StringNullableFilter<"InstagramAccount"> | string | null
+    createdAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    createdById?: StringNullableFilter<"InstagramAccount"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    automations?: IgAutomationListRelationFilter
+    runs?: IgAutomationRunListRelationFilter
+  }, "id" | "igUserId">
+
+  export type InstagramAccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    igUserId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    profilePictureUrl?: SortOrderInput | SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: InstagramAccountCountOrderByAggregateInput
+    _max?: InstagramAccountMaxOrderByAggregateInput
+    _min?: InstagramAccountMinOrderByAggregateInput
+  }
+
+  export type InstagramAccountScalarWhereWithAggregatesInput = {
+    AND?: InstagramAccountScalarWhereWithAggregatesInput | InstagramAccountScalarWhereWithAggregatesInput[]
+    OR?: InstagramAccountScalarWhereWithAggregatesInput[]
+    NOT?: InstagramAccountScalarWhereWithAggregatesInput | InstagramAccountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InstagramAccount"> | string
+    companyId?: StringWithAggregatesFilter<"InstagramAccount"> | string
+    igUserId?: StringWithAggregatesFilter<"InstagramAccount"> | string
+    username?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+    name?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+    profilePictureUrl?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+    accessTokenEnc?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+    tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"InstagramAccount"> | Date | string | null
+    scopes?: StringNullableListFilter<"InstagramAccount">
+    status?: EnumIntegrationStatusWithAggregatesFilter<"InstagramAccount"> | $Enums.IntegrationStatus
+    lastError?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InstagramAccount"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InstagramAccount"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"InstagramAccount"> | string | null
+  }
+
+  export type IgAutomationWhereInput = {
+    AND?: IgAutomationWhereInput | IgAutomationWhereInput[]
+    OR?: IgAutomationWhereInput[]
+    NOT?: IgAutomationWhereInput | IgAutomationWhereInput[]
+    id?: StringFilter<"IgAutomation"> | string
+    companyId?: StringFilter<"IgAutomation"> | string
+    accountId?: StringFilter<"IgAutomation"> | string
+    name?: StringFilter<"IgAutomation"> | string
+    enabled?: BoolFilter<"IgAutomation"> | boolean
+    mediaId?: StringNullableFilter<"IgAutomation"> | string | null
+    mediaLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    triggerType?: EnumIgTriggerTypeFilter<"IgAutomation"> | $Enums.IgTriggerType
+    keywords?: StringNullableListFilter<"IgAutomation">
+    replyToComment?: BoolFilter<"IgAutomation"> | boolean
+    commentReplies?: StringNullableListFilter<"IgAutomation">
+    sendDm?: BoolFilter<"IgAutomation"> | boolean
+    dmText?: StringNullableFilter<"IgAutomation"> | string | null
+    dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
+    dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    requireFollow?: BoolFilter<"IgAutomation"> | boolean
+    notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    runs?: IgAutomationRunListRelationFilter
+  }
+
+  export type IgAutomationOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    name?: SortOrder
+    enabled?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    mediaLabel?: SortOrderInput | SortOrder
+    triggerType?: SortOrder
+    keywords?: SortOrder
+    replyToComment?: SortOrder
+    commentReplies?: SortOrder
+    sendDm?: SortOrder
+    dmText?: SortOrderInput | SortOrder
+    dmLinkUrl?: SortOrderInput | SortOrder
+    dmButtonLabel?: SortOrderInput | SortOrder
+    requireFollow?: SortOrder
+    notFollowingText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    account?: InstagramAccountOrderByWithRelationInput
+    runs?: IgAutomationRunOrderByRelationAggregateInput
+  }
+
+  export type IgAutomationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: IgAutomationWhereInput | IgAutomationWhereInput[]
+    OR?: IgAutomationWhereInput[]
+    NOT?: IgAutomationWhereInput | IgAutomationWhereInput[]
+    companyId?: StringFilter<"IgAutomation"> | string
+    accountId?: StringFilter<"IgAutomation"> | string
+    name?: StringFilter<"IgAutomation"> | string
+    enabled?: BoolFilter<"IgAutomation"> | boolean
+    mediaId?: StringNullableFilter<"IgAutomation"> | string | null
+    mediaLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    triggerType?: EnumIgTriggerTypeFilter<"IgAutomation"> | $Enums.IgTriggerType
+    keywords?: StringNullableListFilter<"IgAutomation">
+    replyToComment?: BoolFilter<"IgAutomation"> | boolean
+    commentReplies?: StringNullableListFilter<"IgAutomation">
+    sendDm?: BoolFilter<"IgAutomation"> | boolean
+    dmText?: StringNullableFilter<"IgAutomation"> | string | null
+    dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
+    dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    requireFollow?: BoolFilter<"IgAutomation"> | boolean
+    notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    runs?: IgAutomationRunListRelationFilter
+  }, "id">
+
+  export type IgAutomationOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    name?: SortOrder
+    enabled?: SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    mediaLabel?: SortOrderInput | SortOrder
+    triggerType?: SortOrder
+    keywords?: SortOrder
+    replyToComment?: SortOrder
+    commentReplies?: SortOrder
+    sendDm?: SortOrder
+    dmText?: SortOrderInput | SortOrder
+    dmLinkUrl?: SortOrderInput | SortOrder
+    dmButtonLabel?: SortOrderInput | SortOrder
+    requireFollow?: SortOrder
+    notFollowingText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IgAutomationCountOrderByAggregateInput
+    _max?: IgAutomationMaxOrderByAggregateInput
+    _min?: IgAutomationMinOrderByAggregateInput
+  }
+
+  export type IgAutomationScalarWhereWithAggregatesInput = {
+    AND?: IgAutomationScalarWhereWithAggregatesInput | IgAutomationScalarWhereWithAggregatesInput[]
+    OR?: IgAutomationScalarWhereWithAggregatesInput[]
+    NOT?: IgAutomationScalarWhereWithAggregatesInput | IgAutomationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IgAutomation"> | string
+    companyId?: StringWithAggregatesFilter<"IgAutomation"> | string
+    accountId?: StringWithAggregatesFilter<"IgAutomation"> | string
+    name?: StringWithAggregatesFilter<"IgAutomation"> | string
+    enabled?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
+    mediaId?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    mediaLabel?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    triggerType?: EnumIgTriggerTypeWithAggregatesFilter<"IgAutomation"> | $Enums.IgTriggerType
+    keywords?: StringNullableListFilter<"IgAutomation">
+    replyToComment?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
+    commentReplies?: StringNullableListFilter<"IgAutomation">
+    sendDm?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
+    dmText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    dmLinkUrl?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    dmButtonLabel?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    requireFollow?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
+    notFollowingText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"IgAutomation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IgAutomation"> | Date | string
+  }
+
+  export type IgAutomationRunWhereInput = {
+    AND?: IgAutomationRunWhereInput | IgAutomationRunWhereInput[]
+    OR?: IgAutomationRunWhereInput[]
+    NOT?: IgAutomationRunWhereInput | IgAutomationRunWhereInput[]
+    id?: StringFilter<"IgAutomationRun"> | string
+    companyId?: StringFilter<"IgAutomationRun"> | string
+    accountId?: StringFilter<"IgAutomationRun"> | string
+    automationId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    igCommenterId?: StringFilter<"IgAutomationRun"> | string
+    username?: StringNullableFilter<"IgAutomationRun"> | string | null
+    mediaId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentText?: StringNullableFilter<"IgAutomationRun"> | string | null
+    status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
+    errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    automation?: XOR<IgAutomationNullableRelationFilter, IgAutomationWhereInput> | null
+  }
+
+  export type IgAutomationRunOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrderInput | SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    commentId?: SortOrderInput | SortOrder
+    commentText?: SortOrderInput | SortOrder
+    status?: SortOrder
+    followState?: SortOrder
+    errorDetail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    account?: InstagramAccountOrderByWithRelationInput
+    automation?: IgAutomationOrderByWithRelationInput
+  }
+
+  export type IgAutomationRunWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    automationId_commentId?: IgAutomationRunAutomationIdCommentIdCompoundUniqueInput
+    AND?: IgAutomationRunWhereInput | IgAutomationRunWhereInput[]
+    OR?: IgAutomationRunWhereInput[]
+    NOT?: IgAutomationRunWhereInput | IgAutomationRunWhereInput[]
+    companyId?: StringFilter<"IgAutomationRun"> | string
+    accountId?: StringFilter<"IgAutomationRun"> | string
+    automationId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    igCommenterId?: StringFilter<"IgAutomationRun"> | string
+    username?: StringNullableFilter<"IgAutomationRun"> | string | null
+    mediaId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentText?: StringNullableFilter<"IgAutomationRun"> | string | null
+    status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
+    errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    account?: XOR<InstagramAccountRelationFilter, InstagramAccountWhereInput>
+    automation?: XOR<IgAutomationNullableRelationFilter, IgAutomationWhereInput> | null
+  }, "id" | "automationId_commentId">
+
+  export type IgAutomationRunOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrderInput | SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    mediaId?: SortOrderInput | SortOrder
+    commentId?: SortOrderInput | SortOrder
+    commentText?: SortOrderInput | SortOrder
+    status?: SortOrder
+    followState?: SortOrder
+    errorDetail?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IgAutomationRunCountOrderByAggregateInput
+    _max?: IgAutomationRunMaxOrderByAggregateInput
+    _min?: IgAutomationRunMinOrderByAggregateInput
+  }
+
+  export type IgAutomationRunScalarWhereWithAggregatesInput = {
+    AND?: IgAutomationRunScalarWhereWithAggregatesInput | IgAutomationRunScalarWhereWithAggregatesInput[]
+    OR?: IgAutomationRunScalarWhereWithAggregatesInput[]
+    NOT?: IgAutomationRunScalarWhereWithAggregatesInput | IgAutomationRunScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IgAutomationRun"> | string
+    companyId?: StringWithAggregatesFilter<"IgAutomationRun"> | string
+    accountId?: StringWithAggregatesFilter<"IgAutomationRun"> | string
+    automationId?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    igCommenterId?: StringWithAggregatesFilter<"IgAutomationRun"> | string
+    username?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    mediaId?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    commentId?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    commentText?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    status?: EnumIgRunStatusWithAggregatesFilter<"IgAutomationRun"> | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateWithAggregatesFilter<"IgAutomationRun"> | $Enums.IgFollowState
+    errorDetail?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
+  }
+
   export type AnalyticsSnapshotWhereInput = {
     AND?: AnalyticsSnapshotWhereInput | AnalyticsSnapshotWhereInput[]
     OR?: AnalyticsSnapshotWhereInput[]
@@ -100130,6 +104358,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -100172,6 +104401,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -100216,6 +104448,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -100258,6 +104491,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -100302,6 +104538,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -100344,6 +104581,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -100388,6 +104628,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -100430,6 +104671,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -100474,6 +104718,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -100509,6 +104754,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -100543,6 +104789,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -104326,6 +108573,404 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InstagramAccountCreateInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutInstagramAccountsInput
+    automations?: IgAutomationCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
+    automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountCreateManyInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type InstagramAccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InstagramAccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IgAutomationCreateInput = {
+    id?: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationsInput
+    account: InstagramAccountCreateNestedOneWithoutAutomationsInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationCreateManyInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunCreateInput = {
+    id?: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
+    account: InstagramAccountCreateNestedOneWithoutRunsInput
+    automation?: IgAutomationCreateNestedOneWithoutRunsInput
+  }
+
+  export type IgAutomationRunUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutRunsNestedInput
+    automation?: IgAutomationUpdateOneWithoutRunsNestedInput
+  }
+
+  export type IgAutomationRunUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunCreateManyInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnalyticsSnapshotCreateInput = {
@@ -108186,6 +112831,24 @@ export namespace Prisma {
     none?: MarketingIntegrationWhereInput
   }
 
+  export type InstagramAccountListRelationFilter = {
+    every?: InstagramAccountWhereInput
+    some?: InstagramAccountWhereInput
+    none?: InstagramAccountWhereInput
+  }
+
+  export type IgAutomationListRelationFilter = {
+    every?: IgAutomationWhereInput
+    some?: IgAutomationWhereInput
+    none?: IgAutomationWhereInput
+  }
+
+  export type IgAutomationRunListRelationFilter = {
+    every?: IgAutomationRunWhereInput
+    some?: IgAutomationRunWhereInput
+    none?: IgAutomationRunWhereInput
+  }
+
   export type AnalyticsSnapshotListRelationFilter = {
     every?: AnalyticsSnapshotWhereInput
     some?: AnalyticsSnapshotWhereInput
@@ -108371,6 +113034,18 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type InstagramAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type IgAutomationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type IgAutomationRunOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AnalyticsSnapshotOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -108453,6 +113128,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
+    moduleInstagram?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -108493,6 +113169,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
+    moduleInstagram?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -108528,6 +113205,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
+    moduleInstagram?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -111055,6 +115733,234 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
     _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type InstagramAccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    igUserId?: SortOrder
+    username?: SortOrder
+    name?: SortOrder
+    profilePictureUrl?: SortOrder
+    accessTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    scopes?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type InstagramAccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    igUserId?: SortOrder
+    username?: SortOrder
+    name?: SortOrder
+    profilePictureUrl?: SortOrder
+    accessTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type InstagramAccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    igUserId?: SortOrder
+    username?: SortOrder
+    name?: SortOrder
+    profilePictureUrl?: SortOrder
+    accessTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type EnumIgTriggerTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgTriggerType | EnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgTriggerTypeFilter<$PrismaModel> | $Enums.IgTriggerType
+  }
+
+  export type InstagramAccountRelationFilter = {
+    is?: InstagramAccountWhereInput
+    isNot?: InstagramAccountWhereInput
+  }
+
+  export type IgAutomationCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    name?: SortOrder
+    enabled?: SortOrder
+    mediaId?: SortOrder
+    mediaLabel?: SortOrder
+    triggerType?: SortOrder
+    keywords?: SortOrder
+    replyToComment?: SortOrder
+    commentReplies?: SortOrder
+    sendDm?: SortOrder
+    dmText?: SortOrder
+    dmLinkUrl?: SortOrder
+    dmButtonLabel?: SortOrder
+    requireFollow?: SortOrder
+    notFollowingText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAutomationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    name?: SortOrder
+    enabled?: SortOrder
+    mediaId?: SortOrder
+    mediaLabel?: SortOrder
+    triggerType?: SortOrder
+    replyToComment?: SortOrder
+    sendDm?: SortOrder
+    dmText?: SortOrder
+    dmLinkUrl?: SortOrder
+    dmButtonLabel?: SortOrder
+    requireFollow?: SortOrder
+    notFollowingText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAutomationMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    name?: SortOrder
+    enabled?: SortOrder
+    mediaId?: SortOrder
+    mediaLabel?: SortOrder
+    triggerType?: SortOrder
+    replyToComment?: SortOrder
+    sendDm?: SortOrder
+    dmText?: SortOrder
+    dmLinkUrl?: SortOrder
+    dmButtonLabel?: SortOrder
+    requireFollow?: SortOrder
+    notFollowingText?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumIgTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgTriggerType | EnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgTriggerTypeWithAggregatesFilter<$PrismaModel> | $Enums.IgTriggerType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+    _max?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+  }
+
+  export type EnumIgRunStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgRunStatus | EnumIgRunStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgRunStatusFilter<$PrismaModel> | $Enums.IgRunStatus
+  }
+
+  export type EnumIgFollowStateFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgFollowState | EnumIgFollowStateFieldRefInput<$PrismaModel>
+    in?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgFollowStateFilter<$PrismaModel> | $Enums.IgFollowState
+  }
+
+  export type IgAutomationNullableRelationFilter = {
+    is?: IgAutomationWhereInput | null
+    isNot?: IgAutomationWhereInput | null
+  }
+
+  export type IgAutomationRunAutomationIdCommentIdCompoundUniqueInput = {
+    automationId: string
+    commentId: string
+  }
+
+  export type IgAutomationRunCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    mediaId?: SortOrder
+    commentId?: SortOrder
+    commentText?: SortOrder
+    status?: SortOrder
+    followState?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAutomationRunMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    mediaId?: SortOrder
+    commentId?: SortOrder
+    commentText?: SortOrder
+    status?: SortOrder
+    followState?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IgAutomationRunMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accountId?: SortOrder
+    automationId?: SortOrder
+    igCommenterId?: SortOrder
+    username?: SortOrder
+    mediaId?: SortOrder
+    commentId?: SortOrder
+    commentText?: SortOrder
+    status?: SortOrder
+    followState?: SortOrder
+    errorDetail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumIgRunStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgRunStatus | EnumIgRunStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgRunStatusWithAggregatesFilter<$PrismaModel> | $Enums.IgRunStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgRunStatusFilter<$PrismaModel>
+    _max?: NestedEnumIgRunStatusFilter<$PrismaModel>
+  }
+
+  export type EnumIgFollowStateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgFollowState | EnumIgFollowStateFieldRefInput<$PrismaModel>
+    in?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgFollowStateWithAggregatesFilter<$PrismaModel> | $Enums.IgFollowState
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgFollowStateFilter<$PrismaModel>
+    _max?: NestedEnumIgFollowStateFilter<$PrismaModel>
   }
 
   export type AnalyticsSnapshotCompanyIdDateSourceCompoundUniqueInput = {
@@ -114375,6 +119281,27 @@ export namespace Prisma {
     connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
   }
 
+  export type InstagramAccountCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput> | InstagramAccountCreateWithoutCompanyInput[] | InstagramAccountUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutCompanyInput | InstagramAccountCreateOrConnectWithoutCompanyInput[]
+    createMany?: InstagramAccountCreateManyCompanyInputEnvelope
+    connect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+  }
+
+  export type IgAutomationCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput> | IgAutomationCreateWithoutCompanyInput[] | IgAutomationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutCompanyInput | IgAutomationCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAutomationCreateManyCompanyInputEnvelope
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+  }
+
+  export type IgAutomationRunCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput> | IgAutomationRunCreateWithoutCompanyInput[] | IgAutomationRunUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutCompanyInput | IgAutomationRunCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAutomationRunCreateManyCompanyInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
   export type AnalyticsSnapshotCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AnalyticsSnapshotCreateWithoutCompanyInput, AnalyticsSnapshotUncheckedCreateWithoutCompanyInput> | AnalyticsSnapshotCreateWithoutCompanyInput[] | AnalyticsSnapshotUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AnalyticsSnapshotCreateOrConnectWithoutCompanyInput | AnalyticsSnapshotCreateOrConnectWithoutCompanyInput[]
@@ -114728,6 +119655,27 @@ export namespace Prisma {
     connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
     createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
     connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+  }
+
+  export type InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput> | InstagramAccountCreateWithoutCompanyInput[] | InstagramAccountUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutCompanyInput | InstagramAccountCreateOrConnectWithoutCompanyInput[]
+    createMany?: InstagramAccountCreateManyCompanyInputEnvelope
+    connect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+  }
+
+  export type IgAutomationUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput> | IgAutomationCreateWithoutCompanyInput[] | IgAutomationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutCompanyInput | IgAutomationCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAutomationCreateManyCompanyInputEnvelope
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+  }
+
+  export type IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput> | IgAutomationRunCreateWithoutCompanyInput[] | IgAutomationRunUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutCompanyInput | IgAutomationRunCreateOrConnectWithoutCompanyInput[]
+    createMany?: IgAutomationRunCreateManyCompanyInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
   }
 
   export type AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -115343,6 +120291,48 @@ export namespace Prisma {
     update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type InstagramAccountUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput> | InstagramAccountCreateWithoutCompanyInput[] | InstagramAccountUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutCompanyInput | InstagramAccountCreateOrConnectWithoutCompanyInput[]
+    upsert?: InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput | InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: InstagramAccountCreateManyCompanyInputEnvelope
+    set?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    disconnect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    delete?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    connect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    update?: InstagramAccountUpdateWithWhereUniqueWithoutCompanyInput | InstagramAccountUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: InstagramAccountUpdateManyWithWhereWithoutCompanyInput | InstagramAccountUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: InstagramAccountScalarWhereInput | InstagramAccountScalarWhereInput[]
+  }
+
+  export type IgAutomationUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput> | IgAutomationCreateWithoutCompanyInput[] | IgAutomationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutCompanyInput | IgAutomationCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAutomationUpsertWithWhereUniqueWithoutCompanyInput | IgAutomationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAutomationCreateManyCompanyInputEnvelope
+    set?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    disconnect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    delete?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    update?: IgAutomationUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAutomationUpdateManyWithWhereWithoutCompanyInput | IgAutomationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+  }
+
+  export type IgAutomationRunUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput> | IgAutomationRunCreateWithoutCompanyInput[] | IgAutomationRunUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutCompanyInput | IgAutomationRunCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAutomationRunCreateManyCompanyInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutCompanyInput | IgAutomationRunUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
   }
 
   export type AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput = {
@@ -116049,6 +121039,48 @@ export namespace Prisma {
     update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput> | InstagramAccountCreateWithoutCompanyInput[] | InstagramAccountUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutCompanyInput | InstagramAccountCreateOrConnectWithoutCompanyInput[]
+    upsert?: InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput | InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: InstagramAccountCreateManyCompanyInputEnvelope
+    set?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    disconnect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    delete?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    connect?: InstagramAccountWhereUniqueInput | InstagramAccountWhereUniqueInput[]
+    update?: InstagramAccountUpdateWithWhereUniqueWithoutCompanyInput | InstagramAccountUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: InstagramAccountUpdateManyWithWhereWithoutCompanyInput | InstagramAccountUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: InstagramAccountScalarWhereInput | InstagramAccountScalarWhereInput[]
+  }
+
+  export type IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput> | IgAutomationCreateWithoutCompanyInput[] | IgAutomationUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutCompanyInput | IgAutomationCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAutomationUpsertWithWhereUniqueWithoutCompanyInput | IgAutomationUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAutomationCreateManyCompanyInputEnvelope
+    set?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    disconnect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    delete?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    update?: IgAutomationUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAutomationUpdateManyWithWhereWithoutCompanyInput | IgAutomationUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput> | IgAutomationRunCreateWithoutCompanyInput[] | IgAutomationRunUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutCompanyInput | IgAutomationRunCreateOrConnectWithoutCompanyInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IgAutomationRunCreateManyCompanyInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput | IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutCompanyInput | IgAutomationRunUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
   }
 
   export type AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -119119,6 +124151,257 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMarketingIntegrationsInput, CompanyUpdateWithoutMarketingIntegrationsInput>, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
   }
 
+  export type InstagramAccountCreatescopesInput = {
+    set: string[]
+  }
+
+  export type CompanyCreateNestedOneWithoutInstagramAccountsInput = {
+    create?: XOR<CompanyCreateWithoutInstagramAccountsInput, CompanyUncheckedCreateWithoutInstagramAccountsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInstagramAccountsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type IgAutomationCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAutomationCreateManyAccountInputEnvelope
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+  }
+
+  export type IgAutomationRunCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput> | IgAutomationRunCreateWithoutAccountInput[] | IgAutomationRunUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAccountInput | IgAutomationRunCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAutomationRunCreateManyAccountInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type IgAutomationUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAutomationCreateManyAccountInputEnvelope
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+  }
+
+  export type IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput> | IgAutomationRunCreateWithoutAccountInput[] | IgAutomationRunUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAccountInput | IgAutomationRunCreateOrConnectWithoutAccountInput[]
+    createMany?: IgAutomationRunCreateManyAccountInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type InstagramAccountUpdatescopesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput = {
+    create?: XOR<CompanyCreateWithoutInstagramAccountsInput, CompanyUncheckedCreateWithoutInstagramAccountsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInstagramAccountsInput
+    upsert?: CompanyUpsertWithoutInstagramAccountsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutInstagramAccountsInput, CompanyUpdateWithoutInstagramAccountsInput>, CompanyUncheckedUpdateWithoutInstagramAccountsInput>
+  }
+
+  export type IgAutomationUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAutomationUpsertWithWhereUniqueWithoutAccountInput | IgAutomationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAutomationCreateManyAccountInputEnvelope
+    set?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    disconnect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    delete?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    update?: IgAutomationUpdateWithWhereUniqueWithoutAccountInput | IgAutomationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAutomationUpdateManyWithWhereWithoutAccountInput | IgAutomationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+  }
+
+  export type IgAutomationRunUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput> | IgAutomationRunCreateWithoutAccountInput[] | IgAutomationRunUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAccountInput | IgAutomationRunCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutAccountInput | IgAutomationRunUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAutomationRunCreateManyAccountInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput | IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAccountInput | IgAutomationRunUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAutomationUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput> | IgAutomationCreateWithoutAccountInput[] | IgAutomationUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutAccountInput | IgAutomationCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAutomationUpsertWithWhereUniqueWithoutAccountInput | IgAutomationUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAutomationCreateManyAccountInputEnvelope
+    set?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    disconnect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    delete?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    connect?: IgAutomationWhereUniqueInput | IgAutomationWhereUniqueInput[]
+    update?: IgAutomationUpdateWithWhereUniqueWithoutAccountInput | IgAutomationUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAutomationUpdateManyWithWhereWithoutAccountInput | IgAutomationUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput> | IgAutomationRunCreateWithoutAccountInput[] | IgAutomationRunUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAccountInput | IgAutomationRunCreateOrConnectWithoutAccountInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutAccountInput | IgAutomationRunUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: IgAutomationRunCreateManyAccountInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput | IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAccountInput | IgAutomationRunUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAutomationCreatekeywordsInput = {
+    set: string[]
+  }
+
+  export type IgAutomationCreatecommentRepliesInput = {
+    set: string[]
+  }
+
+  export type CompanyCreateNestedOneWithoutIgAutomationsInput = {
+    create?: XOR<CompanyCreateWithoutIgAutomationsInput, CompanyUncheckedCreateWithoutIgAutomationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAutomationsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type InstagramAccountCreateNestedOneWithoutAutomationsInput = {
+    create?: XOR<InstagramAccountCreateWithoutAutomationsInput, InstagramAccountUncheckedCreateWithoutAutomationsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAutomationsInput
+    connect?: InstagramAccountWhereUniqueInput
+  }
+
+  export type IgAutomationRunCreateNestedManyWithoutAutomationInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
+    createMany?: IgAutomationRunCreateManyAutomationInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
+    createMany?: IgAutomationRunCreateManyAutomationInputEnvelope
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+  }
+
+  export type EnumIgTriggerTypeFieldUpdateOperationsInput = {
+    set?: $Enums.IgTriggerType
+  }
+
+  export type IgAutomationUpdatekeywordsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type IgAutomationUpdatecommentRepliesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput = {
+    create?: XOR<CompanyCreateWithoutIgAutomationsInput, CompanyUncheckedCreateWithoutIgAutomationsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAutomationsInput
+    upsert?: CompanyUpsertWithoutIgAutomationsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutIgAutomationsInput, CompanyUpdateWithoutIgAutomationsInput>, CompanyUncheckedUpdateWithoutIgAutomationsInput>
+  }
+
+  export type InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutAutomationsInput, InstagramAccountUncheckedCreateWithoutAutomationsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutAutomationsInput
+    upsert?: InstagramAccountUpsertWithoutAutomationsInput
+    connect?: InstagramAccountWhereUniqueInput
+    update?: XOR<XOR<InstagramAccountUpdateToOneWithWhereWithoutAutomationsInput, InstagramAccountUpdateWithoutAutomationsInput>, InstagramAccountUncheckedUpdateWithoutAutomationsInput>
+  }
+
+  export type IgAutomationRunUpdateManyWithoutAutomationNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput | IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput[]
+    createMany?: IgAutomationRunCreateManyAutomationInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput | IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAutomationInput | IgAutomationRunUpdateManyWithWhereWithoutAutomationInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput = {
+    create?: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput> | IgAutomationRunCreateWithoutAutomationInput[] | IgAutomationRunUncheckedCreateWithoutAutomationInput[]
+    connectOrCreate?: IgAutomationRunCreateOrConnectWithoutAutomationInput | IgAutomationRunCreateOrConnectWithoutAutomationInput[]
+    upsert?: IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput | IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput[]
+    createMany?: IgAutomationRunCreateManyAutomationInputEnvelope
+    set?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    disconnect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    delete?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    connect?: IgAutomationRunWhereUniqueInput | IgAutomationRunWhereUniqueInput[]
+    update?: IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput | IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput[]
+    updateMany?: IgAutomationRunUpdateManyWithWhereWithoutAutomationInput | IgAutomationRunUpdateManyWithWhereWithoutAutomationInput[]
+    deleteMany?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutIgAutomationRunsInput = {
+    create?: XOR<CompanyCreateWithoutIgAutomationRunsInput, CompanyUncheckedCreateWithoutIgAutomationRunsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAutomationRunsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type InstagramAccountCreateNestedOneWithoutRunsInput = {
+    create?: XOR<InstagramAccountCreateWithoutRunsInput, InstagramAccountUncheckedCreateWithoutRunsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutRunsInput
+    connect?: InstagramAccountWhereUniqueInput
+  }
+
+  export type IgAutomationCreateNestedOneWithoutRunsInput = {
+    create?: XOR<IgAutomationCreateWithoutRunsInput, IgAutomationUncheckedCreateWithoutRunsInput>
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutRunsInput
+    connect?: IgAutomationWhereUniqueInput
+  }
+
+  export type EnumIgRunStatusFieldUpdateOperationsInput = {
+    set?: $Enums.IgRunStatus
+  }
+
+  export type EnumIgFollowStateFieldUpdateOperationsInput = {
+    set?: $Enums.IgFollowState
+  }
+
+  export type CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput = {
+    create?: XOR<CompanyCreateWithoutIgAutomationRunsInput, CompanyUncheckedCreateWithoutIgAutomationRunsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIgAutomationRunsInput
+    upsert?: CompanyUpsertWithoutIgAutomationRunsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutIgAutomationRunsInput, CompanyUpdateWithoutIgAutomationRunsInput>, CompanyUncheckedUpdateWithoutIgAutomationRunsInput>
+  }
+
+  export type InstagramAccountUpdateOneRequiredWithoutRunsNestedInput = {
+    create?: XOR<InstagramAccountCreateWithoutRunsInput, InstagramAccountUncheckedCreateWithoutRunsInput>
+    connectOrCreate?: InstagramAccountCreateOrConnectWithoutRunsInput
+    upsert?: InstagramAccountUpsertWithoutRunsInput
+    connect?: InstagramAccountWhereUniqueInput
+    update?: XOR<XOR<InstagramAccountUpdateToOneWithWhereWithoutRunsInput, InstagramAccountUpdateWithoutRunsInput>, InstagramAccountUncheckedUpdateWithoutRunsInput>
+  }
+
+  export type IgAutomationUpdateOneWithoutRunsNestedInput = {
+    create?: XOR<IgAutomationCreateWithoutRunsInput, IgAutomationUncheckedCreateWithoutRunsInput>
+    connectOrCreate?: IgAutomationCreateOrConnectWithoutRunsInput
+    upsert?: IgAutomationUpsertWithoutRunsInput
+    disconnect?: IgAutomationWhereInput | boolean
+    delete?: IgAutomationWhereInput | boolean
+    connect?: IgAutomationWhereUniqueInput
+    update?: XOR<XOR<IgAutomationUpdateToOneWithWhereWithoutRunsInput, IgAutomationUpdateWithoutRunsInput>, IgAutomationUncheckedUpdateWithoutRunsInput>
+  }
+
   export type CompanyCreateNestedOneWithoutAnalyticsSnapshotsInput = {
     create?: XOR<CompanyCreateWithoutAnalyticsSnapshotsInput, CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput
@@ -120773,6 +126056,57 @@ export namespace Prisma {
     _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumIgTriggerTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgTriggerType | EnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgTriggerTypeFilter<$PrismaModel> | $Enums.IgTriggerType
+  }
+
+  export type NestedEnumIgTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgTriggerType | EnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgTriggerType[] | ListEnumIgTriggerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgTriggerTypeWithAggregatesFilter<$PrismaModel> | $Enums.IgTriggerType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+    _max?: NestedEnumIgTriggerTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIgRunStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgRunStatus | EnumIgRunStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgRunStatusFilter<$PrismaModel> | $Enums.IgRunStatus
+  }
+
+  export type NestedEnumIgFollowStateFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgFollowState | EnumIgFollowStateFieldRefInput<$PrismaModel>
+    in?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgFollowStateFilter<$PrismaModel> | $Enums.IgFollowState
+  }
+
+  export type NestedEnumIgRunStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgRunStatus | EnumIgRunStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgRunStatus[] | ListEnumIgRunStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgRunStatusWithAggregatesFilter<$PrismaModel> | $Enums.IgRunStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgRunStatusFilter<$PrismaModel>
+    _max?: NestedEnumIgRunStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIgFollowStateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IgFollowState | EnumIgFollowStateFieldRefInput<$PrismaModel>
+    in?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IgFollowState[] | ListEnumIgFollowStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumIgFollowStateWithAggregatesFilter<$PrismaModel> | $Enums.IgFollowState
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIgFollowStateFilter<$PrismaModel>
+    _max?: NestedEnumIgFollowStateFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -120990,6 +126324,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -121031,6 +126366,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -121075,6 +126413,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -121116,6 +126455,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -122060,6 +127402,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -122101,6 +127444,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -122145,6 +127491,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -122186,6 +127533,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -123466,6 +128816,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -123507,6 +128858,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -123551,6 +128905,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -123592,6 +128947,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -123641,6 +128999,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -123682,6 +129041,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -123726,6 +129088,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -123767,6 +129130,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -125304,6 +130670,148 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InstagramAccountCreateWithoutCompanyInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountCreateOrConnectWithoutCompanyInput = {
+    where: InstagramAccountWhereUniqueInput
+    create: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type InstagramAccountCreateManyCompanyInputEnvelope = {
+    data: InstagramAccountCreateManyCompanyInput | InstagramAccountCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAutomationCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: InstagramAccountCreateNestedOneWithoutAutomationsInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationCreateOrConnectWithoutCompanyInput = {
+    where: IgAutomationWhereUniqueInput
+    create: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAutomationCreateManyCompanyInputEnvelope = {
+    data: IgAutomationCreateManyCompanyInput | IgAutomationCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAutomationRunCreateWithoutCompanyInput = {
+    id?: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account: InstagramAccountCreateNestedOneWithoutRunsInput
+    automation?: IgAutomationCreateNestedOneWithoutRunsInput
+  }
+
+  export type IgAutomationRunUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    accountId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunCreateOrConnectWithoutCompanyInput = {
+    where: IgAutomationRunWhereUniqueInput
+    create: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAutomationRunCreateManyCompanyInputEnvelope = {
+    data: IgAutomationRunCreateManyCompanyInput | IgAutomationRunCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AnalyticsSnapshotCreateWithoutCompanyInput = {
     id?: string
     date: Date | string
@@ -125930,6 +131438,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125971,6 +131480,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -126015,6 +131527,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -126056,6 +131569,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -126119,6 +131635,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
+    moduleInstagram?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -127118,6 +132635,119 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"MarketingIntegration"> | string | null
   }
 
+  export type InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: InstagramAccountWhereUniqueInput
+    update: XOR<InstagramAccountUpdateWithoutCompanyInput, InstagramAccountUncheckedUpdateWithoutCompanyInput>
+    create: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type InstagramAccountUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: InstagramAccountWhereUniqueInput
+    data: XOR<InstagramAccountUpdateWithoutCompanyInput, InstagramAccountUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type InstagramAccountUpdateManyWithWhereWithoutCompanyInput = {
+    where: InstagramAccountScalarWhereInput
+    data: XOR<InstagramAccountUpdateManyMutationInput, InstagramAccountUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type InstagramAccountScalarWhereInput = {
+    AND?: InstagramAccountScalarWhereInput | InstagramAccountScalarWhereInput[]
+    OR?: InstagramAccountScalarWhereInput[]
+    NOT?: InstagramAccountScalarWhereInput | InstagramAccountScalarWhereInput[]
+    id?: StringFilter<"InstagramAccount"> | string
+    companyId?: StringFilter<"InstagramAccount"> | string
+    igUserId?: StringFilter<"InstagramAccount"> | string
+    username?: StringNullableFilter<"InstagramAccount"> | string | null
+    name?: StringNullableFilter<"InstagramAccount"> | string | null
+    profilePictureUrl?: StringNullableFilter<"InstagramAccount"> | string | null
+    accessTokenEnc?: StringNullableFilter<"InstagramAccount"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"InstagramAccount"> | Date | string | null
+    scopes?: StringNullableListFilter<"InstagramAccount">
+    status?: EnumIntegrationStatusFilter<"InstagramAccount"> | $Enums.IntegrationStatus
+    lastError?: StringNullableFilter<"InstagramAccount"> | string | null
+    createdAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"InstagramAccount"> | Date | string
+    createdById?: StringNullableFilter<"InstagramAccount"> | string | null
+  }
+
+  export type IgAutomationUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: IgAutomationWhereUniqueInput
+    update: XOR<IgAutomationUpdateWithoutCompanyInput, IgAutomationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<IgAutomationCreateWithoutCompanyInput, IgAutomationUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAutomationUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: IgAutomationWhereUniqueInput
+    data: XOR<IgAutomationUpdateWithoutCompanyInput, IgAutomationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type IgAutomationUpdateManyWithWhereWithoutCompanyInput = {
+    where: IgAutomationScalarWhereInput
+    data: XOR<IgAutomationUpdateManyMutationInput, IgAutomationUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type IgAutomationScalarWhereInput = {
+    AND?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+    OR?: IgAutomationScalarWhereInput[]
+    NOT?: IgAutomationScalarWhereInput | IgAutomationScalarWhereInput[]
+    id?: StringFilter<"IgAutomation"> | string
+    companyId?: StringFilter<"IgAutomation"> | string
+    accountId?: StringFilter<"IgAutomation"> | string
+    name?: StringFilter<"IgAutomation"> | string
+    enabled?: BoolFilter<"IgAutomation"> | boolean
+    mediaId?: StringNullableFilter<"IgAutomation"> | string | null
+    mediaLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    triggerType?: EnumIgTriggerTypeFilter<"IgAutomation"> | $Enums.IgTriggerType
+    keywords?: StringNullableListFilter<"IgAutomation">
+    replyToComment?: BoolFilter<"IgAutomation"> | boolean
+    commentReplies?: StringNullableListFilter<"IgAutomation">
+    sendDm?: BoolFilter<"IgAutomation"> | boolean
+    dmText?: StringNullableFilter<"IgAutomation"> | string | null
+    dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
+    dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    requireFollow?: BoolFilter<"IgAutomation"> | boolean
+    notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomation"> | Date | string
+  }
+
+  export type IgAutomationRunUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: IgAutomationRunWhereUniqueInput
+    update: XOR<IgAutomationRunUpdateWithoutCompanyInput, IgAutomationRunUncheckedUpdateWithoutCompanyInput>
+    create: XOR<IgAutomationRunCreateWithoutCompanyInput, IgAutomationRunUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IgAutomationRunUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: IgAutomationRunWhereUniqueInput
+    data: XOR<IgAutomationRunUpdateWithoutCompanyInput, IgAutomationRunUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type IgAutomationRunUpdateManyWithWhereWithoutCompanyInput = {
+    where: IgAutomationRunScalarWhereInput
+    data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type IgAutomationRunScalarWhereInput = {
+    AND?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+    OR?: IgAutomationRunScalarWhereInput[]
+    NOT?: IgAutomationRunScalarWhereInput | IgAutomationRunScalarWhereInput[]
+    id?: StringFilter<"IgAutomationRun"> | string
+    companyId?: StringFilter<"IgAutomationRun"> | string
+    accountId?: StringFilter<"IgAutomationRun"> | string
+    automationId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    igCommenterId?: StringFilter<"IgAutomationRun"> | string
+    username?: StringNullableFilter<"IgAutomationRun"> | string | null
+    mediaId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentId?: StringNullableFilter<"IgAutomationRun"> | string | null
+    commentText?: StringNullableFilter<"IgAutomationRun"> | string | null
+    status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
+    errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+    updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
+  }
+
   export type AnalyticsSnapshotUpsertWithWhereUniqueWithoutCompanyInput = {
     where: AnalyticsSnapshotWhereUniqueInput
     update: XOR<AnalyticsSnapshotUpdateWithoutCompanyInput, AnalyticsSnapshotUncheckedUpdateWithoutCompanyInput>
@@ -127674,6 +133304,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -127715,6 +133346,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -127759,6 +133393,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -127800,6 +133435,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -128094,6 +133732,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -128135,6 +133774,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -128179,6 +133821,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -128220,6 +133863,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -128369,6 +134015,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -128410,6 +134057,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -128454,6 +134104,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -128495,6 +134146,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -128730,6 +134384,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -128771,6 +134426,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -128815,6 +134473,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -128856,6 +134515,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -129028,6 +134690,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -129069,6 +134732,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -129113,6 +134779,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -129154,6 +134821,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -129660,6 +135330,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -129701,6 +135372,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -129745,6 +135419,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -129786,6 +135461,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -130213,6 +135891,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -130254,6 +135933,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -130298,6 +135980,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -130339,6 +136022,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -130419,6 +136105,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -130460,6 +136147,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -130504,6 +136194,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -130545,6 +136236,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -130861,6 +136555,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -130902,6 +136597,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -130946,6 +136644,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -130987,6 +136686,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -131073,6 +136775,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -131114,6 +136817,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -131158,6 +136864,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -131199,6 +136906,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -131527,6 +137237,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -131568,6 +137279,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -131612,6 +137326,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -131653,6 +137368,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -131739,6 +137457,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -131780,6 +137499,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -131824,6 +137546,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -131865,6 +137588,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -131925,6 +137651,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -131966,6 +137693,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -132010,6 +137740,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -132051,6 +137782,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -132140,6 +137874,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -132181,6 +137916,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -132225,6 +137963,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -132266,6 +138005,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -132442,6 +138184,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -132483,6 +138226,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -132527,6 +138273,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -132568,6 +138315,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -132893,6 +138643,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -132934,6 +138685,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -132978,6 +138732,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -133019,6 +138774,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -133437,6 +139195,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -133478,6 +139237,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -133522,6 +139284,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -133563,6 +139326,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -133623,6 +139389,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -133664,6 +139431,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -133708,6 +139478,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -133749,6 +139520,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -133793,6 +139567,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -133834,6 +139609,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -133878,6 +139656,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -133919,6 +139698,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -134060,6 +139842,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -134101,6 +139884,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -134145,6 +139931,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -134186,6 +139973,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -134317,6 +140107,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -134358,6 +140149,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -134402,6 +140196,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -134443,6 +140238,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -134621,6 +140419,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -134662,6 +140461,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -134706,6 +140508,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -134747,6 +140550,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -134847,6 +140653,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -134888,6 +140695,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -134932,6 +140742,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -134973,6 +140784,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -135344,6 +141158,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -135385,6 +141200,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -135429,6 +141247,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -135470,6 +141289,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -135855,6 +141677,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -135896,6 +141719,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -135940,6 +141766,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -135981,6 +141808,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -136082,6 +141912,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -136123,6 +141954,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -136167,6 +142001,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -136208,6 +142043,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -136445,6 +142283,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -136486,6 +142325,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -136530,6 +142372,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -136571,6 +142414,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -137013,6 +142859,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -137054,6 +142901,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -137098,6 +142948,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -137139,6 +142990,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -137585,6 +143439,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -137626,6 +143481,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -137670,6 +143528,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -137711,6 +143570,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -137998,6 +143860,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -138039,6 +143902,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -138083,6 +143949,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -138124,6 +143991,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -138168,6 +144038,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -138209,6 +144080,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -138253,6 +144127,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -138294,6 +144169,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -138424,6 +144302,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -138465,6 +144344,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -138509,6 +144391,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -138550,6 +144433,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -138911,6 +144797,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -138952,6 +144839,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -138996,6 +144886,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -139037,6 +144928,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -139179,6 +145073,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -139220,6 +145115,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -139264,6 +145162,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -139305,6 +145204,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -139763,6 +145665,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -139804,6 +145707,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -139848,6 +145754,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -139889,6 +145796,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -140177,6 +146087,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -140218,6 +146129,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -140262,6 +146176,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -140303,6 +146218,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -140492,6 +146410,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -140533,6 +146452,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -140577,6 +146499,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -140618,6 +146541,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -140957,6 +146883,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -140998,6 +146925,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -141042,6 +146972,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -141083,6 +147014,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -143415,6 +149349,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -143456,6 +149391,9 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -143500,6 +149438,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -143541,6 +149480,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -143651,6 +149593,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -143692,6 +149635,9 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -143736,6 +149682,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -143777,6 +149724,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144043,6 +149993,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144084,6 +150035,9 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -144128,6 +150082,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144169,6 +150124,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -144280,6 +150238,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -144321,6 +150280,9 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -144365,6 +150327,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -144406,6 +150369,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144450,6 +150416,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144491,6 +150458,9 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -144535,6 +150505,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144576,6 +150547,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -144636,6 +150610,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -144677,6 +150652,9 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -144721,6 +150699,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -144762,6 +150741,9 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144780,7 +150762,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
-  export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
+  export type CompanyCreateWithoutInstagramAccountsInput = {
     id?: string
     name: string
     slug: string
@@ -144806,6 +150788,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144848,6 +150831,1591 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutInstagramAccountsInput, CompanyUncheckedCreateWithoutInstagramAccountsInput>
+  }
+
+  export type IgAutomationCreateWithoutAccountInput = {
+    id?: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationsInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationUncheckedCreateWithoutAccountInput = {
+    id?: string
+    companyId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAutomationInput
+  }
+
+  export type IgAutomationCreateOrConnectWithoutAccountInput = {
+    where: IgAutomationWhereUniqueInput
+    create: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAutomationCreateManyAccountInputEnvelope = {
+    data: IgAutomationCreateManyAccountInput | IgAutomationCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IgAutomationRunCreateWithoutAccountInput = {
+    id?: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
+    automation?: IgAutomationCreateNestedOneWithoutRunsInput
+  }
+
+  export type IgAutomationRunUncheckedCreateWithoutAccountInput = {
+    id?: string
+    companyId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunCreateOrConnectWithoutAccountInput = {
+    where: IgAutomationRunWhereUniqueInput
+    create: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAutomationRunCreateManyAccountInputEnvelope = {
+    data: IgAutomationRunCreateManyAccountInput | IgAutomationRunCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutInstagramAccountsInput = {
+    update: XOR<CompanyUpdateWithoutInstagramAccountsInput, CompanyUncheckedUpdateWithoutInstagramAccountsInput>
+    create: XOR<CompanyCreateWithoutInstagramAccountsInput, CompanyUncheckedCreateWithoutInstagramAccountsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutInstagramAccountsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutInstagramAccountsInput, CompanyUncheckedUpdateWithoutInstagramAccountsInput>
+  }
+
+  export type CompanyUpdateWithoutInstagramAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
+    where: IgAutomationWhereUniqueInput
+    update: XOR<IgAutomationUpdateWithoutAccountInput, IgAutomationUncheckedUpdateWithoutAccountInput>
+    create: XOR<IgAutomationCreateWithoutAccountInput, IgAutomationUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAutomationUpdateWithWhereUniqueWithoutAccountInput = {
+    where: IgAutomationWhereUniqueInput
+    data: XOR<IgAutomationUpdateWithoutAccountInput, IgAutomationUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type IgAutomationUpdateManyWithWhereWithoutAccountInput = {
+    where: IgAutomationScalarWhereInput
+    data: XOR<IgAutomationUpdateManyMutationInput, IgAutomationUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type IgAutomationRunUpsertWithWhereUniqueWithoutAccountInput = {
+    where: IgAutomationRunWhereUniqueInput
+    update: XOR<IgAutomationRunUpdateWithoutAccountInput, IgAutomationRunUncheckedUpdateWithoutAccountInput>
+    create: XOR<IgAutomationRunCreateWithoutAccountInput, IgAutomationRunUncheckedCreateWithoutAccountInput>
+  }
+
+  export type IgAutomationRunUpdateWithWhereUniqueWithoutAccountInput = {
+    where: IgAutomationRunWhereUniqueInput
+    data: XOR<IgAutomationRunUpdateWithoutAccountInput, IgAutomationRunUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type IgAutomationRunUpdateManyWithWhereWithoutAccountInput = {
+    where: IgAutomationRunScalarWhereInput
+    data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type CompanyCreateWithoutIgAutomationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutIgAutomationsInput, CompanyUncheckedCreateWithoutIgAutomationsInput>
+  }
+
+  export type InstagramAccountCreateWithoutAutomationsInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutInstagramAccountsInput
+    runs?: IgAutomationRunCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateWithoutAutomationsInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    runs?: IgAutomationRunUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountCreateOrConnectWithoutAutomationsInput = {
+    where: InstagramAccountWhereUniqueInput
+    create: XOR<InstagramAccountCreateWithoutAutomationsInput, InstagramAccountUncheckedCreateWithoutAutomationsInput>
+  }
+
+  export type IgAutomationRunCreateWithoutAutomationInput = {
+    id?: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
+    account: InstagramAccountCreateNestedOneWithoutRunsInput
+  }
+
+  export type IgAutomationRunUncheckedCreateWithoutAutomationInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunCreateOrConnectWithoutAutomationInput = {
+    where: IgAutomationRunWhereUniqueInput
+    create: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput>
+  }
+
+  export type IgAutomationRunCreateManyAutomationInputEnvelope = {
+    data: IgAutomationRunCreateManyAutomationInput | IgAutomationRunCreateManyAutomationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutIgAutomationsInput = {
+    update: XOR<CompanyUpdateWithoutIgAutomationsInput, CompanyUncheckedUpdateWithoutIgAutomationsInput>
+    create: XOR<CompanyCreateWithoutIgAutomationsInput, CompanyUncheckedCreateWithoutIgAutomationsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutIgAutomationsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutIgAutomationsInput, CompanyUncheckedUpdateWithoutIgAutomationsInput>
+  }
+
+  export type CompanyUpdateWithoutIgAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type InstagramAccountUpsertWithoutAutomationsInput = {
+    update: XOR<InstagramAccountUpdateWithoutAutomationsInput, InstagramAccountUncheckedUpdateWithoutAutomationsInput>
+    create: XOR<InstagramAccountCreateWithoutAutomationsInput, InstagramAccountUncheckedCreateWithoutAutomationsInput>
+    where?: InstagramAccountWhereInput
+  }
+
+  export type InstagramAccountUpdateToOneWithWhereWithoutAutomationsInput = {
+    where?: InstagramAccountWhereInput
+    data: XOR<InstagramAccountUpdateWithoutAutomationsInput, InstagramAccountUncheckedUpdateWithoutAutomationsInput>
+  }
+
+  export type InstagramAccountUpdateWithoutAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateWithoutAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type IgAutomationRunUpsertWithWhereUniqueWithoutAutomationInput = {
+    where: IgAutomationRunWhereUniqueInput
+    update: XOR<IgAutomationRunUpdateWithoutAutomationInput, IgAutomationRunUncheckedUpdateWithoutAutomationInput>
+    create: XOR<IgAutomationRunCreateWithoutAutomationInput, IgAutomationRunUncheckedCreateWithoutAutomationInput>
+  }
+
+  export type IgAutomationRunUpdateWithWhereUniqueWithoutAutomationInput = {
+    where: IgAutomationRunWhereUniqueInput
+    data: XOR<IgAutomationRunUpdateWithoutAutomationInput, IgAutomationRunUncheckedUpdateWithoutAutomationInput>
+  }
+
+  export type IgAutomationRunUpdateManyWithWhereWithoutAutomationInput = {
+    where: IgAutomationRunScalarWhereInput
+    data: XOR<IgAutomationRunUpdateManyMutationInput, IgAutomationRunUncheckedUpdateManyWithoutAutomationInput>
+  }
+
+  export type CompanyCreateWithoutIgAutomationRunsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutIgAutomationRunsInput, CompanyUncheckedCreateWithoutIgAutomationRunsInput>
+  }
+
+  export type InstagramAccountCreateWithoutRunsInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutInstagramAccountsInput
+    automations?: IgAutomationCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountUncheckedCreateWithoutRunsInput = {
+    id?: string
+    companyId: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    automations?: IgAutomationUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type InstagramAccountCreateOrConnectWithoutRunsInput = {
+    where: InstagramAccountWhereUniqueInput
+    create: XOR<InstagramAccountCreateWithoutRunsInput, InstagramAccountUncheckedCreateWithoutRunsInput>
+  }
+
+  export type IgAutomationCreateWithoutRunsInput = {
+    id?: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutIgAutomationsInput
+    account: InstagramAccountCreateNestedOneWithoutAutomationsInput
+  }
+
+  export type IgAutomationUncheckedCreateWithoutRunsInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationCreateOrConnectWithoutRunsInput = {
+    where: IgAutomationWhereUniqueInput
+    create: XOR<IgAutomationCreateWithoutRunsInput, IgAutomationUncheckedCreateWithoutRunsInput>
+  }
+
+  export type CompanyUpsertWithoutIgAutomationRunsInput = {
+    update: XOR<CompanyUpdateWithoutIgAutomationRunsInput, CompanyUncheckedUpdateWithoutIgAutomationRunsInput>
+    create: XOR<CompanyCreateWithoutIgAutomationRunsInput, CompanyUncheckedCreateWithoutIgAutomationRunsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutIgAutomationRunsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutIgAutomationRunsInput, CompanyUncheckedUpdateWithoutIgAutomationRunsInput>
+  }
+
+  export type CompanyUpdateWithoutIgAutomationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type InstagramAccountUpsertWithoutRunsInput = {
+    update: XOR<InstagramAccountUpdateWithoutRunsInput, InstagramAccountUncheckedUpdateWithoutRunsInput>
+    create: XOR<InstagramAccountCreateWithoutRunsInput, InstagramAccountUncheckedCreateWithoutRunsInput>
+    where?: InstagramAccountWhereInput
+  }
+
+  export type InstagramAccountUpdateToOneWithWhereWithoutRunsInput = {
+    where?: InstagramAccountWhereInput
+    data: XOR<InstagramAccountUpdateWithoutRunsInput, InstagramAccountUncheckedUpdateWithoutRunsInput>
+  }
+
+  export type InstagramAccountUpdateWithoutRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutInstagramAccountsNestedInput
+    automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateWithoutRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type IgAutomationUpsertWithoutRunsInput = {
+    update: XOR<IgAutomationUpdateWithoutRunsInput, IgAutomationUncheckedUpdateWithoutRunsInput>
+    create: XOR<IgAutomationCreateWithoutRunsInput, IgAutomationUncheckedCreateWithoutRunsInput>
+    where?: IgAutomationWhereInput
+  }
+
+  export type IgAutomationUpdateToOneWithWhereWithoutRunsInput = {
+    where?: IgAutomationWhereInput
+    data: XOR<IgAutomationUpdateWithoutRunsInput, IgAutomationUncheckedUpdateWithoutRunsInput>
+  }
+
+  export type IgAutomationUpdateWithoutRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateWithoutRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
@@ -144891,6 +152459,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -144933,6 +152502,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
@@ -144992,6 +152564,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145034,6 +152607,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
@@ -145077,6 +152653,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145119,6 +152696,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145162,6 +152742,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -145204,6 +152785,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
@@ -145247,6 +152831,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -145289,6 +152874,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
@@ -145348,6 +152936,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145390,6 +152979,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
@@ -145433,6 +153025,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145475,6 +153068,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145518,6 +153114,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -145560,6 +153157,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
@@ -145603,6 +153203,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -145645,6 +153246,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
@@ -145704,6 +153308,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145746,6 +153351,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
@@ -145789,6 +153397,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -145831,6 +153440,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145874,6 +153486,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -145916,6 +153529,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -145959,6 +153575,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146001,6 +153618,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -146060,6 +153680,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146102,6 +153723,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -146145,6 +153769,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146187,6 +153812,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146230,6 +153858,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146272,6 +153901,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -146315,6 +153947,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146357,6 +153990,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -146416,6 +154052,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146458,6 +154095,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -146501,6 +154141,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146543,6 +154184,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146586,6 +154230,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146628,6 +154273,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -146671,6 +154319,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146713,6 +154362,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -146772,6 +154424,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146814,6 +154467,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -146857,6 +154513,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -146899,6 +154556,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146942,6 +154602,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -146984,6 +154645,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -147027,6 +154691,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -147069,6 +154734,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -147128,6 +154796,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147170,6 +154839,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -147213,6 +154885,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147255,6 +154928,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -147298,6 +154974,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -147340,6 +155017,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -147383,6 +155063,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -147425,6 +155106,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -147484,6 +155168,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147526,6 +155211,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -147569,6 +155257,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147611,6 +155300,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -147654,6 +155346,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -147696,6 +155389,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -147739,6 +155435,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -147781,6 +155478,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -147840,6 +155540,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147882,6 +155583,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -147925,6 +155629,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -147967,6 +155672,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148010,6 +155718,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148052,6 +155761,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -148095,6 +155807,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148137,6 +155850,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -148196,6 +155912,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -148238,6 +155955,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -148281,6 +156001,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -148323,6 +156044,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148366,6 +156090,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148408,6 +156133,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -148451,6 +156179,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148493,6 +156222,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -148552,6 +156284,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -148594,6 +156327,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -148637,6 +156373,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -148679,6 +156416,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148722,6 +156462,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148764,6 +156505,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -148807,6 +156551,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -148849,6 +156594,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -148908,6 +156656,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -148950,6 +156699,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -148993,6 +156745,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -149035,6 +156788,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149078,6 +156834,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -149119,6 +156876,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -149163,6 +156923,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -149204,6 +156965,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -149288,6 +157052,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -149329,6 +157094,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -149373,6 +157141,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -149414,6 +157183,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149545,6 +157317,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -149586,6 +157359,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -149630,6 +157406,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -149671,6 +157448,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -149767,6 +157547,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -149808,6 +157589,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -149852,6 +157636,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -149893,6 +157678,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150034,6 +157822,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -150075,6 +157864,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -150119,6 +157911,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -150160,6 +157953,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -150338,6 +158134,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -150379,6 +158176,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -150423,6 +158223,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -150464,6 +158265,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150626,6 +158430,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -150667,6 +158472,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -150711,6 +158519,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -150752,6 +158561,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -150899,6 +158711,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -150940,6 +158753,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -150984,6 +158800,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -151025,6 +158842,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151150,6 +158970,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151191,6 +159012,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -151235,6 +159059,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151276,6 +159101,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -151423,6 +159251,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -151464,6 +159293,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -151508,6 +159340,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -151549,6 +159382,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151674,6 +159510,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151715,6 +159552,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -151759,6 +159599,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151800,6 +159641,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -151947,6 +159791,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -151988,6 +159833,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -152032,6 +159880,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152073,6 +159922,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -152117,6 +159969,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -152158,6 +160011,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -152202,6 +160058,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -152243,6 +160100,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -152303,6 +160163,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152344,6 +160205,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -152388,6 +160252,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152429,6 +160294,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -152809,6 +160677,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -152850,6 +160719,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -152894,6 +160766,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -152935,6 +160808,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -152995,6 +160871,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -153036,6 +160913,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -153080,6 +160960,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -153121,6 +161002,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -153165,6 +161049,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153206,6 +161091,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -153250,6 +161138,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153291,6 +161180,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -153413,6 +161305,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -153454,6 +161347,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -153498,6 +161394,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -153539,6 +161436,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -153626,6 +161526,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153667,6 +161568,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -153711,6 +161615,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153752,6 +161657,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -154074,6 +161982,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -154115,6 +162024,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -154159,6 +162071,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -154200,6 +162113,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -154828,6 +162744,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -154869,6 +162786,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -154913,6 +162833,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -154954,6 +162875,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -155014,6 +162938,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -155055,6 +162980,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -155099,6 +163027,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -155140,6 +163069,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155184,6 +163116,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -155226,6 +163159,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -155269,6 +163205,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -155311,6 +163248,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -155370,6 +163310,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -155412,6 +163353,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -155455,6 +163399,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -155497,6 +163442,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155540,6 +163488,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -155582,6 +163531,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -155625,6 +163577,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -155667,6 +163620,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -155878,6 +163834,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -155920,6 +163877,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -155963,6 +163923,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156005,6 +163966,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156194,6 +164158,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -156236,6 +164201,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -156279,6 +164247,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -156321,6 +164290,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -156417,6 +164389,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156459,6 +164432,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -156502,6 +164478,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156544,6 +164521,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156630,6 +164610,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -156672,6 +164653,9 @@ export namespace Prisma {
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
@@ -156715,6 +164699,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -156757,6 +164742,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
@@ -156816,6 +164804,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156858,6 +164847,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -156901,6 +164893,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156943,6 +164936,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158188,6 +166184,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleLinks?: boolean
+    moduleInstagram?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -158696,6 +166693,59 @@ export namespace Prisma {
     createdById?: string | null
   }
 
+  export type InstagramAccountCreateManyCompanyInput = {
+    id?: string
+    igUserId: string
+    username?: string | null
+    name?: string | null
+    profilePictureUrl?: string | null
+    accessTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    scopes?: InstagramAccountCreatescopesInput | string[]
+    status?: $Enums.IntegrationStatus
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IgAutomationCreateManyCompanyInput = {
+    id?: string
+    accountId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunCreateManyCompanyInput = {
+    id?: string
+    accountId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AnalyticsSnapshotCreateManyCompanyInput = {
     id?: string
     date: Date | string
@@ -158916,6 +166966,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -158957,6 +167008,9 @@ export namespace Prisma {
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
@@ -159001,6 +167055,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -159042,6 +167097,9 @@ export namespace Prisma {
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159086,6 +167144,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160732,6 +168791,171 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InstagramAccountUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: IgAutomationUncheckedUpdateManyWithoutAccountNestedInput
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type InstagramAccountUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igUserId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    scopes?: InstagramAccountUpdatescopesInput | string[]
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IgAutomationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: InstagramAccountUpdateOneRequiredWithoutAutomationsNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: InstagramAccountUpdateOneRequiredWithoutRunsNestedInput
+    automation?: IgAutomationUpdateOneWithoutRunsNestedInput
+  }
+
+  export type IgAutomationRunUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnalyticsSnapshotUpdateWithoutCompanyInput = {
@@ -163734,6 +171958,220 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type IgAutomationCreateManyAccountInput = {
+    id?: string
+    companyId: string
+    name: string
+    enabled?: boolean
+    mediaId?: string | null
+    mediaLabel?: string | null
+    triggerType?: $Enums.IgTriggerType
+    keywords?: IgAutomationCreatekeywordsInput | string[]
+    replyToComment?: boolean
+    commentReplies?: IgAutomationCreatecommentRepliesInput | string[]
+    sendDm?: boolean
+    dmText?: string | null
+    dmLinkUrl?: string | null
+    dmButtonLabel?: string | null
+    requireFollow?: boolean
+    notFollowingText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunCreateManyAccountInput = {
+    id?: string
+    companyId: string
+    automationId?: string | null
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationsNestedInput
+    runs?: IgAutomationRunUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    runs?: IgAutomationRunUncheckedUpdateManyWithoutAutomationNestedInput
+  }
+
+  export type IgAutomationUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerType?: EnumIgTriggerTypeFieldUpdateOperationsInput | $Enums.IgTriggerType
+    keywords?: IgAutomationUpdatekeywordsInput | string[]
+    replyToComment?: BoolFieldUpdateOperationsInput | boolean
+    commentReplies?: IgAutomationUpdatecommentRepliesInput | string[]
+    sendDm?: BoolFieldUpdateOperationsInput | boolean
+    dmText?: NullableStringFieldUpdateOperationsInput | string | null
+    dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    requireFollow?: BoolFieldUpdateOperationsInput | boolean
+    notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
+    automation?: IgAutomationUpdateOneWithoutRunsNestedInput
+  }
+
+  export type IgAutomationRunUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    automationId?: NullableStringFieldUpdateOperationsInput | string | null
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunCreateManyAutomationInput = {
+    id?: string
+    companyId: string
+    accountId: string
+    igCommenterId: string
+    username?: string | null
+    mediaId?: string | null
+    commentId?: string | null
+    commentText?: string | null
+    status?: $Enums.IgRunStatus
+    followState?: $Enums.IgFollowState
+    errorDetail?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IgAutomationRunUpdateWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
+    account?: InstagramAccountUpdateOneRequiredWithoutRunsNestedInput
+  }
+
+  export type IgAutomationRunUncheckedUpdateWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IgAutomationRunUncheckedUpdateManyWithoutAutomationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    igCommenterId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentText?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
+    followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
+    errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BusinessHoursIntervalCreateManyConfigInput = {
     id?: string
     startTime: string
@@ -164304,6 +172742,14 @@ export namespace Prisma {
      */
     export type CompanyCredentialCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use InstagramAccountCountOutputTypeDefaultArgs instead
+     */
+    export type InstagramAccountCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use IgAutomationCountOutputTypeDefaultArgs instead
+     */
+    export type IgAutomationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IgAutomationCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use BusinessHoursConfigCountOutputTypeDefaultArgs instead
      */
     export type BusinessHoursConfigCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BusinessHoursConfigCountOutputTypeDefaultArgs<ExtArgs>
@@ -164499,6 +172945,18 @@ export namespace Prisma {
      * @deprecated Use MarketingIntegrationDefaultArgs instead
      */
     export type MarketingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketingIntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstagramAccountDefaultArgs instead
+     */
+    export type InstagramAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstagramAccountDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use IgAutomationDefaultArgs instead
+     */
+    export type IgAutomationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IgAutomationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use IgAutomationRunDefaultArgs instead
+     */
+    export type IgAutomationRunArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IgAutomationRunDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AnalyticsSnapshotDefaultArgs instead
      */
