@@ -9,6 +9,7 @@ import {
   tokenCrypto,
   IG_SCOPES,
 } from "@/lib/instagram-oauth";
+import { recordIgCallback } from "@/lib/instagram-debug";
 
 // GET /api/integrations/instagram/callback?code=...&state=...
 export async function GET(req: NextRequest) {
@@ -18,104 +19,124 @@ export async function GET(req: NextRequest) {
   const error = url.searchParams.get("error");
   const errorReason = url.searchParams.get("error_description") || error;
 
-  if (error) {
-    return redirectToCompany(null, `?integration_error=${encodeURIComponent(errorReason || error)}`);
-  }
-  if (!code || !state) {
-    return redirectToCompany(null, "?integration_error=missing_params");
-  }
+  // Helper: registra o passo no buffer de diagnóstico e redireciona.
+  const fail = (companyId: string | null, step: string, qsCode: string, detail?: string) => {
+    recordIgCallback({ companyId, step, ok: false, detail });
+    return redirectToCompany(companyId, `?integration_error=${encodeURIComponent(qsCode)}`);
+  };
 
-  // Decodifica state
-  let payload: { s: string; c: string };
   try {
-    payload = JSON.parse(Buffer.from(state, "base64url").toString("utf8"));
-  } catch {
-    return redirectToCompany(null, "?integration_error=invalid_state");
-  }
+    if (error) {
+      return fail(null, "ig_returned_error", errorReason || error, errorReason || error);
+    }
+    if (!code || !state) {
+      return fail(null, "missing_params", "missing_params", `code=${!!code} state=${!!state}`);
+    }
 
-  // CSRF: confere com o cookie
-  const cookieStore = await cookies();
-  const cookieState = cookieStore.get("lh_ig_oauth_state")?.value;
-  if (!cookieState || cookieState !== payload.s) {
-    return redirectToCompany(payload.c, "?integration_error=state_mismatch");
-  }
-  cookieStore.delete("lh_ig_oauth_state");
+    // Decodifica state
+    let payload: { s: string; c: string };
+    try {
+      payload = JSON.parse(Buffer.from(state, "base64url").toString("utf8"));
+    } catch {
+      return fail(null, "invalid_state", "invalid_state");
+    }
 
-  // Reconfere permissão (pode ter mudado entre connect e callback).
-  const auth = await authorizeVaultAccess(payload.c, { checkCofreModule: false });
-  if (!auth.ok || !auth.canWrite) {
-    return redirectToCompany(payload.c, "?integration_error=forbidden");
-  }
+    // CSRF: confere com o cookie
+    const cookieStore = await cookies();
+    const cookieState = cookieStore.get("lh_ig_oauth_state")?.value;
+    if (!cookieState || cookieState !== payload.s) {
+      return fail(
+        payload.c,
+        "state_mismatch",
+        "state_mismatch",
+        `cookiePresent=${!!cookieState} match=${cookieState === payload.s}`,
+      );
+    }
+    cookieStore.delete("lh_ig_oauth_state");
 
-  // 1) code → token curto
-  let shortToken;
-  try {
-    shortToken = await exchangeCodeForToken(code);
-  } catch (e: any) {
-    console.error("[instagram-oauth] short token failed:", e.message);
-    return redirectToCompany(payload.c, "?integration_error=token_exchange_failed");
-  }
+    // Permissão (sessão efetiva)
+    const auth = await authorizeVaultAccess(payload.c, { checkCofreModule: false });
+    if (!auth.ok || !auth.canWrite) {
+      return fail(payload.c, "forbidden", "forbidden", auth.ok ? "no canWrite" : auth.error);
+    }
 
-  // 2) token curto → token longo (60 dias)
-  let longToken;
-  try {
-    longToken = await exchangeForLongLivedToken(shortToken.access_token);
-  } catch (e: any) {
-    console.error("[instagram-oauth] long token failed:", e.message);
-    return redirectToCompany(payload.c, "?integration_error=long_token_failed");
-  }
+    // 1) code → token curto
+    let shortToken;
+    try {
+      shortToken = await exchangeCodeForToken(code);
+    } catch (e: any) {
+      return fail(payload.c, "token_exchange_failed", "token_exchange_failed", e?.message?.slice(0, 300));
+    }
 
-  // 3) perfil da conta IG
-  let profile;
-  try {
-    profile = await fetchProfile(longToken.access_token);
-  } catch (e: any) {
-    console.error("[instagram-oauth] profile fetch failed:", e.message);
-    return redirectToCompany(payload.c, "?integration_error=profile_failed");
-  }
+    // 2) token curto → token longo (60 dias)
+    let longToken;
+    try {
+      longToken = await exchangeForLongLivedToken(shortToken.access_token);
+    } catch (e: any) {
+      return fail(payload.c, "long_token_failed", "long_token_failed", e?.message?.slice(0, 300));
+    }
 
-  const expiresAt = new Date(Date.now() + longToken.expires_in * 1000);
-  const grantedScopes = Array.isArray(shortToken.permissions)
-    ? shortToken.permissions
-    : typeof shortToken.permissions === "string"
-      ? shortToken.permissions.split(",").map((s) => s.trim()).filter(Boolean)
-      : IG_SCOPES;
+    // 3) perfil da conta IG
+    let profile;
+    try {
+      profile = await fetchProfile(longToken.access_token);
+    } catch (e: any) {
+      return fail(payload.c, "profile_failed", "profile_failed", e?.message?.slice(0, 300));
+    }
 
-  // 4) upsert InstagramAccount por igUserId (chave global única que casa o webhook).
-  try {
-    await prisma.instagramAccount.upsert({
-      where: { igUserId: profile.user_id },
-      create: {
-        companyId: payload.c,
-        igUserId: profile.user_id,
-        username: profile.username ?? null,
-        name: profile.name ?? null,
-        profilePictureUrl: profile.profile_picture_url ?? null,
-        accessTokenEnc: tokenCrypto.encrypt(longToken.access_token),
-        tokenExpiresAt: expiresAt,
-        scopes: grantedScopes,
-        status: "ACTIVE",
-        lastError: null,
-        createdById: auth.userId,
-      },
-      update: {
-        companyId: payload.c,
-        username: profile.username ?? null,
-        name: profile.name ?? null,
-        profilePictureUrl: profile.profile_picture_url ?? null,
-        accessTokenEnc: tokenCrypto.encrypt(longToken.access_token),
-        tokenExpiresAt: expiresAt,
-        scopes: grantedScopes,
-        status: "ACTIVE",
-        lastError: null,
-      },
+    const expiresAt = new Date(Date.now() + longToken.expires_in * 1000);
+    const grantedScopes = Array.isArray(shortToken.permissions)
+      ? shortToken.permissions
+      : typeof shortToken.permissions === "string"
+        ? shortToken.permissions.split(",").map((s) => s.trim()).filter(Boolean)
+        : IG_SCOPES;
+
+    // 4) upsert InstagramAccount por igUserId
+    try {
+      await prisma.instagramAccount.upsert({
+        where: { igUserId: profile.user_id },
+        create: {
+          companyId: payload.c,
+          igUserId: profile.user_id,
+          username: profile.username ?? null,
+          name: profile.name ?? null,
+          profilePictureUrl: profile.profile_picture_url ?? null,
+          accessTokenEnc: tokenCrypto.encrypt(longToken.access_token),
+          tokenExpiresAt: expiresAt,
+          scopes: grantedScopes,
+          status: "ACTIVE",
+          lastError: null,
+          createdById: auth.userId,
+        },
+        update: {
+          companyId: payload.c,
+          username: profile.username ?? null,
+          name: profile.name ?? null,
+          profilePictureUrl: profile.profile_picture_url ?? null,
+          accessTokenEnc: tokenCrypto.encrypt(longToken.access_token),
+          tokenExpiresAt: expiresAt,
+          scopes: grantedScopes,
+          status: "ACTIVE",
+          lastError: null,
+        },
+      });
+    } catch (e: any) {
+      return fail(payload.c, "save_failed", "save_failed", e?.message?.slice(0, 300));
+    }
+
+    recordIgCallback({
+      companyId: payload.c,
+      step: "saved",
+      ok: true,
+      detail: `@${profile.username ?? profile.user_id}`,
     });
+    return redirectToCompany(payload.c, "?integration_success=instagram");
   } catch (e: any) {
-    console.error("[instagram-oauth] save failed:", e.message);
-    return redirectToCompany(payload.c, "?integration_error=save_failed");
+    // Exceção inesperada fora dos try específicos.
+    console.error("[instagram-oauth] callback unexpected error:", e?.message);
+    recordIgCallback({ companyId: null, step: "unexpected_exception", ok: false, detail: e?.message?.slice(0, 300) });
+    return redirectToCompany(null, "?integration_error=unexpected");
   }
-
-  return redirectToCompany(payload.c, "?integration_success=instagram");
 }
 
 function redirectToCompany(companyId: string | null, qs: string): NextResponse {
