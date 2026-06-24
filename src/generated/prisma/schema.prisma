@@ -244,6 +244,7 @@ model Company {
   instagramAccounts         InstagramAccount[]
   igAutomations             IgAutomation[]
   igAutomationRuns          IgAutomationRun[]
+  igConversations           IgConversation[]
   analyticsSnapshots        AnalyticsSnapshot[]
   analyticsTopPages         AnalyticsTopPage[]
   analyticsTrafficSources   AnalyticsTrafficSource[]
@@ -1565,8 +1566,9 @@ model InstagramAccount {
   updatedAt   DateTime @updatedAt
   createdById String?
 
-  automations IgAutomation[]
-  runs        IgAutomationRun[]
+  automations   IgAutomation[]
+  runs          IgAutomationRun[]
+  conversations IgConversation[]
 
   @@index([companyId])
   @@index([status, tokenExpiresAt])
@@ -1676,6 +1678,63 @@ enum IgFollowState {
   UNKNOWN
   NOT_FOLLOWING
   FOLLOWING
+}
+
+// ─── Inbox do Instagram (DMs) ─────────────────────────────────────────────────
+//
+// SEPARADO do WhatsApp (Conversation/Message) de propósito — modelos próprios
+// pra não conflitar. Persistimos os DMs recebidos (webhook `messages`) e os
+// enviados (automação/agente), com flag de origem (automação vs orgânico).
+
+model IgConversation {
+  id        String           @id @default(cuid())
+  companyId String
+  company   Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  accountId String
+  account   InstagramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  participantId       String // IGSID do contato
+  participantUsername String?
+
+  lastMessageAt   DateTime?
+  lastMessageText String?         @db.Text
+  lastDirection   IgMsgDirection?
+  // último IN orgânico ainda sem resposta de agente → painel "sem resposta".
+  needsReply      Boolean         @default(false)
+  hadAutomation   Boolean         @default(false)
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  messages  IgMessage[]
+
+  @@unique([accountId, participantId])
+  @@index([companyId, needsReply])
+  @@index([accountId, lastMessageAt])
+}
+
+model IgMessage {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   IgConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  companyId      String
+  direction      IgMsgDirection
+  source         IgMsgSource    @default(ORGANIC)
+  text           String?        @db.Text
+  mid            String? // id da msg no Instagram (idempotência)
+  createdAt      DateTime       @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+enum IgMsgDirection {
+  IN
+  OUT
+}
+
+enum IgMsgSource {
+  ORGANIC // contato iniciou / mensagem fora de automação
+  AUTOMATION // enviada/recebida no contexto de automação
+  AGENT // enviada manualmente pelo atendente na inbox
 }
 
 model AnalyticsSnapshot {

@@ -794,6 +794,32 @@ exports.Prisma.IgAutomationRunScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.IgConversationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  accountId: 'accountId',
+  participantId: 'participantId',
+  participantUsername: 'participantUsername',
+  lastMessageAt: 'lastMessageAt',
+  lastMessageText: 'lastMessageText',
+  lastDirection: 'lastDirection',
+  needsReply: 'needsReply',
+  hadAutomation: 'hadAutomation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IgMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  companyId: 'companyId',
+  direction: 'direction',
+  source: 'source',
+  text: 'text',
+  mid: 'mid',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1465,6 +1491,17 @@ exports.IgFollowState = exports.$Enums.IgFollowState = {
   FOLLOWING: 'FOLLOWING'
 };
 
+exports.IgMsgDirection = exports.$Enums.IgMsgDirection = {
+  IN: 'IN',
+  OUT: 'OUT'
+};
+
+exports.IgMsgSource = exports.$Enums.IgMsgSource = {
+  ORGANIC: 'ORGANIC',
+  AUTOMATION: 'AUTOMATION',
+  AGENT: 'AGENT'
+};
+
 exports.PlanTier = exports.$Enums.PlanTier = {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
@@ -1647,6 +1684,8 @@ exports.Prisma.ModelName = {
   InstagramAccount: 'InstagramAccount',
   IgAutomation: 'IgAutomation',
   IgAutomationRun: 'IgAutomationRun',
+  IgConversation: 'IgConversation',
+  IgMessage: 'IgMessage',
   AnalyticsSnapshot: 'AnalyticsSnapshot',
   AnalyticsTopPage: 'AnalyticsTopPage',
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',

@@ -82,6 +82,60 @@ export function decryptAccountToken(accessTokenEnc: string | null | undefined): 
   return tokenCrypto.decrypt(accessTokenEnc);
 }
 
+// ─── Inbox: persistência de mensagens (DMs) ───────────────────────────────────
+
+type IgMsgDir = "IN" | "OUT";
+type IgMsgSrc = "ORGANIC" | "AUTOMATION" | "AGENT";
+
+/** Registra uma mensagem na conversa (cria/atualiza IgConversation + IgMessage). */
+export async function recordIgMessage(opts: {
+  companyId: string;
+  accountId: string;
+  participantId: string;
+  username?: string | null;
+  direction: IgMsgDir;
+  source: IgMsgSrc;
+  text?: string | null;
+  mid?: string | null;
+}): Promise<void> {
+  const now = new Date();
+  // needsReply: vira true só quando o contato manda algo ORGÂNICO; qualquer
+  // saída (automação/agente) zera.
+  const needsReply = opts.direction === "IN" ? opts.source === "ORGANIC" : false;
+  const convo = await prisma.igConversation.upsert({
+    where: { accountId_participantId: { accountId: opts.accountId, participantId: opts.participantId } },
+    create: {
+      companyId: opts.companyId,
+      accountId: opts.accountId,
+      participantId: opts.participantId,
+      participantUsername: opts.username ?? null,
+      lastMessageAt: now,
+      lastMessageText: opts.text ?? null,
+      lastDirection: opts.direction,
+      needsReply,
+      hadAutomation: opts.source === "AUTOMATION",
+    },
+    update: {
+      participantUsername: opts.username ?? undefined,
+      lastMessageAt: now,
+      lastMessageText: opts.text ?? null,
+      lastDirection: opts.direction,
+      needsReply,
+      ...(opts.source === "AUTOMATION" ? { hadAutomation: true } : {}),
+    },
+  });
+  await prisma.igMessage.create({
+    data: {
+      conversationId: convo.id,
+      companyId: opts.companyId,
+      direction: opts.direction,
+      source: opts.source,
+      text: opts.text ?? null,
+      mid: opts.mid ?? null,
+    },
+  });
+}
+
 // ─── Ações na Graph API ───────────────────────────────────────────────────────
 
 const GRAPH = instagramConfig.graphBase;
@@ -410,6 +464,17 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     note: payload ? "botão" : null,
   });
 
+  // Persiste o DM recebido na inbox (com botão → automação; senão → orgânico).
+  await recordIgMessage({
+    companyId: account.companyId,
+    accountId: account.id,
+    participantId: senderId,
+    direction: "IN",
+    source: payload ? "AUTOMATION" : "ORGANIC",
+    text: msg.message?.text ?? (payload ? `[botão] ${payload}` : null),
+    mid: msg.message?.mid ?? null,
+  }).catch((e) => console.error("[IG] persist inbound:", e?.message));
+
   const token = decryptAccountToken(account.accessTokenEnc);
   if (!token) return;
 
@@ -444,6 +509,18 @@ function deliveredContent(a: { deliveredText: string | null; dmLinkUrl: string |
   return [a.deliveredText, a.dmLinkUrl].filter(Boolean).join("\n") || "Aqui está! 🎉";
 }
 
+/** Registra na inbox uma DM de saída enviada pela automação. */
+function outAuto(account: ResolvedAccount, participantId: string, text: string) {
+  return recordIgMessage({
+    companyId: account.companyId,
+    accountId: account.id,
+    participantId,
+    direction: "OUT",
+    source: "AUTOMATION",
+    text,
+  }).catch((e: any) => console.error("[IG] persist out:", e?.message));
+}
+
 /** Resolve clique de botão (CTA "quero receber" ou "já te segui"): checa follow e entrega. */
 async function resolveButtonClick(account: ResolvedAccount, senderId: string, automationId: string, token: string) {
   const run = await findOpenRun(account.id, senderId, automationId);
@@ -453,6 +530,7 @@ async function resolveButtonClick(account: ResolvedAccount, senderId: string, au
   // Sem follow-gate → entrega direto.
   if (!a.requireFollow) {
     await sendMessageToUser(senderId, deliveredContent(a), token);
+    await outAuto(account, senderId, deliveredContent(a));
     await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
     return;
   }
@@ -460,12 +538,14 @@ async function resolveButtonClick(account: ResolvedAccount, senderId: string, au
   const follows = await getUserFollowStatus(senderId, token);
   if (follows === true) {
     await sendMessageToUser(senderId, deliveredContent(a), token);
+    await outAuto(account, senderId, deliveredContent(a));
     await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
     console.log(`[IG] follow-gate (botão) liberado p/ ${senderId} (run ${run.id})`);
   } else {
     // Pede pra seguir com link do perfil + botão "já te segui".
     const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
     await sendMessageWithButtons(senderId, ask, [{ title: DEFAULT_FOLLOWED_LABEL, payload: FOLLOWED_PREFIX + a.id }], token);
+    await outAuto(account, senderId, ask);
     await prisma.igAutomationRun.update({
       where: { id: run.id },
       data: { status: "AWAITING_FOLLOW", followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
@@ -486,12 +566,13 @@ async function resolveTextFollowGate(account: ResolvedAccount, senderId: string,
 
   if (follows === true) {
     const fullDm = [a.deliveredText || a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
-    if (fullDm) await sendMessageToUser(senderId, fullDm, token);
+    if (fullDm) { await sendMessageToUser(senderId, fullDm, token); await outAuto(account, senderId, fullDm); }
     await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
     console.log(`[IG] follow-gate (texto) liberado p/ ${senderId} (run ${run.id})`);
   } else {
     const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
     await sendMessageToUser(senderId, ask, token);
+    await outAuto(account, senderId, ask);
     await prisma.igAutomationRun.update({
       where: { id: run.id },
       data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
