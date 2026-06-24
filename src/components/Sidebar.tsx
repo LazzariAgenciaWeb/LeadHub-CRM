@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Instagram, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -173,7 +173,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
     { href: "/campanhas/email", Icon: Mail,       label: "E-mail Marketing", grad: "email",      show: _isSuperAdmin || _isAdmin },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
-    { href: "/instagram",     Icon: Instagram,    label: "Instagram",     grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
+    { href: "/instagram",     Icon: Camera,       label: "Instagram",     grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },

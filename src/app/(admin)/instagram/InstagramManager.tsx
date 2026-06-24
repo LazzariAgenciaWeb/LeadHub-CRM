@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Instagram, Plus, Trash2, RefreshCw } from "lucide-react";
+import { Camera, Plus, Trash2, RefreshCw } from "lucide-react";
 
 type Account = {
   id: string;
@@ -205,7 +205,7 @@ export default function InstagramManager() {
             href={connectUrl}
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-pink-500 to-indigo-500 px-4 py-2 text-sm font-medium text-white hover:opacity-90"
           >
-            <Instagram className="w-4 h-4" /> Conectar Instagram
+            <Camera className="w-4 h-4" /> Conectar Instagram
           </a>
         </div>
       </div>
@@ -309,7 +309,7 @@ export default function InstagramManager() {
 function Header() {
   return (
     <div className="flex items-center gap-2">
-      <Instagram className="w-6 h-6 text-pink-400" />
+      <Camera className="w-6 h-6 text-pink-400" />
       <h1 className="text-xl font-semibold text-white">Instagram</h1>
     </div>
   );
