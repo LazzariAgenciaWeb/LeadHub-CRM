@@ -79,6 +79,35 @@ export function decryptAccountToken(accessTokenEnc: string | null | undefined): 
   return tokenCrypto.decrypt(accessTokenEnc);
 }
 
+// ─── Ações na Graph API ───────────────────────────────────────────────────────
+
+const GRAPH = instagramConfig.graphBase;
+
+/** Responde publicamente a um comentário. POST /{comment-id}/replies */
+export async function replyToComment(commentId: string, message: string, token: string): Promise<void> {
+  const params = new URLSearchParams({ message, access_token: token });
+  const r = await fetch(`${GRAPH}/${commentId}/replies?${params.toString()}`, { method: "POST" });
+  if (!r.ok) throw new Error(`reply ao comentário falhou: ${r.status} ${await r.text()}`);
+}
+
+/**
+ * Manda DM (private reply) ao autor de um comentário. Janela de 7 dias, 1x por
+ * comentário. POST /me/messages com recipient.comment_id.
+ */
+export async function sendPrivateReply(commentId: string, text: string, token: string): Promise<void> {
+  const r = await fetch(`${GRAPH}/me/messages?access_token=${encodeURIComponent(token)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recipient: { comment_id: commentId }, message: { text } }),
+  });
+  if (!r.ok) throw new Error(`private reply (DM) falhou: ${r.status} ${await r.text()}`);
+}
+
+function pickRandom(arr: string[]): string | undefined {
+  if (!arr.length) return undefined;
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 // ─── Ponto de entrada do webhook ──────────────────────────────────────────────
 
 /**
@@ -141,14 +170,98 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
     mediaId: value.media?.id ?? null,
   });
 
-  // TODO Fase 2:
-  //   1. Buscar IgAutomation enabled da conta que casa (mediaId == value.media.id
-  //      ou mediaId null) e cujo gatilho bate (KEYWORD vs texto, ou ANY).
-  //   2. Idempotência: upsert IgAutomationRun por (automationId, commentId).
-  //   3. Se replyToComment → POST /{comment-id}/replies (resposta pública).
-  //   4. Se sendDm → private reply (POST /{igUserId}/messages, recipient.comment_id).
-  //   5. Se requireFollow → estado AWAITING_FOLLOW; libera link só após confirmar
-  //      is_user_follow_business no contexto de DM (handleMessageEvent).
+  const commentId = value.id;
+  const mediaId = value.media?.id ?? null;
+  const commenterId = value.from?.id;
+  if (!commentId || !commenterId) return;
+
+  // 1. Automações ativas da conta que se aplicam a este post (mediaId igual ou
+  //    null = qualquer post).
+  const automations = await prisma.igAutomation.findMany({
+    where: {
+      accountId: account.id,
+      enabled: true,
+      OR: [{ mediaId }, { mediaId: null }],
+    },
+  });
+
+  // 2. Filtra por gatilho (ANY = sempre; KEYWORD = texto contém alguma palavra).
+  const text = (value.text ?? "").toLowerCase();
+  const matched = automations.filter((a) => {
+    if (a.triggerType === "ANY") return true;
+    return a.keywords.some((k) => k && text.includes(k.toLowerCase()));
+  });
+  if (!matched.length) return;
+
+  const token = decryptAccountToken(account.accessTokenEnc);
+  if (!token) {
+    console.error(`[IG] sem token pra conta ${account.id} — não dá pra agir`);
+    return;
+  }
+
+  for (const a of matched) {
+    // 3. Idempotência: 1 run por (automação, comentário).
+    const existing = await prisma.igAutomationRun.findUnique({
+      where: { automationId_commentId: { automationId: a.id, commentId } },
+    });
+    if (existing && existing.status !== "PENDING" && existing.status !== "FAILED") {
+      continue; // já tratado
+    }
+    const run =
+      existing ??
+      (await prisma.igAutomationRun.create({
+        data: {
+          companyId: account.companyId,
+          accountId: account.id,
+          automationId: a.id,
+          igCommenterId: commenterId,
+          username: value.from?.username ?? null,
+          mediaId,
+          commentId,
+          commentText: value.text ?? null,
+          status: "PENDING",
+        },
+      }));
+
+    try {
+      // 4. Resposta pública ao comentário.
+      if (a.replyToComment) {
+        const reply = pickRandom(a.commentReplies);
+        if (reply) {
+          await replyToComment(commentId, reply, token);
+          await prisma.igAutomationRun.update({
+            where: { id: run.id },
+            data: { status: "COMMENT_REPLIED" },
+          });
+        }
+      }
+
+      // 5. DM (private reply) com texto + link.
+      //    Follow-gate (requireFollow) fica pra Fase 3 — por ora manda direto.
+      if (a.sendDm) {
+        const dm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
+        if (dm) {
+          await sendPrivateReply(commentId, dm, token);
+          await prisma.igAutomationRun.update({
+            where: { id: run.id },
+            data: { status: "DM_SENT" },
+          });
+        }
+      }
+
+      await prisma.igAutomationRun.update({
+        where: { id: run.id },
+        data: { status: "COMPLETED" },
+      });
+      console.log(`[IG] automação ${a.id} executada p/ comentário ${commentId}`);
+    } catch (e: any) {
+      console.error(`[IG] falha na automação ${a.id}:`, e?.message);
+      await prisma.igAutomationRun.update({
+        where: { id: run.id },
+        data: { status: "FAILED", errorDetail: e?.message?.slice(0, 500) ?? "erro" },
+      });
+    }
+  }
 }
 
 async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEvent): Promise<void> {
