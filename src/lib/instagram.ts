@@ -126,7 +126,14 @@ export async function sendMessageToUser(igsid: string, text: string, token: stri
   if (!r.ok) throw new Error(`DM (recipient.id) falhou: ${r.status} ${await r.text()}`);
 }
 
-const DEFAULT_ASK_FOLLOW = 'Pra liberar o link, me segue aqui 👉 e responde "ok" no direct que eu te mando 🚀';
+const DEFAULT_ASK_FOLLOW = 'Pra liberar o link, é só me seguir e responder "ok" aqui no direct que eu te mando 🚀';
+
+/** Anexa o link do perfil à mensagem de "me segue" (facilita ir e voltar). */
+function withProfileLink(text: string, username?: string | null): string {
+  if (!username) return text;
+  const url = `https://instagram.com/${username}`;
+  return text.includes(url) ? text : `${text}\n👉 ${url}`;
+}
 
 function pickRandom(arr: string[]): string | undefined {
   if (!arr.length) return undefined;
@@ -306,8 +313,8 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
               data: { status: "COMPLETED", followState: "FOLLOWING" },
             });
           } else {
-            // Pede pra seguir; libera o link quando responder no DM (handleMessageEvent).
-            const ask = a.notFollowingText || DEFAULT_ASK_FOLLOW;
+            // Pede pra seguir (com link do perfil); libera o link quando responder no DM.
+            const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
             await withRetry(() => sendPrivateReply(commentId, ask, token));
             await prisma.igAutomationRun.update({
               where: { id: run.id },
@@ -383,8 +390,8 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
       });
       console.log(`[IG] follow-gate liberado p/ ${senderId} (run ${run.id})`);
     } else {
-      // Ainda não segue (ou não deu pra confirmar) → reforça o pedido.
-      const ask = run.automation.notFollowingText || DEFAULT_ASK_FOLLOW;
+      // Ainda não segue (ou não deu pra confirmar) → reforça o pedido com o link.
+      const ask = withProfileLink(run.automation.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
       await sendMessageToUser(senderId, ask, token);
       await prisma.igAutomationRun.update({
         where: { id: run.id },
