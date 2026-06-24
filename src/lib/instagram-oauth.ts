@@ -182,6 +182,39 @@ export async function fetchProfile(accessToken: string): Promise<IgProfile> {
 }
 
 /**
+ * Assina a CONTA aos webhooks do app. Além de assinar o campo no painel, cada
+ * conta via Login do Instagram precisa ser assinada para entregar eventos reais.
+ * POST graph.instagram.com/me/subscribed_apps?subscribed_fields=comments,messages
+ * (usa `me` + o token da própria conta, evitando ambiguidade de id.)
+ */
+export async function subscribeAccountWebhooks(
+  accessToken: string,
+  fields: string[] = ["comments", "messages"],
+): Promise<{ ok: boolean; status: number; body: any }> {
+  const params = new URLSearchParams({
+    subscribed_fields: fields.join(","),
+    access_token: accessToken,
+  });
+  const r = await fetch(`${GRAPH}/me/subscribed_apps?${params.toString()}`, { method: "POST" });
+  const txt = await r.text();
+  let body: any = txt;
+  try { body = JSON.parse(txt); } catch { /* mantém texto */ }
+  return { ok: r.ok, status: r.status, body };
+}
+
+/** Lê o estado atual de assinatura da conta (quais campos estão ativos). */
+export async function getSubscribedApps(
+  accessToken: string,
+): Promise<{ ok: boolean; status: number; body: any }> {
+  const params = new URLSearchParams({ access_token: accessToken });
+  const r = await fetch(`${GRAPH}/me/subscribed_apps?${params.toString()}`);
+  const txt = await r.text();
+  let body: any = txt;
+  try { body = JSON.parse(txt); } catch { /* mantém texto */ }
+  return { ok: r.ok, status: r.status, body };
+}
+
+/**
  * Valida a assinatura `X-Hub-Signature-256` que a Meta envia no webhook.
  * A chave de assinatura é o App Secret. Comparação em tempo constante.
  *

@@ -6,6 +6,7 @@ import {
   exchangeCodeForToken,
   exchangeForLongLivedToken,
   fetchProfile,
+  subscribeAccountWebhooks,
   tokenCrypto,
   IG_SCOPES,
 } from "@/lib/instagram-oauth";
@@ -127,12 +128,21 @@ export async function GET(req: NextRequest) {
       return fail(payload.c, "save_failed", "save_failed", e?.message?.slice(0, 300));
     }
 
+    // 5) Assina a conta aos webhooks (best-effort — não derruba o fluxo se falhar).
+    let subDetail = "";
+    try {
+      const sub = await subscribeAccountWebhooks(longToken.access_token);
+      subDetail = ` sub=${sub.ok ? "ok" : `fail(${sub.status})`}`;
+    } catch (e: any) {
+      subDetail = ` sub=erro(${e?.message?.slice(0, 80)})`;
+    }
+
     recordIgCallback({
       companyId: payload.c,
       step: "saved",
       ok: true,
       // registra os dois ids pra conferir contra o entry.id do webhook
-      detail: `@${profile.username ?? profile.user_id} user_id=${profile.user_id} scoped_id=${profile.scoped_id ?? "-"}`,
+      detail: `@${profile.username ?? profile.user_id} user_id=${profile.user_id} scoped_id=${profile.scoped_id ?? "-"}${subDetail}`,
     });
     return redirectToCompany(payload.c, "?integration_success=instagram");
   } catch (e: any) {
