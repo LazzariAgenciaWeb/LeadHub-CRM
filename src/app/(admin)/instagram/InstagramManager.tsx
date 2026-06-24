@@ -24,6 +24,8 @@ type Automation = {
   sendDm: boolean;
   dmText: string | null;
   dmLinkUrl: string | null;
+  dmButtonLabel: string | null;
+  deliveredText: string | null;
   requireFollow: boolean;
   notFollowingText: string | null;
 };
@@ -65,6 +67,8 @@ const emptyForm = {
   sendDm: true,
   dmText: "",
   dmLinkUrl: "",
+  dmButtonLabel: "",
+  deliveredText: "",
   requireFollow: false,
   notFollowingText: "",
 };
@@ -132,6 +136,8 @@ export default function InstagramManager() {
       sendDm: a.sendDm,
       dmText: a.dmText || "",
       dmLinkUrl: a.dmLinkUrl || "",
+      dmButtonLabel: a.dmButtonLabel || "",
+      deliveredText: a.deliveredText || "",
       requireFollow: a.requireFollow,
       notFollowingText: a.notFollowingText || "",
     });
@@ -154,6 +160,8 @@ export default function InstagramManager() {
       sendDm: form.sendDm,
       dmText: form.dmText,
       dmLinkUrl: form.dmLinkUrl,
+      dmButtonLabel: form.dmButtonLabel,
+      deliveredText: form.deliveredText,
       requireFollow: form.requireFollow,
       notFollowingText: form.notFollowingText,
     };
@@ -405,14 +413,23 @@ function FormModal({
           </label>
           {form.sendDm && (
             <>
-              <input className={input} value={form.dmText} onChange={(e) => set("dmText", e.target.value)} placeholder="Texto do DM" />
-              <input className={input} value={form.dmLinkUrl} onChange={(e) => set("dmLinkUrl", e.target.value)} placeholder="Link (https://...)" />
+              <input className={input} value={form.dmText} onChange={(e) => set("dmText", e.target.value)} placeholder={form.dmButtonLabel ? "Mensagem de abertura (ex: Legal que você quer X! Toca abaixo 👇)" : "Texto do DM"} />
+              <input className={input} value={form.dmButtonLabel} onChange={(e) => set("dmButtonLabel", e.target.value)} placeholder='Texto do botão (opcional, ex: "Quero receber") — ativa o fluxo de botão' />
+              {form.dmButtonLabel && (
+                <textarea className={input} rows={2} value={form.deliveredText} onChange={(e) => set("deliveredText", e.target.value)} placeholder="Conteúdo entregue depois do clique (texto)" />
+              )}
+              <input className={input} value={form.dmLinkUrl} onChange={(e) => set("dmLinkUrl", e.target.value)} placeholder="Link entregue (https://...)" />
               <label className="flex items-center gap-2 text-sm text-slate-300">
                 <input type="checkbox" checked={form.requireFollow} onChange={(e) => set("requireFollow", e.target.checked)} className="w-4 h-4 accent-indigo-500" />
-                🔒 Só liberar o link depois de seguir (follow-gate)
+                🔒 Só liberar depois de seguir (follow-gate)
               </label>
               {form.requireFollow && (
                 <input className={input} value={form.notFollowingText} onChange={(e) => set("notFollowingText", e.target.value)} placeholder='Mensagem de "me segue antes" (o link do perfil é anexado)' />
+              )}
+              {form.dmButtonLabel && (
+                <p className="text-[11px] text-slate-500">
+                  Fluxo de botão: manda a abertura com o botão; ao clicar{form.requireFollow ? " (e seguir)" : ""}, entrega o conteúdo + link.
+                </p>
               )}
             </>
           )}

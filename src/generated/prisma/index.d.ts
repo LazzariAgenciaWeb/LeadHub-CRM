@@ -58109,6 +58109,7 @@ export namespace Prisma {
     dmText: string | null
     dmLinkUrl: string | null
     dmButtonLabel: string | null
+    deliveredText: string | null
     requireFollow: boolean | null
     notFollowingText: string | null
     createdAt: Date | null
@@ -58129,6 +58130,7 @@ export namespace Prisma {
     dmText: string | null
     dmLinkUrl: string | null
     dmButtonLabel: string | null
+    deliveredText: string | null
     requireFollow: boolean | null
     notFollowingText: string | null
     createdAt: Date | null
@@ -58151,6 +58153,7 @@ export namespace Prisma {
     dmText: number
     dmLinkUrl: number
     dmButtonLabel: number
+    deliveredText: number
     requireFollow: number
     notFollowingText: number
     createdAt: number
@@ -58173,6 +58176,7 @@ export namespace Prisma {
     dmText?: true
     dmLinkUrl?: true
     dmButtonLabel?: true
+    deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
     createdAt?: true
@@ -58193,6 +58197,7 @@ export namespace Prisma {
     dmText?: true
     dmLinkUrl?: true
     dmButtonLabel?: true
+    deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
     createdAt?: true
@@ -58215,6 +58220,7 @@ export namespace Prisma {
     dmText?: true
     dmLinkUrl?: true
     dmButtonLabel?: true
+    deliveredText?: true
     requireFollow?: true
     notFollowingText?: true
     createdAt?: true
@@ -58310,6 +58316,7 @@ export namespace Prisma {
     dmText: string | null
     dmLinkUrl: string | null
     dmButtonLabel: string | null
+    deliveredText: string | null
     requireFollow: boolean
     notFollowingText: string | null
     createdAt: Date
@@ -58349,6 +58356,7 @@ export namespace Prisma {
     dmText?: boolean
     dmLinkUrl?: boolean
     dmButtonLabel?: boolean
+    deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
     createdAt?: boolean
@@ -58375,6 +58383,7 @@ export namespace Prisma {
     dmText?: boolean
     dmLinkUrl?: boolean
     dmButtonLabel?: boolean
+    deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
     createdAt?: boolean
@@ -58399,6 +58408,7 @@ export namespace Prisma {
     dmText?: boolean
     dmLinkUrl?: boolean
     dmButtonLabel?: boolean
+    deliveredText?: boolean
     requireFollow?: boolean
     notFollowingText?: boolean
     createdAt?: boolean
@@ -58439,6 +58449,7 @@ export namespace Prisma {
       dmText: string | null
       dmLinkUrl: string | null
       dmButtonLabel: string | null
+      deliveredText: string | null
       requireFollow: boolean
       notFollowingText: string | null
       createdAt: Date
@@ -58854,6 +58865,7 @@ export namespace Prisma {
     readonly dmText: FieldRef<"IgAutomation", 'String'>
     readonly dmLinkUrl: FieldRef<"IgAutomation", 'String'>
     readonly dmButtonLabel: FieldRef<"IgAutomation", 'String'>
+    readonly deliveredText: FieldRef<"IgAutomation", 'String'>
     readonly requireFollow: FieldRef<"IgAutomation", 'Boolean'>
     readonly notFollowingText: FieldRef<"IgAutomation", 'String'>
     readonly createdAt: FieldRef<"IgAutomation", 'DateTime'>
@@ -95289,6 +95301,7 @@ export namespace Prisma {
     dmText: 'dmText',
     dmLinkUrl: 'dmLinkUrl',
     dmButtonLabel: 'dmButtonLabel',
+    deliveredText: 'deliveredText',
     requireFollow: 'requireFollow',
     notFollowingText: 'notFollowingText',
     createdAt: 'createdAt',
@@ -100840,6 +100853,7 @@ export namespace Prisma {
     dmText?: StringNullableFilter<"IgAutomation"> | string | null
     dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
     dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
@@ -100865,6 +100879,7 @@ export namespace Prisma {
     dmText?: SortOrderInput | SortOrder
     dmLinkUrl?: SortOrderInput | SortOrder
     dmButtonLabel?: SortOrderInput | SortOrder
+    deliveredText?: SortOrderInput | SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -100893,6 +100908,7 @@ export namespace Prisma {
     dmText?: StringNullableFilter<"IgAutomation"> | string | null
     dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
     dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
@@ -100918,6 +100934,7 @@ export namespace Prisma {
     dmText?: SortOrderInput | SortOrder
     dmLinkUrl?: SortOrderInput | SortOrder
     dmButtonLabel?: SortOrderInput | SortOrder
+    deliveredText?: SortOrderInput | SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -100946,6 +100963,7 @@ export namespace Prisma {
     dmText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
     dmLinkUrl?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
     dmButtonLabel?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
+    deliveredText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
     requireFollow?: BoolWithAggregatesFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableWithAggregatesFilter<"IgAutomation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"IgAutomation"> | Date | string
@@ -108740,6 +108758,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -108765,6 +108784,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -108786,6 +108806,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108811,6 +108832,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108834,6 +108856,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -108854,6 +108877,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108876,6 +108900,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115840,6 +115865,7 @@ export namespace Prisma {
     dmText?: SortOrder
     dmLinkUrl?: SortOrder
     dmButtonLabel?: SortOrder
+    deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
     createdAt?: SortOrder
@@ -115860,6 +115886,7 @@ export namespace Prisma {
     dmText?: SortOrder
     dmLinkUrl?: SortOrder
     dmButtonLabel?: SortOrder
+    deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
     createdAt?: SortOrder
@@ -115880,6 +115907,7 @@ export namespace Prisma {
     dmText?: SortOrder
     dmLinkUrl?: SortOrder
     dmButtonLabel?: SortOrder
+    deliveredText?: SortOrder
     requireFollow?: SortOrder
     notFollowingText?: SortOrder
     createdAt?: SortOrder
@@ -130760,6 +130788,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -130783,6 +130812,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -132737,6 +132767,7 @@ export namespace Prisma {
     dmText?: StringNullableFilter<"IgAutomation"> | string | null
     dmLinkUrl?: StringNullableFilter<"IgAutomation"> | string | null
     dmButtonLabel?: StringNullableFilter<"IgAutomation"> | string | null
+    deliveredText?: StringNullableFilter<"IgAutomation"> | string | null
     requireFollow?: BoolFilter<"IgAutomation"> | boolean
     notFollowingText?: StringNullableFilter<"IgAutomation"> | string | null
     createdAt?: DateTimeFilter<"IgAutomation"> | Date | string
@@ -150990,6 +151021,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -151013,6 +151045,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -152055,6 +152088,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -152079,6 +152113,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -152353,6 +152388,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152377,6 +152413,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -166764,6 +166801,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -168902,6 +168940,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -168925,6 +168964,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -168947,6 +168987,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -172016,6 +172057,7 @@ export namespace Prisma {
     dmText?: string | null
     dmLinkUrl?: string | null
     dmButtonLabel?: string | null
+    deliveredText?: string | null
     requireFollow?: boolean
     notFollowingText?: string | null
     createdAt?: Date | string
@@ -172052,6 +172094,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -172075,6 +172118,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -172097,6 +172141,7 @@ export namespace Prisma {
     dmText?: NullableStringFieldUpdateOperationsInput | string | null
     dmLinkUrl?: NullableStringFieldUpdateOperationsInput | string | null
     dmButtonLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveredText?: NullableStringFieldUpdateOperationsInput | string | null
     requireFollow?: BoolFieldUpdateOperationsInput | boolean
     notFollowingText?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

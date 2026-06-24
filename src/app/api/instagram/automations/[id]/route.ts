@@ -29,6 +29,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (b.sendDm !== undefined) data.sendDm = !!b.sendDm;
   if (b.dmText !== undefined) data.dmText = b.dmText || null;
   if (b.dmLinkUrl !== undefined) data.dmLinkUrl = b.dmLinkUrl || null;
+  if (b.dmButtonLabel !== undefined) data.dmButtonLabel = b.dmButtonLabel || null;
+  if (b.deliveredText !== undefined) data.deliveredText = b.deliveredText || null;
   if (b.requireFollow !== undefined) data.requireFollow = !!b.requireFollow;
   if (b.notFollowingText !== undefined) data.notFollowingText = b.notFollowingText || null;
 

@@ -36,7 +36,7 @@ export interface IgMessagingEvent {
   sender?: { id: string };
   recipient?: { id: string };
   timestamp?: number;
-  message?: { mid?: string; text?: string; is_echo?: boolean };
+  message?: { mid?: string; text?: string; is_echo?: boolean; quick_reply?: { payload?: string } };
   postback?: { mid?: string; title?: string; payload?: string };
   reaction?: { mid?: string; action?: string };
 }
@@ -126,6 +126,40 @@ export async function sendMessageToUser(igsid: string, text: string, token: stri
   if (!r.ok) throw new Error(`DM (recipient.id) falhou: ${r.status} ${await r.text()}`);
 }
 
+// ─── Mensagens com botões (quick replies) ────────────────────────────────────
+
+export type IgButton = { title: string; payload: string };
+
+function quickReplies(buttons: IgButton[]) {
+  // Instagram limita o título a ~20 chars.
+  return buttons.map((b) => ({ content_type: "text", title: b.title.slice(0, 20), payload: b.payload }));
+}
+
+/** Private reply (comment_id) com botões clicáveis. */
+export async function sendPrivateReplyWithButtons(commentId: string, text: string, buttons: IgButton[], token: string): Promise<void> {
+  const r = await fetch(`${GRAPH}/me/messages?access_token=${encodeURIComponent(token)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recipient: { comment_id: commentId }, message: { text, quick_replies: quickReplies(buttons) } }),
+  });
+  if (!r.ok) throw new Error(`private reply c/ botão falhou: ${r.status} ${await r.text()}`);
+}
+
+/** DM a um usuário (recipient.id) com botões clicáveis. */
+export async function sendMessageWithButtons(igsid: string, text: string, buttons: IgButton[], token: string): Promise<void> {
+  const r = await fetch(`${GRAPH}/me/messages?access_token=${encodeURIComponent(token)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recipient: { id: igsid }, message: { text, quick_replies: quickReplies(buttons) } }),
+  });
+  if (!r.ok) throw new Error(`DM c/ botão falhou: ${r.status} ${await r.text()}`);
+}
+
+// Payloads dos botões (postback/quick_reply). Formato: PREFIX:automationId
+const CTA_PREFIX = "IG_CTA:";        // botão "quero receber" da DM de abertura
+const FOLLOWED_PREFIX = "IG_FOLLOWED:"; // botão "já te segui"
+const DEFAULT_CTA_LABEL = "Quero receber";
+const DEFAULT_FOLLOWED_LABEL = "Já te segui ✅";
 const DEFAULT_ASK_FOLLOW = 'Pra liberar o link, é só me seguir e responder "ok" aqui no direct que eu te mando 🚀';
 
 /** Anexa o link do perfil à mensagem de "me segue" (facilita ir e voltar). */
@@ -298,8 +332,18 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
         }
       }
 
-      // 5. DM (private reply). Com follow-gate, o link só sai depois do follow.
-      if (a.sendDm) {
+      // 5. DM. Dois fluxos:
+      //    (a) BOTÃO (dmButtonLabel preenchido): manda a abertura + botão CTA;
+      //        a checagem de follow e a entrega acontecem no CLIQUE do botão
+      //        (handleMessageEvent → resolveCtaClick).
+      //    (b) SIMPLES: manda o conteúdo direto (follow-gate por texto "ok").
+      if (a.sendDm && a.dmButtonLabel) {
+        const opening = a.dmText || "Toca no botão abaixo pra receber 👇";
+        await withRetry(() =>
+          sendPrivateReplyWithButtons(commentId, opening, [{ title: a.dmButtonLabel!, payload: CTA_PREFIX + a.id }], token),
+        );
+        await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "DM_SENT" } });
+      } else if (a.sendDm) {
         const fullDm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
 
         if (a.requireFollow) {
@@ -352,54 +396,103 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
   const senderId = msg.sender?.id;
   if (!senderId || senderId === account.igUserId) return;
 
-  console.log(
-    `[IG] DM empresa=${account.companyId} de=${senderId} ` +
-      `texto=${JSON.stringify(msg.message?.text)} postback=${msg.postback?.payload ?? "-"}`,
-  );
+  const payload = msg.message?.quick_reply?.payload || msg.postback?.payload || "";
+  console.log(`[IG] DM empresa=${account.companyId} de=${senderId} payload=${payload || "-"} texto=${JSON.stringify(msg.message?.text)}`);
   recordIgWebhookEvent({
     type: "message",
     accountIgUserId: account.igUserId,
     companyId: account.companyId,
     from: senderId,
-    text: msg.message?.text ?? msg.postback?.payload ?? null,
-    note: msg.postback ? "postback" : null,
+    text: msg.message?.text ?? payload ?? null,
+    note: payload ? "botão" : null,
   });
 
-  // Follow-gate: há um disparo esperando follow desta pessoa?
+  const token = decryptAccountToken(account.accessTokenEnc);
+  if (!token) return;
+
+  try {
+    // Clique no botão CTA da DM de abertura ("quero receber").
+    if (payload.startsWith(CTA_PREFIX)) {
+      await resolveButtonClick(account, senderId, payload.slice(CTA_PREFIX.length), token);
+      return;
+    }
+    // Clique no botão "já te segui".
+    if (payload.startsWith(FOLLOWED_PREFIX)) {
+      await resolveButtonClick(account, senderId, payload.slice(FOLLOWED_PREFIX.length), token);
+      return;
+    }
+    // Texto comum: resolve o follow-gate do fluxo SIMPLES (responder "ok").
+    await resolveTextFollowGate(account, senderId, token);
+  } catch (e: any) {
+    console.error(`[IG] handleMessageEvent erro:`, e?.message);
+  }
+}
+
+function findOpenRun(accountId: string, igCommenterId: string, automationId: string) {
+  return prisma.igAutomationRun.findFirst({
+    where: { accountId, igCommenterId, automationId, status: { notIn: ["COMPLETED"] } },
+    orderBy: { createdAt: "desc" },
+    include: { automation: true },
+  });
+}
+
+/** Conteúdo final entregue depois do gate (texto + link). */
+function deliveredContent(a: { deliveredText: string | null; dmLinkUrl: string | null }): string {
+  return [a.deliveredText, a.dmLinkUrl].filter(Boolean).join("\n") || "Aqui está! 🎉";
+}
+
+/** Resolve clique de botão (CTA "quero receber" ou "já te segui"): checa follow e entrega. */
+async function resolveButtonClick(account: ResolvedAccount, senderId: string, automationId: string, token: string) {
+  const run = await findOpenRun(account.id, senderId, automationId);
+  if (!run || !run.automation) return;
+  const a = run.automation;
+
+  // Sem follow-gate → entrega direto.
+  if (!a.requireFollow) {
+    await sendMessageToUser(senderId, deliveredContent(a), token);
+    await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
+    return;
+  }
+
+  const follows = await getUserFollowStatus(senderId, token);
+  if (follows === true) {
+    await sendMessageToUser(senderId, deliveredContent(a), token);
+    await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
+    console.log(`[IG] follow-gate (botão) liberado p/ ${senderId} (run ${run.id})`);
+  } else {
+    // Pede pra seguir com link do perfil + botão "já te segui".
+    const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
+    await sendMessageWithButtons(senderId, ask, [{ title: DEFAULT_FOLLOWED_LABEL, payload: FOLLOWED_PREFIX + a.id }], token);
+    await prisma.igAutomationRun.update({
+      where: { id: run.id },
+      data: { status: "AWAITING_FOLLOW", followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
+    });
+  }
+}
+
+/** Fluxo SIMPLES (sem botão): pessoa respondeu texto enquanto run está AWAITING_FOLLOW. */
+async function resolveTextFollowGate(account: ResolvedAccount, senderId: string, token: string) {
   const run = await prisma.igAutomationRun.findFirst({
     where: { accountId: account.id, igCommenterId: senderId, status: "AWAITING_FOLLOW" },
     orderBy: { createdAt: "desc" },
     include: { automation: true },
   });
   if (!run || !run.automation) return;
-
-  const token = decryptAccountToken(account.accessTokenEnc);
-  if (!token) return;
-
-  // Agora estamos em contexto de DM → dá pra checar o follow de verdade.
+  const a = run.automation;
   const follows = await getUserFollowStatus(senderId, token);
 
-  try {
-    if (follows === true) {
-      // Seguiu! Libera o link prometido.
-      const fullDm = [run.automation.dmText, run.automation.dmLinkUrl].filter(Boolean).join("\n");
-      if (fullDm) await sendMessageToUser(senderId, fullDm, token);
-      await prisma.igAutomationRun.update({
-        where: { id: run.id },
-        data: { status: "COMPLETED", followState: "FOLLOWING" },
-      });
-      console.log(`[IG] follow-gate liberado p/ ${senderId} (run ${run.id})`);
-    } else {
-      // Ainda não segue (ou não deu pra confirmar) → reforça o pedido com o link.
-      const ask = withProfileLink(run.automation.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
-      await sendMessageToUser(senderId, ask, token);
-      await prisma.igAutomationRun.update({
-        where: { id: run.id },
-        data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
-      });
-    }
-  } catch (e: any) {
-    console.error(`[IG] follow-gate erro (run ${run.id}):`, e?.message);
+  if (follows === true) {
+    const fullDm = [a.deliveredText || a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
+    if (fullDm) await sendMessageToUser(senderId, fullDm, token);
+    await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED", followState: "FOLLOWING" } });
+    console.log(`[IG] follow-gate (texto) liberado p/ ${senderId} (run ${run.id})`);
+  } else {
+    const ask = withProfileLink(a.notFollowingText || DEFAULT_ASK_FOLLOW, account.username);
+    await sendMessageToUser(senderId, ask, token);
+    await prisma.igAutomationRun.update({
+      where: { id: run.id },
+      data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
+    });
   }
 }
 

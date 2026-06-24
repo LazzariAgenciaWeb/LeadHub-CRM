@@ -189,7 +189,7 @@ export async function fetchProfile(accessToken: string): Promise<IgProfile> {
  */
 export async function subscribeAccountWebhooks(
   accessToken: string,
-  fields: string[] = ["comments", "messages"],
+  fields: string[] = ["comments", "messages", "messaging_postbacks"],
 ): Promise<{ ok: boolean; status: number; body: any }> {
   const params = new URLSearchParams({
     subscribed_fields: fields.join(","),

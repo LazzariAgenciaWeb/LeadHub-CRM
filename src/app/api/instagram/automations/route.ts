@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
       sendDm: !!b.sendDm,
       dmText: b.dmText || null,
       dmLinkUrl: b.dmLinkUrl || null,
+      dmButtonLabel: b.dmButtonLabel || null,
+      deliveredText: b.deliveredText || null,
       requireFollow: !!b.requireFollow,
       notFollowingText: b.notFollowingText || null,
     },

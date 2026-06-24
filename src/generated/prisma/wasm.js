@@ -769,6 +769,7 @@ exports.Prisma.IgAutomationScalarFieldEnum = {
   dmText: 'dmText',
   dmLinkUrl: 'dmLinkUrl',
   dmButtonLabel: 'dmButtonLabel',
+  deliveredText: 'deliveredText',
   requireFollow: 'requireFollow',
   notFollowingText: 'notFollowingText',
   createdAt: 'createdAt',

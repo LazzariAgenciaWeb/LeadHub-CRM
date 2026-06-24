@@ -1599,9 +1599,14 @@ model IgAutomation {
 
   // Ação 2: DM (private reply) ao autor do comentário
   sendDm        Boolean @default(true)
+  // No fluxo de BOTÃO (dmButtonLabel preenchido): dmText = mensagem de abertura,
+  // dmButtonLabel = rótulo do botão CTA, deliveredText + dmLinkUrl = conteúdo
+  // entregue depois do clique (e do follow, se requireFollow).
+  // No fluxo simples (sem botão): dmText + dmLinkUrl são enviados direto.
   dmText        String? @db.Text
   dmLinkUrl     String?
   dmButtonLabel String?
+  deliveredText String? @db.Text
 
   // Follow-gate: só libera o link/DM final depois de confirmar o follow.
   requireFollow    Boolean @default(false)
