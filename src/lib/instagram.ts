@@ -119,7 +119,7 @@ export async function processInstagramWebhook(body: IgWebhookBody): Promise<void
   }
 }
 
-type ResolvedAccount = NonNullable<Awaited<ReturnType<typeof findAccountByIgUserId>>>;
+type ResolvedAccount = NonNullable<Awaited<ReturnType<typeof findAccountByWebhookId>>>;
 
 // ─── Handlers (Fase 1: log; Fase 2/3: ações) ──────────────────────────────────
 
