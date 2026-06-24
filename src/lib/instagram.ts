@@ -61,17 +61,20 @@ export interface IgWebhookBody {
  * casamos contra os dois campos.
  */
 export async function findAccountByWebhookId(entryId: string) {
-  return prisma.instagramAccount.findFirst({
-    where: { OR: [{ igUserId: entryId }, { igScopedId: entryId }] },
-    select: {
-      id: true,
-      companyId: true,
-      igUserId: true,
-      username: true,
-      status: true,
-      accessTokenEnc: true,
-    },
-  });
+  const select = {
+    id: true,
+    companyId: true,
+    igUserId: true,
+    username: true,
+    status: true,
+    accessTokenEnc: true,
+  };
+  // Prioriza o id primário (igUserId) — é o que o webhook usa de fato. O
+  // igScopedId é só fallback (e pode coincidir com o igUserId de OUTRA conta,
+  // então nunca deve ganhar de um match exato por igUserId).
+  const byUserId = await prisma.instagramAccount.findFirst({ where: { igUserId: entryId }, select });
+  if (byUserId) return byUserId;
+  return prisma.instagramAccount.findFirst({ where: { igScopedId: entryId }, select });
 }
 
 /** Token em claro da conta (decifrado). Use só no servidor, nunca logar. */

@@ -28,9 +28,10 @@ export async function GET(req: NextRequest) {
   });
   if (!account) return NextResponse.json({ error: "Conta não encontrada" }, { status: 404 });
 
+  // webhookId="clear" remove o vínculo (volta a null).
   const updated = await prisma.instagramAccount.update({
     where: { id: accountId },
-    data: { igScopedId: webhookId },
+    data: { igScopedId: webhookId === "clear" ? null : webhookId },
     select: { id: true, username: true, igUserId: true, igScopedId: true },
   });
 
