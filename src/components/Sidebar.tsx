@@ -182,7 +182,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   ] satisfies SidebarLink[]).filter((l) => l.show);
 
   return (
-    <aside className="w-[220px] min-w-[220px] bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
+    <aside className="w-[220px] min-w-[220px] h-screen bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
       {/* Logo */}
       <div className="px-4 py-5 border-b border-[#1e2d45] flex items-center gap-2.5">
         <div className="w-8 h-8 rounded-[9px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
