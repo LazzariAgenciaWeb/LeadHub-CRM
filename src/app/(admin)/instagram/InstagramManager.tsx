@@ -128,7 +128,7 @@ export default function InstagramManager() {
       triggerType: a.triggerType,
       keywords: a.keywords.join(", "),
       replyToComment: a.replyToComment,
-      commentReplies: a.commentReplies.join(" | "),
+      commentReplies: a.commentReplies.join("\n"),
       sendDm: a.sendDm,
       dmText: a.dmText || "",
       dmLinkUrl: a.dmLinkUrl || "",
@@ -150,7 +150,7 @@ export default function InstagramManager() {
       triggerType: form.triggerType,
       keywords: form.keywords.split(",").map((s) => s.trim()).filter(Boolean),
       replyToComment: form.replyToComment,
-      commentReplies: form.commentReplies.split("|").map((s) => s.trim()).filter(Boolean),
+      commentReplies: form.commentReplies.split("\n").map((s) => s.trim()).filter(Boolean),
       sendDm: form.sendDm,
       dmText: form.dmText,
       dmLinkUrl: form.dmLinkUrl,
@@ -390,7 +390,13 @@ function FormModal({
             Responder o comentário publicamente
           </label>
           {form.replyToComment && (
-            <input className={input} value={form.commentReplies} onChange={(e) => set("commentReplies", e.target.value)} placeholder="Respostas (separe variações com |)" />
+            <textarea
+              className={input}
+              rows={3}
+              value={form.commentReplies}
+              onChange={(e) => set("commentReplies", e.target.value)}
+              placeholder="Uma resposta por linha — o sistema escolhe uma aleatória a cada comentário"
+            />
           )}
 
           <label className="flex items-center gap-2 text-sm text-slate-300">
