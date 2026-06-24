@@ -39,10 +39,12 @@ type Media = {
 
 type Run = {
   id: string;
+  igCommenterId?: string;
   username: string | null;
   commentText: string | null;
   status: string;
   followState: string;
+  leadId?: string | null;
   createdAt: string;
 };
 
@@ -87,6 +89,26 @@ export default function InstagramManager() {
   const [error, setError] = useState("");
   const [resub, setResub] = useState("");
   const [resubbing, setResubbing] = useState(false);
+  const [reportFor, setReportFor] = useState<Automation | null>(null);
+  const [reportRuns, setReportRuns] = useState<Run[]>([]);
+  const [reportLoading, setReportLoading] = useState(false);
+
+  async function openReport(a: Automation) {
+    setReportFor(a);
+    setReportLoading(true);
+    setReportRuns([]);
+    try {
+      const res = await fetch(`/api/instagram/runs?automationId=${a.id}`).then((r) => r.json());
+      setReportRuns(res.runs || []);
+    } finally {
+      setReportLoading(false);
+    }
+  }
+
+  async function convertLead(runId: string) {
+    const res = await fetch(`/api/instagram/runs/${runId}/convert-lead`, { method: "POST" }).then((r) => r.json());
+    if (res.ok) setReportRuns((prev) => prev.map((r) => (r.id === runId ? { ...r, leadId: res.leadId } : r)));
+  }
 
   async function resubscribe() {
     setResubbing(true);
@@ -298,6 +320,7 @@ export default function InstagramManager() {
                   {a.requireFollow ? " · 🔒 follow-gate" : ""}
                 </p>
               </div>
+              <button onClick={() => openReport(a)} className="text-xs text-slate-300 hover:text-white">Relatório</button>
               <button onClick={() => openEdit(a)} className="text-xs text-indigo-300 hover:text-indigo-200">Editar</button>
               <button onClick={() => remove(a.id)} className="text-slate-400 hover:text-red-400" title="Apagar">
                 <Trash2 className="w-4 h-4" />
@@ -333,6 +356,41 @@ export default function InstagramManager() {
           onClose={() => setShowForm(false)}
           onSave={save}
         />
+      )}
+
+      {reportFor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setReportFor(null)}>
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900 p-5" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold">Relatório · {reportFor.name}</h3>
+              <button onClick={() => setReportFor(null)} className="text-slate-400 hover:text-white text-sm">Fechar</button>
+            </div>
+            {reportLoading && <p className="text-slate-400 text-sm">Carregando…</p>}
+            {!reportLoading && reportRuns.length === 0 && <p className="text-slate-500 text-sm">Nenhum comentário ainda.</p>}
+            <div className="flex flex-col gap-2">
+              {reportRuns.map((r) => (
+                <div key={r.id} className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-medium">@{r.username || r.igCommenterId}</span>
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full ${r.status === "COMPLETED" ? "bg-emerald-500/20 text-emerald-300" : r.status === "FAILED" ? "bg-red-500/20 text-red-300" : "bg-slate-500/20 text-slate-300"}`}>
+                      {STATUS_LABEL[r.status] || r.status}
+                    </span>
+                  </div>
+                  <p className="text-slate-400 mt-1">{r.commentText || "—"}</p>
+                  <div className="mt-2">
+                    {r.leadId ? (
+                      <span className="text-xs text-emerald-400">✓ Convertido em lead</span>
+                    ) : (
+                      <button onClick={() => convertLead(r.id)} className="text-xs rounded-lg bg-indigo-500 px-2.5 py-1 text-white hover:bg-indigo-400">
+                        Converter em Lead
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

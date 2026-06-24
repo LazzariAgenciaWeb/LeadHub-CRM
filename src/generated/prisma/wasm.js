@@ -789,6 +789,7 @@ exports.Prisma.IgAutomationRunScalarFieldEnum = {
   status: 'status',
   followState: 'followState',
   errorDetail: 'errorDetail',
+  leadId: 'leadId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

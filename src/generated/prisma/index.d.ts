@@ -59245,6 +59245,7 @@ export namespace Prisma {
     status: $Enums.IgRunStatus | null
     followState: $Enums.IgFollowState | null
     errorDetail: string | null
+    leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -59262,6 +59263,7 @@ export namespace Prisma {
     status: $Enums.IgRunStatus | null
     followState: $Enums.IgFollowState | null
     errorDetail: string | null
+    leadId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -59279,6 +59281,7 @@ export namespace Prisma {
     status: number
     followState: number
     errorDetail: number
+    leadId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -59298,6 +59301,7 @@ export namespace Prisma {
     status?: true
     followState?: true
     errorDetail?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -59315,6 +59319,7 @@ export namespace Prisma {
     status?: true
     followState?: true
     errorDetail?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -59332,6 +59337,7 @@ export namespace Prisma {
     status?: true
     followState?: true
     errorDetail?: true
+    leadId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -59422,6 +59428,7 @@ export namespace Prisma {
     status: $Enums.IgRunStatus
     followState: $Enums.IgFollowState
     errorDetail: string | null
+    leadId: string | null
     createdAt: Date
     updatedAt: Date
     _count: IgAutomationRunCountAggregateOutputType | null
@@ -59456,6 +59463,7 @@ export namespace Prisma {
     status?: boolean
     followState?: boolean
     errorDetail?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -59476,6 +59484,7 @@ export namespace Prisma {
     status?: boolean
     followState?: boolean
     errorDetail?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -59496,6 +59505,7 @@ export namespace Prisma {
     status?: boolean
     followState?: boolean
     errorDetail?: boolean
+    leadId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -59531,6 +59541,7 @@ export namespace Prisma {
       status: $Enums.IgRunStatus
       followState: $Enums.IgFollowState
       errorDetail: string | null
+      leadId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["igAutomationRun"]>
@@ -59941,6 +59952,7 @@ export namespace Prisma {
     readonly status: FieldRef<"IgAutomationRun", 'IgRunStatus'>
     readonly followState: FieldRef<"IgAutomationRun", 'IgFollowState'>
     readonly errorDetail: FieldRef<"IgAutomationRun", 'String'>
+    readonly leadId: FieldRef<"IgAutomationRun", 'String'>
     readonly createdAt: FieldRef<"IgAutomationRun", 'DateTime'>
     readonly updatedAt: FieldRef<"IgAutomationRun", 'DateTime'>
   }
@@ -95324,6 +95336,7 @@ export namespace Prisma {
     status: 'status',
     followState: 'followState',
     errorDetail: 'errorDetail',
+    leadId: 'leadId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -100986,6 +100999,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
     errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    leadId?: StringNullableFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -101006,6 +101020,7 @@ export namespace Prisma {
     status?: SortOrder
     followState?: SortOrder
     errorDetail?: SortOrderInput | SortOrder
+    leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
@@ -101030,6 +101045,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
     errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    leadId?: StringNullableFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -101050,6 +101066,7 @@ export namespace Prisma {
     status?: SortOrder
     followState?: SortOrder
     errorDetail?: SortOrderInput | SortOrder
+    leadId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: IgAutomationRunCountOrderByAggregateInput
@@ -101073,6 +101090,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusWithAggregatesFilter<"IgAutomationRun"> | $Enums.IgRunStatus
     followState?: EnumIgFollowStateWithAggregatesFilter<"IgAutomationRun"> | $Enums.IgFollowState
     errorDetail?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
+    leadId?: StringNullableWithAggregatesFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"IgAutomationRun"> | Date | string
   }
@@ -108917,6 +108935,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
@@ -108937,6 +108956,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -108951,6 +108971,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
@@ -108971,6 +108992,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -108988,6 +109010,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -109002,6 +109025,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -109019,6 +109043,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -115961,6 +115986,7 @@ export namespace Prisma {
     status?: SortOrder
     followState?: SortOrder
     errorDetail?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -115978,6 +116004,7 @@ export namespace Prisma {
     status?: SortOrder
     followState?: SortOrder
     errorDetail?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -115995,6 +116022,7 @@ export namespace Prisma {
     status?: SortOrder
     followState?: SortOrder
     errorDetail?: SortOrder
+    leadId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -130840,6 +130868,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     account: InstagramAccountCreateNestedOneWithoutRunsInput
@@ -130858,6 +130887,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -132806,6 +132836,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFilter<"IgAutomationRun"> | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFilter<"IgAutomationRun"> | $Enums.IgFollowState
     errorDetail?: StringNullableFilter<"IgAutomationRun"> | string | null
+    leadId?: StringNullableFilter<"IgAutomationRun"> | string | null
     createdAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
     updatedAt?: DateTimeFilter<"IgAutomationRun"> | Date | string
   }
@@ -151073,6 +151104,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
@@ -151091,6 +151123,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -151562,6 +151595,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutIgAutomationRunsInput
@@ -151580,6 +151614,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -166820,6 +166855,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -169004,6 +169040,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: InstagramAccountUpdateOneRequiredWithoutRunsNestedInput
@@ -169022,6 +169059,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -169038,6 +169076,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -172076,6 +172115,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -172158,6 +172198,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
@@ -172176,6 +172217,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -172192,6 +172234,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -172208,6 +172251,7 @@ export namespace Prisma {
     status?: $Enums.IgRunStatus
     followState?: $Enums.IgFollowState
     errorDetail?: string | null
+    leadId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -172222,6 +172266,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutIgAutomationRunsNestedInput
@@ -172240,6 +172285,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -172256,6 +172302,7 @@ export namespace Prisma {
     status?: EnumIgRunStatusFieldUpdateOperationsInput | $Enums.IgRunStatus
     followState?: EnumIgFollowStateFieldUpdateOperationsInput | $Enums.IgFollowState
     errorDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

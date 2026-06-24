@@ -1644,6 +1644,9 @@ model IgAutomationRun {
   followState IgFollowState @default(UNKNOWN)
   errorDetail String?       @db.Text
 
+  // Lead criado a partir deste comentário (conversão manual no relatório).
+  leadId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
