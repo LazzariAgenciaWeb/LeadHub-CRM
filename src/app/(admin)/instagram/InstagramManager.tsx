@@ -85,6 +85,21 @@ export default function InstagramManager() {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [resub, setResub] = useState("");
+  const [resubbing, setResubbing] = useState(false);
+
+  async function resubscribe() {
+    setResubbing(true);
+    setResub("");
+    try {
+      const r = await fetch("/api/instagram/account/resubscribe", { method: "POST" }).then((x) => x.json());
+      setResub(r.ok ? `Conexão atualizada ✓ (${(r.fields || []).join(", ")})` : `Erro: ${r.error || "falhou"}`);
+    } catch {
+      setResub("Erro de rede");
+    } finally {
+      setResubbing(false);
+    }
+  }
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -235,8 +250,17 @@ export default function InstagramManager() {
         <div className="flex-1">
           <p className="text-white font-medium">@{account.username}</p>
           <p className="text-xs text-emerald-400">Conectado</p>
+          {resub && <p className="text-[11px] text-slate-400 mt-0.5">{resub}</p>}
         </div>
-        <button onClick={load} className="text-slate-400 hover:text-white" title="Atualizar">
+        <button
+          onClick={resubscribe}
+          disabled={resubbing}
+          className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5 disabled:opacity-50"
+          title="Reativa os webhooks (comentários, DMs e cliques de botão) desta conta"
+        >
+          {resubbing ? "Atualizando…" : "Atualizar conexão"}
+        </button>
+        <button onClick={load} className="text-slate-400 hover:text-white" title="Recarregar">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
