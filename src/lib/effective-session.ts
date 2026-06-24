@@ -39,6 +39,7 @@ export async function getEffectiveSession() {
       moduleProspeccao: true,
       moduleCampanhas: true,
       moduleLinks: true,
+      moduleInstagram: true,
     },
   });
   if (!company) return session;
@@ -84,6 +85,7 @@ export async function getEffectiveSession() {
         prospeccao:  (company as any).moduleProspeccao ?? false,
         campanhas:   (company as any).moduleCampanhas ?? false,
         links:       (company as any).moduleLinks ?? false,
+        instagram:   (company as any).moduleInstagram ?? false,
         cofre:       cofreEnabled,
         crmPipelineProspeccao:    pipelineProspeccao,
         crmPipelineLeads:         pipelineLeads,
