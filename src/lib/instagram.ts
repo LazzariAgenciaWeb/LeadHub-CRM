@@ -183,6 +183,7 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
       enabled: true,
       OR: [{ mediaId }, { mediaId: null }],
     },
+    orderBy: { createdAt: "asc" },
   });
 
   // 2. Filtra por gatilho (ANY = sempre; KEYWORD = texto contém alguma palavra).
@@ -199,7 +200,10 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
     return;
   }
 
-  for (const a of matched) {
+  // Só a PRIMEIRA automação que casa age neste comentário. O Instagram permite
+  // apenas 1 private reply por comentário — disparar várias geraria erro 500 na
+  // 2ª. (Regra "primeiro match vence", estilo ManyChat.)
+  for (const a of matched.slice(0, 1)) {
     // 3. Idempotência: 1 run por (automação, comentário).
     const existing = await prisma.igAutomationRun.findUnique({
       where: { automationId_commentId: { automationId: a.id, commentId } },
