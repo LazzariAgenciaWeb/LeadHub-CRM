@@ -108,6 +108,32 @@ function pickRandom(arr: string[]): string | undefined {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Repete uma ação quando o erro é transitório. O webhook do Instagram chega
+ * antes do comentário ficar consultável na API ("Object does not exist" /
+ * subcode 33 / "unknown error"), então tentamos de novo com pequena espera.
+ */
+async function withRetry<T>(fn: () => Promise<T>, attempts = 3, delayMs = 2500): Promise<T> {
+  let lastErr: any;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e: any) {
+      lastErr = e;
+      const msg = String(e?.message ?? "");
+      const transient = /does not exist|cannot be loaded|missing permissions|unknown error|"code":\s*1\b|error_subcode":\s*33/i.test(msg);
+      if (i < attempts - 1 && transient) {
+        await sleep(delayMs);
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw lastErr;
+}
+
 // ─── Ponto de entrada do webhook ──────────────────────────────────────────────
 
 /**
@@ -232,7 +258,7 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
       if (a.replyToComment) {
         const reply = pickRandom(a.commentReplies);
         if (reply) {
-          await replyToComment(commentId, reply, token);
+          await withRetry(() => replyToComment(commentId, reply, token));
           await prisma.igAutomationRun.update({
             where: { id: run.id },
             data: { status: "COMMENT_REPLIED" },
@@ -245,7 +271,7 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
       if (a.sendDm) {
         const dm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
         if (dm) {
-          await sendPrivateReply(commentId, dm, token);
+          await withRetry(() => sendPrivateReply(commentId, dm, token));
           await prisma.igAutomationRun.update({
             where: { id: run.id },
             data: { status: "DM_SENT" },
