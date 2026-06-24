@@ -51,6 +51,7 @@ export async function GET(req: NextRequest) {
       dmText,
       dmLinkUrl,
       requireFollow: q.get("requireFollow") === "1",
+      notFollowingText: q.get("notFollowingText") || null,
     },
   });
 

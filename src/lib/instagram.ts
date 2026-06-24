@@ -103,6 +103,31 @@ export async function sendPrivateReply(commentId: string, text: string, token: s
   if (!r.ok) throw new Error(`private reply (DM) falhou: ${r.status} ${await r.text()}`);
 }
 
+/**
+ * Checa se o usuário segue a conta (follow-gate). Só funciona quando o igsid
+ * está em contexto de mensagem (ex: depois que a pessoa respondeu no DM).
+ * Retorna true/false, ou null quando não dá pra determinar.
+ */
+export async function getUserFollowStatus(igsid: string, token: string): Promise<boolean | null> {
+  const params = new URLSearchParams({ fields: "is_user_follow_business", access_token: token });
+  const r = await fetch(`${GRAPH}/${igsid}?${params.toString()}`);
+  if (!r.ok) return null;
+  const j: any = await r.json().catch(() => null);
+  return j && typeof j.is_user_follow_business === "boolean" ? j.is_user_follow_business : null;
+}
+
+/** Manda DM a um usuário pelo IGSID (janela de 24h). POST /me/messages recipient.id */
+export async function sendMessageToUser(igsid: string, text: string, token: string): Promise<void> {
+  const r = await fetch(`${GRAPH}/me/messages?access_token=${encodeURIComponent(token)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recipient: { id: igsid }, message: { text } }),
+  });
+  if (!r.ok) throw new Error(`DM (recipient.id) falhou: ${r.status} ${await r.text()}`);
+}
+
+const DEFAULT_ASK_FOLLOW = 'Pra liberar o link, me segue aqui 👉 e responde "ok" no direct que eu te mando 🚀';
+
 function pickRandom(arr: string[]): string | undefined {
   if (!arr.length) return undefined;
   return arr[Math.floor(Math.random() * arr.length)];
@@ -266,24 +291,45 @@ async function handleCommentEvent(account: ResolvedAccount, value: IgCommentValu
         }
       }
 
-      // 5. DM (private reply) com texto + link.
-      //    Follow-gate (requireFollow) fica pra Fase 3 — por ora manda direto.
+      // 5. DM (private reply). Com follow-gate, o link só sai depois do follow.
       if (a.sendDm) {
-        const dm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
-        if (dm) {
-          await withRetry(() => sendPrivateReply(commentId, dm, token));
+        const fullDm = [a.dmText, a.dmLinkUrl].filter(Boolean).join("\n");
+
+        if (a.requireFollow) {
+          // Tenta saber se já segue (só funciona em contexto de DM; do comentário
+          // costuma vir null → tratamos como "ainda não confirmado").
+          const follows = await getUserFollowStatus(commenterId, token);
+          if (follows === true && fullDm) {
+            await withRetry(() => sendPrivateReply(commentId, fullDm, token));
+            await prisma.igAutomationRun.update({
+              where: { id: run.id },
+              data: { status: "COMPLETED", followState: "FOLLOWING" },
+            });
+          } else {
+            // Pede pra seguir; libera o link quando responder no DM (handleMessageEvent).
+            const ask = a.notFollowingText || DEFAULT_ASK_FOLLOW;
+            await withRetry(() => sendPrivateReply(commentId, ask, token));
+            await prisma.igAutomationRun.update({
+              where: { id: run.id },
+              data: {
+                status: "AWAITING_FOLLOW",
+                followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN",
+              },
+            });
+          }
+        } else if (fullDm) {
+          await withRetry(() => sendPrivateReply(commentId, fullDm, token));
           await prisma.igAutomationRun.update({
             where: { id: run.id },
-            data: { status: "DM_SENT" },
+            data: { status: "COMPLETED" },
           });
+        } else {
+          await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED" } });
         }
+      } else {
+        await prisma.igAutomationRun.update({ where: { id: run.id }, data: { status: "COMPLETED" } });
       }
-
-      await prisma.igAutomationRun.update({
-        where: { id: run.id },
-        data: { status: "COMPLETED" },
-      });
-      console.log(`[IG] automação ${a.id} executada p/ comentário ${commentId}`);
+      console.log(`[IG] automação ${a.id} processada p/ comentário ${commentId}`);
     } catch (e: any) {
       console.error(`[IG] falha na automação ${a.id}:`, e?.message);
       await prisma.igAutomationRun.update({
@@ -312,12 +358,42 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     note: msg.postback ? "postback" : null,
   });
 
-  // TODO Fase 3:
-  //   1. Se há IgAutomationRun em AWAITING_FOLLOW para este senderId →
-  //      GET /{igUserId}?fields=is_user_follow_business (User Profile API).
-  //   2. Se segue → manda dmText + dmLinkUrl, run = COMPLETED, followState=FOLLOWING.
-  //   3. Se não segue → reenvia notFollowingText, mantém AWAITING_FOLLOW.
-  //   4. (Opcional) virar Lead no CRM quando converter.
+  // Follow-gate: há um disparo esperando follow desta pessoa?
+  const run = await prisma.igAutomationRun.findFirst({
+    where: { accountId: account.id, igCommenterId: senderId, status: "AWAITING_FOLLOW" },
+    orderBy: { createdAt: "desc" },
+    include: { automation: true },
+  });
+  if (!run || !run.automation) return;
+
+  const token = decryptAccountToken(account.accessTokenEnc);
+  if (!token) return;
+
+  // Agora estamos em contexto de DM → dá pra checar o follow de verdade.
+  const follows = await getUserFollowStatus(senderId, token);
+
+  try {
+    if (follows === true) {
+      // Seguiu! Libera o link prometido.
+      const fullDm = [run.automation.dmText, run.automation.dmLinkUrl].filter(Boolean).join("\n");
+      if (fullDm) await sendMessageToUser(senderId, fullDm, token);
+      await prisma.igAutomationRun.update({
+        where: { id: run.id },
+        data: { status: "COMPLETED", followState: "FOLLOWING" },
+      });
+      console.log(`[IG] follow-gate liberado p/ ${senderId} (run ${run.id})`);
+    } else {
+      // Ainda não segue (ou não deu pra confirmar) → reforça o pedido.
+      const ask = run.automation.notFollowingText || DEFAULT_ASK_FOLLOW;
+      await sendMessageToUser(senderId, ask, token);
+      await prisma.igAutomationRun.update({
+        where: { id: run.id },
+        data: { followState: follows === false ? "NOT_FOLLOWING" : "UNKNOWN" },
+      });
+    }
+  } catch (e: any) {
+    console.error(`[IG] follow-gate erro (run ${run.id}):`, e?.message);
+  }
 }
 
 // Reexport util pra Fase 2 (montar chamadas à Graph API).
