@@ -86,11 +86,17 @@ export function decryptAccountToken(accessTokenEnc: string | null | undefined): 
 
 type IgMsgDir = "IN" | "OUT";
 type IgMsgSrc = "ORGANIC" | "AUTOMATION" | "AGENT";
+type InboxChan = "INSTAGRAM" | "MESSENGER" | "FACEBOOK";
 
-/** Registra uma mensagem na conversa (cria/atualiza IgConversation + IgMessage). */
+/**
+ * Registra uma mensagem na inbox (cria/atualiza IgConversation + IgMessage).
+ * Multi-canal: connectionId = InstagramAccount.id (IG) ou FacebookPage.pageId (FB).
+ */
 export async function recordIgMessage(opts: {
   companyId: string;
-  accountId: string;
+  channel?: InboxChan;
+  connectionId: string;
+  accountId?: string | null; // FK opcional, só pro canal INSTAGRAM
   participantId: string;
   username?: string | null;
   direction: IgMsgDir;
@@ -99,14 +105,17 @@ export async function recordIgMessage(opts: {
   mid?: string | null;
 }): Promise<void> {
   const now = new Date();
+  const channel = opts.channel ?? "INSTAGRAM";
   // needsReply: vira true só quando o contato manda algo ORGÂNICO; qualquer
   // saída (automação/agente) zera.
   const needsReply = opts.direction === "IN" ? opts.source === "ORGANIC" : false;
   const convo = await prisma.igConversation.upsert({
-    where: { accountId_participantId: { accountId: opts.accountId, participantId: opts.participantId } },
+    where: { connectionId_participantId: { connectionId: opts.connectionId, participantId: opts.participantId } },
     create: {
       companyId: opts.companyId,
-      accountId: opts.accountId,
+      channel,
+      connectionId: opts.connectionId,
+      accountId: opts.accountId ?? null,
       participantId: opts.participantId,
       participantUsername: opts.username ?? null,
       lastMessageAt: now,
@@ -489,6 +498,8 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
   // Persiste o DM recebido na inbox (com botão → automação; senão → orgânico).
   await recordIgMessage({
     companyId: account.companyId,
+    channel: "INSTAGRAM",
+    connectionId: account.id,
     accountId: account.id,
     participantId: senderId,
     username,
@@ -535,6 +546,8 @@ function deliveredContent(a: { deliveredText: string | null; dmLinkUrl: string |
 function outAuto(account: ResolvedAccount, participantId: string, text: string) {
   return recordIgMessage({
     companyId: account.companyId,
+    channel: "INSTAGRAM",
+    connectionId: account.id,
     accountId: account.id,
     participantId,
     direction: "OUT",

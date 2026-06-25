@@ -797,6 +797,8 @@ exports.Prisma.IgAutomationRunScalarFieldEnum = {
 exports.Prisma.IgConversationScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
+  channel: 'channel',
+  connectionId: 'connectionId',
   accountId: 'accountId',
   participantId: 'participantId',
   participantUsername: 'participantUsername',
@@ -818,6 +820,20 @@ exports.Prisma.IgMessageScalarFieldEnum = {
   text: 'text',
   mid: 'mid',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.FacebookPageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  pageId: 'pageId',
+  name: 'name',
+  pageAccessTokenEnc: 'pageAccessTokenEnc',
+  scopes: 'scopes',
+  status: 'status',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
 };
 
 exports.Prisma.AnalyticsSnapshotScalarFieldEnum = {
@@ -1491,6 +1507,12 @@ exports.IgFollowState = exports.$Enums.IgFollowState = {
   FOLLOWING: 'FOLLOWING'
 };
 
+exports.InboxChannel = exports.$Enums.InboxChannel = {
+  INSTAGRAM: 'INSTAGRAM',
+  MESSENGER: 'MESSENGER',
+  FACEBOOK: 'FACEBOOK'
+};
+
 exports.IgMsgDirection = exports.$Enums.IgMsgDirection = {
   IN: 'IN',
   OUT: 'OUT'
@@ -1686,6 +1708,7 @@ exports.Prisma.ModelName = {
   IgAutomationRun: 'IgAutomationRun',
   IgConversation: 'IgConversation',
   IgMessage: 'IgMessage',
+  FacebookPage: 'FacebookPage',
   AnalyticsSnapshot: 'AnalyticsSnapshot',
   AnalyticsTopPage: 'AnalyticsTopPage',
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',

@@ -14,6 +14,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     select: {
       id: true,
       companyId: true,
+      channel: true,
       accountId: true,
       participantId: true,
       participantUsername: true,
@@ -25,8 +26,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   }
 
-  // Backfill do @username quando a conversa só tem o ID (best-effort).
-  if (!convo.participantUsername) {
+  // Backfill do @username quando a conversa IG só tem o ID (best-effort).
+  if (convo.channel === "INSTAGRAM" && convo.accountId && !convo.participantUsername) {
     const account = await prisma.instagramAccount.findUnique({ where: { id: convo.accountId }, select: { accessTokenEnc: true } });
     const token = decryptAccountToken(account?.accessTokenEnc);
     if (token) {

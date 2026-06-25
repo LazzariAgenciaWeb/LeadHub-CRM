@@ -79,6 +79,8 @@ export default function InstagramManager() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState<Account>(null);
   const [connectUrl, setConnectUrl] = useState("");
+  const [fbConnectUrl, setFbConnectUrl] = useState("");
+  const [fbPages, setFbPages] = useState<{ id: string; name: string | null }[]>([]);
   const [automations, setAutomations] = useState<Automation[]>([]);
   const [runs, setRuns] = useState<Run[]>([]);
   const [media, setMedia] = useState<Media[]>([]);
@@ -129,6 +131,8 @@ export default function InstagramManager() {
       const accRes = await fetch("/api/instagram/account").then((r) => r.json());
       setAccount(accRes.account);
       setConnectUrl(accRes.connectUrl || "");
+      setFbConnectUrl(accRes.fbConnectUrl || "");
+      setFbPages(accRes.facebookPages || []);
       if (accRes.account) {
         const [autRes, runRes] = await Promise.all([
           fetch("/api/instagram/automations").then((r) => r.json()),
@@ -285,6 +289,26 @@ export default function InstagramManager() {
         <button onClick={load} className="text-slate-400 hover:text-white" title="Recarregar">
           <RefreshCw className="w-4 h-4" />
         </button>
+      </div>
+
+      {/* Facebook / Messenger */}
+      <div className="mt-3 rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-white text-sm font-medium">Facebook / Messenger</p>
+            <p className="text-xs text-slate-400 truncate">
+              {fbPages.length ? `${fbPages.length} página(s): ${fbPages.map((p) => p.name || p.id).join(", ")}` : "Nenhuma página conectada"}
+            </p>
+          </div>
+          {fbConnectUrl && (
+            <a href={fbConnectUrl} className="rounded-lg border border-blue-500/40 px-3 py-1.5 text-xs text-blue-300 hover:bg-blue-500/10 flex-shrink-0">
+              {fbPages.length ? "Reconectar página" : "Conectar Facebook"}
+            </a>
+          )}
+        </div>
+        <p className="text-[11px] text-slate-500 mt-2">
+          Os DMs do Messenger caem na <a href="/instagram/inbox" className="text-indigo-300">Inbox Social</a> com o selo Messenger.
+        </p>
       </div>
 
       {/* Automações */}

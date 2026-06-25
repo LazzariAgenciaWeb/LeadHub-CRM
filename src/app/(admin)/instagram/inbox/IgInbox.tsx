@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 
 type Convo = {
   id: string;
+  channel: "INSTAGRAM" | "MESSENGER" | "FACEBOOK";
   participantId: string;
   participantUsername: string | null;
   lastMessageText: string | null;
@@ -22,6 +23,11 @@ type Msg = {
 };
 
 const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", ORGANIC: "" };
+const CHANNEL: Record<string, { label: string; cls: string }> = {
+  INSTAGRAM: { label: "Instagram", cls: "bg-pink-500/20 text-pink-300" },
+  MESSENGER: { label: "Messenger", cls: "bg-blue-500/20 text-blue-300" },
+  FACEBOOK: { label: "Facebook", cls: "bg-indigo-500/20 text-indigo-300" },
+};
 
 export default function IgInbox() {
   const [convos, setConvos] = useState<Convo[]>([]);
@@ -85,7 +91,7 @@ export default function IgInbox() {
   return (
     <div className="p-6">
       <div className="flex items-center gap-3 mb-4">
-        <h1 className="text-xl font-semibold text-white">Inbox · Instagram</h1>
+        <h1 className="text-xl font-semibold text-white">Inbox · Social</h1>
         <div className="flex gap-1 text-xs">
           <button onClick={() => setFilter("all")} className={`px-2.5 py-1 rounded-lg ${filter === "all" ? "bg-indigo-500 text-white" : "border border-white/10 text-slate-400"}`}>Todas</button>
           <button onClick={() => setFilter("needsReply")} className={`px-2.5 py-1 rounded-lg ${filter === "needsReply" ? "bg-indigo-500 text-white" : "border border-white/10 text-slate-400"}`}>
@@ -106,7 +112,10 @@ export default function IgInbox() {
               className={`w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/5 ${selected?.id === c.id ? "bg-white/10" : ""}`}
             >
               <div className="flex items-center gap-2">
-                <span className="text-white text-sm font-medium truncate">@{c.participantUsername || c.participantId}</span>
+                <span className={`text-[9px] px-1.5 py-0.5 rounded ${CHANNEL[c.channel]?.cls || "bg-slate-500/20 text-slate-300"} flex-shrink-0`}>
+                  {CHANNEL[c.channel]?.label || c.channel}
+                </span>
+                <span className="text-white text-sm font-medium truncate">{c.participantUsername || c.participantId}</span>
                 {c.needsReply && <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" title="Sem resposta" />}
                 {c.hadAutomation && <span className="text-[10px] text-indigo-300 flex-shrink-0">auto</span>}
               </div>
@@ -121,10 +130,13 @@ export default function IgInbox() {
           {selected && (
             <>
               <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between gap-2">
-                <span className="text-white text-sm font-medium truncate">
-                  @{selected.participantUsername || selected.participantId}
-                </span>
-                {selected.participantUsername && (
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded ${CHANNEL[selected.channel]?.cls || ""} flex-shrink-0`}>
+                    {CHANNEL[selected.channel]?.label || selected.channel}
+                  </span>
+                  <span className="text-white text-sm font-medium truncate">{selected.participantUsername || selected.participantId}</span>
+                </div>
+                {selected.channel === "INSTAGRAM" && selected.participantUsername && (
                   <a
                     href={`https://instagram.com/${selected.participantUsername}`}
                     target="_blank"

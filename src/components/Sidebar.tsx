@@ -133,7 +133,7 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
   // Antes era _isAdmin || X (qualquer admin via tudo) — bug que vazava menu inteiro.
   const topLinks: SidebarLink[] = ([
     { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
-    { href: "/instagram/inbox", Icon: Camera,   label: "Inbox Instagram", grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
+    { href: "/instagram/inbox", Icon: Camera,   label: "Inbox Social",   grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
     { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
     { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
   ] satisfies SidebarLink[]).filter((l) => l.show);

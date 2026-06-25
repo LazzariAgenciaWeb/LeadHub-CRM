@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
     take: 100,
     select: {
       id: true,
+      channel: true,
       participantId: true,
       participantUsername: true,
       lastMessageText: true,

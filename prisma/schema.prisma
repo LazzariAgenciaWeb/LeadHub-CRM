@@ -245,6 +245,7 @@ model Company {
   igAutomations             IgAutomation[]
   igAutomationRuns          IgAutomationRun[]
   igConversations           IgConversation[]
+  facebookPages             FacebookPage[]
   analyticsSnapshots        AnalyticsSnapshot[]
   analyticsTopPages         AnalyticsTopPage[]
   analyticsTrafficSources   AnalyticsTrafficSource[]
@@ -1687,13 +1688,20 @@ enum IgFollowState {
 // enviados (automação/agente), com flag de origem (automação vs orgânico).
 
 model IgConversation {
-  id        String           @id @default(cuid())
+  id        String  @id @default(cuid())
   companyId String
-  company   Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  accountId String
-  account   InstagramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  participantId       String // IGSID do contato
+  // Canal da conversa (multi-canal). connectionId = id da conexão dona:
+  // InstagramAccount.id (IG) ou FacebookPage.pageId (Messenger/Facebook).
+  channel      InboxChannel @default(INSTAGRAM)
+  connectionId String? // chave de match unificada (account IG ou page FB)
+
+  // Relação opcional com a conta IG (só pro canal INSTAGRAM).
+  accountId String?
+  account   InstagramAccount? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  participantId       String // IGSID / PSID do contato
   participantUsername String?
 
   lastMessageAt   DateTime?
@@ -1707,9 +1715,9 @@ model IgConversation {
   updatedAt DateTime    @updatedAt
   messages  IgMessage[]
 
-  @@unique([accountId, participantId])
+  @@unique([connectionId, participantId])
   @@index([companyId, needsReply])
-  @@index([accountId, lastMessageAt])
+  @@index([companyId, lastMessageAt])
 }
 
 model IgMessage {
@@ -1735,6 +1743,35 @@ enum IgMsgSource {
   ORGANIC // contato iniciou / mensagem fora de automação
   AUTOMATION // enviada/recebida no contexto de automação
   AGENT // enviada manualmente pelo atendente na inbox
+}
+
+enum InboxChannel {
+  INSTAGRAM
+  MESSENGER // DM do Messenger (Página do Facebook)
+  FACEBOOK // comentário/post da Página do Facebook
+}
+
+// Página do Facebook conectada (pra Messenger + Facebook na inbox).
+// Conexão via Facebook Login (separada do Instagram Login). Token da página
+// (long-lived) cifrado.
+model FacebookPage {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  pageId             String  @unique // id da Página no Facebook (= connectionId das conversas)
+  name               String?
+  pageAccessTokenEnc String? @db.Text
+  scopes             String[] @default([])
+
+  status    IntegrationStatus @default(ACTIVE)
+  lastError String?           @db.Text
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+
+  @@index([companyId])
 }
 
 model AnalyticsSnapshot {
