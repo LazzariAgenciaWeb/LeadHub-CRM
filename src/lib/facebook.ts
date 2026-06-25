@@ -89,6 +89,23 @@ export async function fbGetPages(userToken: string): Promise<FbPage[]> {
   return (j.data ?? []).map((p: any) => ({ id: String(p.id), name: p.name, access_token: p.access_token }));
 }
 
+/** Diagnóstico: o que o token de usuário enxerga (permissões + páginas). Sem segredo. */
+export async function fbDebugInfo(userToken: string): Promise<any> {
+  const out: any = {};
+  const get = async (path: string) => {
+    try {
+      const r = await fetch(`${GRAPH}/${path}${path.includes("?") ? "&" : "?"}access_token=${encodeURIComponent(userToken)}`);
+      return await r.json();
+    } catch (e: any) {
+      return { error: e?.message };
+    }
+  };
+  out.me = await get("me?fields=id,name");
+  out.permissions = await get("me/permissions");
+  out.accounts = await get("me/accounts?fields=id,name,tasks");
+  return out;
+}
+
 /** Assina a Página aos webhooks do app. */
 export async function fbSubscribePage(pageId: string, pageToken: string): Promise<{ ok: boolean; body: any }> {
   const params = new URLSearchParams({
