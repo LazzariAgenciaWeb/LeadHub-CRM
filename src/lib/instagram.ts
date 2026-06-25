@@ -173,6 +173,19 @@ export async function getUserFollowStatus(igsid: string, token: string): Promise
   return j && typeof j.is_user_follow_business === "boolean" ? j.is_user_follow_business : null;
 }
 
+/** Busca nome/username do participante de um DM (User Profile API). Best-effort. */
+export async function getIgUserProfile(igsid: string, token: string): Promise<{ username: string | null; name: string | null }> {
+  try {
+    const params = new URLSearchParams({ fields: "name,username", access_token: token });
+    const r = await fetch(`${GRAPH}/${igsid}?${params.toString()}`);
+    if (!r.ok) return { username: null, name: null };
+    const j: any = await r.json();
+    return { username: j.username ?? null, name: j.name ?? null };
+  } catch {
+    return { username: null, name: null };
+  }
+}
+
 /** Manda DM a um usuário pelo IGSID (janela de 24h). POST /me/messages recipient.id */
 export async function sendMessageToUser(igsid: string, text: string, token: string): Promise<void> {
   const r = await fetch(`${GRAPH}/me/messages?access_token=${encodeURIComponent(token)}`, {
@@ -464,18 +477,27 @@ async function handleMessageEvent(account: ResolvedAccount, msg: IgMessagingEven
     note: payload ? "botão" : null,
   });
 
+  const token = decryptAccountToken(account.accessTokenEnc);
+
+  // Busca o @username do participante (pra inbox mostrar o @ em vez do ID).
+  let username: string | null = null;
+  if (token) {
+    const prof = await getIgUserProfile(senderId, token);
+    username = prof.username ?? prof.name ?? null;
+  }
+
   // Persiste o DM recebido na inbox (com botão → automação; senão → orgânico).
   await recordIgMessage({
     companyId: account.companyId,
     accountId: account.id,
     participantId: senderId,
+    username,
     direction: "IN",
     source: payload ? "AUTOMATION" : "ORGANIC",
     text: msg.message?.text ?? (payload ? `[botão] ${payload}` : null),
     mid: msg.message?.mid ?? null,
   }).catch((e) => console.error("[IG] persist inbound:", e?.message));
 
-  const token = decryptAccountToken(account.accessTokenEnc);
   if (!token) return;
 
   try {
