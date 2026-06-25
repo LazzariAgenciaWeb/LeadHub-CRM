@@ -120,8 +120,20 @@ export default function IgInbox() {
           {!selected && <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">Selecione uma conversa</div>}
           {selected && (
             <>
-              <div className="px-4 py-3 border-b border-white/10 text-white text-sm font-medium">
-                @{selected.participantUsername || selected.participantId}
+              <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between gap-2">
+                <span className="text-white text-sm font-medium truncate">
+                  @{selected.participantUsername || selected.participantId}
+                </span>
+                {selected.participantUsername && (
+                  <a
+                    href={`https://instagram.com/${selected.participantUsername}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-indigo-300 hover:text-indigo-200 flex-shrink-0"
+                  >
+                    Abrir perfil ↗
+                  </a>
+                )}
               </div>
               <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
                 {threadLoading && <p className="text-slate-500 text-sm">Carregando…</p>}
