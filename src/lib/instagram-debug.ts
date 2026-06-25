@@ -26,6 +26,16 @@ export function getRecentIgCallbacks(): IgCallbackTrace[] {
   return recent;
 }
 
+// ─── Callbacks de OAuth do Facebook ───────────────────────────────────────────
+const recentFb: IgCallbackTrace[] = [];
+export function recordFbCallback(entry: Omit<IgCallbackTrace, "ts">): void {
+  recentFb.unshift({ ts: new Date().toISOString(), ...entry });
+  if (recentFb.length > 20) recentFb.pop();
+}
+export function getRecentFbCallbacks(): IgCallbackTrace[] {
+  return recentFb;
+}
+
 // ─── Eventos do webhook (comentários / DMs recebidos) ─────────────────────────
 
 export interface IgWebhookTrace {
