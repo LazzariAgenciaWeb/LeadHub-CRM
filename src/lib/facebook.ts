@@ -15,6 +15,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 const GRAPH = "https://graph.facebook.com/v21.0";
 
 const REDIRECT_URI = `${BASE_URL.replace(/\/$/, "")}/api/integrations/facebook/callback`;
+// "Login do Facebook para Empresas" usa config_id em vez de scope.
+const CONFIG_ID = process.env.FACEBOOK_LOGIN_CONFIG_ID || "";
 
 export const FB_SCOPES = ["pages_show_list", "pages_messaging", "pages_manage_metadata", "pages_read_engagement"];
 
@@ -30,9 +32,15 @@ export function buildFacebookAuthorizeUrl(state: string): string {
     client_id: APP_ID,
     redirect_uri: REDIRECT_URI,
     response_type: "code",
-    scope: FB_SCOPES.join(","),
     state,
   });
+  if (CONFIG_ID) {
+    // Login for Business: permissões/ativos definidos pela configuração.
+    params.set("config_id", CONFIG_ID);
+  } else {
+    // Login clássico: pede permissões por scope.
+    params.set("scope", FB_SCOPES.join(","));
+  }
   return `https://www.facebook.com/v21.0/dialog/oauth?${params.toString()}`;
 }
 
@@ -132,4 +140,4 @@ export const fbTokenCrypto = {
   decrypt: (s: string | null | undefined) => (s ? decryptSecret(s) : ""),
 };
 
-export const facebookConfig = { appId: APP_ID, redirectUri: REDIRECT_URI, graphBase: GRAPH };
+export const facebookConfig = { appId: APP_ID, redirectUri: REDIRECT_URI, graphBase: GRAPH, configId: CONFIG_ID };

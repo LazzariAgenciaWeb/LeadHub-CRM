@@ -18,6 +18,7 @@ export async function GET(_req: NextRequest) {
     envCheck: {
       hasFbAppId: !!process.env.FACEBOOK_APP_ID,
       hasFbAppSecret: !!process.env.FACEBOOK_APP_SECRET,
+      hasConfigId: !!facebookConfig.configId,
       redirectUri: facebookConfig.redirectUri,
       appId: facebookConfig.appId || null,
     },
