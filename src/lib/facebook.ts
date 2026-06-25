@@ -103,6 +103,26 @@ export async function fbDebugInfo(userToken: string): Promise<any> {
   out.me = await get("me?fields=id,name");
   out.permissions = await get("me/permissions");
   out.accounts = await get("me/accounts?fields=id,name,tasks");
+  out.businesses = await get("me/businesses?fields=id,name");
+  return out;
+}
+
+/** Páginas de um negócio (quando /me/accounts vem vazio — páginas da nova experiência). */
+export async function fbGetBusinessPages(userToken: string): Promise<FbPage[]> {
+  const biz = await fetch(`${GRAPH}/me/businesses?fields=id&access_token=${encodeURIComponent(userToken)}`)
+    .then((r) => r.json()).catch(() => ({ data: [] }));
+  const out: FbPage[] = [];
+  for (const b of biz.data ?? []) {
+    for (const edge of ["owned_pages", "client_pages"]) {
+      const r = await fetch(`${GRAPH}/${b.id}/${edge}?fields=id,name,access_token&access_token=${encodeURIComponent(userToken)}`)
+        .then((x) => x.json()).catch(() => ({ data: [] }));
+      for (const p of r.data ?? []) {
+        if (p.access_token && !out.find((x) => x.id === String(p.id))) {
+          out.push({ id: String(p.id), name: p.name, access_token: p.access_token });
+        }
+      }
+    }
+  }
   return out;
 }
 

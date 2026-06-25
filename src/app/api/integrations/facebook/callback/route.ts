@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { fbExchangeCode, fbLongLivedUserToken, fbGetPages, fbSubscribePage, fbTokenCrypto, fbDebugInfo, FB_SCOPES } from "@/lib/facebook";
+import { fbExchangeCode, fbLongLivedUserToken, fbGetPages, fbGetBusinessPages, fbSubscribePage, fbTokenCrypto, fbDebugInfo, FB_SCOPES } from "@/lib/facebook";
 import { recordFbCallback } from "@/lib/instagram-debug";
 
 // GET /api/integrations/facebook/callback?code=...&state=...
@@ -49,6 +49,8 @@ export async function GET(req: NextRequest) {
     let pages;
     try {
       pages = await fbGetPages(userToken);
+      // Páginas da "nova experiência" às vezes não vêm por /me/accounts → busca via business.
+      if (!pages.length) pages = await fbGetBusinessPages(userToken);
     } catch (e: any) {
       return fail(payload.c, "get_pages_failed", "fb_pages_failed", e?.message?.slice(0, 300));
     }
