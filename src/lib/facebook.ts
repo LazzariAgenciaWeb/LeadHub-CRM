@@ -139,6 +139,11 @@ export async function fbSubscribePage(pageId: string, pageToken: string): Promis
   return { ok: r.ok, body };
 }
 
+/** Desassina a Página dos webhooks (ao remover a conexão). Best-effort. */
+export async function fbUnsubscribePage(pageId: string, pageToken: string): Promise<void> {
+  await fetch(`${GRAPH}/${pageId}/subscribed_apps?access_token=${encodeURIComponent(pageToken)}`, { method: "DELETE" }).catch(() => {});
+}
+
 /** Manda DM no Messenger (recipient.id = PSID). Janela de 24h. */
 export async function fbSendMessage(pageId: string, psid: string, text: string, pageToken: string): Promise<void> {
   const r = await fetch(`${GRAPH}/${pageId}/messages?access_token=${encodeURIComponent(pageToken)}`, {

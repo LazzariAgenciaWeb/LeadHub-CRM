@@ -148,6 +148,12 @@ export default function InstagramManager() {
 
   useEffect(() => { load(); }, [load]);
 
+  async function removeFbPage(id: string) {
+    if (!confirm("Remover esta página desta empresa?")) return;
+    await fetch(`/api/instagram/facebook-pages/${id}`, { method: "DELETE" });
+    load();
+  }
+
   async function loadMedia() {
     setMediaLoading(true);
     try {
@@ -296,16 +302,25 @@ export default function InstagramManager() {
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-white text-sm font-medium">Facebook / Messenger</p>
-            <p className="text-xs text-slate-400 truncate">
-              {fbPages.length ? `${fbPages.length} página(s): ${fbPages.map((p) => p.name || p.id).join(", ")}` : "Nenhuma página conectada"}
-            </p>
+            {!fbPages.length && <p className="text-xs text-slate-400">Nenhuma página conectada</p>}
           </div>
           {fbConnectUrl && (
             <a href={fbConnectUrl} className="rounded-lg border border-blue-500/40 px-3 py-1.5 text-xs text-blue-300 hover:bg-blue-500/10 flex-shrink-0">
-              {fbPages.length ? "Reconectar página" : "Conectar Facebook"}
+              {fbPages.length ? "Reconectar / adicionar" : "Conectar Facebook"}
             </a>
           )}
         </div>
+        {fbPages.length > 0 && (
+          <div className="mt-2 flex flex-col gap-1.5">
+            {fbPages.map((p) => (
+              <div key={p.id} className="flex items-center gap-2 text-xs">
+                <span className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />
+                <span className="text-slate-200 truncate flex-1">{p.name || p.id}</span>
+                <button onClick={() => removeFbPage(p.id)} className="text-slate-500 hover:text-red-400 flex-shrink-0">Remover</button>
+              </div>
+            ))}
+          </div>
+        )}
         <p className="text-[11px] text-slate-500 mt-2">
           Os DMs do Messenger caem na <a href="/instagram/inbox" className="text-indigo-300">Inbox Social</a> com o selo Messenger.
         </p>
