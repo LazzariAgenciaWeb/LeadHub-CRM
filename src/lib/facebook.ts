@@ -139,6 +139,16 @@ export async function fbSubscribePage(pageId: string, pageToken: string): Promis
   return { ok: r.ok, body };
 }
 
+/** Lê as assinaturas de webhook da Página (diagnóstico). */
+export async function fbGetPageSubscriptions(pageId: string, pageToken: string): Promise<any> {
+  try {
+    const r = await fetch(`${GRAPH}/${pageId}/subscribed_apps?access_token=${encodeURIComponent(pageToken)}`);
+    return await r.json();
+  } catch (e: any) {
+    return { error: e?.message };
+  }
+}
+
 /** Desassina a Página dos webhooks (ao remover a conexão). Best-effort. */
 export async function fbUnsubscribePage(pageId: string, pageToken: string): Promise<void> {
   await fetch(`${GRAPH}/${pageId}/subscribed_apps?access_token=${encodeURIComponent(pageToken)}`, { method: "DELETE" }).catch(() => {});

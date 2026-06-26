@@ -36,6 +36,16 @@ export function getRecentFbCallbacks(): IgCallbackTrace[] {
   return recentFb;
 }
 
+// ─── Eventos do webhook do Facebook (Messenger) ───────────────────────────────
+const recentFbEvents: any[] = [];
+export function recordFbWebhookEvent(entry: any): void {
+  recentFbEvents.unshift({ ts: new Date().toISOString(), ...entry });
+  if (recentFbEvents.length > 30) recentFbEvents.pop();
+}
+export function getRecentFbWebhookEvents(): any[] {
+  return recentFbEvents;
+}
+
 // ─── Eventos do webhook (comentários / DMs recebidos) ─────────────────────────
 
 export interface IgWebhookTrace {
