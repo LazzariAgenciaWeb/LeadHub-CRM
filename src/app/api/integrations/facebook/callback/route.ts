@@ -39,8 +39,9 @@ export async function GET(req: NextRequest) {
     if (!auth.ok || !auth.canWrite) return fail(payload.c, "forbidden", "forbidden", auth.ok ? "no canWrite" : auth.error);
 
     let userToken: string;
+    let shortToken: string;
     try {
-      const shortToken = await fbExchangeCode(code);
+      shortToken = await fbExchangeCode(code);
       userToken = await fbLongLivedUserToken(shortToken);
     } catch (e: any) {
       return fail(payload.c, "token_exchange_failed", "fb_token_failed", e?.message?.slice(0, 300));
@@ -48,15 +49,16 @@ export async function GET(req: NextRequest) {
 
     let pages;
     try {
-      pages = await fbGetPages(userToken);
-      // Páginas da "nova experiência" às vezes não vêm por /me/accounts → busca via business.
-      if (!pages.length) pages = await fbGetBusinessPages(userToken);
+      pages = await fbGetPages(userToken); // token longo
+      if (!pages.length) pages = await fbGetPages(shortToken); // token curto (grant pode estar nele)
+      if (!pages.length) pages = await fbGetBusinessPages(userToken); // via business (precisa business_management)
     } catch (e: any) {
       return fail(payload.c, "get_pages_failed", "fb_pages_failed", e?.message?.slice(0, 300));
     }
     if (!pages.length) {
-      const dbg = await fbDebugInfo(userToken).catch(() => null);
-      return fail(payload.c, "no_pages", "no_pages", JSON.stringify(dbg).slice(0, 800));
+      const dbgLong = await fbDebugInfo(userToken).catch(() => null);
+      const dbgShort = await fbDebugInfo(shortToken).catch(() => null);
+      return fail(payload.c, "no_pages", "no_pages", JSON.stringify({ longAccounts: dbgLong?.accounts, shortAccounts: dbgShort?.accounts, businesses: dbgLong?.businesses }).slice(0, 800));
     }
 
     try {
