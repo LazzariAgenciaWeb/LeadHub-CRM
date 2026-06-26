@@ -126,6 +126,21 @@ export async function fbGetBusinessPages(userToken: string): Promise<FbPage[]> {
   return out;
 }
 
+/**
+ * Busca o token de acesso de UMA página direto (jeito confiável). Retorna null
+ * se o usuário não tem acesso de página usável (ex: token business inválido).
+ */
+export async function fbGetPageToken(pageId: string, userToken: string): Promise<{ name: string | null; access_token: string } | null> {
+  try {
+    const r = await fetch(`${GRAPH}/${pageId}?fields=name,access_token&access_token=${encodeURIComponent(userToken)}`);
+    const j: any = await r.json();
+    if (j.access_token) return { name: j.name ?? null, access_token: j.access_token };
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 /** Assina a Página aos webhooks do app. */
 export async function fbSubscribePage(pageId: string, pageToken: string): Promise<{ ok: boolean; body: any }> {
   const params = new URLSearchParams({

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { fbExchangeCode, fbLongLivedUserToken, fbGetPages, fbGetBusinessPages, fbSubscribePage, fbTokenCrypto, fbDebugInfo, FB_SCOPES } from "@/lib/facebook";
+import { fbExchangeCode, fbLongLivedUserToken, fbGetPages, fbGetBusinessPages, fbGetPageToken, fbSubscribePage, fbTokenCrypto, fbDebugInfo, FB_SCOPES } from "@/lib/facebook";
 import { recordFbCallback } from "@/lib/instagram-debug";
 
 // GET /api/integrations/facebook/callback?code=...&state=...
@@ -63,26 +63,29 @@ export async function GET(req: NextRequest) {
 
     try {
       for (const page of pages) {
+        // Busca o token de página DIRETO (mais confiável que o token vindo do business).
+        const fresh = await fbGetPageToken(page.id, userToken);
+        const token = fresh?.access_token || page.access_token;
         await prisma.facebookPage.upsert({
           where: { pageId: page.id },
           create: {
             companyId: payload.c,
             pageId: page.id,
-            name: page.name,
-            pageAccessTokenEnc: fbTokenCrypto.encrypt(page.access_token),
+            name: fresh?.name || page.name,
+            pageAccessTokenEnc: fbTokenCrypto.encrypt(token),
             scopes: FB_SCOPES,
             status: "ACTIVE",
             createdById: auth.userId,
           },
           update: {
             companyId: payload.c,
-            name: page.name,
-            pageAccessTokenEnc: fbTokenCrypto.encrypt(page.access_token),
+            name: fresh?.name || page.name,
+            pageAccessTokenEnc: fbTokenCrypto.encrypt(token),
             status: "ACTIVE",
-            lastError: null,
+            lastError: fresh ? null : "token de página não obtido direto (acesso limitado)",
           },
         });
-        await fbSubscribePage(page.id, page.access_token).catch(() => {});
+        await fbSubscribePage(page.id, token).catch(() => {});
       }
     } catch (e: any) {
       return fail(payload.c, "save_failed", "fb_save_failed", e?.message?.slice(0, 300));
