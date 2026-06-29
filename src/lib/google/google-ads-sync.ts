@@ -13,7 +13,10 @@
  * Envs:
  *   GOOGLE_ADS_DEVELOPER_TOKEN   (obrigatório)
  *   GOOGLE_ADS_LOGIN_CUSTOMER_ID (MCC, recomendado p/ acesso de gestor)
- *   GOOGLE_ADS_API_VERSION       (opcional, default "v18")
+ *   GOOGLE_ADS_API_VERSION       (opcional, default "v22")
+ *
+ * NOTA: o Google mantém só as ~3 versões mais recentes; versões antigas viram
+ * 404 (HTML). Se um dia der 404, é só bumpar a env GOOGLE_ADS_API_VERSION.
  *
  * Docs: https://developers.google.com/google-ads/api/docs/reporting/overview
  */
@@ -21,7 +24,7 @@
 import { prisma } from "../prisma";
 import { getValidAccessToken } from "./token";
 
-const API_VERSION = process.env.GOOGLE_ADS_API_VERSION || "v18";
+const API_VERSION = process.env.GOOGLE_ADS_API_VERSION || "v22";
 const API_BASE = `https://googleads.googleapis.com/${API_VERSION}`;
 
 interface SyncResult {

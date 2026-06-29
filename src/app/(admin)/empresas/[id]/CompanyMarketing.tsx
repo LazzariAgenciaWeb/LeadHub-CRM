@@ -14,6 +14,7 @@ import { BUCKET_META, type TrafficBucket } from "@/lib/traffic-classifier";
 import { flagFromCountryCode, ptCountryName } from "@/lib/country-flags";
 import WorldGeoMap from "@/components/WorldGeoMap";
 import CompanyGbpSection from "./CompanyGbpSection";
+import CompanyAdsSection from "./CompanyAdsSection";
 import MarketingEventsBlock from "./MarketingEventsBlock";
 import MarketingFunnel from "./MarketingFunnel";
 
@@ -555,6 +556,9 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
 
       {/* Seção Google Meu Negócio */}
       <CompanyGbpSection companyId={companyId} days={days} />
+
+      {/* Seção Google Ads */}
+      <CompanyAdsSection companyId={companyId} days={days} provider="GOOGLE_ADS" />
     </div>
   );
 }
