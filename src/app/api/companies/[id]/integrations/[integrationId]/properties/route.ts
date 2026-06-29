@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { googleFetch } from "@/lib/google/token";
+import { listGoogleAdsAccounts } from "@/lib/google/google-ads-sync";
 import { assertModule } from "@/lib/billing";
 
 /**
@@ -115,6 +116,17 @@ export async function GET(
           });
         }
       }
+      return NextResponse.json({ items });
+    }
+
+    if (integ.provider === "GOOGLE_ADS") {
+      // Lista contas-cliente acessíveis (expande MCC). id = só dígitos do customer.
+      const accounts = await listGoogleAdsAccounts(integrationId);
+      const items = accounts.map((a) => ({
+        id: a.id,
+        label: a.currency ? `${a.label} (${a.currency})` : a.label,
+        group: a.group,
+      }));
       return NextResponse.json({ items });
     }
 

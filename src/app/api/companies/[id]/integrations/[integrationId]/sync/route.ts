@@ -4,6 +4,7 @@ import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { syncGA4 } from "@/lib/google/ga4-sync";
 import { syncSearchConsole } from "@/lib/google/search-console-sync";
 import { syncGbp } from "@/lib/google/gbp-sync";
+import { syncGoogleAds } from "@/lib/google/google-ads-sync";
 
 // POST /api/companies/[id]/integrations/[integrationId]/sync
 // Dispara um sync manual ("sincronizar agora").
@@ -40,6 +41,8 @@ export async function POST(
       result = await syncSearchConsole(integrationId);
     } else if (integ.provider === "BUSINESS_PROFILE") {
       result = await syncGbp(integrationId);
+    } else if (integ.provider === "GOOGLE_ADS") {
+      result = await syncGoogleAds(integrationId);
     } else {
       return NextResponse.json({ error: `Sync de ${integ.provider} não implementado` }, { status: 400 });
     }

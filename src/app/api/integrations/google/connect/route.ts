@@ -35,10 +35,10 @@ export async function GET(req: NextRequest) {
   const services = servicesRaw
     .split(",")
     .map((s) => s.trim().toLowerCase())
-    .filter((s): s is GoogleService => s === "ga4" || s === "sc" || s === "gbp");
+    .filter((s): s is GoogleService => s === "ga4" || s === "sc" || s === "gbp" || s === "gads");
 
   if (services.length === 0) {
-    return NextResponse.json({ error: "services inválidos (use: ga4,sc,gbp)" }, { status: 400 });
+    return NextResponse.json({ error: "services inválidos (use: ga4,sc,gbp,gads)" }, { status: 400 });
   }
 
   const stateRaw = randomBytes(24).toString("base64url");

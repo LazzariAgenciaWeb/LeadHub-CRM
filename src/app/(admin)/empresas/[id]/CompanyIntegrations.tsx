@@ -60,8 +60,9 @@ const PROVIDER_META: Record<Provider, { label: string; Icon: typeof BarChart3; c
     Icon: Megaphone,
     color: "text-amber-300",
     bg: "bg-amber-500/10 border-amber-500/30",
-    description: "Investimento, cliques, conversões, ROAS por campanha.",
-    oauth: null, // futuro
+    description: "Investimento, cliques, conversões, ROAS por campanha. Atualiza diariamente.",
+    oauth: "google",
+    service: "gads",
   },
   META_ADS: {
     label: "Meta Ads (Facebook & Instagram)",
@@ -288,11 +289,11 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                                 onClick={() => setPicker({ integration: integ })}
                                 className="text-amber-400 hover:text-amber-300 text-[11px] mt-0.5 italic font-semibold underline decoration-dotted"
                               >
-                                ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : "perfil"} sincronizar →
+                                ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" ? "conta" : "perfil"} sincronizar →
                               </button>
                             ) : (
                               <p className="text-amber-400 text-[11px] mt-0.5 italic">
-                                ⚠️ Aguardando seleção da {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : "perfil"}
+                                ⚠️ Aguardando seleção da {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" ? "conta" : "perfil"}
                               </p>
                             )
                           )}
@@ -309,7 +310,7 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                             </p>
                           )}
                         </div>
-                        {canWrite && integ.accountId && (provider === "GA4" || provider === "SEARCH_CONSOLE") && (
+                        {canWrite && integ.accountId && (provider === "GA4" || provider === "SEARCH_CONSOLE" || provider === "GOOGLE_ADS") && (
                           <button
                             onClick={() => handleSyncNow(integ)}
                             disabled={syncing === integ.id}

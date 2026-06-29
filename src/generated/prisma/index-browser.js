@@ -990,6 +990,24 @@ exports.Prisma.GbpProfileSnapshotScalarFieldEnum = {
   syncedAt: 'syncedAt'
 };
 
+exports.Prisma.AdCampaignDailyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  provider: 'provider',
+  date: 'date',
+  externalCampaignId: 'externalCampaignId',
+  campaignName: 'campaignName',
+  campaignStatus: 'campaignStatus',
+  impressions: 'impressions',
+  clicks: 'clicks',
+  cost: 'cost',
+  conversions: 'conversions',
+  conversionValue: 'conversionValue',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1720,6 +1738,7 @@ exports.Prisma.ModelName = {
   GbpReview: 'GbpReview',
   GbpSearchKeyword: 'GbpSearchKeyword',
   GbpProfileSnapshot: 'GbpProfileSnapshot',
+  AdCampaignDaily: 'AdCampaignDaily',
   Subscription: 'Subscription',
   BusinessHoursConfig: 'BusinessHoursConfig',
   BusinessHoursInterval: 'BusinessHoursInterval',

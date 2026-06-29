@@ -314,6 +314,11 @@ export type GbpSearchKeyword = $Result.DefaultSelection<Prisma.$GbpSearchKeyword
  */
 export type GbpProfileSnapshot = $Result.DefaultSelection<Prisma.$GbpProfileSnapshotPayload>
 /**
+ * Model AdCampaignDaily
+ * 
+ */
+export type AdCampaignDaily = $Result.DefaultSelection<Prisma.$AdCampaignDailyPayload>
+/**
  * Model Subscription
  * 
  */
@@ -1765,6 +1770,16 @@ export class PrismaClient<
   get gbpProfileSnapshot(): Prisma.GbpProfileSnapshotDelegate<ExtArgs>;
 
   /**
+   * `prisma.adCampaignDaily`: Exposes CRUD operations for the **AdCampaignDaily** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AdCampaignDailies
+    * const adCampaignDailies = await prisma.adCampaignDaily.findMany()
+    * ```
+    */
+  get adCampaignDaily(): Prisma.AdCampaignDailyDelegate<ExtArgs>;
+
+  /**
    * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
     * Example usage:
     * ```ts
@@ -2484,6 +2499,7 @@ export namespace Prisma {
     GbpReview: 'GbpReview',
     GbpSearchKeyword: 'GbpSearchKeyword',
     GbpProfileSnapshot: 'GbpProfileSnapshot',
+    AdCampaignDaily: 'AdCampaignDaily',
     Subscription: 'Subscription',
     BusinessHoursConfig: 'BusinessHoursConfig',
     BusinessHoursInterval: 'BusinessHoursInterval',
@@ -2521,7 +2537,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6725,6 +6741,76 @@ export namespace Prisma {
           }
         }
       }
+      AdCampaignDaily: {
+        payload: Prisma.$AdCampaignDailyPayload<ExtArgs>
+        fields: Prisma.AdCampaignDailyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AdCampaignDailyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AdCampaignDailyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          findFirst: {
+            args: Prisma.AdCampaignDailyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AdCampaignDailyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          findMany: {
+            args: Prisma.AdCampaignDailyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>[]
+          }
+          create: {
+            args: Prisma.AdCampaignDailyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          createMany: {
+            args: Prisma.AdCampaignDailyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdCampaignDailyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>[]
+          }
+          delete: {
+            args: Prisma.AdCampaignDailyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          update: {
+            args: Prisma.AdCampaignDailyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          deleteMany: {
+            args: Prisma.AdCampaignDailyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AdCampaignDailyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AdCampaignDailyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdCampaignDailyPayload>
+          }
+          aggregate: {
+            args: Prisma.AdCampaignDailyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAdCampaignDaily>
+          }
+          groupBy: {
+            args: Prisma.AdCampaignDailyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AdCampaignDailyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AdCampaignDailyCountArgs<ExtArgs>
+            result: $Utils.Optional<AdCampaignDailyCountAggregateOutputType> | number
+          }
+        }
+      }
       Subscription: {
         payload: Prisma.$SubscriptionPayload<ExtArgs>
         fields: Prisma.SubscriptionFieldRefs
@@ -8696,6 +8782,7 @@ export namespace Prisma {
     gbpReviews: number
     gbpSearchKeywords: number
     gbpProfileSnapshots: number
+    adCampaignDailies: number
     billingEvents: number
     assistants: number
     aiUsageLogs: number
@@ -8753,6 +8840,7 @@ export namespace Prisma {
     gbpReviews?: boolean | CompanyCountOutputTypeCountGbpReviewsArgs
     gbpSearchKeywords?: boolean | CompanyCountOutputTypeCountGbpSearchKeywordsArgs
     gbpProfileSnapshots?: boolean | CompanyCountOutputTypeCountGbpProfileSnapshotsArgs
+    adCampaignDailies?: boolean | CompanyCountOutputTypeCountAdCampaignDailiesArgs
     billingEvents?: boolean | CompanyCountOutputTypeCountBillingEventsArgs
     assistants?: boolean | CompanyCountOutputTypeCountAssistantsArgs
     aiUsageLogs?: boolean | CompanyCountOutputTypeCountAiUsageLogsArgs
@@ -9118,6 +9206,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountGbpProfileSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GbpProfileSnapshotWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAdCampaignDailiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdCampaignDailyWhereInput
   }
 
   /**
@@ -15135,6 +15230,7 @@ export namespace Prisma {
     gbpReviews?: boolean | Company$gbpReviewsArgs<ExtArgs>
     gbpSearchKeywords?: boolean | Company$gbpSearchKeywordsArgs<ExtArgs>
     gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
+    adCampaignDailies?: boolean | Company$adCampaignDailiesArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
@@ -15269,6 +15365,7 @@ export namespace Prisma {
     gbpReviews?: boolean | Company$gbpReviewsArgs<ExtArgs>
     gbpSearchKeywords?: boolean | Company$gbpSearchKeywordsArgs<ExtArgs>
     gbpProfileSnapshots?: boolean | Company$gbpProfileSnapshotsArgs<ExtArgs>
+    adCampaignDailies?: boolean | Company$adCampaignDailiesArgs<ExtArgs>
     subscription?: boolean | Company$subscriptionArgs<ExtArgs>
     billingEvents?: boolean | Company$billingEventsArgs<ExtArgs>
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
@@ -15335,6 +15432,7 @@ export namespace Prisma {
       gbpReviews: Prisma.$GbpReviewPayload<ExtArgs>[]
       gbpSearchKeywords: Prisma.$GbpSearchKeywordPayload<ExtArgs>[]
       gbpProfileSnapshots: Prisma.$GbpProfileSnapshotPayload<ExtArgs>[]
+      adCampaignDailies: Prisma.$AdCampaignDailyPayload<ExtArgs>[]
       subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
       billingEvents: Prisma.$BillingEventPayload<ExtArgs>[]
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
@@ -15791,6 +15889,7 @@ export namespace Prisma {
     gbpReviews<T extends Company$gbpReviewsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpReviewPayload<ExtArgs>, T, "findMany"> | Null>
     gbpSearchKeywords<T extends Company$gbpSearchKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpSearchKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpSearchKeywordPayload<ExtArgs>, T, "findMany"> | Null>
     gbpProfileSnapshots<T extends Company$gbpProfileSnapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpProfileSnapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpProfileSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
+    adCampaignDailies<T extends Company$adCampaignDailiesArgs<ExtArgs> = {}>(args?: Subset<T, Company$adCampaignDailiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findMany"> | Null>
     subscription<T extends Company$subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Company$subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     billingEvents<T extends Company$billingEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$billingEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingEventPayload<ExtArgs>, T, "findMany"> | Null>
     assistants<T extends Company$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
@@ -17203,6 +17302,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GbpProfileSnapshotScalarFieldEnum | GbpProfileSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * Company.adCampaignDailies
+   */
+  export type Company$adCampaignDailiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    where?: AdCampaignDailyWhereInput
+    orderBy?: AdCampaignDailyOrderByWithRelationInput | AdCampaignDailyOrderByWithRelationInput[]
+    cursor?: AdCampaignDailyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdCampaignDailyScalarFieldEnum | AdCampaignDailyScalarFieldEnum[]
   }
 
   /**
@@ -75290,6 +75409,1109 @@ export namespace Prisma {
 
 
   /**
+   * Model AdCampaignDaily
+   */
+
+  export type AggregateAdCampaignDaily = {
+    _count: AdCampaignDailyCountAggregateOutputType | null
+    _avg: AdCampaignDailyAvgAggregateOutputType | null
+    _sum: AdCampaignDailySumAggregateOutputType | null
+    _min: AdCampaignDailyMinAggregateOutputType | null
+    _max: AdCampaignDailyMaxAggregateOutputType | null
+  }
+
+  export type AdCampaignDailyAvgAggregateOutputType = {
+    impressions: number | null
+    clicks: number | null
+    cost: Decimal | null
+    conversions: number | null
+    conversionValue: Decimal | null
+  }
+
+  export type AdCampaignDailySumAggregateOutputType = {
+    impressions: number | null
+    clicks: number | null
+    cost: Decimal | null
+    conversions: number | null
+    conversionValue: Decimal | null
+  }
+
+  export type AdCampaignDailyMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    provider: $Enums.IntegrationProvider | null
+    date: Date | null
+    externalCampaignId: string | null
+    campaignName: string | null
+    campaignStatus: string | null
+    impressions: number | null
+    clicks: number | null
+    cost: Decimal | null
+    conversions: number | null
+    conversionValue: Decimal | null
+    currency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdCampaignDailyMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    provider: $Enums.IntegrationProvider | null
+    date: Date | null
+    externalCampaignId: string | null
+    campaignName: string | null
+    campaignStatus: string | null
+    impressions: number | null
+    clicks: number | null
+    cost: Decimal | null
+    conversions: number | null
+    conversionValue: Decimal | null
+    currency: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AdCampaignDailyCountAggregateOutputType = {
+    id: number
+    companyId: number
+    provider: number
+    date: number
+    externalCampaignId: number
+    campaignName: number
+    campaignStatus: number
+    impressions: number
+    clicks: number
+    cost: number
+    conversions: number
+    conversionValue: number
+    currency: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AdCampaignDailyAvgAggregateInputType = {
+    impressions?: true
+    clicks?: true
+    cost?: true
+    conversions?: true
+    conversionValue?: true
+  }
+
+  export type AdCampaignDailySumAggregateInputType = {
+    impressions?: true
+    clicks?: true
+    cost?: true
+    conversions?: true
+    conversionValue?: true
+  }
+
+  export type AdCampaignDailyMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    date?: true
+    externalCampaignId?: true
+    campaignName?: true
+    campaignStatus?: true
+    impressions?: true
+    clicks?: true
+    cost?: true
+    conversions?: true
+    conversionValue?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdCampaignDailyMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    date?: true
+    externalCampaignId?: true
+    campaignName?: true
+    campaignStatus?: true
+    impressions?: true
+    clicks?: true
+    cost?: true
+    conversions?: true
+    conversionValue?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AdCampaignDailyCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    provider?: true
+    date?: true
+    externalCampaignId?: true
+    campaignName?: true
+    campaignStatus?: true
+    impressions?: true
+    clicks?: true
+    cost?: true
+    conversions?: true
+    conversionValue?: true
+    currency?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AdCampaignDailyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdCampaignDaily to aggregate.
+     */
+    where?: AdCampaignDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdCampaignDailies to fetch.
+     */
+    orderBy?: AdCampaignDailyOrderByWithRelationInput | AdCampaignDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdCampaignDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdCampaignDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdCampaignDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AdCampaignDailies
+    **/
+    _count?: true | AdCampaignDailyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AdCampaignDailyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AdCampaignDailySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdCampaignDailyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdCampaignDailyMaxAggregateInputType
+  }
+
+  export type GetAdCampaignDailyAggregateType<T extends AdCampaignDailyAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdCampaignDaily]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdCampaignDaily[P]>
+      : GetScalarType<T[P], AggregateAdCampaignDaily[P]>
+  }
+
+
+
+
+  export type AdCampaignDailyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdCampaignDailyWhereInput
+    orderBy?: AdCampaignDailyOrderByWithAggregationInput | AdCampaignDailyOrderByWithAggregationInput[]
+    by: AdCampaignDailyScalarFieldEnum[] | AdCampaignDailyScalarFieldEnum
+    having?: AdCampaignDailyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdCampaignDailyCountAggregateInputType | true
+    _avg?: AdCampaignDailyAvgAggregateInputType
+    _sum?: AdCampaignDailySumAggregateInputType
+    _min?: AdCampaignDailyMinAggregateInputType
+    _max?: AdCampaignDailyMaxAggregateInputType
+  }
+
+  export type AdCampaignDailyGroupByOutputType = {
+    id: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    date: Date
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus: string | null
+    impressions: number
+    clicks: number
+    cost: Decimal
+    conversions: number
+    conversionValue: Decimal
+    currency: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AdCampaignDailyCountAggregateOutputType | null
+    _avg: AdCampaignDailyAvgAggregateOutputType | null
+    _sum: AdCampaignDailySumAggregateOutputType | null
+    _min: AdCampaignDailyMinAggregateOutputType | null
+    _max: AdCampaignDailyMaxAggregateOutputType | null
+  }
+
+  type GetAdCampaignDailyGroupByPayload<T extends AdCampaignDailyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AdCampaignDailyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdCampaignDailyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdCampaignDailyGroupByOutputType[P]>
+            : GetScalarType<T[P], AdCampaignDailyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdCampaignDailySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    date?: boolean
+    externalCampaignId?: boolean
+    campaignName?: boolean
+    campaignStatus?: boolean
+    impressions?: boolean
+    clicks?: boolean
+    cost?: boolean
+    conversions?: boolean
+    conversionValue?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["adCampaignDaily"]>
+
+  export type AdCampaignDailySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    date?: boolean
+    externalCampaignId?: boolean
+    campaignName?: boolean
+    campaignStatus?: boolean
+    impressions?: boolean
+    clicks?: boolean
+    cost?: boolean
+    conversions?: boolean
+    conversionValue?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["adCampaignDaily"]>
+
+  export type AdCampaignDailySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    provider?: boolean
+    date?: boolean
+    externalCampaignId?: boolean
+    campaignName?: boolean
+    campaignStatus?: boolean
+    impressions?: boolean
+    clicks?: boolean
+    cost?: boolean
+    conversions?: boolean
+    conversionValue?: boolean
+    currency?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AdCampaignDailyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AdCampaignDailyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AdCampaignDailyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AdCampaignDaily"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      provider: $Enums.IntegrationProvider
+      date: Date
+      externalCampaignId: string
+      campaignName: string
+      campaignStatus: string | null
+      impressions: number
+      clicks: number
+      cost: Prisma.Decimal
+      conversions: number
+      conversionValue: Prisma.Decimal
+      currency: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["adCampaignDaily"]>
+    composites: {}
+  }
+
+  type AdCampaignDailyGetPayload<S extends boolean | null | undefined | AdCampaignDailyDefaultArgs> = $Result.GetResult<Prisma.$AdCampaignDailyPayload, S>
+
+  type AdCampaignDailyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AdCampaignDailyFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AdCampaignDailyCountAggregateInputType | true
+    }
+
+  export interface AdCampaignDailyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AdCampaignDaily'], meta: { name: 'AdCampaignDaily' } }
+    /**
+     * Find zero or one AdCampaignDaily that matches the filter.
+     * @param {AdCampaignDailyFindUniqueArgs} args - Arguments to find a AdCampaignDaily
+     * @example
+     * // Get one AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AdCampaignDailyFindUniqueArgs>(args: SelectSubset<T, AdCampaignDailyFindUniqueArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AdCampaignDaily that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AdCampaignDailyFindUniqueOrThrowArgs} args - Arguments to find a AdCampaignDaily
+     * @example
+     * // Get one AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AdCampaignDailyFindUniqueOrThrowArgs>(args: SelectSubset<T, AdCampaignDailyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AdCampaignDaily that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyFindFirstArgs} args - Arguments to find a AdCampaignDaily
+     * @example
+     * // Get one AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AdCampaignDailyFindFirstArgs>(args?: SelectSubset<T, AdCampaignDailyFindFirstArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AdCampaignDaily that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyFindFirstOrThrowArgs} args - Arguments to find a AdCampaignDaily
+     * @example
+     * // Get one AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AdCampaignDailyFindFirstOrThrowArgs>(args?: SelectSubset<T, AdCampaignDailyFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AdCampaignDailies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AdCampaignDailies
+     * const adCampaignDailies = await prisma.adCampaignDaily.findMany()
+     * 
+     * // Get first 10 AdCampaignDailies
+     * const adCampaignDailies = await prisma.adCampaignDaily.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const adCampaignDailyWithIdOnly = await prisma.adCampaignDaily.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AdCampaignDailyFindManyArgs>(args?: SelectSubset<T, AdCampaignDailyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AdCampaignDaily.
+     * @param {AdCampaignDailyCreateArgs} args - Arguments to create a AdCampaignDaily.
+     * @example
+     * // Create one AdCampaignDaily
+     * const AdCampaignDaily = await prisma.adCampaignDaily.create({
+     *   data: {
+     *     // ... data to create a AdCampaignDaily
+     *   }
+     * })
+     * 
+     */
+    create<T extends AdCampaignDailyCreateArgs>(args: SelectSubset<T, AdCampaignDailyCreateArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AdCampaignDailies.
+     * @param {AdCampaignDailyCreateManyArgs} args - Arguments to create many AdCampaignDailies.
+     * @example
+     * // Create many AdCampaignDailies
+     * const adCampaignDaily = await prisma.adCampaignDaily.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AdCampaignDailyCreateManyArgs>(args?: SelectSubset<T, AdCampaignDailyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AdCampaignDailies and returns the data saved in the database.
+     * @param {AdCampaignDailyCreateManyAndReturnArgs} args - Arguments to create many AdCampaignDailies.
+     * @example
+     * // Create many AdCampaignDailies
+     * const adCampaignDaily = await prisma.adCampaignDaily.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AdCampaignDailies and only return the `id`
+     * const adCampaignDailyWithIdOnly = await prisma.adCampaignDaily.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AdCampaignDailyCreateManyAndReturnArgs>(args?: SelectSubset<T, AdCampaignDailyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AdCampaignDaily.
+     * @param {AdCampaignDailyDeleteArgs} args - Arguments to delete one AdCampaignDaily.
+     * @example
+     * // Delete one AdCampaignDaily
+     * const AdCampaignDaily = await prisma.adCampaignDaily.delete({
+     *   where: {
+     *     // ... filter to delete one AdCampaignDaily
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AdCampaignDailyDeleteArgs>(args: SelectSubset<T, AdCampaignDailyDeleteArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AdCampaignDaily.
+     * @param {AdCampaignDailyUpdateArgs} args - Arguments to update one AdCampaignDaily.
+     * @example
+     * // Update one AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AdCampaignDailyUpdateArgs>(args: SelectSubset<T, AdCampaignDailyUpdateArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AdCampaignDailies.
+     * @param {AdCampaignDailyDeleteManyArgs} args - Arguments to filter AdCampaignDailies to delete.
+     * @example
+     * // Delete a few AdCampaignDailies
+     * const { count } = await prisma.adCampaignDaily.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AdCampaignDailyDeleteManyArgs>(args?: SelectSubset<T, AdCampaignDailyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AdCampaignDailies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AdCampaignDailies
+     * const adCampaignDaily = await prisma.adCampaignDaily.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AdCampaignDailyUpdateManyArgs>(args: SelectSubset<T, AdCampaignDailyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AdCampaignDaily.
+     * @param {AdCampaignDailyUpsertArgs} args - Arguments to update or create a AdCampaignDaily.
+     * @example
+     * // Update or create a AdCampaignDaily
+     * const adCampaignDaily = await prisma.adCampaignDaily.upsert({
+     *   create: {
+     *     // ... data to create a AdCampaignDaily
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AdCampaignDaily we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AdCampaignDailyUpsertArgs>(args: SelectSubset<T, AdCampaignDailyUpsertArgs<ExtArgs>>): Prisma__AdCampaignDailyClient<$Result.GetResult<Prisma.$AdCampaignDailyPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AdCampaignDailies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyCountArgs} args - Arguments to filter AdCampaignDailies to count.
+     * @example
+     * // Count the number of AdCampaignDailies
+     * const count = await prisma.adCampaignDaily.count({
+     *   where: {
+     *     // ... the filter for the AdCampaignDailies we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdCampaignDailyCountArgs>(
+      args?: Subset<T, AdCampaignDailyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdCampaignDailyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AdCampaignDaily.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdCampaignDailyAggregateArgs>(args: Subset<T, AdCampaignDailyAggregateArgs>): Prisma.PrismaPromise<GetAdCampaignDailyAggregateType<T>>
+
+    /**
+     * Group by AdCampaignDaily.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdCampaignDailyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdCampaignDailyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdCampaignDailyGroupByArgs['orderBy'] }
+        : { orderBy?: AdCampaignDailyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdCampaignDailyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdCampaignDailyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AdCampaignDaily model
+   */
+  readonly fields: AdCampaignDailyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AdCampaignDaily.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AdCampaignDailyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AdCampaignDaily model
+   */ 
+  interface AdCampaignDailyFieldRefs {
+    readonly id: FieldRef<"AdCampaignDaily", 'String'>
+    readonly companyId: FieldRef<"AdCampaignDaily", 'String'>
+    readonly provider: FieldRef<"AdCampaignDaily", 'IntegrationProvider'>
+    readonly date: FieldRef<"AdCampaignDaily", 'DateTime'>
+    readonly externalCampaignId: FieldRef<"AdCampaignDaily", 'String'>
+    readonly campaignName: FieldRef<"AdCampaignDaily", 'String'>
+    readonly campaignStatus: FieldRef<"AdCampaignDaily", 'String'>
+    readonly impressions: FieldRef<"AdCampaignDaily", 'Int'>
+    readonly clicks: FieldRef<"AdCampaignDaily", 'Int'>
+    readonly cost: FieldRef<"AdCampaignDaily", 'Decimal'>
+    readonly conversions: FieldRef<"AdCampaignDaily", 'Float'>
+    readonly conversionValue: FieldRef<"AdCampaignDaily", 'Decimal'>
+    readonly currency: FieldRef<"AdCampaignDaily", 'String'>
+    readonly createdAt: FieldRef<"AdCampaignDaily", 'DateTime'>
+    readonly updatedAt: FieldRef<"AdCampaignDaily", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AdCampaignDaily findUnique
+   */
+  export type AdCampaignDailyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AdCampaignDaily to fetch.
+     */
+    where: AdCampaignDailyWhereUniqueInput
+  }
+
+  /**
+   * AdCampaignDaily findUniqueOrThrow
+   */
+  export type AdCampaignDailyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AdCampaignDaily to fetch.
+     */
+    where: AdCampaignDailyWhereUniqueInput
+  }
+
+  /**
+   * AdCampaignDaily findFirst
+   */
+  export type AdCampaignDailyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AdCampaignDaily to fetch.
+     */
+    where?: AdCampaignDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdCampaignDailies to fetch.
+     */
+    orderBy?: AdCampaignDailyOrderByWithRelationInput | AdCampaignDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdCampaignDailies.
+     */
+    cursor?: AdCampaignDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdCampaignDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdCampaignDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdCampaignDailies.
+     */
+    distinct?: AdCampaignDailyScalarFieldEnum | AdCampaignDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AdCampaignDaily findFirstOrThrow
+   */
+  export type AdCampaignDailyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AdCampaignDaily to fetch.
+     */
+    where?: AdCampaignDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdCampaignDailies to fetch.
+     */
+    orderBy?: AdCampaignDailyOrderByWithRelationInput | AdCampaignDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdCampaignDailies.
+     */
+    cursor?: AdCampaignDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdCampaignDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdCampaignDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdCampaignDailies.
+     */
+    distinct?: AdCampaignDailyScalarFieldEnum | AdCampaignDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AdCampaignDaily findMany
+   */
+  export type AdCampaignDailyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AdCampaignDailies to fetch.
+     */
+    where?: AdCampaignDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdCampaignDailies to fetch.
+     */
+    orderBy?: AdCampaignDailyOrderByWithRelationInput | AdCampaignDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AdCampaignDailies.
+     */
+    cursor?: AdCampaignDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdCampaignDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdCampaignDailies.
+     */
+    skip?: number
+    distinct?: AdCampaignDailyScalarFieldEnum | AdCampaignDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AdCampaignDaily create
+   */
+  export type AdCampaignDailyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AdCampaignDaily.
+     */
+    data: XOR<AdCampaignDailyCreateInput, AdCampaignDailyUncheckedCreateInput>
+  }
+
+  /**
+   * AdCampaignDaily createMany
+   */
+  export type AdCampaignDailyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AdCampaignDailies.
+     */
+    data: AdCampaignDailyCreateManyInput | AdCampaignDailyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AdCampaignDaily createManyAndReturn
+   */
+  export type AdCampaignDailyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AdCampaignDailies.
+     */
+    data: AdCampaignDailyCreateManyInput | AdCampaignDailyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AdCampaignDaily update
+   */
+  export type AdCampaignDailyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AdCampaignDaily.
+     */
+    data: XOR<AdCampaignDailyUpdateInput, AdCampaignDailyUncheckedUpdateInput>
+    /**
+     * Choose, which AdCampaignDaily to update.
+     */
+    where: AdCampaignDailyWhereUniqueInput
+  }
+
+  /**
+   * AdCampaignDaily updateMany
+   */
+  export type AdCampaignDailyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AdCampaignDailies.
+     */
+    data: XOR<AdCampaignDailyUpdateManyMutationInput, AdCampaignDailyUncheckedUpdateManyInput>
+    /**
+     * Filter which AdCampaignDailies to update
+     */
+    where?: AdCampaignDailyWhereInput
+  }
+
+  /**
+   * AdCampaignDaily upsert
+   */
+  export type AdCampaignDailyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AdCampaignDaily to update in case it exists.
+     */
+    where: AdCampaignDailyWhereUniqueInput
+    /**
+     * In case the AdCampaignDaily found by the `where` argument doesn't exist, create a new AdCampaignDaily with this data.
+     */
+    create: XOR<AdCampaignDailyCreateInput, AdCampaignDailyUncheckedCreateInput>
+    /**
+     * In case the AdCampaignDaily was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdCampaignDailyUpdateInput, AdCampaignDailyUncheckedUpdateInput>
+  }
+
+  /**
+   * AdCampaignDaily delete
+   */
+  export type AdCampaignDailyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+    /**
+     * Filter which AdCampaignDaily to delete.
+     */
+    where: AdCampaignDailyWhereUniqueInput
+  }
+
+  /**
+   * AdCampaignDaily deleteMany
+   */
+  export type AdCampaignDailyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdCampaignDailies to delete
+     */
+    where?: AdCampaignDailyWhereInput
+  }
+
+  /**
+   * AdCampaignDaily without action
+   */
+  export type AdCampaignDailyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdCampaignDaily
+     */
+    select?: AdCampaignDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdCampaignDailyInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Subscription
    */
 
@@ -99066,6 +100288,27 @@ export namespace Prisma {
   export type GbpProfileSnapshotScalarFieldEnum = (typeof GbpProfileSnapshotScalarFieldEnum)[keyof typeof GbpProfileSnapshotScalarFieldEnum]
 
 
+  export const AdCampaignDailyScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    provider: 'provider',
+    date: 'date',
+    externalCampaignId: 'externalCampaignId',
+    campaignName: 'campaignName',
+    campaignStatus: 'campaignStatus',
+    impressions: 'impressions',
+    clicks: 'clicks',
+    cost: 'cost',
+    conversions: 'conversions',
+    conversionValue: 'conversionValue',
+    currency: 'currency',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AdCampaignDailyScalarFieldEnum = (typeof AdCampaignDailyScalarFieldEnum)[keyof typeof AdCampaignDailyScalarFieldEnum]
+
+
   export const SubscriptionScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -99970,6 +101213,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PlanTier'
    */
   export type EnumPlanTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanTier'>
@@ -100572,6 +101829,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewListRelationFilter
     gbpSearchKeywords?: GbpSearchKeywordListRelationFilter
     gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
+    adCampaignDailies?: AdCampaignDailyListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
     assistants?: AssistantListRelationFilter
@@ -100665,6 +101923,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewOrderByRelationAggregateInput
     gbpSearchKeywords?: GbpSearchKeywordOrderByRelationAggregateInput
     gbpProfileSnapshots?: GbpProfileSnapshotOrderByRelationAggregateInput
+    adCampaignDailies?: AdCampaignDailyOrderByRelationAggregateInput
     subscription?: SubscriptionOrderByWithRelationInput
     billingEvents?: BillingEventOrderByRelationAggregateInput
     assistants?: AssistantOrderByRelationAggregateInput
@@ -100761,6 +102020,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewListRelationFilter
     gbpSearchKeywords?: GbpSearchKeywordListRelationFilter
     gbpProfileSnapshots?: GbpProfileSnapshotListRelationFilter
+    adCampaignDailies?: AdCampaignDailyListRelationFilter
     subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
     billingEvents?: BillingEventListRelationFilter
     assistants?: AssistantListRelationFilter
@@ -105907,6 +107167,114 @@ export namespace Prisma {
     syncedAt?: DateTimeWithAggregatesFilter<"GbpProfileSnapshot"> | Date | string
   }
 
+  export type AdCampaignDailyWhereInput = {
+    AND?: AdCampaignDailyWhereInput | AdCampaignDailyWhereInput[]
+    OR?: AdCampaignDailyWhereInput[]
+    NOT?: AdCampaignDailyWhereInput | AdCampaignDailyWhereInput[]
+    id?: StringFilter<"AdCampaignDaily"> | string
+    companyId?: StringFilter<"AdCampaignDaily"> | string
+    provider?: EnumIntegrationProviderFilter<"AdCampaignDaily"> | $Enums.IntegrationProvider
+    date?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    externalCampaignId?: StringFilter<"AdCampaignDaily"> | string
+    campaignName?: StringFilter<"AdCampaignDaily"> | string
+    campaignStatus?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    impressions?: IntFilter<"AdCampaignDaily"> | number
+    clicks?: IntFilter<"AdCampaignDaily"> | number
+    cost?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFilter<"AdCampaignDaily"> | number
+    conversionValue?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    currency?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    createdAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AdCampaignDailyOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    date?: SortOrder
+    externalCampaignId?: SortOrder
+    campaignName?: SortOrder
+    campaignStatus?: SortOrderInput | SortOrder
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+    currency?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AdCampaignDailyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_provider_date_externalCampaignId?: AdCampaignDailyCompanyIdProviderDateExternalCampaignIdCompoundUniqueInput
+    AND?: AdCampaignDailyWhereInput | AdCampaignDailyWhereInput[]
+    OR?: AdCampaignDailyWhereInput[]
+    NOT?: AdCampaignDailyWhereInput | AdCampaignDailyWhereInput[]
+    companyId?: StringFilter<"AdCampaignDaily"> | string
+    provider?: EnumIntegrationProviderFilter<"AdCampaignDaily"> | $Enums.IntegrationProvider
+    date?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    externalCampaignId?: StringFilter<"AdCampaignDaily"> | string
+    campaignName?: StringFilter<"AdCampaignDaily"> | string
+    campaignStatus?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    impressions?: IntFilter<"AdCampaignDaily"> | number
+    clicks?: IntFilter<"AdCampaignDaily"> | number
+    cost?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFilter<"AdCampaignDaily"> | number
+    conversionValue?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    currency?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    createdAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_provider_date_externalCampaignId">
+
+  export type AdCampaignDailyOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    date?: SortOrder
+    externalCampaignId?: SortOrder
+    campaignName?: SortOrder
+    campaignStatus?: SortOrderInput | SortOrder
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+    currency?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AdCampaignDailyCountOrderByAggregateInput
+    _avg?: AdCampaignDailyAvgOrderByAggregateInput
+    _max?: AdCampaignDailyMaxOrderByAggregateInput
+    _min?: AdCampaignDailyMinOrderByAggregateInput
+    _sum?: AdCampaignDailySumOrderByAggregateInput
+  }
+
+  export type AdCampaignDailyScalarWhereWithAggregatesInput = {
+    AND?: AdCampaignDailyScalarWhereWithAggregatesInput | AdCampaignDailyScalarWhereWithAggregatesInput[]
+    OR?: AdCampaignDailyScalarWhereWithAggregatesInput[]
+    NOT?: AdCampaignDailyScalarWhereWithAggregatesInput | AdCampaignDailyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AdCampaignDaily"> | string
+    companyId?: StringWithAggregatesFilter<"AdCampaignDaily"> | string
+    provider?: EnumIntegrationProviderWithAggregatesFilter<"AdCampaignDaily"> | $Enums.IntegrationProvider
+    date?: DateTimeWithAggregatesFilter<"AdCampaignDaily"> | Date | string
+    externalCampaignId?: StringWithAggregatesFilter<"AdCampaignDaily"> | string
+    campaignName?: StringWithAggregatesFilter<"AdCampaignDaily"> | string
+    campaignStatus?: StringNullableWithAggregatesFilter<"AdCampaignDaily"> | string | null
+    impressions?: IntWithAggregatesFilter<"AdCampaignDaily"> | number
+    clicks?: IntWithAggregatesFilter<"AdCampaignDaily"> | number
+    cost?: DecimalWithAggregatesFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    conversions?: FloatWithAggregatesFilter<"AdCampaignDaily"> | number
+    conversionValue?: DecimalWithAggregatesFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    currency?: StringNullableWithAggregatesFilter<"AdCampaignDaily"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AdCampaignDaily"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AdCampaignDaily"> | Date | string
+  }
+
   export type SubscriptionWhereInput = {
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
@@ -108319,6 +109687,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -108411,6 +109780,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -108503,6 +109873,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -108595,6 +109966,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -114269,6 +115641,131 @@ export namespace Prisma {
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AdCampaignDailyCreateInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAdCampaignDailiesInput
+  }
+
+  export type AdCampaignDailyUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdCampaignDailyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAdCampaignDailiesNestedInput
+  }
+
+  export type AdCampaignDailyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdCampaignDailyCreateManyInput = {
+    id?: string
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdCampaignDailyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdCampaignDailyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubscriptionCreateInput = {
     id?: string
     plan?: $Enums.PlanTier
@@ -117156,6 +118653,12 @@ export namespace Prisma {
     none?: GbpProfileSnapshotWhereInput
   }
 
+  export type AdCampaignDailyListRelationFilter = {
+    every?: AdCampaignDailyWhereInput
+    some?: AdCampaignDailyWhereInput
+    none?: AdCampaignDailyWhereInput
+  }
+
   export type SubscriptionNullableRelationFilter = {
     is?: SubscriptionWhereInput | null
     isNot?: SubscriptionWhereInput | null
@@ -117336,6 +118839,10 @@ export namespace Prisma {
   }
 
   export type GbpProfileSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AdCampaignDailyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -121125,6 +122632,110 @@ export namespace Prisma {
     googleReviewCount?: SortOrder
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AdCampaignDailyCompanyIdProviderDateExternalCampaignIdCompoundUniqueInput = {
+    companyId: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+  }
+
+  export type AdCampaignDailyCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    date?: SortOrder
+    externalCampaignId?: SortOrder
+    campaignName?: SortOrder
+    campaignStatus?: SortOrder
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdCampaignDailyAvgOrderByAggregateInput = {
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+  }
+
+  export type AdCampaignDailyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    date?: SortOrder
+    externalCampaignId?: SortOrder
+    campaignName?: SortOrder
+    campaignStatus?: SortOrder
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdCampaignDailyMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    provider?: SortOrder
+    date?: SortOrder
+    externalCampaignId?: SortOrder
+    campaignName?: SortOrder
+    campaignStatus?: SortOrder
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+    currency?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AdCampaignDailySumOrderByAggregateInput = {
+    impressions?: SortOrder
+    clicks?: SortOrder
+    cost?: SortOrder
+    conversions?: SortOrder
+    conversionValue?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type EnumPlanTierFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel>
     in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel>
@@ -123868,6 +125479,13 @@ export namespace Prisma {
     connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
   }
 
+  export type AdCampaignDailyCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput> | AdCampaignDailyCreateWithoutCompanyInput[] | AdCampaignDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AdCampaignDailyCreateOrConnectWithoutCompanyInput | AdCampaignDailyCreateOrConnectWithoutCompanyInput[]
+    createMany?: AdCampaignDailyCreateManyCompanyInputEnvelope
+    connect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+  }
+
   export type SubscriptionCreateNestedOneWithoutCompanyInput = {
     create?: XOR<SubscriptionCreateWithoutCompanyInput, SubscriptionUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: SubscriptionCreateOrConnectWithoutCompanyInput
@@ -124256,6 +125874,13 @@ export namespace Prisma {
     connectOrCreate?: GbpProfileSnapshotCreateOrConnectWithoutCompanyInput | GbpProfileSnapshotCreateOrConnectWithoutCompanyInput[]
     createMany?: GbpProfileSnapshotCreateManyCompanyInputEnvelope
     connect?: GbpProfileSnapshotWhereUniqueInput | GbpProfileSnapshotWhereUniqueInput[]
+  }
+
+  export type AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput> | AdCampaignDailyCreateWithoutCompanyInput[] | AdCampaignDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AdCampaignDailyCreateOrConnectWithoutCompanyInput | AdCampaignDailyCreateOrConnectWithoutCompanyInput[]
+    createMany?: AdCampaignDailyCreateManyCompanyInputEnvelope
+    connect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
   }
 
   export type SubscriptionUncheckedCreateNestedOneWithoutCompanyInput = {
@@ -125018,6 +126643,20 @@ export namespace Prisma {
     update?: GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput | GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
+  }
+
+  export type AdCampaignDailyUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput> | AdCampaignDailyCreateWithoutCompanyInput[] | AdCampaignDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AdCampaignDailyCreateOrConnectWithoutCompanyInput | AdCampaignDailyCreateOrConnectWithoutCompanyInput[]
+    upsert?: AdCampaignDailyUpsertWithWhereUniqueWithoutCompanyInput | AdCampaignDailyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AdCampaignDailyCreateManyCompanyInputEnvelope
+    set?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    disconnect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    delete?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    connect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    update?: AdCampaignDailyUpdateWithWhereUniqueWithoutCompanyInput | AdCampaignDailyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AdCampaignDailyUpdateManyWithWhereWithoutCompanyInput | AdCampaignDailyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AdCampaignDailyScalarWhereInput | AdCampaignDailyScalarWhereInput[]
   }
 
   export type SubscriptionUpdateOneWithoutCompanyNestedInput = {
@@ -125794,6 +127433,20 @@ export namespace Prisma {
     update?: GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput | GbpProfileSnapshotUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput | GbpProfileSnapshotUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: GbpProfileSnapshotScalarWhereInput | GbpProfileSnapshotScalarWhereInput[]
+  }
+
+  export type AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput> | AdCampaignDailyCreateWithoutCompanyInput[] | AdCampaignDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AdCampaignDailyCreateOrConnectWithoutCompanyInput | AdCampaignDailyCreateOrConnectWithoutCompanyInput[]
+    upsert?: AdCampaignDailyUpsertWithWhereUniqueWithoutCompanyInput | AdCampaignDailyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AdCampaignDailyCreateManyCompanyInputEnvelope
+    set?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    disconnect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    delete?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    connect?: AdCampaignDailyWhereUniqueInput | AdCampaignDailyWhereUniqueInput[]
+    update?: AdCampaignDailyUpdateWithWhereUniqueWithoutCompanyInput | AdCampaignDailyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AdCampaignDailyUpdateManyWithWhereWithoutCompanyInput | AdCampaignDailyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AdCampaignDailyScalarWhereInput | AdCampaignDailyScalarWhereInput[]
   }
 
   export type SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput = {
@@ -129290,6 +130943,28 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGbpProfileSnapshotsInput, CompanyUpdateWithoutGbpProfileSnapshotsInput>, CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutAdCampaignDailiesInput = {
+    create?: XOR<CompanyCreateWithoutAdCampaignDailiesInput, CompanyUncheckedCreateWithoutAdCampaignDailiesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAdCampaignDailiesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAdCampaignDailiesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAdCampaignDailiesInput, CompanyUncheckedCreateWithoutAdCampaignDailiesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAdCampaignDailiesInput
+    upsert?: CompanyUpsertWithoutAdCampaignDailiesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAdCampaignDailiesInput, CompanyUpdateWithoutAdCampaignDailiesInput>, CompanyUncheckedUpdateWithoutAdCampaignDailiesInput>
+  }
+
   export type CompanyCreateNestedOneWithoutSubscriptionInput = {
     create?: XOR<CompanyCreateWithoutSubscriptionInput, CompanyUncheckedCreateWithoutSubscriptionInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSubscriptionInput
@@ -130917,6 +132592,33 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type NestedEnumPlanTierFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanTier | EnumPlanTierFieldRefInput<$PrismaModel>
     in?: $Enums.PlanTier[] | ListEnumPlanTierFieldRefInput<$PrismaModel>
@@ -131176,6 +132878,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -131267,6 +132970,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -132258,6 +133962,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -132349,6 +134054,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -133676,6 +135382,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -133767,6 +135474,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -133863,6 +135571,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -133954,6 +135663,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -136106,6 +137816,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AdCampaignDailyCreateWithoutCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdCampaignDailyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdCampaignDailyCreateOrConnectWithoutCompanyInput = {
+    where: AdCampaignDailyWhereUniqueInput
+    create: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AdCampaignDailyCreateManyCompanyInputEnvelope = {
+    data: AdCampaignDailyCreateManyCompanyInput | AdCampaignDailyCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SubscriptionCreateWithoutCompanyInput = {
     id?: string
     plan?: $Enums.PlanTier
@@ -136394,6 +138148,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -136485,6 +138240,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -138085,6 +139841,43 @@ export namespace Prisma {
     syncedAt?: DateTimeFilter<"GbpProfileSnapshot"> | Date | string
   }
 
+  export type AdCampaignDailyUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AdCampaignDailyWhereUniqueInput
+    update: XOR<AdCampaignDailyUpdateWithoutCompanyInput, AdCampaignDailyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AdCampaignDailyCreateWithoutCompanyInput, AdCampaignDailyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AdCampaignDailyUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AdCampaignDailyWhereUniqueInput
+    data: XOR<AdCampaignDailyUpdateWithoutCompanyInput, AdCampaignDailyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AdCampaignDailyUpdateManyWithWhereWithoutCompanyInput = {
+    where: AdCampaignDailyScalarWhereInput
+    data: XOR<AdCampaignDailyUpdateManyMutationInput, AdCampaignDailyUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AdCampaignDailyScalarWhereInput = {
+    AND?: AdCampaignDailyScalarWhereInput | AdCampaignDailyScalarWhereInput[]
+    OR?: AdCampaignDailyScalarWhereInput[]
+    NOT?: AdCampaignDailyScalarWhereInput | AdCampaignDailyScalarWhereInput[]
+    id?: StringFilter<"AdCampaignDaily"> | string
+    companyId?: StringFilter<"AdCampaignDaily"> | string
+    provider?: EnumIntegrationProviderFilter<"AdCampaignDaily"> | $Enums.IntegrationProvider
+    date?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    externalCampaignId?: StringFilter<"AdCampaignDaily"> | string
+    campaignName?: StringFilter<"AdCampaignDaily"> | string
+    campaignStatus?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    impressions?: IntFilter<"AdCampaignDaily"> | number
+    clicks?: IntFilter<"AdCampaignDaily"> | number
+    cost?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFilter<"AdCampaignDaily"> | number
+    conversionValue?: DecimalFilter<"AdCampaignDaily"> | Decimal | DecimalJsLike | number | string
+    currency?: StringNullableFilter<"AdCampaignDaily"> | string | null
+    createdAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AdCampaignDaily"> | Date | string
+  }
+
   export type SubscriptionUpsertWithoutCompanyInput = {
     update: XOR<SubscriptionUpdateWithoutCompanyInput, SubscriptionUncheckedUpdateWithoutCompanyInput>
     create: XOR<SubscriptionCreateWithoutCompanyInput, SubscriptionUncheckedCreateWithoutCompanyInput>
@@ -138336,6 +140129,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -138427,6 +140221,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -138768,6 +140563,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -138859,6 +140655,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -139055,6 +140852,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -139146,6 +140944,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -139428,6 +141227,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -139519,6 +141319,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -139738,6 +141539,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -139829,6 +141631,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -140382,6 +142185,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -140473,6 +142277,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -140947,6 +142752,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -141038,6 +142844,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -141165,6 +142972,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -141256,6 +143064,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -141619,6 +143428,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -141710,6 +143520,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -141843,6 +143654,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -141934,6 +143746,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -142309,6 +144122,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -142400,6 +144214,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -142533,6 +144348,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -142624,6 +144440,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -142731,6 +144548,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -142822,6 +144640,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -142958,6 +144777,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -143049,6 +144869,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -143272,6 +145093,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -143363,6 +145185,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -143735,6 +145558,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -143826,6 +145650,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144291,6 +146116,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -144382,6 +146208,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -144489,6 +146316,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -144580,6 +146408,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144671,6 +146500,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -144762,6 +146592,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -144950,6 +146781,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -145041,6 +146873,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145219,6 +147052,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -145310,6 +147144,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -145535,6 +147370,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -145626,6 +147462,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145773,6 +147610,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -145864,6 +147702,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -146282,6 +148121,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -146373,6 +148213,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146805,6 +148646,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -146896,6 +148738,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -147044,6 +148887,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -147135,6 +148979,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -147419,6 +149264,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -147510,6 +149356,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -147999,6 +149846,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -148090,6 +149938,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148583,6 +150432,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -148674,6 +150524,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -149008,6 +150859,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -149099,6 +150951,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149190,6 +151043,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -149281,6 +151135,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -149458,6 +151313,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -149549,6 +151405,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -149957,6 +151814,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -150048,6 +151906,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150237,6 +152096,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -150328,6 +152188,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150833,6 +152694,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -150924,6 +152786,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -151259,6 +153122,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -151350,6 +153214,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151586,6 +153451,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -151677,6 +153543,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -152063,6 +153930,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -152154,6 +154022,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -154533,6 +156402,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -154624,6 +156494,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -154781,6 +156652,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -154872,6 +156744,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155185,6 +157058,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -155276,6 +157150,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -155434,6 +157309,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -155525,6 +157401,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155616,6 +157493,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -155707,6 +157585,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -155814,6 +157693,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -155905,6 +157785,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155996,6 +157877,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -156087,6 +157969,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -156338,6 +158221,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -156429,6 +158313,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156568,6 +158453,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -156659,6 +158545,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -156855,6 +158742,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -156946,6 +158834,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -157104,6 +158993,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -157195,6 +159085,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -157398,6 +159289,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -157489,6 +159381,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -157688,6 +159581,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -157779,6 +159673,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -157961,6 +159856,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -158052,6 +159948,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158308,6 +160205,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -158399,6 +160297,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -158506,6 +160405,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -158597,6 +160497,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158688,6 +160589,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -158779,6 +160681,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -158886,6 +160789,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -158977,6 +160881,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159068,6 +160973,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -159159,6 +161065,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -159266,6 +161173,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -159357,6 +161265,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159448,6 +161357,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -159539,6 +161449,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -159646,6 +161557,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -159737,6 +161649,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159828,6 +161741,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -159919,6 +161833,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -160026,6 +161941,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -160117,6 +162033,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160208,6 +162125,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -160299,6 +162217,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -160406,6 +162325,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -160497,6 +162417,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160588,6 +162509,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -160679,6 +162601,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -160786,6 +162709,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -160877,6 +162801,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160968,6 +162893,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -161059,6 +162985,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -161166,6 +163093,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -161257,6 +163185,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161348,6 +163277,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -161439,6 +163369,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -161546,6 +163477,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -161637,6 +163569,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161728,6 +163661,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -161819,6 +163753,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -161926,6 +163861,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -162017,6 +163953,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162108,6 +164045,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -162199,6 +164137,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -162306,6 +164245,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -162397,6 +164337,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162488,6 +164429,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -162579,6 +164521,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -162686,6 +164629,7 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -162777,6 +164721,391 @@ export namespace Prisma {
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAdCampaignDailiesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAdCampaignDailiesInput, CompanyUncheckedCreateWithoutAdCampaignDailiesInput>
+  }
+
+  export type CompanyUpsertWithoutAdCampaignDailiesInput = {
+    update: XOR<CompanyUpdateWithoutAdCampaignDailiesInput, CompanyUncheckedUpdateWithoutAdCampaignDailiesInput>
+    create: XOR<CompanyCreateWithoutAdCampaignDailiesInput, CompanyUncheckedCreateWithoutAdCampaignDailiesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAdCampaignDailiesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAdCampaignDailiesInput, CompanyUncheckedUpdateWithoutAdCampaignDailiesInput>
+  }
+
+  export type CompanyUpdateWithoutAdCampaignDailiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162869,6 +165198,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
@@ -162960,6 +165290,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -163067,6 +165398,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
@@ -163158,6 +165490,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
@@ -163248,6 +165581,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -163339,6 +165673,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -163470,6 +165805,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -163561,6 +165897,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -163739,6 +166076,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -163830,6 +166168,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -163973,6 +166312,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -164064,6 +166404,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164252,6 +166593,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -164343,6 +166685,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -164568,6 +166911,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -164659,6 +167003,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164868,6 +167213,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -164959,6 +167305,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -165153,6 +167500,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -165244,6 +167592,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165416,6 +167765,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -165507,6 +167857,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -165701,6 +168052,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -165792,6 +168144,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165964,6 +168317,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -166055,6 +168409,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -166249,6 +168604,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -166340,6 +168696,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166431,6 +168788,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -166522,6 +168880,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -166629,6 +168988,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -166720,6 +169080,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167147,6 +169508,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -167238,6 +169600,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -167345,6 +169708,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -167436,6 +169800,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167527,6 +169892,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -167618,6 +169984,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -167787,6 +170154,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -167878,6 +170246,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168012,6 +170381,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -168103,6 +170473,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -168472,6 +170843,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -168563,6 +170935,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169238,6 +171611,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -169329,6 +171703,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -169436,6 +171811,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -169527,6 +171903,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169619,6 +171996,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
@@ -169710,6 +172088,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -169817,6 +172196,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
@@ -169908,6 +172288,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169999,6 +172380,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
@@ -170090,6 +172472,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
@@ -170349,6 +172732,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
@@ -170440,6 +172824,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170677,6 +173062,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -170768,6 +173154,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -170912,6 +173299,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -171003,6 +173391,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171137,6 +173526,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
@@ -171228,6 +173618,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
     subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
@@ -171335,6 +173726,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -171426,6 +173818,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173397,6 +175790,23 @@ export namespace Prisma {
     syncedAt?: Date | string
   }
 
+  export type AdCampaignDailyCreateManyCompanyInput = {
+    id?: string
+    provider: $Enums.IntegrationProvider
+    date: Date | string
+    externalCampaignId: string
+    campaignName: string
+    campaignStatus?: string | null
+    impressions?: number
+    clicks?: number
+    cost?: Decimal | DecimalJsLike | number | string
+    conversions?: number
+    conversionValue?: Decimal | DecimalJsLike | number | string
+    currency?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BillingEventCreateManyCompanyInput = {
     id?: string
     type: string
@@ -173532,6 +175942,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
@@ -173623,6 +176034,7 @@ export namespace Prisma {
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
     gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
     gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
     subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175997,6 +178409,57 @@ export namespace Prisma {
     googleAverageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     googleReviewCount?: NullableIntFieldUpdateOperationsInput | number | null
     syncedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdCampaignDailyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdCampaignDailyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdCampaignDailyUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    externalCampaignId?: StringFieldUpdateOperationsInput | string
+    campaignName?: StringFieldUpdateOperationsInput | string
+    campaignStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    cost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    conversions?: FloatFieldUpdateOperationsInput | number
+    conversionValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BillingEventUpdateWithoutCompanyInput = {
@@ -179747,6 +182210,10 @@ export namespace Prisma {
      * @deprecated Use GbpProfileSnapshotDefaultArgs instead
      */
     export type GbpProfileSnapshotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GbpProfileSnapshotDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AdCampaignDailyDefaultArgs instead
+     */
+    export type AdCampaignDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdCampaignDailyDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SubscriptionDefaultArgs instead
      */

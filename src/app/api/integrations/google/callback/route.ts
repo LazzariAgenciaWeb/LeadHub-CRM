@@ -12,10 +12,11 @@ import {
 
 // Mapeia serviço autorizado → IntegrationProvider do schema.
 // Calendar não entra aqui — é gerenciado por usuário em UserGoogleConnection.
-const SERVICE_TO_PROVIDER: Partial<Record<GoogleService, "GA4" | "SEARCH_CONSOLE" | "BUSINESS_PROFILE">> = {
+const SERVICE_TO_PROVIDER: Partial<Record<GoogleService, "GA4" | "SEARCH_CONSOLE" | "BUSINESS_PROFILE" | "GOOGLE_ADS">> = {
   ga4: "GA4",
   sc: "SEARCH_CONSOLE",
   gbp: "BUSINESS_PROFILE",
+  gads: "GOOGLE_ADS",
 };
 
 // GET /api/integrations/google/callback?code=...&state=...

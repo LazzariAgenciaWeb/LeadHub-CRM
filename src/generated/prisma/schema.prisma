@@ -257,6 +257,7 @@ model Company {
   gbpReviews                GbpReview[]
   gbpSearchKeywords         GbpSearchKeyword[]
   gbpProfileSnapshots       GbpProfileSnapshot[]
+  adCampaignDailies         AdCampaignDaily[]
   subscription              Subscription?
   billingEvents             BillingEvent[]
   assistants                Assistant[]
@@ -2027,6 +2028,46 @@ model GbpProfileSnapshot {
   syncedAt DateTime @default(now())
 
   @@index([companyId, syncedAt])
+}
+
+// ─── Ads (Google Ads / Meta Ads) — relatório de campanha patrocinada ──────────
+//
+// Tabela provider-agnóstica: 1 linha por (empresa, provider, dia, campanha).
+// Alimenta o Dashboard de Marketing → aba Ads (KPIs, série diária, funil,
+// tabela por campanha). Fase 1 = Google Ads (provider=GOOGLE_ADS); Meta Ads
+// reaproveita a mesma tabela (provider=META_ADS) na Fase 2.
+//
+// Origem dos dados:
+//   - Google Ads API (GAQL): segments.date + campaign → metrics.cost_micros,
+//     clicks, impressions, conversions, conversions_value.
+//   - Meta Marketing API (futuro): /{ad-account}/insights level=campaign.
+//
+// Dinheiro guardado em `cost`/`conversionValue` como Decimal na moeda da conta
+// (Google: cost_micros / 1e6). Upsert idempotente — roda várias vezes/dia.
+model AdCampaignDaily {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  provider IntegrationProvider // GOOGLE_ADS | META_ADS
+  date     DateTime            @db.Date
+
+  externalCampaignId String // id da campanha na plataforma
+  campaignName       String
+  campaignStatus     String? // ENABLED | PAUSED | REMOVED (rótulo da plataforma)
+
+  impressions     Int     @default(0)
+  clicks          Int     @default(0)
+  cost            Decimal @default(0) @db.Decimal(14, 2) // gasto na moeda da conta
+  conversions     Float   @default(0) // Google entrega frações
+  conversionValue Decimal @default(0) @db.Decimal(14, 2) // receita atribuída
+  currency        String? // ex: "BRL"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, provider, date, externalCampaignId])
+  @@index([companyId, provider, date])
 }
 
 // ─── Cobrança / Assinaturas ───────────────────────────────────────────────────

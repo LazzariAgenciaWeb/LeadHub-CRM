@@ -22,7 +22,7 @@ const CALENDAR_REDIRECT_URI = `${BASE_URL.replace(/\/$/, "")}/api/calendar/googl
 const AUTH_URL  = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 
-export type GoogleService = "ga4" | "sc" | "gbp" | "calendar";
+export type GoogleService = "ga4" | "sc" | "gbp" | "gads" | "calendar";
 
 const SCOPES_BY_SERVICE: Record<GoogleService, string[]> = {
   ga4: [
@@ -33,6 +33,9 @@ const SCOPES_BY_SERVICE: Record<GoogleService, string[]> = {
   ],
   gbp: [
     "https://www.googleapis.com/auth/business.manage",
+  ],
+  gads: [
+    "https://www.googleapis.com/auth/adwords",
   ],
   calendar: [
     "https://www.googleapis.com/auth/calendar.readonly",
@@ -167,6 +170,7 @@ export function detectAuthorizedServices(scopeString: string): GoogleService[] {
   if (scopes.includes("https://www.googleapis.com/auth/analytics.readonly")) result.push("ga4");
   if (scopes.includes("https://www.googleapis.com/auth/webmasters.readonly")) result.push("sc");
   if (scopes.includes("https://www.googleapis.com/auth/business.manage")) result.push("gbp");
+  if (scopes.includes("https://www.googleapis.com/auth/adwords")) result.push("gads");
   return result;
 }
 
