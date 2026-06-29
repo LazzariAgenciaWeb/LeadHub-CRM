@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
   // 3) Enriquece (mesmo formato da listagem inicial em whatsapp/page.tsx)
   const conversations = await Promise.all(
     convRecords.map(async (conv) => {
-      const [lastMsg, lead, inboundCount, outboundCount, companyContact] = await Promise.all([
+      const [lastMsg, lead, companyContact] = await Promise.all([
         prisma.message.findFirst({
           where:   { conversationId: conv.id },
           orderBy: { receivedAt: "desc" },
@@ -129,8 +129,6 @@ export async function GET(req: NextRequest) {
             attendanceStatus: true, expectedReturnAt: true,
           },
         }),
-        prisma.message.count({ where: { conversationId: conv.id, direction: "INBOUND"  } }),
-        prisma.message.count({ where: { conversationId: conv.id, direction: "OUTBOUND" } }),
         prisma.companyContact.findFirst({
           where: {
             phone: conv.phone,
@@ -153,9 +151,6 @@ export async function GET(req: NextRequest) {
           ...lead,
           expectedReturnAt: lead.expectedReturnAt ? lead.expectedReturnAt.toISOString() : null,
         } : null,
-        totalMessages: inboundCount + outboundCount,
-        inboundCount,
-        outboundCount,
         companyContact,
         conversation: {
           id:                      conv.id,

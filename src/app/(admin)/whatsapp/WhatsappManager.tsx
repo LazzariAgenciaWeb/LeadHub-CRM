@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -120,9 +120,6 @@ interface CompanyContactInfo {
 interface Conversation {
   phone: string;
   companyId: string;
-  totalMessages: number;
-  inboundCount: number;
-  outboundCount: number;
   lead: {
     id: string; name: string | null; status: string; notes: string | null;
     pipeline: string | null; pipelineStage: string | null;
@@ -268,7 +265,8 @@ export default function WhatsappManager({
   instances,
   isSuperAdmin,
   defaultCompanyId,
-  conversations,
+  conversations: initialConversations,
+  initialHasMore = false,
   defaultPhone,
   finalStageNames = [],
   userSignature = "",
@@ -287,6 +285,7 @@ export default function WhatsappManager({
   isSuperAdmin: boolean;
   defaultCompanyId: string;
   conversations: Conversation[];
+  initialHasMore?: boolean;
   defaultPhone?: string;
   finalStageNames?: string[];
   userSignature?: string;
@@ -339,6 +338,26 @@ export default function WhatsappManager({
   const [transferNote, setTransferNote] = useState("");
   const [transferring, setTransferring] = useState(false);
   const router = useRouter();
+
+  // Paginação "carregar mais" da lista de conversas. A carga inicial (props)
+  // traz as 50 mais recentes; conforme o usuário rola até o fim, puxamos as
+  // próximas páginas de /api/conversations/list e acumulamos em extraConvs.
+  // `conversations` (derivado) mescla initial + extra dedup por phone, então
+  // todo o restante do componente continua usando `conversations` sem mudança.
+  const [extraConvs, setExtraConvs] = useState<Conversation[]>([]);
+  // skip = linhas CRUAS de Conversation já consumidas (page.tsx puxa 50 cruas
+  // antes do filtro de instância). Por isso 50, não initialConversations.length
+  // — que pode ser menor quando o filtro de setor remove conversas da página.
+  const [convSkip, setConvSkip] = useState(50);
+  const [convHasMore, setConvHasMore] = useState(initialHasMore);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const conversations = useMemo(() => {
+    if (extraConvs.length === 0) return initialConversations;
+    const byPhone = new Map<string, Conversation>();
+    for (const c of initialConversations) byPhone.set(c.phone, c);
+    for (const c of extraConvs) if (!byPhone.has(c.phone)) byPhone.set(c.phone, c);
+    return [...byPhone.values()];
+  }, [initialConversations, extraConvs]);
 
   const [selectedConv, setSelectedConv] = useState<Conversation | null>(null);
 
@@ -472,6 +491,45 @@ export default function WhatsappManager({
     }, 300);
     return () => { cancelled = true; clearTimeout(timer); };
   }, [search, isSuperAdmin, defaultCompanyId]);
+
+  // "Carregar mais": busca a próxima página da listagem (não roda durante busca,
+  // que já cobre o histórico inteiro server-side). Dedup por phone na mescla.
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !convHasMore) return;
+    setLoadingMore(true);
+    try {
+      const params = new URLSearchParams({ skip: String(convSkip), take: "50" });
+      if (isSuperAdmin && defaultCompanyId) params.set("companyId", defaultCompanyId);
+      const res = await fetch(`/api/conversations/list?${params.toString()}`);
+      if (!res.ok) { setConvHasMore(false); return; }
+      const data = await res.json();
+      const novas = (data.conversations ?? []) as Conversation[];
+      setExtraConvs((prev) => {
+        const seen = new Set(prev.map((c) => c.phone));
+        return [...prev, ...novas.filter((c) => !seen.has(c.phone))];
+      });
+      setConvSkip((s) => s + 50);
+      setConvHasMore(Boolean(data.hasMore));
+    } catch {
+      setConvHasMore(false);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, convHasMore, convSkip, isSuperAdmin, defaultCompanyId]);
+
+  // Observa a sentinela no fim da lista — carrega mais ao rolar até o fim.
+  // Pausa enquanto há busca ativa (a busca server-side já traz o histórico).
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el || !convHasMore || search.trim().length >= 2) return;
+    const obs = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) loadMore(); },
+      { root: convListRef.current, rootMargin: "200px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [convHasMore, loadMore, search]);
+
   const [instanceFilter, setInstanceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -656,6 +714,8 @@ export default function WhatsappManager({
   // Container scrollável da lista de conversas (esquerda). Usado pra fazer
   // scroll automático até o card ativo quando seleciona via link/?abrir=.
   const convListRef = useRef<HTMLDivElement>(null);
+  // Sentinela no fim da lista — quando entra no viewport, carrega mais conversas.
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const selectedConvRef = useRef<Conversation | null>(null);
   const openTicketRef = useRef<{ id: string; title: string; status: string } | null>(null);
   // Flag para forçar scroll no próximo render (ao abrir conversa ou enviar mensagem)
@@ -3067,6 +3127,19 @@ export default function WhatsappManager({
                   </div>
                 );
               })}
+              {/* Sentinela / "carregar mais" — só fora da busca (a busca já
+                  cobre o histórico inteiro server-side). */}
+              {search.trim().length < 2 && convHasMore && (
+                <div ref={loadMoreRef} className="py-3 flex items-center justify-center">
+                  <button
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-[#1e2d45] bg-[#0f1623] disabled:opacity-50 transition-colors"
+                  >
+                    {loadingMore ? "Carregando…" : "Carregar mais conversas"}
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

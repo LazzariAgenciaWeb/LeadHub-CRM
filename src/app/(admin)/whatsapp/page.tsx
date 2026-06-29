@@ -57,13 +57,15 @@ export default async function WhatsappPage({
   // Aplica o mesmo filtro de instância que era usado em msgWhere
   if (msgWhere.instanceId)  convFilter.companyId = convFilter.companyId; // (placeholder)
 
+  // Carga inicial enxuta (50) — o enriquecimento por conversa (lastMsg, lead,
+  // counts, contact) custa ~5 queries cada, então 50 abre rápido. O resto vem
+  // por "carregar mais" (scroll → /api/conversations/list) e a busca por
+  // nome/telefone cobre o histórico inteiro via /api/conversations/search.
+  const PAGE_SIZE = 50;
   const convRecords = await prisma.conversation.findMany({
     where: convFilter,
-    // 200 = balanço entre carga inicial razoável e cobrir maioria das fronts
-    // de atendimento. Busca server-side em /api/conversations/search cobre o
-    // histórico inteiro quando o user digita nome/telefone.
     orderBy: { lastMessageAt: { sort: "desc", nulls: "last" } },
-    take: 200,
+    take: PAGE_SIZE,
     select: {
       id: true, phone: true, companyId: true,
       status: true, statusUpdatedAt: true, unreadCount: true,
@@ -75,6 +77,9 @@ export default async function WhatsappPage({
       excludeFromGamification: true,
     },
   });
+
+  // Página crua veio cheia → provavelmente há mais conversas pra "carregar mais"
+  const initialHasMore = convRecords.length === PAGE_SIZE;
 
   // Filtro por instância visível ao usuário (setor) — aplicado na lista de conversas
   let convFiltered = convRecords;
@@ -100,7 +105,7 @@ export default async function WhatsappPage({
   // Para cada conversation, busca lastMsg (para instanceName/participant), lead, counts e contact em paralelo
   const conversations = await Promise.all(
     convFiltered.map(async (conv) => {
-      const [lastMsg, lead, inboundCount, outboundCount, companyContact] = await Promise.all([
+      const [lastMsg, lead, companyContact] = await Promise.all([
         prisma.message.findFirst({
           where: { conversationId: conv.id },
           orderBy: { receivedAt: "desc" },
@@ -121,8 +126,6 @@ export default async function WhatsappPage({
             attendanceStatus: true, expectedReturnAt: true,
           },
         }),
-        prisma.message.count({ where: { conversationId: conv.id, direction: "INBOUND" } }),
-        prisma.message.count({ where: { conversationId: conv.id, direction: "OUTBOUND" } }),
         prisma.companyContact.findFirst({
           where: {
             phone: conv.phone,
@@ -142,9 +145,6 @@ export default async function WhatsappPage({
         companyId: conv.companyId,
         lastMsg,
         lead,
-        totalMessages: inboundCount + outboundCount,
-        inboundCount,
-        outboundCount,
         companyContact,
         conversation: {
           id: conv.id,
@@ -230,6 +230,7 @@ export default async function WhatsappPage({
       isSuperAdmin={isSuperAdmin}
       defaultCompanyId={companyId}
       conversations={conversationsEnriched as any}
+      initialHasMore={initialHasMore}
       defaultPhone={defaultPhone}
       finalStageNames={finalStageNames}
       pipelineStages={pipelineStages}
