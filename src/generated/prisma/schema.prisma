@@ -258,6 +258,9 @@ model Company {
   gbpSearchKeywords         GbpSearchKeyword[]
   gbpProfileSnapshots       GbpProfileSnapshot[]
   adCampaignDailies         AdCampaignDaily[]
+  adSearchTermDailies       AdSearchTermDaily[]
+  adCreatives               AdCreative[]
+  adCreativeDailies         AdCreativeDaily[]
   subscription              Subscription?
   billingEvents             BillingEvent[]
   assistants                Assistant[]
@@ -2067,6 +2070,86 @@ model AdCampaignDaily {
   updatedAt DateTime @updatedAt
 
   @@unique([companyId, provider, date, externalCampaignId])
+  @@index([companyId, provider, date])
+}
+
+// Termo de pesquisa (o que a pessoa digitou) → métricas por dia.
+// Origem Google Ads: search_term_view. 1 linha por (empresa, provider, dia,
+// termo, ad group). Alta cardinalidade — o sync só grava termos com atividade.
+model AdSearchTermDaily {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  provider IntegrationProvider
+  date     DateTime            @db.Date
+
+  searchTerm   String
+  adGroupId    String  @default("") // chave de unicidade (mesmo termo em ad groups diferentes)
+  adGroupName  String?
+  campaignName String?
+
+  impressions     Int     @default(0)
+  clicks          Int     @default(0)
+  cost            Decimal @default(0) @db.Decimal(14, 2)
+  conversions     Float   @default(0)
+  conversionValue Decimal @default(0) @db.Decimal(14, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, provider, date, searchTerm, adGroupId])
+  @@index([companyId, provider, date])
+}
+
+// Conteúdo do anúncio (estático) — pra renderizar a "prévia". Upsert por ad.
+// Origem Google Ads: ad_group_ad (foco em Responsive Search Ad).
+model AdCreative {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  provider     IntegrationProvider
+  externalAdId String
+
+  campaignName String?
+  adGroupName  String?
+  adType       String? // RESPONSIVE_SEARCH_AD, etc.
+  status       String?
+
+  headlines    Json? // [{ text, pinnedField }]
+  descriptions Json? // [{ text, pinnedField }]
+  finalUrl     String?
+  path1        String?
+  path2        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, provider, externalAdId])
+  @@index([companyId, provider])
+}
+
+// Métricas diárias por anúncio — pra eleger o "anúncio destaque" no período.
+model AdCreativeDaily {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  provider     IntegrationProvider
+  date         DateTime            @db.Date
+  externalAdId String
+
+  impressions     Int     @default(0)
+  clicks          Int     @default(0)
+  cost            Decimal @default(0) @db.Decimal(14, 2)
+  conversions     Float   @default(0)
+  conversionValue Decimal @default(0) @db.Decimal(14, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, provider, date, externalAdId])
   @@index([companyId, provider, date])
 }
 

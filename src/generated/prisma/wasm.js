@@ -1008,6 +1008,57 @@ exports.Prisma.AdCampaignDailyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AdSearchTermDailyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  provider: 'provider',
+  date: 'date',
+  searchTerm: 'searchTerm',
+  adGroupId: 'adGroupId',
+  adGroupName: 'adGroupName',
+  campaignName: 'campaignName',
+  impressions: 'impressions',
+  clicks: 'clicks',
+  cost: 'cost',
+  conversions: 'conversions',
+  conversionValue: 'conversionValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdCreativeScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  provider: 'provider',
+  externalAdId: 'externalAdId',
+  campaignName: 'campaignName',
+  adGroupName: 'adGroupName',
+  adType: 'adType',
+  status: 'status',
+  headlines: 'headlines',
+  descriptions: 'descriptions',
+  finalUrl: 'finalUrl',
+  path1: 'path1',
+  path2: 'path2',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdCreativeDailyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  provider: 'provider',
+  date: 'date',
+  externalAdId: 'externalAdId',
+  impressions: 'impressions',
+  clicks: 'clicks',
+  cost: 'cost',
+  conversions: 'conversions',
+  conversionValue: 'conversionValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1739,6 +1790,9 @@ exports.Prisma.ModelName = {
   GbpSearchKeyword: 'GbpSearchKeyword',
   GbpProfileSnapshot: 'GbpProfileSnapshot',
   AdCampaignDaily: 'AdCampaignDaily',
+  AdSearchTermDaily: 'AdSearchTermDaily',
+  AdCreative: 'AdCreative',
+  AdCreativeDaily: 'AdCreativeDaily',
   Subscription: 'Subscription',
   BusinessHoursConfig: 'BusinessHoursConfig',
   BusinessHoursInterval: 'BusinessHoursInterval',

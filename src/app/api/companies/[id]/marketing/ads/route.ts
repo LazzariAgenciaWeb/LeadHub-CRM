@@ -62,7 +62,7 @@ export async function GET(
   const sumFields = { impressions: true, clicks: true, cost: true, conversions: true, conversionValue: true } as const;
 
   // ─── Agregados em paralelo ─────────────────────────────────────────────────
-  const [aggCurrent, aggPrev, dailyRaw, byCampaign] = await Promise.all([
+  const [aggCurrent, aggPrev, dailyRaw, byCampaign, byTerm, byAd] = await Promise.all([
     prisma.adCampaignDaily.aggregate({
       where: { companyId, provider, date: { gte: periodStart, lte: periodEnd } },
       _sum: sumFields,
@@ -82,6 +82,19 @@ export async function GET(
       where: { companyId, provider, date: { gte: periodStart, lte: periodEnd } },
       _sum: sumFields,
       _max: { campaignName: true, campaignStatus: true, currency: true },
+    }),
+    // Termos de pesquisa agregados no período
+    prisma.adSearchTermDaily.groupBy({
+      by: ["searchTerm"],
+      where: { companyId, provider, date: { gte: periodStart, lte: periodEnd } },
+      _sum: sumFields,
+      _max: { campaignName: true },
+    }),
+    // Métricas por anúncio (pra eleger o destaque)
+    prisma.adCreativeDaily.groupBy({
+      by: ["externalAdId"],
+      where: { companyId, provider, date: { gte: periodStart, lte: periodEnd } },
+      _sum: sumFields,
     }),
   ]);
 
@@ -158,6 +171,76 @@ export async function GET(
     })
     .sort((a, b) => b.cost - a.cost);
 
+  // ─── Termos de pesquisa (top por cliques) ──────────────────────────────────
+  const searchTerms = byTerm
+    .map((t) => {
+      const cost = num(t._sum.cost);
+      const clicks = num(t._sum.clicks);
+      const impressions = num(t._sum.impressions);
+      const conversions = num(t._sum.conversions);
+      return {
+        term: t.searchTerm,
+        campaignName: t._max.campaignName ?? null,
+        impressions,
+        clicks,
+        ctr: safeDiv(clicks, impressions),
+        cpc: safeDiv(cost, clicks),
+        cost,
+        conversions,
+      };
+    })
+    .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions)
+    .slice(0, 100);
+
+  // ─── Anúncio destaque (melhor por conversões, depois custo) ─────────────────
+  const adStats = byAd
+    .map((a) => ({
+      externalAdId: a.externalAdId,
+      impressions: num(a._sum.impressions),
+      clicks: num(a._sum.clicks),
+      cost: num(a._sum.cost),
+      conversions: num(a._sum.conversions),
+      conversionValue: num(a._sum.conversionValue),
+    }))
+    .sort((a, b) => b.conversions - a.conversions || b.conversionValue - a.conversionValue || b.cost - a.cost);
+
+  const topAdIds = adStats.slice(0, 5).map((a) => a.externalAdId);
+  const creatives = topAdIds.length
+    ? await prisma.adCreative.findMany({
+        where: { companyId, provider, externalAdId: { in: topAdIds } },
+        select: {
+          externalAdId: true, campaignName: true, adGroupName: true, adType: true,
+          headlines: true, descriptions: true, finalUrl: true, path1: true, path2: true,
+        },
+      })
+    : [];
+  const creativeById = new Map(creatives.map((c) => [c.externalAdId, c]));
+
+  const topAds = adStats
+    .slice(0, 5)
+    .map((a) => {
+      const c = creativeById.get(a.externalAdId);
+      return {
+        id: a.externalAdId,
+        campaignName: c?.campaignName ?? null,
+        adGroupName: c?.adGroupName ?? null,
+        adType: c?.adType ?? null,
+        headlines: (c?.headlines as string[] | null) ?? [],
+        descriptions: (c?.descriptions as string[] | null) ?? [],
+        finalUrl: c?.finalUrl ?? null,
+        path1: c?.path1 ?? null,
+        path2: c?.path2 ?? null,
+        impressions: a.impressions,
+        clicks: a.clicks,
+        ctr: safeDiv(a.clicks, a.impressions),
+        cost: a.cost,
+        conversions: a.conversions,
+        cpa: safeDiv(a.cost, a.conversions),
+      };
+    })
+    // só mostra anúncios que têm conteúdo pra renderizar a prévia
+    .filter((a) => a.headlines.length > 0 || a.descriptions.length > 0);
+
   // Moeda predominante (qualquer campanha que tenha)
   const currency = byCampaign.find((c) => c._max.currency)?._max.currency ?? null;
 
@@ -170,6 +253,8 @@ export async function GET(
     kpis,
     dailySeries,
     campaigns,
+    searchTerms,
+    topAds,
     hasData: cur.impressions > 0 || cur.cost > 0 || campaigns.length > 0,
   });
 }

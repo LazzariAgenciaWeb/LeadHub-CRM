@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   Megaphone, DollarSign, MousePointerClick, Eye, Target, TrendingUp,
-  TrendingDown, RefreshCw, AlertCircle, Percent,
+  TrendingDown, RefreshCw, AlertCircle, Percent, Search, Award, ExternalLink,
 } from "lucide-react";
 import {
   ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
@@ -47,6 +47,16 @@ interface AdsResponse {
     id: string; name: string; status: string | null;
     impressions: number; clicks: number; ctr: number; cost: number;
     conversions: number; conversionValue: number; cpc: number; cpa: number; roas: number;
+  }[];
+  searchTerms?: {
+    term: string; campaignName: string | null;
+    impressions: number; clicks: number; ctr: number; cpc: number; cost: number; conversions: number;
+  }[];
+  topAds?: {
+    id: string; campaignName: string | null; adGroupName: string | null; adType: string | null;
+    headlines: string[]; descriptions: string[];
+    finalUrl: string | null; path1: string | null; path2: string | null;
+    impressions: number; clicks: number; ctr: number; cost: number; conversions: number; cpa: number;
   }[];
   hasData?: boolean;
 }
@@ -155,7 +165,7 @@ export default function CompanyAdsSection({
     );
   }
 
-  const { kpis, dailySeries, campaigns, integration } = data;
+  const { kpis, dailySeries, campaigns, searchTerms, topAds, integration } = data;
 
   return (
     <div className="space-y-4">
@@ -326,6 +336,136 @@ export default function CompanyAdsSection({
           </div>
         )}
       </div>
+
+      {/* Anúncio destaque — prévia do que mais converte */}
+      {topAds && topAds.length > 0 && (
+        <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Award className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+            <h3 className="text-white font-semibold text-sm">Anúncio destaque</h3>
+            <span className="text-[10px] text-slate-600">o que mais converte no período</span>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+            <AdPreview ad={topAds[0]} />
+            <div className="grid grid-cols-2 gap-2.5">
+              <MiniStat label="Conversões" value={(Math.round(topAds[0].conversions * 100) / 100).toLocaleString("pt-BR")} accent="emerald" />
+              <MiniStat label="Custo / conv." value={topAds[0].conversions > 0 ? fmtMoney(topAds[0].cpa) : "—"} accent="amber" />
+              <MiniStat label="Cliques" value={fmtNum(topAds[0].clicks)} accent="cyan" />
+              <MiniStat label="CTR" value={`${(topAds[0].ctr * 100).toFixed(2)}%`} accent="blue" />
+              <MiniStat label="Impressões" value={fmtNum(topAds[0].impressions)} accent="blue" />
+              <MiniStat label="Investimento" value={fmtMoney(topAds[0].cost)} accent="amber" />
+            </div>
+          </div>
+          {topAds[0].campaignName && (
+            <p className="text-[10px] text-slate-600 mt-3">
+              Campanha: {topAds[0].campaignName}
+              {topAds[0].adGroupName && ` · Grupo: ${topAds[0].adGroupName}`}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Termos de pesquisa — o que as pessoas digitaram */}
+      <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Search className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
+            <h3 className="text-white font-semibold text-sm">Termos de pesquisa</h3>
+          </div>
+          <span className="text-[10px] text-slate-600">
+            {searchTerms?.length ? `top ${searchTerms.length}` : "0"}
+          </span>
+        </div>
+        {!searchTerms || searchTerms.length === 0 ? (
+          <div className="text-slate-600 text-xs text-center py-8">
+            Sem termos de pesquisa no período. (Disponível só pra campanhas de Pesquisa.)
+          </div>
+        ) : (
+          <div className="overflow-x-auto max-h-[420px] overflow-y-auto">
+            <table className="w-full">
+              <thead className="sticky top-0 bg-[#0a1220]">
+                <tr className="border-b border-[#1e2d45]">
+                  <th className="text-left  text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Termo pesquisado</th>
+                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Impr.</th>
+                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Cliques</th>
+                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CTR</th>
+                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CPC</th>
+                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Conv.</th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchTerms.map((t, i) => {
+                  const ctrPct = t.ctr * 100;
+                  const ctrColor = ctrPct >= 5 ? "text-emerald-400" : ctrPct >= 1 ? "text-yellow-400" : "text-red-400";
+                  return (
+                    <tr key={`${t.term}-${i}`} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                      <td className="py-2 px-2 text-slate-200 text-xs truncate max-w-[280px]" title={t.term}>{t.term}</td>
+                      <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{fmtNum(t.impressions)}</td>
+                      <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{fmtNum(t.clicks)}</td>
+                      <td className={`py-2 px-2 text-xs font-mono font-semibold text-right ${ctrColor}`}>{ctrPct.toFixed(2)}%</td>
+                      <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{t.clicks > 0 ? fmtMoney(t.cpc) : "—"}</td>
+                      <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{(Math.round(t.conversions * 100) / 100).toLocaleString("pt-BR")}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Prévia de anúncio (reconstruída no estilo do anúncio de busca) ─────────────
+
+function AdPreview({ ad }: { ad: NonNullable<AdsResponse["topAds"]>[number] }) {
+  const domain = (() => {
+    if (!ad.finalUrl) return "";
+    try { return new URL(ad.finalUrl).hostname.replace(/^www\./, ""); } catch { return ad.finalUrl; }
+  })();
+  const pathParts = [ad.path1, ad.path2].filter(Boolean).join("/");
+  const displayUrl = domain ? `${domain}${pathParts ? "/" + pathParts : ""}` : "—";
+  const headline = (ad.headlines || []).slice(0, 3).join(" | ") || "(sem título)";
+  const description = (ad.descriptions || []).slice(0, 2).join(" ") || "";
+
+  return (
+    <div className="bg-white rounded-lg p-3.5 border border-slate-200">
+      <div className="flex items-center gap-1.5 mb-1">
+        <span className="text-[10px] font-bold text-slate-900 border border-slate-400 rounded px-1 leading-tight">Anúncio</span>
+        <span className="text-[12px] text-slate-700 truncate">{displayUrl}</span>
+      </div>
+      <p className="text-[#1a0dab] text-[17px] leading-snug font-normal hover:underline cursor-default line-clamp-2">
+        {headline}
+      </p>
+      {description && (
+        <p className="text-[#4d5156] text-[13px] leading-snug mt-1 line-clamp-3">{description}</p>
+      )}
+      {ad.finalUrl && (
+        <a
+          href={ad.finalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-700 mt-2"
+        >
+          Abrir página <ExternalLink className="w-3 h-3" />
+        </a>
+      )}
+    </div>
+  );
+}
+
+function MiniStat({ label, value, accent }: { label: string; value: string; accent: "emerald" | "amber" | "cyan" | "blue" }) {
+  const cls = {
+    emerald: "text-emerald-300",
+    amber: "text-amber-300",
+    cyan: "text-cyan-300",
+    blue: "text-blue-300",
+  }[accent];
+  return (
+    <div className="bg-[#0a1220]/60 border border-[#1e2d45]/60 rounded-lg px-3 py-2">
+      <p className={`text-sm font-bold font-mono ${cls}`}>{value}</p>
+      <p className="text-slate-600 text-[10px] mt-0.5">{label}</p>
     </div>
   );
 }

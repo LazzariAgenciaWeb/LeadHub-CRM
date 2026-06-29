@@ -28,8 +28,10 @@ const API_VERSION = process.env.GOOGLE_ADS_API_VERSION || "v22";
 const API_BASE = `https://googleads.googleapis.com/${API_VERSION}`;
 
 interface SyncResult {
-  campaigns: number; // nº de campanhas distintas vistas
-  rows: number;      // nº de linhas (campanha×dia) gravadas
+  campaigns: number;   // nº de campanhas distintas vistas
+  rows: number;        // nº de linhas (campanha×dia) gravadas
+  searchTerms: number; // nº de linhas de termo de pesquisa gravadas
+  ads: number;         // nº de anúncios distintos gravados
   days: number;
 }
 
@@ -263,11 +265,8 @@ export async function syncGoogleAds(integrationId: string, daysBack = 35): Promi
       rowsWritten++;
     }
 
-    await prisma.marketingIntegration.update({
-      where: { id: integrationId },
-      data: { lastSyncAt: new Date(), lastSyncStatus: "ok", lastError: null, status: "ACTIVE" },
-    });
   } catch (e: any) {
+    // Campanhas são a etapa essencial — se falhar, o sync inteiro falha.
     await prisma.marketingIntegration.update({
       where: { id: integrationId },
       data: {
@@ -279,7 +278,181 @@ export async function syncGoogleAds(integrationId: string, daysBack = 35): Promi
     throw e;
   }
 
-  return { campaigns: campaignIds.size, rows: rowsWritten, days: daysBack };
+  // Etapas secundárias (breakdowns) — falha em uma não derruba as campanhas.
+  const partialErrors: string[] = [];
+  let searchTerms = 0;
+  let ads = 0;
+  try {
+    searchTerms = await syncSearchTerms(integrationId, companyId, customerId, startStr, endStr);
+  } catch (e: any) {
+    partialErrors.push(`search_terms: ${String(e?.message ?? e).slice(0, 200)}`);
+  }
+  try {
+    ads = await syncAdCreatives(integrationId, companyId, customerId, startStr, endStr);
+  } catch (e: any) {
+    partialErrors.push(`ads: ${String(e?.message ?? e).slice(0, 200)}`);
+  }
+
+  await prisma.marketingIntegration.update({
+    where: { id: integrationId },
+    data: {
+      lastSyncAt: new Date(),
+      lastSyncStatus: partialErrors.length ? "warning" : "ok",
+      lastError: partialErrors.length ? partialErrors.join(" | ").slice(0, 1000) : null,
+      status: "ACTIVE",
+    },
+  });
+
+  return { campaigns: campaignIds.size, rows: rowsWritten, searchTerms, ads, days: daysBack };
+}
+
+// ─── Termos de pesquisa (search_term_view) ──────────────────────────────────
+async function syncSearchTerms(
+  integrationId: string, companyId: string, customerId: string, startStr: string, endStr: string
+): Promise<number> {
+  const gaql = `
+    SELECT
+      search_term_view.search_term,
+      ad_group.id,
+      ad_group.name,
+      campaign.name,
+      segments.date,
+      metrics.impressions,
+      metrics.clicks,
+      metrics.cost_micros,
+      metrics.conversions,
+      metrics.conversions_value
+    FROM search_term_view
+    WHERE segments.date BETWEEN '${startStr}' AND '${endStr}'
+  `.trim();
+
+  const rows = await googleAdsSearch(integrationId, customerId, gaql);
+  let count = 0;
+  for (const row of rows) {
+    const stv = row.searchTermView ?? {};
+    const adGroup = row.adGroup ?? {};
+    const campaign = row.campaign ?? {};
+    const metrics = row.metrics ?? {};
+    const searchTerm = String(stv.searchTerm ?? "").trim();
+    const dateStr = row.segments?.date as string | undefined;
+    if (!searchTerm || !dateStr) continue;
+
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(Date.UTC(y, m - 1, d));
+    const adGroupId = String(adGroup.id ?? "");
+
+    const payload = {
+      adGroupName: adGroup.name ? String(adGroup.name) : null,
+      campaignName: campaign.name ? String(campaign.name) : null,
+      impressions: parseInt(String(metrics.impressions ?? "0"), 10) || 0,
+      clicks: parseInt(String(metrics.clicks ?? "0"), 10) || 0,
+      cost: Number(metrics.costMicros ?? 0) / 1_000_000,
+      conversions: Number(metrics.conversions ?? 0),
+      conversionValue: Number(metrics.conversionsValue ?? 0),
+    };
+
+    await prisma.adSearchTermDaily.upsert({
+      where: {
+        companyId_provider_date_searchTerm_adGroupId: {
+          companyId, provider: "GOOGLE_ADS", date, searchTerm, adGroupId,
+        },
+      },
+      create: { companyId, provider: "GOOGLE_ADS", date, searchTerm, adGroupId, ...payload },
+      update: payload,
+    });
+    count++;
+  }
+  return count;
+}
+
+// ─── Anúncios (ad_group_ad) — conteúdo p/ prévia + métricas diárias ──────────
+async function syncAdCreatives(
+  integrationId: string, companyId: string, customerId: string, startStr: string, endStr: string
+): Promise<number> {
+  const gaql = `
+    SELECT
+      ad_group_ad.ad.id,
+      ad_group_ad.ad.type,
+      ad_group_ad.ad.final_urls,
+      ad_group_ad.ad.responsive_search_ad.headlines,
+      ad_group_ad.ad.responsive_search_ad.descriptions,
+      ad_group_ad.ad.responsive_search_ad.path1,
+      ad_group_ad.ad.responsive_search_ad.path2,
+      ad_group_ad.status,
+      ad_group.name,
+      campaign.name,
+      segments.date,
+      metrics.impressions,
+      metrics.clicks,
+      metrics.cost_micros,
+      metrics.conversions,
+      metrics.conversions_value
+    FROM ad_group_ad
+    WHERE segments.date BETWEEN '${startStr}' AND '${endStr}'
+  `.trim();
+
+  const rows = await googleAdsSearch(integrationId, customerId, gaql);
+  const seenContent = new Set<string>();
+  let count = 0;
+
+  for (const row of rows) {
+    const aga = row.adGroupAd ?? {};
+    const ad = aga.ad ?? {};
+    const rsa = ad.responsiveSearchAd ?? {};
+    const metrics = row.metrics ?? {};
+    const externalAdId = String(ad.id ?? "");
+    const dateStr = row.segments?.date as string | undefined;
+    if (!externalAdId || !dateStr) continue;
+
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(Date.UTC(y, m - 1, d));
+
+    const dailyPayload = {
+      impressions: parseInt(String(metrics.impressions ?? "0"), 10) || 0,
+      clicks: parseInt(String(metrics.clicks ?? "0"), 10) || 0,
+      cost: Number(metrics.costMicros ?? 0) / 1_000_000,
+      conversions: Number(metrics.conversions ?? 0),
+      conversionValue: Number(metrics.conversionsValue ?? 0),
+    };
+    await prisma.adCreativeDaily.upsert({
+      where: {
+        companyId_provider_date_externalAdId: { companyId, provider: "GOOGLE_ADS", date, externalAdId },
+      },
+      create: { companyId, provider: "GOOGLE_ADS", date, externalAdId, ...dailyPayload },
+      update: dailyPayload,
+    });
+
+    // Conteúdo estático: grava só uma vez por anúncio neste sync.
+    if (!seenContent.has(externalAdId)) {
+      seenContent.add(externalAdId);
+      const headlines = Array.isArray(rsa.headlines)
+        ? rsa.headlines.map((h: any) => String(h.text ?? "")).filter(Boolean)
+        : undefined;
+      const descriptions = Array.isArray(rsa.descriptions)
+        ? rsa.descriptions.map((h: any) => String(h.text ?? "")).filter(Boolean)
+        : undefined;
+      const finalUrl = Array.isArray(ad.finalUrls) && ad.finalUrls.length ? String(ad.finalUrls[0]) : null;
+
+      const contentPayload = {
+        campaignName: row.campaign?.name ? String(row.campaign.name) : null,
+        adGroupName: row.adGroup?.name ? String(row.adGroup.name) : null,
+        adType: ad.type ? String(ad.type) : null,
+        status: aga.status ? String(aga.status) : null,
+        headlines,
+        descriptions,
+        finalUrl,
+        path1: rsa.path1 ? String(rsa.path1) : null,
+        path2: rsa.path2 ? String(rsa.path2) : null,
+      };
+      await prisma.adCreative.upsert({
+        where: { companyId_provider_externalAdId: { companyId, provider: "GOOGLE_ADS", externalAdId } },
+        create: { companyId, provider: "GOOGLE_ADS", externalAdId, ...contentPayload },
+        update: contentPayload,
+      });
+      count++;
+    }
+  }
+  return count;
 }
 
 function ymd(d: Date): string {
