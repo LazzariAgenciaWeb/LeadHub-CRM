@@ -714,6 +714,32 @@ exports.Prisma.CredentialAccessLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CompanySecureNoteScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  title: 'title',
+  contentEncrypted: 'contentEncrypted',
+  archivedAt: 'archivedAt',
+  archivedById: 'archivedById',
+  archivedByName: 'archivedByName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.SecureNoteAccessLogScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  companyId: 'companyId',
+  userId: 'userId',
+  userName: 'userName',
+  userRole: 'userRole',
+  action: 'action',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MarketingIntegrationScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1771,6 +1797,8 @@ exports.Prisma.ModelName = {
   CompanyAsset: 'CompanyAsset',
   CompanyCredential: 'CompanyCredential',
   CredentialAccessLog: 'CredentialAccessLog',
+  CompanySecureNote: 'CompanySecureNote',
+  SecureNoteAccessLog: 'SecureNoteAccessLog',
   MarketingIntegration: 'MarketingIntegration',
   InstagramAccount: 'InstagramAccount',
   IgAutomation: 'IgAutomation',

@@ -240,6 +240,8 @@ model Company {
   activities                Activity[]
   assets                    CompanyAsset[]
   credentialAccessLogs      CredentialAccessLog[]
+  secureNotes               CompanySecureNote[]
+  secureNoteAccessLogs      SecureNoteAccessLog[]
   marketingIntegrations     MarketingIntegration[]
   instagramAccounts         InstagramAccount[]
   igAutomations             IgAutomation[]
@@ -1465,6 +1467,60 @@ enum CredentialAction {
   DELETE
   ARCHIVE // arquivou (soft-delete por CLIENT)
   RESTORE // admin restaurou um registro arquivado
+}
+
+// ─── Cofre: Notas Seguras ─────────────────────────────────────────────────────
+//
+// CompanySecureNote guarda um bloco de texto grande criptografado (AES-256-GCM),
+// autônomo (não vinculado a um asset) — ex: códigos de recuperação, instruções
+// de acesso, configurações sensíveis. O `title` fica em texto puro (aparece na
+// listagem); o `contentEncrypted` só é decriptado via /reveal, que exige a mesma
+// VaultTrustedSession (2FA por e-mail) das credenciais. SecureNoteAccessLog
+// audita cada visualização, reaproveitando o enum CredentialAction.
+
+model CompanySecureNote {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  title            String
+  // Conteúdo criptografado (AES-256-GCM). Formato: base64(iv|authTag|ciphertext).
+  // Nunca armazenado em texto claro; nunca enviado na listagem.
+  contentEncrypted String @db.Text
+
+  // Soft-delete (arquivamento). CLIENT não apaga — arquiva.
+  archivedAt     DateTime?
+  archivedById   String?
+  archivedByName String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+
+  accessLogs SecureNoteAccessLog[]
+
+  @@index([companyId, archivedAt])
+}
+
+model SecureNoteAccessLog {
+  id     String            @id @default(cuid())
+  noteId String
+  note   CompanySecureNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  // Denormalizado: facilita filtro "tudo que fulano viu na empresa X"
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  userId    String?
+  userName  String? // snapshot (caso o user seja deletado)
+  userRole  String?
+  action    CredentialAction
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime         @default(now())
+
+  @@index([noteId, createdAt])
+  @@index([companyId, createdAt])
 }
 
 // ─── Integrações de Marketing ─────────────────────────────────────────────────

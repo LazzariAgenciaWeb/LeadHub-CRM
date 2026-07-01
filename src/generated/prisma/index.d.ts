@@ -224,6 +224,16 @@ export type CompanyCredential = $Result.DefaultSelection<Prisma.$CompanyCredenti
  */
 export type CredentialAccessLog = $Result.DefaultSelection<Prisma.$CredentialAccessLogPayload>
 /**
+ * Model CompanySecureNote
+ * 
+ */
+export type CompanySecureNote = $Result.DefaultSelection<Prisma.$CompanySecureNotePayload>
+/**
+ * Model SecureNoteAccessLog
+ * 
+ */
+export type SecureNoteAccessLog = $Result.DefaultSelection<Prisma.$SecureNoteAccessLogPayload>
+/**
  * Model MarketingIntegration
  * 
  */
@@ -1605,6 +1615,26 @@ export class PrismaClient<
   get credentialAccessLog(): Prisma.CredentialAccessLogDelegate<ExtArgs>;
 
   /**
+   * `prisma.companySecureNote`: Exposes CRUD operations for the **CompanySecureNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompanySecureNotes
+    * const companySecureNotes = await prisma.companySecureNote.findMany()
+    * ```
+    */
+  get companySecureNote(): Prisma.CompanySecureNoteDelegate<ExtArgs>;
+
+  /**
+   * `prisma.secureNoteAccessLog`: Exposes CRUD operations for the **SecureNoteAccessLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SecureNoteAccessLogs
+    * const secureNoteAccessLogs = await prisma.secureNoteAccessLog.findMany()
+    * ```
+    */
+  get secureNoteAccessLog(): Prisma.SecureNoteAccessLogDelegate<ExtArgs>;
+
+  /**
    * `prisma.marketingIntegration`: Exposes CRUD operations for the **MarketingIntegration** model.
     * Example usage:
     * ```ts
@@ -2526,6 +2556,8 @@ export namespace Prisma {
     CompanyAsset: 'CompanyAsset',
     CompanyCredential: 'CompanyCredential',
     CredentialAccessLog: 'CredentialAccessLog',
+    CompanySecureNote: 'CompanySecureNote',
+    SecureNoteAccessLog: 'SecureNoteAccessLog',
     MarketingIntegration: 'MarketingIntegration',
     InstagramAccount: 'InstagramAccount',
     IgAutomation: 'IgAutomation',
@@ -2585,7 +2617,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5526,6 +5558,146 @@ export namespace Prisma {
           count: {
             args: Prisma.CredentialAccessLogCountArgs<ExtArgs>
             result: $Utils.Optional<CredentialAccessLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompanySecureNote: {
+        payload: Prisma.$CompanySecureNotePayload<ExtArgs>
+        fields: Prisma.CompanySecureNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompanySecureNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompanySecureNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          findFirst: {
+            args: Prisma.CompanySecureNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompanySecureNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          findMany: {
+            args: Prisma.CompanySecureNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>[]
+          }
+          create: {
+            args: Prisma.CompanySecureNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          createMany: {
+            args: Prisma.CompanySecureNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompanySecureNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>[]
+          }
+          delete: {
+            args: Prisma.CompanySecureNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          update: {
+            args: Prisma.CompanySecureNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.CompanySecureNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompanySecureNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CompanySecureNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompanySecureNotePayload>
+          }
+          aggregate: {
+            args: Prisma.CompanySecureNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompanySecureNote>
+          }
+          groupBy: {
+            args: Prisma.CompanySecureNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompanySecureNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompanySecureNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<CompanySecureNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      SecureNoteAccessLog: {
+        payload: Prisma.$SecureNoteAccessLogPayload<ExtArgs>
+        fields: Prisma.SecureNoteAccessLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SecureNoteAccessLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SecureNoteAccessLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          findFirst: {
+            args: Prisma.SecureNoteAccessLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SecureNoteAccessLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          findMany: {
+            args: Prisma.SecureNoteAccessLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>[]
+          }
+          create: {
+            args: Prisma.SecureNoteAccessLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          createMany: {
+            args: Prisma.SecureNoteAccessLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SecureNoteAccessLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>[]
+          }
+          delete: {
+            args: Prisma.SecureNoteAccessLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          update: {
+            args: Prisma.SecureNoteAccessLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.SecureNoteAccessLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SecureNoteAccessLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SecureNoteAccessLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecureNoteAccessLogPayload>
+          }
+          aggregate: {
+            args: Prisma.SecureNoteAccessLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSecureNoteAccessLog>
+          }
+          groupBy: {
+            args: Prisma.SecureNoteAccessLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SecureNoteAccessLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SecureNoteAccessLogCountArgs<ExtArgs>
+            result: $Utils.Optional<SecureNoteAccessLogCountAggregateOutputType> | number
           }
         }
       }
@@ -9023,6 +9195,8 @@ export namespace Prisma {
     activities: number
     assets: number
     credentialAccessLogs: number
+    secureNotes: number
+    secureNoteAccessLogs: number
     marketingIntegrations: number
     instagramAccounts: number
     igAutomations: number
@@ -9084,6 +9258,8 @@ export namespace Prisma {
     activities?: boolean | CompanyCountOutputTypeCountActivitiesArgs
     assets?: boolean | CompanyCountOutputTypeCountAssetsArgs
     credentialAccessLogs?: boolean | CompanyCountOutputTypeCountCredentialAccessLogsArgs
+    secureNotes?: boolean | CompanyCountOutputTypeCountSecureNotesArgs
+    secureNoteAccessLogs?: boolean | CompanyCountOutputTypeCountSecureNoteAccessLogsArgs
     marketingIntegrations?: boolean | CompanyCountOutputTypeCountMarketingIntegrationsArgs
     instagramAccounts?: boolean | CompanyCountOutputTypeCountInstagramAccountsArgs
     igAutomations?: boolean | CompanyCountOutputTypeCountIgAutomationsArgs
@@ -9351,6 +9527,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountCredentialAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CredentialAccessLogWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSecureNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanySecureNoteWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSecureNoteAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SecureNoteAccessLogWhereInput
   }
 
   /**
@@ -10163,6 +10353,37 @@ export namespace Prisma {
    */
   export type CompanyCredentialCountOutputTypeCountAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CredentialAccessLogWhereInput
+  }
+
+
+  /**
+   * Count Type CompanySecureNoteCountOutputType
+   */
+
+  export type CompanySecureNoteCountOutputType = {
+    accessLogs: number
+  }
+
+  export type CompanySecureNoteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accessLogs?: boolean | CompanySecureNoteCountOutputTypeCountAccessLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompanySecureNoteCountOutputType without action
+   */
+  export type CompanySecureNoteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNoteCountOutputType
+     */
+    select?: CompanySecureNoteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanySecureNoteCountOutputType without action
+   */
+  export type CompanySecureNoteCountOutputTypeCountAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SecureNoteAccessLogWhereInput
   }
 
 
@@ -15498,6 +15719,8 @@ export namespace Prisma {
     activities?: boolean | Company$activitiesArgs<ExtArgs>
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
+    secureNotes?: boolean | Company$secureNotesArgs<ExtArgs>
+    secureNoteAccessLogs?: boolean | Company$secureNoteAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
@@ -15636,6 +15859,8 @@ export namespace Prisma {
     activities?: boolean | Company$activitiesArgs<ExtArgs>
     assets?: boolean | Company$assetsArgs<ExtArgs>
     credentialAccessLogs?: boolean | Company$credentialAccessLogsArgs<ExtArgs>
+    secureNotes?: boolean | Company$secureNotesArgs<ExtArgs>
+    secureNoteAccessLogs?: boolean | Company$secureNoteAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
@@ -15706,6 +15931,8 @@ export namespace Prisma {
       activities: Prisma.$ActivityPayload<ExtArgs>[]
       assets: Prisma.$CompanyAssetPayload<ExtArgs>[]
       credentialAccessLogs: Prisma.$CredentialAccessLogPayload<ExtArgs>[]
+      secureNotes: Prisma.$CompanySecureNotePayload<ExtArgs>[]
+      secureNoteAccessLogs: Prisma.$SecureNoteAccessLogPayload<ExtArgs>[]
       marketingIntegrations: Prisma.$MarketingIntegrationPayload<ExtArgs>[]
       instagramAccounts: Prisma.$InstagramAccountPayload<ExtArgs>[]
       igAutomations: Prisma.$IgAutomationPayload<ExtArgs>[]
@@ -16166,6 +16393,8 @@ export namespace Prisma {
     activities<T extends Company$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Company$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     assets<T extends Company$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyAssetPayload<ExtArgs>, T, "findMany"> | Null>
     credentialAccessLogs<T extends Company$credentialAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$credentialAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
+    secureNotes<T extends Company$secureNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$secureNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findMany"> | Null>
+    secureNoteAccessLogs<T extends Company$secureNoteAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$secureNoteAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
     marketingIntegrations<T extends Company$marketingIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$marketingIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findMany"> | Null>
     instagramAccounts<T extends Company$instagramAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Company$instagramAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findMany"> | Null>
     igAutomations<T extends Company$igAutomationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
@@ -17259,6 +17488,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CredentialAccessLogScalarFieldEnum | CredentialAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * Company.secureNotes
+   */
+  export type Company$secureNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    where?: CompanySecureNoteWhereInput
+    orderBy?: CompanySecureNoteOrderByWithRelationInput | CompanySecureNoteOrderByWithRelationInput[]
+    cursor?: CompanySecureNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompanySecureNoteScalarFieldEnum | CompanySecureNoteScalarFieldEnum[]
+  }
+
+  /**
+   * Company.secureNoteAccessLogs
+   */
+  export type Company$secureNoteAccessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    where?: SecureNoteAccessLogWhereInput
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SecureNoteAccessLogScalarFieldEnum | SecureNoteAccessLogScalarFieldEnum[]
   }
 
   /**
@@ -56776,6 +57045,2024 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CredentialAccessLogInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompanySecureNote
+   */
+
+  export type AggregateCompanySecureNote = {
+    _count: CompanySecureNoteCountAggregateOutputType | null
+    _min: CompanySecureNoteMinAggregateOutputType | null
+    _max: CompanySecureNoteMaxAggregateOutputType | null
+  }
+
+  export type CompanySecureNoteMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    title: string | null
+    contentEncrypted: string | null
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanySecureNoteMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    title: string | null
+    contentEncrypted: string | null
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type CompanySecureNoteCountAggregateOutputType = {
+    id: number
+    companyId: number
+    title: number
+    contentEncrypted: number
+    archivedAt: number
+    archivedById: number
+    archivedByName: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type CompanySecureNoteMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    contentEncrypted?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanySecureNoteMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    contentEncrypted?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type CompanySecureNoteCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    title?: true
+    contentEncrypted?: true
+    archivedAt?: true
+    archivedById?: true
+    archivedByName?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type CompanySecureNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanySecureNote to aggregate.
+     */
+    where?: CompanySecureNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanySecureNotes to fetch.
+     */
+    orderBy?: CompanySecureNoteOrderByWithRelationInput | CompanySecureNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompanySecureNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanySecureNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanySecureNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompanySecureNotes
+    **/
+    _count?: true | CompanySecureNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompanySecureNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompanySecureNoteMaxAggregateInputType
+  }
+
+  export type GetCompanySecureNoteAggregateType<T extends CompanySecureNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompanySecureNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompanySecureNote[P]>
+      : GetScalarType<T[P], AggregateCompanySecureNote[P]>
+  }
+
+
+
+
+  export type CompanySecureNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompanySecureNoteWhereInput
+    orderBy?: CompanySecureNoteOrderByWithAggregationInput | CompanySecureNoteOrderByWithAggregationInput[]
+    by: CompanySecureNoteScalarFieldEnum[] | CompanySecureNoteScalarFieldEnum
+    having?: CompanySecureNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompanySecureNoteCountAggregateInputType | true
+    _min?: CompanySecureNoteMinAggregateInputType
+    _max?: CompanySecureNoteMaxAggregateInputType
+  }
+
+  export type CompanySecureNoteGroupByOutputType = {
+    id: string
+    companyId: string
+    title: string
+    contentEncrypted: string
+    archivedAt: Date | null
+    archivedById: string | null
+    archivedByName: string | null
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: CompanySecureNoteCountAggregateOutputType | null
+    _min: CompanySecureNoteMinAggregateOutputType | null
+    _max: CompanySecureNoteMaxAggregateOutputType | null
+  }
+
+  type GetCompanySecureNoteGroupByPayload<T extends CompanySecureNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompanySecureNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompanySecureNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompanySecureNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], CompanySecureNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompanySecureNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    contentEncrypted?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    accessLogs?: boolean | CompanySecureNote$accessLogsArgs<ExtArgs>
+    _count?: boolean | CompanySecureNoteCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companySecureNote"]>
+
+  export type CompanySecureNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    contentEncrypted?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["companySecureNote"]>
+
+  export type CompanySecureNoteSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    title?: boolean
+    contentEncrypted?: boolean
+    archivedAt?: boolean
+    archivedById?: boolean
+    archivedByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type CompanySecureNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    accessLogs?: boolean | CompanySecureNote$accessLogsArgs<ExtArgs>
+    _count?: boolean | CompanySecureNoteCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CompanySecureNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CompanySecureNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompanySecureNote"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      accessLogs: Prisma.$SecureNoteAccessLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      title: string
+      contentEncrypted: string
+      archivedAt: Date | null
+      archivedById: string | null
+      archivedByName: string | null
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["companySecureNote"]>
+    composites: {}
+  }
+
+  type CompanySecureNoteGetPayload<S extends boolean | null | undefined | CompanySecureNoteDefaultArgs> = $Result.GetResult<Prisma.$CompanySecureNotePayload, S>
+
+  type CompanySecureNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CompanySecureNoteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CompanySecureNoteCountAggregateInputType | true
+    }
+
+  export interface CompanySecureNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompanySecureNote'], meta: { name: 'CompanySecureNote' } }
+    /**
+     * Find zero or one CompanySecureNote that matches the filter.
+     * @param {CompanySecureNoteFindUniqueArgs} args - Arguments to find a CompanySecureNote
+     * @example
+     * // Get one CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompanySecureNoteFindUniqueArgs>(args: SelectSubset<T, CompanySecureNoteFindUniqueArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CompanySecureNote that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CompanySecureNoteFindUniqueOrThrowArgs} args - Arguments to find a CompanySecureNote
+     * @example
+     * // Get one CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompanySecureNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, CompanySecureNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CompanySecureNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteFindFirstArgs} args - Arguments to find a CompanySecureNote
+     * @example
+     * // Get one CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompanySecureNoteFindFirstArgs>(args?: SelectSubset<T, CompanySecureNoteFindFirstArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CompanySecureNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteFindFirstOrThrowArgs} args - Arguments to find a CompanySecureNote
+     * @example
+     * // Get one CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompanySecureNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, CompanySecureNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CompanySecureNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompanySecureNotes
+     * const companySecureNotes = await prisma.companySecureNote.findMany()
+     * 
+     * // Get first 10 CompanySecureNotes
+     * const companySecureNotes = await prisma.companySecureNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const companySecureNoteWithIdOnly = await prisma.companySecureNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompanySecureNoteFindManyArgs>(args?: SelectSubset<T, CompanySecureNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CompanySecureNote.
+     * @param {CompanySecureNoteCreateArgs} args - Arguments to create a CompanySecureNote.
+     * @example
+     * // Create one CompanySecureNote
+     * const CompanySecureNote = await prisma.companySecureNote.create({
+     *   data: {
+     *     // ... data to create a CompanySecureNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompanySecureNoteCreateArgs>(args: SelectSubset<T, CompanySecureNoteCreateArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CompanySecureNotes.
+     * @param {CompanySecureNoteCreateManyArgs} args - Arguments to create many CompanySecureNotes.
+     * @example
+     * // Create many CompanySecureNotes
+     * const companySecureNote = await prisma.companySecureNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompanySecureNoteCreateManyArgs>(args?: SelectSubset<T, CompanySecureNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompanySecureNotes and returns the data saved in the database.
+     * @param {CompanySecureNoteCreateManyAndReturnArgs} args - Arguments to create many CompanySecureNotes.
+     * @example
+     * // Create many CompanySecureNotes
+     * const companySecureNote = await prisma.companySecureNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompanySecureNotes and only return the `id`
+     * const companySecureNoteWithIdOnly = await prisma.companySecureNote.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompanySecureNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, CompanySecureNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CompanySecureNote.
+     * @param {CompanySecureNoteDeleteArgs} args - Arguments to delete one CompanySecureNote.
+     * @example
+     * // Delete one CompanySecureNote
+     * const CompanySecureNote = await prisma.companySecureNote.delete({
+     *   where: {
+     *     // ... filter to delete one CompanySecureNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompanySecureNoteDeleteArgs>(args: SelectSubset<T, CompanySecureNoteDeleteArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CompanySecureNote.
+     * @param {CompanySecureNoteUpdateArgs} args - Arguments to update one CompanySecureNote.
+     * @example
+     * // Update one CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompanySecureNoteUpdateArgs>(args: SelectSubset<T, CompanySecureNoteUpdateArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CompanySecureNotes.
+     * @param {CompanySecureNoteDeleteManyArgs} args - Arguments to filter CompanySecureNotes to delete.
+     * @example
+     * // Delete a few CompanySecureNotes
+     * const { count } = await prisma.companySecureNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompanySecureNoteDeleteManyArgs>(args?: SelectSubset<T, CompanySecureNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompanySecureNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompanySecureNotes
+     * const companySecureNote = await prisma.companySecureNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompanySecureNoteUpdateManyArgs>(args: SelectSubset<T, CompanySecureNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CompanySecureNote.
+     * @param {CompanySecureNoteUpsertArgs} args - Arguments to update or create a CompanySecureNote.
+     * @example
+     * // Update or create a CompanySecureNote
+     * const companySecureNote = await prisma.companySecureNote.upsert({
+     *   create: {
+     *     // ... data to create a CompanySecureNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompanySecureNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompanySecureNoteUpsertArgs>(args: SelectSubset<T, CompanySecureNoteUpsertArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CompanySecureNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteCountArgs} args - Arguments to filter CompanySecureNotes to count.
+     * @example
+     * // Count the number of CompanySecureNotes
+     * const count = await prisma.companySecureNote.count({
+     *   where: {
+     *     // ... the filter for the CompanySecureNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompanySecureNoteCountArgs>(
+      args?: Subset<T, CompanySecureNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompanySecureNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompanySecureNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompanySecureNoteAggregateArgs>(args: Subset<T, CompanySecureNoteAggregateArgs>): Prisma.PrismaPromise<GetCompanySecureNoteAggregateType<T>>
+
+    /**
+     * Group by CompanySecureNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompanySecureNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompanySecureNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompanySecureNoteGroupByArgs['orderBy'] }
+        : { orderBy?: CompanySecureNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompanySecureNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompanySecureNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompanySecureNote model
+   */
+  readonly fields: CompanySecureNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompanySecureNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompanySecureNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    accessLogs<T extends CompanySecureNote$accessLogsArgs<ExtArgs> = {}>(args?: Subset<T, CompanySecureNote$accessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompanySecureNote model
+   */ 
+  interface CompanySecureNoteFieldRefs {
+    readonly id: FieldRef<"CompanySecureNote", 'String'>
+    readonly companyId: FieldRef<"CompanySecureNote", 'String'>
+    readonly title: FieldRef<"CompanySecureNote", 'String'>
+    readonly contentEncrypted: FieldRef<"CompanySecureNote", 'String'>
+    readonly archivedAt: FieldRef<"CompanySecureNote", 'DateTime'>
+    readonly archivedById: FieldRef<"CompanySecureNote", 'String'>
+    readonly archivedByName: FieldRef<"CompanySecureNote", 'String'>
+    readonly createdAt: FieldRef<"CompanySecureNote", 'DateTime'>
+    readonly updatedAt: FieldRef<"CompanySecureNote", 'DateTime'>
+    readonly createdById: FieldRef<"CompanySecureNote", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompanySecureNote findUnique
+   */
+  export type CompanySecureNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanySecureNote to fetch.
+     */
+    where: CompanySecureNoteWhereUniqueInput
+  }
+
+  /**
+   * CompanySecureNote findUniqueOrThrow
+   */
+  export type CompanySecureNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanySecureNote to fetch.
+     */
+    where: CompanySecureNoteWhereUniqueInput
+  }
+
+  /**
+   * CompanySecureNote findFirst
+   */
+  export type CompanySecureNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanySecureNote to fetch.
+     */
+    where?: CompanySecureNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanySecureNotes to fetch.
+     */
+    orderBy?: CompanySecureNoteOrderByWithRelationInput | CompanySecureNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanySecureNotes.
+     */
+    cursor?: CompanySecureNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanySecureNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanySecureNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanySecureNotes.
+     */
+    distinct?: CompanySecureNoteScalarFieldEnum | CompanySecureNoteScalarFieldEnum[]
+  }
+
+  /**
+   * CompanySecureNote findFirstOrThrow
+   */
+  export type CompanySecureNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanySecureNote to fetch.
+     */
+    where?: CompanySecureNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanySecureNotes to fetch.
+     */
+    orderBy?: CompanySecureNoteOrderByWithRelationInput | CompanySecureNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompanySecureNotes.
+     */
+    cursor?: CompanySecureNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanySecureNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanySecureNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompanySecureNotes.
+     */
+    distinct?: CompanySecureNoteScalarFieldEnum | CompanySecureNoteScalarFieldEnum[]
+  }
+
+  /**
+   * CompanySecureNote findMany
+   */
+  export type CompanySecureNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which CompanySecureNotes to fetch.
+     */
+    where?: CompanySecureNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompanySecureNotes to fetch.
+     */
+    orderBy?: CompanySecureNoteOrderByWithRelationInput | CompanySecureNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompanySecureNotes.
+     */
+    cursor?: CompanySecureNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompanySecureNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompanySecureNotes.
+     */
+    skip?: number
+    distinct?: CompanySecureNoteScalarFieldEnum | CompanySecureNoteScalarFieldEnum[]
+  }
+
+  /**
+   * CompanySecureNote create
+   */
+  export type CompanySecureNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompanySecureNote.
+     */
+    data: XOR<CompanySecureNoteCreateInput, CompanySecureNoteUncheckedCreateInput>
+  }
+
+  /**
+   * CompanySecureNote createMany
+   */
+  export type CompanySecureNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompanySecureNotes.
+     */
+    data: CompanySecureNoteCreateManyInput | CompanySecureNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompanySecureNote createManyAndReturn
+   */
+  export type CompanySecureNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CompanySecureNotes.
+     */
+    data: CompanySecureNoteCreateManyInput | CompanySecureNoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompanySecureNote update
+   */
+  export type CompanySecureNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompanySecureNote.
+     */
+    data: XOR<CompanySecureNoteUpdateInput, CompanySecureNoteUncheckedUpdateInput>
+    /**
+     * Choose, which CompanySecureNote to update.
+     */
+    where: CompanySecureNoteWhereUniqueInput
+  }
+
+  /**
+   * CompanySecureNote updateMany
+   */
+  export type CompanySecureNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompanySecureNotes.
+     */
+    data: XOR<CompanySecureNoteUpdateManyMutationInput, CompanySecureNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which CompanySecureNotes to update
+     */
+    where?: CompanySecureNoteWhereInput
+  }
+
+  /**
+   * CompanySecureNote upsert
+   */
+  export type CompanySecureNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompanySecureNote to update in case it exists.
+     */
+    where: CompanySecureNoteWhereUniqueInput
+    /**
+     * In case the CompanySecureNote found by the `where` argument doesn't exist, create a new CompanySecureNote with this data.
+     */
+    create: XOR<CompanySecureNoteCreateInput, CompanySecureNoteUncheckedCreateInput>
+    /**
+     * In case the CompanySecureNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompanySecureNoteUpdateInput, CompanySecureNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * CompanySecureNote delete
+   */
+  export type CompanySecureNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+    /**
+     * Filter which CompanySecureNote to delete.
+     */
+    where: CompanySecureNoteWhereUniqueInput
+  }
+
+  /**
+   * CompanySecureNote deleteMany
+   */
+  export type CompanySecureNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompanySecureNotes to delete
+     */
+    where?: CompanySecureNoteWhereInput
+  }
+
+  /**
+   * CompanySecureNote.accessLogs
+   */
+  export type CompanySecureNote$accessLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    where?: SecureNoteAccessLogWhereInput
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SecureNoteAccessLogScalarFieldEnum | SecureNoteAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * CompanySecureNote without action
+   */
+  export type CompanySecureNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompanySecureNote
+     */
+    select?: CompanySecureNoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanySecureNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SecureNoteAccessLog
+   */
+
+  export type AggregateSecureNoteAccessLog = {
+    _count: SecureNoteAccessLogCountAggregateOutputType | null
+    _min: SecureNoteAccessLogMinAggregateOutputType | null
+    _max: SecureNoteAccessLogMaxAggregateOutputType | null
+  }
+
+  export type SecureNoteAccessLogMinAggregateOutputType = {
+    id: string | null
+    noteId: string | null
+    companyId: string | null
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type SecureNoteAccessLogMaxAggregateOutputType = {
+    id: string | null
+    noteId: string | null
+    companyId: string | null
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+  }
+
+  export type SecureNoteAccessLogCountAggregateOutputType = {
+    id: number
+    noteId: number
+    companyId: number
+    userId: number
+    userName: number
+    userRole: number
+    action: number
+    ipAddress: number
+    userAgent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SecureNoteAccessLogMinAggregateInputType = {
+    id?: true
+    noteId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type SecureNoteAccessLogMaxAggregateInputType = {
+    id?: true
+    noteId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+  }
+
+  export type SecureNoteAccessLogCountAggregateInputType = {
+    id?: true
+    noteId?: true
+    companyId?: true
+    userId?: true
+    userName?: true
+    userRole?: true
+    action?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SecureNoteAccessLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SecureNoteAccessLog to aggregate.
+     */
+    where?: SecureNoteAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecureNoteAccessLogs to fetch.
+     */
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecureNoteAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecureNoteAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SecureNoteAccessLogs
+    **/
+    _count?: true | SecureNoteAccessLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SecureNoteAccessLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SecureNoteAccessLogMaxAggregateInputType
+  }
+
+  export type GetSecureNoteAccessLogAggregateType<T extends SecureNoteAccessLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateSecureNoteAccessLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSecureNoteAccessLog[P]>
+      : GetScalarType<T[P], AggregateSecureNoteAccessLog[P]>
+  }
+
+
+
+
+  export type SecureNoteAccessLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SecureNoteAccessLogWhereInput
+    orderBy?: SecureNoteAccessLogOrderByWithAggregationInput | SecureNoteAccessLogOrderByWithAggregationInput[]
+    by: SecureNoteAccessLogScalarFieldEnum[] | SecureNoteAccessLogScalarFieldEnum
+    having?: SecureNoteAccessLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SecureNoteAccessLogCountAggregateInputType | true
+    _min?: SecureNoteAccessLogMinAggregateInputType
+    _max?: SecureNoteAccessLogMaxAggregateInputType
+  }
+
+  export type SecureNoteAccessLogGroupByOutputType = {
+    id: string
+    noteId: string
+    companyId: string
+    userId: string | null
+    userName: string | null
+    userRole: string | null
+    action: $Enums.CredentialAction
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date
+    _count: SecureNoteAccessLogCountAggregateOutputType | null
+    _min: SecureNoteAccessLogMinAggregateOutputType | null
+    _max: SecureNoteAccessLogMaxAggregateOutputType | null
+  }
+
+  type GetSecureNoteAccessLogGroupByPayload<T extends SecureNoteAccessLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SecureNoteAccessLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SecureNoteAccessLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SecureNoteAccessLogGroupByOutputType[P]>
+            : GetScalarType<T[P], SecureNoteAccessLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SecureNoteAccessLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    noteId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    note?: boolean | CompanySecureNoteDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["secureNoteAccessLog"]>
+
+  export type SecureNoteAccessLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    noteId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    note?: boolean | CompanySecureNoteDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["secureNoteAccessLog"]>
+
+  export type SecureNoteAccessLogSelectScalar = {
+    id?: boolean
+    noteId?: boolean
+    companyId?: boolean
+    userId?: boolean
+    userName?: boolean
+    userRole?: boolean
+    action?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+  }
+
+  export type SecureNoteAccessLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | CompanySecureNoteDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type SecureNoteAccessLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    note?: boolean | CompanySecureNoteDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $SecureNoteAccessLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SecureNoteAccessLog"
+    objects: {
+      note: Prisma.$CompanySecureNotePayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      noteId: string
+      companyId: string
+      userId: string | null
+      userName: string | null
+      userRole: string | null
+      action: $Enums.CredentialAction
+      ipAddress: string | null
+      userAgent: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["secureNoteAccessLog"]>
+    composites: {}
+  }
+
+  type SecureNoteAccessLogGetPayload<S extends boolean | null | undefined | SecureNoteAccessLogDefaultArgs> = $Result.GetResult<Prisma.$SecureNoteAccessLogPayload, S>
+
+  type SecureNoteAccessLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SecureNoteAccessLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SecureNoteAccessLogCountAggregateInputType | true
+    }
+
+  export interface SecureNoteAccessLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SecureNoteAccessLog'], meta: { name: 'SecureNoteAccessLog' } }
+    /**
+     * Find zero or one SecureNoteAccessLog that matches the filter.
+     * @param {SecureNoteAccessLogFindUniqueArgs} args - Arguments to find a SecureNoteAccessLog
+     * @example
+     * // Get one SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SecureNoteAccessLogFindUniqueArgs>(args: SelectSubset<T, SecureNoteAccessLogFindUniqueArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SecureNoteAccessLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SecureNoteAccessLogFindUniqueOrThrowArgs} args - Arguments to find a SecureNoteAccessLog
+     * @example
+     * // Get one SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SecureNoteAccessLogFindUniqueOrThrowArgs>(args: SelectSubset<T, SecureNoteAccessLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SecureNoteAccessLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogFindFirstArgs} args - Arguments to find a SecureNoteAccessLog
+     * @example
+     * // Get one SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SecureNoteAccessLogFindFirstArgs>(args?: SelectSubset<T, SecureNoteAccessLogFindFirstArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SecureNoteAccessLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogFindFirstOrThrowArgs} args - Arguments to find a SecureNoteAccessLog
+     * @example
+     * // Get one SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SecureNoteAccessLogFindFirstOrThrowArgs>(args?: SelectSubset<T, SecureNoteAccessLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SecureNoteAccessLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SecureNoteAccessLogs
+     * const secureNoteAccessLogs = await prisma.secureNoteAccessLog.findMany()
+     * 
+     * // Get first 10 SecureNoteAccessLogs
+     * const secureNoteAccessLogs = await prisma.secureNoteAccessLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const secureNoteAccessLogWithIdOnly = await prisma.secureNoteAccessLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SecureNoteAccessLogFindManyArgs>(args?: SelectSubset<T, SecureNoteAccessLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SecureNoteAccessLog.
+     * @param {SecureNoteAccessLogCreateArgs} args - Arguments to create a SecureNoteAccessLog.
+     * @example
+     * // Create one SecureNoteAccessLog
+     * const SecureNoteAccessLog = await prisma.secureNoteAccessLog.create({
+     *   data: {
+     *     // ... data to create a SecureNoteAccessLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends SecureNoteAccessLogCreateArgs>(args: SelectSubset<T, SecureNoteAccessLogCreateArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SecureNoteAccessLogs.
+     * @param {SecureNoteAccessLogCreateManyArgs} args - Arguments to create many SecureNoteAccessLogs.
+     * @example
+     * // Create many SecureNoteAccessLogs
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SecureNoteAccessLogCreateManyArgs>(args?: SelectSubset<T, SecureNoteAccessLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SecureNoteAccessLogs and returns the data saved in the database.
+     * @param {SecureNoteAccessLogCreateManyAndReturnArgs} args - Arguments to create many SecureNoteAccessLogs.
+     * @example
+     * // Create many SecureNoteAccessLogs
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SecureNoteAccessLogs and only return the `id`
+     * const secureNoteAccessLogWithIdOnly = await prisma.secureNoteAccessLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SecureNoteAccessLogCreateManyAndReturnArgs>(args?: SelectSubset<T, SecureNoteAccessLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SecureNoteAccessLog.
+     * @param {SecureNoteAccessLogDeleteArgs} args - Arguments to delete one SecureNoteAccessLog.
+     * @example
+     * // Delete one SecureNoteAccessLog
+     * const SecureNoteAccessLog = await prisma.secureNoteAccessLog.delete({
+     *   where: {
+     *     // ... filter to delete one SecureNoteAccessLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SecureNoteAccessLogDeleteArgs>(args: SelectSubset<T, SecureNoteAccessLogDeleteArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SecureNoteAccessLog.
+     * @param {SecureNoteAccessLogUpdateArgs} args - Arguments to update one SecureNoteAccessLog.
+     * @example
+     * // Update one SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SecureNoteAccessLogUpdateArgs>(args: SelectSubset<T, SecureNoteAccessLogUpdateArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SecureNoteAccessLogs.
+     * @param {SecureNoteAccessLogDeleteManyArgs} args - Arguments to filter SecureNoteAccessLogs to delete.
+     * @example
+     * // Delete a few SecureNoteAccessLogs
+     * const { count } = await prisma.secureNoteAccessLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SecureNoteAccessLogDeleteManyArgs>(args?: SelectSubset<T, SecureNoteAccessLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SecureNoteAccessLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SecureNoteAccessLogs
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SecureNoteAccessLogUpdateManyArgs>(args: SelectSubset<T, SecureNoteAccessLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SecureNoteAccessLog.
+     * @param {SecureNoteAccessLogUpsertArgs} args - Arguments to update or create a SecureNoteAccessLog.
+     * @example
+     * // Update or create a SecureNoteAccessLog
+     * const secureNoteAccessLog = await prisma.secureNoteAccessLog.upsert({
+     *   create: {
+     *     // ... data to create a SecureNoteAccessLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SecureNoteAccessLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SecureNoteAccessLogUpsertArgs>(args: SelectSubset<T, SecureNoteAccessLogUpsertArgs<ExtArgs>>): Prisma__SecureNoteAccessLogClient<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SecureNoteAccessLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogCountArgs} args - Arguments to filter SecureNoteAccessLogs to count.
+     * @example
+     * // Count the number of SecureNoteAccessLogs
+     * const count = await prisma.secureNoteAccessLog.count({
+     *   where: {
+     *     // ... the filter for the SecureNoteAccessLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends SecureNoteAccessLogCountArgs>(
+      args?: Subset<T, SecureNoteAccessLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SecureNoteAccessLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SecureNoteAccessLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SecureNoteAccessLogAggregateArgs>(args: Subset<T, SecureNoteAccessLogAggregateArgs>): Prisma.PrismaPromise<GetSecureNoteAccessLogAggregateType<T>>
+
+    /**
+     * Group by SecureNoteAccessLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecureNoteAccessLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SecureNoteAccessLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SecureNoteAccessLogGroupByArgs['orderBy'] }
+        : { orderBy?: SecureNoteAccessLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SecureNoteAccessLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSecureNoteAccessLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SecureNoteAccessLog model
+   */
+  readonly fields: SecureNoteAccessLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SecureNoteAccessLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SecureNoteAccessLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    note<T extends CompanySecureNoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanySecureNoteDefaultArgs<ExtArgs>>): Prisma__CompanySecureNoteClient<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SecureNoteAccessLog model
+   */ 
+  interface SecureNoteAccessLogFieldRefs {
+    readonly id: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly noteId: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly companyId: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly userId: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly userName: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly userRole: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly action: FieldRef<"SecureNoteAccessLog", 'CredentialAction'>
+    readonly ipAddress: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly userAgent: FieldRef<"SecureNoteAccessLog", 'String'>
+    readonly createdAt: FieldRef<"SecureNoteAccessLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SecureNoteAccessLog findUnique
+   */
+  export type SecureNoteAccessLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which SecureNoteAccessLog to fetch.
+     */
+    where: SecureNoteAccessLogWhereUniqueInput
+  }
+
+  /**
+   * SecureNoteAccessLog findUniqueOrThrow
+   */
+  export type SecureNoteAccessLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which SecureNoteAccessLog to fetch.
+     */
+    where: SecureNoteAccessLogWhereUniqueInput
+  }
+
+  /**
+   * SecureNoteAccessLog findFirst
+   */
+  export type SecureNoteAccessLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which SecureNoteAccessLog to fetch.
+     */
+    where?: SecureNoteAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecureNoteAccessLogs to fetch.
+     */
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SecureNoteAccessLogs.
+     */
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecureNoteAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecureNoteAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SecureNoteAccessLogs.
+     */
+    distinct?: SecureNoteAccessLogScalarFieldEnum | SecureNoteAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * SecureNoteAccessLog findFirstOrThrow
+   */
+  export type SecureNoteAccessLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which SecureNoteAccessLog to fetch.
+     */
+    where?: SecureNoteAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecureNoteAccessLogs to fetch.
+     */
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SecureNoteAccessLogs.
+     */
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecureNoteAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecureNoteAccessLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SecureNoteAccessLogs.
+     */
+    distinct?: SecureNoteAccessLogScalarFieldEnum | SecureNoteAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * SecureNoteAccessLog findMany
+   */
+  export type SecureNoteAccessLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter, which SecureNoteAccessLogs to fetch.
+     */
+    where?: SecureNoteAccessLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecureNoteAccessLogs to fetch.
+     */
+    orderBy?: SecureNoteAccessLogOrderByWithRelationInput | SecureNoteAccessLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SecureNoteAccessLogs.
+     */
+    cursor?: SecureNoteAccessLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecureNoteAccessLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecureNoteAccessLogs.
+     */
+    skip?: number
+    distinct?: SecureNoteAccessLogScalarFieldEnum | SecureNoteAccessLogScalarFieldEnum[]
+  }
+
+  /**
+   * SecureNoteAccessLog create
+   */
+  export type SecureNoteAccessLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SecureNoteAccessLog.
+     */
+    data: XOR<SecureNoteAccessLogCreateInput, SecureNoteAccessLogUncheckedCreateInput>
+  }
+
+  /**
+   * SecureNoteAccessLog createMany
+   */
+  export type SecureNoteAccessLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SecureNoteAccessLogs.
+     */
+    data: SecureNoteAccessLogCreateManyInput | SecureNoteAccessLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SecureNoteAccessLog createManyAndReturn
+   */
+  export type SecureNoteAccessLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SecureNoteAccessLogs.
+     */
+    data: SecureNoteAccessLogCreateManyInput | SecureNoteAccessLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SecureNoteAccessLog update
+   */
+  export type SecureNoteAccessLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SecureNoteAccessLog.
+     */
+    data: XOR<SecureNoteAccessLogUpdateInput, SecureNoteAccessLogUncheckedUpdateInput>
+    /**
+     * Choose, which SecureNoteAccessLog to update.
+     */
+    where: SecureNoteAccessLogWhereUniqueInput
+  }
+
+  /**
+   * SecureNoteAccessLog updateMany
+   */
+  export type SecureNoteAccessLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SecureNoteAccessLogs.
+     */
+    data: XOR<SecureNoteAccessLogUpdateManyMutationInput, SecureNoteAccessLogUncheckedUpdateManyInput>
+    /**
+     * Filter which SecureNoteAccessLogs to update
+     */
+    where?: SecureNoteAccessLogWhereInput
+  }
+
+  /**
+   * SecureNoteAccessLog upsert
+   */
+  export type SecureNoteAccessLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SecureNoteAccessLog to update in case it exists.
+     */
+    where: SecureNoteAccessLogWhereUniqueInput
+    /**
+     * In case the SecureNoteAccessLog found by the `where` argument doesn't exist, create a new SecureNoteAccessLog with this data.
+     */
+    create: XOR<SecureNoteAccessLogCreateInput, SecureNoteAccessLogUncheckedCreateInput>
+    /**
+     * In case the SecureNoteAccessLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SecureNoteAccessLogUpdateInput, SecureNoteAccessLogUncheckedUpdateInput>
+  }
+
+  /**
+   * SecureNoteAccessLog delete
+   */
+  export type SecureNoteAccessLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
+    /**
+     * Filter which SecureNoteAccessLog to delete.
+     */
+    where: SecureNoteAccessLogWhereUniqueInput
+  }
+
+  /**
+   * SecureNoteAccessLog deleteMany
+   */
+  export type SecureNoteAccessLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SecureNoteAccessLogs to delete
+     */
+    where?: SecureNoteAccessLogWhereInput
+  }
+
+  /**
+   * SecureNoteAccessLog without action
+   */
+  export type SecureNoteAccessLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecureNoteAccessLog
+     */
+    select?: SecureNoteAccessLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SecureNoteAccessLogInclude<ExtArgs> | null
   }
 
 
@@ -103530,6 +105817,38 @@ export namespace Prisma {
   export type CredentialAccessLogScalarFieldEnum = (typeof CredentialAccessLogScalarFieldEnum)[keyof typeof CredentialAccessLogScalarFieldEnum]
 
 
+  export const CompanySecureNoteScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    title: 'title',
+    contentEncrypted: 'contentEncrypted',
+    archivedAt: 'archivedAt',
+    archivedById: 'archivedById',
+    archivedByName: 'archivedByName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type CompanySecureNoteScalarFieldEnum = (typeof CompanySecureNoteScalarFieldEnum)[keyof typeof CompanySecureNoteScalarFieldEnum]
+
+
+  export const SecureNoteAccessLogScalarFieldEnum: {
+    id: 'id',
+    noteId: 'noteId',
+    companyId: 'companyId',
+    userId: 'userId',
+    userName: 'userName',
+    userRole: 'userRole',
+    action: 'action',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt'
+  };
+
+  export type SecureNoteAccessLogScalarFieldEnum = (typeof SecureNoteAccessLogScalarFieldEnum)[keyof typeof SecureNoteAccessLogScalarFieldEnum]
+
+
   export const MarketingIntegrationScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -105444,6 +107763,8 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
+    secureNotes?: CompanySecureNoteListRelationFilter
+    secureNoteAccessLogs?: SecureNoteAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
@@ -105541,6 +107862,8 @@ export namespace Prisma {
     activities?: ActivityOrderByRelationAggregateInput
     assets?: CompanyAssetOrderByRelationAggregateInput
     credentialAccessLogs?: CredentialAccessLogOrderByRelationAggregateInput
+    secureNotes?: CompanySecureNoteOrderByRelationAggregateInput
+    secureNoteAccessLogs?: SecureNoteAccessLogOrderByRelationAggregateInput
     marketingIntegrations?: MarketingIntegrationOrderByRelationAggregateInput
     instagramAccounts?: InstagramAccountOrderByRelationAggregateInput
     igAutomations?: IgAutomationOrderByRelationAggregateInput
@@ -105641,6 +107964,8 @@ export namespace Prisma {
     activities?: ActivityListRelationFilter
     assets?: CompanyAssetListRelationFilter
     credentialAccessLogs?: CredentialAccessLogListRelationFilter
+    secureNotes?: CompanySecureNoteListRelationFilter
+    secureNoteAccessLogs?: SecureNoteAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
@@ -109097,6 +111422,172 @@ export namespace Prisma {
     ipAddress?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"CredentialAccessLog"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CredentialAccessLog"> | Date | string
+  }
+
+  export type CompanySecureNoteWhereInput = {
+    AND?: CompanySecureNoteWhereInput | CompanySecureNoteWhereInput[]
+    OR?: CompanySecureNoteWhereInput[]
+    NOT?: CompanySecureNoteWhereInput | CompanySecureNoteWhereInput[]
+    id?: StringFilter<"CompanySecureNote"> | string
+    companyId?: StringFilter<"CompanySecureNote"> | string
+    title?: StringFilter<"CompanySecureNote"> | string
+    contentEncrypted?: StringFilter<"CompanySecureNote"> | string
+    archivedAt?: DateTimeNullableFilter<"CompanySecureNote"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanySecureNote"> | string | null
+    archivedByName?: StringNullableFilter<"CompanySecureNote"> | string | null
+    createdAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    createdById?: StringNullableFilter<"CompanySecureNote"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    accessLogs?: SecureNoteAccessLogListRelationFilter
+  }
+
+  export type CompanySecureNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    contentEncrypted?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    archivedById?: SortOrderInput | SortOrder
+    archivedByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    accessLogs?: SecureNoteAccessLogOrderByRelationAggregateInput
+  }
+
+  export type CompanySecureNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CompanySecureNoteWhereInput | CompanySecureNoteWhereInput[]
+    OR?: CompanySecureNoteWhereInput[]
+    NOT?: CompanySecureNoteWhereInput | CompanySecureNoteWhereInput[]
+    companyId?: StringFilter<"CompanySecureNote"> | string
+    title?: StringFilter<"CompanySecureNote"> | string
+    contentEncrypted?: StringFilter<"CompanySecureNote"> | string
+    archivedAt?: DateTimeNullableFilter<"CompanySecureNote"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanySecureNote"> | string | null
+    archivedByName?: StringNullableFilter<"CompanySecureNote"> | string | null
+    createdAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    createdById?: StringNullableFilter<"CompanySecureNote"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    accessLogs?: SecureNoteAccessLogListRelationFilter
+  }, "id">
+
+  export type CompanySecureNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    contentEncrypted?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    archivedById?: SortOrderInput | SortOrder
+    archivedByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: CompanySecureNoteCountOrderByAggregateInput
+    _max?: CompanySecureNoteMaxOrderByAggregateInput
+    _min?: CompanySecureNoteMinOrderByAggregateInput
+  }
+
+  export type CompanySecureNoteScalarWhereWithAggregatesInput = {
+    AND?: CompanySecureNoteScalarWhereWithAggregatesInput | CompanySecureNoteScalarWhereWithAggregatesInput[]
+    OR?: CompanySecureNoteScalarWhereWithAggregatesInput[]
+    NOT?: CompanySecureNoteScalarWhereWithAggregatesInput | CompanySecureNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompanySecureNote"> | string
+    companyId?: StringWithAggregatesFilter<"CompanySecureNote"> | string
+    title?: StringWithAggregatesFilter<"CompanySecureNote"> | string
+    contentEncrypted?: StringWithAggregatesFilter<"CompanySecureNote"> | string
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"CompanySecureNote"> | Date | string | null
+    archivedById?: StringNullableWithAggregatesFilter<"CompanySecureNote"> | string | null
+    archivedByName?: StringNullableWithAggregatesFilter<"CompanySecureNote"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CompanySecureNote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CompanySecureNote"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"CompanySecureNote"> | string | null
+  }
+
+  export type SecureNoteAccessLogWhereInput = {
+    AND?: SecureNoteAccessLogWhereInput | SecureNoteAccessLogWhereInput[]
+    OR?: SecureNoteAccessLogWhereInput[]
+    NOT?: SecureNoteAccessLogWhereInput | SecureNoteAccessLogWhereInput[]
+    id?: StringFilter<"SecureNoteAccessLog"> | string
+    noteId?: StringFilter<"SecureNoteAccessLog"> | string
+    companyId?: StringFilter<"SecureNoteAccessLog"> | string
+    userId?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userName?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userRole?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"SecureNoteAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"SecureNoteAccessLog"> | Date | string
+    note?: XOR<CompanySecureNoteRelationFilter, CompanySecureNoteWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type SecureNoteAccessLogOrderByWithRelationInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    userRole?: SortOrderInput | SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    note?: CompanySecureNoteOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type SecureNoteAccessLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SecureNoteAccessLogWhereInput | SecureNoteAccessLogWhereInput[]
+    OR?: SecureNoteAccessLogWhereInput[]
+    NOT?: SecureNoteAccessLogWhereInput | SecureNoteAccessLogWhereInput[]
+    noteId?: StringFilter<"SecureNoteAccessLog"> | string
+    companyId?: StringFilter<"SecureNoteAccessLog"> | string
+    userId?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userName?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userRole?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"SecureNoteAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"SecureNoteAccessLog"> | Date | string
+    note?: XOR<CompanySecureNoteRelationFilter, CompanySecureNoteWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type SecureNoteAccessLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userName?: SortOrderInput | SortOrder
+    userRole?: SortOrderInput | SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SecureNoteAccessLogCountOrderByAggregateInput
+    _max?: SecureNoteAccessLogMaxOrderByAggregateInput
+    _min?: SecureNoteAccessLogMinOrderByAggregateInput
+  }
+
+  export type SecureNoteAccessLogScalarWhereWithAggregatesInput = {
+    AND?: SecureNoteAccessLogScalarWhereWithAggregatesInput | SecureNoteAccessLogScalarWhereWithAggregatesInput[]
+    OR?: SecureNoteAccessLogScalarWhereWithAggregatesInput[]
+    NOT?: SecureNoteAccessLogScalarWhereWithAggregatesInput | SecureNoteAccessLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SecureNoteAccessLog"> | string
+    noteId?: StringWithAggregatesFilter<"SecureNoteAccessLog"> | string
+    companyId?: StringWithAggregatesFilter<"SecureNoteAccessLog"> | string
+    userId?: StringNullableWithAggregatesFilter<"SecureNoteAccessLog"> | string | null
+    userName?: StringNullableWithAggregatesFilter<"SecureNoteAccessLog"> | string | null
+    userRole?: StringNullableWithAggregatesFilter<"SecureNoteAccessLog"> | string | null
+    action?: EnumCredentialActionWithAggregatesFilter<"SecureNoteAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableWithAggregatesFilter<"SecureNoteAccessLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"SecureNoteAccessLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SecureNoteAccessLog"> | Date | string
   }
 
   export type MarketingIntegrationWhereInput = {
@@ -113618,6 +116109,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -113714,6 +116207,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -113810,6 +116305,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -113906,6 +116403,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -117661,6 +120160,189 @@ export namespace Prisma {
   export type CredentialAccessLogUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     credentialId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanySecureNoteCreateInput = {
+    id?: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutSecureNotesInput
+    accessLogs?: SecureNoteAccessLogCreateNestedManyWithoutNoteInput
+  }
+
+  export type CompanySecureNoteUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutNoteInput
+  }
+
+  export type CompanySecureNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutSecureNotesNestedInput
+    accessLogs?: SecureNoteAccessLogUpdateManyWithoutNoteNestedInput
+  }
+
+  export type CompanySecureNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutNoteNestedInput
+  }
+
+  export type CompanySecureNoteCreateManyInput = {
+    id?: string
+    companyId: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanySecureNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanySecureNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SecureNoteAccessLogCreateInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    note: CompanySecureNoteCreateNestedOneWithoutAccessLogsInput
+    company: CompanyCreateNestedOneWithoutSecureNoteAccessLogsInput
+  }
+
+  export type SecureNoteAccessLogUncheckedCreateInput = {
+    id?: string
+    noteId: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SecureNoteAccessLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    note?: CompanySecureNoteUpdateOneRequiredWithoutAccessLogsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutSecureNoteAccessLogsNestedInput
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecureNoteAccessLogCreateManyInput = {
+    id?: string
+    noteId: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SecureNoteAccessLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     userName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122865,6 +125547,18 @@ export namespace Prisma {
     none?: CredentialAccessLogWhereInput
   }
 
+  export type CompanySecureNoteListRelationFilter = {
+    every?: CompanySecureNoteWhereInput
+    some?: CompanySecureNoteWhereInput
+    none?: CompanySecureNoteWhereInput
+  }
+
+  export type SecureNoteAccessLogListRelationFilter = {
+    every?: SecureNoteAccessLogWhereInput
+    some?: SecureNoteAccessLogWhereInput
+    none?: SecureNoteAccessLogWhereInput
+  }
+
   export type MarketingIntegrationListRelationFilter = {
     every?: MarketingIntegrationWhereInput
     some?: MarketingIntegrationWhereInput
@@ -123103,6 +125797,14 @@ export namespace Prisma {
   }
 
   export type CredentialAccessLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompanySecureNoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SecureNoteAccessLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -125732,6 +128434,89 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCredentialActionFilter<$PrismaModel>
     _max?: NestedEnumCredentialActionFilter<$PrismaModel>
+  }
+
+  export type CompanySecureNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    contentEncrypted?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanySecureNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    contentEncrypted?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanySecureNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    contentEncrypted?: SortOrder
+    archivedAt?: SortOrder
+    archivedById?: SortOrder
+    archivedByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CompanySecureNoteRelationFilter = {
+    is?: CompanySecureNoteWhereInput
+    isNot?: CompanySecureNoteWhereInput
+  }
+
+  export type SecureNoteAccessLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SecureNoteAccessLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SecureNoteAccessLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    noteId?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    userName?: SortOrder
+    userRole?: SortOrder
+    action?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumIntegrationProviderFilter<$PrismaModel = never> = {
@@ -129906,6 +132691,20 @@ export namespace Prisma {
     connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
   }
 
+  export type CompanySecureNoteCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput> | CompanySecureNoteCreateWithoutCompanyInput[] | CompanySecureNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutCompanyInput | CompanySecureNoteCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanySecureNoteCreateManyCompanyInputEnvelope
+    connect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+  }
+
+  export type SecureNoteAccessLogCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput> | SecureNoteAccessLogCreateWithoutCompanyInput[] | SecureNoteAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutCompanyInput | SecureNoteAccessLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: SecureNoteAccessLogCreateManyCompanyInputEnvelope
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+  }
+
   export type MarketingIntegrationCreateNestedManyWithoutCompanyInput = {
     create?: XOR<MarketingIntegrationCreateWithoutCompanyInput, MarketingIntegrationUncheckedCreateWithoutCompanyInput> | MarketingIntegrationCreateWithoutCompanyInput[] | MarketingIntegrationUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
@@ -130322,6 +133121,20 @@ export namespace Prisma {
     connectOrCreate?: CredentialAccessLogCreateOrConnectWithoutCompanyInput | CredentialAccessLogCreateOrConnectWithoutCompanyInput[]
     createMany?: CredentialAccessLogCreateManyCompanyInputEnvelope
     connect?: CredentialAccessLogWhereUniqueInput | CredentialAccessLogWhereUniqueInput[]
+  }
+
+  export type CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput> | CompanySecureNoteCreateWithoutCompanyInput[] | CompanySecureNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutCompanyInput | CompanySecureNoteCreateOrConnectWithoutCompanyInput[]
+    createMany?: CompanySecureNoteCreateManyCompanyInputEnvelope
+    connect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+  }
+
+  export type SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput> | SecureNoteAccessLogCreateWithoutCompanyInput[] | SecureNoteAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutCompanyInput | SecureNoteAccessLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: SecureNoteAccessLogCreateManyCompanyInputEnvelope
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
   }
 
   export type MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -130993,6 +133806,34 @@ export namespace Prisma {
     update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput | CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
+  export type CompanySecureNoteUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput> | CompanySecureNoteCreateWithoutCompanyInput[] | CompanySecureNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutCompanyInput | CompanySecureNoteCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanySecureNoteUpsertWithWhereUniqueWithoutCompanyInput | CompanySecureNoteUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanySecureNoteCreateManyCompanyInputEnvelope
+    set?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    disconnect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    delete?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    connect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    update?: CompanySecureNoteUpdateWithWhereUniqueWithoutCompanyInput | CompanySecureNoteUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanySecureNoteUpdateManyWithWhereWithoutCompanyInput | CompanySecureNoteUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanySecureNoteScalarWhereInput | CompanySecureNoteScalarWhereInput[]
+  }
+
+  export type SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput> | SecureNoteAccessLogCreateWithoutCompanyInput[] | SecureNoteAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutCompanyInput | SecureNoteAccessLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: SecureNoteAccessLogUpsertWithWhereUniqueWithoutCompanyInput | SecureNoteAccessLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SecureNoteAccessLogCreateManyCompanyInputEnvelope
+    set?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    disconnect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    delete?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    update?: SecureNoteAccessLogUpdateWithWhereUniqueWithoutCompanyInput | SecureNoteAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SecureNoteAccessLogUpdateManyWithWhereWithoutCompanyInput | SecureNoteAccessLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
   }
 
   export type MarketingIntegrationUpdateManyWithoutCompanyNestedInput = {
@@ -131825,6 +134666,34 @@ export namespace Prisma {
     update?: CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput | CredentialAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput | CredentialAccessLogUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: CredentialAccessLogScalarWhereInput | CredentialAccessLogScalarWhereInput[]
+  }
+
+  export type CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput> | CompanySecureNoteCreateWithoutCompanyInput[] | CompanySecureNoteUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutCompanyInput | CompanySecureNoteCreateOrConnectWithoutCompanyInput[]
+    upsert?: CompanySecureNoteUpsertWithWhereUniqueWithoutCompanyInput | CompanySecureNoteUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: CompanySecureNoteCreateManyCompanyInputEnvelope
+    set?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    disconnect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    delete?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    connect?: CompanySecureNoteWhereUniqueInput | CompanySecureNoteWhereUniqueInput[]
+    update?: CompanySecureNoteUpdateWithWhereUniqueWithoutCompanyInput | CompanySecureNoteUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: CompanySecureNoteUpdateManyWithWhereWithoutCompanyInput | CompanySecureNoteUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: CompanySecureNoteScalarWhereInput | CompanySecureNoteScalarWhereInput[]
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput> | SecureNoteAccessLogCreateWithoutCompanyInput[] | SecureNoteAccessLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutCompanyInput | SecureNoteAccessLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: SecureNoteAccessLogUpsertWithWhereUniqueWithoutCompanyInput | SecureNoteAccessLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: SecureNoteAccessLogCreateManyCompanyInputEnvelope
+    set?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    disconnect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    delete?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    update?: SecureNoteAccessLogUpdateWithWhereUniqueWithoutCompanyInput | SecureNoteAccessLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: SecureNoteAccessLogUpdateManyWithWhereWithoutCompanyInput | SecureNoteAccessLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
   }
 
   export type MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -135004,6 +137873,90 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCredentialAccessLogsInput, CompanyUpdateWithoutCredentialAccessLogsInput>, CompanyUncheckedUpdateWithoutCredentialAccessLogsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutSecureNotesInput = {
+    create?: XOR<CompanyCreateWithoutSecureNotesInput, CompanyUncheckedCreateWithoutSecureNotesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSecureNotesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type SecureNoteAccessLogCreateNestedManyWithoutNoteInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput> | SecureNoteAccessLogCreateWithoutNoteInput[] | SecureNoteAccessLogUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutNoteInput | SecureNoteAccessLogCreateOrConnectWithoutNoteInput[]
+    createMany?: SecureNoteAccessLogCreateManyNoteInputEnvelope
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+  }
+
+  export type SecureNoteAccessLogUncheckedCreateNestedManyWithoutNoteInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput> | SecureNoteAccessLogCreateWithoutNoteInput[] | SecureNoteAccessLogUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutNoteInput | SecureNoteAccessLogCreateOrConnectWithoutNoteInput[]
+    createMany?: SecureNoteAccessLogCreateManyNoteInputEnvelope
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutSecureNotesNestedInput = {
+    create?: XOR<CompanyCreateWithoutSecureNotesInput, CompanyUncheckedCreateWithoutSecureNotesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSecureNotesInput
+    upsert?: CompanyUpsertWithoutSecureNotesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSecureNotesInput, CompanyUpdateWithoutSecureNotesInput>, CompanyUncheckedUpdateWithoutSecureNotesInput>
+  }
+
+  export type SecureNoteAccessLogUpdateManyWithoutNoteNestedInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput> | SecureNoteAccessLogCreateWithoutNoteInput[] | SecureNoteAccessLogUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutNoteInput | SecureNoteAccessLogCreateOrConnectWithoutNoteInput[]
+    upsert?: SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput | SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput[]
+    createMany?: SecureNoteAccessLogCreateManyNoteInputEnvelope
+    set?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    disconnect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    delete?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    update?: SecureNoteAccessLogUpdateWithWhereUniqueWithoutNoteInput | SecureNoteAccessLogUpdateWithWhereUniqueWithoutNoteInput[]
+    updateMany?: SecureNoteAccessLogUpdateManyWithWhereWithoutNoteInput | SecureNoteAccessLogUpdateManyWithWhereWithoutNoteInput[]
+    deleteMany?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateManyWithoutNoteNestedInput = {
+    create?: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput> | SecureNoteAccessLogCreateWithoutNoteInput[] | SecureNoteAccessLogUncheckedCreateWithoutNoteInput[]
+    connectOrCreate?: SecureNoteAccessLogCreateOrConnectWithoutNoteInput | SecureNoteAccessLogCreateOrConnectWithoutNoteInput[]
+    upsert?: SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput | SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput[]
+    createMany?: SecureNoteAccessLogCreateManyNoteInputEnvelope
+    set?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    disconnect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    delete?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    connect?: SecureNoteAccessLogWhereUniqueInput | SecureNoteAccessLogWhereUniqueInput[]
+    update?: SecureNoteAccessLogUpdateWithWhereUniqueWithoutNoteInput | SecureNoteAccessLogUpdateWithWhereUniqueWithoutNoteInput[]
+    updateMany?: SecureNoteAccessLogUpdateManyWithWhereWithoutNoteInput | SecureNoteAccessLogUpdateManyWithWhereWithoutNoteInput[]
+    deleteMany?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
+  }
+
+  export type CompanySecureNoteCreateNestedOneWithoutAccessLogsInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutAccessLogsInput, CompanySecureNoteUncheckedCreateWithoutAccessLogsInput>
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutAccessLogsInput
+    connect?: CompanySecureNoteWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutSecureNoteAccessLogsInput = {
+    create?: XOR<CompanyCreateWithoutSecureNoteAccessLogsInput, CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanySecureNoteUpdateOneRequiredWithoutAccessLogsNestedInput = {
+    create?: XOR<CompanySecureNoteCreateWithoutAccessLogsInput, CompanySecureNoteUncheckedCreateWithoutAccessLogsInput>
+    connectOrCreate?: CompanySecureNoteCreateOrConnectWithoutAccessLogsInput
+    upsert?: CompanySecureNoteUpsertWithoutAccessLogsInput
+    connect?: CompanySecureNoteWhereUniqueInput
+    update?: XOR<XOR<CompanySecureNoteUpdateToOneWithWhereWithoutAccessLogsInput, CompanySecureNoteUpdateWithoutAccessLogsInput>, CompanySecureNoteUncheckedUpdateWithoutAccessLogsInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutSecureNoteAccessLogsNestedInput = {
+    create?: XOR<CompanyCreateWithoutSecureNoteAccessLogsInput, CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput
+    upsert?: CompanyUpsertWithoutSecureNoteAccessLogsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSecureNoteAccessLogsInput, CompanyUpdateWithoutSecureNoteAccessLogsInput>, CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput>
+  }
+
   export type MarketingIntegrationCreatescopesInput = {
     set: string[]
   }
@@ -137575,6 +140528,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -137670,6 +140625,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -138665,6 +141622,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -138760,6 +141719,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -140091,6 +143052,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -140186,6 +143149,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -140286,6 +143251,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -140381,6 +143348,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -141878,6 +144847,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanySecureNoteCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: SecureNoteAccessLogCreateNestedManyWithoutNoteInput
+  }
+
+  export type CompanySecureNoteUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    accessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutNoteInput
+  }
+
+  export type CompanySecureNoteCreateOrConnectWithoutCompanyInput = {
+    where: CompanySecureNoteWhereUniqueInput
+    create: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanySecureNoteCreateManyCompanyInputEnvelope = {
+    data: CompanySecureNoteCreateManyCompanyInput | CompanySecureNoteCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SecureNoteAccessLogCreateWithoutCompanyInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    note: CompanySecureNoteCreateNestedOneWithoutAccessLogsInput
+  }
+
+  export type SecureNoteAccessLogUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    noteId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SecureNoteAccessLogCreateOrConnectWithoutCompanyInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    create: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SecureNoteAccessLogCreateManyCompanyInputEnvelope = {
+    data: SecureNoteAccessLogCreateManyCompanyInput | SecureNoteAccessLogCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MarketingIntegrationCreateWithoutCompanyInput = {
     id?: string
     provider: $Enums.IntegrationProvider
@@ -142995,6 +146034,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -143090,6 +146131,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -144123,6 +147166,70 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"CredentialAccessLog"> | Date | string
   }
 
+  export type CompanySecureNoteUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: CompanySecureNoteWhereUniqueInput
+    update: XOR<CompanySecureNoteUpdateWithoutCompanyInput, CompanySecureNoteUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CompanySecureNoteCreateWithoutCompanyInput, CompanySecureNoteUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type CompanySecureNoteUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: CompanySecureNoteWhereUniqueInput
+    data: XOR<CompanySecureNoteUpdateWithoutCompanyInput, CompanySecureNoteUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CompanySecureNoteUpdateManyWithWhereWithoutCompanyInput = {
+    where: CompanySecureNoteScalarWhereInput
+    data: XOR<CompanySecureNoteUpdateManyMutationInput, CompanySecureNoteUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type CompanySecureNoteScalarWhereInput = {
+    AND?: CompanySecureNoteScalarWhereInput | CompanySecureNoteScalarWhereInput[]
+    OR?: CompanySecureNoteScalarWhereInput[]
+    NOT?: CompanySecureNoteScalarWhereInput | CompanySecureNoteScalarWhereInput[]
+    id?: StringFilter<"CompanySecureNote"> | string
+    companyId?: StringFilter<"CompanySecureNote"> | string
+    title?: StringFilter<"CompanySecureNote"> | string
+    contentEncrypted?: StringFilter<"CompanySecureNote"> | string
+    archivedAt?: DateTimeNullableFilter<"CompanySecureNote"> | Date | string | null
+    archivedById?: StringNullableFilter<"CompanySecureNote"> | string | null
+    archivedByName?: StringNullableFilter<"CompanySecureNote"> | string | null
+    createdAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    updatedAt?: DateTimeFilter<"CompanySecureNote"> | Date | string
+    createdById?: StringNullableFilter<"CompanySecureNote"> | string | null
+  }
+
+  export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    update: XOR<SecureNoteAccessLogUpdateWithoutCompanyInput, SecureNoteAccessLogUncheckedUpdateWithoutCompanyInput>
+    create: XOR<SecureNoteAccessLogCreateWithoutCompanyInput, SecureNoteAccessLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type SecureNoteAccessLogUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    data: XOR<SecureNoteAccessLogUpdateWithoutCompanyInput, SecureNoteAccessLogUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type SecureNoteAccessLogUpdateManyWithWhereWithoutCompanyInput = {
+    where: SecureNoteAccessLogScalarWhereInput
+    data: XOR<SecureNoteAccessLogUpdateManyMutationInput, SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type SecureNoteAccessLogScalarWhereInput = {
+    AND?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
+    OR?: SecureNoteAccessLogScalarWhereInput[]
+    NOT?: SecureNoteAccessLogScalarWhereInput | SecureNoteAccessLogScalarWhereInput[]
+    id?: StringFilter<"SecureNoteAccessLog"> | string
+    noteId?: StringFilter<"SecureNoteAccessLog"> | string
+    companyId?: StringFilter<"SecureNoteAccessLog"> | string
+    userId?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userName?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userRole?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    action?: EnumCredentialActionFilter<"SecureNoteAccessLog"> | $Enums.CredentialAction
+    ipAddress?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    userAgent?: StringNullableFilter<"SecureNoteAccessLog"> | string | null
+    createdAt?: DateTimeFilter<"SecureNoteAccessLog"> | Date | string
+  }
+
   export type MarketingIntegrationUpsertWithWhereUniqueWithoutCompanyInput = {
     where: MarketingIntegrationWhereUniqueInput
     update: XOR<MarketingIntegrationUpdateWithoutCompanyInput, MarketingIntegrationUncheckedUpdateWithoutCompanyInput>
@@ -145090,6 +148197,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -145185,6 +148294,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -145530,6 +148641,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -145625,6 +148738,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -145825,6 +148940,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -145920,6 +149037,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -146206,6 +149325,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -146301,6 +149422,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146524,6 +149647,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -146619,6 +149744,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -147176,6 +150303,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -147271,6 +150400,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -147749,6 +150880,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -147844,6 +150977,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -147975,6 +151110,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -148070,6 +151207,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148437,6 +151576,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -148532,6 +151673,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -148669,6 +151812,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -148764,6 +151909,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149143,6 +152290,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -149238,6 +152387,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -149375,6 +152526,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -149470,6 +152623,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149581,6 +152736,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -149676,6 +152833,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -149816,6 +152975,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -149911,6 +153072,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150138,6 +153301,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -150233,6 +153398,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -150609,6 +153776,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -150704,6 +153873,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151173,6 +154344,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -151268,6 +154441,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -151379,6 +154554,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -151474,6 +154651,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151569,6 +154748,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -151664,6 +154845,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -151856,6 +155039,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -151951,6 +155136,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -152133,6 +155320,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -152228,6 +155417,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -152457,6 +155648,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -152552,6 +155745,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -152703,6 +155898,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -152798,6 +155995,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -153220,6 +156419,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -153315,6 +156516,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -153751,6 +156954,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -153846,6 +157051,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -153998,6 +157205,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -154093,6 +157302,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -154381,6 +157592,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -154476,6 +157689,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -154969,6 +158184,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -155064,6 +158281,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155561,6 +158780,8 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -155656,6 +158877,8 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -155994,6 +159217,8 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -156089,6 +159314,8 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156184,6 +159411,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -156279,6 +159508,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -156460,6 +159691,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -156555,6 +159788,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -156967,6 +160202,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -157062,6 +160299,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -157255,6 +160494,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -157350,6 +160591,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -157859,6 +161102,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -157954,6 +161199,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -158293,6 +161540,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -158388,6 +161637,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158628,6 +161879,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -158723,6 +161976,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -159113,6 +162368,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -159208,6 +162465,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161591,6 +164850,8 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -161686,6 +164947,8 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -161847,6 +165110,8 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -161942,6 +165207,8 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162259,6 +165526,8 @@ export namespace Prisma {
     conversations?: ConversationCreateNestedManyWithoutCompanyInput
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -162354,6 +165623,8 @@ export namespace Prisma {
     conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -162516,6 +165787,8 @@ export namespace Prisma {
     conversations?: ConversationUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -162611,6 +165884,934 @@ export namespace Prisma {
     conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutSecureNotesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSecureNotesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSecureNotesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSecureNotesInput, CompanyUncheckedCreateWithoutSecureNotesInput>
+  }
+
+  export type SecureNoteAccessLogCreateWithoutNoteInput = {
+    id?: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutSecureNoteAccessLogsInput
+  }
+
+  export type SecureNoteAccessLogUncheckedCreateWithoutNoteInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SecureNoteAccessLogCreateOrConnectWithoutNoteInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    create: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput>
+  }
+
+  export type SecureNoteAccessLogCreateManyNoteInputEnvelope = {
+    data: SecureNoteAccessLogCreateManyNoteInput | SecureNoteAccessLogCreateManyNoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutSecureNotesInput = {
+    update: XOR<CompanyUpdateWithoutSecureNotesInput, CompanyUncheckedUpdateWithoutSecureNotesInput>
+    create: XOR<CompanyCreateWithoutSecureNotesInput, CompanyUncheckedCreateWithoutSecureNotesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSecureNotesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSecureNotesInput, CompanyUncheckedUpdateWithoutSecureNotesInput>
+  }
+
+  export type CompanyUpdateWithoutSecureNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    update: XOR<SecureNoteAccessLogUpdateWithoutNoteInput, SecureNoteAccessLogUncheckedUpdateWithoutNoteInput>
+    create: XOR<SecureNoteAccessLogCreateWithoutNoteInput, SecureNoteAccessLogUncheckedCreateWithoutNoteInput>
+  }
+
+  export type SecureNoteAccessLogUpdateWithWhereUniqueWithoutNoteInput = {
+    where: SecureNoteAccessLogWhereUniqueInput
+    data: XOR<SecureNoteAccessLogUpdateWithoutNoteInput, SecureNoteAccessLogUncheckedUpdateWithoutNoteInput>
+  }
+
+  export type SecureNoteAccessLogUpdateManyWithWhereWithoutNoteInput = {
+    where: SecureNoteAccessLogScalarWhereInput
+    data: XOR<SecureNoteAccessLogUpdateManyMutationInput, SecureNoteAccessLogUncheckedUpdateManyWithoutNoteInput>
+  }
+
+  export type CompanySecureNoteCreateWithoutAccessLogsInput = {
+    id?: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutSecureNotesInput
+  }
+
+  export type CompanySecureNoteUncheckedCreateWithoutAccessLogsInput = {
+    id?: string
+    companyId: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CompanySecureNoteCreateOrConnectWithoutAccessLogsInput = {
+    where: CompanySecureNoteWhereUniqueInput
+    create: XOR<CompanySecureNoteCreateWithoutAccessLogsInput, CompanySecureNoteUncheckedCreateWithoutAccessLogsInput>
+  }
+
+  export type CompanyCreateWithoutSecureNoteAccessLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSecureNoteAccessLogsInput, CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput>
+  }
+
+  export type CompanySecureNoteUpsertWithoutAccessLogsInput = {
+    update: XOR<CompanySecureNoteUpdateWithoutAccessLogsInput, CompanySecureNoteUncheckedUpdateWithoutAccessLogsInput>
+    create: XOR<CompanySecureNoteCreateWithoutAccessLogsInput, CompanySecureNoteUncheckedCreateWithoutAccessLogsInput>
+    where?: CompanySecureNoteWhereInput
+  }
+
+  export type CompanySecureNoteUpdateToOneWithWhereWithoutAccessLogsInput = {
+    where?: CompanySecureNoteWhereInput
+    data: XOR<CompanySecureNoteUpdateWithoutAccessLogsInput, CompanySecureNoteUncheckedUpdateWithoutAccessLogsInput>
+  }
+
+  export type CompanySecureNoteUpdateWithoutAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutSecureNotesNestedInput
+  }
+
+  export type CompanySecureNoteUncheckedUpdateWithoutAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompanyUpsertWithoutSecureNoteAccessLogsInput = {
+    update: XOR<CompanyUpdateWithoutSecureNoteAccessLogsInput, CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput>
+    create: XOR<CompanyCreateWithoutSecureNoteAccessLogsInput, CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSecureNoteAccessLogsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSecureNoteAccessLogsInput, CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput>
+  }
+
+  export type CompanyUpdateWithoutSecureNoteAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162707,6 +166908,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -162802,6 +167005,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -162913,6 +167118,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -163008,6 +167215,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -163103,6 +167312,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -163198,6 +167409,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -163453,6 +167666,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -163548,6 +167763,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -163691,6 +167908,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -163786,6 +168005,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -163986,6 +168207,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -164081,6 +168304,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164243,6 +168468,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -164338,6 +168565,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -164545,6 +168774,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -164640,6 +168871,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164843,6 +169076,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -164938,6 +169173,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -165124,6 +169361,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -165219,6 +169458,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165479,6 +169720,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -165574,6 +169817,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -165685,6 +169930,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -165780,6 +170027,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165875,6 +170124,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -165970,6 +170221,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -166081,6 +170334,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -166176,6 +170431,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166271,6 +170528,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -166366,6 +170625,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -166477,6 +170738,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -166572,6 +170835,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166667,6 +170932,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -166762,6 +171029,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -166873,6 +171142,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -166968,6 +171239,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167063,6 +171336,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -167158,6 +171433,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -167269,6 +171546,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -167364,6 +171643,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167459,6 +171740,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -167554,6 +171837,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -167665,6 +171950,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -167760,6 +172047,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167855,6 +172144,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -167950,6 +172241,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -168061,6 +172354,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -168156,6 +172451,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168251,6 +172548,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -168346,6 +172645,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -168457,6 +172758,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -168552,6 +172855,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168647,6 +172952,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -168742,6 +173049,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -168853,6 +173162,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -168948,6 +173259,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169043,6 +173356,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -169138,6 +173453,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -169249,6 +173566,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -169344,6 +173663,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169439,6 +173760,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -169534,6 +173857,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -169645,6 +173970,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -169740,6 +174067,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169835,6 +174164,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -169930,6 +174261,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -170041,6 +174374,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -170136,6 +174471,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170231,6 +174568,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -170326,6 +174665,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -170437,6 +174778,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -170532,6 +174875,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170627,6 +174972,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -170722,6 +175069,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -170833,6 +175182,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -170928,6 +175279,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171023,6 +175376,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -171118,6 +175473,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -171229,6 +175586,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -171324,6 +175683,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171419,6 +175780,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -171514,6 +175877,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -171625,6 +175990,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -171720,6 +176087,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171815,6 +176184,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -171910,6 +176281,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -172021,6 +176394,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -172116,6 +176491,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172210,6 +176587,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -172305,6 +176684,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -172440,6 +176821,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -172535,6 +176918,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172717,6 +177102,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -172812,6 +177199,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -172959,6 +177348,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -173054,6 +177445,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173246,6 +177639,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -173341,6 +177736,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -173570,6 +177967,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -173665,6 +178064,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173878,6 +178279,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -173973,6 +178376,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -174171,6 +178576,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -174266,6 +178673,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174442,6 +178851,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -174537,6 +178948,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -174735,6 +179148,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -174830,6 +179245,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175006,6 +179423,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -175101,6 +179520,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -175299,6 +179720,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -175394,6 +179817,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175489,6 +179914,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -175584,6 +180011,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -175695,6 +180124,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -175790,6 +180221,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176221,6 +180654,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -176316,6 +180751,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -176427,6 +180864,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -176522,6 +180961,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176617,6 +181058,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -176712,6 +181155,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -176885,6 +181330,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -176980,6 +181427,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -177118,6 +181567,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -177213,6 +181664,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -177586,6 +182039,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -177681,6 +182136,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -178360,6 +182817,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -178455,6 +182914,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -178566,6 +183027,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -178661,6 +183124,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -178757,6 +183222,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -178852,6 +183319,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -178963,6 +183432,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -179058,6 +183529,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179153,6 +183626,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -179248,6 +183723,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -179511,6 +183988,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -179606,6 +184085,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179847,6 +184328,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -179942,6 +184425,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -180090,6 +184575,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -180185,6 +184672,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -180323,6 +184812,8 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
@@ -180418,6 +184909,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
     assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
@@ -180529,6 +185022,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -180624,6 +185119,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182368,6 +186865,30 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type CompanySecureNoteCreateManyCompanyInput = {
+    id?: string
+    title: string
+    contentEncrypted: string
+    archivedAt?: Date | string | null
+    archivedById?: string | null
+    archivedByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type SecureNoteAccessLogCreateManyCompanyInput = {
+    id?: string
+    noteId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
   export type MarketingIntegrationCreateManyCompanyInput = {
     id?: string
     provider: $Enums.IntegrationProvider
@@ -182799,6 +187320,8 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
@@ -182894,6 +187417,8 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
     assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184528,6 +189053,80 @@ export namespace Prisma {
   export type CredentialAccessLogUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     credentialId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanySecureNoteUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: SecureNoteAccessLogUpdateManyWithoutNoteNestedInput
+  }
+
+  export type CompanySecureNoteUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    accessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutNoteNestedInput
+  }
+
+  export type CompanySecureNoteUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    contentEncrypted?: StringFieldUpdateOperationsInput | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedById?: NullableStringFieldUpdateOperationsInput | string | null
+    archivedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SecureNoteAccessLogUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    note?: CompanySecureNoteUpdateOneRequiredWithoutAccessLogsNestedInput
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    noteId?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     userName?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188057,6 +192656,54 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SecureNoteAccessLogCreateManyNoteInput = {
+    id?: string
+    companyId: string
+    userId?: string | null
+    userName?: string | null
+    userRole?: string | null
+    action: $Enums.CredentialAction
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SecureNoteAccessLogUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutSecureNoteAccessLogsNestedInput
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecureNoteAccessLogUncheckedUpdateManyWithoutNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userName?: NullableStringFieldUpdateOperationsInput | string | null
+    userRole?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: EnumCredentialActionFieldUpdateOperationsInput | $Enums.CredentialAction
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IgAutomationCreateManyAccountInput = {
     id?: string
     companyId: string
@@ -188959,6 +193606,10 @@ export namespace Prisma {
      */
     export type CompanyCredentialCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanyCredentialCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use CompanySecureNoteCountOutputTypeDefaultArgs instead
+     */
+    export type CompanySecureNoteCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanySecureNoteCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use InstagramAccountCountOutputTypeDefaultArgs instead
      */
     export type InstagramAccountCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstagramAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -189162,6 +193813,14 @@ export namespace Prisma {
      * @deprecated Use CredentialAccessLogDefaultArgs instead
      */
     export type CredentialAccessLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CredentialAccessLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CompanySecureNoteDefaultArgs instead
+     */
+    export type CompanySecureNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CompanySecureNoteDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SecureNoteAccessLogDefaultArgs instead
+     */
+    export type SecureNoteAccessLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SecureNoteAccessLogDefaultArgs<ExtArgs>
     /**
      * @deprecated Use MarketingIntegrationDefaultArgs instead
      */

@@ -6,7 +6,7 @@ import {
   Share2, BarChart3, Cloud, Box, Lock, Eye, EyeOff, Copy,
   Plus, Trash2, Pencil, ExternalLink, AlertTriangle, Check,
   KeyRound, ShieldCheck, Info, ChevronDown, ChevronRight,
-  Archive, RotateCcw,
+  Archive, RotateCcw, StickyNote, FileText,
 } from "lucide-react";
 import VaultVerifyModal from "./VaultVerifyModal";
 
@@ -47,6 +47,15 @@ interface Asset {
   createdAt: string;
   updatedAt: string;
   credentials: Credential[];
+}
+
+interface SecureNote {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  archivedAt: string | null;
+  archivedByName: string | null;
 }
 
 const TYPE_META: Record<AssetType, { label: string; Icon: typeof Globe; color: string; group: string }> = {
@@ -94,8 +103,16 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
   // pendente e abrimos o modal. Após verificação, retomamos a chamada.
   const [pendingReveal, setPendingReveal] = useState<{ credId: string; action: "REVEAL" | "COPY" | "SHARE" } | null>(null);
 
+  // ── Notas seguras ──────────────────────────────────────────────────────────
+  const [notes, setNotes] = useState<SecureNote[]>([]);
+  const [revealedNotes, setRevealedNotes] = useState<Record<string, string>>({});
+  const [copiedNoteId, setCopiedNoteId] = useState<string | null>(null);
+  const [showNoteModal, setShowNoteModal] = useState<{ note: SecureNote | null } | null>(null);
+  const [pendingNoteReveal, setPendingNoteReveal] = useState<{ noteId: string; action: "REVEAL" | "COPY" } | null>(null);
+
   useEffect(() => {
     void loadAssets();
+    void loadNotes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyId, showArchived]);
 
@@ -189,6 +206,70 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
     });
     if (!r.ok) { alert((await r.json()).error || "Falha ao restaurar"); return; }
     void loadAssets();
+  }
+
+  // ── Notas seguras ──────────────────────────────────────────────────────────
+
+  async function loadNotes() {
+    try {
+      const qs = showArchived ? "?includeArchived=1" : "";
+      const r = await fetch(`/api/companies/${companyId}/vault/notes${qs}`);
+      if (!r.ok) return; // cofre já exibe erro via loadAssets
+      const j = await r.json();
+      setNotes(j.notes);
+    } catch {
+      /* silencioso — loadAssets é a fonte de verdade do erro */
+    }
+  }
+
+  async function handleRevealNote(noteId: string, action: "REVEAL" | "COPY" = "REVEAL") {
+    if (revealedNotes[noteId] && action === "REVEAL") {
+      setRevealedNotes((p) => { const n = { ...p }; delete n[noteId]; return n; });
+      return;
+    }
+    const r = await fetch(`/api/companies/${companyId}/vault/notes/${noteId}/reveal`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action }),
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      if (r.status === 403 && err.requires2FA) {
+        setPendingNoteReveal({ noteId, action });
+        return;
+      }
+      alert(err.error || "Falha ao revelar");
+      return;
+    }
+    const { content } = await r.json();
+    if (action === "COPY") {
+      await navigator.clipboard.writeText(content);
+      setCopiedNoteId(noteId);
+      setTimeout(() => setCopiedNoteId((c) => (c === noteId ? null : c)), 1500);
+    } else {
+      setRevealedNotes((p) => ({ ...p, [noteId]: content }));
+    }
+  }
+
+  async function handleDeleteNote(noteId: string) {
+    const msg = canDelete
+      ? "Excluir esta nota segura? Esta ação não pode ser desfeita."
+      : "Arquivar esta nota? Ela sai da lista; um admin pode restaurá-la depois.";
+    if (!confirm(msg)) return;
+    const r = await fetch(`/api/companies/${companyId}/vault/notes/${noteId}`, { method: "DELETE" });
+    if (!r.ok) { alert((await r.json()).error || "Falha"); return; }
+    setRevealedNotes((p) => { const n = { ...p }; delete n[noteId]; return n; });
+    void loadNotes();
+  }
+
+  async function handleRestoreNote(noteId: string) {
+    const r = await fetch(`/api/companies/${companyId}/vault/notes/${noteId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ restore: true }),
+    });
+    if (!r.ok) { alert((await r.json()).error || "Falha ao restaurar"); return; }
+    void loadNotes();
   }
 
   // Agrupa assets por tipo
@@ -386,6 +467,65 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
         </div>
       )}
 
+      {/* ── Notas Seguras ──────────────────────────────────────────────────── */}
+      <div className="mt-8">
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-2">
+            <StickyNote className="w-4 h-4 text-emerald-400" strokeWidth={2} />
+            <h3 className="text-slate-300 text-xs font-bold uppercase tracking-wider">
+              Notas seguras
+            </h3>
+            <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded-full">
+              {notes.length}
+            </span>
+          </div>
+          {canWrite && notes.length > 0 && (
+            <button
+              onClick={() => setShowNoteModal({ note: null })}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a1220] border border-[#1e2d45] text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" /> Nova nota
+            </button>
+          )}
+        </div>
+
+        {notes.length === 0 ? (
+          <div className="text-center py-10 border-2 border-dashed border-[#1e2d45] rounded-xl">
+            <FileText className="w-8 h-8 text-slate-700 mx-auto mb-2" strokeWidth={1.5} />
+            <p className="text-slate-500 text-xs mb-1">Nenhuma nota segura</p>
+            <p className="text-slate-600 text-[11px] mb-3">
+              Guarde blocos de texto sensíveis (códigos de recuperação, instruções de acesso)
+              — o conteúdo fica criptografado (AES-256-GCM).
+            </p>
+            {canWrite && (
+              <button
+                onClick={() => setShowNoteModal({ note: null })}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+              >
+                <Plus className="w-3.5 h-3.5" /> Adicionar primeira nota
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {notes.map((note) => (
+              <NoteCard
+                key={note.id}
+                note={note}
+                canWrite={canWrite}
+                canDelete={canDelete}
+                revealedContent={revealedNotes[note.id]}
+                copied={copiedNoteId === note.id}
+                onReveal={handleRevealNote}
+                onEdit={() => setShowNoteModal({ note })}
+                onDelete={() => handleDeleteNote(note.id)}
+                onRestore={() => handleRestoreNote(note.id)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Modais */}
       {showAssetModal && (
         <AssetModal
@@ -417,6 +557,28 @@ export default function CompanyVault({ companyId }: { companyId: string }) {
             setPendingReveal(null);
             // Retoma a ação original — agora o backend já tem trusted session
             if (pending) void handleReveal(pending.credId, pending.action);
+          }}
+        />
+      )}
+
+      {showNoteModal && (
+        <NoteModal
+          companyId={companyId}
+          note={showNoteModal.note}
+          initialContent={showNoteModal.note ? revealedNotes[showNoteModal.note.id] : undefined}
+          onClose={() => setShowNoteModal(null)}
+          onSaved={() => { setShowNoteModal(null); void loadNotes(); }}
+        />
+      )}
+
+      {/* 2FA para revelar/editar nota — reaproveita a mesma trusted session. */}
+      {pendingNoteReveal && (
+        <VaultVerifyModal
+          onClose={() => setPendingNoteReveal(null)}
+          onVerified={() => {
+            const pending = pendingNoteReveal;
+            setPendingNoteReveal(null);
+            if (pending) void handleRevealNote(pending.noteId, pending.action);
           }}
         />
       )}
@@ -849,6 +1011,247 @@ function AssetModal({
             className="flex-1 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold disabled:opacity-50"
           >
             {saving ? "Salvando…" : (asset ? "Salvar alterações" : "Criar ativo")}
+          </button>
+          <button onClick={onClose} className="px-4 py-2 rounded-lg bg-[#0a1220] border border-[#1e2d45] text-slate-300 text-sm hover:text-white">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Card de Nota Segura ──────────────────────────────────────────────────────
+
+function NoteCard({
+  note, canWrite, canDelete, revealedContent, copied,
+  onReveal, onEdit, onDelete, onRestore,
+}: {
+  note: SecureNote;
+  canWrite: boolean;
+  canDelete: boolean;
+  revealedContent: string | undefined;
+  copied: boolean;
+  onReveal: (noteId: string, action?: "REVEAL" | "COPY") => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onRestore: () => void;
+}) {
+  const archived = !!note.archivedAt;
+  const shown = revealedContent !== undefined;
+
+  return (
+    <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl overflow-hidden">
+      <div className="flex items-start justify-between p-3">
+        <div className="flex items-start gap-2.5 min-w-0 flex-1">
+          <FileText className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-400" strokeWidth={2} />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="text-white text-sm font-semibold truncate">{note.title}</h4>
+              {archived && (
+                <span
+                  className="text-[9px] text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded uppercase font-bold flex items-center gap-0.5"
+                  title={note.archivedByName ? `Arquivada por ${note.archivedByName}` : "Arquivada"}
+                >
+                  <Archive className="w-2.5 h-2.5" /> arquivada
+                </span>
+              )}
+            </div>
+            <p className="text-slate-600 text-[10px] mt-0.5">
+              Atualizada em {new Date(note.updatedAt).toLocaleDateString("pt-BR")}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {!archived && (
+            <>
+              <button
+                onClick={() => onReveal(note.id, "REVEAL")}
+                className="p-1.5 text-slate-500 hover:text-indigo-400 hover:bg-white/5 rounded transition-colors"
+                title={shown ? "Ocultar" : "Revelar conteúdo"}
+              >
+                {shown ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              </button>
+              <button
+                onClick={() => onReveal(note.id, "COPY")}
+                className={`p-1.5 rounded transition-colors ${copied ? "text-emerald-400" : "text-slate-500 hover:text-indigo-400 hover:bg-white/5"}`}
+                title="Copiar conteúdo (registra log)"
+              >
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </>
+          )}
+          {canWrite && (
+            archived ? (
+              <>
+                <button
+                  onClick={onRestore}
+                  className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
+                  title="Restaurar"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </button>
+                {canDelete && (
+                  <button
+                    onClick={onDelete}
+                    className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                    title="Excluir definitivamente"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onEdit}
+                  className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded transition-colors"
+                  title="Editar"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={onDelete}
+                  className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                  title={canDelete ? "Excluir" : "Arquivar"}
+                >
+                  {canDelete ? <Trash2 className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
+                </button>
+              </>
+            )
+          )}
+        </div>
+      </div>
+      {shown && (
+        <div className="px-3 pb-3">
+          <pre className="text-slate-300 text-xs whitespace-pre-wrap break-words bg-[#080b12] border border-[#1e2d45] rounded-lg p-3 font-mono max-h-96 overflow-auto">
+            {revealedContent || "(vazio)"}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Modal de Nota Segura ─────────────────────────────────────────────────────
+
+function NoteModal({
+  companyId, note, initialContent, onClose, onSaved,
+}: {
+  companyId: string;
+  note: SecureNote | null;
+  initialContent?: string;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const [title, setTitle] = useState(note?.title ?? "");
+  const [content, setContent] = useState(initialContent ?? "");
+  const [loadedContent, setLoadedContent] = useState(initialContent !== undefined);
+  const [saving, setSaving] = useState(false);
+  const [loadingContent, setLoadingContent] = useState(false);
+
+  // Editando: se o conteúdo ainda não foi revelado, oferece carregar o atual.
+  async function loadCurrent() {
+    if (!note) return;
+    setLoadingContent(true);
+    try {
+      const r = await fetch(`/api/companies/${companyId}/vault/notes/${note.id}/reveal`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "REVEAL" }),
+      });
+      if (!r.ok) {
+        const err = await r.json().catch(() => ({}));
+        if (r.status === 403 && err.requires2FA) {
+          alert("Revele a nota na lista primeiro (verificação por e-mail) e reabra a edição.");
+          return;
+        }
+        alert(err.error || "Falha ao carregar conteúdo");
+        return;
+      }
+      const { content: c } = await r.json();
+      setContent(c);
+      setLoadedContent(true);
+    } finally {
+      setLoadingContent(false);
+    }
+  }
+
+  async function handleSave() {
+    if (!title.trim()) { alert("Título obrigatório"); return; }
+    // Criação exige conteúdo. Edição: conteúdo vazio = manter o atual.
+    if (!note && !content.trim()) { alert("Conteúdo obrigatório"); return; }
+    setSaving(true);
+    const url = note
+      ? `/api/companies/${companyId}/vault/notes/${note.id}`
+      : `/api/companies/${companyId}/vault/notes`;
+    const body: Record<string, string> = { title };
+    // Só envia content quando há algo — em edição, vazio preserva o atual.
+    if (content.length > 0) body.content = content;
+    const r = await fetch(url, {
+      method: note ? "PATCH" : "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    setSaving(false);
+    if (!r.ok) { alert((await r.json()).error || "Erro"); return; }
+    onSaved();
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-[#0d1525] border border-[#1e2d45] rounded-2xl p-5 w-full max-w-lg shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <h3 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+          <StickyNote className="w-4 h-4 text-emerald-400" />
+          {note ? "Editar nota segura" : "Nova nota segura"}
+        </h3>
+        <div className="space-y-3">
+          <div>
+            <label className="block text-slate-400 text-[11px] font-semibold mb-1">Título*</label>
+            <input
+              autoFocus
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder='ex: "Códigos de recuperação Google", "Acesso servidor X"'
+              className="w-full bg-[#0a1220] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600"
+            />
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-slate-400 text-[11px] font-semibold">
+                Conteúdo{note ? " (deixe vazio p/ manter atual)" : "*"}
+              </label>
+              {note && !loadedContent && (
+                <button
+                  type="button"
+                  onClick={loadCurrent}
+                  disabled={loadingContent}
+                  className="text-[11px] text-indigo-400 hover:text-indigo-300 disabled:opacity-50"
+                >
+                  {loadingContent ? "Carregando…" : "Carregar conteúdo atual"}
+                </button>
+              )}
+            </div>
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={10}
+              placeholder="Cole aqui o bloco de informação sensível…"
+              className="w-full bg-[#0a1220] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 font-mono resize-y"
+            />
+            <p className="text-slate-600 text-[10px] mt-1 flex items-center gap-1">
+              <Lock className="w-3 h-3" /> Criptografado (AES-256-GCM). Revelar depois exige verificação por e-mail.
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-2 mt-5">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex-1 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold disabled:opacity-50"
+          >
+            {saving ? "Salvando…" : (note ? "Salvar" : "Criar nota")}
           </button>
           <button onClick={onClose} className="px-4 py-2 rounded-lg bg-[#0a1220] border border-[#1e2d45] text-slate-300 text-sm hover:text-white">
             Cancelar
