@@ -21,6 +21,7 @@ import IntegracoesGoogleSection from "./IntegracoesGoogleSection";
 import EmailSettings from "./EmailSettings";
 import MeuPerfilSettings from "./MeuPerfilSettings";
 import ProspectaApiSettings from "./ProspectaApiSettings";
+import MetaCapiSettings from "./MetaCapiSettings";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
 
@@ -322,6 +323,43 @@ export default async function ConfiguracoesPage({
     for (const s of settingsRaw) settings[s.key] = s.value;
 
     content = <OpenAISettings settings={settings} />;
+  } else if (secao === "integracoes-meta") {
+    // Meta Conversions API (CAPI) — config por empresa (Pixel + token cifrado).
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    if (!targetCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Selecione uma empresa.</div>;
+    } else {
+      const [cfg, logs] = await Promise.all([
+        prisma.metaConversionConfig.findUnique({
+          where: { companyId: targetCompanyId },
+          select: {
+            pixelId: true, testEventCode: true, eventName: true, currency: true,
+            enabled: true, lastEventAt: true, lastStatus: true,
+          },
+        }),
+        prisma.metaConversionLog.findMany({
+          where: { companyId: targetCompanyId },
+          orderBy: { createdAt: "desc" },
+          take: 15,
+          select: {
+            id: true, eventName: true, status: true, attempts: true, value: true,
+            matchQuality: true, lastError: true, createdAt: true, leadId: true,
+          },
+        }),
+      ]);
+      content = (
+        <MetaCapiSettings
+          companyId={targetCompanyId}
+          isSuperAdmin={isSuperAdmin}
+          initialConfig={
+            cfg
+              ? { ...cfg, lastEventAt: cfg.lastEventAt ? cfg.lastEventAt.toISOString() : null, hasToken: true }
+              : null
+          }
+          logs={logs.map((l) => ({ ...l, createdAt: l.createdAt.toISOString() }))}
+        />
+      );
+    }
   } else if (secao === "pipeline") {
     // SuperAdmin pode escolher empresa via ?companyId=X
     // Se não informado, usa o companyId da sessão (quando impersonando ou é ADMIN)

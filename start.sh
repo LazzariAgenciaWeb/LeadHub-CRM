@@ -108,5 +108,25 @@ echo "📧 Cron Email Worker habilitado — rodará a cada ${EMAIL_WORKER_INTERV
   done
 ) &
 
+# Cron: Meta Conversions API — reprocessa eventos PENDING/FAILED (falha de rede
+# ou erro transitório do Meta) com backoff. Idempotente por (companyId,eventId).
+# Frequência: a cada 5 minutos (config: META_CAPI_RETRY_INTERVAL_SECONDS).
+META_CAPI_RETRY_INTERVAL_SECONDS="${META_CAPI_RETRY_INTERVAL_SECONDS:-300}"
+echo "📊 Cron Meta CAPI Retry habilitado — rodará a cada ${META_CAPI_RETRY_INTERVAL_SECONDS}s (1ª execução em ~150s)"
+(
+  sleep 150
+  while true; do
+    RES=$(cron_curl -X POST "http://localhost:3000/api/cron/meta-capi-retry" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    BODY=$(echo "$RES" | sed '$d')
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "[Cron Meta CAPI Retry] $(date) — OK · $BODY"
+    else
+      echo "[Cron Meta CAPI Retry] $(date) — falha HTTP $HTTP_CODE · $BODY"
+    fi
+    sleep "$META_CAPI_RETRY_INTERVAL_SECONDS"
+  done
+) &
+
 echo "🚀 Starting LeadHub..."
 exec node server.js

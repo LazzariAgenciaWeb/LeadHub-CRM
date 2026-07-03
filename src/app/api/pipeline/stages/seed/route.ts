@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-const DEFAULT_STAGES: Record<string, { name: string; color: string; order: number; isFinal: boolean }[]> = {
+type StageOutcome = "NEUTRO" | "GANHO" | "PERDIDO";
+const DEFAULT_STAGES: Record<string, { name: string; color: string; order: number; isFinal: boolean; outcome?: StageOutcome }[]> = {
   PROSPECCAO: [
     { name: "Não Contatado",    color: "#64748b", order: 0, isFinal: false },
     { name: "Tentando Contato", color: "#8b5cf6", order: 1, isFinal: false },
@@ -11,7 +12,7 @@ const DEFAULT_STAGES: Record<string, { name: string; color: string; order: numbe
     { name: "Apresentação",     color: "#06b6d4", order: 3, isFinal: false },
     { name: "Proposta Enviada", color: "#f59e0b", order: 4, isFinal: false },
     { name: "Convertido ✅",    color: "#22c55e", order: 5, isFinal: true  },
-    { name: "Descartado ❌",    color: "#ef4444", order: 6, isFinal: true  },
+    { name: "Descartado ❌",    color: "#ef4444", order: 6, isFinal: true, outcome: "PERDIDO" },
   ],
   LEADS: [
     { name: "Novo Lead",                      color: "#6366f1", order: 0, isFinal: false },
@@ -19,16 +20,18 @@ const DEFAULT_STAGES: Record<string, { name: string; color: string; order: numbe
     { name: "Qualificado",                    color: "#3b82f6", order: 2, isFinal: false },
     { name: "Reunião Agendada",               color: "#06b6d4", order: 3, isFinal: false },
     { name: "Reunião Realizada",              color: "#f59e0b", order: 4, isFinal: false },
+    // "Convertido em Oportunidade" = promoção pro próximo pipeline, NÃO é venda.
+    // Cliente que só usa LEADS deve marcar a etapa de venda dele como GANHO na config.
     { name: "Convertido em Oportunidade ✅",  color: "#22c55e", order: 5, isFinal: true  },
-    { name: "Perdido ❌",                     color: "#ef4444", order: 6, isFinal: true  },
+    { name: "Perdido ❌",                     color: "#ef4444", order: 6, isFinal: true, outcome: "PERDIDO" },
   ],
   OPORTUNIDADES: [
     { name: "Reunião Realizada",      color: "#8b5cf6", order: 0, isFinal: false },
     { name: "Proposta Enviada",       color: "#3b82f6", order: 1, isFinal: false },
     { name: "Em Negociação",          color: "#f59e0b", order: 2, isFinal: false },
     { name: "Aguardando Aprovação",   color: "#f97316", order: 3, isFinal: false },
-    { name: "Fechado ✅",             color: "#22c55e", order: 4, isFinal: true  },
-    { name: "Perdido ❌",             color: "#ef4444", order: 5, isFinal: true  },
+    { name: "Fechado ✅",             color: "#22c55e", order: 4, isFinal: true, outcome: "GANHO"   },
+    { name: "Perdido ❌",             color: "#ef4444", order: 5, isFinal: true, outcome: "PERDIDO" },
   ],
   CHAMADOS: [
     { name: "Novo",                  color: "#6366f1", order: 0, isFinal: false },

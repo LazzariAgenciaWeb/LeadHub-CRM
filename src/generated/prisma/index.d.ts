@@ -239,6 +239,16 @@ export type SecureNoteAccessLog = $Result.DefaultSelection<Prisma.$SecureNoteAcc
  */
 export type MarketingIntegration = $Result.DefaultSelection<Prisma.$MarketingIntegrationPayload>
 /**
+ * Model MetaConversionConfig
+ * 
+ */
+export type MetaConversionConfig = $Result.DefaultSelection<Prisma.$MetaConversionConfigPayload>
+/**
+ * Model MetaConversionLog
+ * 
+ */
+export type MetaConversionLog = $Result.DefaultSelection<Prisma.$MetaConversionLogPayload>
+/**
  * Model InstagramAccount
  * 
  */
@@ -550,6 +560,15 @@ export const TaskSource: {
 export type TaskSource = (typeof TaskSource)[keyof typeof TaskSource]
 
 
+export const StageOutcome: {
+  NEUTRO: 'NEUTRO',
+  GANHO: 'GANHO',
+  PERDIDO: 'PERDIDO'
+};
+
+export type StageOutcome = (typeof StageOutcome)[keyof typeof StageOutcome]
+
+
 export const InstanceStatus: {
   CONNECTED: 'CONNECTED',
   DISCONNECTED: 'DISCONNECTED',
@@ -698,6 +717,15 @@ export const IntegrationStatus: {
 };
 
 export type IntegrationStatus = (typeof IntegrationStatus)[keyof typeof IntegrationStatus]
+
+
+export const MetaConversionStatus: {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
+export type MetaConversionStatus = (typeof MetaConversionStatus)[keyof typeof MetaConversionStatus]
 
 
 export const IgTriggerType: {
@@ -959,6 +987,10 @@ export type TaskSource = $Enums.TaskSource
 
 export const TaskSource: typeof $Enums.TaskSource
 
+export type StageOutcome = $Enums.StageOutcome
+
+export const StageOutcome: typeof $Enums.StageOutcome
+
 export type InstanceStatus = $Enums.InstanceStatus
 
 export const InstanceStatus: typeof $Enums.InstanceStatus
@@ -1010,6 +1042,10 @@ export const IntegrationProvider: typeof $Enums.IntegrationProvider
 export type IntegrationStatus = $Enums.IntegrationStatus
 
 export const IntegrationStatus: typeof $Enums.IntegrationStatus
+
+export type MetaConversionStatus = $Enums.MetaConversionStatus
+
+export const MetaConversionStatus: typeof $Enums.MetaConversionStatus
 
 export type IgTriggerType = $Enums.IgTriggerType
 
@@ -1643,6 +1679,26 @@ export class PrismaClient<
     * ```
     */
   get marketingIntegration(): Prisma.MarketingIntegrationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.metaConversionConfig`: Exposes CRUD operations for the **MetaConversionConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MetaConversionConfigs
+    * const metaConversionConfigs = await prisma.metaConversionConfig.findMany()
+    * ```
+    */
+  get metaConversionConfig(): Prisma.MetaConversionConfigDelegate<ExtArgs>;
+
+  /**
+   * `prisma.metaConversionLog`: Exposes CRUD operations for the **MetaConversionLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MetaConversionLogs
+    * const metaConversionLogs = await prisma.metaConversionLog.findMany()
+    * ```
+    */
+  get metaConversionLog(): Prisma.MetaConversionLogDelegate<ExtArgs>;
 
   /**
    * `prisma.instagramAccount`: Exposes CRUD operations for the **InstagramAccount** model.
@@ -2559,6 +2615,8 @@ export namespace Prisma {
     CompanySecureNote: 'CompanySecureNote',
     SecureNoteAccessLog: 'SecureNoteAccessLog',
     MarketingIntegration: 'MarketingIntegration',
+    MetaConversionConfig: 'MetaConversionConfig',
+    MetaConversionLog: 'MetaConversionLog',
     InstagramAccount: 'InstagramAccount',
     IgAutomation: 'IgAutomation',
     IgAutomationRun: 'IgAutomationRun',
@@ -2617,7 +2675,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5768,6 +5826,146 @@ export namespace Prisma {
           count: {
             args: Prisma.MarketingIntegrationCountArgs<ExtArgs>
             result: $Utils.Optional<MarketingIntegrationCountAggregateOutputType> | number
+          }
+        }
+      }
+      MetaConversionConfig: {
+        payload: Prisma.$MetaConversionConfigPayload<ExtArgs>
+        fields: Prisma.MetaConversionConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MetaConversionConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MetaConversionConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.MetaConversionConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MetaConversionConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          findMany: {
+            args: Prisma.MetaConversionConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>[]
+          }
+          create: {
+            args: Prisma.MetaConversionConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          createMany: {
+            args: Prisma.MetaConversionConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MetaConversionConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.MetaConversionConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          update: {
+            args: Prisma.MetaConversionConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.MetaConversionConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MetaConversionConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MetaConversionConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.MetaConversionConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMetaConversionConfig>
+          }
+          groupBy: {
+            args: Prisma.MetaConversionConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MetaConversionConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MetaConversionConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<MetaConversionConfigCountAggregateOutputType> | number
+          }
+        }
+      }
+      MetaConversionLog: {
+        payload: Prisma.$MetaConversionLogPayload<ExtArgs>
+        fields: Prisma.MetaConversionLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MetaConversionLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MetaConversionLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          findFirst: {
+            args: Prisma.MetaConversionLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MetaConversionLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          findMany: {
+            args: Prisma.MetaConversionLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>[]
+          }
+          create: {
+            args: Prisma.MetaConversionLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          createMany: {
+            args: Prisma.MetaConversionLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MetaConversionLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>[]
+          }
+          delete: {
+            args: Prisma.MetaConversionLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          update: {
+            args: Prisma.MetaConversionLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.MetaConversionLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MetaConversionLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MetaConversionLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MetaConversionLogPayload>
+          }
+          aggregate: {
+            args: Prisma.MetaConversionLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMetaConversionLog>
+          }
+          groupBy: {
+            args: Prisma.MetaConversionLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MetaConversionLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MetaConversionLogCountArgs<ExtArgs>
+            result: $Utils.Optional<MetaConversionLogCountAggregateOutputType> | number
           }
         }
       }
@@ -9198,6 +9396,7 @@ export namespace Prisma {
     secureNotes: number
     secureNoteAccessLogs: number
     marketingIntegrations: number
+    metaConversionLogs: number
     instagramAccounts: number
     igAutomations: number
     igAutomationRuns: number
@@ -9261,6 +9460,7 @@ export namespace Prisma {
     secureNotes?: boolean | CompanyCountOutputTypeCountSecureNotesArgs
     secureNoteAccessLogs?: boolean | CompanyCountOutputTypeCountSecureNoteAccessLogsArgs
     marketingIntegrations?: boolean | CompanyCountOutputTypeCountMarketingIntegrationsArgs
+    metaConversionLogs?: boolean | CompanyCountOutputTypeCountMetaConversionLogsArgs
     instagramAccounts?: boolean | CompanyCountOutputTypeCountInstagramAccountsArgs
     igAutomations?: boolean | CompanyCountOutputTypeCountIgAutomationsArgs
     igAutomationRuns?: boolean | CompanyCountOutputTypeCountIgAutomationRunsArgs
@@ -9548,6 +9748,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountMarketingIntegrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MarketingIntegrationWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountMetaConversionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MetaConversionLogWhereInput
   }
 
   /**
@@ -15722,6 +15929,8 @@ export namespace Prisma {
     secureNotes?: boolean | Company$secureNotesArgs<ExtArgs>
     secureNoteAccessLogs?: boolean | Company$secureNoteAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    metaConversionConfig?: boolean | Company$metaConversionConfigArgs<ExtArgs>
+    metaConversionLogs?: boolean | Company$metaConversionLogsArgs<ExtArgs>
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
     igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
@@ -15862,6 +16071,8 @@ export namespace Prisma {
     secureNotes?: boolean | Company$secureNotesArgs<ExtArgs>
     secureNoteAccessLogs?: boolean | Company$secureNoteAccessLogsArgs<ExtArgs>
     marketingIntegrations?: boolean | Company$marketingIntegrationsArgs<ExtArgs>
+    metaConversionConfig?: boolean | Company$metaConversionConfigArgs<ExtArgs>
+    metaConversionLogs?: boolean | Company$metaConversionLogsArgs<ExtArgs>
     instagramAccounts?: boolean | Company$instagramAccountsArgs<ExtArgs>
     igAutomations?: boolean | Company$igAutomationsArgs<ExtArgs>
     igAutomationRuns?: boolean | Company$igAutomationRunsArgs<ExtArgs>
@@ -15934,6 +16145,8 @@ export namespace Prisma {
       secureNotes: Prisma.$CompanySecureNotePayload<ExtArgs>[]
       secureNoteAccessLogs: Prisma.$SecureNoteAccessLogPayload<ExtArgs>[]
       marketingIntegrations: Prisma.$MarketingIntegrationPayload<ExtArgs>[]
+      metaConversionConfig: Prisma.$MetaConversionConfigPayload<ExtArgs> | null
+      metaConversionLogs: Prisma.$MetaConversionLogPayload<ExtArgs>[]
       instagramAccounts: Prisma.$InstagramAccountPayload<ExtArgs>[]
       igAutomations: Prisma.$IgAutomationPayload<ExtArgs>[]
       igAutomationRuns: Prisma.$IgAutomationRunPayload<ExtArgs>[]
@@ -16396,6 +16609,8 @@ export namespace Prisma {
     secureNotes<T extends Company$secureNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$secureNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanySecureNotePayload<ExtArgs>, T, "findMany"> | Null>
     secureNoteAccessLogs<T extends Company$secureNoteAccessLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$secureNoteAccessLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecureNoteAccessLogPayload<ExtArgs>, T, "findMany"> | Null>
     marketingIntegrations<T extends Company$marketingIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$marketingIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingIntegrationPayload<ExtArgs>, T, "findMany"> | Null>
+    metaConversionConfig<T extends Company$metaConversionConfigArgs<ExtArgs> = {}>(args?: Subset<T, Company$metaConversionConfigArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    metaConversionLogs<T extends Company$metaConversionLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$metaConversionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findMany"> | Null>
     instagramAccounts<T extends Company$instagramAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Company$instagramAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstagramAccountPayload<ExtArgs>, T, "findMany"> | Null>
     igAutomations<T extends Company$igAutomationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationPayload<ExtArgs>, T, "findMany"> | Null>
     igAutomationRuns<T extends Company$igAutomationRunsArgs<ExtArgs> = {}>(args?: Subset<T, Company$igAutomationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IgAutomationRunPayload<ExtArgs>, T, "findMany"> | Null>
@@ -17548,6 +17763,41 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MarketingIntegrationScalarFieldEnum | MarketingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * Company.metaConversionConfig
+   */
+  export type Company$metaConversionConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    where?: MetaConversionConfigWhereInput
+  }
+
+  /**
+   * Company.metaConversionLogs
+   */
+  export type Company$metaConversionLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    where?: MetaConversionLogWhereInput
+    orderBy?: MetaConversionLogOrderByWithRelationInput | MetaConversionLogOrderByWithRelationInput[]
+    cursor?: MetaConversionLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MetaConversionLogScalarFieldEnum | MetaConversionLogScalarFieldEnum[]
   }
 
   /**
@@ -21359,6 +21609,11 @@ export namespace Prisma {
     promotedAt: Date | null
     promotedReason: string | null
     promotedViaEmailCampaignId: string | null
+    fbc: string | null
+    fbp: string | null
+    eventSourceUrl: string | null
+    clientIp: string | null
+    clientUserAgent: string | null
     conversationId: string | null
   }
 
@@ -21398,6 +21653,11 @@ export namespace Prisma {
     promotedAt: Date | null
     promotedReason: string | null
     promotedViaEmailCampaignId: string | null
+    fbc: string | null
+    fbp: string | null
+    eventSourceUrl: string | null
+    clientIp: string | null
+    clientUserAgent: string | null
     conversationId: string | null
   }
 
@@ -21438,6 +21698,11 @@ export namespace Prisma {
     promotedAt: number
     promotedReason: number
     promotedViaEmailCampaignId: number
+    fbc: number
+    fbp: number
+    eventSourceUrl: number
+    clientIp: number
+    clientUserAgent: number
     conversationId: number
     _all: number
   }
@@ -21487,6 +21752,11 @@ export namespace Prisma {
     promotedAt?: true
     promotedReason?: true
     promotedViaEmailCampaignId?: true
+    fbc?: true
+    fbp?: true
+    eventSourceUrl?: true
+    clientIp?: true
+    clientUserAgent?: true
     conversationId?: true
   }
 
@@ -21526,6 +21796,11 @@ export namespace Prisma {
     promotedAt?: true
     promotedReason?: true
     promotedViaEmailCampaignId?: true
+    fbc?: true
+    fbp?: true
+    eventSourceUrl?: true
+    clientIp?: true
+    clientUserAgent?: true
     conversationId?: true
   }
 
@@ -21566,6 +21841,11 @@ export namespace Prisma {
     promotedAt?: true
     promotedReason?: true
     promotedViaEmailCampaignId?: true
+    fbc?: true
+    fbp?: true
+    eventSourceUrl?: true
+    clientIp?: true
+    clientUserAgent?: true
     conversationId?: true
     _all?: true
   }
@@ -21693,6 +21973,11 @@ export namespace Prisma {
     promotedAt: Date | null
     promotedReason: string | null
     promotedViaEmailCampaignId: string | null
+    fbc: string | null
+    fbp: string | null
+    eventSourceUrl: string | null
+    clientIp: string | null
+    clientUserAgent: string | null
     conversationId: string | null
     _count: LeadCountAggregateOutputType | null
     _avg: LeadAvgAggregateOutputType | null
@@ -21752,6 +22037,11 @@ export namespace Prisma {
     promotedAt?: boolean
     promotedReason?: boolean
     promotedViaEmailCampaignId?: boolean
+    fbc?: boolean
+    fbp?: boolean
+    eventSourceUrl?: boolean
+    clientIp?: boolean
+    clientUserAgent?: boolean
     conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
@@ -21805,6 +22095,11 @@ export namespace Prisma {
     promotedAt?: boolean
     promotedReason?: boolean
     promotedViaEmailCampaignId?: boolean
+    fbc?: boolean
+    fbp?: boolean
+    eventSourceUrl?: boolean
+    clientIp?: boolean
+    clientUserAgent?: boolean
     conversationId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     campaign?: boolean | Lead$campaignArgs<ExtArgs>
@@ -21850,6 +22145,11 @@ export namespace Prisma {
     promotedAt?: boolean
     promotedReason?: boolean
     promotedViaEmailCampaignId?: boolean
+    fbc?: boolean
+    fbp?: boolean
+    eventSourceUrl?: boolean
+    clientIp?: boolean
+    clientUserAgent?: boolean
     conversationId?: boolean
   }
 
@@ -21929,6 +22229,11 @@ export namespace Prisma {
       promotedAt: Date | null
       promotedReason: string | null
       promotedViaEmailCampaignId: string | null
+      fbc: string | null
+      fbp: string | null
+      eventSourceUrl: string | null
+      clientIp: string | null
+      clientUserAgent: string | null
       conversationId: string | null
     }, ExtArgs["result"]["lead"]>
     composites: {}
@@ -22371,6 +22676,11 @@ export namespace Prisma {
     readonly promotedAt: FieldRef<"Lead", 'DateTime'>
     readonly promotedReason: FieldRef<"Lead", 'String'>
     readonly promotedViaEmailCampaignId: FieldRef<"Lead", 'String'>
+    readonly fbc: FieldRef<"Lead", 'String'>
+    readonly fbp: FieldRef<"Lead", 'String'>
+    readonly eventSourceUrl: FieldRef<"Lead", 'String'>
+    readonly clientIp: FieldRef<"Lead", 'String'>
+    readonly clientUserAgent: FieldRef<"Lead", 'String'>
     readonly conversationId: FieldRef<"Lead", 'String'>
   }
     
@@ -30885,6 +31195,7 @@ export namespace Prisma {
     color: string | null
     order: number | null
     isFinal: boolean | null
+    outcome: $Enums.StageOutcome | null
     companyId: string | null
   }
 
@@ -30895,6 +31206,7 @@ export namespace Prisma {
     color: string | null
     order: number | null
     isFinal: boolean | null
+    outcome: $Enums.StageOutcome | null
     companyId: string | null
   }
 
@@ -30905,6 +31217,7 @@ export namespace Prisma {
     color: number
     order: number
     isFinal: number
+    outcome: number
     companyId: number
     _all: number
   }
@@ -30925,6 +31238,7 @@ export namespace Prisma {
     color?: true
     order?: true
     isFinal?: true
+    outcome?: true
     companyId?: true
   }
 
@@ -30935,6 +31249,7 @@ export namespace Prisma {
     color?: true
     order?: true
     isFinal?: true
+    outcome?: true
     companyId?: true
   }
 
@@ -30945,6 +31260,7 @@ export namespace Prisma {
     color?: true
     order?: true
     isFinal?: true
+    outcome?: true
     companyId?: true
     _all?: true
   }
@@ -31042,6 +31358,7 @@ export namespace Prisma {
     color: string
     order: number
     isFinal: boolean
+    outcome: $Enums.StageOutcome
     companyId: string
     _count: PipelineStageConfigCountAggregateOutputType | null
     _avg: PipelineStageConfigAvgAggregateOutputType | null
@@ -31071,6 +31388,7 @@ export namespace Prisma {
     color?: boolean
     order?: boolean
     isFinal?: boolean
+    outcome?: boolean
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pipelineStageConfig"]>
@@ -31082,6 +31400,7 @@ export namespace Prisma {
     color?: boolean
     order?: boolean
     isFinal?: boolean
+    outcome?: boolean
     companyId?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pipelineStageConfig"]>
@@ -31093,6 +31412,7 @@ export namespace Prisma {
     color?: boolean
     order?: boolean
     isFinal?: boolean
+    outcome?: boolean
     companyId?: boolean
   }
 
@@ -31115,6 +31435,7 @@ export namespace Prisma {
       color: string
       order: number
       isFinal: boolean
+      outcome: $Enums.StageOutcome
       companyId: string
     }, ExtArgs["result"]["pipelineStageConfig"]>
     composites: {}
@@ -31516,6 +31837,7 @@ export namespace Prisma {
     readonly color: FieldRef<"PipelineStageConfig", 'String'>
     readonly order: FieldRef<"PipelineStageConfig", 'Int'>
     readonly isFinal: FieldRef<"PipelineStageConfig", 'Boolean'>
+    readonly outcome: FieldRef<"PipelineStageConfig", 'StageOutcome'>
     readonly companyId: FieldRef<"PipelineStageConfig", 'String'>
   }
     
@@ -60148,6 +60470,2142 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MarketingIntegrationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MetaConversionConfig
+   */
+
+  export type AggregateMetaConversionConfig = {
+    _count: MetaConversionConfigCountAggregateOutputType | null
+    _min: MetaConversionConfigMinAggregateOutputType | null
+    _max: MetaConversionConfigMaxAggregateOutputType | null
+  }
+
+  export type MetaConversionConfigMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    pixelId: string | null
+    accessTokenEnc: string | null
+    testEventCode: string | null
+    eventName: string | null
+    currency: string | null
+    enabled: boolean | null
+    lastEventAt: Date | null
+    lastStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaConversionConfigMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    pixelId: string | null
+    accessTokenEnc: string | null
+    testEventCode: string | null
+    eventName: string | null
+    currency: string | null
+    enabled: boolean | null
+    lastEventAt: Date | null
+    lastStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaConversionConfigCountAggregateOutputType = {
+    id: number
+    companyId: number
+    pixelId: number
+    accessTokenEnc: number
+    testEventCode: number
+    eventName: number
+    currency: number
+    enabled: number
+    lastEventAt: number
+    lastStatus: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaConversionConfigMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    pixelId?: true
+    accessTokenEnc?: true
+    testEventCode?: true
+    eventName?: true
+    currency?: true
+    enabled?: true
+    lastEventAt?: true
+    lastStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaConversionConfigMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    pixelId?: true
+    accessTokenEnc?: true
+    testEventCode?: true
+    eventName?: true
+    currency?: true
+    enabled?: true
+    lastEventAt?: true
+    lastStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaConversionConfigCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    pixelId?: true
+    accessTokenEnc?: true
+    testEventCode?: true
+    eventName?: true
+    currency?: true
+    enabled?: true
+    lastEventAt?: true
+    lastStatus?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaConversionConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MetaConversionConfig to aggregate.
+     */
+    where?: MetaConversionConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionConfigs to fetch.
+     */
+    orderBy?: MetaConversionConfigOrderByWithRelationInput | MetaConversionConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MetaConversionConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MetaConversionConfigs
+    **/
+    _count?: true | MetaConversionConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MetaConversionConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MetaConversionConfigMaxAggregateInputType
+  }
+
+  export type GetMetaConversionConfigAggregateType<T extends MetaConversionConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateMetaConversionConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaConversionConfig[P]>
+      : GetScalarType<T[P], AggregateMetaConversionConfig[P]>
+  }
+
+
+
+
+  export type MetaConversionConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MetaConversionConfigWhereInput
+    orderBy?: MetaConversionConfigOrderByWithAggregationInput | MetaConversionConfigOrderByWithAggregationInput[]
+    by: MetaConversionConfigScalarFieldEnum[] | MetaConversionConfigScalarFieldEnum
+    having?: MetaConversionConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaConversionConfigCountAggregateInputType | true
+    _min?: MetaConversionConfigMinAggregateInputType
+    _max?: MetaConversionConfigMaxAggregateInputType
+  }
+
+  export type MetaConversionConfigGroupByOutputType = {
+    id: string
+    companyId: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode: string | null
+    eventName: string
+    currency: string
+    enabled: boolean
+    lastEventAt: Date | null
+    lastStatus: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaConversionConfigCountAggregateOutputType | null
+    _min: MetaConversionConfigMinAggregateOutputType | null
+    _max: MetaConversionConfigMaxAggregateOutputType | null
+  }
+
+  type GetMetaConversionConfigGroupByPayload<T extends MetaConversionConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MetaConversionConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MetaConversionConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MetaConversionConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], MetaConversionConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MetaConversionConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    pixelId?: boolean
+    accessTokenEnc?: boolean
+    testEventCode?: boolean
+    eventName?: boolean
+    currency?: boolean
+    enabled?: boolean
+    lastEventAt?: boolean
+    lastStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["metaConversionConfig"]>
+
+  export type MetaConversionConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    pixelId?: boolean
+    accessTokenEnc?: boolean
+    testEventCode?: boolean
+    eventName?: boolean
+    currency?: boolean
+    enabled?: boolean
+    lastEventAt?: boolean
+    lastStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["metaConversionConfig"]>
+
+  export type MetaConversionConfigSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    pixelId?: boolean
+    accessTokenEnc?: boolean
+    testEventCode?: boolean
+    eventName?: boolean
+    currency?: boolean
+    enabled?: boolean
+    lastEventAt?: boolean
+    lastStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MetaConversionConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type MetaConversionConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $MetaConversionConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MetaConversionConfig"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      pixelId: string
+      accessTokenEnc: string
+      testEventCode: string | null
+      eventName: string
+      currency: string
+      enabled: boolean
+      lastEventAt: Date | null
+      lastStatus: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["metaConversionConfig"]>
+    composites: {}
+  }
+
+  type MetaConversionConfigGetPayload<S extends boolean | null | undefined | MetaConversionConfigDefaultArgs> = $Result.GetResult<Prisma.$MetaConversionConfigPayload, S>
+
+  type MetaConversionConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MetaConversionConfigFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MetaConversionConfigCountAggregateInputType | true
+    }
+
+  export interface MetaConversionConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MetaConversionConfig'], meta: { name: 'MetaConversionConfig' } }
+    /**
+     * Find zero or one MetaConversionConfig that matches the filter.
+     * @param {MetaConversionConfigFindUniqueArgs} args - Arguments to find a MetaConversionConfig
+     * @example
+     * // Get one MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MetaConversionConfigFindUniqueArgs>(args: SelectSubset<T, MetaConversionConfigFindUniqueArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one MetaConversionConfig that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {MetaConversionConfigFindUniqueOrThrowArgs} args - Arguments to find a MetaConversionConfig
+     * @example
+     * // Get one MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MetaConversionConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, MetaConversionConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first MetaConversionConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigFindFirstArgs} args - Arguments to find a MetaConversionConfig
+     * @example
+     * // Get one MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MetaConversionConfigFindFirstArgs>(args?: SelectSubset<T, MetaConversionConfigFindFirstArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first MetaConversionConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigFindFirstOrThrowArgs} args - Arguments to find a MetaConversionConfig
+     * @example
+     * // Get one MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MetaConversionConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, MetaConversionConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more MetaConversionConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaConversionConfigs
+     * const metaConversionConfigs = await prisma.metaConversionConfig.findMany()
+     * 
+     * // Get first 10 MetaConversionConfigs
+     * const metaConversionConfigs = await prisma.metaConversionConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const metaConversionConfigWithIdOnly = await prisma.metaConversionConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MetaConversionConfigFindManyArgs>(args?: SelectSubset<T, MetaConversionConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a MetaConversionConfig.
+     * @param {MetaConversionConfigCreateArgs} args - Arguments to create a MetaConversionConfig.
+     * @example
+     * // Create one MetaConversionConfig
+     * const MetaConversionConfig = await prisma.metaConversionConfig.create({
+     *   data: {
+     *     // ... data to create a MetaConversionConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends MetaConversionConfigCreateArgs>(args: SelectSubset<T, MetaConversionConfigCreateArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many MetaConversionConfigs.
+     * @param {MetaConversionConfigCreateManyArgs} args - Arguments to create many MetaConversionConfigs.
+     * @example
+     * // Create many MetaConversionConfigs
+     * const metaConversionConfig = await prisma.metaConversionConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MetaConversionConfigCreateManyArgs>(args?: SelectSubset<T, MetaConversionConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MetaConversionConfigs and returns the data saved in the database.
+     * @param {MetaConversionConfigCreateManyAndReturnArgs} args - Arguments to create many MetaConversionConfigs.
+     * @example
+     * // Create many MetaConversionConfigs
+     * const metaConversionConfig = await prisma.metaConversionConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MetaConversionConfigs and only return the `id`
+     * const metaConversionConfigWithIdOnly = await prisma.metaConversionConfig.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MetaConversionConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, MetaConversionConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a MetaConversionConfig.
+     * @param {MetaConversionConfigDeleteArgs} args - Arguments to delete one MetaConversionConfig.
+     * @example
+     * // Delete one MetaConversionConfig
+     * const MetaConversionConfig = await prisma.metaConversionConfig.delete({
+     *   where: {
+     *     // ... filter to delete one MetaConversionConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MetaConversionConfigDeleteArgs>(args: SelectSubset<T, MetaConversionConfigDeleteArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one MetaConversionConfig.
+     * @param {MetaConversionConfigUpdateArgs} args - Arguments to update one MetaConversionConfig.
+     * @example
+     * // Update one MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MetaConversionConfigUpdateArgs>(args: SelectSubset<T, MetaConversionConfigUpdateArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more MetaConversionConfigs.
+     * @param {MetaConversionConfigDeleteManyArgs} args - Arguments to filter MetaConversionConfigs to delete.
+     * @example
+     * // Delete a few MetaConversionConfigs
+     * const { count } = await prisma.metaConversionConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MetaConversionConfigDeleteManyArgs>(args?: SelectSubset<T, MetaConversionConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaConversionConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaConversionConfigs
+     * const metaConversionConfig = await prisma.metaConversionConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MetaConversionConfigUpdateManyArgs>(args: SelectSubset<T, MetaConversionConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaConversionConfig.
+     * @param {MetaConversionConfigUpsertArgs} args - Arguments to update or create a MetaConversionConfig.
+     * @example
+     * // Update or create a MetaConversionConfig
+     * const metaConversionConfig = await prisma.metaConversionConfig.upsert({
+     *   create: {
+     *     // ... data to create a MetaConversionConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaConversionConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MetaConversionConfigUpsertArgs>(args: SelectSubset<T, MetaConversionConfigUpsertArgs<ExtArgs>>): Prisma__MetaConversionConfigClient<$Result.GetResult<Prisma.$MetaConversionConfigPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of MetaConversionConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigCountArgs} args - Arguments to filter MetaConversionConfigs to count.
+     * @example
+     * // Count the number of MetaConversionConfigs
+     * const count = await prisma.metaConversionConfig.count({
+     *   where: {
+     *     // ... the filter for the MetaConversionConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends MetaConversionConfigCountArgs>(
+      args?: Subset<T, MetaConversionConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaConversionConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaConversionConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MetaConversionConfigAggregateArgs>(args: Subset<T, MetaConversionConfigAggregateArgs>): Prisma.PrismaPromise<GetMetaConversionConfigAggregateType<T>>
+
+    /**
+     * Group by MetaConversionConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MetaConversionConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaConversionConfigGroupByArgs['orderBy'] }
+        : { orderBy?: MetaConversionConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MetaConversionConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaConversionConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MetaConversionConfig model
+   */
+  readonly fields: MetaConversionConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaConversionConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MetaConversionConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MetaConversionConfig model
+   */ 
+  interface MetaConversionConfigFieldRefs {
+    readonly id: FieldRef<"MetaConversionConfig", 'String'>
+    readonly companyId: FieldRef<"MetaConversionConfig", 'String'>
+    readonly pixelId: FieldRef<"MetaConversionConfig", 'String'>
+    readonly accessTokenEnc: FieldRef<"MetaConversionConfig", 'String'>
+    readonly testEventCode: FieldRef<"MetaConversionConfig", 'String'>
+    readonly eventName: FieldRef<"MetaConversionConfig", 'String'>
+    readonly currency: FieldRef<"MetaConversionConfig", 'String'>
+    readonly enabled: FieldRef<"MetaConversionConfig", 'Boolean'>
+    readonly lastEventAt: FieldRef<"MetaConversionConfig", 'DateTime'>
+    readonly lastStatus: FieldRef<"MetaConversionConfig", 'String'>
+    readonly createdAt: FieldRef<"MetaConversionConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"MetaConversionConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MetaConversionConfig findUnique
+   */
+  export type MetaConversionConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionConfig to fetch.
+     */
+    where: MetaConversionConfigWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionConfig findUniqueOrThrow
+   */
+  export type MetaConversionConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionConfig to fetch.
+     */
+    where: MetaConversionConfigWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionConfig findFirst
+   */
+  export type MetaConversionConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionConfig to fetch.
+     */
+    where?: MetaConversionConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionConfigs to fetch.
+     */
+    orderBy?: MetaConversionConfigOrderByWithRelationInput | MetaConversionConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MetaConversionConfigs.
+     */
+    cursor?: MetaConversionConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MetaConversionConfigs.
+     */
+    distinct?: MetaConversionConfigScalarFieldEnum | MetaConversionConfigScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionConfig findFirstOrThrow
+   */
+  export type MetaConversionConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionConfig to fetch.
+     */
+    where?: MetaConversionConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionConfigs to fetch.
+     */
+    orderBy?: MetaConversionConfigOrderByWithRelationInput | MetaConversionConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MetaConversionConfigs.
+     */
+    cursor?: MetaConversionConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MetaConversionConfigs.
+     */
+    distinct?: MetaConversionConfigScalarFieldEnum | MetaConversionConfigScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionConfig findMany
+   */
+  export type MetaConversionConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionConfigs to fetch.
+     */
+    where?: MetaConversionConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionConfigs to fetch.
+     */
+    orderBy?: MetaConversionConfigOrderByWithRelationInput | MetaConversionConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MetaConversionConfigs.
+     */
+    cursor?: MetaConversionConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionConfigs.
+     */
+    skip?: number
+    distinct?: MetaConversionConfigScalarFieldEnum | MetaConversionConfigScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionConfig create
+   */
+  export type MetaConversionConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MetaConversionConfig.
+     */
+    data: XOR<MetaConversionConfigCreateInput, MetaConversionConfigUncheckedCreateInput>
+  }
+
+  /**
+   * MetaConversionConfig createMany
+   */
+  export type MetaConversionConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MetaConversionConfigs.
+     */
+    data: MetaConversionConfigCreateManyInput | MetaConversionConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MetaConversionConfig createManyAndReturn
+   */
+  export type MetaConversionConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many MetaConversionConfigs.
+     */
+    data: MetaConversionConfigCreateManyInput | MetaConversionConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MetaConversionConfig update
+   */
+  export type MetaConversionConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MetaConversionConfig.
+     */
+    data: XOR<MetaConversionConfigUpdateInput, MetaConversionConfigUncheckedUpdateInput>
+    /**
+     * Choose, which MetaConversionConfig to update.
+     */
+    where: MetaConversionConfigWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionConfig updateMany
+   */
+  export type MetaConversionConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MetaConversionConfigs.
+     */
+    data: XOR<MetaConversionConfigUpdateManyMutationInput, MetaConversionConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaConversionConfigs to update
+     */
+    where?: MetaConversionConfigWhereInput
+  }
+
+  /**
+   * MetaConversionConfig upsert
+   */
+  export type MetaConversionConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MetaConversionConfig to update in case it exists.
+     */
+    where: MetaConversionConfigWhereUniqueInput
+    /**
+     * In case the MetaConversionConfig found by the `where` argument doesn't exist, create a new MetaConversionConfig with this data.
+     */
+    create: XOR<MetaConversionConfigCreateInput, MetaConversionConfigUncheckedCreateInput>
+    /**
+     * In case the MetaConversionConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaConversionConfigUpdateInput, MetaConversionConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * MetaConversionConfig delete
+   */
+  export type MetaConversionConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+    /**
+     * Filter which MetaConversionConfig to delete.
+     */
+    where: MetaConversionConfigWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionConfig deleteMany
+   */
+  export type MetaConversionConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MetaConversionConfigs to delete
+     */
+    where?: MetaConversionConfigWhereInput
+  }
+
+  /**
+   * MetaConversionConfig without action
+   */
+  export type MetaConversionConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionConfig
+     */
+    select?: MetaConversionConfigSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionConfigInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MetaConversionLog
+   */
+
+  export type AggregateMetaConversionLog = {
+    _count: MetaConversionLogCountAggregateOutputType | null
+    _avg: MetaConversionLogAvgAggregateOutputType | null
+    _sum: MetaConversionLogSumAggregateOutputType | null
+    _min: MetaConversionLogMinAggregateOutputType | null
+    _max: MetaConversionLogMaxAggregateOutputType | null
+  }
+
+  export type MetaConversionLogAvgAggregateOutputType = {
+    attempts: number | null
+    value: number | null
+    eventsReceived: number | null
+  }
+
+  export type MetaConversionLogSumAggregateOutputType = {
+    attempts: number | null
+    value: number | null
+    eventsReceived: number | null
+  }
+
+  export type MetaConversionLogMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    leadId: string | null
+    eventName: string | null
+    eventId: string | null
+    status: $Enums.MetaConversionStatus | null
+    attempts: number | null
+    value: number | null
+    currency: string | null
+    matchQuality: string | null
+    eventsReceived: number | null
+    fbtraceId: string | null
+    lastError: string | null
+    nextRetryAt: Date | null
+    sentAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaConversionLogMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    leadId: string | null
+    eventName: string | null
+    eventId: string | null
+    status: $Enums.MetaConversionStatus | null
+    attempts: number | null
+    value: number | null
+    currency: string | null
+    matchQuality: string | null
+    eventsReceived: number | null
+    fbtraceId: string | null
+    lastError: string | null
+    nextRetryAt: Date | null
+    sentAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MetaConversionLogCountAggregateOutputType = {
+    id: number
+    companyId: number
+    leadId: number
+    eventName: number
+    eventId: number
+    status: number
+    attempts: number
+    value: number
+    currency: number
+    matchQuality: number
+    eventsReceived: number
+    fbtraceId: number
+    lastError: number
+    nextRetryAt: number
+    sentAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MetaConversionLogAvgAggregateInputType = {
+    attempts?: true
+    value?: true
+    eventsReceived?: true
+  }
+
+  export type MetaConversionLogSumAggregateInputType = {
+    attempts?: true
+    value?: true
+    eventsReceived?: true
+  }
+
+  export type MetaConversionLogMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    leadId?: true
+    eventName?: true
+    eventId?: true
+    status?: true
+    attempts?: true
+    value?: true
+    currency?: true
+    matchQuality?: true
+    eventsReceived?: true
+    fbtraceId?: true
+    lastError?: true
+    nextRetryAt?: true
+    sentAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaConversionLogMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    leadId?: true
+    eventName?: true
+    eventId?: true
+    status?: true
+    attempts?: true
+    value?: true
+    currency?: true
+    matchQuality?: true
+    eventsReceived?: true
+    fbtraceId?: true
+    lastError?: true
+    nextRetryAt?: true
+    sentAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MetaConversionLogCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    leadId?: true
+    eventName?: true
+    eventId?: true
+    status?: true
+    attempts?: true
+    value?: true
+    currency?: true
+    matchQuality?: true
+    eventsReceived?: true
+    fbtraceId?: true
+    lastError?: true
+    nextRetryAt?: true
+    sentAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MetaConversionLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MetaConversionLog to aggregate.
+     */
+    where?: MetaConversionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionLogs to fetch.
+     */
+    orderBy?: MetaConversionLogOrderByWithRelationInput | MetaConversionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MetaConversionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MetaConversionLogs
+    **/
+    _count?: true | MetaConversionLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MetaConversionLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MetaConversionLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MetaConversionLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MetaConversionLogMaxAggregateInputType
+  }
+
+  export type GetMetaConversionLogAggregateType<T extends MetaConversionLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateMetaConversionLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMetaConversionLog[P]>
+      : GetScalarType<T[P], AggregateMetaConversionLog[P]>
+  }
+
+
+
+
+  export type MetaConversionLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MetaConversionLogWhereInput
+    orderBy?: MetaConversionLogOrderByWithAggregationInput | MetaConversionLogOrderByWithAggregationInput[]
+    by: MetaConversionLogScalarFieldEnum[] | MetaConversionLogScalarFieldEnum
+    having?: MetaConversionLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MetaConversionLogCountAggregateInputType | true
+    _avg?: MetaConversionLogAvgAggregateInputType
+    _sum?: MetaConversionLogSumAggregateInputType
+    _min?: MetaConversionLogMinAggregateInputType
+    _max?: MetaConversionLogMaxAggregateInputType
+  }
+
+  export type MetaConversionLogGroupByOutputType = {
+    id: string
+    companyId: string
+    leadId: string | null
+    eventName: string
+    eventId: string
+    status: $Enums.MetaConversionStatus
+    attempts: number
+    value: number | null
+    currency: string
+    matchQuality: string | null
+    eventsReceived: number | null
+    fbtraceId: string | null
+    lastError: string | null
+    nextRetryAt: Date | null
+    sentAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MetaConversionLogCountAggregateOutputType | null
+    _avg: MetaConversionLogAvgAggregateOutputType | null
+    _sum: MetaConversionLogSumAggregateOutputType | null
+    _min: MetaConversionLogMinAggregateOutputType | null
+    _max: MetaConversionLogMaxAggregateOutputType | null
+  }
+
+  type GetMetaConversionLogGroupByPayload<T extends MetaConversionLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MetaConversionLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MetaConversionLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MetaConversionLogGroupByOutputType[P]>
+            : GetScalarType<T[P], MetaConversionLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MetaConversionLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    leadId?: boolean
+    eventName?: boolean
+    eventId?: boolean
+    status?: boolean
+    attempts?: boolean
+    value?: boolean
+    currency?: boolean
+    matchQuality?: boolean
+    eventsReceived?: boolean
+    fbtraceId?: boolean
+    lastError?: boolean
+    nextRetryAt?: boolean
+    sentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["metaConversionLog"]>
+
+  export type MetaConversionLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    leadId?: boolean
+    eventName?: boolean
+    eventId?: boolean
+    status?: boolean
+    attempts?: boolean
+    value?: boolean
+    currency?: boolean
+    matchQuality?: boolean
+    eventsReceived?: boolean
+    fbtraceId?: boolean
+    lastError?: boolean
+    nextRetryAt?: boolean
+    sentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["metaConversionLog"]>
+
+  export type MetaConversionLogSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    leadId?: boolean
+    eventName?: boolean
+    eventId?: boolean
+    status?: boolean
+    attempts?: boolean
+    value?: boolean
+    currency?: boolean
+    matchQuality?: boolean
+    eventsReceived?: boolean
+    fbtraceId?: boolean
+    lastError?: boolean
+    nextRetryAt?: boolean
+    sentAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MetaConversionLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type MetaConversionLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $MetaConversionLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MetaConversionLog"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      leadId: string | null
+      eventName: string
+      eventId: string
+      status: $Enums.MetaConversionStatus
+      attempts: number
+      value: number | null
+      currency: string
+      matchQuality: string | null
+      eventsReceived: number | null
+      fbtraceId: string | null
+      lastError: string | null
+      nextRetryAt: Date | null
+      sentAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["metaConversionLog"]>
+    composites: {}
+  }
+
+  type MetaConversionLogGetPayload<S extends boolean | null | undefined | MetaConversionLogDefaultArgs> = $Result.GetResult<Prisma.$MetaConversionLogPayload, S>
+
+  type MetaConversionLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MetaConversionLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MetaConversionLogCountAggregateInputType | true
+    }
+
+  export interface MetaConversionLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MetaConversionLog'], meta: { name: 'MetaConversionLog' } }
+    /**
+     * Find zero or one MetaConversionLog that matches the filter.
+     * @param {MetaConversionLogFindUniqueArgs} args - Arguments to find a MetaConversionLog
+     * @example
+     * // Get one MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MetaConversionLogFindUniqueArgs>(args: SelectSubset<T, MetaConversionLogFindUniqueArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one MetaConversionLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {MetaConversionLogFindUniqueOrThrowArgs} args - Arguments to find a MetaConversionLog
+     * @example
+     * // Get one MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MetaConversionLogFindUniqueOrThrowArgs>(args: SelectSubset<T, MetaConversionLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first MetaConversionLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogFindFirstArgs} args - Arguments to find a MetaConversionLog
+     * @example
+     * // Get one MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MetaConversionLogFindFirstArgs>(args?: SelectSubset<T, MetaConversionLogFindFirstArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first MetaConversionLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogFindFirstOrThrowArgs} args - Arguments to find a MetaConversionLog
+     * @example
+     * // Get one MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MetaConversionLogFindFirstOrThrowArgs>(args?: SelectSubset<T, MetaConversionLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more MetaConversionLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MetaConversionLogs
+     * const metaConversionLogs = await prisma.metaConversionLog.findMany()
+     * 
+     * // Get first 10 MetaConversionLogs
+     * const metaConversionLogs = await prisma.metaConversionLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const metaConversionLogWithIdOnly = await prisma.metaConversionLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MetaConversionLogFindManyArgs>(args?: SelectSubset<T, MetaConversionLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a MetaConversionLog.
+     * @param {MetaConversionLogCreateArgs} args - Arguments to create a MetaConversionLog.
+     * @example
+     * // Create one MetaConversionLog
+     * const MetaConversionLog = await prisma.metaConversionLog.create({
+     *   data: {
+     *     // ... data to create a MetaConversionLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends MetaConversionLogCreateArgs>(args: SelectSubset<T, MetaConversionLogCreateArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many MetaConversionLogs.
+     * @param {MetaConversionLogCreateManyArgs} args - Arguments to create many MetaConversionLogs.
+     * @example
+     * // Create many MetaConversionLogs
+     * const metaConversionLog = await prisma.metaConversionLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MetaConversionLogCreateManyArgs>(args?: SelectSubset<T, MetaConversionLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MetaConversionLogs and returns the data saved in the database.
+     * @param {MetaConversionLogCreateManyAndReturnArgs} args - Arguments to create many MetaConversionLogs.
+     * @example
+     * // Create many MetaConversionLogs
+     * const metaConversionLog = await prisma.metaConversionLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MetaConversionLogs and only return the `id`
+     * const metaConversionLogWithIdOnly = await prisma.metaConversionLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MetaConversionLogCreateManyAndReturnArgs>(args?: SelectSubset<T, MetaConversionLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a MetaConversionLog.
+     * @param {MetaConversionLogDeleteArgs} args - Arguments to delete one MetaConversionLog.
+     * @example
+     * // Delete one MetaConversionLog
+     * const MetaConversionLog = await prisma.metaConversionLog.delete({
+     *   where: {
+     *     // ... filter to delete one MetaConversionLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MetaConversionLogDeleteArgs>(args: SelectSubset<T, MetaConversionLogDeleteArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one MetaConversionLog.
+     * @param {MetaConversionLogUpdateArgs} args - Arguments to update one MetaConversionLog.
+     * @example
+     * // Update one MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MetaConversionLogUpdateArgs>(args: SelectSubset<T, MetaConversionLogUpdateArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more MetaConversionLogs.
+     * @param {MetaConversionLogDeleteManyArgs} args - Arguments to filter MetaConversionLogs to delete.
+     * @example
+     * // Delete a few MetaConversionLogs
+     * const { count } = await prisma.metaConversionLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MetaConversionLogDeleteManyArgs>(args?: SelectSubset<T, MetaConversionLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MetaConversionLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MetaConversionLogs
+     * const metaConversionLog = await prisma.metaConversionLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MetaConversionLogUpdateManyArgs>(args: SelectSubset<T, MetaConversionLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MetaConversionLog.
+     * @param {MetaConversionLogUpsertArgs} args - Arguments to update or create a MetaConversionLog.
+     * @example
+     * // Update or create a MetaConversionLog
+     * const metaConversionLog = await prisma.metaConversionLog.upsert({
+     *   create: {
+     *     // ... data to create a MetaConversionLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MetaConversionLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MetaConversionLogUpsertArgs>(args: SelectSubset<T, MetaConversionLogUpsertArgs<ExtArgs>>): Prisma__MetaConversionLogClient<$Result.GetResult<Prisma.$MetaConversionLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of MetaConversionLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogCountArgs} args - Arguments to filter MetaConversionLogs to count.
+     * @example
+     * // Count the number of MetaConversionLogs
+     * const count = await prisma.metaConversionLog.count({
+     *   where: {
+     *     // ... the filter for the MetaConversionLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends MetaConversionLogCountArgs>(
+      args?: Subset<T, MetaConversionLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MetaConversionLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MetaConversionLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MetaConversionLogAggregateArgs>(args: Subset<T, MetaConversionLogAggregateArgs>): Prisma.PrismaPromise<GetMetaConversionLogAggregateType<T>>
+
+    /**
+     * Group by MetaConversionLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MetaConversionLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MetaConversionLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MetaConversionLogGroupByArgs['orderBy'] }
+        : { orderBy?: MetaConversionLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MetaConversionLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMetaConversionLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MetaConversionLog model
+   */
+  readonly fields: MetaConversionLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MetaConversionLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MetaConversionLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MetaConversionLog model
+   */ 
+  interface MetaConversionLogFieldRefs {
+    readonly id: FieldRef<"MetaConversionLog", 'String'>
+    readonly companyId: FieldRef<"MetaConversionLog", 'String'>
+    readonly leadId: FieldRef<"MetaConversionLog", 'String'>
+    readonly eventName: FieldRef<"MetaConversionLog", 'String'>
+    readonly eventId: FieldRef<"MetaConversionLog", 'String'>
+    readonly status: FieldRef<"MetaConversionLog", 'MetaConversionStatus'>
+    readonly attempts: FieldRef<"MetaConversionLog", 'Int'>
+    readonly value: FieldRef<"MetaConversionLog", 'Float'>
+    readonly currency: FieldRef<"MetaConversionLog", 'String'>
+    readonly matchQuality: FieldRef<"MetaConversionLog", 'String'>
+    readonly eventsReceived: FieldRef<"MetaConversionLog", 'Int'>
+    readonly fbtraceId: FieldRef<"MetaConversionLog", 'String'>
+    readonly lastError: FieldRef<"MetaConversionLog", 'String'>
+    readonly nextRetryAt: FieldRef<"MetaConversionLog", 'DateTime'>
+    readonly sentAt: FieldRef<"MetaConversionLog", 'DateTime'>
+    readonly createdAt: FieldRef<"MetaConversionLog", 'DateTime'>
+    readonly updatedAt: FieldRef<"MetaConversionLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MetaConversionLog findUnique
+   */
+  export type MetaConversionLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionLog to fetch.
+     */
+    where: MetaConversionLogWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionLog findUniqueOrThrow
+   */
+  export type MetaConversionLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionLog to fetch.
+     */
+    where: MetaConversionLogWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionLog findFirst
+   */
+  export type MetaConversionLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionLog to fetch.
+     */
+    where?: MetaConversionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionLogs to fetch.
+     */
+    orderBy?: MetaConversionLogOrderByWithRelationInput | MetaConversionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MetaConversionLogs.
+     */
+    cursor?: MetaConversionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MetaConversionLogs.
+     */
+    distinct?: MetaConversionLogScalarFieldEnum | MetaConversionLogScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionLog findFirstOrThrow
+   */
+  export type MetaConversionLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionLog to fetch.
+     */
+    where?: MetaConversionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionLogs to fetch.
+     */
+    orderBy?: MetaConversionLogOrderByWithRelationInput | MetaConversionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MetaConversionLogs.
+     */
+    cursor?: MetaConversionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MetaConversionLogs.
+     */
+    distinct?: MetaConversionLogScalarFieldEnum | MetaConversionLogScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionLog findMany
+   */
+  export type MetaConversionLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter, which MetaConversionLogs to fetch.
+     */
+    where?: MetaConversionLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MetaConversionLogs to fetch.
+     */
+    orderBy?: MetaConversionLogOrderByWithRelationInput | MetaConversionLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MetaConversionLogs.
+     */
+    cursor?: MetaConversionLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MetaConversionLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MetaConversionLogs.
+     */
+    skip?: number
+    distinct?: MetaConversionLogScalarFieldEnum | MetaConversionLogScalarFieldEnum[]
+  }
+
+  /**
+   * MetaConversionLog create
+   */
+  export type MetaConversionLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MetaConversionLog.
+     */
+    data: XOR<MetaConversionLogCreateInput, MetaConversionLogUncheckedCreateInput>
+  }
+
+  /**
+   * MetaConversionLog createMany
+   */
+  export type MetaConversionLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MetaConversionLogs.
+     */
+    data: MetaConversionLogCreateManyInput | MetaConversionLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MetaConversionLog createManyAndReturn
+   */
+  export type MetaConversionLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many MetaConversionLogs.
+     */
+    data: MetaConversionLogCreateManyInput | MetaConversionLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MetaConversionLog update
+   */
+  export type MetaConversionLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MetaConversionLog.
+     */
+    data: XOR<MetaConversionLogUpdateInput, MetaConversionLogUncheckedUpdateInput>
+    /**
+     * Choose, which MetaConversionLog to update.
+     */
+    where: MetaConversionLogWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionLog updateMany
+   */
+  export type MetaConversionLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MetaConversionLogs.
+     */
+    data: XOR<MetaConversionLogUpdateManyMutationInput, MetaConversionLogUncheckedUpdateManyInput>
+    /**
+     * Filter which MetaConversionLogs to update
+     */
+    where?: MetaConversionLogWhereInput
+  }
+
+  /**
+   * MetaConversionLog upsert
+   */
+  export type MetaConversionLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MetaConversionLog to update in case it exists.
+     */
+    where: MetaConversionLogWhereUniqueInput
+    /**
+     * In case the MetaConversionLog found by the `where` argument doesn't exist, create a new MetaConversionLog with this data.
+     */
+    create: XOR<MetaConversionLogCreateInput, MetaConversionLogUncheckedCreateInput>
+    /**
+     * In case the MetaConversionLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MetaConversionLogUpdateInput, MetaConversionLogUncheckedUpdateInput>
+  }
+
+  /**
+   * MetaConversionLog delete
+   */
+  export type MetaConversionLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
+    /**
+     * Filter which MetaConversionLog to delete.
+     */
+    where: MetaConversionLogWhereUniqueInput
+  }
+
+  /**
+   * MetaConversionLog deleteMany
+   */
+  export type MetaConversionLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MetaConversionLogs to delete
+     */
+    where?: MetaConversionLogWhereInput
+  }
+
+  /**
+   * MetaConversionLog without action
+   */
+  export type MetaConversionLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MetaConversionLog
+     */
+    select?: MetaConversionLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MetaConversionLogInclude<ExtArgs> | null
   }
 
 
@@ -105286,6 +107744,11 @@ export namespace Prisma {
     promotedAt: 'promotedAt',
     promotedReason: 'promotedReason',
     promotedViaEmailCampaignId: 'promotedViaEmailCampaignId',
+    fbc: 'fbc',
+    fbp: 'fbp',
+    eventSourceUrl: 'eventSourceUrl',
+    clientIp: 'clientIp',
+    clientUserAgent: 'clientUserAgent',
     conversationId: 'conversationId'
   };
 
@@ -105408,6 +107871,7 @@ export namespace Prisma {
     color: 'color',
     order: 'order',
     isFinal: 'isFinal',
+    outcome: 'outcome',
     companyId: 'companyId'
   };
 
@@ -105871,6 +108335,47 @@ export namespace Prisma {
   };
 
   export type MarketingIntegrationScalarFieldEnum = (typeof MarketingIntegrationScalarFieldEnum)[keyof typeof MarketingIntegrationScalarFieldEnum]
+
+
+  export const MetaConversionConfigScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    pixelId: 'pixelId',
+    accessTokenEnc: 'accessTokenEnc',
+    testEventCode: 'testEventCode',
+    eventName: 'eventName',
+    currency: 'currency',
+    enabled: 'enabled',
+    lastEventAt: 'lastEventAt',
+    lastStatus: 'lastStatus',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaConversionConfigScalarFieldEnum = (typeof MetaConversionConfigScalarFieldEnum)[keyof typeof MetaConversionConfigScalarFieldEnum]
+
+
+  export const MetaConversionLogScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    leadId: 'leadId',
+    eventName: 'eventName',
+    eventId: 'eventId',
+    status: 'status',
+    attempts: 'attempts',
+    value: 'value',
+    currency: 'currency',
+    matchQuality: 'matchQuality',
+    eventsReceived: 'eventsReceived',
+    fbtraceId: 'fbtraceId',
+    lastError: 'lastError',
+    nextRetryAt: 'nextRetryAt',
+    sentAt: 'sentAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MetaConversionLogScalarFieldEnum = (typeof MetaConversionLogScalarFieldEnum)[keyof typeof MetaConversionLogScalarFieldEnum]
 
 
   export const InstagramAccountScalarFieldEnum: {
@@ -106884,6 +109389,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'StageOutcome'
+   */
+  export type EnumStageOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StageOutcome'>
+    
+
+
+  /**
+   * Reference to a field of type 'StageOutcome[]'
+   */
+  export type ListEnumStageOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StageOutcome[]'>
+    
+
+
+  /**
    * Reference to a field of type 'InstanceStatus'
    */
   export type EnumInstanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InstanceStatus'>
@@ -107076,6 +109595,20 @@ export namespace Prisma {
    * Reference to a field of type 'IntegrationStatus[]'
    */
   export type ListEnumIntegrationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'MetaConversionStatus'
+   */
+  export type EnumMetaConversionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetaConversionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'MetaConversionStatus[]'
+   */
+  export type ListEnumMetaConversionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetaConversionStatus[]'>
     
 
 
@@ -107766,6 +110299,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteListRelationFilter
     secureNoteAccessLogs?: SecureNoteAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
+    metaConversionConfig?: XOR<MetaConversionConfigNullableRelationFilter, MetaConversionConfigWhereInput> | null
+    metaConversionLogs?: MetaConversionLogListRelationFilter
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
     igAutomationRuns?: IgAutomationRunListRelationFilter
@@ -107865,6 +110400,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteOrderByRelationAggregateInput
     secureNoteAccessLogs?: SecureNoteAccessLogOrderByRelationAggregateInput
     marketingIntegrations?: MarketingIntegrationOrderByRelationAggregateInput
+    metaConversionConfig?: MetaConversionConfigOrderByWithRelationInput
+    metaConversionLogs?: MetaConversionLogOrderByRelationAggregateInput
     instagramAccounts?: InstagramAccountOrderByRelationAggregateInput
     igAutomations?: IgAutomationOrderByRelationAggregateInput
     igAutomationRuns?: IgAutomationRunOrderByRelationAggregateInput
@@ -107967,6 +110504,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteListRelationFilter
     secureNoteAccessLogs?: SecureNoteAccessLogListRelationFilter
     marketingIntegrations?: MarketingIntegrationListRelationFilter
+    metaConversionConfig?: XOR<MetaConversionConfigNullableRelationFilter, MetaConversionConfigWhereInput> | null
+    metaConversionLogs?: MetaConversionLogListRelationFilter
     instagramAccounts?: InstagramAccountListRelationFilter
     igAutomations?: IgAutomationListRelationFilter
     igAutomationRuns?: IgAutomationRunListRelationFilter
@@ -108385,6 +110924,11 @@ export namespace Prisma {
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
     promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
+    fbc?: StringNullableFilter<"Lead"> | string | null
+    fbp?: StringNullableFilter<"Lead"> | string | null
+    eventSourceUrl?: StringNullableFilter<"Lead"> | string | null
+    clientIp?: StringNullableFilter<"Lead"> | string | null
+    clientUserAgent?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -108437,6 +110981,11 @@ export namespace Prisma {
     promotedAt?: SortOrderInput | SortOrder
     promotedReason?: SortOrderInput | SortOrder
     promotedViaEmailCampaignId?: SortOrderInput | SortOrder
+    fbc?: SortOrderInput | SortOrder
+    fbp?: SortOrderInput | SortOrder
+    eventSourceUrl?: SortOrderInput | SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    clientUserAgent?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
@@ -108492,6 +111041,11 @@ export namespace Prisma {
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
     promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
+    fbc?: StringNullableFilter<"Lead"> | string | null
+    fbp?: StringNullableFilter<"Lead"> | string | null
+    eventSourceUrl?: StringNullableFilter<"Lead"> | string | null
+    clientIp?: StringNullableFilter<"Lead"> | string | null
+    clientUserAgent?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -108544,6 +111098,11 @@ export namespace Prisma {
     promotedAt?: SortOrderInput | SortOrder
     promotedReason?: SortOrderInput | SortOrder
     promotedViaEmailCampaignId?: SortOrderInput | SortOrder
+    fbc?: SortOrderInput | SortOrder
+    fbp?: SortOrderInput | SortOrder
+    eventSourceUrl?: SortOrderInput | SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    clientUserAgent?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     _count?: LeadCountOrderByAggregateInput
     _avg?: LeadAvgOrderByAggregateInput
@@ -108592,6 +111151,11 @@ export namespace Prisma {
     promotedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     promotedViaEmailCampaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    fbc?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    fbp?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    eventSourceUrl?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    clientIp?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    clientUserAgent?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     conversationId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
   }
 
@@ -109189,6 +111753,7 @@ export namespace Prisma {
     color?: StringFilter<"PipelineStageConfig"> | string
     order?: IntFilter<"PipelineStageConfig"> | number
     isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    outcome?: EnumStageOutcomeFilter<"PipelineStageConfig"> | $Enums.StageOutcome
     companyId?: StringFilter<"PipelineStageConfig"> | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
   }
@@ -109200,6 +111765,7 @@ export namespace Prisma {
     color?: SortOrder
     order?: SortOrder
     isFinal?: SortOrder
+    outcome?: SortOrder
     companyId?: SortOrder
     company?: CompanyOrderByWithRelationInput
   }
@@ -109214,6 +111780,7 @@ export namespace Prisma {
     color?: StringFilter<"PipelineStageConfig"> | string
     order?: IntFilter<"PipelineStageConfig"> | number
     isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    outcome?: EnumStageOutcomeFilter<"PipelineStageConfig"> | $Enums.StageOutcome
     companyId?: StringFilter<"PipelineStageConfig"> | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
   }, "id">
@@ -109225,6 +111792,7 @@ export namespace Prisma {
     color?: SortOrder
     order?: SortOrder
     isFinal?: SortOrder
+    outcome?: SortOrder
     companyId?: SortOrder
     _count?: PipelineStageConfigCountOrderByAggregateInput
     _avg?: PipelineStageConfigAvgOrderByAggregateInput
@@ -109243,6 +111811,7 @@ export namespace Prisma {
     color?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
     order?: IntWithAggregatesFilter<"PipelineStageConfig"> | number
     isFinal?: BoolWithAggregatesFilter<"PipelineStageConfig"> | boolean
+    outcome?: EnumStageOutcomeWithAggregatesFilter<"PipelineStageConfig"> | $Enums.StageOutcome
     companyId?: StringWithAggregatesFilter<"PipelineStageConfig"> | string
   }
 
@@ -111709,6 +114278,214 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
     createdById?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+  }
+
+  export type MetaConversionConfigWhereInput = {
+    AND?: MetaConversionConfigWhereInput | MetaConversionConfigWhereInput[]
+    OR?: MetaConversionConfigWhereInput[]
+    NOT?: MetaConversionConfigWhereInput | MetaConversionConfigWhereInput[]
+    id?: StringFilter<"MetaConversionConfig"> | string
+    companyId?: StringFilter<"MetaConversionConfig"> | string
+    pixelId?: StringFilter<"MetaConversionConfig"> | string
+    accessTokenEnc?: StringFilter<"MetaConversionConfig"> | string
+    testEventCode?: StringNullableFilter<"MetaConversionConfig"> | string | null
+    eventName?: StringFilter<"MetaConversionConfig"> | string
+    currency?: StringFilter<"MetaConversionConfig"> | string
+    enabled?: BoolFilter<"MetaConversionConfig"> | boolean
+    lastEventAt?: DateTimeNullableFilter<"MetaConversionConfig"> | Date | string | null
+    lastStatus?: StringNullableFilter<"MetaConversionConfig"> | string | null
+    createdAt?: DateTimeFilter<"MetaConversionConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"MetaConversionConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type MetaConversionConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    pixelId?: SortOrder
+    accessTokenEnc?: SortOrder
+    testEventCode?: SortOrderInput | SortOrder
+    eventName?: SortOrder
+    currency?: SortOrder
+    enabled?: SortOrder
+    lastEventAt?: SortOrderInput | SortOrder
+    lastStatus?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type MetaConversionConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    AND?: MetaConversionConfigWhereInput | MetaConversionConfigWhereInput[]
+    OR?: MetaConversionConfigWhereInput[]
+    NOT?: MetaConversionConfigWhereInput | MetaConversionConfigWhereInput[]
+    pixelId?: StringFilter<"MetaConversionConfig"> | string
+    accessTokenEnc?: StringFilter<"MetaConversionConfig"> | string
+    testEventCode?: StringNullableFilter<"MetaConversionConfig"> | string | null
+    eventName?: StringFilter<"MetaConversionConfig"> | string
+    currency?: StringFilter<"MetaConversionConfig"> | string
+    enabled?: BoolFilter<"MetaConversionConfig"> | boolean
+    lastEventAt?: DateTimeNullableFilter<"MetaConversionConfig"> | Date | string | null
+    lastStatus?: StringNullableFilter<"MetaConversionConfig"> | string | null
+    createdAt?: DateTimeFilter<"MetaConversionConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"MetaConversionConfig"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId">
+
+  export type MetaConversionConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    pixelId?: SortOrder
+    accessTokenEnc?: SortOrder
+    testEventCode?: SortOrderInput | SortOrder
+    eventName?: SortOrder
+    currency?: SortOrder
+    enabled?: SortOrder
+    lastEventAt?: SortOrderInput | SortOrder
+    lastStatus?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaConversionConfigCountOrderByAggregateInput
+    _max?: MetaConversionConfigMaxOrderByAggregateInput
+    _min?: MetaConversionConfigMinOrderByAggregateInput
+  }
+
+  export type MetaConversionConfigScalarWhereWithAggregatesInput = {
+    AND?: MetaConversionConfigScalarWhereWithAggregatesInput | MetaConversionConfigScalarWhereWithAggregatesInput[]
+    OR?: MetaConversionConfigScalarWhereWithAggregatesInput[]
+    NOT?: MetaConversionConfigScalarWhereWithAggregatesInput | MetaConversionConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    companyId?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    pixelId?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    accessTokenEnc?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    testEventCode?: StringNullableWithAggregatesFilter<"MetaConversionConfig"> | string | null
+    eventName?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    currency?: StringWithAggregatesFilter<"MetaConversionConfig"> | string
+    enabled?: BoolWithAggregatesFilter<"MetaConversionConfig"> | boolean
+    lastEventAt?: DateTimeNullableWithAggregatesFilter<"MetaConversionConfig"> | Date | string | null
+    lastStatus?: StringNullableWithAggregatesFilter<"MetaConversionConfig"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MetaConversionConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MetaConversionConfig"> | Date | string
+  }
+
+  export type MetaConversionLogWhereInput = {
+    AND?: MetaConversionLogWhereInput | MetaConversionLogWhereInput[]
+    OR?: MetaConversionLogWhereInput[]
+    NOT?: MetaConversionLogWhereInput | MetaConversionLogWhereInput[]
+    id?: StringFilter<"MetaConversionLog"> | string
+    companyId?: StringFilter<"MetaConversionLog"> | string
+    leadId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventName?: StringFilter<"MetaConversionLog"> | string
+    eventId?: StringFilter<"MetaConversionLog"> | string
+    status?: EnumMetaConversionStatusFilter<"MetaConversionLog"> | $Enums.MetaConversionStatus
+    attempts?: IntFilter<"MetaConversionLog"> | number
+    value?: FloatNullableFilter<"MetaConversionLog"> | number | null
+    currency?: StringFilter<"MetaConversionLog"> | string
+    matchQuality?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventsReceived?: IntNullableFilter<"MetaConversionLog"> | number | null
+    fbtraceId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    lastError?: StringNullableFilter<"MetaConversionLog"> | string | null
+    nextRetryAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    createdAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
+    updatedAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type MetaConversionLogOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
+    eventName?: SortOrder
+    eventId?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    value?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    matchQuality?: SortOrderInput | SortOrder
+    eventsReceived?: SortOrderInput | SortOrder
+    fbtraceId?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    nextRetryAt?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type MetaConversionLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_eventId?: MetaConversionLogCompanyIdEventIdCompoundUniqueInput
+    AND?: MetaConversionLogWhereInput | MetaConversionLogWhereInput[]
+    OR?: MetaConversionLogWhereInput[]
+    NOT?: MetaConversionLogWhereInput | MetaConversionLogWhereInput[]
+    companyId?: StringFilter<"MetaConversionLog"> | string
+    leadId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventName?: StringFilter<"MetaConversionLog"> | string
+    eventId?: StringFilter<"MetaConversionLog"> | string
+    status?: EnumMetaConversionStatusFilter<"MetaConversionLog"> | $Enums.MetaConversionStatus
+    attempts?: IntFilter<"MetaConversionLog"> | number
+    value?: FloatNullableFilter<"MetaConversionLog"> | number | null
+    currency?: StringFilter<"MetaConversionLog"> | string
+    matchQuality?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventsReceived?: IntNullableFilter<"MetaConversionLog"> | number | null
+    fbtraceId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    lastError?: StringNullableFilter<"MetaConversionLog"> | string | null
+    nextRetryAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    createdAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
+    updatedAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_eventId">
+
+  export type MetaConversionLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
+    eventName?: SortOrder
+    eventId?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    value?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    matchQuality?: SortOrderInput | SortOrder
+    eventsReceived?: SortOrderInput | SortOrder
+    fbtraceId?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    nextRetryAt?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MetaConversionLogCountOrderByAggregateInput
+    _avg?: MetaConversionLogAvgOrderByAggregateInput
+    _max?: MetaConversionLogMaxOrderByAggregateInput
+    _min?: MetaConversionLogMinOrderByAggregateInput
+    _sum?: MetaConversionLogSumOrderByAggregateInput
+  }
+
+  export type MetaConversionLogScalarWhereWithAggregatesInput = {
+    AND?: MetaConversionLogScalarWhereWithAggregatesInput | MetaConversionLogScalarWhereWithAggregatesInput[]
+    OR?: MetaConversionLogScalarWhereWithAggregatesInput[]
+    NOT?: MetaConversionLogScalarWhereWithAggregatesInput | MetaConversionLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MetaConversionLog"> | string
+    companyId?: StringWithAggregatesFilter<"MetaConversionLog"> | string
+    leadId?: StringNullableWithAggregatesFilter<"MetaConversionLog"> | string | null
+    eventName?: StringWithAggregatesFilter<"MetaConversionLog"> | string
+    eventId?: StringWithAggregatesFilter<"MetaConversionLog"> | string
+    status?: EnumMetaConversionStatusWithAggregatesFilter<"MetaConversionLog"> | $Enums.MetaConversionStatus
+    attempts?: IntWithAggregatesFilter<"MetaConversionLog"> | number
+    value?: FloatNullableWithAggregatesFilter<"MetaConversionLog"> | number | null
+    currency?: StringWithAggregatesFilter<"MetaConversionLog"> | string
+    matchQuality?: StringNullableWithAggregatesFilter<"MetaConversionLog"> | string | null
+    eventsReceived?: IntNullableWithAggregatesFilter<"MetaConversionLog"> | number | null
+    fbtraceId?: StringNullableWithAggregatesFilter<"MetaConversionLog"> | string | null
+    lastError?: StringNullableWithAggregatesFilter<"MetaConversionLog"> | string | null
+    nextRetryAt?: DateTimeNullableWithAggregatesFilter<"MetaConversionLog"> | Date | string | null
+    sentAt?: DateTimeNullableWithAggregatesFilter<"MetaConversionLog"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MetaConversionLog"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MetaConversionLog"> | Date | string
   }
 
   export type InstagramAccountWhereInput = {
@@ -116112,6 +118889,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -116210,6 +118989,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -116308,6 +119089,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -116406,6 +119189,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -116873,6 +119658,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -116924,6 +119714,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -116967,6 +119762,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -117018,6 +119818,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -117065,6 +119870,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
   }
 
@@ -117101,6 +119911,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadUncheckedUpdateManyInput = {
@@ -117140,6 +119955,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -117743,6 +120563,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
     company: CompanyCreateNestedOneWithoutPipelineStagesInput
   }
 
@@ -117753,6 +120574,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
     companyId: string
   }
 
@@ -117763,6 +120585,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
     company?: CompanyUpdateOneRequiredWithoutPipelineStagesNestedInput
   }
 
@@ -117773,6 +120596,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
     companyId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -117783,6 +120607,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
     companyId: string
   }
 
@@ -117793,6 +120618,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
   }
 
   export type PipelineStageConfigUncheckedUpdateManyInput = {
@@ -117802,6 +120628,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
     companyId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -120497,6 +123324,249 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MetaConversionConfigCreateInput = {
+    id?: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode?: string | null
+    eventName?: string
+    currency?: string
+    enabled?: boolean
+    lastEventAt?: Date | string | null
+    lastStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutMetaConversionConfigInput
+  }
+
+  export type MetaConversionConfigUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode?: string | null
+    eventName?: string
+    currency?: string
+    enabled?: boolean
+    lastEventAt?: Date | string | null
+    lastStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutMetaConversionConfigNestedInput
+  }
+
+  export type MetaConversionConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionConfigCreateManyInput = {
+    id?: string
+    companyId: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode?: string | null
+    eventName?: string
+    currency?: string
+    enabled?: boolean
+    lastEventAt?: Date | string | null
+    lastStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogCreateInput = {
+    id?: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutMetaConversionLogsInput
+  }
+
+  export type MetaConversionLogUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutMetaConversionLogsNestedInput
+  }
+
+  export type MetaConversionLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogCreateManyInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InstagramAccountCreateInput = {
@@ -125565,6 +128635,17 @@ export namespace Prisma {
     none?: MarketingIntegrationWhereInput
   }
 
+  export type MetaConversionConfigNullableRelationFilter = {
+    is?: MetaConversionConfigWhereInput | null
+    isNot?: MetaConversionConfigWhereInput | null
+  }
+
+  export type MetaConversionLogListRelationFilter = {
+    every?: MetaConversionLogWhereInput
+    some?: MetaConversionLogWhereInput
+    none?: MetaConversionLogWhereInput
+  }
+
   export type InstagramAccountListRelationFilter = {
     every?: InstagramAccountWhereInput
     some?: InstagramAccountWhereInput
@@ -125809,6 +128890,10 @@ export namespace Prisma {
   }
 
   export type MarketingIntegrationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MetaConversionLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -126412,6 +129497,11 @@ export namespace Prisma {
     promotedAt?: SortOrder
     promotedReason?: SortOrder
     promotedViaEmailCampaignId?: SortOrder
+    fbc?: SortOrder
+    fbp?: SortOrder
+    eventSourceUrl?: SortOrder
+    clientIp?: SortOrder
+    clientUserAgent?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -126455,6 +129545,11 @@ export namespace Prisma {
     promotedAt?: SortOrder
     promotedReason?: SortOrder
     promotedViaEmailCampaignId?: SortOrder
+    fbc?: SortOrder
+    fbp?: SortOrder
+    eventSourceUrl?: SortOrder
+    clientIp?: SortOrder
+    clientUserAgent?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -126494,6 +129589,11 @@ export namespace Prisma {
     promotedAt?: SortOrder
     promotedReason?: SortOrder
     promotedViaEmailCampaignId?: SortOrder
+    fbc?: SortOrder
+    fbp?: SortOrder
+    eventSourceUrl?: SortOrder
+    clientIp?: SortOrder
+    clientUserAgent?: SortOrder
     conversationId?: SortOrder
   }
 
@@ -126908,6 +130008,13 @@ export namespace Prisma {
     leadId?: SortOrder
   }
 
+  export type EnumStageOutcomeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StageOutcome | EnumStageOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStageOutcomeFilter<$PrismaModel> | $Enums.StageOutcome
+  }
+
   export type PipelineStageConfigCountOrderByAggregateInput = {
     id?: SortOrder
     pipeline?: SortOrder
@@ -126915,6 +130022,7 @@ export namespace Prisma {
     color?: SortOrder
     order?: SortOrder
     isFinal?: SortOrder
+    outcome?: SortOrder
     companyId?: SortOrder
   }
 
@@ -126929,6 +130037,7 @@ export namespace Prisma {
     color?: SortOrder
     order?: SortOrder
     isFinal?: SortOrder
+    outcome?: SortOrder
     companyId?: SortOrder
   }
 
@@ -126939,11 +130048,22 @@ export namespace Prisma {
     color?: SortOrder
     order?: SortOrder
     isFinal?: SortOrder
+    outcome?: SortOrder
     companyId?: SortOrder
   }
 
   export type PipelineStageConfigSumOrderByAggregateInput = {
     order?: SortOrder
+  }
+
+  export type EnumStageOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StageOutcome | EnumStageOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStageOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.StageOutcome
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStageOutcomeFilter<$PrismaModel>
+    _max?: NestedEnumStageOutcomeFilter<$PrismaModel>
   }
 
   export type CompanyContactCompanyIdPhoneCompoundUniqueInput = {
@@ -128618,6 +131738,145 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
     _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type MetaConversionConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    pixelId?: SortOrder
+    accessTokenEnc?: SortOrder
+    testEventCode?: SortOrder
+    eventName?: SortOrder
+    currency?: SortOrder
+    enabled?: SortOrder
+    lastEventAt?: SortOrder
+    lastStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaConversionConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    pixelId?: SortOrder
+    accessTokenEnc?: SortOrder
+    testEventCode?: SortOrder
+    eventName?: SortOrder
+    currency?: SortOrder
+    enabled?: SortOrder
+    lastEventAt?: SortOrder
+    lastStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaConversionConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    pixelId?: SortOrder
+    accessTokenEnc?: SortOrder
+    testEventCode?: SortOrder
+    eventName?: SortOrder
+    currency?: SortOrder
+    enabled?: SortOrder
+    lastEventAt?: SortOrder
+    lastStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumMetaConversionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MetaConversionStatus | EnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMetaConversionStatusFilter<$PrismaModel> | $Enums.MetaConversionStatus
+  }
+
+  export type MetaConversionLogCompanyIdEventIdCompoundUniqueInput = {
+    companyId: string
+    eventId: string
+  }
+
+  export type MetaConversionLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    leadId?: SortOrder
+    eventName?: SortOrder
+    eventId?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    matchQuality?: SortOrder
+    eventsReceived?: SortOrder
+    fbtraceId?: SortOrder
+    lastError?: SortOrder
+    nextRetryAt?: SortOrder
+    sentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaConversionLogAvgOrderByAggregateInput = {
+    attempts?: SortOrder
+    value?: SortOrder
+    eventsReceived?: SortOrder
+  }
+
+  export type MetaConversionLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    leadId?: SortOrder
+    eventName?: SortOrder
+    eventId?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    matchQuality?: SortOrder
+    eventsReceived?: SortOrder
+    fbtraceId?: SortOrder
+    lastError?: SortOrder
+    nextRetryAt?: SortOrder
+    sentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaConversionLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    leadId?: SortOrder
+    eventName?: SortOrder
+    eventId?: SortOrder
+    status?: SortOrder
+    attempts?: SortOrder
+    value?: SortOrder
+    currency?: SortOrder
+    matchQuality?: SortOrder
+    eventsReceived?: SortOrder
+    fbtraceId?: SortOrder
+    lastError?: SortOrder
+    nextRetryAt?: SortOrder
+    sentAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MetaConversionLogSumOrderByAggregateInput = {
+    attempts?: SortOrder
+    value?: SortOrder
+    eventsReceived?: SortOrder
+  }
+
+  export type EnumMetaConversionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MetaConversionStatus | EnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMetaConversionStatusWithAggregatesFilter<$PrismaModel> | $Enums.MetaConversionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMetaConversionStatusFilter<$PrismaModel>
+    _max?: NestedEnumMetaConversionStatusFilter<$PrismaModel>
   }
 
   export type InstagramAccountCountOrderByAggregateInput = {
@@ -132712,6 +135971,19 @@ export namespace Prisma {
     connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
   }
 
+  export type MetaConversionConfigCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: MetaConversionConfigCreateOrConnectWithoutCompanyInput
+    connect?: MetaConversionConfigWhereUniqueInput
+  }
+
+  export type MetaConversionLogCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput> | MetaConversionLogCreateWithoutCompanyInput[] | MetaConversionLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MetaConversionLogCreateOrConnectWithoutCompanyInput | MetaConversionLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: MetaConversionLogCreateManyCompanyInputEnvelope
+    connect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+  }
+
   export type InstagramAccountCreateNestedManyWithoutCompanyInput = {
     create?: XOR<InstagramAccountCreateWithoutCompanyInput, InstagramAccountUncheckedCreateWithoutCompanyInput> | InstagramAccountCreateWithoutCompanyInput[] | InstagramAccountUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: InstagramAccountCreateOrConnectWithoutCompanyInput | InstagramAccountCreateOrConnectWithoutCompanyInput[]
@@ -133142,6 +136414,19 @@ export namespace Prisma {
     connectOrCreate?: MarketingIntegrationCreateOrConnectWithoutCompanyInput | MarketingIntegrationCreateOrConnectWithoutCompanyInput[]
     createMany?: MarketingIntegrationCreateManyCompanyInputEnvelope
     connect?: MarketingIntegrationWhereUniqueInput | MarketingIntegrationWhereUniqueInput[]
+  }
+
+  export type MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: MetaConversionConfigCreateOrConnectWithoutCompanyInput
+    connect?: MetaConversionConfigWhereUniqueInput
+  }
+
+  export type MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput> | MetaConversionLogCreateWithoutCompanyInput[] | MetaConversionLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MetaConversionLogCreateOrConnectWithoutCompanyInput | MetaConversionLogCreateOrConnectWithoutCompanyInput[]
+    createMany?: MetaConversionLogCreateManyCompanyInputEnvelope
+    connect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
   }
 
   export type InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -133848,6 +137133,30 @@ export namespace Prisma {
     update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type MetaConversionConfigUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: MetaConversionConfigCreateOrConnectWithoutCompanyInput
+    upsert?: MetaConversionConfigUpsertWithoutCompanyInput
+    disconnect?: MetaConversionConfigWhereInput | boolean
+    delete?: MetaConversionConfigWhereInput | boolean
+    connect?: MetaConversionConfigWhereUniqueInput
+    update?: XOR<XOR<MetaConversionConfigUpdateToOneWithWhereWithoutCompanyInput, MetaConversionConfigUpdateWithoutCompanyInput>, MetaConversionConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput> | MetaConversionLogCreateWithoutCompanyInput[] | MetaConversionLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MetaConversionLogCreateOrConnectWithoutCompanyInput | MetaConversionLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: MetaConversionLogUpsertWithWhereUniqueWithoutCompanyInput | MetaConversionLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MetaConversionLogCreateManyCompanyInputEnvelope
+    set?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    disconnect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    delete?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    connect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    update?: MetaConversionLogUpdateWithWhereUniqueWithoutCompanyInput | MetaConversionLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MetaConversionLogUpdateManyWithWhereWithoutCompanyInput | MetaConversionLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MetaConversionLogScalarWhereInput | MetaConversionLogScalarWhereInput[]
   }
 
   export type InstagramAccountUpdateManyWithoutCompanyNestedInput = {
@@ -134708,6 +138017,30 @@ export namespace Prisma {
     update?: MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput | MarketingIntegrationUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput | MarketingIntegrationUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MarketingIntegrationScalarWhereInput | MarketingIntegrationScalarWhereInput[]
+  }
+
+  export type MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: MetaConversionConfigCreateOrConnectWithoutCompanyInput
+    upsert?: MetaConversionConfigUpsertWithoutCompanyInput
+    disconnect?: MetaConversionConfigWhereInput | boolean
+    delete?: MetaConversionConfigWhereInput | boolean
+    connect?: MetaConversionConfigWhereUniqueInput
+    update?: XOR<XOR<MetaConversionConfigUpdateToOneWithWhereWithoutCompanyInput, MetaConversionConfigUpdateWithoutCompanyInput>, MetaConversionConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput> | MetaConversionLogCreateWithoutCompanyInput[] | MetaConversionLogUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: MetaConversionLogCreateOrConnectWithoutCompanyInput | MetaConversionLogCreateOrConnectWithoutCompanyInput[]
+    upsert?: MetaConversionLogUpsertWithWhereUniqueWithoutCompanyInput | MetaConversionLogUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: MetaConversionLogCreateManyCompanyInputEnvelope
+    set?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    disconnect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    delete?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    connect?: MetaConversionLogWhereUniqueInput | MetaConversionLogWhereUniqueInput[]
+    update?: MetaConversionLogUpdateWithWhereUniqueWithoutCompanyInput | MetaConversionLogUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: MetaConversionLogUpdateManyWithWhereWithoutCompanyInput | MetaConversionLogUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: MetaConversionLogScalarWhereInput | MetaConversionLogScalarWhereInput[]
   }
 
   export type InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -136106,6 +139439,10 @@ export namespace Prisma {
     create?: XOR<CompanyCreateWithoutPipelineStagesInput, CompanyUncheckedCreateWithoutPipelineStagesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutPipelineStagesInput
     connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumStageOutcomeFieldUpdateOperationsInput = {
+    set?: $Enums.StageOutcome
   }
 
   export type CompanyUpdateOneRequiredWithoutPipelineStagesNestedInput = {
@@ -137988,6 +141325,38 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMarketingIntegrationsInput, CompanyUpdateWithoutMarketingIntegrationsInput>, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutMetaConversionConfigInput = {
+    create?: XOR<CompanyCreateWithoutMetaConversionConfigInput, CompanyUncheckedCreateWithoutMetaConversionConfigInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMetaConversionConfigInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutMetaConversionConfigNestedInput = {
+    create?: XOR<CompanyCreateWithoutMetaConversionConfigInput, CompanyUncheckedCreateWithoutMetaConversionConfigInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMetaConversionConfigInput
+    upsert?: CompanyUpsertWithoutMetaConversionConfigInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMetaConversionConfigInput, CompanyUpdateWithoutMetaConversionConfigInput>, CompanyUncheckedUpdateWithoutMetaConversionConfigInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutMetaConversionLogsInput = {
+    create?: XOR<CompanyCreateWithoutMetaConversionLogsInput, CompanyUncheckedCreateWithoutMetaConversionLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMetaConversionLogsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumMetaConversionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.MetaConversionStatus
+  }
+
+  export type CompanyUpdateOneRequiredWithoutMetaConversionLogsNestedInput = {
+    create?: XOR<CompanyCreateWithoutMetaConversionLogsInput, CompanyUncheckedCreateWithoutMetaConversionLogsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutMetaConversionLogsInput
+    upsert?: CompanyUpsertWithoutMetaConversionLogsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMetaConversionLogsInput, CompanyUpdateWithoutMetaConversionLogsInput>, CompanyUncheckedUpdateWithoutMetaConversionLogsInput>
+  }
+
   export type InstagramAccountCreatescopesInput = {
     set: string[]
   }
@@ -139826,6 +143195,23 @@ export namespace Prisma {
     _max?: NestedEnumTaskSourceFilter<$PrismaModel>
   }
 
+  export type NestedEnumStageOutcomeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StageOutcome | EnumStageOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStageOutcomeFilter<$PrismaModel> | $Enums.StageOutcome
+  }
+
+  export type NestedEnumStageOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StageOutcome | EnumStageOutcomeFieldRefInput<$PrismaModel>
+    in?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StageOutcome[] | ListEnumStageOutcomeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStageOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.StageOutcome
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStageOutcomeFilter<$PrismaModel>
+    _max?: NestedEnumStageOutcomeFilter<$PrismaModel>
+  }
+
   export type NestedEnumInstanceStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.InstanceStatus | EnumInstanceStatusFieldRefInput<$PrismaModel>
     in?: $Enums.InstanceStatus[] | ListEnumInstanceStatusFieldRefInput<$PrismaModel>
@@ -140122,6 +143508,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
     _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMetaConversionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MetaConversionStatus | EnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMetaConversionStatusFilter<$PrismaModel> | $Enums.MetaConversionStatus
+  }
+
+  export type NestedEnumMetaConversionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MetaConversionStatus | EnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MetaConversionStatus[] | ListEnumMetaConversionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMetaConversionStatusWithAggregatesFilter<$PrismaModel> | $Enums.MetaConversionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMetaConversionStatusFilter<$PrismaModel>
+    _max?: NestedEnumMetaConversionStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumIgTriggerTypeFilter<$PrismaModel = never> = {
@@ -140531,6 +143934,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -140628,6 +144033,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -141625,6 +145032,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -141722,6 +145131,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -143055,6 +146466,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -143152,6 +146565,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -143254,6 +146669,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -143351,6 +146768,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -143849,6 +147268,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
@@ -143898,6 +147322,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -144546,6 +147975,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
   }
 
   export type PipelineStageConfigUncheckedCreateWithoutCompanyInput = {
@@ -144555,6 +147985,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
   }
 
   export type PipelineStageConfigCreateOrConnectWithoutCompanyInput = {
@@ -144964,6 +148395,87 @@ export namespace Prisma {
 
   export type MarketingIntegrationCreateManyCompanyInputEnvelope = {
     data: MarketingIntegrationCreateManyCompanyInput | MarketingIntegrationCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MetaConversionConfigCreateWithoutCompanyInput = {
+    id?: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode?: string | null
+    eventName?: string
+    currency?: string
+    enabled?: boolean
+    lastEventAt?: Date | string | null
+    lastStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionConfigUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    pixelId: string
+    accessTokenEnc: string
+    testEventCode?: string | null
+    eventName?: string
+    currency?: string
+    enabled?: boolean
+    lastEventAt?: Date | string | null
+    lastStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionConfigCreateOrConnectWithoutCompanyInput = {
+    where: MetaConversionConfigWhereUniqueInput
+    create: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogCreateWithoutCompanyInput = {
+    id?: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionLogUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MetaConversionLogCreateOrConnectWithoutCompanyInput = {
+    where: MetaConversionLogWhereUniqueInput
+    create: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogCreateManyCompanyInputEnvelope = {
+    data: MetaConversionLogCreateManyCompanyInput | MetaConversionLogCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -146037,6 +149549,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -146134,6 +149648,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -146539,6 +150055,11 @@ export namespace Prisma {
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
     promotedViaEmailCampaignId?: StringNullableFilter<"Lead"> | string | null
+    fbc?: StringNullableFilter<"Lead"> | string | null
+    fbp?: StringNullableFilter<"Lead"> | string | null
+    eventSourceUrl?: StringNullableFilter<"Lead"> | string | null
+    clientIp?: StringNullableFilter<"Lead"> | string | null
+    clientUserAgent?: StringNullableFilter<"Lead"> | string | null
     conversationId?: StringNullableFilter<"Lead"> | string | null
   }
 
@@ -146968,6 +150489,7 @@ export namespace Prisma {
     color?: StringFilter<"PipelineStageConfig"> | string
     order?: IntFilter<"PipelineStageConfig"> | number
     isFinal?: BoolFilter<"PipelineStageConfig"> | boolean
+    outcome?: EnumStageOutcomeFilter<"PipelineStageConfig"> | $Enums.StageOutcome
     companyId?: StringFilter<"PipelineStageConfig"> | string
   }
 
@@ -147268,6 +150790,84 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
     updatedAt?: DateTimeFilter<"MarketingIntegration"> | Date | string
     createdById?: StringNullableFilter<"MarketingIntegration"> | string | null
+  }
+
+  export type MetaConversionConfigUpsertWithoutCompanyInput = {
+    update: XOR<MetaConversionConfigUpdateWithoutCompanyInput, MetaConversionConfigUncheckedUpdateWithoutCompanyInput>
+    create: XOR<MetaConversionConfigCreateWithoutCompanyInput, MetaConversionConfigUncheckedCreateWithoutCompanyInput>
+    where?: MetaConversionConfigWhereInput
+  }
+
+  export type MetaConversionConfigUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: MetaConversionConfigWhereInput
+    data: XOR<MetaConversionConfigUpdateWithoutCompanyInput, MetaConversionConfigUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MetaConversionConfigUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionConfigUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pixelId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: StringFieldUpdateOperationsInput | string
+    testEventCode?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    lastEventAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: MetaConversionLogWhereUniqueInput
+    update: XOR<MetaConversionLogUpdateWithoutCompanyInput, MetaConversionLogUncheckedUpdateWithoutCompanyInput>
+    create: XOR<MetaConversionLogCreateWithoutCompanyInput, MetaConversionLogUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: MetaConversionLogWhereUniqueInput
+    data: XOR<MetaConversionLogUpdateWithoutCompanyInput, MetaConversionLogUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogUpdateManyWithWhereWithoutCompanyInput = {
+    where: MetaConversionLogScalarWhereInput
+    data: XOR<MetaConversionLogUpdateManyMutationInput, MetaConversionLogUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type MetaConversionLogScalarWhereInput = {
+    AND?: MetaConversionLogScalarWhereInput | MetaConversionLogScalarWhereInput[]
+    OR?: MetaConversionLogScalarWhereInput[]
+    NOT?: MetaConversionLogScalarWhereInput | MetaConversionLogScalarWhereInput[]
+    id?: StringFilter<"MetaConversionLog"> | string
+    companyId?: StringFilter<"MetaConversionLog"> | string
+    leadId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventName?: StringFilter<"MetaConversionLog"> | string
+    eventId?: StringFilter<"MetaConversionLog"> | string
+    status?: EnumMetaConversionStatusFilter<"MetaConversionLog"> | $Enums.MetaConversionStatus
+    attempts?: IntFilter<"MetaConversionLog"> | number
+    value?: FloatNullableFilter<"MetaConversionLog"> | number | null
+    currency?: StringFilter<"MetaConversionLog"> | string
+    matchQuality?: StringNullableFilter<"MetaConversionLog"> | string | null
+    eventsReceived?: IntNullableFilter<"MetaConversionLog"> | number | null
+    fbtraceId?: StringNullableFilter<"MetaConversionLog"> | string | null
+    lastError?: StringNullableFilter<"MetaConversionLog"> | string | null
+    nextRetryAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    sentAt?: DateTimeNullableFilter<"MetaConversionLog"> | Date | string | null
+    createdAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
+    updatedAt?: DateTimeFilter<"MetaConversionLog"> | Date | string
   }
 
   export type InstagramAccountUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -148200,6 +151800,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -148297,6 +151899,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -148362,6 +151966,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
@@ -148411,6 +152020,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -148644,6 +152258,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -148741,6 +152357,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -148943,6 +152561,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -149040,6 +152660,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -149105,6 +152727,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     promotedViaEmailCampaign?: EmailCampaignCreateNestedOneWithoutPromotedLeadsInput
@@ -149154,6 +152781,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -149328,6 +152960,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -149425,6 +153059,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149650,6 +153286,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -149747,6 +153385,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -150306,6 +153946,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -150403,6 +154045,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -150883,6 +154527,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -150980,6 +154626,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -151113,6 +154761,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -151210,6 +154860,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151286,6 +154938,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -151336,6 +154993,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -151419,6 +155081,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -151469,6 +155136,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -151579,6 +155251,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -151676,6 +155350,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -151815,6 +155491,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -151912,6 +155590,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -151988,6 +155668,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -152038,6 +155723,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -152127,6 +155817,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -152177,6 +155872,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -152293,6 +155993,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -152390,6 +156092,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -152529,6 +156233,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -152626,6 +156332,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -152739,6 +156447,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -152836,6 +156546,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -152978,6 +156690,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -153075,6 +156789,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -153170,6 +156886,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -153220,6 +156941,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -153304,6 +157030,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -153401,6 +157129,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -153639,6 +157369,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -153689,6 +157424,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -153779,6 +157519,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -153876,6 +157618,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -154110,6 +157854,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -154160,6 +157909,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -154218,6 +157972,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -154268,6 +158027,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -154347,6 +158111,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -154444,6 +158210,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -154557,6 +158325,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -154654,6 +158424,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -154751,6 +158523,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -154848,6 +158622,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -155042,6 +158818,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -155139,6 +158917,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155323,6 +159103,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -155420,6 +159202,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -155651,6 +159435,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -155748,6 +159534,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155901,6 +159689,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -155998,6 +159788,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -156141,6 +159933,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -156191,6 +159988,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -156422,6 +160224,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -156519,6 +160323,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156680,6 +160486,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -156730,6 +160541,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -156957,6 +160773,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -157054,6 +160872,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -157208,6 +161028,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -157305,6 +161127,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -157595,6 +161419,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -157692,6 +161518,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -157879,6 +161707,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -157929,6 +161762,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
     activities?: ActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -158187,6 +162025,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -158284,6 +162124,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158592,6 +162434,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -158642,6 +162489,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -158783,6 +162635,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -158880,6 +162734,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -159017,6 +162873,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -159067,6 +162928,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -159220,6 +163086,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -159317,6 +163185,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159414,6 +163284,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -159511,6 +163383,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -159694,6 +163568,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -159791,6 +163667,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -160205,6 +164083,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -160302,6 +164182,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160497,6 +164379,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -160594,6 +164478,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161105,6 +164991,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -161202,6 +165090,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -161543,6 +165433,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -161640,6 +165532,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161882,6 +165776,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -161979,6 +165875,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -162371,6 +166269,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -162468,6 +166368,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164853,6 +168755,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -164950,6 +168854,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -165113,6 +169019,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -165210,6 +169118,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165529,6 +169439,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -165626,6 +169538,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -165790,6 +169704,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -165887,6 +169803,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165984,6 +169902,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -166081,6 +170001,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -166228,6 +170150,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -166325,6 +170249,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166469,6 +170395,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -166566,6 +170494,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -166716,6 +170646,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -166813,6 +170745,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166910,6 +170844,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -167007,6 +170943,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -167120,6 +171058,8 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -167217,6 +171157,832 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutMetaConversionConfigInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutMetaConversionConfigInput, CompanyUncheckedCreateWithoutMetaConversionConfigInput>
+  }
+
+  export type CompanyUpsertWithoutMetaConversionConfigInput = {
+    update: XOR<CompanyUpdateWithoutMetaConversionConfigInput, CompanyUncheckedUpdateWithoutMetaConversionConfigInput>
+    create: XOR<CompanyCreateWithoutMetaConversionConfigInput, CompanyUncheckedCreateWithoutMetaConversionConfigInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutMetaConversionConfigInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutMetaConversionConfigInput, CompanyUncheckedUpdateWithoutMetaConversionConfigInput>
+  }
+
+  export type CompanyUpdateWithoutMetaConversionConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutMetaConversionLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutMetaConversionLogsInput, CompanyUncheckedCreateWithoutMetaConversionLogsInput>
+  }
+
+  export type CompanyUpsertWithoutMetaConversionLogsInput = {
+    update: XOR<CompanyUpdateWithoutMetaConversionLogsInput, CompanyUncheckedUpdateWithoutMetaConversionLogsInput>
+    create: XOR<CompanyCreateWithoutMetaConversionLogsInput, CompanyUncheckedCreateWithoutMetaConversionLogsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutMetaConversionLogsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutMetaConversionLogsInput, CompanyUncheckedUpdateWithoutMetaConversionLogsInput>
+  }
+
+  export type CompanyUpdateWithoutMetaConversionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167315,6 +172081,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
@@ -167412,6 +172180,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -167669,6 +172439,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
@@ -167766,6 +172538,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -167911,6 +172685,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
@@ -168008,6 +172784,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -168210,6 +172988,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
@@ -168307,6 +173087,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168471,6 +173253,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
@@ -168568,6 +173352,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
@@ -168777,6 +173563,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
@@ -168874,6 +173662,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169079,6 +173869,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -169176,6 +173968,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -169364,6 +174158,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -169461,6 +174257,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169723,6 +174521,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -169820,6 +174620,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -169933,6 +174735,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -170030,6 +174834,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170127,6 +174933,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -170224,6 +175032,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -170337,6 +175147,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -170434,6 +175246,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170531,6 +175345,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -170628,6 +175444,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -170741,6 +175559,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -170838,6 +175658,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -170935,6 +175757,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -171032,6 +175856,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -171145,6 +175971,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -171242,6 +176070,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171339,6 +176169,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -171436,6 +176268,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -171549,6 +176383,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -171646,6 +176482,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -171743,6 +176581,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -171840,6 +176680,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -171953,6 +176795,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -172050,6 +176894,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172147,6 +176993,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -172244,6 +177092,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -172357,6 +177207,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -172454,6 +177306,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172551,6 +177405,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -172648,6 +177504,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -172761,6 +177619,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -172858,6 +177718,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172955,6 +177817,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -173052,6 +177916,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -173165,6 +178031,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -173262,6 +178130,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173359,6 +178229,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -173456,6 +178328,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -173569,6 +178443,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -173666,6 +178542,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173763,6 +178641,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -173860,6 +178740,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -173973,6 +178855,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -174070,6 +178954,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174167,6 +179053,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -174264,6 +179152,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -174377,6 +179267,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -174474,6 +179366,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174571,6 +179465,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -174668,6 +179564,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -174781,6 +179679,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -174878,6 +179778,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174975,6 +179877,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -175072,6 +179976,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -175185,6 +180091,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -175282,6 +180190,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175379,6 +180289,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -175476,6 +180388,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -175589,6 +180503,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -175686,6 +180602,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175783,6 +180701,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -175880,6 +180800,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -175993,6 +180915,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -176090,6 +181014,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176187,6 +181113,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -176284,6 +181212,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -176397,6 +181327,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -176494,6 +181426,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176590,6 +181524,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -176687,6 +181623,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -176824,6 +181762,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -176921,6 +181861,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -177105,6 +182047,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -177202,6 +182146,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -177351,6 +182297,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -177448,6 +182396,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -177642,6 +182592,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -177739,6 +182691,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -177970,6 +182924,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -178067,6 +183023,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -178282,6 +183240,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -178379,6 +183339,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -178579,6 +183541,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -178676,6 +183640,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -178854,6 +183820,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -178951,6 +183919,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -179151,6 +184121,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -179248,6 +184220,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179426,6 +184400,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -179523,6 +184499,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -179723,6 +184701,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -179820,6 +184800,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179917,6 +184899,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -180014,6 +184998,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -180127,6 +185113,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -180224,6 +185212,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -180657,6 +185647,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -180754,6 +185746,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -180867,6 +185861,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -180964,6 +185960,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181061,6 +186059,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -181158,6 +186158,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -181333,6 +186335,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -181430,6 +186434,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181570,6 +186576,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -181667,6 +186675,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -181859,6 +186869,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -181908,6 +186923,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -182042,6 +187062,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -182139,6 +187161,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182375,6 +187399,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     company: CompanyCreateNestedOneWithoutLeadsInput
     campaign?: CampaignCreateNestedOneWithoutLeadsInput
     trackingLink?: TrackingLinkCreateNestedOneWithoutLeadsInput
@@ -182425,6 +187454,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
     messages?: MessageUncheckedCreateNestedManyWithoutLeadInput
     comments?: LeadCommentUncheckedCreateNestedManyWithoutLeadInput
@@ -182574,6 +187608,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -182624,6 +187663,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -182820,6 +187864,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -182917,6 +187963,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -183030,6 +188078,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -183127,6 +188177,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -183225,6 +188277,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -183322,6 +188376,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -183435,6 +188491,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -183532,6 +188590,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -183629,6 +188689,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -183726,6 +188788,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -183991,6 +189055,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -184088,6 +189154,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184331,6 +189399,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -184428,6 +189498,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -184578,6 +189650,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -184675,6 +189749,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184815,6 +189891,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
@@ -184912,6 +189990,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
     marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
     instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
     igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
     igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
@@ -185025,6 +190105,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -185122,6 +190204,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -186549,6 +191633,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
   }
 
@@ -186763,6 +191852,7 @@ export namespace Prisma {
     color?: string
     order?: number
     isFinal?: boolean
+    outcome?: $Enums.StageOutcome
   }
 
   export type CompanyContactCreateManyCompanyInput = {
@@ -186907,6 +191997,25 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById?: string | null
+  }
+
+  export type MetaConversionLogCreateManyCompanyInput = {
+    id?: string
+    leadId?: string | null
+    eventName: string
+    eventId: string
+    status?: $Enums.MetaConversionStatus
+    attempts?: number
+    value?: number | null
+    currency?: string
+    matchQuality?: string | null
+    eventsReceived?: number | null
+    fbtraceId?: string | null
+    lastError?: string | null
+    nextRetryAt?: Date | string | null
+    sentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type InstagramAccountCreateManyCompanyInput = {
@@ -187323,6 +192432,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
@@ -187420,6 +192531,8 @@ export namespace Prisma {
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
     igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
@@ -187971,6 +193084,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
@@ -188020,6 +193138,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -188066,6 +193189,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -188722,6 +193850,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
   }
 
   export type PipelineStageConfigUncheckedUpdateWithoutCompanyInput = {
@@ -188731,6 +193860,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
   }
 
   export type PipelineStageConfigUncheckedUpdateManyWithoutCompanyInput = {
@@ -188740,6 +193870,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     isFinal?: BoolFieldUpdateOperationsInput | boolean
+    outcome?: EnumStageOutcomeFieldUpdateOperationsInput | $Enums.StageOutcome
   }
 
   export type CompanyContactUpdateWithoutCompanyInput = {
@@ -189194,6 +194325,63 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MetaConversionLogUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MetaConversionLogUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventName?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    status?: EnumMetaConversionStatusFieldUpdateOperationsInput | $Enums.MetaConversionStatus
+    attempts?: IntFieldUpdateOperationsInput | number
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
+    currency?: StringFieldUpdateOperationsInput | string
+    matchQuality?: NullableStringFieldUpdateOperationsInput | string | null
+    eventsReceived?: NullableIntFieldUpdateOperationsInput | number | null
+    fbtraceId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InstagramAccountUpdateWithoutCompanyInput = {
@@ -190276,6 +195464,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
   }
 
@@ -190361,6 +195554,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
@@ -190410,6 +195608,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -190456,6 +195659,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -190646,6 +195854,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
   }
 
@@ -190690,6 +195903,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     promotedViaEmailCampaign?: EmailCampaignUpdateOneWithoutPromotedLeadsNestedInput
@@ -190739,6 +195957,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -190785,6 +196008,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -191519,6 +196747,11 @@ export namespace Prisma {
     promotedAt?: Date | string | null
     promotedReason?: string | null
     promotedViaEmailCampaignId?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
   }
 
   export type MessageUpdateWithoutConversationInput = {
@@ -191692,6 +196925,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -191742,6 +196980,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -191788,6 +197031,11 @@ export namespace Prisma {
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
     promotedViaEmailCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TicketMessageCreateManyTicketInput = {
@@ -193269,6 +198517,11 @@ export namespace Prisma {
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
+    fbc?: string | null
+    fbp?: string | null
+    eventSourceUrl?: string | null
+    clientIp?: string | null
+    clientUserAgent?: string | null
     conversationId?: string | null
   }
 
@@ -193358,6 +198611,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneRequiredWithoutLeadsNestedInput
     campaign?: CampaignUpdateOneWithoutLeadsNestedInput
     trackingLink?: TrackingLinkUpdateOneWithoutLeadsNestedInput
@@ -193407,6 +198665,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     messages?: MessageUncheckedUpdateManyWithoutLeadNestedInput
     comments?: LeadCommentUncheckedUpdateManyWithoutLeadNestedInput
@@ -193453,6 +198716,11 @@ export namespace Prisma {
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fbc?: NullableStringFieldUpdateOperationsInput | string | null
+    fbp?: NullableStringFieldUpdateOperationsInput | string | null
+    eventSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    clientUserAgent?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -193825,6 +199093,14 @@ export namespace Prisma {
      * @deprecated Use MarketingIntegrationDefaultArgs instead
      */
     export type MarketingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketingIntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MetaConversionConfigDefaultArgs instead
+     */
+    export type MetaConversionConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MetaConversionConfigDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MetaConversionLogDefaultArgs instead
+     */
+    export type MetaConversionLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MetaConversionLogDefaultArgs<ExtArgs>
     /**
      * @deprecated Use InstagramAccountDefaultArgs instead
      */

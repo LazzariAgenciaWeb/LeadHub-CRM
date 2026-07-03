@@ -38,11 +38,16 @@ export async function POST(req: NextRequest) {
   const isSuperAdmin = (session.user as any).role === "SUPER_ADMIN";
   const body = await req.json();
 
-  const { pipeline, name, color, order, isFinal, companyId: bodyCompanyId } = body;
+  const { pipeline, name, color, order, isFinal, outcome, companyId: bodyCompanyId } = body;
 
   if (!pipeline || !name) {
     return NextResponse.json({ error: "pipeline e name são obrigatórios" }, { status: 400 });
   }
+
+  // GANHO/PERDIDO são sempre etapas de encerramento — força isFinal.
+  const normalizedOutcome: "NEUTRO" | "GANHO" | "PERDIDO" =
+    outcome === "GANHO" || outcome === "PERDIDO" ? outcome : "NEUTRO";
+  const effectiveIsFinal = normalizedOutcome !== "NEUTRO" ? true : (isFinal ?? false);
 
   const effectiveCompanyId = isSuperAdmin ? (bodyCompanyId ?? companyId) : companyId;
   if (!effectiveCompanyId) {
@@ -65,7 +70,8 @@ export async function POST(req: NextRequest) {
       name,
       color: color ?? "#6366f1",
       order: nextOrder,
-      isFinal: isFinal ?? false,
+      isFinal: effectiveIsFinal,
+      outcome: normalizedOutcome,
       companyId: effectiveCompanyId,
     },
   });

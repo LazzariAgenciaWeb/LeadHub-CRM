@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
-  UserCircle, Search, Bot,
+  UserCircle, Search, Bot, Target,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -55,6 +55,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "OpenAI",          desc: "IA e automação" },
       { key: "integracoes-prospeccao",Icon: Search,     grad: "pipeline",  label: "Prospecta IA · SerpAPI", desc: "Busca de prospects no Google Maps" },
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
+      { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta · Conversões", desc: "Avisa o Meta quando o lead vira venda" },
     ],
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
@@ -117,6 +118,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "integracoes-openai":     "ai",
   "integracoes-prospeccao": "prospeccao",
   "integracoes-webhook":    "crm",
+  "integracoes-meta":       "crm",
 };
 
 // Itens visíveis APENAS pro SUPER_ADMIN (Lazzari) — porque referem a config

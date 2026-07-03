@@ -8,6 +8,8 @@ interface CompanyOption {
   name: string;
 }
 
+type StageOutcome = "NEUTRO" | "GANHO" | "PERDIDO";
+
 interface Stage {
   id: string;
   pipeline: string;
@@ -15,7 +17,14 @@ interface Stage {
   color: string;
   order: number;
   isFinal: boolean;
+  outcome?: StageOutcome;
 }
+
+const OUTCOME_OPTS: { value: StageOutcome; label: string }[] = [
+  { value: "NEUTRO", label: "Normal" },
+  { value: "GANHO", label: "🏆 Ganho (dispara conversão)" },
+  { value: "PERDIDO", label: "❌ Perdido" },
+];
 
 const PIPELINES = [
   { key: "PROSPECCAO", label: "🔎 Prospecção", desc: "Contatos frios do BDR" },
@@ -50,11 +59,13 @@ export default function PipelineSettings({
   const [newName, setNewName] = useState("");
   const [newColor, setNewColor] = useState("#6366f1");
   const [newIsFinal, setNewIsFinal] = useState(false);
+  const [newOutcome, setNewOutcome] = useState<StageOutcome>("NEUTRO");
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editColor, setEditColor] = useState("");
+  const [editOutcome, setEditOutcome] = useState<StageOutcome>("NEUTRO");
   const [seeding, setSeeding] = useState<string | null>(null);
 
   const byPipeline = (p: string) =>
@@ -73,6 +84,7 @@ export default function PipelineSettings({
         name: newName.trim(),
         color: newColor,
         isFinal: newIsFinal,
+        outcome: newOutcome,
         order: existing.length,
         companyId,
       }),
@@ -83,6 +95,7 @@ export default function PipelineSettings({
       setNewName("");
       setNewColor("#6366f1");
       setNewIsFinal(false);
+      setNewOutcome("NEUTRO");
       setAddingTo(null);
       router.refresh();
     }
@@ -103,7 +116,7 @@ export default function PipelineSettings({
     const res = await fetch(`/api/pipeline/stages/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: editName, color: editColor }),
+      body: JSON.stringify({ name: editName, color: editColor, outcome: editOutcome }),
     });
     if (res.ok) {
       const updated = await res.json();
@@ -301,17 +314,35 @@ export default function PipelineSettings({
                           />
                         ))}
                       </div>
+                      <select
+                        value={editOutcome}
+                        onChange={(e) => setEditOutcome(e.target.value as StageOutcome)}
+                        className="bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+                        title="Resultado comercial da etapa"
+                      >
+                        {OUTCOME_OPTS.map((o) => (
+                          <option key={o.value} value={o.value}>{o.label}</option>
+                        ))}
+                      </select>
                       <button onClick={() => handleEditSave(stage.id)} disabled={saving} className="px-2 py-1 rounded bg-indigo-600 text-white text-xs hover:bg-indigo-500 disabled:opacity-50">Salvar</button>
                       <button onClick={() => setEditingId(null)} className="text-slate-500 text-xs hover:text-white">✕</button>
                     </div>
                   ) : (
                     <div className="flex-1 flex items-center gap-2 min-w-0">
                       <span className="text-white text-sm font-medium truncate">{stage.name}</span>
-                      {stage.isFinal && (
+                      {stage.outcome === "GANHO" ? (
+                        <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-1.5 py-0.5 rounded-full flex-shrink-0" title="Entrar aqui dispara o evento de conversão pro Meta">
+                          🏆 Ganho
+                        </span>
+                      ) : stage.outcome === "PERDIDO" ? (
+                        <span className="text-[10px] text-red-300 bg-red-500/15 px-1.5 py-0.5 rounded-full flex-shrink-0">
+                          Perdido
+                        </span>
+                      ) : stage.isFinal ? (
                         <span className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded-full flex-shrink-0">
                           etapa final
                         </span>
-                      )}
+                      ) : null}
                     </div>
                   )}
 
@@ -327,7 +358,7 @@ export default function PipelineSettings({
                         ▲
                       </button>
                       <button
-                        onClick={() => { setEditingId(stage.id); setEditName(stage.name); setEditColor(stage.color); }}
+                        onClick={() => { setEditingId(stage.id); setEditName(stage.name); setEditColor(stage.color); setEditOutcome(stage.outcome ?? "NEUTRO"); }}
                         className="w-6 h-6 flex items-center justify-center rounded text-slate-600 hover:text-white hover:bg-white/5 text-xs"
                         title="Editar"
                       >
@@ -380,15 +411,34 @@ export default function PipelineSettings({
                     ))}
                   </div>
                 </div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={newIsFinal}
-                    onChange={(e) => setNewIsFinal(e.target.checked)}
-                    className="w-4 h-4 rounded"
-                  />
-                  <span className="text-slate-400 text-xs">Etapa final (Fechado / Perdido)</span>
-                </label>
+                <div>
+                  <p className="text-slate-500 text-[10px] mb-2">Resultado comercial</p>
+                  <select
+                    value={newOutcome}
+                    onChange={(e) => setNewOutcome(e.target.value as StageOutcome)}
+                    className="w-full bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+                  >
+                    {OUTCOME_OPTS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                  {newOutcome === "GANHO" && (
+                    <p className="text-emerald-400/80 text-[10px] mt-1.5">
+                      Ao entrar nesta etapa, o lead conta como venda e (fase 2) dispara a conversão pro Meta.
+                    </p>
+                  )}
+                </div>
+                {newOutcome === "NEUTRO" && (
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={newIsFinal}
+                      onChange={(e) => setNewIsFinal(e.target.checked)}
+                      className="w-4 h-4 rounded"
+                    />
+                    <span className="text-slate-400 text-xs">Etapa final (encerra o fluxo, sem ser ganho/perdido)</span>
+                  </label>
+                )}
                 <div className="flex gap-2">
                   <button type="submit" disabled={saving || !newName.trim()} className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-50">
                     {saving ? "Salvando..." : "Adicionar"}

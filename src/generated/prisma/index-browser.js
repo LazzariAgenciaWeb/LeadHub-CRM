@@ -285,6 +285,11 @@ exports.Prisma.LeadScalarFieldEnum = {
   promotedAt: 'promotedAt',
   promotedReason: 'promotedReason',
   promotedViaEmailCampaignId: 'promotedViaEmailCampaignId',
+  fbc: 'fbc',
+  fbp: 'fbp',
+  eventSourceUrl: 'eventSourceUrl',
+  clientIp: 'clientIp',
+  clientUserAgent: 'clientUserAgent',
   conversationId: 'conversationId'
 };
 
@@ -380,6 +385,7 @@ exports.Prisma.PipelineStageConfigScalarFieldEnum = {
   color: 'color',
   order: 'order',
   isFinal: 'isFinal',
+  outcome: 'outcome',
   companyId: 'companyId'
 };
 
@@ -759,6 +765,41 @@ exports.Prisma.MarketingIntegrationScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById'
+};
+
+exports.Prisma.MetaConversionConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  pixelId: 'pixelId',
+  accessTokenEnc: 'accessTokenEnc',
+  testEventCode: 'testEventCode',
+  eventName: 'eventName',
+  currency: 'currency',
+  enabled: 'enabled',
+  lastEventAt: 'lastEventAt',
+  lastStatus: 'lastStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MetaConversionLogScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  leadId: 'leadId',
+  eventName: 'eventName',
+  eventId: 'eventId',
+  status: 'status',
+  attempts: 'attempts',
+  value: 'value',
+  currency: 'currency',
+  matchQuality: 'matchQuality',
+  eventsReceived: 'eventsReceived',
+  fbtraceId: 'fbtraceId',
+  lastError: 'lastError',
+  nextRetryAt: 'nextRetryAt',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.InstagramAccountScalarFieldEnum = {
@@ -1470,6 +1511,12 @@ exports.TaskSource = exports.$Enums.TaskSource = {
   AUTO_LINK_OPEN: 'AUTO_LINK_OPEN'
 };
 
+exports.StageOutcome = exports.$Enums.StageOutcome = {
+  NEUTRO: 'NEUTRO',
+  GANHO: 'GANHO',
+  PERDIDO: 'PERDIDO'
+};
+
 exports.InstanceStatus = exports.$Enums.InstanceStatus = {
   CONNECTED: 'CONNECTED',
   DISCONNECTED: 'DISCONNECTED',
@@ -1579,6 +1626,12 @@ exports.IntegrationStatus = exports.$Enums.IntegrationStatus = {
   EXPIRED: 'EXPIRED',
   ERROR: 'ERROR',
   DISCONNECTED: 'DISCONNECTED'
+};
+
+exports.MetaConversionStatus = exports.$Enums.MetaConversionStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
 };
 
 exports.IgTriggerType = exports.$Enums.IgTriggerType = {
@@ -1800,6 +1853,8 @@ exports.Prisma.ModelName = {
   CompanySecureNote: 'CompanySecureNote',
   SecureNoteAccessLog: 'SecureNoteAccessLog',
   MarketingIntegration: 'MarketingIntegration',
+  MetaConversionConfig: 'MetaConversionConfig',
+  MetaConversionLog: 'MetaConversionLog',
   InstagramAccount: 'InstagramAccount',
   IgAutomation: 'IgAutomation',
   IgAutomationRun: 'IgAutomationRun',

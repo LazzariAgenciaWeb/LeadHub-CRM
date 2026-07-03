@@ -22,9 +22,9 @@ async function getLink(code: string) {
   });
 }
 
-function buildDestUrl(link: Awaited<ReturnType<typeof getLink>>) {
+function buildDestUrl(link: Awaited<ReturnType<typeof getLink>>, fbclid?: string) {
   if (!link) return "/";
-  let dest = link.destination;
+  const dest = link.destination;
   const isWhatsapp = dest.includes("wa.me") || dest.includes("api.whatsapp.com");
   if (isWhatsapp) return dest;
 
@@ -48,6 +48,10 @@ function buildDestUrl(link: Awaited<ReturnType<typeof getLink>>) {
       );
     if (!url.searchParams.has("utm_content"))
       url.searchParams.set("utm_content", link.code);
+    // Repassa o fbclid pra landing — o Pixel do Meta lá converte em cookie _fbc,
+    // que depois volta no webhook e turbina o match do Conversions API (Fase 2).
+    if (fbclid && !url.searchParams.has("fbclid"))
+      url.searchParams.set("fbclid", fbclid);
     return url.toString();
   } catch {
     return dest;
@@ -56,10 +60,13 @@ function buildDestUrl(link: Awaited<ReturnType<typeof getLink>>) {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ code: string }>;
+  searchParams: Promise<{ fbclid?: string }>;
 }): Promise<Metadata> {
   const { code } = await params;
+  const { fbclid } = await searchParams;
   const link = await getLink(code);
   if (!link) return {};
 
@@ -87,7 +94,7 @@ export async function generateMetadata({
       : "Clique para saber mais");
 
   const image = link.ogImage ?? `${BASE_URL}/og-default.png`;
-  const dest = buildDestUrl(link);
+  const dest = buildDestUrl(link, fbclid);
 
   return {
     title,
@@ -114,14 +121,17 @@ export async function generateMetadata({
 
 export default async function RedirectPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ code: string }>;
+  searchParams: Promise<{ fbclid?: string }>;
 }) {
   const { code } = await params;
+  const { fbclid } = await searchParams;
   const link = await getLink(code);
   if (!link) notFound();
 
-  const dest = buildDestUrl(link);
+  const dest = buildDestUrl(link, fbclid);
 
   return <RedirectClient linkId={link.id} code={link.code} dest={dest} isActive={link.isActive} />;
 }

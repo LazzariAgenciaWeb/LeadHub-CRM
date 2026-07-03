@@ -50,7 +50,7 @@ export default async function ProspeccaoPage({
       canonicalNames.has(s.name) && (seen.has(s.name) ? false : (seen.add(s.name), true))
     );
     if (stages.length === 0) {
-      stages = DEFAULT_STAGES.map((s, i) => ({ ...s, id: `default-${i}`, pipeline: PIPELINE, companyId: "", createdAt: new Date(), updatedAt: new Date() }));
+      stages = DEFAULT_STAGES.map((s, i) => ({ ...s, id: `default-${i}`, pipeline: PIPELINE, companyId: "", outcome: "NEUTRO" as const, createdAt: new Date(), updatedAt: new Date() }));
     }
   }
 

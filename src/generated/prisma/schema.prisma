@@ -243,6 +243,8 @@ model Company {
   secureNotes               CompanySecureNote[]
   secureNoteAccessLogs      SecureNoteAccessLog[]
   marketingIntegrations     MarketingIntegration[]
+  metaConversionConfig      MetaConversionConfig?
+  metaConversionLogs        MetaConversionLog[]
   instagramAccounts         InstagramAccount[]
   igAutomations             IgAutomation[]
   igAutomationRuns          IgAutomationRun[]
@@ -447,6 +449,17 @@ model Lead {
   promotedReason             String? // "link_click" | "email_click" | "whatsapp_reply"
   promotedViaEmailCampaign   EmailCampaign? @relation("CampaignPromotedLeads", fields: [promotedViaEmailCampaignId], references: [id], onDelete: SetNull)
   promotedViaEmailCampaignId String?
+
+  // ─── Sinais de atribuição do Meta (Conversions API) ──────────────────────
+  // Preenchidos quando o lead entra por uma landing com o Pixel do Meta (via
+  // webhook) ou pelo shortlink /r/CODE que carrega o fbclid. Melhoram MUITO o
+  // match no CAPI vs. só email/telefone. fbc/fbp vão puros (não hasheados);
+  // ip/user-agent idem. Quando algum existe, o evento vira action_source=website.
+  fbc             String? // cookie _fbc (fb.1.<ts>.<fbclid>)
+  fbp             String? // cookie _fbp do Pixel
+  eventSourceUrl  String? // URL da landing onde o lead converteu
+  clientIp        String? // IP do visitante no momento da conversão
+  clientUserAgent String? @db.Text // user-agent do visitante
 
   // Conversa unificada (uma conversa por telefone × empresa, criada no Sprint 1)
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
@@ -688,17 +701,29 @@ model LeadComment {
 // ─── Etapas de Pipeline Configuráveis ────────────────────────────────────────
 
 model PipelineStageConfig {
-  id       String  @id @default(cuid())
+  id       String       @id @default(cuid())
   pipeline String // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
   name     String
-  color    String  @default("#6366f1")
-  order    Int     @default(0)
-  isFinal  Boolean @default(false) // FECHADO / PERDIDO — etapas de encerramento
+  color    String       @default("#6366f1")
+  order    Int          @default(0)
+  isFinal  Boolean      @default(false) // FECHADO / PERDIDO — etapas de encerramento
+  // Resultado comercial da etapa (independe do pipeline). GANHO = venda fechada:
+  // dispara o evento de conversão pro Meta (Conversions API) e conta como venda
+  // na gamificação — funciona em QUALQUER pipeline (inclusive clientes que só
+  // têm LEADS, sem OPORTUNIDADES). PERDIDO = perda. NEUTRO = etapa normal.
+  // Marcar GANHO/PERDIDO implica isFinal=true (garantido na API).
+  outcome  StageOutcome @default(NEUTRO)
 
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
   @@index([companyId, pipeline])
+}
+
+enum StageOutcome {
+  NEUTRO
+  GANHO
+  PERDIDO
 }
 
 // ─── Contatos da Empresa (WhatsApp) ──────────────────────────────────────────
@@ -1580,6 +1605,72 @@ enum IntegrationStatus {
   EXPIRED // refresh token inválido / revogado
   ERROR // falha repetida no sync
   DISCONNECTED // usuário desconectou manualmente
+}
+
+// ─── Meta Conversions API (CAPI) — conversões offline do CRM ────────────────────
+//
+// Quando um lead entra numa etapa marcada como GANHO (PipelineStageConfig.outcome),
+// o servidor manda um evento server-to-server pro Pixel do Meta (Graph API
+// /{pixelId}/events) pra otimizar campanhas por VENDA REAL, não só formulário.
+// Cada empresa-cliente conecta o próprio Pixel + token CAPI (System User).
+// O token fica em AES-256-GCM (mesmo padrão do cofre / crypto.ts).
+model MetaConversionConfig {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @unique
+
+  pixelId        String // ID do Pixel/Dataset no Events Manager
+  accessTokenEnc String  @db.Text // token CAPI cifrado (nunca retornado ao cliente)
+  testEventCode  String? // TEST#### do Events Manager (vazio em produção)
+  eventName      String  @default("Purchase") // evento padrão disparado no ganho
+  currency       String  @default("BRL")
+  enabled        Boolean @default(true)
+
+  // Diagnóstico do último disparo (mostrado na tela de config).
+  lastEventAt DateTime?
+  lastStatus  String?   @db.Text // "ok" | "error: ..."
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Outbox/log de cada evento CAPI (Fase 3). Grava PENDING antes de enviar; um
+// cron reprocessa PENDING/FAILED com backoff. Idempotente por (companyId,eventId)
+// — o mesmo ganho/promoção nunca vira 2 envios. Alimenta a tela de diagnóstico.
+model MetaConversionLog {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  leadId    String? // null em evento de teste
+  eventName String // "Purchase" | "Lead"
+  eventId   String // dedup no Meta: `${lead.id}:won` | `${lead.id}:lead`
+
+  status   MetaConversionStatus @default(PENDING)
+  attempts Int                  @default(0)
+
+  value        Float?
+  currency     String  @default("BRL")
+  matchQuality String? // "website" (com fbc/fbp) | "system_generated"
+
+  eventsReceived Int?
+  fbtraceId      String?
+  lastError      String?   @db.Text
+  nextRetryAt    DateTime? // quando o cron deve tentar de novo (null = não reagendado)
+  sentAt         DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, eventId])
+  @@index([status, nextRetryAt])
+  @@index([companyId, createdAt])
+}
+
+enum MetaConversionStatus {
+  PENDING
+  SENT
+  FAILED
 }
 
 // ─── Instagram — Automação estilo ManyChat ─────────────────────────────────────

@@ -13,7 +13,13 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { name, color, order, isFinal } = body;
+  const { name, color, order, isFinal, outcome } = body;
+
+  // GANHO/PERDIDO são sempre etapas de encerramento — força isFinal=true quando
+  // o outcome muda pra um deles. Voltar pra NEUTRO não mexe em isFinal (uma etapa
+  // pode ser final sem ser ganho/perdido — ex: "Resolvido" em Chamados).
+  const outcomeValid = outcome === "NEUTRO" || outcome === "GANHO" || outcome === "PERDIDO";
+  const forcedFinal = outcomeValid && outcome !== "NEUTRO";
 
   const stage = await prisma.pipelineStageConfig.update({
     where: { id },
@@ -22,6 +28,8 @@ export async function PATCH(
       ...(color !== undefined && { color }),
       ...(order !== undefined && { order }),
       ...(isFinal !== undefined && { isFinal }),
+      ...(outcomeValid && { outcome }),
+      ...(forcedFinal && { isFinal: true }),
     },
   });
 

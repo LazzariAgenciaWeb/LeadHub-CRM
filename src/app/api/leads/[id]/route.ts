@@ -7,6 +7,7 @@ import { formatBrazilDateTime, formatBrazilDateTimeShort } from "@/lib/datetime"
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { createConversationEvent } from "@/lib/conversation-events";
+import { sendLeadWonConversion, sendLeadPromotedConversion } from "@/lib/meta-capi";
 
 // GET /api/leads/[id]
 export async function GET(
@@ -81,21 +82,43 @@ export async function PATCH(
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
-  // Auto-sync de lead.status ao mover pro Kanban: arrastar pra etapa "Fechado"
-  // ou similar marca status=CLOSED; "Perdido" marca status=LOST. Sem isso o
+  // Auto-sync de lead.status ao mover pro Kanban: entrar numa etapa marcada como
+  // GANHO na config marca status=CLOSED; PERDIDO marca status=LOST. Sem isso o
   // gatilho de gamificação (LEAD_CONVERTIDO) nunca dispara — Kanban só envia
-  // pipelineStage. Detecta por nome (ou config isFinal) ainda dá robustez.
+  // pipelineStage.
+  //
+  // Fonte da verdade: PipelineStageConfig.outcome (configurável por empresa e por
+  // pipeline — funciona pra cliente que só tem LEADS). Fallback pro match por nome
+  // pra etapas ainda não classificadas (base antiga sem outcome setado).
   let derivedStatus: "CLOSED" | "LOST" | undefined;
-  if (
+  let enteredGanho = false; // entrou numa etapa GANHO agora (gatilho de conversão)
+  const stageChanged =
     pipelineStage !== undefined &&
     pipelineStage !== existing.pipelineStage &&
-    pipelineStage
-  ) {
-    const s = pipelineStage.toLowerCase();
-    if (s.includes("fechado") || s.includes("ganho") || s.includes("vendi") || s.includes("vendid")) {
+    !!pipelineStage;
+  if (stageChanged) {
+    // Pipeline de destino = o que veio no body, ou o atual do lead se não mudou.
+    const destPipeline = pipeline !== undefined ? pipeline : existing.pipeline;
+    const stageCfg = destPipeline
+      ? await prisma.pipelineStageConfig.findFirst({
+          where: { companyId: existing.companyId, pipeline: destPipeline, name: pipelineStage },
+          select: { outcome: true },
+        })
+      : null;
+
+    if (stageCfg?.outcome === "GANHO") {
+      enteredGanho = true;
       if (existing.status !== "CLOSED") derivedStatus = "CLOSED";
-    } else if (s.includes("perdido") || s.includes("perdeu") || s.includes("perda")) {
+    } else if (stageCfg?.outcome === "PERDIDO") {
       if (existing.status !== "LOST") derivedStatus = "LOST";
+    } else if (!stageCfg || stageCfg.outcome === "NEUTRO") {
+      // Sem outcome explícito (ou NEUTRO): mantém o comportamento antigo por nome.
+      const s = pipelineStage.toLowerCase();
+      if (s.includes("fechado") || s.includes("ganho") || s.includes("vendi") || s.includes("vendid")) {
+        if (existing.status !== "CLOSED") derivedStatus = "CLOSED";
+      } else if (s.includes("perdido") || s.includes("perdeu") || s.includes("perda")) {
+        if (existing.status !== "LOST") derivedStatus = "LOST";
+      }
     }
   }
   const effectiveStatus = status ?? derivedStatus;
@@ -255,16 +278,53 @@ export async function PATCH(
       void addScoreOnce(
         userId, existing.companyId, "LEAD_VIROU_OPORTUNIDADE", id,
       ).catch(() => {});
+
+      // Meta CAPI — evento "Lead" (meio de funil). Fire-and-forget; só dispara
+      // se a empresa tem Pixel configurado. Dedup no Meta via `${lead.id}:lead`.
+      void sendLeadPromotedConversion({
+        id: lead.id,
+        companyId: lead.companyId,
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        city: lead.city,
+        fbc: lead.fbc,
+        fbp: lead.fbp,
+        eventSourceUrl: lead.eventSourceUrl,
+        clientIp: lead.clientIp,
+        clientUserAgent: lead.clientUserAgent,
+      }).catch(() => {});
     }
     // Oportunidade convertida em venda — idempotente. Só conta se o lead
     // estava no pipeline OPORTUNIDADES (lead "frio" virando venda não conta;
     // lead vira reuniao, oportunidade vira venda).
     // effectiveStatus pega tanto o status explicito do body quanto o
     // derivado da etapa (Kanban arrasta pra "Fechado" → status CLOSED).
+    // Venda contabilizada quando: (a) entrou numa etapa marcada como GANHO em
+    // QUALQUER pipeline (config explícita — cobre cliente que só tem LEADS), ou
+    // (b) legado: fechou estando em OPORTUNIDADES (compat pra etapas sem outcome).
     const wasOpportunity =
       existing.pipeline === "OPORTUNIDADES" || pipeline === "OPORTUNIDADES";
-    if (effectiveStatus === "CLOSED" && existing.status !== "CLOSED" && wasOpportunity) {
+    if (effectiveStatus === "CLOSED" && existing.status !== "CLOSED" && (enteredGanho || wasOpportunity)) {
       void addScoreOnce(userId, existing.companyId, "LEAD_CONVERTIDO", id).catch(() => {});
+
+      // Meta Conversions API — avisa o Meta da venda (otimização por venda real).
+      // Fire-and-forget: só dispara se a empresa configurou o Pixel + token CAPI.
+      // Idempotente no Meta via event_id = `${lead.id}:won`. Retry/outbox = Fase 3.
+      void sendLeadWonConversion({
+        id: lead.id,
+        companyId: lead.companyId,
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        city: lead.city,
+        value: lead.value,
+        fbc: lead.fbc,
+        fbp: lead.fbp,
+        eventSourceUrl: lead.eventSourceUrl,
+        clientIp: lead.clientIp,
+        clientUserAgent: lead.clientUserAgent,
+      }).catch(() => {});
 
       // Easter eggs ligados a conversão:
       const today = new Date().toDateString();

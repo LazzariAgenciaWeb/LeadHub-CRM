@@ -44,6 +44,20 @@ export async function POST(
     return NextResponse.json({ error: "Campo obrigatório: phone (ou telefone)" }, { status: 400 });
   }
 
+  // Sinais de atribuição do Meta (Conversions API). A landing com o Pixel manda
+  // os cookies _fbc/_fbp; se vier só o fbclid, montamos o fbc (fb.1.<ms>.<fbclid>).
+  // IP e user-agent saem dos headers da requisição (o visitante, não o servidor).
+  const fbp = String(body.fbp ?? body._fbp ?? "").trim() || null;
+  let fbc = String(body.fbc ?? body._fbc ?? "").trim() || null;
+  const fbclid = String(body.fbclid ?? "").trim();
+  if (!fbc && fbclid) fbc = `fb.1.${Date.now()}.${fbclid}`;
+  const eventSourceUrl = String(body.eventSourceUrl ?? body.event_source_url ?? body.url ?? "").trim() || null;
+  const clientIp =
+    (req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      req.headers.get("x-real-ip") ||
+      "") || null;
+  const clientUserAgent = req.headers.get("user-agent") || null;
+
   // Busca primeira etapa do pipeline da empresa
   const firstStage = await prisma.pipelineStageConfig.findFirst({
     where: { companyId: company.id, pipeline },
@@ -76,6 +90,11 @@ export async function POST(
       pipeline,
       pipelineStage: firstStage?.name ?? null,
       notes,
+      fbc,
+      fbp,
+      eventSourceUrl,
+      clientIp,
+      clientUserAgent,
     },
     select: { id: true, name: true, phone: true, pipeline: true, pipelineStage: true },
   });
@@ -105,8 +124,9 @@ export async function GET(
     message: "Webhook ativo. Envie um POST com os dados do lead.",
     fields: {
       required: ["phone"],
-      optional: ["name", "email", "source", "pipeline", "notes"],
+      optional: ["name", "email", "source", "pipeline", "notes", "fbc", "fbp", "fbclid", "eventSourceUrl"],
       pipeline_values: ["PROSPECCAO", "LEADS", "OPORTUNIDADES"],
+      meta_capi: "Para melhorar o match no Meta Ads, envie os cookies _fbc e _fbp (ou o fbclid da URL) + eventSourceUrl da landing.",
     },
   });
 }
