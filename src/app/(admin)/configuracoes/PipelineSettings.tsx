@@ -140,6 +140,21 @@ export default function PipelineSettings({
     }
   }
 
+  // Marca/desmarca a etapa como 🏆 Ganho num clique (sem entrar em edição).
+  // Ganho força isFinal=true no backend; a resposta traz o stage já atualizado.
+  async function handleToggleGanho(stage: Stage) {
+    const next: StageOutcome = stage.outcome === "GANHO" ? "NEUTRO" : "GANHO";
+    const res = await fetch(`/api/pipeline/stages/${stage.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ outcome: next }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      setStages((prev) => prev.map((s) => (s.id === stage.id ? updated : s)));
+    }
+  }
+
   async function handleSeedStages(pipeline: string, force = false) {
     if (force && !confirm(`Isso vai apagar as etapas atuais de ${pipeline} e recriar as padrão. Confirma?`)) return;
     setSeeding(pipeline);
@@ -363,6 +378,13 @@ export default function PipelineSettings({
                         title="Editar"
                       >
                         ✏️
+                      </button>
+                      <button
+                        onClick={() => handleToggleGanho(stage)}
+                        className={`w-6 h-6 flex items-center justify-center rounded text-xs hover:bg-white/5 ${stage.outcome === "GANHO" ? "opacity-100" : "opacity-40 grayscale hover:opacity-100 hover:grayscale-0"}`}
+                        title={stage.outcome === "GANHO" ? "É a etapa de venda (Ganho) — dispara conversão pro Meta. Clique pra desmarcar." : "Marcar como etapa de venda (Ganho) — dispara conversão pro Meta"}
+                      >
+                        🏆
                       </button>
                       <button
                         onClick={() => handleToggleFinal(stage)}
