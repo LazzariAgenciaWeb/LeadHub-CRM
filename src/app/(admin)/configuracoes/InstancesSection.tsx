@@ -15,6 +15,10 @@ interface Instance {
   // a instância continua nos grupos e ainda envia, mas para de receber webhook
   // de grupo. Útil quando várias instâncias estão nos mesmos grupos.
   acceptGroups: boolean;
+  // Instância receptora de grupos da empresa (no máx. 1). Quando alguma está
+  // marcada, só ela registra mensagens de grupo — as outras continuam podendo
+  // responder, mas não duplicam a recepção.
+  groupReceiver: boolean;
   createdAt: string;
   company: { id: string; name: string } | null;
   _count: { messages: number };
@@ -63,6 +67,7 @@ export default function InstancesSection({
   // Toggle "aceita grupos" — id da instância em transição (UI desabilitada)
   const [togglingGroups, setTogglingGroups] = useState<string | null>(null);
   const [groupsToggleResult, setGroupsToggleResult] = useState<string | null>(null);
+  const [togglingReceiver, setTogglingReceiver] = useState<string | null>(null);
   const [form, setForm] = useState({ label: "", phone: "", companyId: defaultCompanyId });
   const [createError, setCreateError] = useState<string | null>(null);
 
@@ -250,6 +255,33 @@ export default function InstancesSection({
       setGroupsToggleResult("❌ Erro de conexão");
     } finally {
       setTogglingGroups(null);
+    }
+  }
+
+  async function handleToggleGroupReceiver(inst: Instance) {
+    setTogglingReceiver(inst.id);
+    setGroupsToggleResult(null);
+    try {
+      const r = await fetch(`/api/whatsapp/${inst.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ groupReceiver: !inst.groupReceiver }),
+      });
+      const d = await r.json();
+      if (!r.ok) {
+        setGroupsToggleResult(`❌ ${d.error ?? "Erro ao salvar"}`);
+      } else {
+        setGroupsToggleResult(
+          inst.groupReceiver
+            ? `✅ "${inst.instanceName}" deixou de ser a receptora de grupos`
+            : `✅ "${inst.instanceName}" agora é a ÚNICA receptora de grupos da empresa (as demais continuam podendo responder)`,
+        );
+      }
+      router.refresh();
+    } catch {
+      setGroupsToggleResult("❌ Erro de conexão");
+    } finally {
+      setTogglingReceiver(null);
     }
   }
 
@@ -629,6 +661,25 @@ export default function InstancesSection({
                       }`}
                     >
                       {togglingGroups === inst.id ? "..." : `👥 Grupos ${inst.acceptGroups ? "ON" : "OFF"}`}
+                    </button>
+
+                    {/* Receptora de grupos — no máx. 1 por empresa. Marcada:
+                        só ela registra mensagens de grupo. As outras seguem
+                        podendo RESPONDER (mantenha todas com Grupos ON), mas
+                        não duplicam a recepção. */}
+                    <button
+                      onClick={() => handleToggleGroupReceiver(inst)}
+                      disabled={togglingReceiver === inst.id}
+                      title={inst.groupReceiver
+                        ? "Esta é a instância que RECEBE os grupos. Clique pra desmarcar."
+                        : "Marcar como a ÚNICA receptora de grupos da empresa. As outras seguem podendo responder (deixe todas com Grupos ON)."}
+                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors disabled:opacity-50 ${
+                        inst.groupReceiver
+                          ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20"
+                          : "bg-[#161f30] border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                      }`}
+                    >
+                      {togglingReceiver === inst.id ? "..." : `📥 Receptora ${inst.groupReceiver ? "✓" : ""}`}
                     </button>
 
                     {/* Delete */}

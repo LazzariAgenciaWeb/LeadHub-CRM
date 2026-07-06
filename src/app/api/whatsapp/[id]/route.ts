@@ -29,7 +29,16 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { instanceName, phone, status, webhookUrl, instanceToken, acceptGroups } = body;
+  const { instanceName, phone, status, webhookUrl, instanceToken, acceptGroups, groupReceiver } = body;
+
+  // Receptora de grupos: no máximo 1 por empresa. Ao MARCAR esta como receptora,
+  // desmarca as demais da mesma empresa (regra aplicada aqui, não no banco).
+  if (groupReceiver === true) {
+    await prisma.whatsappInstance.updateMany({
+      where: { companyId: existing.companyId, id: { not: id }, groupReceiver: true } as any,
+      data: { groupReceiver: false } as any,
+    });
+  }
 
   // ── Troca do slug (instanceName) ─────────────────────────────────────────
   // O instanceName é a chave que casa mensagem↔instância em todo o sistema e
@@ -70,6 +79,7 @@ export async function PATCH(
       ...(webhookUrl !== undefined    && { webhookUrl }),
       ...(instanceToken !== undefined && { instanceToken: instanceToken || null }),
       ...(acceptGroups !== undefined  && { acceptGroups: !!acceptGroups }),
+      ...(groupReceiver !== undefined && { groupReceiver: !!groupReceiver }),
     },
   });
 

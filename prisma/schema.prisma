@@ -769,6 +769,16 @@ model WhatsappInstance {
   // disparar webhook a cada mensagem. Útil em empresa com várias instâncias
   // nos mesmos grupos: deixa só 1 receptora, evita duplicação de processamento.
   acceptGroups  Boolean        @default(true)
+  // Instância RECEPTORA de grupos da empresa. No máximo 1 por empresa (regra
+  // aplicada no endpoint PATCH, não no banco). Quando alguma instância da
+  // empresa está marcada, o webhook SÓ persiste mensagem de grupo (@g.us) que
+  // chegou por ela — as demais continuam com acceptGroups=true (sincronizadas,
+  // podendo ENVIAR sem "Aguardando mensagem"), mas seus ecos de grupo são
+  // descartados. Desacopla "quem recebe" de "quem pode responder", evitando a
+  // bagunça de contato quando várias instâncias estão nos mesmos grupos.
+  // Se nenhuma instância da empresa estiver marcada, mantém o comportamento
+  // antigo (toda instância com acceptGroups=true processa grupo).
+  groupReceiver Boolean        @default(false)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 

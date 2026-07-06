@@ -579,6 +579,24 @@ export async function processInboundMessage(payload: {
     const instance = await prisma.whatsappInstance.findFirst({ where: { instanceName } });
     if (!instance) return null;
 
+    // Filtro de RECEPTORA de grupos: se a empresa designou uma instância
+    // receptora, só ela persiste mensagens de grupo (@g.us). As demais seguem
+    // ON (sincronizadas p/ enviar sem "Aguardando mensagem"), mas seus webhooks
+    // de grupo são descartados aqui — evita duplicar contato/atribuição quando
+    // várias instâncias estão nos mesmos grupos. O outbound de quem responde
+    // continua sendo gravado pelo endpoint de envio (+ dedup por externalId),
+    // então nada se perde. Só vale p/ @g.us — @lid segue o fluxo abaixo.
+    // Sem nenhuma receptora marcada: comportamento antigo (processa tudo).
+    if (phone.includes("@g.us")) {
+      const receiverCount = await prisma.whatsappInstance.count({
+        where: { companyId: instance.companyId, groupReceiver: true },
+      });
+      if (receiverCount > 0 && !(instance as any).groupReceiver) {
+        console.log(`[WA inbound] grupo ignorado: "${instanceName}" não é a receptora de grupos da empresa`);
+        return null;
+      }
+    }
+
     // @lid: verificar se este identificador foi mesclado com um número real.
     // Se sim, redireciona para o processamento normal com o número real —
     // evita que futuros webhooks do @lid reconstruam a conversa separada.
