@@ -561,7 +561,7 @@ export default function InstancesSection({
             const sc = STATUS_CONFIG[inst.status] ?? STATUS_CONFIG.DISCONNECTED;
             return (
               <div key={inst.id} className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-11 h-11 rounded-full bg-green-500/10 flex items-center justify-center text-2xl">
                     💬
                   </div>
@@ -580,7 +580,7 @@ export default function InstancesSection({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2 flex-wrap justify-end">
                     {/* Sync */}
                     <button
                       onClick={() => handleSync(inst)}
