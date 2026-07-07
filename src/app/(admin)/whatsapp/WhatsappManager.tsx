@@ -1050,11 +1050,36 @@ export default function WhatsappManager({
     return () => clearTimeout(timer);
   }, [instances, router]);
 
-  // Auto-abrir conversa quando vindo do CRM via ?abrir=PHONE
+  // Auto-abrir conversa quando vindo do CRM via ?abrir=PHONE.
+  // A lista inicial traz só as ~50 conversas mais recentes. Se o telefone do
+  // lead não está entre elas (conversa antiga), busca no histórico completo via
+  // /search, injeta em serverSearchResults (pra aparecer na lista) e abre —
+  // senão o link "Abrir no LeadHub" falha em silêncio pra conversas fora do top 50.
   useEffect(() => {
-    if (!defaultPhone || conversations.length === 0) return;
-    const conv = conversations.find((c) => c.phone === defaultPhone);
-    if (conv) loadConversation(conv);
+    if (!defaultPhone) return;
+    let cancelled = false;
+    (async () => {
+      const local = conversations.find((c) => c.phone === defaultPhone);
+      if (local) { loadConversation(local); return; }
+      try {
+        const params = new URLSearchParams({ q: defaultPhone });
+        if (isSuperAdmin && defaultCompanyId) params.set("companyId", defaultCompanyId);
+        const res = await fetch(`/api/conversations/search?${params}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const hit = (data.conversations as Conversation[] | undefined)?.find(
+          (c) => c.phone === defaultPhone,
+        );
+        if (cancelled || !hit) return;
+        setServerSearchResults((prev) =>
+          prev.some((c) => c.phone === hit.phone) ? prev : [hit, ...prev],
+        );
+        loadConversation(hit);
+      } catch {
+        /* silencioso — se a busca falhar, o usuário ainda pode achar na lista */
+      }
+    })();
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
