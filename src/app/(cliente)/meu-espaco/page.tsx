@@ -142,6 +142,22 @@ export default async function MeuEspacoPage() {
         )}
       </section>
 
+      {/* SEUS PRODUTOS CONTRATADOS — hoje o próprio LeadHub (o sistema é um serviço contratado) */}
+      <section className="row">
+        <div className="rowhead"><h2>Seus produtos contratados</h2><span className="sub">o que é seu e está ativo com a gente</span></div>
+        <div className="rail">
+          <Link href="/dashboard" className="prod">
+            <span className="pic" style={{ background: "linear-gradient(135deg,#6E86FF,#9B7BFF)" }}>⚡</span>
+            <div className="pb">
+              <b>LeadHub</b>
+              <span className="psb">seu sistema de gestão</span>
+              <span className="st ok">Ativo</span>
+              <span className="pr">Acessar o sistema →</span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       <MeuEspacoInteracoes tickets={tickets} services={servicesRaw} />
     </div>
   );
@@ -192,6 +208,19 @@ const CSS = `
 .pnext b{color:var(--ink)}.pnext b.warn{color:var(--warn)}
 .pnext .dotw{width:7px;height:7px;border-radius:50%;background:var(--warn);flex:none}
 .empty{color:var(--ink3);font-size:14px;padding:26px;border:1px dashed var(--line2);border-radius:16px;text-align:center}
+
+/* Produtos contratados */
+.prod{width:262px;display:flex;gap:13px;align-items:flex-start;text-decoration:none;color:inherit;padding:15px;border-radius:15px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid var(--line);
+  box-shadow:0 22px 44px -30px rgba(0,0,0,.9);transition:transform .18s,box-shadow .18s,border-color .18s}
+.prod:hover{transform:translateY(-4px);border-color:rgba(110,134,255,.35);box-shadow:0 32px 56px -30px rgba(46,58,140,.6)}
+.prod .pic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:22px;color:#fff}
+.prod .pb{display:flex;flex-direction:column;gap:2px;min-width:0}
+.prod .pb b{font-size:15px;font-weight:720;letter-spacing:-.01em}
+.prod .pb .psb{font-size:12.5px;color:var(--ink3)}
+.prod .pb .st{align-self:flex-start;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:4px}
+.prod .pb .st.ok{color:var(--ok);background:rgba(79,209,160,.10);border:1px solid rgba(79,209,160,.24)}
+.prod .pb .pr{font-size:12.5px;font-weight:660;color:#AFC0FF;margin-top:8px}
 
 /* Ações: abrir chamado / pedir extra */
 .actcard{width:262px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;padding:16px;border-radius:16px;
