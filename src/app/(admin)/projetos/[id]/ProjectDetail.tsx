@@ -77,10 +77,13 @@ type OpenTask = {
   dueDate:    number | null; // epoch ms
 };
 
+type ChecklistItem = { text: string; done: boolean };
 type InternalTask = {
   id:           string;
   title:        string;
   description:  string | null;
+  stage:        string | null; // etapa/fase (rótulo)
+  checklist:    ChecklistItem[]; // sub-passos
   done:         boolean;
   priority:     string;
   dueDate:      string | null; // ISO
@@ -756,6 +759,140 @@ function FollowupBlock({ project }: { project: Project }) {
 }
 
 /**
+ * Chip de etapa editável inline numa tarefa. Clica → vira input (com sugestões
+ * das etapas já usadas) → Enter/blur salva. Vazio = "sem etapa".
+ */
+function StageChip({
+  value, suggestions, onSave,
+}: {
+  value: string | null;
+  suggestions: string[];
+  onSave: (s: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value ?? "");
+
+  if (editing) {
+    return (
+      <>
+        <input
+          list="etapas-list"
+          autoFocus
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={() => { setEditing(false); if ((draft.trim() || null) !== (value || null)) onSave(draft); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") { setEditing(false); if ((draft.trim() || null) !== (value || null)) onSave(draft); }
+            if (e.key === "Escape") { setEditing(false); setDraft(value ?? ""); }
+          }}
+          placeholder="Etapa"
+          className="bg-[#0a0f1a] border border-indigo-500/60 rounded px-1.5 py-0.5 text-[10px] text-white w-28 focus:outline-none"
+        />
+      </>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => { setDraft(value ?? ""); setEditing(true); }}
+      className={
+        value
+          ? "px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-medium"
+          : "px-1.5 py-0.5 rounded text-slate-600 border border-dashed border-slate-700 hover:text-indigo-300 hover:border-indigo-500/40"
+      }
+      title="Definir etapa"
+    >
+      {value || "+ etapa"}
+    </button>
+  );
+}
+
+/**
+ * Editor de checklist leve (sub-passos) de uma tarefa. Guarda estado local e
+ * persiste o array inteiro via PATCH a cada mudança (sem router.refresh pra não
+ * recolher). O cliente vê esses passos com ✓ na página pública.
+ */
+function ChecklistEditor({
+  projectId, taskId, initial,
+}: {
+  projectId: string;
+  taskId: string;
+  initial: ChecklistItem[];
+}) {
+  const [items, setItems] = useState<ChecklistItem[]>(initial);
+  const [text, setText] = useState("");
+  const [open, setOpen] = useState(initial.length > 0);
+
+  async function persist(next: ChecklistItem[]) {
+    setItems(next);
+    await fetch(`/api/projetos/${projectId}/tasks/${taskId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ checklist: next }),
+    }).catch(() => {});
+  }
+  function add() {
+    const t = text.trim();
+    if (!t) return;
+    persist([...items, { text: t, done: false }]);
+    setText("");
+  }
+
+  const doneCount = items.filter((i) => i.done).length;
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="mt-1 text-[10px] text-slate-600 hover:text-indigo-300"
+      >
+        + checklist
+      </button>
+    );
+  }
+
+  return (
+    <div className="mt-1.5 pl-0.5 space-y-1">
+      {items.length > 0 && (
+        <div className="text-[10px] text-slate-500">Checklist · {doneCount}/{items.length}</div>
+      )}
+      {items.map((it, i) => (
+        <div key={i} className="flex items-center gap-2 group/ck">
+          <input
+            type="checkbox"
+            checked={it.done}
+            onChange={() => persist(items.map((x, idx) => (idx === i ? { ...x, done: !x.done } : x)))}
+            className="w-3.5 h-3.5 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
+          />
+          <span className={`text-[11px] flex-1 ${it.done ? "text-slate-600 line-through" : "text-slate-300"}`}>{it.text}</span>
+          <button
+            onClick={() => persist(items.filter((_, idx) => idx !== i))}
+            className="text-slate-600 hover:text-red-400 opacity-0 group-hover/ck:opacity-100 flex-shrink-0"
+            title="Remover passo"
+          >
+            <Trash2 className="w-3 h-3" />
+          </button>
+        </div>
+      ))}
+      <div className="flex items-center gap-1.5">
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(); } }}
+          placeholder="+ adicionar passo"
+          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+        />
+        {text.trim() && (
+          <button onClick={add} className="text-[11px] px-2 py-1 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white">add</button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Card de tarefas do projeto: lista as tarefas internas do LeadHub e permite
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
@@ -773,8 +910,13 @@ function ProjectTasksCard({
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     destino: hasClickup ? "clickup" : "interna",
-    title: "", description: "", priority: "MEDIUM", dueDate: "", assigneeId: "",
+    title: "", description: "", stage: "", priority: "MEDIUM", dueDate: "", assigneeId: "",
   });
+
+  // Etapas já usadas neste projeto — vira sugestão (datalist) pra reaproveitar rótulos.
+  const knownStages = Array.from(
+    new Set(internalTasks.map((t) => t.stage).filter((s): s is string => !!s && !!s.trim())),
+  );
 
   async function create() {
     if (!form.title.trim()) { setError("Título é obrigatório."); return; }
@@ -787,6 +929,7 @@ function ProjectTasksCard({
         destino:     form.destino,
         title:       form.title.trim(),
         description: form.description.trim() || null,
+        stage:       form.destino === "interna" ? (form.stage.trim() || null) : null,
         priority:    form.priority,
         dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
         assigneeId:  form.destino === "interna" ? (form.assigneeId || null) : null,
@@ -798,7 +941,7 @@ function ProjectTasksCard({
       setError(d.error ?? "Falha ao criar tarefa");
       return;
     }
-    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", priority: "MEDIUM", dueDate: "", assigneeId: "" });
+    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", priority: "MEDIUM", dueDate: "", assigneeId: "" });
     setOpen(false);
     router.refresh();
   }
@@ -812,6 +955,15 @@ function ProjectTasksCard({
     router.refresh();
   }
 
+  async function saveStage(t: InternalTask, stage: string) {
+    await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ stage: stage.trim() || null }),
+    });
+    router.refresh();
+  }
+
   async function remove(t: InternalTask) {
     if (!confirm(`Excluir a tarefa "${t.title}"?`)) return;
     await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, { method: "DELETE" });
@@ -820,6 +972,9 @@ function ProjectTasksCard({
 
   return (
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
+      <datalist id="etapas-list">
+        {knownStages.map((s) => <option key={s} value={s} />)}
+      </datalist>
       <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
         <div>
           <h3 className="text-white font-semibold text-sm">✅ Tarefas do projeto</h3>
@@ -868,9 +1023,20 @@ function ProjectTasksCard({
             value={form.description}
             onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
             rows={2}
-            placeholder="Descrição (opcional)"
+            placeholder={form.destino === "interna" ? "O que será feito nesta tarefa (o cliente vê)" : "Descrição (opcional)"}
             className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
           />
+          {form.destino === "interna" && (
+            <div>
+              <input
+                list="etapas-list"
+                value={form.stage}
+                onChange={(e) => setForm((p) => ({ ...p, stage: e.target.value }))}
+                placeholder="Etapa (ex.: Diagnóstico) — agrupa as tarefas pro cliente"
+                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-2">
             <select
               value={form.priority}
@@ -937,12 +1103,18 @@ function ProjectTasksCard({
                   <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
                     {t.title}
                   </span>
-                  <div className="text-[10px] mt-0.5 flex items-center gap-2">
+                  <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
+                    <StageChip
+                      value={t.stage}
+                      suggestions={knownStages}
+                      onSave={(s) => saveStage(t, s)}
+                    />
                     <span className={prio.cls}>{prio.label}</span>
                     {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
                     {due && <span className={overdue ? "text-red-300" : "text-slate-600"}>· {formatBrazilDate(due)}</span>}
                     <span className="text-slate-700">· interna</span>
                   </div>
+                  <ChecklistEditor projectId={projectId} taskId={t.id} initial={t.checklist} />
                 </div>
                 <button
                   onClick={() => remove(t)}

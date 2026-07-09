@@ -1225,6 +1225,10 @@ model SetorClickupList {
   // + membros + pessoas extras em accessUsers). ADMIN/SUPER_ADMIN sempre veem.
   visibility String @default("OPEN")
 
+  // Link público do cliente (consultivo/entrega) — servido em /c/[publicToken],
+  // sem login (mesmo padrão do d/[token]). null enquanto não gerado.
+  publicToken String? @unique
+
   // Cache de sync vindo do ClickUp via cron
   taskCount      Int       @default(0)
   taskCompleted  Int       @default(0)
@@ -1246,6 +1250,7 @@ model SetorClickupList {
   tickets       Ticket[]           @relation("TicketProjeto")
   internalTasks ProjectTask[]
   accessUsers   ProjectAccessUser[]
+  materials     ProjectMaterial[]
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1264,6 +1269,8 @@ model ProjectTask {
   project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   title       String
   description String?          @db.Text
+  stage       String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — agrupa tarefas na visão do cliente
+  checklist   Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
   done        Boolean          @default(false)
   priority    TicketPriority   @default(MEDIUM)
   dueDate     DateTime?
@@ -1277,6 +1284,8 @@ model ProjectTask {
   completedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  materials ProjectMaterial[]
 
   @@index([projectId, done])
   @@index([assigneeId])
@@ -1360,6 +1369,32 @@ model ProjectMember {
   @@id([projectId, userId])
   @@index([projectId])
   @@index([userId])
+}
+
+// Material entregue num projeto (consultivo ou qualquer projeto): documento
+// (HTML inline), gravação de reunião (vídeo por URL + ata) ou vídeo de apoio.
+// Reaproveita o Projeto (SetorClickupList) — sem subsistema à parte. Sem
+// storage de arquivo no LeadHub: doc em HTML @db.Text, vídeo por URL externa.
+model ProjectMaterial {
+  id        String           @id @default(cuid())
+  projectId String
+  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  // Opcional: material preso a uma TAREFA específica do projeto. null = material
+  // solto no nível do projeto. Um projeto tem N tarefas, cada tarefa N materiais.
+  taskId    String?
+  task      ProjectTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  kind      String // "DOCUMENTO" | "REUNIAO" | "APOIO" | "LINK" | "ANEXO"
+  stage     String? // rótulo opcional da etapa (ex.: "Diagnóstico")
+  title     String
+  docHtml   String?          @db.Text // DOCUMENTO: HTML inline
+  url       String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
+  ata       String?          @db.Text // resumo/ata (reuniões)
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([projectId])
+  @@index([taskId])
 }
 
 // Pivot: usuário ↔ setor (N:N — um usuário pode pertencer a vários setores)

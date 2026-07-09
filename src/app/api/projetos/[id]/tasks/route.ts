@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getClickupSettings, createClickupTask } from "@/lib/clickup";
 import { getViewer, canSeeProject } from "@/lib/visibility";
+import { sanitizeChecklist } from "@/lib/checklist";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -49,7 +50,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.json();
-  const { destino, title, description, priority, dueDate, assigneeId } = body;
+  const { destino, title, description, priority, dueDate, assigneeId, stage, checklist } = body;
+  const stageClean = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
+  const checklistClean = sanitizeChecklist(checklist);
 
   if (!title || !String(title).trim()) {
     return NextResponse.json({ error: "Título é obrigatório" }, { status: 400 });
@@ -118,6 +121,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       projectId:   id,
       title:       String(title).trim(),
       description: description ? String(description) : null,
+      stage:       stageClean,
+      checklist:   checklistClean ?? undefined,
       priority:    prio,
       dueDate:     due,
       assigneeId:  assigneeId || null,

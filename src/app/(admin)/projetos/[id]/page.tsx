@@ -1,8 +1,10 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getViewer, canSeeProject } from "@/lib/visibility";
+import { readChecklist } from "@/lib/checklist";
 import { notFound } from "next/navigation";
 import ProjectDetail from "./ProjectDetail";
+import ProjectMateriais from "./ProjectMateriais";
 
 export const dynamic = "force-dynamic";
 
@@ -86,6 +88,8 @@ export default async function ProjectDetailPage({
     id:           t.id,
     title:        t.title,
     description:  t.description,
+    stage:        t.stage ?? null,
+    checklist:    readChecklist(t.checklist),
     done:         t.done,
     priority:     t.priority as string,
     dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
@@ -131,7 +135,15 @@ export default async function ProjectDetailPage({
         select:  { id: true, name: true },
       });
 
+  // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.
+  const materials = await prisma.projectMaterial.findMany({
+    where:   { projectId: project.id },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true },
+  });
+
   return (
+    <>
     <ProjectDetail
       project={project as any}
       availableUsers={setorUsers.map((su) => su.user)}
@@ -150,5 +162,12 @@ export default async function ProjectDetailPage({
         assigneeName: c.assignee?.name ?? null,
       }))}
     />
+    <ProjectMateriais
+      projectId={id}
+      tasks={internalTasks.map((t) => ({ id: t.id, title: t.title }))}
+      materials={materials}
+      publicToken={project.publicToken ?? null}
+    />
+    </>
   );
 }

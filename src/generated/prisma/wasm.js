@@ -411,6 +411,7 @@ exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   webhookUrl: 'webhookUrl',
   instanceToken: 'instanceToken',
   acceptGroups: 'acceptGroups',
+  groupReceiver: 'groupReceiver',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId'
@@ -589,6 +590,7 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   dueDate: 'dueDate',
   deliveredAt: 'deliveredAt',
   visibility: 'visibility',
+  publicToken: 'publicToken',
   taskCount: 'taskCount',
   taskCompleted: 'taskCompleted',
   taskOverdue: 'taskOverdue',
@@ -606,6 +608,8 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   projectId: 'projectId',
   title: 'title',
   description: 'description',
+  stage: 'stage',
+  checklist: 'checklist',
   done: 'done',
   priority: 'priority',
   dueDate: 'dueDate',
@@ -657,6 +661,21 @@ exports.Prisma.ProjectMemberScalarFieldEnum = {
   userId: 'userId',
   role: 'role',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.ProjectMaterialScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  taskId: 'taskId',
+  kind: 'kind',
+  stage: 'stage',
+  title: 'title',
+  docHtml: 'docHtml',
+  url: 'url',
+  ata: 'ata',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SetorUserScalarFieldEnum = {
@@ -1845,6 +1864,7 @@ exports.Prisma.ModelName = {
   ProjectTaskState: 'ProjectTaskState',
   ProjectActivity: 'ProjectActivity',
   ProjectMember: 'ProjectMember',
+  ProjectMaterial: 'ProjectMaterial',
   SetorUser: 'SetorUser',
   SetorInstance: 'SetorInstance',
   CompanyAsset: 'CompanyAsset',
