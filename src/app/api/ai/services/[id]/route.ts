@@ -42,6 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (f in body) data[f] = (body[f] ?? "").trim() || null;
   }
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
+  if (typeof body.showInClientArea === "boolean") data.showInClientArea = body.showInClientArea;
   if (typeof body.order === "number") data.order = body.order;
 
   const updated = await prisma.service.update({ where: { id }, data });

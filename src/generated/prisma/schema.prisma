@@ -232,6 +232,7 @@ model Company {
   keywordRules              KeywordRule[]
   tickets                   Ticket[]
   ticketsAsClient           Ticket[]                 @relation("TicketClientCompany")
+  clientServices            ClientService[]          @relation("ClientServiceClient")
   trackingLinks             TrackingLink[]
   pipelineStages            PipelineStageConfig[]
   contacts                  CompanyContact[]
@@ -3016,11 +3017,41 @@ model Service {
   // Faixa de preço — uso interno do gestor. NÃO entra no prompt do SDR.
   priceRange          String?
 
-  isActive Boolean @default(true)
-  order    Int     @default(0)
+  isActive         Boolean @default(true)
+  // Aparece na área do cliente ("Disponível para você"). Independente de isActive
+  // (que controla o uso pela IA). Um serviço pode servir só à IA, só ao cliente, ambos.
+  showInClientArea Boolean @default(false)
+  order            Int     @default(0)
+
+  clientInstances ClientService[] // contratações deste serviço por clientes
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId, isActive])
+}
+
+// Serviço CONTRATADO por um cliente (empresa). Um cliente pode ter VÁRIOS —
+// inclusive N do mesmo serviço (ex.: 3 hospedagens). Cada registro é uma
+// instância com os detalhes daquele contrato. Origem opcional no catálogo (Service).
+model ClientService {
+  id              String   @id @default(cuid())
+  clientCompany   Company  @relation("ClientServiceClient", fields: [clientCompanyId], references: [id], onDelete: Cascade)
+  clientCompanyId String
+  service         Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  serviceId       String?
+
+  label    String // apelido desta instância (ex.: "Hospedagem site principal")
+  status   String    @default("ATIVO") // ATIVO | EM_IMPLANTACAO | PAUSADO | ENCERRADO
+  renewsAt DateTime? // renovação/vencimento
+  url      String? // link/acesso
+  notes    String?   @db.Text
+  details  Json? // campos extras flexíveis: [{ "label": string, "value": string }]
+  order    Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientCompanyId])
+  @@index([serviceId])
 }

@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
       references:          (body.references ?? "").trim() || null,
       priceRange:          (body.priceRange ?? "").trim() || null,
       isActive:            body.isActive ?? true,
+      showInClientArea:    body.showInClientArea ?? false,
       order:               typeof body.order === "number" ? body.order : 0,
     },
   });

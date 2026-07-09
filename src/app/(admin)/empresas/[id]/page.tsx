@@ -11,6 +11,7 @@ import DeleteCompanyButton from "./DeleteCompanyButton";
 import EditCompanyButton from "./EditCompanyButton";
 import CompanyDetailTabs from "./CompanyDetailTabs";
 import CompanyCustomFields from "./CompanyCustomFields";
+import CompanyContractedServices from "./CompanyContractedServices";
 
 export default async function EmpresaDetailPage({
   params,
@@ -87,6 +88,26 @@ export default async function EmpresaDetailPage({
         orderBy: { name: "asc" },
       })
     : [];
+
+  // Serviços contratados deste cliente + catálogo da agência (pra o seletor).
+  const catalogOwnerId = company.parentCompanyId ?? id;
+  const [contractedRaw, catalogRaw] = await Promise.all([
+    prisma.clientService.findMany({
+      where:   { clientCompanyId: id },
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      include: { service: { select: { id: true, name: true } } },
+    }),
+    prisma.service.findMany({
+      where:   { companyId: catalogOwnerId },
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+      select:  { id: true, name: true },
+    }),
+  ]);
+  const contracted = contractedRaw.map((c) => ({
+    id: c.id, serviceId: c.serviceId, serviceName: c.service?.name ?? null,
+    label: c.label, status: c.status, renewsAt: c.renewsAt?.toISOString() ?? null,
+    url: c.url, notes: c.notes, details: (c.details as any) ?? null,
+  }));
 
   const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads, recentLeads, recentOportunidades, recentChamados] = await Promise.all([
     prisma.lead.count({ where: { companyId: id, pipeline: "PROSPECCAO" } }),
@@ -312,6 +333,10 @@ export default async function EmpresaDetailPage({
         contacts={contacts as any}
         isSuperAdmin={isSuperAdmin}
       />
+
+      <div className="mt-6">
+        <CompanyContractedServices companyId={id} initial={contracted} catalog={catalogRaw} />
+      </div>
     </div>
   );
 }

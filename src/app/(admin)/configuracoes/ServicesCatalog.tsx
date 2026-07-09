@@ -12,6 +12,7 @@ interface Service {
   references: string | null;
   priceRange: string | null;
   isActive: boolean;
+  showInClientArea: boolean;
   order: number;
 }
 
@@ -38,18 +39,19 @@ export default function ServicesCatalog({
   const [fRefs, setFRefs] = useState("");
   const [fPrice, setFPrice] = useState("");
   const [fActive, setFActive] = useState(true);
+  const [fShowClient, setFShowClient] = useState(false);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   function openNew() {
     setEditing("new");
-    setFName(""); setFDesc(""); setFQuestions(""); setFArgs(""); setFRefs(""); setFPrice(""); setFActive(true); setErr(null);
+    setFName(""); setFDesc(""); setFQuestions(""); setFArgs(""); setFRefs(""); setFPrice(""); setFActive(true); setFShowClient(false); setErr(null);
   }
   function openEdit(s: Service) {
     setEditing(s);
     setFName(s.name); setFDesc(s.description ?? ""); setFQuestions(s.qualifyingQuestions ?? "");
     setFArgs(s.salesArguments ?? ""); setFRefs(s.references ?? ""); setFPrice(s.priceRange ?? "");
-    setFActive(s.isActive); setErr(null);
+    setFActive(s.isActive); setFShowClient(s.showInClientArea); setErr(null);
   }
   function closeForm() { setEditing(null); setErr(null); }
 
@@ -59,6 +61,7 @@ export default function ServicesCatalog({
     const payload: any = {
       companyId, name: fName, description: fDesc, qualifyingQuestions: fQuestions,
       salesArguments: fArgs, references: fRefs, priceRange: fPrice, isActive: fActive,
+      showInClientArea: fShowClient,
     };
     const isNew = editing === "new";
     const url = isNew ? "/api/ai/services" : `/api/ai/services/${(editing as Service).id}`;
@@ -136,11 +139,15 @@ export default function ServicesCatalog({
               </label>
               <input value={fPrice} onChange={(e) => setFPrice(e.target.value)} placeholder="Ex.: R$ 2.000 a R$ 5.000" className={inputCls} />
             </div>
-            <label className="flex items-center gap-2 text-sm text-slate-300 pb-2.5 cursor-pointer whitespace-nowrap">
+            <label className="flex items-center gap-2 text-sm text-slate-300 pb-2.5 cursor-pointer whitespace-nowrap" title="A IA/SDR pode indicar este serviço">
               <input type="checkbox" checked={fActive} onChange={(e) => setFActive(e.target.checked)} className="accent-indigo-500" />
-              Ativo
+              Ativo (IA)
             </label>
           </div>
+          <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+            <input type="checkbox" checked={fShowClient} onChange={(e) => setFShowClient(e.target.checked)} className="accent-indigo-500" />
+            <span>Mostrar pro cliente <span className="text-slate-500 text-xs">(aparece em "Disponível para você" no painel do cliente)</span></span>
+          </label>
 
           {err && <div className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{err}</div>}
 
@@ -167,6 +174,7 @@ export default function ServicesCatalog({
             <div className="flex items-center gap-2">
               <span className="text-white font-semibold text-sm">{s.name}</span>
               {!s.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400">inativo</span>}
+              {s.showInClientArea && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400">👁 cliente</span>}
               {s.priceRange && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/10 text-slate-400">💲 {s.priceRange}</span>}
             </div>
             {s.description && <p className="text-slate-500 text-xs mt-1 line-clamp-2">{s.description}</p>}

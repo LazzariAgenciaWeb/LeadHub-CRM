@@ -45,8 +45,8 @@ export default async function MeuEspacoPage() {
     },
   });
 
-  // Chamados/pedidos do cliente + catálogo de serviços da agência (só nome+descrição).
-  const [ticketsRaw, servicesRaw] = await Promise.all([
+  // Chamados/pedidos + catálogo visível pro cliente + serviços contratados dele.
+  const [ticketsRaw, servicesRaw, contractedRaw] = await Promise.all([
     prisma.ticket.findMany({
       where:   { clientCompanyId: companyId },
       orderBy: [{ createdAt: "desc" }],
@@ -54,10 +54,15 @@ export default async function MeuEspacoPage() {
       select:  { id: true, title: true, category: true, status: true, createdAt: true },
     }),
     prisma.service.findMany({
-      where:   { companyId: company.parentCompanyId, isActive: true },
+      where:   { companyId: company.parentCompanyId, showInClientArea: true },
       orderBy: [{ order: "asc" }],
       take:    12,
       select:  { id: true, name: true, description: true },
+    }),
+    prisma.clientService.findMany({
+      where:   { clientCompanyId: companyId, status: { not: "ENCERRADO" } },
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      select:  { id: true, label: true, status: true, renewsAt: true, url: true, service: { select: { name: true } } },
     }),
   ]);
   const tickets = ticketsRaw.map((t) => ({ ...t, createdAt: t.createdAt.toISOString() }));
@@ -142,7 +147,7 @@ export default async function MeuEspacoPage() {
         )}
       </section>
 
-      {/* SEUS PRODUTOS CONTRATADOS — hoje o próprio LeadHub (o sistema é um serviço contratado) */}
+      {/* SEUS PRODUTOS CONTRATADOS — LeadHub (sistema) + serviços contratados do cliente */}
       <section className="row">
         <div className="rowhead"><h2>Seus produtos contratados</h2><span className="sub">o que é seu e está ativo com a gente</span></div>
         <div className="rail">
@@ -155,6 +160,24 @@ export default async function MeuEspacoPage() {
               <span className="pr">Acessar o sistema →</span>
             </div>
           </Link>
+          {contractedRaw.map((c, i) => {
+            const st = c.status === "ATIVO" ? { l: "Ativo", t: "ok" } : c.status === "PAUSADO" ? { l: "Pausado", t: "warn" } : { l: "Em implantação", t: "info" };
+            const Inner = (
+              <>
+                <span className="pic" style={{ background: COVERS[i % COVERS.length] }}>{c.label.charAt(0).toUpperCase()}</span>
+                <div className="pb">
+                  <b>{c.label}</b>
+                  {c.service?.name && <span className="psb">{c.service.name}</span>}
+                  <span className={`st ${st.t}`}>{st.l}</span>
+                  {c.renewsAt && <span className="pr" style={{ color: "var(--ink3)" }}>🔁 renova {c.renewsAt.toLocaleDateString("pt-BR")}</span>}
+                  {c.url && <span className="pr">Acessar →</span>}
+                </div>
+              </>
+            );
+            return c.url
+              ? <a key={c.id} href={c.url} target="_blank" rel="noreferrer" className="prod">{Inner}</a>
+              : <div key={c.id} className="prod" style={{ cursor: "default" }}>{Inner}</div>;
+          })}
         </div>
       </section>
 
@@ -220,6 +243,8 @@ const CSS = `
 .prod .pb .psb{font-size:12.5px;color:var(--ink3)}
 .prod .pb .st{align-self:flex-start;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:4px}
 .prod .pb .st.ok{color:var(--ok);background:rgba(79,209,160,.10);border:1px solid rgba(79,209,160,.24)}
+.prod .pb .st.info{color:#B6C4FF;background:rgba(110,134,255,.12);border:1px solid rgba(110,134,255,.28)}
+.prod .pb .st.warn{color:var(--warn);background:rgba(245,181,100,.12);border:1px solid rgba(245,181,100,.30)}
 .prod .pb .pr{font-size:12.5px;font-weight:660;color:#AFC0FF;margin-top:8px}
 
 /* Ações: abrir chamado / pedir extra */

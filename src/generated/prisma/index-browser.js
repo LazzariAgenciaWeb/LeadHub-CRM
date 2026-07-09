@@ -1434,6 +1434,22 @@ exports.Prisma.ServiceScalarFieldEnum = {
   references: 'references',
   priceRange: 'priceRange',
   isActive: 'isActive',
+  showInClientArea: 'showInClientArea',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ClientServiceScalarFieldEnum = {
+  id: 'id',
+  clientCompanyId: 'clientCompanyId',
+  serviceId: 'serviceId',
+  label: 'label',
+  status: 'status',
+  renewsAt: 'renewsAt',
+  url: 'url',
+  notes: 'notes',
+  details: 'details',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1917,7 +1933,8 @@ exports.Prisma.ModelName = {
   AdminAuditLog: 'AdminAuditLog',
   Assistant: 'Assistant',
   AiUsageLog: 'AiUsageLog',
-  Service: 'Service'
+  Service: 'Service',
+  ClientService: 'ClientService'
 };
 
 /**

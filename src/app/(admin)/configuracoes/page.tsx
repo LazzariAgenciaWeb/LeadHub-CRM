@@ -402,7 +402,7 @@ export default async function ConfiguracoesPage({
         </div>
       );
     } else {
-      const [assistants, instances, company, servicesRaw] = await Promise.all([
+      const [assistants, instances, company] = await Promise.all([
         prisma.assistant.findMany({
           where: { companyId: targetCompanyId },
           orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
@@ -416,10 +416,6 @@ export default async function ConfiguracoesPage({
         prisma.company.findUnique({
           where: { id: targetCompanyId },
           select: { aiMonthlyQuota: true, aiUsedThisMonth: true, aiQuotaResetAt: true },
-        }),
-        prisma.service.findMany({
-          where: { companyId: targetCompanyId },
-          orderBy: [{ order: "asc" }, { createdAt: "asc" }],
         }),
       ]);
 
@@ -440,9 +436,22 @@ export default async function ConfiguracoesPage({
               aiQuotaResetAt:  company?.aiQuotaResetAt?.toISOString() ?? null,
             }}
           />
-          <div className="px-6 max-w-3xl">
-            <ServicesCatalog companyId={targetCompanyId} initialServices={servicesRaw as any} />
-          </div>
+        </div>
+      );
+    }
+  } else if (secao === "catalogo") {
+    // Catálogo de Serviços — fonte única (usado pela IA e pela área do cliente).
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    if (!targetCompanyId) {
+      content = <div className="p-6 text-slate-500 text-sm">Catálogo por empresa. Impersone uma empresa ou passe ?companyId=.</div>;
+    } else {
+      const servicesRaw = await prisma.service.findMany({
+        where: { companyId: targetCompanyId },
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+      });
+      content = (
+        <div className="p-6 max-w-3xl">
+          <ServicesCatalog companyId={targetCompanyId} initialServices={servicesRaw as any} />
         </div>
       );
     }

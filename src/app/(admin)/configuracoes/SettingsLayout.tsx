@@ -61,6 +61,7 @@ const SECTIONS: SectionItem[] = [
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
   { type: "item", key: "custom-fields", Icon: FileText, grad: "pipeline",  label: "Campos personalizados", desc: "Atributos extras dos leads" },
   { type: "item", key: "assistentes", Icon: Bot,      grad: "openai",      label: "Assistentes de IA", desc: "Agentes, manuais e cota" },
+  { type: "item", key: "catalogo",    Icon: Tag,      grad: "pipeline",    label: "Catálogo de Serviços", desc: "O que você oferece (IA + cliente)" },
 ];
 
 function isIntegSubKey(key: string) {
@@ -102,6 +103,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "pipeline":      "crm",
   "custom-fields": "crm",
   "assistentes":   "ai",
+  "catalogo":      null,
   // Minha Empresa
   "minha-empresa-dados":    null,
   "minha-empresa-contatos": null,
