@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -18,6 +18,7 @@ import { gradStroke, type GradientKey } from "./IconGradients";
 interface SidebarProps {
   session: Session;
   onClose?: () => void;
+  isClient?: boolean;
 }
 
 interface Company {
@@ -29,7 +30,7 @@ interface Company {
 const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades", "/crm"];
 const DASH_ROUTES = ["/dashboard", "/relatorios", "/calendario"];
 
-export default function Sidebar({ session, onClose }: SidebarProps) {
+export default function Sidebar({ session, onClose, isClient = false }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -211,6 +212,21 @@ export default function Sidebar({ session, onClose }: SidebarProps) {
         <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider px-2 mb-2">
           {_isSuperAdmin ? "Administração" : "Menu"}
         </div>
+
+        {/* Atalho da Área do Cliente — só pra empresas cliente (sub-company) */}
+        {isClient && (
+          <Link
+            href="/meu-espaco"
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-semibold mb-1.5 transition-all border ${
+              isActive("/meu-espaco")
+                ? "bg-indigo-500/20 text-white border-indigo-500/50"
+                : "bg-indigo-500/10 text-indigo-200 border-indigo-500/25 hover:bg-indigo-500/20 hover:text-white"
+            }`}
+          >
+            <LayoutGrid className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} />
+            Meu espaço
+          </Link>
+        )}
 
         {/* Links acima do Dashboard (Planos) */}
         {preDashLinks.map((link) => (

@@ -12,9 +12,10 @@ interface LayoutShellProps {
   children: React.ReactNode;
   session: Session;
   banner?: React.ReactNode;
+  isClient?: boolean;
 }
 
-export default function LayoutShell({ children, session, banner }: LayoutShellProps) {
+export default function LayoutShell({ children, session, banner, isClient = false }: LayoutShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
@@ -38,7 +39,7 @@ export default function LayoutShell({ children, session, banner }: LayoutShellPr
 
       {/* ── Sidebar desktop: sempre visível ── */}
       <div className="hidden lg:block flex-shrink-0">
-        <Sidebar session={session} />
+        <Sidebar session={session} isClient={isClient} />
       </div>
 
       {/* ── Sidebar mobile: overlay / drawer ── */}
@@ -55,7 +56,7 @@ export default function LayoutShell({ children, session, banner }: LayoutShellPr
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Sidebar session={session} onClose={() => setSidebarOpen(false)} />
+        <Sidebar session={session} isClient={isClient} onClose={() => setSidebarOpen(false)} />
       </div>
 
       {/* ── Conteúdo principal ── */}

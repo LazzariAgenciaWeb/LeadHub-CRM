@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users, X } from "lucide-react";
 
 type Task = { id: string; title: string };
 type Material = {
@@ -41,7 +41,8 @@ export default function ProjectMateriais({
   }
   function copyLink() { navigator.clipboard.writeText(link); setCopied(true); setTimeout(() => setCopied(false), 1800); }
 
-  // Form de novo material
+  // ── Modal de novo material ────────────────────────────────────────────────
+  const [modalOpen, setModalOpen] = useState(false);
   const [kind, setKind] = useState("LINK");
   const [taskId, setTaskId] = useState("");
   const [title, setTitle] = useState("");
@@ -50,6 +51,21 @@ export default function ProjectMateriais({
   const [ata, setAta] = useState("");
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
+
+  // Abre o modal; `preTask` pré-seleciona a tarefa (""=no projeto).
+  function openModal(preTask: string) {
+    setErr(""); setTitle(""); setUrl(""); setDocHtml(""); setAta("");
+    setTaskId(preTask);
+    setModalOpen(true);
+  }
+  function closeModal() { setModalOpen(false); }
+
+  useEffect(() => {
+    if (!modalOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setModalOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [modalOpen]);
 
   async function addMaterial() {
     setErr("");
@@ -68,7 +84,7 @@ export default function ProjectMateriais({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro");
       setMaterials((m) => [...m, data]);
-      setTitle(""); setUrl(""); setDocHtml(""); setAta("");
+      setModalOpen(false);
     } catch (e: any) { setErr(e.message); }
     setSaving(false);
   }
@@ -79,11 +95,7 @@ export default function ProjectMateriais({
     await fetch(`/api/projetos/${projectId}/materiais/${mid}`, { method: "DELETE" });
   }
 
-  const taskTitle = (tid: string) => tasks.find((t) => t.id === tid)?.title ?? "tarefa";
   const loose = materials.filter((m) => !m.taskId);
-  const byTask = tasks
-    .map((t) => ({ task: t, items: materials.filter((m) => m.taskId === t.id) }))
-    .filter((g) => g.items.length > 0);
 
   function MaterialRow({ m }: { m: Material }) {
     const Icon = KIND_ICON[m.kind] ?? Link2;
@@ -103,6 +115,18 @@ export default function ProjectMateriais({
           <Trash2 className="w-4 h-4" />
         </button>
       </div>
+    );
+  }
+
+  // Botão "+ material" compacto usado em cada grupo (projeto / tarefa).
+  function AddBtn({ preTask }: { preTask: string }) {
+    return (
+      <button
+        onClick={() => openModal(preTask)}
+        className="text-[11px] px-2 py-1 rounded-md border border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10 flex items-center gap-1 flex-none"
+      >
+        <Plus className="w-3 h-3" /> material
+      </button>
     );
   }
 
@@ -133,67 +157,108 @@ export default function ProjectMateriais({
 
       {/* Lista de materiais */}
       <div>
-        <div className="text-white text-sm font-medium mb-2">Materiais ({materials.length})</div>
+        <div className="text-white text-sm font-medium mb-3">Materiais ({materials.length})</div>
 
-        {loose.length > 0 && (
-          <div className="mb-3">
-            <div className="text-slate-500 text-[11px] uppercase tracking-wide mb-1.5">Do projeto</div>
-            <div className="space-y-2">{loose.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
+        {/* Do projeto */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="text-slate-500 text-[11px] uppercase tracking-wide">Do projeto</div>
+            <AddBtn preTask="" />
           </div>
-        )}
-        {byTask.map((g) => (
-          <div key={g.task.id} className="mb-3">
-            <div className="text-slate-500 text-[11px] uppercase tracking-wide mb-1.5">Tarefa · {g.task.title}</div>
-            <div className="space-y-2">{g.items.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
-          </div>
-        ))}
-        {materials.length === 0 && <p className="text-slate-600 text-xs">Nenhum material ainda.</p>}
-      </div>
-
-      {/* Adicionar */}
-      <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4 space-y-3">
-        <div className="text-white text-sm font-medium flex items-center gap-2"><Plus className="w-4 h-4" /> Adicionar material</div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div>
-            <label className="text-slate-400 text-xs">Tipo</label>
-            <select value={kind} onChange={(e) => setKind(e.target.value)} className={inputCls + " mt-1"}>
-              {KIND_OPTS.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="text-slate-400 text-xs">Onde</label>
-            <select value={taskId} onChange={(e) => setTaskId(e.target.value)} className={inputCls + " mt-1"}>
-              <option value="">— No projeto —</option>
-              {tasks.map((t) => <option key={t.id} value={t.id}>Tarefa: {t.title}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="text-slate-400 text-xs">Título</label>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls + " mt-1"} placeholder="Ex.: Vídeo da reunião" />
-          </div>
+          {loose.length > 0
+            ? <div className="space-y-2">{loose.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
+            : <p className="text-slate-600 text-xs italic">Nenhum material solto no projeto.</p>}
         </div>
-        {kind === "DOCUMENTO" ? (
-          <div>
-            <label className="text-slate-400 text-xs">Conteúdo (HTML)</label>
-            <textarea value={docHtml} onChange={(e) => setDocHtml(e.target.value)} rows={5} className={inputCls + " mt-1 font-mono text-xs"} placeholder="Cole o HTML do documento…" />
-          </div>
-        ) : (
-          <div>
-            <label className="text-slate-400 text-xs">Link</label>
-            <input value={url} onChange={(e) => setUrl(e.target.value)} className={inputCls + " mt-1"} placeholder="YouTube / Vimeo / Drive / link do arquivo" />
-          </div>
-        )}
-        {kind === "REUNIAO" && (
-          <div>
-            <label className="text-slate-400 text-xs">Ata / anotações (opcional)</label>
-            <textarea value={ata} onChange={(e) => setAta(e.target.value)} rows={3} className={inputCls + " mt-1"} placeholder="Resumo da reunião…" />
-          </div>
-        )}
-        {err && <p className="text-red-400 text-xs">{err}</p>}
-        <button onClick={addMaterial} disabled={saving} className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium">
-          {saving ? "Salvando…" : "Adicionar material"}
+
+        {/* Por tarefa — toda tarefa aparece, com botão de adicionar já vinculado */}
+        {tasks.map((t) => {
+          const items = materials.filter((m) => m.taskId === t.id);
+          return (
+            <div key={t.id} className="mb-4">
+              <div className="flex items-center justify-between mb-1.5 gap-2">
+                <div className="text-slate-500 text-[11px] uppercase tracking-wide truncate">Tarefa · {t.title}</div>
+                <AddBtn preTask={t.id} />
+              </div>
+              {items.length > 0
+                ? <div className="space-y-2">{items.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
+                : <p className="text-slate-600 text-xs italic">Sem materiais nesta tarefa.</p>}
+            </div>
+          );
+        })}
+
+        {/* Rodapé: entrada principal pra adicionar */}
+        <button
+          onClick={() => openModal("")}
+          className="mt-1 w-full py-2.5 rounded-xl border border-dashed border-slate-700 text-slate-300 text-sm font-medium hover:border-indigo-500/50 hover:text-indigo-300 flex items-center justify-center gap-2"
+        >
+          <Plus className="w-4 h-4" /> Adicionar material
         </button>
       </div>
+
+      {/* ── Modal ─────────────────────────────────────────────────────────── */}
+      {modalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div
+            className="w-full max-w-lg rounded-2xl border border-slate-800 bg-[#0b111c] shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+              <div className="text-white text-sm font-semibold flex items-center gap-2"><Plus className="w-4 h-4" /> Adicionar material</div>
+              <button onClick={closeModal} className="text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-4 h-4" /></button>
+            </div>
+
+            <div className="p-5 space-y-3">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-slate-400 text-xs">Tipo</label>
+                  <select value={kind} onChange={(e) => setKind(e.target.value)} className={inputCls + " mt-1"}>
+                    {KIND_OPTS.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-slate-400 text-xs">Onde</label>
+                  <select value={taskId} onChange={(e) => setTaskId(e.target.value)} className={inputCls + " mt-1"}>
+                    <option value="">— No projeto —</option>
+                    {tasks.map((t) => <option key={t.id} value={t.id}>Tarefa: {t.title}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs">Título</label>
+                <input autoFocus value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls + " mt-1"} placeholder="Ex.: Vídeo da reunião" />
+              </div>
+              {kind === "DOCUMENTO" ? (
+                <div>
+                  <label className="text-slate-400 text-xs">Conteúdo (HTML)</label>
+                  <textarea value={docHtml} onChange={(e) => setDocHtml(e.target.value)} rows={5} className={inputCls + " mt-1 font-mono text-xs"} placeholder="Cole o HTML do documento…" />
+                </div>
+              ) : (
+                <div>
+                  <label className="text-slate-400 text-xs">Link</label>
+                  <input value={url} onChange={(e) => setUrl(e.target.value)} className={inputCls + " mt-1"} placeholder="YouTube / Vimeo / Drive / link do arquivo" />
+                </div>
+              )}
+              {kind === "REUNIAO" && (
+                <div>
+                  <label className="text-slate-400 text-xs">Ata / anotações (opcional)</label>
+                  <textarea value={ata} onChange={(e) => setAta(e.target.value)} rows={3} className={inputCls + " mt-1"} placeholder="Resumo da reunião…" />
+                </div>
+              )}
+              {err && <p className="text-red-400 text-xs">{err}</p>}
+            </div>
+
+            <div className="flex justify-end gap-2 px-5 py-4 border-t border-slate-800">
+              <button onClick={closeModal} className="px-4 py-2 rounded-lg text-slate-400 hover:text-white text-sm">Cancelar</button>
+              <button onClick={addMaterial} disabled={saving} className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium">
+                {saving ? "Salvando…" : "Adicionar material"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
