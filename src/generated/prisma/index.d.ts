@@ -473,6 +473,11 @@ export type Service = $Result.DefaultSelection<Prisma.$ServicePayload>
  * 
  */
 export type ClientService = $Result.DefaultSelection<Prisma.$ClientServicePayload>
+/**
+ * Model ClientInvoice
+ * 
+ */
+export type ClientInvoice = $Result.DefaultSelection<Prisma.$ClientInvoicePayload>
 
 /**
  * Enums
@@ -2159,6 +2164,16 @@ export class PrismaClient<
     * ```
     */
   get clientService(): Prisma.ClientServiceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.clientInvoice`: Exposes CRUD operations for the **ClientInvoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClientInvoices
+    * const clientInvoices = await prisma.clientInvoice.findMany()
+    * ```
+    */
+  get clientInvoice(): Prisma.ClientInvoiceDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -2691,7 +2706,8 @@ export namespace Prisma {
     Assistant: 'Assistant',
     AiUsageLog: 'AiUsageLog',
     Service: 'Service',
-    ClientService: 'ClientService'
+    ClientService: 'ClientService',
+    ClientInvoice: 'ClientInvoice'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2707,7 +2723,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9151,6 +9167,76 @@ export namespace Prisma {
           }
         }
       }
+      ClientInvoice: {
+        payload: Prisma.$ClientInvoicePayload<ExtArgs>
+        fields: Prisma.ClientInvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClientInvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClientInvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.ClientInvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClientInvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          findMany: {
+            args: Prisma.ClientInvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>[]
+          }
+          create: {
+            args: Prisma.ClientInvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          createMany: {
+            args: Prisma.ClientInvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClientInvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.ClientInvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          update: {
+            args: Prisma.ClientInvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.ClientInvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClientInvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ClientInvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientInvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.ClientInvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClientInvoice>
+          }
+          groupBy: {
+            args: Prisma.ClientInvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClientInvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClientInvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<ClientInvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -9558,6 +9644,7 @@ export namespace Prisma {
     tickets: number
     ticketsAsClient: number
     clientServices: number
+    clientInvoices: number
     trackingLinks: number
     pipelineStages: number
     contacts: number
@@ -9623,6 +9710,7 @@ export namespace Prisma {
     tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
     ticketsAsClient?: boolean | CompanyCountOutputTypeCountTicketsAsClientArgs
     clientServices?: boolean | CompanyCountOutputTypeCountClientServicesArgs
+    clientInvoices?: boolean | CompanyCountOutputTypeCountClientInvoicesArgs
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
     pipelineStages?: boolean | CompanyCountOutputTypeCountPipelineStagesArgs
     contacts?: boolean | CompanyCountOutputTypeCountContactsArgs
@@ -9852,6 +9940,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountClientServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClientServiceWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountClientInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientInvoiceWhereInput
   }
 
   /**
@@ -11149,6 +11244,37 @@ export namespace Prisma {
    */
   export type ServiceCountOutputTypeCountClientInstancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClientServiceWhereInput
+  }
+
+
+  /**
+   * Count Type ClientServiceCountOutputType
+   */
+
+  export type ClientServiceCountOutputType = {
+    invoices: number
+  }
+
+  export type ClientServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoices?: boolean | ClientServiceCountOutputTypeCountInvoicesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ClientServiceCountOutputType without action
+   */
+  export type ClientServiceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientServiceCountOutputType
+     */
+    select?: ClientServiceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ClientServiceCountOutputType without action
+   */
+  export type ClientServiceCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientInvoiceWhereInput
   }
 
 
@@ -16171,6 +16297,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     ticketsAsClient?: boolean | Company$ticketsAsClientArgs<ExtArgs>
     clientServices?: boolean | Company$clientServicesArgs<ExtArgs>
+    clientInvoices?: boolean | Company$clientInvoicesArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
@@ -16314,6 +16441,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     ticketsAsClient?: boolean | Company$ticketsAsClientArgs<ExtArgs>
     clientServices?: boolean | Company$clientServicesArgs<ExtArgs>
+    clientInvoices?: boolean | Company$clientInvoicesArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
     pipelineStages?: boolean | Company$pipelineStagesArgs<ExtArgs>
     contacts?: boolean | Company$contactsArgs<ExtArgs>
@@ -16389,6 +16517,7 @@ export namespace Prisma {
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       ticketsAsClient: Prisma.$TicketPayload<ExtArgs>[]
       clientServices: Prisma.$ClientServicePayload<ExtArgs>[]
+      clientInvoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
       pipelineStages: Prisma.$PipelineStageConfigPayload<ExtArgs>[]
       contacts: Prisma.$CompanyContactPayload<ExtArgs>[]
@@ -16854,6 +16983,7 @@ export namespace Prisma {
     tickets<T extends Company$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     ticketsAsClient<T extends Company$ticketsAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     clientServices<T extends Company$clientServicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findMany"> | Null>
+    clientInvoices<T extends Company$clientInvoicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientInvoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
     pipelineStages<T extends Company$pipelineStagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$pipelineStagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelineStageConfigPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Company$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Company$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyContactPayload<ExtArgs>, T, "findMany"> | Null>
@@ -17819,6 +17949,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClientServiceScalarFieldEnum | ClientServiceScalarFieldEnum[]
+  }
+
+  /**
+   * Company.clientInvoices
+   */
+  export type Company$clientInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    where?: ClientInvoiceWhereInput
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    cursor?: ClientInvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
   }
 
   /**
@@ -109275,6 +109425,8 @@ export namespace Prisma {
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
+    _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clientService"]>
 
   export type ClientServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -109312,6 +109464,8 @@ export namespace Prisma {
   export type ClientServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
+    invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
+    _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -109323,6 +109477,7 @@ export namespace Prisma {
     objects: {
       clientCompany: Prisma.$CompanyPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
+      invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -109703,6 +109858,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     service<T extends ClientService$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    invoices<T extends ClientService$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -110077,6 +110233,26 @@ export namespace Prisma {
   }
 
   /**
+   * ClientService.invoices
+   */
+  export type ClientService$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    where?: ClientInvoiceWhereInput
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    cursor?: ClientInvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
    * ClientService without action
    */
   export type ClientServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -110088,6 +110264,1126 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ClientServiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClientInvoice
+   */
+
+  export type AggregateClientInvoice = {
+    _count: ClientInvoiceCountAggregateOutputType | null
+    _avg: ClientInvoiceAvgAggregateOutputType | null
+    _sum: ClientInvoiceSumAggregateOutputType | null
+    _min: ClientInvoiceMinAggregateOutputType | null
+    _max: ClientInvoiceMaxAggregateOutputType | null
+  }
+
+  export type ClientInvoiceAvgAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type ClientInvoiceSumAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type ClientInvoiceMinAggregateOutputType = {
+    id: string | null
+    clientCompanyId: string | null
+    clientServiceId: string | null
+    description: string | null
+    referenceMonth: string | null
+    amountCents: number | null
+    dueDate: Date | null
+    status: string | null
+    paidAt: Date | null
+    boletoUrl: string | null
+    invoiceUrl: string | null
+    notes: string | null
+    externalId: string | null
+    provider: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientInvoiceMaxAggregateOutputType = {
+    id: string | null
+    clientCompanyId: string | null
+    clientServiceId: string | null
+    description: string | null
+    referenceMonth: string | null
+    amountCents: number | null
+    dueDate: Date | null
+    status: string | null
+    paidAt: Date | null
+    boletoUrl: string | null
+    invoiceUrl: string | null
+    notes: string | null
+    externalId: string | null
+    provider: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientInvoiceCountAggregateOutputType = {
+    id: number
+    clientCompanyId: number
+    clientServiceId: number
+    description: number
+    referenceMonth: number
+    amountCents: number
+    dueDate: number
+    status: number
+    paidAt: number
+    boletoUrl: number
+    invoiceUrl: number
+    notes: number
+    externalId: number
+    provider: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ClientInvoiceAvgAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type ClientInvoiceSumAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type ClientInvoiceMinAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    clientServiceId?: true
+    description?: true
+    referenceMonth?: true
+    amountCents?: true
+    dueDate?: true
+    status?: true
+    paidAt?: true
+    boletoUrl?: true
+    invoiceUrl?: true
+    notes?: true
+    externalId?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientInvoiceMaxAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    clientServiceId?: true
+    description?: true
+    referenceMonth?: true
+    amountCents?: true
+    dueDate?: true
+    status?: true
+    paidAt?: true
+    boletoUrl?: true
+    invoiceUrl?: true
+    notes?: true
+    externalId?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientInvoiceCountAggregateInputType = {
+    id?: true
+    clientCompanyId?: true
+    clientServiceId?: true
+    description?: true
+    referenceMonth?: true
+    amountCents?: true
+    dueDate?: true
+    status?: true
+    paidAt?: true
+    boletoUrl?: true
+    invoiceUrl?: true
+    notes?: true
+    externalId?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ClientInvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientInvoice to aggregate.
+     */
+    where?: ClientInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientInvoices to fetch.
+     */
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClientInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClientInvoices
+    **/
+    _count?: true | ClientInvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ClientInvoiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClientInvoiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClientInvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClientInvoiceMaxAggregateInputType
+  }
+
+  export type GetClientInvoiceAggregateType<T extends ClientInvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateClientInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClientInvoice[P]>
+      : GetScalarType<T[P], AggregateClientInvoice[P]>
+  }
+
+
+
+
+  export type ClientInvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientInvoiceWhereInput
+    orderBy?: ClientInvoiceOrderByWithAggregationInput | ClientInvoiceOrderByWithAggregationInput[]
+    by: ClientInvoiceScalarFieldEnum[] | ClientInvoiceScalarFieldEnum
+    having?: ClientInvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClientInvoiceCountAggregateInputType | true
+    _avg?: ClientInvoiceAvgAggregateInputType
+    _sum?: ClientInvoiceSumAggregateInputType
+    _min?: ClientInvoiceMinAggregateInputType
+    _max?: ClientInvoiceMaxAggregateInputType
+  }
+
+  export type ClientInvoiceGroupByOutputType = {
+    id: string
+    clientCompanyId: string
+    clientServiceId: string | null
+    description: string
+    referenceMonth: string | null
+    amountCents: number
+    dueDate: Date
+    status: string
+    paidAt: Date | null
+    boletoUrl: string | null
+    invoiceUrl: string | null
+    notes: string | null
+    externalId: string | null
+    provider: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ClientInvoiceCountAggregateOutputType | null
+    _avg: ClientInvoiceAvgAggregateOutputType | null
+    _sum: ClientInvoiceSumAggregateOutputType | null
+    _min: ClientInvoiceMinAggregateOutputType | null
+    _max: ClientInvoiceMaxAggregateOutputType | null
+  }
+
+  type GetClientInvoiceGroupByPayload<T extends ClientInvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClientInvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClientInvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClientInvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], ClientInvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClientInvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientCompanyId?: boolean
+    clientServiceId?: boolean
+    description?: boolean
+    referenceMonth?: boolean
+    amountCents?: boolean
+    dueDate?: boolean
+    status?: boolean
+    paidAt?: boolean
+    boletoUrl?: boolean
+    invoiceUrl?: boolean
+    notes?: boolean
+    externalId?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    clientService?: boolean | ClientInvoice$clientServiceArgs<ExtArgs>
+  }, ExtArgs["result"]["clientInvoice"]>
+
+  export type ClientInvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clientCompanyId?: boolean
+    clientServiceId?: boolean
+    description?: boolean
+    referenceMonth?: boolean
+    amountCents?: boolean
+    dueDate?: boolean
+    status?: boolean
+    paidAt?: boolean
+    boletoUrl?: boolean
+    invoiceUrl?: boolean
+    notes?: boolean
+    externalId?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    clientService?: boolean | ClientInvoice$clientServiceArgs<ExtArgs>
+  }, ExtArgs["result"]["clientInvoice"]>
+
+  export type ClientInvoiceSelectScalar = {
+    id?: boolean
+    clientCompanyId?: boolean
+    clientServiceId?: boolean
+    description?: boolean
+    referenceMonth?: boolean
+    amountCents?: boolean
+    dueDate?: boolean
+    status?: boolean
+    paidAt?: boolean
+    boletoUrl?: boolean
+    invoiceUrl?: boolean
+    notes?: boolean
+    externalId?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ClientInvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    clientService?: boolean | ClientInvoice$clientServiceArgs<ExtArgs>
+  }
+  export type ClientInvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    clientService?: boolean | ClientInvoice$clientServiceArgs<ExtArgs>
+  }
+
+  export type $ClientInvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClientInvoice"
+    objects: {
+      clientCompany: Prisma.$CompanyPayload<ExtArgs>
+      clientService: Prisma.$ClientServicePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      clientCompanyId: string
+      clientServiceId: string | null
+      description: string
+      referenceMonth: string | null
+      amountCents: number
+      dueDate: Date
+      status: string
+      paidAt: Date | null
+      boletoUrl: string | null
+      invoiceUrl: string | null
+      notes: string | null
+      externalId: string | null
+      provider: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["clientInvoice"]>
+    composites: {}
+  }
+
+  type ClientInvoiceGetPayload<S extends boolean | null | undefined | ClientInvoiceDefaultArgs> = $Result.GetResult<Prisma.$ClientInvoicePayload, S>
+
+  type ClientInvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ClientInvoiceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ClientInvoiceCountAggregateInputType | true
+    }
+
+  export interface ClientInvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClientInvoice'], meta: { name: 'ClientInvoice' } }
+    /**
+     * Find zero or one ClientInvoice that matches the filter.
+     * @param {ClientInvoiceFindUniqueArgs} args - Arguments to find a ClientInvoice
+     * @example
+     * // Get one ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClientInvoiceFindUniqueArgs>(args: SelectSubset<T, ClientInvoiceFindUniqueArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ClientInvoice that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ClientInvoiceFindUniqueOrThrowArgs} args - Arguments to find a ClientInvoice
+     * @example
+     * // Get one ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClientInvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, ClientInvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ClientInvoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceFindFirstArgs} args - Arguments to find a ClientInvoice
+     * @example
+     * // Get one ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClientInvoiceFindFirstArgs>(args?: SelectSubset<T, ClientInvoiceFindFirstArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ClientInvoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceFindFirstOrThrowArgs} args - Arguments to find a ClientInvoice
+     * @example
+     * // Get one ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClientInvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, ClientInvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ClientInvoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClientInvoices
+     * const clientInvoices = await prisma.clientInvoice.findMany()
+     * 
+     * // Get first 10 ClientInvoices
+     * const clientInvoices = await prisma.clientInvoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clientInvoiceWithIdOnly = await prisma.clientInvoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClientInvoiceFindManyArgs>(args?: SelectSubset<T, ClientInvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ClientInvoice.
+     * @param {ClientInvoiceCreateArgs} args - Arguments to create a ClientInvoice.
+     * @example
+     * // Create one ClientInvoice
+     * const ClientInvoice = await prisma.clientInvoice.create({
+     *   data: {
+     *     // ... data to create a ClientInvoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClientInvoiceCreateArgs>(args: SelectSubset<T, ClientInvoiceCreateArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ClientInvoices.
+     * @param {ClientInvoiceCreateManyArgs} args - Arguments to create many ClientInvoices.
+     * @example
+     * // Create many ClientInvoices
+     * const clientInvoice = await prisma.clientInvoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClientInvoiceCreateManyArgs>(args?: SelectSubset<T, ClientInvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClientInvoices and returns the data saved in the database.
+     * @param {ClientInvoiceCreateManyAndReturnArgs} args - Arguments to create many ClientInvoices.
+     * @example
+     * // Create many ClientInvoices
+     * const clientInvoice = await prisma.clientInvoice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClientInvoices and only return the `id`
+     * const clientInvoiceWithIdOnly = await prisma.clientInvoice.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClientInvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, ClientInvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ClientInvoice.
+     * @param {ClientInvoiceDeleteArgs} args - Arguments to delete one ClientInvoice.
+     * @example
+     * // Delete one ClientInvoice
+     * const ClientInvoice = await prisma.clientInvoice.delete({
+     *   where: {
+     *     // ... filter to delete one ClientInvoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClientInvoiceDeleteArgs>(args: SelectSubset<T, ClientInvoiceDeleteArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ClientInvoice.
+     * @param {ClientInvoiceUpdateArgs} args - Arguments to update one ClientInvoice.
+     * @example
+     * // Update one ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClientInvoiceUpdateArgs>(args: SelectSubset<T, ClientInvoiceUpdateArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ClientInvoices.
+     * @param {ClientInvoiceDeleteManyArgs} args - Arguments to filter ClientInvoices to delete.
+     * @example
+     * // Delete a few ClientInvoices
+     * const { count } = await prisma.clientInvoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClientInvoiceDeleteManyArgs>(args?: SelectSubset<T, ClientInvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClientInvoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClientInvoices
+     * const clientInvoice = await prisma.clientInvoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClientInvoiceUpdateManyArgs>(args: SelectSubset<T, ClientInvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ClientInvoice.
+     * @param {ClientInvoiceUpsertArgs} args - Arguments to update or create a ClientInvoice.
+     * @example
+     * // Update or create a ClientInvoice
+     * const clientInvoice = await prisma.clientInvoice.upsert({
+     *   create: {
+     *     // ... data to create a ClientInvoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClientInvoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClientInvoiceUpsertArgs>(args: SelectSubset<T, ClientInvoiceUpsertArgs<ExtArgs>>): Prisma__ClientInvoiceClient<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ClientInvoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceCountArgs} args - Arguments to filter ClientInvoices to count.
+     * @example
+     * // Count the number of ClientInvoices
+     * const count = await prisma.clientInvoice.count({
+     *   where: {
+     *     // ... the filter for the ClientInvoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClientInvoiceCountArgs>(
+      args?: Subset<T, ClientInvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClientInvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClientInvoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClientInvoiceAggregateArgs>(args: Subset<T, ClientInvoiceAggregateArgs>): Prisma.PrismaPromise<GetClientInvoiceAggregateType<T>>
+
+    /**
+     * Group by ClientInvoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientInvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClientInvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClientInvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: ClientInvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClientInvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClientInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClientInvoice model
+   */
+  readonly fields: ClientInvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClientInvoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClientInvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    clientService<T extends ClientInvoice$clientServiceArgs<ExtArgs> = {}>(args?: Subset<T, ClientInvoice$clientServiceArgs<ExtArgs>>): Prisma__ClientServiceClient<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClientInvoice model
+   */ 
+  interface ClientInvoiceFieldRefs {
+    readonly id: FieldRef<"ClientInvoice", 'String'>
+    readonly clientCompanyId: FieldRef<"ClientInvoice", 'String'>
+    readonly clientServiceId: FieldRef<"ClientInvoice", 'String'>
+    readonly description: FieldRef<"ClientInvoice", 'String'>
+    readonly referenceMonth: FieldRef<"ClientInvoice", 'String'>
+    readonly amountCents: FieldRef<"ClientInvoice", 'Int'>
+    readonly dueDate: FieldRef<"ClientInvoice", 'DateTime'>
+    readonly status: FieldRef<"ClientInvoice", 'String'>
+    readonly paidAt: FieldRef<"ClientInvoice", 'DateTime'>
+    readonly boletoUrl: FieldRef<"ClientInvoice", 'String'>
+    readonly invoiceUrl: FieldRef<"ClientInvoice", 'String'>
+    readonly notes: FieldRef<"ClientInvoice", 'String'>
+    readonly externalId: FieldRef<"ClientInvoice", 'String'>
+    readonly provider: FieldRef<"ClientInvoice", 'String'>
+    readonly createdAt: FieldRef<"ClientInvoice", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClientInvoice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClientInvoice findUnique
+   */
+  export type ClientInvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientInvoice to fetch.
+     */
+    where: ClientInvoiceWhereUniqueInput
+  }
+
+  /**
+   * ClientInvoice findUniqueOrThrow
+   */
+  export type ClientInvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientInvoice to fetch.
+     */
+    where: ClientInvoiceWhereUniqueInput
+  }
+
+  /**
+   * ClientInvoice findFirst
+   */
+  export type ClientInvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientInvoice to fetch.
+     */
+    where?: ClientInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientInvoices to fetch.
+     */
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientInvoices.
+     */
+    cursor?: ClientInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientInvoices.
+     */
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * ClientInvoice findFirstOrThrow
+   */
+  export type ClientInvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientInvoice to fetch.
+     */
+    where?: ClientInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientInvoices to fetch.
+     */
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientInvoices.
+     */
+    cursor?: ClientInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientInvoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientInvoices.
+     */
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * ClientInvoice findMany
+   */
+  export type ClientInvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientInvoices to fetch.
+     */
+    where?: ClientInvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientInvoices to fetch.
+     */
+    orderBy?: ClientInvoiceOrderByWithRelationInput | ClientInvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClientInvoices.
+     */
+    cursor?: ClientInvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientInvoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientInvoices.
+     */
+    skip?: number
+    distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * ClientInvoice create
+   */
+  export type ClientInvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClientInvoice.
+     */
+    data: XOR<ClientInvoiceCreateInput, ClientInvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * ClientInvoice createMany
+   */
+  export type ClientInvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClientInvoices.
+     */
+    data: ClientInvoiceCreateManyInput | ClientInvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClientInvoice createManyAndReturn
+   */
+  export type ClientInvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ClientInvoices.
+     */
+    data: ClientInvoiceCreateManyInput | ClientInvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClientInvoice update
+   */
+  export type ClientInvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClientInvoice.
+     */
+    data: XOR<ClientInvoiceUpdateInput, ClientInvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which ClientInvoice to update.
+     */
+    where: ClientInvoiceWhereUniqueInput
+  }
+
+  /**
+   * ClientInvoice updateMany
+   */
+  export type ClientInvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClientInvoices.
+     */
+    data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which ClientInvoices to update
+     */
+    where?: ClientInvoiceWhereInput
+  }
+
+  /**
+   * ClientInvoice upsert
+   */
+  export type ClientInvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClientInvoice to update in case it exists.
+     */
+    where: ClientInvoiceWhereUniqueInput
+    /**
+     * In case the ClientInvoice found by the `where` argument doesn't exist, create a new ClientInvoice with this data.
+     */
+    create: XOR<ClientInvoiceCreateInput, ClientInvoiceUncheckedCreateInput>
+    /**
+     * In case the ClientInvoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClientInvoiceUpdateInput, ClientInvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * ClientInvoice delete
+   */
+  export type ClientInvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which ClientInvoice to delete.
+     */
+    where: ClientInvoiceWhereUniqueInput
+  }
+
+  /**
+   * ClientInvoice deleteMany
+   */
+  export type ClientInvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientInvoices to delete
+     */
+    where?: ClientInvoiceWhereInput
+  }
+
+  /**
+   * ClientInvoice.clientService
+   */
+  export type ClientInvoice$clientServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientService
+     */
+    select?: ClientServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientServiceInclude<ExtArgs> | null
+    where?: ClientServiceWhereInput
+  }
+
+  /**
+   * ClientInvoice without action
+   */
+  export type ClientInvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientInvoice
+     */
+    select?: ClientInvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInvoiceInclude<ExtArgs> | null
   }
 
 
@@ -111714,6 +113010,28 @@ export namespace Prisma {
   export type ClientServiceScalarFieldEnum = (typeof ClientServiceScalarFieldEnum)[keyof typeof ClientServiceScalarFieldEnum]
 
 
+  export const ClientInvoiceScalarFieldEnum: {
+    id: 'id',
+    clientCompanyId: 'clientCompanyId',
+    clientServiceId: 'clientServiceId',
+    description: 'description',
+    referenceMonth: 'referenceMonth',
+    amountCents: 'amountCents',
+    dueDate: 'dueDate',
+    status: 'status',
+    paidAt: 'paidAt',
+    boletoUrl: 'boletoUrl',
+    invoiceUrl: 'invoiceUrl',
+    notes: 'notes',
+    externalId: 'externalId',
+    provider: 'provider',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ClientInvoiceScalarFieldEnum = (typeof ClientInvoiceScalarFieldEnum)[keyof typeof ClientInvoiceScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -112878,6 +114196,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     ticketsAsClient?: TicketListRelationFilter
     clientServices?: ClientServiceListRelationFilter
+    clientInvoices?: ClientInvoiceListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
@@ -112980,6 +114299,7 @@ export namespace Prisma {
     tickets?: TicketOrderByRelationAggregateInput
     ticketsAsClient?: TicketOrderByRelationAggregateInput
     clientServices?: ClientServiceOrderByRelationAggregateInput
+    clientInvoices?: ClientInvoiceOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
     pipelineStages?: PipelineStageConfigOrderByRelationAggregateInput
     contacts?: CompanyContactOrderByRelationAggregateInput
@@ -113085,6 +114405,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     ticketsAsClient?: TicketListRelationFilter
     clientServices?: ClientServiceListRelationFilter
+    clientInvoices?: ClientInvoiceListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
     pipelineStages?: PipelineStageConfigListRelationFilter
     contacts?: CompanyContactListRelationFilter
@@ -121115,6 +122436,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    invoices?: ClientInvoiceListRelationFilter
   }
 
   export type ClientServiceOrderByWithRelationInput = {
@@ -121132,6 +122454,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
+    invoices?: ClientInvoiceOrderByRelationAggregateInput
   }
 
   export type ClientServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -121152,6 +122475,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    invoices?: ClientInvoiceListRelationFilter
   }, "id">
 
   export type ClientServiceOrderByWithAggregationInput = {
@@ -121190,6 +122514,121 @@ export namespace Prisma {
     order?: IntWithAggregatesFilter<"ClientService"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
+  }
+
+  export type ClientInvoiceWhereInput = {
+    AND?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
+    OR?: ClientInvoiceWhereInput[]
+    NOT?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
+    id?: StringFilter<"ClientInvoice"> | string
+    clientCompanyId?: StringFilter<"ClientInvoice"> | string
+    clientServiceId?: StringNullableFilter<"ClientInvoice"> | string | null
+    description?: StringFilter<"ClientInvoice"> | string
+    referenceMonth?: StringNullableFilter<"ClientInvoice"> | string | null
+    amountCents?: IntFilter<"ClientInvoice"> | number
+    dueDate?: DateTimeFilter<"ClientInvoice"> | Date | string
+    status?: StringFilter<"ClientInvoice"> | string
+    paidAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    boletoUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    invoiceUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    notes?: StringNullableFilter<"ClientInvoice"> | string | null
+    externalId?: StringNullableFilter<"ClientInvoice"> | string | null
+    provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    clientService?: XOR<ClientServiceNullableRelationFilter, ClientServiceWhereInput> | null
+  }
+
+  export type ClientInvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    clientServiceId?: SortOrderInput | SortOrder
+    description?: SortOrder
+    referenceMonth?: SortOrderInput | SortOrder
+    amountCents?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    boletoUrl?: SortOrderInput | SortOrder
+    invoiceUrl?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    clientCompany?: CompanyOrderByWithRelationInput
+    clientService?: ClientServiceOrderByWithRelationInput
+  }
+
+  export type ClientInvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
+    OR?: ClientInvoiceWhereInput[]
+    NOT?: ClientInvoiceWhereInput | ClientInvoiceWhereInput[]
+    clientCompanyId?: StringFilter<"ClientInvoice"> | string
+    clientServiceId?: StringNullableFilter<"ClientInvoice"> | string | null
+    description?: StringFilter<"ClientInvoice"> | string
+    referenceMonth?: StringNullableFilter<"ClientInvoice"> | string | null
+    amountCents?: IntFilter<"ClientInvoice"> | number
+    dueDate?: DateTimeFilter<"ClientInvoice"> | Date | string
+    status?: StringFilter<"ClientInvoice"> | string
+    paidAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    boletoUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    invoiceUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    notes?: StringNullableFilter<"ClientInvoice"> | string | null
+    externalId?: StringNullableFilter<"ClientInvoice"> | string | null
+    provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    clientService?: XOR<ClientServiceNullableRelationFilter, ClientServiceWhereInput> | null
+  }, "id">
+
+  export type ClientInvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    clientServiceId?: SortOrderInput | SortOrder
+    description?: SortOrder
+    referenceMonth?: SortOrderInput | SortOrder
+    amountCents?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    boletoUrl?: SortOrderInput | SortOrder
+    invoiceUrl?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    externalId?: SortOrderInput | SortOrder
+    provider?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ClientInvoiceCountOrderByAggregateInput
+    _avg?: ClientInvoiceAvgOrderByAggregateInput
+    _max?: ClientInvoiceMaxOrderByAggregateInput
+    _min?: ClientInvoiceMinOrderByAggregateInput
+    _sum?: ClientInvoiceSumOrderByAggregateInput
+  }
+
+  export type ClientInvoiceScalarWhereWithAggregatesInput = {
+    AND?: ClientInvoiceScalarWhereWithAggregatesInput | ClientInvoiceScalarWhereWithAggregatesInput[]
+    OR?: ClientInvoiceScalarWhereWithAggregatesInput[]
+    NOT?: ClientInvoiceScalarWhereWithAggregatesInput | ClientInvoiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClientInvoice"> | string
+    clientCompanyId?: StringWithAggregatesFilter<"ClientInvoice"> | string
+    clientServiceId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    description?: StringWithAggregatesFilter<"ClientInvoice"> | string
+    referenceMonth?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    amountCents?: IntWithAggregatesFilter<"ClientInvoice"> | number
+    dueDate?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
+    status?: StringWithAggregatesFilter<"ClientInvoice"> | string
+    paidAt?: DateTimeNullableWithAggregatesFilter<"ClientInvoice"> | Date | string | null
+    boletoUrl?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    invoiceUrl?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    externalId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    provider?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -121695,6 +123134,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -121796,6 +123236,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -121897,6 +123338,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -121998,6 +123440,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -130869,6 +132312,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateInput = {
@@ -130884,6 +132328,7 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUpdateInput = {
@@ -130899,6 +132344,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateInput = {
@@ -130914,6 +132360,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceCreateManyInput = {
@@ -130955,6 +132402,137 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
     order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceCreateInput = {
+    id?: string
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientInvoicesInput
+    clientService?: ClientServiceCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type ClientInvoiceUncheckedCreateInput = {
+    id?: string
+    clientCompanyId: string
+    clientServiceId?: string | null
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientInvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type ClientInvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceCreateManyInput = {
+    id?: string
+    clientCompanyId: string
+    clientServiceId?: string | null
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientInvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -131654,6 +133232,12 @@ export namespace Prisma {
     none?: ClientServiceWhereInput
   }
 
+  export type ClientInvoiceListRelationFilter = {
+    every?: ClientInvoiceWhereInput
+    some?: ClientInvoiceWhereInput
+    none?: ClientInvoiceWhereInput
+  }
+
   export type TrackingLinkListRelationFilter = {
     every?: TrackingLinkWhereInput
     some?: TrackingLinkWhereInput
@@ -131933,6 +133517,10 @@ export namespace Prisma {
   }
 
   export type ClientServiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClientInvoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -137836,6 +139424,76 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type ClientServiceNullableRelationFilter = {
+    is?: ClientServiceWhereInput | null
+    isNot?: ClientServiceWhereInput | null
+  }
+
+  export type ClientInvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    clientServiceId?: SortOrder
+    description?: SortOrder
+    referenceMonth?: SortOrder
+    amountCents?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    paidAt?: SortOrder
+    boletoUrl?: SortOrder
+    invoiceUrl?: SortOrder
+    notes?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientInvoiceAvgOrderByAggregateInput = {
+    amountCents?: SortOrder
+  }
+
+  export type ClientInvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    clientServiceId?: SortOrder
+    description?: SortOrder
+    referenceMonth?: SortOrder
+    amountCents?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    paidAt?: SortOrder
+    boletoUrl?: SortOrder
+    invoiceUrl?: SortOrder
+    notes?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientInvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    clientCompanyId?: SortOrder
+    clientServiceId?: SortOrder
+    description?: SortOrder
+    referenceMonth?: SortOrder
+    amountCents?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    paidAt?: SortOrder
+    boletoUrl?: SortOrder
+    invoiceUrl?: SortOrder
+    notes?: SortOrder
+    externalId?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientInvoiceSumOrderByAggregateInput = {
+    amountCents?: SortOrder
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -139121,6 +140779,13 @@ export namespace Prisma {
     connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
   }
 
+  export type ClientInvoiceCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput> | ClientInvoiceCreateWithoutClientCompanyInput[] | ClientInvoiceUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientCompanyInput | ClientInvoiceCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientInvoiceCreateManyClientCompanyInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+  }
+
   export type TrackingLinkCreateNestedManyWithoutCompanyInput = {
     create?: XOR<TrackingLinkCreateWithoutCompanyInput, TrackingLinkUncheckedCreateWithoutCompanyInput> | TrackingLinkCreateWithoutCompanyInput[] | TrackingLinkUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: TrackingLinkCreateOrConnectWithoutCompanyInput | TrackingLinkCreateOrConnectWithoutCompanyInput[]
@@ -139571,6 +141236,13 @@ export namespace Prisma {
     connectOrCreate?: ClientServiceCreateOrConnectWithoutClientCompanyInput | ClientServiceCreateOrConnectWithoutClientCompanyInput[]
     createMany?: ClientServiceCreateManyClientCompanyInputEnvelope
     connect?: ClientServiceWhereUniqueInput | ClientServiceWhereUniqueInput[]
+  }
+
+  export type ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput> | ClientInvoiceCreateWithoutClientCompanyInput[] | ClientInvoiceUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientCompanyInput | ClientInvoiceCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientInvoiceCreateManyClientCompanyInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
   }
 
   export type TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -140227,6 +141899,20 @@ export namespace Prisma {
     update?: ClientServiceUpdateWithWhereUniqueWithoutClientCompanyInput | ClientServiceUpdateWithWhereUniqueWithoutClientCompanyInput[]
     updateMany?: ClientServiceUpdateManyWithWhereWithoutClientCompanyInput | ClientServiceUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: ClientServiceScalarWhereInput | ClientServiceScalarWhereInput[]
+  }
+
+  export type ClientInvoiceUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput> | ClientInvoiceCreateWithoutClientCompanyInput[] | ClientInvoiceUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientCompanyInput | ClientInvoiceCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutClientCompanyInput | ClientInvoiceUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientInvoiceCreateManyClientCompanyInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutClientCompanyInput | ClientInvoiceUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutClientCompanyInput | ClientInvoiceUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
   }
 
   export type TrackingLinkUpdateManyWithoutCompanyNestedInput = {
@@ -141125,6 +142811,20 @@ export namespace Prisma {
     update?: ClientServiceUpdateWithWhereUniqueWithoutClientCompanyInput | ClientServiceUpdateWithWhereUniqueWithoutClientCompanyInput[]
     updateMany?: ClientServiceUpdateManyWithWhereWithoutClientCompanyInput | ClientServiceUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: ClientServiceScalarWhereInput | ClientServiceScalarWhereInput[]
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput> | ClientInvoiceCreateWithoutClientCompanyInput[] | ClientInvoiceUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientCompanyInput | ClientInvoiceCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutClientCompanyInput | ClientInvoiceUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientInvoiceCreateManyClientCompanyInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutClientCompanyInput | ClientInvoiceUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutClientCompanyInput | ClientInvoiceUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
   }
 
   export type TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -146219,6 +147919,20 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput
   }
 
+  export type ClientInvoiceCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
+    createMany?: ClientInvoiceCreateManyClientServiceInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+  }
+
+  export type ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
+    createMany?: ClientInvoiceCreateManyClientServiceInputEnvelope
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+  }
+
   export type CompanyUpdateOneRequiredWithoutClientServicesNestedInput = {
     create?: XOR<CompanyCreateWithoutClientServicesInput, CompanyUncheckedCreateWithoutClientServicesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutClientServicesInput
@@ -146235,6 +147949,64 @@ export namespace Prisma {
     delete?: ServiceWhereInput | boolean
     connect?: ServiceWhereUniqueInput
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutClientInstancesInput, ServiceUpdateWithoutClientInstancesInput>, ServiceUncheckedUpdateWithoutClientInstancesInput>
+  }
+
+  export type ClientInvoiceUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput | ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: ClientInvoiceCreateManyClientServiceInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput | ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput | ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
+    upsert?: ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput | ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: ClientInvoiceCreateManyClientServiceInputEnvelope
+    set?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    disconnect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    delete?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+    update?: ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput | ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput | ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutClientInvoicesInput = {
+    create?: XOR<CompanyCreateWithoutClientInvoicesInput, CompanyUncheckedCreateWithoutClientInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientInvoicesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type ClientServiceCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<ClientServiceCreateWithoutInvoicesInput, ClientServiceUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutInvoicesInput
+    connect?: ClientServiceWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput = {
+    create?: XOR<CompanyCreateWithoutClientInvoicesInput, CompanyUncheckedCreateWithoutClientInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientInvoicesInput
+    upsert?: CompanyUpsertWithoutClientInvoicesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutClientInvoicesInput, CompanyUpdateWithoutClientInvoicesInput>, CompanyUncheckedUpdateWithoutClientInvoicesInput>
+  }
+
+  export type ClientServiceUpdateOneWithoutInvoicesNestedInput = {
+    create?: XOR<ClientServiceCreateWithoutInvoicesInput, ClientServiceUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutInvoicesInput
+    upsert?: ClientServiceUpsertWithoutInvoicesInput
+    disconnect?: ClientServiceWhereInput | boolean
+    delete?: ClientServiceWhereInput | boolean
+    connect?: ClientServiceWhereUniqueInput
+    update?: XOR<XOR<ClientServiceUpdateToOneWithWhereWithoutInvoicesInput, ClientServiceUpdateWithoutInvoicesInput>, ClientServiceUncheckedUpdateWithoutInvoicesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -147372,6 +149144,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -147472,6 +149245,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -148484,6 +150258,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -148584,6 +150359,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -149922,6 +151698,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -150022,6 +151799,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -150127,6 +151905,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -150227,6 +152006,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -151412,6 +153192,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutClientCompanyInput = {
@@ -151426,6 +153207,7 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutClientCompanyInput = {
@@ -151435,6 +153217,52 @@ export namespace Prisma {
 
   export type ClientServiceCreateManyClientCompanyInputEnvelope = {
     data: ClientServiceCreateManyClientCompanyInput | ClientServiceCreateManyClientCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientInvoiceCreateWithoutClientCompanyInput = {
+    id?: string
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientService?: ClientServiceCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type ClientInvoiceUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    clientServiceId?: string | null
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientInvoiceCreateOrConnectWithoutClientCompanyInput = {
+    where: ClientInvoiceWhereUniqueInput
+    create: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientInvoiceCreateManyClientCompanyInputEnvelope = {
+    data: ClientInvoiceCreateManyClientCompanyInput | ClientInvoiceCreateManyClientCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -153057,6 +154885,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -153157,6 +154986,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -153982,6 +155812,44 @@ export namespace Prisma {
     order?: IntFilter<"ClientService"> | number
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
+  }
+
+  export type ClientInvoiceUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientInvoiceWhereUniqueInput
+    update: XOR<ClientInvoiceUpdateWithoutClientCompanyInput, ClientInvoiceUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<ClientInvoiceCreateWithoutClientCompanyInput, ClientInvoiceUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientInvoiceUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientInvoiceWhereUniqueInput
+    data: XOR<ClientInvoiceUpdateWithoutClientCompanyInput, ClientInvoiceUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type ClientInvoiceUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: ClientInvoiceScalarWhereInput
+    data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyWithoutClientCompanyInput>
+  }
+
+  export type ClientInvoiceScalarWhereInput = {
+    AND?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+    OR?: ClientInvoiceScalarWhereInput[]
+    NOT?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+    id?: StringFilter<"ClientInvoice"> | string
+    clientCompanyId?: StringFilter<"ClientInvoice"> | string
+    clientServiceId?: StringNullableFilter<"ClientInvoice"> | string | null
+    description?: StringFilter<"ClientInvoice"> | string
+    referenceMonth?: StringNullableFilter<"ClientInvoice"> | string | null
+    amountCents?: IntFilter<"ClientInvoice"> | number
+    dueDate?: DateTimeFilter<"ClientInvoice"> | Date | string
+    status?: StringFilter<"ClientInvoice"> | string
+    paidAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    boletoUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    invoiceUrl?: StringNullableFilter<"ClientInvoice"> | string | null
+    notes?: StringNullableFilter<"ClientInvoice"> | string | null
+    externalId?: StringNullableFilter<"ClientInvoice"> | string | null
+    provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    createdAt?: DateTimeFilter<"ClientInvoice"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientInvoice"> | Date | string
   }
 
   export type TrackingLinkUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -155347,6 +157215,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -155447,6 +157316,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -155807,6 +157677,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -155907,6 +157778,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156113,6 +157985,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -156213,6 +158086,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -156514,6 +158388,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -156614,6 +158489,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -156841,6 +158717,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -156941,6 +158818,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -157503,6 +159381,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -157603,6 +159482,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158086,6 +159966,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -158186,6 +160067,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -158322,6 +160204,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -158422,6 +160305,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -158814,6 +160698,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -158914,6 +160799,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -159056,6 +160942,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -159156,6 +161043,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -159560,6 +161448,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -159660,6 +161549,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -159802,6 +161692,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -159902,6 +161793,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160018,6 +161910,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -160118,6 +162011,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -160263,6 +162157,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -160363,6 +162258,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -160605,6 +162501,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -160705,6 +162602,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -161096,6 +162994,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -161196,6 +163095,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -161691,6 +163591,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -161791,6 +163692,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -161907,6 +163809,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -162007,6 +163910,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162107,6 +164011,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     setores?: SetorCreateNestedManyWithoutCompanyInput
@@ -162207,6 +164112,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
@@ -162404,6 +164310,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     setores?: SetorUpdateManyWithoutCompanyNestedInput
@@ -162504,6 +164411,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
@@ -162690,6 +164598,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -162790,6 +164699,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -163024,6 +164934,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -163124,6 +165035,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -163280,6 +165192,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -163380,6 +165293,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -163819,6 +165733,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -163919,6 +165834,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -164372,6 +166288,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -164472,6 +166389,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -164629,6 +166547,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -164729,6 +166648,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -165023,6 +166943,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -165123,6 +167044,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -165631,6 +167553,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -165731,6 +167654,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166243,6 +168167,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -166343,6 +168268,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -166696,6 +168622,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -166796,6 +168723,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -166895,6 +168823,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -166995,6 +168924,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -167181,6 +169111,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -167281,6 +169212,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -167702,6 +169634,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -167802,6 +169735,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168000,6 +169934,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -168100,6 +170035,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168619,6 +170555,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -168719,6 +170656,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -169067,6 +171005,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -169167,6 +171106,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -169411,6 +171351,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -169511,6 +171452,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -169950,6 +171892,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -170050,6 +171993,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172799,6 +174743,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -172899,6 +174844,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -173065,6 +175011,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -173165,6 +175112,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173487,6 +175435,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -173587,6 +175536,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -173754,6 +175704,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -173854,6 +175805,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -173954,6 +175906,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -174054,6 +176007,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -174204,6 +176158,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -174304,6 +176259,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174451,6 +176407,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -174551,6 +176508,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -174704,6 +176662,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -174804,6 +176763,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -174904,6 +176864,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -175004,6 +176965,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -175120,6 +177082,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -175220,6 +177183,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175320,6 +177284,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -175420,6 +177385,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -175536,6 +177502,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -175636,6 +177603,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -175736,6 +177704,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -175836,6 +177805,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -175952,6 +177922,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -176052,6 +178023,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176152,6 +178124,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -176252,6 +178225,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -176512,6 +178486,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -176612,6 +178587,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -176760,6 +178736,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -176860,6 +178837,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -177065,6 +179043,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -177165,6 +179144,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -177332,6 +179312,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -177432,6 +179413,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -177644,6 +179626,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -177744,6 +179727,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -177952,6 +179936,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -178052,6 +180037,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -178243,6 +180229,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -178343,6 +180330,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -178608,6 +180596,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -178708,6 +180697,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -178824,6 +180814,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -178924,6 +180915,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179024,6 +181016,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -179124,6 +181117,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -179240,6 +181234,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -179340,6 +181335,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179440,6 +181436,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -179540,6 +181537,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -179656,6 +181654,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -179756,6 +181755,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179856,6 +181856,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -179956,6 +181957,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -180072,6 +182074,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -180172,6 +182175,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -180272,6 +182276,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -180372,6 +182377,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -180488,6 +182494,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -180588,6 +182595,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -180688,6 +182696,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -180788,6 +182797,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -180904,6 +182914,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -181004,6 +183015,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181104,6 +183116,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -181204,6 +183217,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -181320,6 +183334,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -181420,6 +183435,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181520,6 +183536,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -181620,6 +183637,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -181736,6 +183754,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -181836,6 +183855,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181936,6 +183956,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -182036,6 +184057,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -182152,6 +184174,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -182252,6 +184275,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182352,6 +184376,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -182452,6 +184477,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -182568,6 +184594,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -182668,6 +184695,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182768,6 +184796,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -182868,6 +184897,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -182984,6 +185014,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -183084,6 +185115,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -183184,6 +185216,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -183284,6 +185317,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -183400,6 +185434,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -183500,6 +185535,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -183600,6 +185636,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -183700,6 +185737,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -183816,6 +185854,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -183916,6 +185955,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184016,6 +186056,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -184116,6 +186157,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -184232,6 +186274,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -184332,6 +186375,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184432,6 +186476,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -184532,6 +186577,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -184648,6 +186694,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -184748,6 +186795,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184848,6 +186896,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -184948,6 +186997,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -185064,6 +187114,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -185164,6 +187215,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -185264,6 +187316,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -185364,6 +187417,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -185480,6 +187534,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -185580,6 +187635,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -185679,6 +187735,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -185779,6 +187836,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -185919,6 +187977,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -186019,6 +188078,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -186206,6 +188266,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -186306,6 +188367,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -186458,6 +188520,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -186558,6 +188621,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -186755,6 +188819,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -186855,6 +188920,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -187089,6 +189155,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -187189,6 +189256,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -187407,6 +189475,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -187507,6 +189576,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -187710,6 +189780,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -187810,6 +189881,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -187991,6 +190063,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -188091,6 +190164,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -188294,6 +190368,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -188394,6 +190469,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -188575,6 +190651,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -188675,6 +190752,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -188878,6 +190956,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -188978,6 +191057,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -189078,6 +191158,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -189178,6 +191259,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -189294,6 +191376,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -189394,6 +191477,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -189830,6 +191914,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -189930,6 +192015,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -190046,6 +192132,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -190146,6 +192233,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -190246,6 +192334,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -190346,6 +192435,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -190524,6 +192614,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -190624,6 +192715,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -190767,6 +192859,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -190867,6 +192960,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -191255,6 +193349,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -191355,6 +193450,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -192059,6 +194155,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -192159,6 +194256,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -192275,6 +194373,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -192375,6 +194474,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -192476,6 +194576,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -192576,6 +194677,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -192692,6 +194794,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -192792,6 +194895,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -192892,6 +194996,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -192992,6 +195097,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -193262,6 +195368,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -193362,6 +195469,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -193610,6 +195718,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -193710,6 +195819,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -193863,6 +195973,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -193963,6 +196074,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -194106,6 +196218,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -194206,6 +196319,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -194262,6 +196376,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutServiceInput = {
@@ -194276,6 +196391,7 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutServiceInput = {
@@ -194360,6 +196476,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -194460,6 +196577,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -194575,6 +196693,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
@@ -194675,6 +196794,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
     contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
@@ -194757,6 +196877,52 @@ export namespace Prisma {
     create: XOR<ServiceCreateWithoutClientInstancesInput, ServiceUncheckedCreateWithoutClientInstancesInput>
   }
 
+  export type ClientInvoiceCreateWithoutClientServiceInput = {
+    id?: string
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientInvoicesInput
+  }
+
+  export type ClientInvoiceUncheckedCreateWithoutClientServiceInput = {
+    id?: string
+    clientCompanyId: string
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientInvoiceCreateOrConnectWithoutClientServiceInput = {
+    where: ClientInvoiceWhereUniqueInput
+    create: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type ClientInvoiceCreateManyClientServiceInputEnvelope = {
+    data: ClientInvoiceCreateManyClientServiceInput | ClientInvoiceCreateManyClientServiceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutClientServicesInput = {
     update: XOR<CompanyUpdateWithoutClientServicesInput, CompanyUncheckedUpdateWithoutClientServicesInput>
     create: XOR<CompanyCreateWithoutClientServicesInput, CompanyUncheckedCreateWithoutClientServicesInput>
@@ -194828,6 +196994,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -194928,6 +197095,7 @@ export namespace Prisma {
     keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -195006,6 +197174,518 @@ export namespace Prisma {
     priceRange?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     showInClientArea?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput = {
+    where: ClientInvoiceWhereUniqueInput
+    update: XOR<ClientInvoiceUpdateWithoutClientServiceInput, ClientInvoiceUncheckedUpdateWithoutClientServiceInput>
+    create: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput = {
+    where: ClientInvoiceWhereUniqueInput
+    data: XOR<ClientInvoiceUpdateWithoutClientServiceInput, ClientInvoiceUncheckedUpdateWithoutClientServiceInput>
+  }
+
+  export type ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput = {
+    where: ClientInvoiceScalarWhereInput
+    data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyWithoutClientServiceInput>
+  }
+
+  export type CompanyCreateWithoutClientInvoicesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutClientInvoicesInput, CompanyUncheckedCreateWithoutClientInvoicesInput>
+  }
+
+  export type ClientServiceCreateWithoutInvoicesInput = {
+    id?: string
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    service?: ServiceCreateNestedOneWithoutClientInstancesInput
+  }
+
+  export type ClientServiceUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    clientCompanyId: string
+    serviceId?: string | null
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientServiceCreateOrConnectWithoutInvoicesInput = {
+    where: ClientServiceWhereUniqueInput
+    create: XOR<ClientServiceCreateWithoutInvoicesInput, ClientServiceUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type CompanyUpsertWithoutClientInvoicesInput = {
+    update: XOR<CompanyUpdateWithoutClientInvoicesInput, CompanyUncheckedUpdateWithoutClientInvoicesInput>
+    create: XOR<CompanyCreateWithoutClientInvoicesInput, CompanyUncheckedCreateWithoutClientInvoicesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutClientInvoicesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutClientInvoicesInput, CompanyUncheckedUpdateWithoutClientInvoicesInput>
+  }
+
+  export type CompanyUpdateWithoutClientInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type ClientServiceUpsertWithoutInvoicesInput = {
+    update: XOR<ClientServiceUpdateWithoutInvoicesInput, ClientServiceUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<ClientServiceCreateWithoutInvoicesInput, ClientServiceUncheckedCreateWithoutInvoicesInput>
+    where?: ClientServiceWhereInput
+  }
+
+  export type ClientServiceUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: ClientServiceWhereInput
+    data: XOR<ClientServiceUpdateWithoutInvoicesInput, ClientServiceUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type ClientServiceUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+  }
+
+  export type ClientServiceUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -196645,6 +199325,24 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ClientInvoiceCreateManyClientCompanyInput = {
+    id?: string
+    clientServiceId?: string | null
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TrackingLinkCreateManyCompanyInput = {
     id?: string
     code: string
@@ -197238,6 +199936,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
@@ -197338,6 +200037,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
     contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
@@ -198632,6 +201332,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutClientCompanyInput = {
@@ -198646,6 +201347,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -198658,6 +201360,60 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
     order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientService?: ClientServiceUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type ClientInvoiceUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -203835,6 +206591,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutServiceInput = {
@@ -203849,6 +206606,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutServiceInput = {
@@ -203861,6 +206619,78 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
     order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceCreateManyClientServiceInput = {
+    id?: string
+    clientCompanyId: string
+    description: string
+    referenceMonth?: string | null
+    amountCents: number
+    dueDate: Date | string
+    status?: string
+    paidAt?: Date | string | null
+    boletoUrl?: string | null
+    invoiceUrl?: string | null
+    notes?: string | null
+    externalId?: string | null
+    provider?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientInvoiceUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientInvoicesNestedInput
+  }
+
+  export type ClientInvoiceUncheckedUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientInvoiceUncheckedUpdateManyWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    referenceMonth?: NullableStringFieldUpdateOperationsInput | string | null
+    amountCents?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    boletoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    invoiceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -203978,6 +206808,10 @@ export namespace Prisma {
      * @deprecated Use ServiceCountOutputTypeDefaultArgs instead
      */
     export type ServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ServiceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ClientServiceCountOutputTypeDefaultArgs instead
+     */
+    export type ClientServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -204346,6 +207180,10 @@ export namespace Prisma {
      * @deprecated Use ClientServiceDefaultArgs instead
      */
     export type ClientServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientServiceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ClientInvoiceDefaultArgs instead
+     */
+    export type ClientInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientInvoiceDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

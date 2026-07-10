@@ -1455,6 +1455,25 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ClientInvoiceScalarFieldEnum = {
+  id: 'id',
+  clientCompanyId: 'clientCompanyId',
+  clientServiceId: 'clientServiceId',
+  description: 'description',
+  referenceMonth: 'referenceMonth',
+  amountCents: 'amountCents',
+  dueDate: 'dueDate',
+  status: 'status',
+  paidAt: 'paidAt',
+  boletoUrl: 'boletoUrl',
+  invoiceUrl: 'invoiceUrl',
+  notes: 'notes',
+  externalId: 'externalId',
+  provider: 'provider',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1934,7 +1953,8 @@ exports.Prisma.ModelName = {
   Assistant: 'Assistant',
   AiUsageLog: 'AiUsageLog',
   Service: 'Service',
-  ClientService: 'ClientService'
+  ClientService: 'ClientService',
+  ClientInvoice: 'ClientInvoice'
 };
 
 /**

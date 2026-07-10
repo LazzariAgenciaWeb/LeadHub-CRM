@@ -12,6 +12,7 @@ import EditCompanyButton from "./EditCompanyButton";
 import CompanyDetailTabs from "./CompanyDetailTabs";
 import CompanyCustomFields from "./CompanyCustomFields";
 import CompanyContractedServices from "./CompanyContractedServices";
+import CompanyFinanceiro from "./CompanyFinanceiro";
 
 export default async function EmpresaDetailPage({
   params,
@@ -89,9 +90,9 @@ export default async function EmpresaDetailPage({
       })
     : [];
 
-  // Serviços contratados deste cliente + catálogo da agência (pra o seletor).
+  // Serviços contratados + catálogo da agência (seletor) + financeiro do cliente.
   const catalogOwnerId = company.parentCompanyId ?? id;
-  const [contractedRaw, catalogRaw] = await Promise.all([
+  const [contractedRaw, catalogRaw, invoicesRaw] = await Promise.all([
     prisma.clientService.findMany({
       where:   { clientCompanyId: id },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
@@ -102,11 +103,22 @@ export default async function EmpresaDetailPage({
       orderBy: [{ order: "asc" }, { name: "asc" }],
       select:  { id: true, name: true },
     }),
+    prisma.clientInvoice.findMany({
+      where:   { clientCompanyId: id },
+      orderBy: [{ status: "asc" }, { dueDate: "desc" }],
+      include: { clientService: { select: { id: true, label: true } } },
+    }),
   ]);
   const contracted = contractedRaw.map((c) => ({
     id: c.id, serviceId: c.serviceId, serviceName: c.service?.name ?? null,
     label: c.label, status: c.status, renewsAt: c.renewsAt?.toISOString() ?? null,
     url: c.url, notes: c.notes, details: (c.details as any) ?? null,
+  }));
+  const invoices = invoicesRaw.map((v) => ({
+    id: v.id, clientServiceId: v.clientServiceId, serviceLabel: v.clientService?.label ?? null,
+    description: v.description, referenceMonth: v.referenceMonth, amountCents: v.amountCents,
+    dueDate: v.dueDate.toISOString(), status: v.status, paidAt: v.paidAt?.toISOString() ?? null,
+    boletoUrl: v.boletoUrl, invoiceUrl: v.invoiceUrl, externalId: v.externalId, notes: v.notes,
   }));
 
   const [prospeccaoCount, leadsCount, oportunidadesCount, totalLeads, recentLeads, recentOportunidades, recentChamados] = await Promise.all([
@@ -336,6 +348,10 @@ export default async function EmpresaDetailPage({
 
       <div className="mt-6">
         <CompanyContractedServices companyId={id} initial={contracted} catalog={catalogRaw} />
+      </div>
+
+      <div className="mt-6">
+        <CompanyFinanceiro companyId={id} initial={invoices} services={contracted.map((c) => ({ id: c.id, label: c.label }))} />
       </div>
     </div>
   );

@@ -233,6 +233,7 @@ model Company {
   tickets                   Ticket[]
   ticketsAsClient           Ticket[]                 @relation("TicketClientCompany")
   clientServices            ClientService[]          @relation("ClientServiceClient")
+  clientInvoices            ClientInvoice[]          @relation("ClientInvoiceClient")
   trackingLinks             TrackingLink[]
   pipelineStages            PipelineStageConfig[]
   contacts                  CompanyContact[]
@@ -3049,9 +3050,41 @@ model ClientService {
   details  Json? // campos extras flexíveis: [{ "label": string, "value": string }]
   order    Int       @default(0)
 
+  invoices ClientInvoice[] // cobranças ligadas a este serviço
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([clientCompanyId])
   @@index([serviceId])
+}
+
+// Cobrança (fatura/boleto/NF) que a agência EMITE para um cliente. Alimentada
+// manualmente hoje; estrutura pronta pra baixa automática via retorno CNAB
+// (externalId = nosso número) no futuro.
+model ClientInvoice {
+  id              String         @id @default(cuid())
+  clientCompany   Company        @relation("ClientInvoiceClient", fields: [clientCompanyId], references: [id], onDelete: Cascade)
+  clientCompanyId String
+  clientService   ClientService? @relation(fields: [clientServiceId], references: [id], onDelete: SetNull)
+  clientServiceId String?
+
+  description    String
+  referenceMonth String? // competência "YYYY-MM"
+  amountCents    Int // valor em centavos (evita Decimal na serialização)
+  dueDate        DateTime // vencimento
+  status         String    @default("ABERTO") // ABERTO | PAGO | CANCELADO (atraso é derivado do vencimento)
+  paidAt         DateTime? // data de liquidação (baixa)
+  boletoUrl      String? // link/PDF do boleto ou linha digitável
+  invoiceUrl     String? // link da nota fiscal (NF)
+  notes          String?   @db.Text
+
+  externalId String? // nosso número / id do boleto no sistema/banco
+  provider   String? // origem (ex.: "manual", "banco X")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientCompanyId, status])
+  @@index([clientServiceId])
 }

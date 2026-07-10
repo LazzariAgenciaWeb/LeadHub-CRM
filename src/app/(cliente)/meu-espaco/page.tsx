@@ -22,6 +22,8 @@ const COVERS = [
   "linear-gradient(135deg,#10B981,#0D9488)",
 ];
 const fmtDM = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }).replace(".", "");
+const brl = (c: number) => (c / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const fmtD = (d: Date) => d.toLocaleDateString("pt-BR");
 
 export default async function MeuEspacoPage() {
   const session = await getEffectiveSession();
@@ -46,7 +48,7 @@ export default async function MeuEspacoPage() {
   });
 
   // Chamados/pedidos + catálogo visível pro cliente + serviços contratados dele.
-  const [ticketsRaw, servicesRaw, contractedRaw] = await Promise.all([
+  const [ticketsRaw, servicesRaw, contractedRaw, invoicesRaw] = await Promise.all([
     prisma.ticket.findMany({
       where:   { clientCompanyId: companyId },
       orderBy: [{ createdAt: "desc" }],
@@ -63,6 +65,12 @@ export default async function MeuEspacoPage() {
       where:   { clientCompanyId: companyId, status: { not: "ENCERRADO" } },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
       select:  { id: true, label: true, status: true, renewsAt: true, url: true, service: { select: { name: true } } },
+    }),
+    prisma.clientInvoice.findMany({
+      where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
+      orderBy: [{ status: "asc" }, { dueDate: "asc" }],
+      take:    24,
+      select:  { id: true, description: true, amountCents: true, dueDate: true, status: true, paidAt: true, boletoUrl: true, invoiceUrl: true },
     }),
   ]);
   const tickets = ticketsRaw.map((t) => ({ ...t, createdAt: t.createdAt.toISOString() }));
@@ -181,6 +189,43 @@ export default async function MeuEspacoPage() {
         </div>
       </section>
 
+      {/* FINANCEIRO */}
+      {invoicesRaw.length > 0 && (() => {
+        const openTotal = invoicesRaw.filter((v) => v.status === "ABERTO").reduce((s, v) => s + v.amountCents, 0);
+        return (
+          <section className="row">
+            <div className="rowhead">
+              <h2>Financeiro</h2>
+              {openTotal > 0 && <span className="finopen">Em aberto: {brl(openTotal)}</span>}
+            </div>
+            <div className="finlist">
+              {invoicesRaw.map((v) => {
+                const overdue = v.status === "ABERTO" && new Date(v.dueDate) < now;
+                const pill = v.status === "PAGO" ? { l: "Pago", t: "ok" } : overdue ? { l: "Atrasado", t: "late" } : { l: "Em aberto", t: "open" };
+                return (
+                  <div key={v.id} className="finrow">
+                    <div className="finval">{brl(v.amountCents)}</div>
+                    <div className="finmid">
+                      <div className="findesc">{v.description}</div>
+                      <div className="finmeta">
+                        {v.status === "PAGO" && v.paidAt
+                          ? <>Liquidado em {fmtD(new Date(v.paidAt))}</>
+                          : <>Vence {fmtD(new Date(v.dueDate))}</>}
+                      </div>
+                    </div>
+                    <span className={`finpill ${pill.t}`}>{pill.l}</span>
+                    <div className="finact">
+                      {v.status !== "PAGO" && v.boletoUrl && <a href={v.boletoUrl} target="_blank" rel="noreferrer" className="finbtn">Pagar boleto</a>}
+                      {v.invoiceUrl && <a href={v.invoiceUrl} target="_blank" rel="noreferrer" className="finlk">Nota fiscal</a>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })()}
+
       <MeuEspacoInteracoes tickets={tickets} services={servicesRaw} />
     </div>
   );
@@ -246,6 +291,25 @@ const CSS = `
 .prod .pb .st.info{color:#B6C4FF;background:rgba(110,134,255,.12);border:1px solid rgba(110,134,255,.28)}
 .prod .pb .st.warn{color:var(--warn);background:rgba(245,181,100,.12);border:1px solid rgba(245,181,100,.30)}
 .prod .pb .pr{font-size:12.5px;font-weight:660;color:#AFC0FF;margin-top:8px}
+
+/* Financeiro */
+.finopen{font-size:13px;font-weight:700;color:var(--warn)}
+.finlist{display:flex;flex-direction:column;gap:10px}
+.finrow{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line)}
+.finval{font-size:16px;font-weight:760;letter-spacing:-.01em;white-space:nowrap;flex:none;min-width:104px}
+.finmid{flex:1;min-width:0}
+.finmid .findesc{font-size:14px;font-weight:600}
+.finmid .finmeta{font-size:12px;color:var(--ink3);margin-top:2px}
+.finpill{flex:none;font-size:11px;font-weight:650;padding:4px 11px;border-radius:99px;white-space:nowrap;border:1px solid transparent}
+.finpill.ok{color:var(--ok);background:rgba(79,209,160,.10);border-color:rgba(79,209,160,.24)}
+.finpill.open{color:var(--warn);background:rgba(245,181,100,.12);border-color:rgba(245,181,100,.3)}
+.finpill.late{color:#FCA5A5;background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3)}
+.finact{display:flex;align-items:center;gap:10px;flex:none}
+.finbtn{font-size:12.5px;font-weight:660;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 14px;border-radius:9px;
+  background:linear-gradient(135deg,#6E86FF,#9B7BFF);box-shadow:0 8px 20px -10px rgba(110,134,255,.7)}
+.finlk{font-size:12.5px;font-weight:650;color:#AFC0FF;text-decoration:none;white-space:nowrap}
+@media (max-width:560px){.finrow{flex-wrap:wrap}.finval{min-width:0}.finact{width:100%}}
 
 /* Ações: abrir chamado / pedir extra */
 .actcard{width:262px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;padding:16px;border-radius:16px;
