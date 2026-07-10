@@ -43,6 +43,7 @@ export default async function MeuEspacoPage() {
     orderBy: [{ status: "asc" }, { createdAt: "desc" }],
     select: {
       id: true, name: true, description: true, status: true,
+      service: { select: { name: true } },
       internalTasks: { select: { done: true, dueDate: true } },
     },
   });
@@ -101,7 +102,7 @@ export default async function MeuEspacoPage() {
         </div>
         <div className="pbody">
           <h3>{c.name}</h3>
-          {c.description && <div className="psub">{c.description}</div>}
+          {(c.service?.name || c.description) && <div className="psub">{c.service?.name ?? c.description}</div>}
           {c.total > 0 && <div className="prog"><i style={{ width: `${c.pct}%` }} /></div>}
           <div className="pnext">
             {c.overdue > 0

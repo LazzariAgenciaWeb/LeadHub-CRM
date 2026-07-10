@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   const body = await req.json();
-  const { name, description, type, status, startDate, dueDate, clientCompanyId, memberIds, clickupListId, visibility, accessUserIds } = body;
+  const { name, description, type, status, startDate, dueDate, clientCompanyId, serviceId, memberIds, clickupListId, visibility, accessUserIds } = body;
 
   // Detecta transição pra ENTREGUE — gera pontos pros membros
   const movingToDelivered = status === "ProjectStatus" || status === "ENTREGUE";
@@ -98,6 +98,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (startDate   !== undefined) data.startDate = startDate ? new Date(startDate) : null;
   if (dueDate     !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
   if (clientCompanyId !== undefined) data.clientCompanyId = clientCompanyId ?? null;
+  if (serviceId !== undefined) data.serviceId = serviceId || null;
   if (visibility !== undefined) data.visibility = visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN";
   if (clickupListId !== undefined && typeof clickupListId === "string") {
     // String vazia = remover vínculo (projeto vira só interno). Não-vazia = trocar.

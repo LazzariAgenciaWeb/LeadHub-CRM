@@ -1220,6 +1220,11 @@ model SetorClickupList {
   clientCompanyId String?
   clientCompany   Company? @relation("SetorClickupListClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
 
+  // Serviço do catálogo que este projeto entrega. Ao vincular, o projeto passa a
+  // representar o serviço contratado do cliente (sem cadastrar em 2 lugares).
+  service   Service? @relation("ServiceProjects", fields: [serviceId], references: [id], onDelete: SetNull)
+  serviceId String?
+
   // Gestão de projeto
   status      ProjectStatus @default(PLANEJAMENTO)
   startDate   DateTime?
@@ -3028,6 +3033,7 @@ model Service {
   order            Int     @default(0)
 
   clientInstances ClientService[] // contratações deste serviço por clientes
+  projects        SetorClickupList[] @relation("ServiceProjects") // projetos que entregam este serviço
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -135,6 +135,13 @@ export default async function ProjectDetailPage({
         select:  { id: true, name: true },
       });
 
+  // Catálogo de serviços da agência (dona do projeto) — pro seletor de serviço.
+  const catalogServices = await prisma.service.findMany({
+    where:   { companyId: project.setor.companyId },
+    orderBy: [{ order: "asc" }, { name: "asc" }],
+    select:  { id: true, name: true },
+  });
+
   // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.
   const materials = await prisma.projectMaterial.findMany({
     where:   { projectId: project.id },
@@ -153,6 +160,8 @@ export default async function ProjectDetailPage({
       clientCompanies={clientCompanies}
       openTasks={openTasks}
       internalTasks={internalTasks}
+      catalogServices={catalogServices}
+      currentServiceId={(project as any).serviceId ?? null}
       chamados={chamados.map((c) => ({
         id:           c.id,
         title:        c.title,

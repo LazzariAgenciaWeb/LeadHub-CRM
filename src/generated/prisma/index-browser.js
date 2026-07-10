@@ -585,6 +585,7 @@ exports.Prisma.SetorClickupListScalarFieldEnum = {
   description: 'description',
   type: 'type',
   clientCompanyId: 'clientCompanyId',
+  serviceId: 'serviceId',
   status: 'status',
   startDate: 'startDate',
   dueDate: 'dueDate',

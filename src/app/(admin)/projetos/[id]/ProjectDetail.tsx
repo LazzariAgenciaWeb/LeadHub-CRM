@@ -8,6 +8,7 @@ import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
+import ProjectServiceSelector from "./ProjectServiceSelector";
 
 type Project = {
   id:                  string;
@@ -112,6 +113,7 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 
 export default function ProjectDetail({
   project, availableUsers, companyUsers, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
+  catalogServices, currentServiceId,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
@@ -122,6 +124,8 @@ export default function ProjectDetail({
   openTasks: OpenTask[];
   internalTasks: InternalTask[];
   chamados: Chamado[];
+  catalogServices: { id: string; name: string }[];
+  currentServiceId: string | null;
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -562,6 +566,13 @@ export default function ProjectDetail({
             projectId={project.id}
             current={project.clientCompany}
             companies={clientCompanies}
+          />
+
+          {/* Serviço do catálogo — vincula pra contar como contratado */}
+          <ProjectServiceSelector
+            projectId={project.id}
+            currentServiceId={currentServiceId}
+            services={catalogServices}
           />
 
           {/* Visibilidade: aberto/restrito + pessoas extras */}
