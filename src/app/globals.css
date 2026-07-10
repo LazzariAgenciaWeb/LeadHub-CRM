@@ -25,6 +25,19 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ── Inputs de data/hora — tema dark ────────────────────────────────────────
+   O app usa tema escuro fixo (classes Tailwind), mas o browser acha que a
+   página é clara e desenha o ícone nativo do calendário/relógio em PRETO —
+   invisível no fundo escuro. color-scheme: dark corrige o ícone e também o
+   popup nativo do calendário (que abriria branco). */
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"],
+input[type="week"] {
+  color-scheme: dark;
+}
+
 /* ── Scrollbars custom — discretas, no tema dark do LeadHub ─────────────────
    Webkit (Chrome, Safari, Edge): track invisível, thumb fininho.
    Firefox: scrollbar-width thin + scrollbar-color.
