@@ -91,6 +91,10 @@ export default function ServicesCatalog({
   }
 
   const inputCls = "w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
+  const tagCls = "ml-1.5 align-middle text-[9px] font-semibold normal-case tracking-normal px-1.5 py-0.5 rounded";
+  const iaTag  = <span className={`${tagCls} bg-indigo-500/15 text-indigo-300`} title="O agente de IA usa este campo">🤖 IA</span>;
+  const cliTag = <span className={`${tagCls} bg-emerald-500/15 text-emerald-400`} title="Aparece pro cliente em 'Disponível para você'">👁 Cliente</span>;
+  const intTag = <span className={`${tagCls} bg-amber-500/15 text-amber-400`} title="Uso interno — não vai pra IA nem pro cliente">🔒 Interno</span>;
 
   return (
     <section className="space-y-3">
@@ -98,7 +102,10 @@ export default function ServicesCatalog({
         <div>
           <h2 className="text-white font-bold text-sm">📋 Catálogo de Serviços</h2>
           <p className="text-slate-500 text-xs mt-0.5">
-            O agente consulta esses serviços pra reconhecer o que o contato quer e qualificar. Tire os serviços de dentro do manual e cadastre aqui.
+            Um catálogo só, usado em dois lugares. Cada campo mostra pra onde vai:
+            <span className="ml-1 text-indigo-300">🤖 IA</span> = o agente usa ·
+            <span className="ml-1 text-emerald-400">👁 Cliente</span> = aparece pro cliente ·
+            <span className="ml-1 text-amber-400">🔒 Interno</span> = só você vê.
           </p>
         </div>
         {editing === null && (
@@ -111,31 +118,31 @@ export default function ServicesCatalog({
       {editing !== null && (
         <form onSubmit={save} className="bg-[#0f1623] border border-indigo-500/30 rounded-xl p-5 space-y-4">
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Nome do serviço</label>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Nome do serviço {iaTag}{cliTag}</label>
             <input value={fName} onChange={(e) => setFName(e.target.value)} placeholder="Ex.: Criação de Sites" className={inputCls} />
           </div>
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Descrição <span className="text-slate-600 normal-case">(opcional)</span></label>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Descrição <span className="text-slate-600 normal-case">(opcional)</span> {iaTag}{cliTag}</label>
             <textarea value={fDesc} onChange={(e) => setFDesc(e.target.value)} rows={2} placeholder="Resumo curto do que é o serviço" className={`${inputCls} resize-y`} />
           </div>
           <div>
-            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Perguntas de qualificação <span className="text-slate-600 normal-case">(uma por linha)</span></label>
+            <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Perguntas de qualificação <span className="text-slate-600 normal-case">(uma por linha)</span> {iaTag}</label>
             <textarea value={fQuestions} onChange={(e) => setFQuestions(e.target.value)} rows={6} placeholder={QUESTIONS_PLACEHOLDER} className={`${inputCls} resize-y leading-relaxed`} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Argumentos <span className="text-slate-600 normal-case">(opcional)</span></label>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Argumentos <span className="text-slate-600 normal-case">(opcional)</span> {iaTag}</label>
               <textarea value={fArgs} onChange={(e) => setFArgs(e.target.value)} rows={4} placeholder="Como apresentar / diferenciais" className={`${inputCls} resize-y`} />
             </div>
             <div>
-              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Referências / cases <span className="text-slate-600 normal-case">(opcional)</span></label>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">Referências / cases <span className="text-slate-600 normal-case">(opcional)</span> {iaTag}</label>
               <textarea value={fRefs} onChange={(e) => setFRefs(e.target.value)} rows={4} placeholder="Links, cases, materiais" className={`${inputCls} resize-y`} />
             </div>
           </div>
           <div className="flex items-end gap-4">
             <div className="flex-1">
               <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
-                Faixa de preço <span className="text-amber-500/80 normal-case">(uso interno — NÃO vai pro agente)</span>
+                Faixa de preço {intTag}
               </label>
               <input value={fPrice} onChange={(e) => setFPrice(e.target.value)} placeholder="Ex.: R$ 2.000 a R$ 5.000" className={inputCls} />
             </div>
