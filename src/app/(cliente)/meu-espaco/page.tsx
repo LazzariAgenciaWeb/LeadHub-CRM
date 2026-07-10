@@ -189,39 +189,41 @@ export default async function MeuEspacoPage() {
         </div>
       </section>
 
-      {/* FINANCEIRO */}
+      {/* FINANCEIRO (resumo — detalhe em /meu-espaco/financeiro) */}
       {invoicesRaw.length > 0 && (() => {
-        const openTotal = invoicesRaw.filter((v) => v.status === "ABERTO").reduce((s, v) => s + v.amountCents, 0);
+        const abertas = invoicesRaw.filter((v) => v.status === "ABERTO");
+        const openTotal = abertas.reduce((s, v) => s + v.amountCents, 0);
         return (
           <section className="row">
             <div className="rowhead">
               <h2>Financeiro</h2>
               {openTotal > 0 && <span className="finopen">Em aberto: {brl(openTotal)}</span>}
+              <Link href="/meu-espaco/financeiro" className="finmore">Ver tudo →</Link>
             </div>
-            <div className="finlist">
-              {invoicesRaw.map((v) => {
-                const overdue = v.status === "ABERTO" && new Date(v.dueDate) < now;
-                const pill = v.status === "PAGO" ? { l: "Pago", t: "ok" } : overdue ? { l: "Atrasado", t: "late" } : { l: "Em aberto", t: "open" };
-                return (
-                  <div key={v.id} className="finrow">
-                    <div className="finval">{brl(v.amountCents)}</div>
-                    <div className="finmid">
-                      <div className="findesc">{v.description}</div>
-                      <div className="finmeta">
-                        {v.status === "PAGO" && v.paidAt
-                          ? <>Liquidado em {fmtD(new Date(v.paidAt))}</>
-                          : <>Vence {fmtD(new Date(v.dueDate))}</>}
+            {abertas.length === 0 ? (
+              <div className="finok">Tudo em dia por aqui. 👌</div>
+            ) : (
+              <div className="finlist">
+                {abertas.slice(0, 4).map((v) => {
+                  const overdue = new Date(v.dueDate) < now;
+                  const pill = overdue ? { l: "Atrasado", t: "late" } : { l: "Em aberto", t: "open" };
+                  return (
+                    <div key={v.id} className="finrow">
+                      <div className="finval">{brl(v.amountCents)}</div>
+                      <div className="finmid">
+                        <div className="findesc">{v.description}</div>
+                        <div className="finmeta">Vence {fmtD(new Date(v.dueDate))}</div>
+                      </div>
+                      <span className={`finpill ${pill.t}`}>{pill.l}</span>
+                      <div className="finact">
+                        {v.boletoUrl && <a href={v.boletoUrl} target="_blank" rel="noreferrer" className="finbtn">Pagar boleto</a>}
+                        {v.invoiceUrl && <a href={v.invoiceUrl} target="_blank" rel="noreferrer" className="finlk">Nota fiscal</a>}
                       </div>
                     </div>
-                    <span className={`finpill ${pill.t}`}>{pill.l}</span>
-                    <div className="finact">
-                      {v.status !== "PAGO" && v.boletoUrl && <a href={v.boletoUrl} target="_blank" rel="noreferrer" className="finbtn">Pagar boleto</a>}
-                      {v.invoiceUrl && <a href={v.invoiceUrl} target="_blank" rel="noreferrer" className="finlk">Nota fiscal</a>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </section>
         );
       })()}
@@ -294,6 +296,9 @@ const CSS = `
 
 /* Financeiro */
 .finopen{font-size:13px;font-weight:700;color:var(--warn)}
+.finmore{margin-left:auto;font-size:13px;font-weight:650;color:#AFC0FF;text-decoration:none;white-space:nowrap}
+.finmore:hover{color:#fff}
+.finok{color:var(--ink3);font-size:14px;padding:18px;border:1px dashed var(--line2);border-radius:14px;text-align:center}
 .finlist{display:flex;flex-direction:column;gap:10px}
 .finrow{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
   background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line)}

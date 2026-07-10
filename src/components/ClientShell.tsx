@@ -27,6 +27,7 @@ export default function ClientShell({
         </Link>
         <nav className="cshnav">
           <Link href="/meu-espaco" className="cshlink">Meu espaço</Link>
+          <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
         </nav>
         <div className="cshright">
           <Link href="/dashboard" className="cshsys" title="Acessar o LeadHub (seus menus)">
