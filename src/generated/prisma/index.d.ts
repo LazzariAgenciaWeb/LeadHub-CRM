@@ -45947,7 +45947,7 @@ export namespace Prisma {
   export type SetorClickupListGroupByOutputType = {
     id: string
     setorId: string
-    clickupListId: string
+    clickupListId: string | null
     name: string
     description: string | null
     type: string | null
@@ -46112,7 +46112,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       setorId: string
-      clickupListId: string
+      clickupListId: string | null
       name: string
       description: string | null
       type: string | null
@@ -116955,7 +116955,7 @@ export namespace Prisma {
     NOT?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
     id?: StringFilter<"SetorClickupList"> | string
     setorId?: StringFilter<"SetorClickupList"> | string
-    clickupListId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringNullableFilter<"SetorClickupList"> | string | null
     name?: StringFilter<"SetorClickupList"> | string
     description?: StringNullableFilter<"SetorClickupList"> | string | null
     type?: StringNullableFilter<"SetorClickupList"> | string | null
@@ -116990,7 +116990,7 @@ export namespace Prisma {
   export type SetorClickupListOrderByWithRelationInput = {
     id?: SortOrder
     setorId?: SortOrder
-    clickupListId?: SortOrder
+    clickupListId?: SortOrderInput | SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
@@ -117030,7 +117030,7 @@ export namespace Prisma {
     OR?: SetorClickupListWhereInput[]
     NOT?: SetorClickupListWhereInput | SetorClickupListWhereInput[]
     setorId?: StringFilter<"SetorClickupList"> | string
-    clickupListId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringNullableFilter<"SetorClickupList"> | string | null
     name?: StringFilter<"SetorClickupList"> | string
     description?: StringNullableFilter<"SetorClickupList"> | string | null
     type?: StringNullableFilter<"SetorClickupList"> | string | null
@@ -117064,7 +117064,7 @@ export namespace Prisma {
   export type SetorClickupListOrderByWithAggregationInput = {
     id?: SortOrder
     setorId?: SortOrder
-    clickupListId?: SortOrder
+    clickupListId?: SortOrderInput | SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
@@ -117098,7 +117098,7 @@ export namespace Prisma {
     NOT?: SetorClickupListScalarWhereWithAggregatesInput | SetorClickupListScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"SetorClickupList"> | string
     setorId?: StringWithAggregatesFilter<"SetorClickupList"> | string
-    clickupListId?: StringWithAggregatesFilter<"SetorClickupList"> | string
+    clickupListId?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
     name?: StringWithAggregatesFilter<"SetorClickupList"> | string
     description?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
     type?: StringNullableWithAggregatesFilter<"SetorClickupList"> | string | null
@@ -126246,7 +126246,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -126280,7 +126280,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -126312,7 +126312,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126346,7 +126346,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126379,7 +126379,7 @@ export namespace Prisma {
   export type SetorClickupListCreateManyInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -126404,7 +126404,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126429,7 +126429,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -152267,7 +152267,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutClientCompanyInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -152300,7 +152300,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -155215,7 +155215,7 @@ export namespace Prisma {
     NOT?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
     id?: StringFilter<"SetorClickupList"> | string
     setorId?: StringFilter<"SetorClickupList"> | string
-    clickupListId?: StringFilter<"SetorClickupList"> | string
+    clickupListId?: StringNullableFilter<"SetorClickupList"> | string | null
     name?: StringFilter<"SetorClickupList"> | string
     description?: StringNullableFilter<"SetorClickupList"> | string | null
     type?: StringNullableFilter<"SetorClickupList"> | string | null
@@ -169406,7 +169406,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutTicketsInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -169439,7 +169439,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutTicketsInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -170247,7 +170247,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170280,7 +170280,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170861,7 +170861,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutSetorInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -170893,7 +170893,7 @@ export namespace Prisma {
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -172198,7 +172198,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutInternalTasksInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -172231,7 +172231,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutInternalTasksInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -172478,7 +172478,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutInternalTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172511,7 +172511,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutInternalTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173020,7 +173020,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173053,7 +173053,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutAccessUsersInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173181,7 +173181,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutAccessUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173214,7 +173214,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutAccessUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173332,7 +173332,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173365,7 +173365,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173412,7 +173412,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutTaskStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173445,7 +173445,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173476,7 +173476,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutActivitiesInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173509,7 +173509,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173556,7 +173556,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutActivitiesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173589,7 +173589,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173620,7 +173620,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutMembersInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173653,7 +173653,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173781,7 +173781,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173814,7 +173814,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173932,7 +173932,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -173965,7 +173965,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedCreateWithoutMaterialsInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -174051,7 +174051,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutMaterialsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174084,7 +174084,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutMaterialsInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199006,7 +199006,7 @@ export namespace Prisma {
   export type SetorClickupListCreateManyClientCompanyInput = {
     id?: string
     setorId: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -200328,7 +200328,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutClientCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200361,7 +200361,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200393,7 +200393,7 @@ export namespace Prisma {
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     setorId?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -204841,7 +204841,7 @@ export namespace Prisma {
 
   export type SetorClickupListCreateManySetorInput = {
     id?: string
-    clickupListId: string
+    clickupListId?: string | null
     name: string
     description?: string | null
     type?: string | null
@@ -205036,7 +205036,7 @@ export namespace Prisma {
 
   export type SetorClickupListUpdateWithoutSetorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205068,7 +205068,7 @@ export namespace Prisma {
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205100,7 +205100,7 @@ export namespace Prisma {
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    clickupListId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null

@@ -39,6 +39,7 @@ export async function POST() {
   let totalCreated = 0, totalUpdated = 0, totalCompleted = 0;
 
   for (const proj of projects) {
+    if (!proj.clickupListId) continue; // projetos internos ficam de fora do sync-all
     const cid = proj.setor.companyId;
     if (!settingsByCompany.has(cid)) {
       settingsByCompany.set(cid, await getClickupSettings(cid));

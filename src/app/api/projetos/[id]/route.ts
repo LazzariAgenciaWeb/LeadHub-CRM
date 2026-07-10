@@ -99,9 +99,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (dueDate     !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
   if (clientCompanyId !== undefined) data.clientCompanyId = clientCompanyId ?? null;
   if (visibility !== undefined) data.visibility = visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN";
-  if (clickupListId !== undefined && typeof clickupListId === "string" && clickupListId.trim()) {
-    data.clickupListId = clickupListId.trim();
-    // Quando muda a lista, descarta snapshot antigo (tasks são de outra lista)
+  if (clickupListId !== undefined && typeof clickupListId === "string") {
+    // String vazia = remover vínculo (projeto vira só interno). Não-vazia = trocar.
+    const trimmed = clickupListId.trim();
+    data.clickupListId = trimmed || null;
+    // Ao trocar/remover a lista, descarta snapshot antigo (tasks eram de outra lista)
     await prisma.projectTaskState.deleteMany({ where: { projectId: id } }).catch(() => {});
   }
   if (becameDelivered) data.deliveredAt = new Date();

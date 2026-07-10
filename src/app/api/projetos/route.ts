@@ -38,7 +38,8 @@ export async function GET() {
 }
 
 // POST /api/projetos — cria projeto novo
-// Body: { setorId, name, clickupListId, type?, description?, clientCompanyId?, dueDate?, startDate? }
+// Body: { setorId, name, clickupListId?, type?, description?, clientCompanyId?, dueDate?, startDate? }
+// clickupListId é opcional: projetos sem ClickUp vivem só no LeadHub.
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -51,9 +52,10 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const { setorId, name, clickupListId, type, description, clientCompanyId, dueDate, startDate, memberIds } = body;
-  if (!setorId || !name || !clickupListId) {
-    return NextResponse.json({ error: "setorId, name e clickupListId obrigatórios" }, { status: 400 });
+  if (!setorId || !name) {
+    return NextResponse.json({ error: "setorId e name obrigatórios" }, { status: 400 });
   }
+  const listId = typeof clickupListId === "string" && clickupListId.trim() ? clickupListId.trim() : null;
 
   // Qualquer usuário só pode criar projetos para setores da própria empresa
   const setor = await prisma.setor.findUnique({ where: { id: setorId }, select: { companyId: true } });
@@ -65,7 +67,7 @@ export async function POST(req: NextRequest) {
   const project = await prisma.setorClickupList.create({
     data: {
       setorId,
-      clickupListId,
+      clickupListId: listId,
       name,
       type:            type            ?? null,
       description:     description     ?? null,

@@ -1210,7 +1210,10 @@ model SetorClickupList {
   setorId String
   setor   Setor  @relation(fields: [setorId], references: [id], onDelete: Cascade)
 
-  clickupListId   String
+  // Opcional. Quando vazio, o projeto vive só no LeadHub (tarefas nativas em
+  // ProjectTask, chamados via ticketsListId da empresa). Quando preenchido,
+  // vira "vitrine" da lista do ClickUp + suporta tarefas ClickUp no projeto.
+  clickupListId   String?
   name            String
   description     String?  @db.Text
   type            String? // "SITE" | "MIDIA" | "CAMPANHA" | etc.

@@ -39,7 +39,14 @@ async function handle(req: NextRequest) {
   let errors = 0;
   let totalCreated = 0, totalUpdated = 0, totalCompleted = 0;
 
+  let skippedNoClickup = 0;
   for (const proj of projects) {
+    // Projetos sem ClickUp são só internos — nada pra sincronizar.
+    if (!proj.clickupListId) {
+      skippedNoClickup++;
+      continue;
+    }
+
     const cid = proj.setor.companyId;
     if (!settingsByCompany.has(cid)) {
       settingsByCompany.set(cid, await getClickupSettings(cid));

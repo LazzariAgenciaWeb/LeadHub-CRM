@@ -14,7 +14,7 @@ type Project = {
   name:                string;
   description:         string | null;
   type:                string | null;
-  clickupListId:       string;
+  clickupListId:       string | null;
   visibility:          string;
   status:              ProjectStatus;
   startDate:           Date | string | null;
@@ -259,7 +259,8 @@ export default function ProjectDetail({
             )}
           </div>
 
-          {/* Progresso ClickUp */}
+          {/* Progresso ClickUp — só quando há lista vinculada */}
+          {project.clickupListId && (
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
               <div>
@@ -363,6 +364,7 @@ export default function ProjectDetail({
               Abrir no ClickUp <ExternalLink className="w-3 h-3" />
             </a>
           </div>
+          )}
 
           {/* Tarefas do projeto (LeadHub + ClickUp) */}
           <ProjectTasksCard
@@ -1132,15 +1134,16 @@ function ProjectTasksCard({
   );
 }
 
-/** Editor inline do List ID do ClickUp — útil pra corrigir colagens erradas. */
-function ClickupListIdEditor({ projectId, current }: { projectId: string; current: string }) {
+/** Editor inline do List ID do ClickUp. Suporta adicionar, trocar e remover. */
+function ClickupListIdEditor({ projectId, current }: { projectId: string; current: string | null }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState(current);
+  const [value, setValue] = useState(current ?? "");
   const [saving, setSaving] = useState(false);
 
-  async function save() {
-    if (!value.trim() || value.trim() === current) {
+  async function persist(newValue: string) {
+    const trimmed = newValue.trim();
+    if (trimmed === (current ?? "")) {
       setEditing(false);
       return;
     }
@@ -1148,7 +1151,7 @@ function ClickupListIdEditor({ projectId, current }: { projectId: string; curren
     const res = await fetch(`/api/projetos/${projectId}`, {
       method:  "PATCH",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ clickupListId: value.trim() }),
+      body:    JSON.stringify({ clickupListId: trimmed }),
     });
     setSaving(false);
     if (res.ok) {
@@ -1157,13 +1160,18 @@ function ClickupListIdEditor({ projectId, current }: { projectId: string; curren
     }
   }
 
+  async function remove() {
+    if (!confirm("Remover o vínculo ClickUp? O snapshot de tarefas é descartado — o projeto passa a ser só interno.")) return;
+    await persist("");
+  }
+
   return (
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-slate-500 text-xs uppercase tracking-wider">List ID (ClickUp)</span>
+        <span className="text-slate-500 text-xs uppercase tracking-wider">ClickUp</span>
         {!editing && (
           <button onClick={() => setEditing(true)} className="text-slate-500 hover:text-white text-[10px]">
-            Editar
+            {current ? "Editar" : "Vincular"}
           </button>
         )}
       </div>
@@ -1176,26 +1184,39 @@ function ClickupListIdEditor({ projectId, current }: { projectId: string; curren
             className="w-full bg-[#080b12] border border-[#1e2d45] rounded px-2 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-indigo-500"
           />
           <p className="text-slate-600 text-[10px]">
-            Ao trocar, o histórico de tarefas é resetado pra refletir a nova lista.
+            {current
+              ? "Ao trocar, o histórico de tarefas é resetado pra refletir a nova lista."
+              : "Cole o List ID pra sincronizar as tarefas do ClickUp neste projeto."}
           </p>
           <div className="flex gap-1">
             <button
-              onClick={save}
+              onClick={() => persist(value)}
               disabled={saving}
               className="flex-1 px-2 py-1.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium disabled:opacity-50"
             >
               {saving ? "Salvando..." : "Salvar"}
             </button>
             <button
-              onClick={() => { setEditing(false); setValue(current); }}
+              onClick={() => { setEditing(false); setValue(current ?? ""); }}
               className="px-2 py-1.5 text-slate-500 hover:text-white text-xs"
             >
               Cancelar
             </button>
           </div>
+          {current && (
+            <button
+              onClick={remove}
+              disabled={saving}
+              className="w-full px-2 py-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-300 text-[11px] font-medium disabled:opacity-50"
+            >
+              Remover vínculo (virar só interno)
+            </button>
+          )}
         </div>
-      ) : (
+      ) : current ? (
         <code className="text-slate-400 text-xs font-mono break-all">{current}</code>
+      ) : (
+        <p className="text-slate-500 text-xs italic">Sem ClickUp — projeto só interno.</p>
       )}
     </div>
   );

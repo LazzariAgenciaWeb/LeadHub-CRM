@@ -21,6 +21,7 @@ export default function NovoProjetoForm({
     startDate:       "",
   });
   const [memberIds, setMemberIds] = useState<string[]>([]);
+  const [useClickup, setUseClickup] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError]   = useState<string | null>(null);
 
@@ -44,6 +45,7 @@ export default function NovoProjetoForm({
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({
           ...form,
+          clickupListId:   useClickup ? form.clickupListId : "",
           clientCompanyId: form.clientCompanyId || null,
           dueDate:         form.dueDate || null,
           startDate:       form.startDate || null,
@@ -101,17 +103,45 @@ export default function NovoProjetoForm({
       </div>
 
       <div>
-        <Label>List ID do ClickUp</Label>
-        <Input
-          value={form.clickupListId}
-          onChange={(v) => set("clickupListId", v)}
-          required
-          placeholder="901234567890"
-          mono
-        />
-        <p className="text-slate-600 text-[10px] mt-1">
-          ClickUp → lista → 3 pontos → Copiar link → último número da URL.
-        </p>
+        <Label>Integração ClickUp</Label>
+        <div className="grid grid-cols-2 gap-1 bg-[#080b12] border border-[#1e2d45] rounded-lg p-1 mb-2">
+          <button
+            type="button"
+            onClick={() => setUseClickup(true)}
+            className={`py-1.5 rounded-md text-xs font-semibold transition-colors ${
+              useClickup ? "bg-[#7B68EE]/20 text-[#b9aefb] border border-[#7B68EE]/40" : "text-slate-500 hover:text-white"
+            }`}
+          >
+            Sincronizar com ClickUp
+          </button>
+          <button
+            type="button"
+            onClick={() => setUseClickup(false)}
+            className={`py-1.5 rounded-md text-xs font-semibold transition-colors ${
+              !useClickup ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30" : "text-slate-500 hover:text-white"
+            }`}
+          >
+            Só interno (LeadHub)
+          </button>
+        </div>
+        {useClickup ? (
+          <>
+            <Input
+              value={form.clickupListId}
+              onChange={(v) => set("clickupListId", v)}
+              required
+              placeholder="901234567890"
+              mono
+            />
+            <p className="text-slate-600 text-[10px] mt-1">
+              ClickUp → lista → 3 pontos → Copiar link → último número da URL.
+            </p>
+          </>
+        ) : (
+          <p className="text-slate-500 text-[11px]">
+            Projeto vive só no LeadHub: tarefas internas + chamados vinculados. Sem sync com ClickUp.
+          </p>
+        )}
       </div>
 
       <div>

@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
 
   // Projeto opcional: valida que pertence à mesma empresa-agência. Quando o
   // projeto tem ClickUp, a task do chamado será criada na lista do projeto.
-  let project: { id: string; clickupListId: string } | null = null;
+  let project: { id: string; clickupListId: string | null } | null = null;
   if (projetoId) {
     const p = await prisma.setorClickupList.findUnique({
       where:   { id: projetoId },

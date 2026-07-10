@@ -13,7 +13,7 @@ type Project = {
   name:            string;
   type:            string | null;
   status:          ProjectStatus;
-  clickupListId:   string;
+  clickupListId:   string | null;
   visibility?:     string;
   startDate:       Date | string | null;
   dueDate:         Date | string | null;

@@ -27,6 +27,10 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
+  if (!project.clickupListId) {
+    return NextResponse.json({ error: "Projeto sem lista do ClickUp — nada pra sincronizar" }, { status: 400 });
+  }
+
   const settings = await getClickupSettings(project.setor.companyId);
   if (!settings?.apiToken) {
     return NextResponse.json({ error: "ClickUp não configurado pra essa empresa" }, { status: 503 });
