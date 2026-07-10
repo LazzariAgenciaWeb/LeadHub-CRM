@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Bot, Eye, Lock, Package, Tag } from "lucide-react";
 
 interface Service {
   id: string;
@@ -91,21 +92,21 @@ export default function ServicesCatalog({
   }
 
   const inputCls = "w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
-  const tagCls = "ml-1.5 align-middle text-[9px] font-semibold normal-case tracking-normal px-1.5 py-0.5 rounded";
-  const iaTag  = <span className={`${tagCls} bg-indigo-500/15 text-indigo-300`} title="O agente de IA usa este campo">🤖 IA</span>;
-  const cliTag = <span className={`${tagCls} bg-emerald-500/15 text-emerald-400`} title="Aparece pro cliente em 'Disponível para você'">👁 Cliente</span>;
-  const intTag = <span className={`${tagCls} bg-amber-500/15 text-amber-400`} title="Uso interno — não vai pra IA nem pro cliente">🔒 Interno</span>;
+  const tagCls = "ml-1.5 align-middle inline-flex items-center gap-1 text-[9px] font-semibold normal-case tracking-normal px-1.5 py-0.5 rounded";
+  const iaTag  = <span className={`${tagCls} bg-indigo-500/15 text-indigo-300`} title="O agente de IA usa este campo"><Bot className="w-3 h-3" strokeWidth={2.25} /> IA</span>;
+  const cliTag = <span className={`${tagCls} bg-emerald-500/15 text-emerald-400`} title="Aparece pro cliente em 'Disponível para você'"><Eye className="w-3 h-3" strokeWidth={2.25} /> Cliente</span>;
+  const intTag = <span className={`${tagCls} bg-amber-500/15 text-amber-400`} title="Uso interno — não vai pra IA nem pro cliente"><Lock className="w-3 h-3" strokeWidth={2.25} /> Interno</span>;
 
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-white font-bold text-sm">📋 Catálogo de Serviços</h2>
-          <p className="text-slate-500 text-xs mt-0.5">
-            Um catálogo só, usado em dois lugares. Cada campo mostra pra onde vai:
-            <span className="ml-1 text-indigo-300">🤖 IA</span> = o agente usa ·
-            <span className="ml-1 text-emerald-400">👁 Cliente</span> = aparece pro cliente ·
-            <span className="ml-1 text-amber-400">🔒 Interno</span> = só você vê.
+          <h2 className="text-white font-bold text-sm flex items-center gap-1.5"><Tag className="w-4 h-4 text-indigo-400" strokeWidth={2.25} /> Catálogo de Serviços</h2>
+          <p className="text-slate-500 text-xs mt-0.5 flex items-center gap-x-2 gap-y-0.5 flex-wrap">
+            <span>Um catálogo só, usado em dois lugares:</span>
+            <span className="inline-flex items-center gap-1 text-indigo-300"><Bot className="w-3.5 h-3.5" strokeWidth={2.25} /> IA usa</span>·
+            <span className="inline-flex items-center gap-1 text-emerald-400"><Eye className="w-3.5 h-3.5" strokeWidth={2.25} /> aparece pro cliente</span>·
+            <span className="inline-flex items-center gap-1 text-amber-400"><Lock className="w-3.5 h-3.5" strokeWidth={2.25} /> só você vê</span>
           </p>
         </div>
         {editing === null && (
@@ -176,12 +177,12 @@ export default function ServicesCatalog({
 
       {services.map((s) => (
         <div key={s.id} className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-4 flex items-start gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#161f30] flex items-center justify-center text-lg flex-shrink-0">📦</div>
+          <div className="w-9 h-9 rounded-lg bg-[#161f30] flex items-center justify-center flex-shrink-0"><Package className="w-4 h-4 text-slate-400" strokeWidth={2} /></div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-white font-semibold text-sm">{s.name}</span>
               {!s.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400">inativo</span>}
-              {s.showInClientArea && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400">👁 cliente</span>}
+              {s.showInClientArea && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 inline-flex items-center gap-1"><Eye className="w-2.5 h-2.5" strokeWidth={2.5} /> cliente</span>}
               {s.priceRange && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/10 text-slate-400">💲 {s.priceRange}</span>}
             </div>
             {s.description && <p className="text-slate-500 text-xs mt-1 line-clamp-2">{s.description}</p>}

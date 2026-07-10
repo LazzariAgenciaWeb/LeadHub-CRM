@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, Pencil, X } from "lucide-react";
+import { Plus, Trash2, Pencil, X, Boxes } from "lucide-react";
 
 type Detail = { label: string; value: string };
 type Item = {
@@ -98,7 +98,7 @@ export default function CompanyContractedServices({
     <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-white font-semibold text-sm">🧩 Serviços contratados</h3>
+          <h3 className="text-white font-semibold text-sm flex items-center gap-1.5"><Boxes className="w-4 h-4 text-indigo-400" strokeWidth={2.25} /> Serviços contratados</h3>
           <p className="text-slate-500 text-xs mt-0.5">O que este cliente já tem com você (aparece no painel dele). Pode ter vários — inclusive o mesmo serviço mais de uma vez.</p>
         </div>
         {editing === null && (
