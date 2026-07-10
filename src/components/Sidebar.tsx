@@ -173,7 +173,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
 
   const bottomLinks: SidebarLink[] = ([
     { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
-    { href: "/campanhas/email", Icon: Mail,       label: "E-mail Marketing", grad: "email",      show: _isSuperAdmin || _isAdmin },
+    { href: "/campanhas/email", Icon: Mail,       label: "E-mail Marketing", grad: "email",      show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
     { href: "/instagram",     Icon: Camera,       label: "Instagram",     grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
