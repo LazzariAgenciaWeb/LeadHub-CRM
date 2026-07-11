@@ -162,6 +162,7 @@ export async function updateClickupTask({
   priority,
   status,
   archived,
+  dueDate,
 }: {
   apiToken: string;
   taskId: string;
@@ -170,6 +171,7 @@ export async function updateClickupTask({
   priority?: string;
   status?: string;
   archived?: boolean;
+  dueDate?: number | null; // epoch ms (null = limpar)
 }): Promise<boolean> {
   if (!taskId) return false;
   try {
@@ -179,6 +181,7 @@ export async function updateClickupTask({
     if (priority && PRIORITY_MAP[priority]) body.priority = PRIORITY_MAP[priority];
     if (status)      body.status      = status;
     if (archived !== undefined) body.archived = archived;
+    if (dueDate !== undefined) body.due_date = dueDate;
 
     const res = await fetch(taskApiUrl(taskId, ""), {
       method: "PUT",

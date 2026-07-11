@@ -5,6 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist, sanitizeComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
+import { getClickupSettings, updateClickupTask } from "@/lib/clickup";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -83,6 +84,22 @@ export async function PATCH(
     data,
     include: { assignee: { select: { id: true, name: true } } },
   });
+
+  // Fase 2 (interna → ClickUp): se a tarefa é vinculada, reflete título/prazo lá.
+  // Best-effort — falha no ClickUp NÃO quebra a atualização interna.
+  if (res.task.clickupTaskId && (data.title !== undefined || data.dueDate !== undefined)) {
+    try {
+      const settings = await getClickupSettings(res.task.project.setor.companyId);
+      if (settings) {
+        await updateClickupTask({
+          apiToken: settings.apiToken,
+          taskId:   res.task.clickupTaskId,
+          name:     data.title as string | undefined,
+          dueDate:  data.dueDate !== undefined ? (data.dueDate instanceof Date ? data.dueDate.getTime() : null) : undefined,
+        });
+      }
+    } catch { /* silencioso */ }
+  }
 
   return NextResponse.json(task);
 }

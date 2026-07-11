@@ -45,6 +45,29 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
 
   const result = await syncProjectTasks(id, tasks);
 
+  // Fase 2 (ClickUp → interna): reflete título/prazo/concluído nas tarefas
+  // internas VINCULADAS (importadas). Não cria novas — só atualiza as ligadas.
+  const linked = await prisma.projectTask.findMany({
+    where:  { projectId: id, clickupTaskId: { not: null } },
+    select: { id: true, clickupTaskId: true },
+  });
+  if (linked.length) {
+    const byId = new Map(tasks.map((t) => [t.id, t]));
+    for (const lt of linked) {
+      const src = byId.get(lt.clickupTaskId!);
+      if (!src) continue;
+      await prisma.projectTask.update({
+        where: { id: lt.id },
+        data: {
+          ...(src.name ? { title: src.name } : {}),
+          done: src.isCompleted,
+          completedAt: src.isCompleted ? new Date() : null,
+          dueDate: src.dueDate != null ? new Date(src.dueDate) : null,
+        },
+      }).catch(() => {});
+    }
+  }
+
   return NextResponse.json({
     ok: true,
     tasksFound: tasks.length,
