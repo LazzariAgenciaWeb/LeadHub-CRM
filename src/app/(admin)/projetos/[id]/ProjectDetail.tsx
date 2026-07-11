@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, Pencil, Plus, Link2 } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -87,7 +87,8 @@ type InternalTask = {
   checklist:    ChecklistItem[]; // sub-passos
   done:         boolean;
   priority:     string;
-  dueDate:      string | null; // ISO
+  startDate:    string | null; // ISO — início
+  dueDate:      string | null; // ISO — fim/prazo
   assigneeName: string | null;
 };
 
@@ -906,6 +907,84 @@ function ChecklistEditor({
 }
 
 /**
+ * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
+ * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
+ */
+function TaskEditor({ projectId, task, onClose }: { projectId: string; task: InternalTask; onClose: () => void }) {
+  const router = useRouter();
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description ?? "");
+  const [startDate, setStartDate] = useState(task.startDate ? task.startDate.slice(0, 10) : "");
+  const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.slice(0, 10) : "");
+  const [saving, setSaving] = useState(false);
+  const [matTitle, setMatTitle] = useState("");
+  const [matUrl, setMatUrl] = useState("");
+  const [matMsg, setMatMsg] = useState("");
+
+  const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
+
+  async function save() {
+    if (!title.trim()) return;
+    setSaving(true);
+    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title:       title.trim(),
+        description: description.trim() || null,
+        startDate:   startDate ? new Date(startDate).toISOString() : null,
+        dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
+      }),
+    }).catch(() => {});
+    setSaving(false);
+    onClose();
+    router.refresh();
+  }
+
+  async function addMaterial() {
+    if (!matTitle.trim() || !matUrl.trim()) { setMatMsg("Preencha título e link."); return; }
+    setMatMsg("");
+    const res = await fetch(`/api/projetos/${projectId}/materiais`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ kind: "LINK", taskId: task.id, title: matTitle.trim(), url: matUrl.trim() }),
+    });
+    if (res.ok) { setMatTitle(""); setMatUrl(""); setMatMsg("✓ adicionado"); router.refresh(); }
+    else setMatMsg("Falha ao adicionar.");
+  }
+
+  return (
+    <div className="mt-2 p-3 rounded-lg bg-[#0a0f1a] border border-indigo-500/30 space-y-2">
+      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
+      <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} placeholder="Descrição (o cliente vê)" className={`${inCls} resize-y`} />
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-0.5">Início</label>
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inCls} />
+        </div>
+        <div>
+          <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-0.5">Fim / prazo</label>
+          <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className={inCls} />
+        </div>
+      </div>
+      <div className="pt-1 border-t border-[#1e2d45]">
+        <label className="text-slate-500 text-[9px] uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Adicionar link / anexo na tarefa</label>
+        <div className="flex gap-1.5">
+          <input value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título" className={inCls + " flex-1"} />
+          <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls + " flex-1"} />
+          <button type="button" onClick={addMaterial} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
+        </div>
+        {matMsg && <p className="text-[10px] text-slate-500 mt-1">{matMsg}</p>}
+      </div>
+      <div className="flex gap-2 pt-0.5">
+        <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar"}</button>
+        <button onClick={onClose} className="px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs">Fechar</button>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Card de tarefas do projeto: lista as tarefas internas do LeadHub e permite
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
@@ -923,8 +1002,9 @@ function ProjectTasksCard({
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     destino: hasClickup ? "clickup" : "interna",
-    title: "", description: "", stage: "", priority: "MEDIUM", dueDate: "", assigneeId: "",
+    title: "", description: "", stage: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
   });
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Etapas já usadas neste projeto — vira sugestão (datalist) pra reaproveitar rótulos.
   const knownStages = Array.from(
@@ -944,6 +1024,7 @@ function ProjectTasksCard({
         description: form.description.trim() || null,
         stage:       form.destino === "interna" ? (form.stage.trim() || null) : null,
         priority:    form.priority,
+        startDate:   form.startDate ? new Date(form.startDate).toISOString() : null,
         dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
         assigneeId:  form.destino === "interna" ? (form.assigneeId || null) : null,
       }),
@@ -954,7 +1035,7 @@ function ProjectTasksCard({
       setError(d.error ?? "Falha ao criar tarefa");
       return;
     }
-    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", priority: "MEDIUM", dueDate: "", assigneeId: "" });
+    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "" });
     setOpen(false);
     router.refresh();
   }
@@ -1050,23 +1131,35 @@ function ProjectTasksCard({
               />
             </div>
           )}
+          <select
+            value={form.priority}
+            onChange={(e) => setForm((p) => ({ ...p, priority: e.target.value }))}
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+          >
+            <option value="LOW">🟢 Baixa</option>
+            <option value="MEDIUM">🟡 Média</option>
+            <option value="HIGH">🟠 Alta</option>
+            <option value="URGENT">🔴 Urgente</option>
+          </select>
           <div className="grid grid-cols-2 gap-2">
-            <select
-              value={form.priority}
-              onChange={(e) => setForm((p) => ({ ...p, priority: e.target.value }))}
-              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
-            >
-              <option value="LOW">🟢 Baixa</option>
-              <option value="MEDIUM">🟡 Média</option>
-              <option value="HIGH">🟠 Alta</option>
-              <option value="URGENT">🔴 Urgente</option>
-            </select>
-            <input
-              type="date"
-              value={form.dueDate}
-              onChange={(e) => setForm((p) => ({ ...p, dueDate: e.target.value }))}
-              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
-            />
+            <div>
+              <label className="text-slate-500 text-[10px] uppercase tracking-wide block mb-1">Início</label>
+              <input
+                type="date"
+                value={form.startDate}
+                onChange={(e) => setForm((p) => ({ ...p, startDate: e.target.value }))}
+                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label className="text-slate-500 text-[10px] uppercase tracking-wide block mb-1">Fim / prazo</label>
+              <input
+                type="date"
+                value={form.dueDate}
+                onChange={(e) => setForm((p) => ({ ...p, dueDate: e.target.value }))}
+                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
           </div>
           {form.destino === "interna" && (
             <select
@@ -1101,6 +1194,7 @@ function ProjectTasksCard({
       ) : (
         <div className="divide-y divide-[#1e2d45]">
           {internalTasks.map((t) => {
+            const start = t.startDate ? new Date(t.startDate) : null;
             const due = t.dueDate ? new Date(t.dueDate) : null;
             const overdue = due && due < new Date() && !t.done;
             const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
@@ -1124,18 +1218,33 @@ function ProjectTasksCard({
                     />
                     <span className={prio.cls}>{prio.label}</span>
                     {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
-                    {due && <span className={overdue ? "text-red-300" : "text-slate-600"}>· {formatBrazilDate(due)}</span>}
+                    {(start || due) && (
+                      <span className={overdue ? "text-red-300" : "text-slate-600"}>
+                        · {start ? formatBrazilDate(start) : "?"}{due ? ` → ${formatBrazilDate(due)}` : ""}
+                      </span>
+                    )}
                     <span className="text-slate-700">· interna</span>
                   </div>
+                  {t.description && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{t.description}</p>}
                   <ChecklistEditor projectId={projectId} taskId={t.id} initial={t.checklist} />
+                  {editingId === t.id && <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} />}
                 </div>
-                <button
-                  onClick={() => remove(t)}
-                  className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                  title="Excluir"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex gap-1 flex-shrink-0">
+                  <button
+                    onClick={() => setEditingId(editingId === t.id ? null : t.id)}
+                    className={`transition-opacity ${editingId === t.id ? "text-indigo-400" : "text-slate-600 hover:text-indigo-400 opacity-0 group-hover:opacity-100"}`}
+                    title="Editar tarefa"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => remove(t)}
+                    className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Excluir"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             );
           })}

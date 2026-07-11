@@ -613,6 +613,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   checklist: 'checklist',
   done: 'done',
   priority: 'priority',
+  startDate: 'startDate',
   dueDate: 'dueDate',
   assigneeId: 'assigneeId',
   createdById: 'createdById',

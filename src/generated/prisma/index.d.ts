@@ -47105,6 +47105,7 @@ export namespace Prisma {
     stage: string | null
     done: boolean | null
     priority: $Enums.TicketPriority | null
+    startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
@@ -47121,6 +47122,7 @@ export namespace Prisma {
     stage: string | null
     done: boolean | null
     priority: $Enums.TicketPriority | null
+    startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
@@ -47138,6 +47140,7 @@ export namespace Prisma {
     checklist: number
     done: number
     priority: number
+    startDate: number
     dueDate: number
     assigneeId: number
     createdById: number
@@ -47156,6 +47159,7 @@ export namespace Prisma {
     stage?: true
     done?: true
     priority?: true
+    startDate?: true
     dueDate?: true
     assigneeId?: true
     createdById?: true
@@ -47172,6 +47176,7 @@ export namespace Prisma {
     stage?: true
     done?: true
     priority?: true
+    startDate?: true
     dueDate?: true
     assigneeId?: true
     createdById?: true
@@ -47189,6 +47194,7 @@ export namespace Prisma {
     checklist?: true
     done?: true
     priority?: true
+    startDate?: true
     dueDate?: true
     assigneeId?: true
     createdById?: true
@@ -47279,6 +47285,7 @@ export namespace Prisma {
     checklist: JsonValue | null
     done: boolean
     priority: $Enums.TicketPriority
+    startDate: Date | null
     dueDate: Date | null
     assigneeId: string | null
     createdById: string | null
@@ -47313,6 +47320,7 @@ export namespace Prisma {
     checklist?: boolean
     done?: boolean
     priority?: boolean
+    startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
@@ -47335,6 +47343,7 @@ export namespace Prisma {
     checklist?: boolean
     done?: boolean
     priority?: boolean
+    startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
@@ -47355,6 +47364,7 @@ export namespace Prisma {
     checklist?: boolean
     done?: boolean
     priority?: boolean
+    startDate?: boolean
     dueDate?: boolean
     assigneeId?: boolean
     createdById?: boolean
@@ -47393,6 +47403,7 @@ export namespace Prisma {
       checklist: Prisma.JsonValue | null
       done: boolean
       priority: $Enums.TicketPriority
+      startDate: Date | null
       dueDate: Date | null
       assigneeId: string | null
       createdById: string | null
@@ -47804,6 +47815,7 @@ export namespace Prisma {
     readonly checklist: FieldRef<"ProjectTask", 'Json'>
     readonly done: FieldRef<"ProjectTask", 'Boolean'>
     readonly priority: FieldRef<"ProjectTask", 'TicketPriority'>
+    readonly startDate: FieldRef<"ProjectTask", 'DateTime'>
     readonly dueDate: FieldRef<"ProjectTask", 'DateTime'>
     readonly assigneeId: FieldRef<"ProjectTask", 'String'>
     readonly createdById: FieldRef<"ProjectTask", 'String'>
@@ -112051,6 +112063,7 @@ export namespace Prisma {
     checklist: 'checklist',
     done: 'done',
     priority: 'priority',
+    startDate: 'startDate',
     dueDate: 'dueDate',
     assigneeId: 'assigneeId',
     createdById: 'createdById',
@@ -117208,6 +117221,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
+    startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
@@ -117229,6 +117243,7 @@ export namespace Prisma {
     checklist?: SortOrderInput | SortOrder
     done?: SortOrder
     priority?: SortOrder
+    startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -117253,6 +117268,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
+    startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
@@ -117274,6 +117290,7 @@ export namespace Prisma {
     checklist?: SortOrderInput | SortOrder
     done?: SortOrder
     priority?: SortOrder
+    startDate?: SortOrderInput | SortOrder
     dueDate?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
@@ -117297,6 +117314,7 @@ export namespace Prisma {
     checklist?: JsonNullableWithAggregatesFilter<"ProjectTask">
     done?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityWithAggregatesFilter<"ProjectTask"> | $Enums.TicketPriority
+    startDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     createdById?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
@@ -126544,6 +126562,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
@@ -126563,6 +126582,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
@@ -126580,6 +126600,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -126599,6 +126620,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126617,6 +126639,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
@@ -126633,6 +126656,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -126648,6 +126672,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135850,6 +135875,7 @@ export namespace Prisma {
     checklist?: SortOrder
     done?: SortOrder
     priority?: SortOrder
+    startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
@@ -135866,6 +135892,7 @@ export namespace Prisma {
     stage?: SortOrder
     done?: SortOrder
     priority?: SortOrder
+    startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
@@ -135882,6 +135909,7 @@ export namespace Prisma {
     stage?: SortOrder
     done?: SortOrder
     priority?: SortOrder
+    startDate?: SortOrder
     dueDate?: SortOrder
     assigneeId?: SortOrder
     createdById?: SortOrder
@@ -150063,6 +150091,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
@@ -150081,6 +150110,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     createdById?: string | null
     completedAt?: Date | string | null
@@ -150107,6 +150137,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
@@ -150125,6 +150156,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     completedAt?: Date | string | null
@@ -151074,6 +151106,7 @@ export namespace Prisma {
     checklist?: JsonNullableFilter<"ProjectTask">
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
+    startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     dueDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
     assigneeId?: StringNullableFilter<"ProjectTask"> | string | null
     createdById?: StringNullableFilter<"ProjectTask"> | string | null
@@ -171857,6 +171890,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
@@ -171874,6 +171908,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
@@ -174273,6 +174308,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     completedAt?: Date | string | null
     createdAt?: Date | string
@@ -174291,6 +174327,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
@@ -174400,6 +174437,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -174418,6 +174456,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198272,6 +198311,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     createdById?: string | null
     completedAt?: Date | string | null
@@ -198288,6 +198328,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     completedAt?: Date | string | null
@@ -199005,6 +199046,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -199023,6 +199065,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -199040,6 +199083,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -199055,6 +199099,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -199073,6 +199118,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -199090,6 +199136,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205558,6 +205605,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: boolean
     priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
     dueDate?: Date | string | null
     assigneeId?: string | null
     createdById?: string | null
@@ -205757,6 +205805,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -205774,6 +205823,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205791,6 +205841,7 @@ export namespace Prisma {
     checklist?: NullableJsonNullValueInput | InputJsonValue
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null

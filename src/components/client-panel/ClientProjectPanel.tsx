@@ -9,7 +9,7 @@ import type { ChecklistItem } from "@/lib/checklist";
 
 export type PanelTask = {
   id: string; title: string; description: string | null; stage: string | null;
-  checklist: ChecklistItem[]; done: boolean; dueDate: Date | null;
+  checklist: ChecklistItem[]; done: boolean; startDate: Date | null; dueDate: Date | null;
 };
 export type PanelMat = {
   id: string; kind: string; taskId: string | null; title: string;
@@ -104,6 +104,7 @@ const STYLE = `
 .tk.done .tkt{color:var(--ink2)}
 .tkmeta{font-size:12px;font-weight:650;color:var(--ink3);white-space:nowrap;flex:none}
 .tkmeta.ok{color:var(--ok)}.tkmeta.late{color:var(--warn)}
+.tkdates{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:11.5px;font-weight:640;color:var(--ink3);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
 .tkdesc{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.6}
 .tkck{list-style:none;margin:11px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
 .tkck li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink2)}
@@ -266,6 +267,13 @@ export default function ClientProjectPanel({
                   ? <span className={"tkmeta " + (overdue ? "late" : "")}>{overdue ? "Atrasado · " : "Prazo "}{fmtDM(new Date(t.dueDate))}</span>
                   : <span className="tkmeta">Em andamento</span>}
             </div>
+            {(t.startDate || t.dueDate) && (
+              <div className="tkdates">
+                {t.startDate ? fmtDM(new Date(t.startDate)) : "—"}
+                {" → "}
+                {t.dueDate ? fmtDM(new Date(t.dueDate)) : "—"}
+              </div>
+            )}
             {t.description && <p className="tkdesc">{t.description}</p>}
             {t.checklist.length > 0 && (
               <ul className="tkck">

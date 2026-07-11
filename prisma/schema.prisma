@@ -1283,7 +1283,8 @@ model ProjectTask {
   checklist   Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
   done        Boolean          @default(false)
   priority    TicketPriority   @default(MEDIUM)
-  dueDate     DateTime?
+  startDate   DateTime? // início — pro cliente acompanhar o cronograma
+  dueDate     DateTime? // fim / prazo
 
   assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
   assigneeId String?

@@ -92,6 +92,7 @@ export default async function ProjectDetailPage({
     checklist:    readChecklist(t.checklist),
     done:         t.done,
     priority:     t.priority as string,
+    startDate:    t.startDate ? t.startDate.toISOString() : null,
     dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
     assigneeName: t.assignee?.name ?? null,
   }));

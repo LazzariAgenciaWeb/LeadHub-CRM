@@ -61,7 +61,7 @@ export async function PATCH(
   if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
 
   const body = await req.json();
-  const { done, title, description, priority, dueDate, assigneeId, stage, checklist } = body;
+  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist } = body;
 
   const data: any = {};
   if (done !== undefined) {
@@ -72,6 +72,7 @@ export async function PATCH(
   if (description !== undefined) data.description = description ? String(description) : null;
   if (priority !== undefined && ["LOW", "MEDIUM", "HIGH", "URGENT"].includes(priority)) data.priority = priority;
   if (dueDate !== undefined) data.dueDate = dueDate ? new Date(dueDate) : null;
+  if (startDate !== undefined) data.startDate = startDate ? new Date(startDate) : null;
   if (assigneeId !== undefined) data.assigneeId = assigneeId || null;
   if (stage !== undefined) data.stage = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   if (checklist !== undefined) data.checklist = sanitizeChecklist(checklist) ?? Prisma.DbNull;

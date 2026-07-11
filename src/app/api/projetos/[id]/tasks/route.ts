@@ -50,7 +50,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.json();
-  const { destino, title, description, priority, dueDate, assigneeId, stage, checklist } = body;
+  const { destino, title, description, priority, dueDate, startDate, assigneeId, stage, checklist } = body;
+  const start = startDate ? new Date(startDate) : null;
   const stageClean = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   const checklistClean = sanitizeChecklist(checklist);
 
@@ -124,6 +125,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       stage:       stageClean,
       checklist:   checklistClean ?? undefined,
       priority:    prio,
+      startDate:   start && !Number.isNaN(start.getTime()) ? start : null,
       dueDate:     due,
       assigneeId:  assigneeId || null,
       createdById: userId ?? null,
