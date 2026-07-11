@@ -22,7 +22,11 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
       clientCompany: { select: { name: true } },
       internalTasks: {
         orderBy: [{ createdAt: "asc" }],
-        select: { id: true, title: true, description: true, stage: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
+        select: { id: true, title: true, description: true, stage: true, projectServiceId: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
+      },
+      serviceSteps: {
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        select: { id: true, name: true, order: true, service: { select: { name: true } } },
       },
       materials: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -35,9 +39,10 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
   if (!project || project.clientCompanyId !== companyId) notFound();
 
   const tasks = project.internalTasks.map((t) => ({
-    id: t.id, title: t.title, description: t.description, stage: t.stage,
+    id: t.id, title: t.title, description: t.description, stage: t.stage, projectServiceId: t.projectServiceId,
     checklist: readChecklist(t.checklist), comments: readComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
   }));
+  const serviceSteps = project.serviceSteps.map((s) => ({ id: s.id, name: s.name || s.service?.name || "Serviço", order: s.order }));
 
   return (
     <div>
@@ -50,6 +55,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
         clientName={project.clientCompany?.name ?? null}
         tasks={tasks}
         materials={project.materials}
+        serviceSteps={serviceSteps}
         embedded
       />
     </div>

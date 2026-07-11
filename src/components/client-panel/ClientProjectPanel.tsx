@@ -10,10 +10,12 @@ import ServiceGantt from "./ServiceGantt";
 
 export type PanelTask = {
   id: string; title: string; description: string | null; stage: string | null;
+  projectServiceId: string | null;
   checklist: ChecklistItem[]; comments: { text: string; at: string; by?: "client" }[];
   done: boolean; startDate: Date | null; dueDate: Date | null; updatedAt: Date | null;
   awaitingClient: boolean;
 };
+export type PanelStep = { id: string; name: string; order: number };
 export type PanelMat = {
   id: string; kind: string; taskId: string | null; title: string;
   docHtml: string | null; url: string | null; ata: string | null; stage: string | null;
@@ -254,13 +256,14 @@ const IconDocL  = <svg width="20" height="20" viewBox="0 0 24 24" fill="none" st
 const IconExt   = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>;
 
 export default function ClientProjectPanel({
-  name, description, clientName, tasks, materials, embedded = false,
+  name, description, clientName, tasks, materials, serviceSteps = [], embedded = false,
 }: {
   name: string;
   description: string | null;
   clientName: string | null;
   tasks: PanelTask[];
   materials: PanelMat[];
+  serviceSteps?: PanelStep[];
   embedded?: boolean;
 }) {
   const doneCount = tasks.filter((t) => t.done).length;
@@ -326,7 +329,7 @@ export default function ClientProjectPanel({
               <h2>Andamento</h2>
               <span className="sc">{doneCount} de {tasks.length} entregas</span>
             </div>
-            <ServiceGantt tasks={tasks} materials={materials} />
+            <ServiceGantt tasks={tasks} materials={materials} serviceSteps={serviceSteps} />
           </section>
         )}
 

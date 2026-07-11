@@ -9,6 +9,7 @@ import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
+import ProjectServicesEditor from "./ProjectServicesEditor";
 
 type Project = {
   id:                  string;
@@ -84,6 +85,7 @@ type InternalTask = {
   title:        string;
   description:  string | null;
   stage:        string | null; // etapa/fase (rótulo)
+  projectServiceId: string | null; // serviço da sequência ao qual pertence
   checklist:    ChecklistItem[]; // sub-passos
   comments:     { text: string; at: string }[]; // atualizações datadas
   done:         boolean;
@@ -118,7 +120,7 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 
 export default function ProjectDetail({
   project, availableUsers, companyUsers, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
-  catalogServices, currentServiceId,
+  catalogServices, serviceSteps, currentServiceId,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
@@ -130,6 +132,7 @@ export default function ProjectDetail({
   internalTasks: InternalTask[];
   chamados: Chamado[];
   catalogServices: { id: string; name: string }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number }[];
   currentServiceId: string | null;
 }) {
   const router = useRouter();
@@ -409,6 +412,7 @@ export default function ProjectDetail({
             availableUsers={availableUsers}
             internalTasks={internalTasks}
             hasClickup={!!project.clickupListId}
+            serviceSteps={serviceSteps}
           />
 
           {/* Chamados agrupados no projeto */}
@@ -601,10 +605,17 @@ export default function ProjectDetail({
             companies={clientCompanies}
           />
 
-          {/* Serviço do catálogo — vincula pra contar como contratado */}
+          {/* Serviço do catálogo — vincula pra contar como contratado (carro-chefe) */}
           <ProjectServiceSelector
             projectId={project.id}
             currentServiceId={currentServiceId}
+            services={catalogServices}
+          />
+
+          {/* Serviços em sequência — agrupam as tarefas no Gantt do cliente */}
+          <ProjectServicesEditor
+            projectId={project.id}
+            steps={serviceSteps}
             services={catalogServices}
           />
 
@@ -941,10 +952,11 @@ function ChecklistEditor({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[] }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number }[] }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
+  const [svcId, setSvcId] = useState(task.projectServiceId ?? "");
   const [description, setDescription] = useState(task.description ?? "");
   const [startDate, setStartDate] = useState(task.startDate ? task.startDate.slice(0, 10) : "");
   const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.slice(0, 10) : "");
@@ -992,7 +1004,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId:
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title:       title.trim(),
-        stage:       stage.trim() || null,
+        ...(serviceSteps.length > 0 ? { projectServiceId: svcId || null } : { stage: stage.trim() || null }),
         description: description.trim() || null,
         startDate:   startDate ? new Date(startDate).toISOString() : null,
         dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
@@ -1041,9 +1053,18 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId:
           <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
         </div>
         <div>
-          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Etapa</label>
-          <input list="etapas-list" value={stage} onChange={(e) => setStage(e.target.value)} placeholder="Ex.: Diagnóstico" className={inCls} />
-          <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">{serviceSteps.length > 0 ? "Serviço / etapa" : "Etapa"}</label>
+          {serviceSteps.length > 0 ? (
+            <select value={svcId} onChange={(e) => setSvcId(e.target.value)} className={inCls}>
+              <option value="">— sem serviço —</option>
+              {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
+            </select>
+          ) : (
+            <>
+              <input list="etapas-list" value={stage} onChange={(e) => setStage(e.target.value)} placeholder="Ex.: Diagnóstico" className={inCls} />
+              <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
+            </>
+          )}
         </div>
       </div>
       <div>
@@ -1112,12 +1133,13 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId:
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
 function ProjectTasksCard({
-  projectId, availableUsers, internalTasks, hasClickup,
+  projectId, availableUsers, internalTasks, hasClickup, serviceSteps,
 }: {
   projectId: string;
   availableUsers: { id: string; name: string }[];
   internalTasks: InternalTask[];
   hasClickup: boolean;
+  serviceSteps: { id: string; name: string; order: number; taskCount: number }[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -1125,7 +1147,7 @@ function ProjectTasksCard({
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     destino: hasClickup ? "clickup" : "interna",
-    title: "", description: "", stage: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
+    title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -1153,6 +1175,7 @@ function ProjectTasksCard({
         title:       form.title.trim(),
         description: form.description.trim() || null,
         stage:       form.destino === "interna" ? (form.stage.trim() || null) : null,
+        projectServiceId: form.destino === "interna" ? (form.projectServiceId || null) : null,
         priority:    form.priority,
         startDate:   form.startDate ? new Date(form.startDate).toISOString() : null,
         dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
@@ -1165,7 +1188,7 @@ function ProjectTasksCard({
       setError(d.error ?? "Falha ao criar tarefa");
       return;
     }
-    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "" });
+    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "" });
     setOpen(false);
     router.refresh();
   }
@@ -1251,15 +1274,26 @@ function ProjectTasksCard({
             className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
           />
           {form.destino === "interna" && (
-            <div>
-              <input
-                list="etapas-list"
-                value={form.stage}
-                onChange={(e) => setForm((p) => ({ ...p, stage: e.target.value }))}
-                placeholder="Etapa (ex.: Diagnóstico) — agrupa as tarefas pro cliente"
-                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
-              />
-            </div>
+            serviceSteps.length > 0 ? (
+              <select
+                value={form.projectServiceId}
+                onChange={(e) => setForm((p) => ({ ...p, projectServiceId: e.target.value }))}
+                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500"
+              >
+                <option value="">— serviço/etapa (agrupa pro cliente) —</option>
+                {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
+              </select>
+            ) : (
+              <div>
+                <input
+                  list="etapas-list"
+                  value={form.stage}
+                  onChange={(e) => setForm((p) => ({ ...p, stage: e.target.value }))}
+                  placeholder="Etapa (ex.: Diagnóstico) — agrupa as tarefas pro cliente"
+                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+            )
           )}
           <select
             value={form.priority}
@@ -1382,7 +1416,7 @@ function ProjectTasksCard({
                 <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-6 py-5">
-                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} />
+                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} />
               </div>
             </div>
           </div>

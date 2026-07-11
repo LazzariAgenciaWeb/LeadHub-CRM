@@ -62,9 +62,28 @@ export async function PATCH(
   if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
 
   const body = await req.json();
-  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient } = body;
+  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, projectServiceId } = body;
 
   const data: any = {};
+
+  // Serviço/etapa da sequência ao qual a tarefa pertence. Ao vincular, espelha o
+  // nome no `stage` (fallback) pra manter os rótulos consistentes nas listas.
+  if (projectServiceId !== undefined) {
+    if (projectServiceId) {
+      const step = await prisma.projectService.findUnique({
+        where: { id: String(projectServiceId) },
+        select: { projectId: true, name: true, service: { select: { name: true } } },
+      });
+      if (!step || step.projectId !== id) {
+        return NextResponse.json({ error: "Serviço inválido" }, { status: 400 });
+      }
+      data.projectServiceId = String(projectServiceId);
+      if (stage === undefined) data.stage = (step.name || step.service?.name || "").slice(0, 80) || null;
+    } else {
+      data.projectServiceId = null;
+    }
+  }
+
   if (done !== undefined) {
     data.done = !!done;
     data.completedAt = done ? new Date() : null;

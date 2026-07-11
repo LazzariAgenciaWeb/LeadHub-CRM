@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { PanelTask, PanelMat } from "./ClientProjectPanel";
+import type { PanelTask, PanelMat, PanelStep } from "./ClientProjectPanel";
 import TaskRespond from "./TaskRespond";
 
 /**
@@ -47,7 +47,9 @@ function statusOf(t: PanelTask, now: number): keyof typeof STATUS_LABEL {
   return "todo";
 }
 
-export default function ServiceGantt({ tasks, materials }: { tasks: PanelTask[]; materials: PanelMat[] }) {
+type Group = { key: string; label: string; tasks: PanelTask[] };
+
+export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { tasks: PanelTask[]; materials: PanelMat[]; serviceSteps?: PanelStep[] }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const now = Date.now();
 
@@ -66,14 +68,29 @@ export default function ServiceGantt({ tasks, materials }: { tasks: PanelTask[];
     a.push(m); matsByTask.set(m.taskId, a);
   }
 
-  // grupos por etapa, na ordem de aparição
-  const order: string[] = [];
-  const groups = new Map<string, PanelTask[]>();
+  // grupos: primeiro os serviços na ordem definida (mesmo vazios, pra mostrar a
+  // sequência); tarefas sem serviço caem em grupos por etapa livre, no fim.
+  const svcGroups: Group[] = serviceSteps
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .map((s) => ({ key: `svc:${s.id}`, label: s.name, tasks: [] as PanelTask[] }));
+  const svcByKey = new Map(svcGroups.map((g) => [g.key, g]));
+
+  const fbOrder: string[] = [];
+  const fbMap = new Map<string, Group>();
   for (const t of tasks) {
-    const key = t.stage?.trim() || "";
-    if (!groups.has(key)) { groups.set(key, []); order.push(key); }
-    groups.get(key)!.push(t);
+    const svcKey = t.projectServiceId ? `svc:${t.projectServiceId}` : null;
+    if (svcKey && svcByKey.has(svcKey)) { svcByKey.get(svcKey)!.tasks.push(t); continue; }
+    const sk = t.stage?.trim() || "";
+    const fk = `stg:${sk}`;
+    if (!fbMap.has(fk)) { fbMap.set(fk, { key: fk, label: sk || "Atividades", tasks: [] }); fbOrder.push(fk); }
+    fbMap.get(fk)!.tasks.push(t);
   }
+  const allGroups: Group[] = [...svcGroups, ...fbOrder.map((k) => fbMap.get(k)!)];
+
+  // índice/rótulo do grupo de cada tarefa (usado no modal)
+  const taskGroup = new Map<string, { idx: number; label: string }>();
+  allGroups.forEach((g, gi) => g.tasks.forEach((t) => taskGroup.set(t.id, { idx: gi, label: g.label })));
 
   // eixo de tempo
   const spans = tasks.map(spanOf).filter((x): x is { s: number; e: number } => !!x);
@@ -162,20 +179,26 @@ export default function ServiceGantt({ tasks, materials }: { tasks: PanelTask[];
             </div>
           </div>
 
-          {order.map((key, gi) => {
-            const ts = groups.get(key)!;
+          {allGroups.map((g, gi) => {
+            const ts = g.tasks;
             const total = ts.length;
             const done = ts.filter((t) => t.done).length;
             const overdue = ts.filter((t) => !t.done && t.dueDate && new Date(t.dueDate).getTime() < now).length;
-            const tag = done === total ? "concluída" : overdue > 0 ? `${overdue} em atraso` : `${done}/${total}`;
+            const tag = total === 0 ? "a iniciar" : done === total ? "concluída" : overdue > 0 ? `${overdue} em atraso` : `${done}/${total}`;
             const color = GROUP_COLORS[gi % GROUP_COLORS.length];
             return (
-              <div key={key || "__none__"}>
+              <div key={g.key}>
                 <div className="ggrp">
                   <span className="pb" style={{ background: color }}>{String(gi + 1).padStart(2, "0")}</span>
-                  <span className="gt">{key || "Atividades"}</span>
+                  <span className="gt">{g.label}</span>
                   <span className="tagm">{tag}</span>
                 </div>
+                {total === 0 && (
+                  <div className="grow" style={{ cursor: "default" }}>
+                    <div className="gnm"><div className="td" style={{ fontStyle: "italic" }}>nenhuma tarefa ainda</div></div>
+                    <div className="gtk" />
+                  </div>
+                )}
                 {ts.map((t) => {
                   const mats = matsByTask.get(t.id) ?? [];
                   const hasVid = mats.some((m) => catOf(m.kind) === "video");
@@ -202,9 +225,10 @@ export default function ServiceGantt({ tasks, materials }: { tasks: PanelTask[];
 
       {openTask && (() => {
         const st = statusOf(openTask, now);
-        const gi = order.indexOf(openTask.stage?.trim() || "");
-        const color = GROUP_COLORS[(gi < 0 ? 0 : gi) % GROUP_COLORS.length];
-        const label = openTask.stage?.trim() || "Atividade";
+        const grp = taskGroup.get(openTask.id);
+        const gi = grp?.idx ?? 0;
+        const color = GROUP_COLORS[gi % GROUP_COLORS.length];
+        const label = grp?.label || openTask.stage?.trim() || "Atividade";
         const mats = matsByTask.get(openTask.id) ?? [];
         return (
           <div className="gov" onClick={() => setOpenId(null)}>

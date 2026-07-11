@@ -174,6 +174,11 @@ export type SetorClickupList = $Result.DefaultSelection<Prisma.$SetorClickupList
  */
 export type ProjectTask = $Result.DefaultSelection<Prisma.$ProjectTaskPayload>
 /**
+ * Model ProjectService
+ * 
+ */
+export type ProjectService = $Result.DefaultSelection<Prisma.$ProjectServicePayload>
+/**
  * Model TicketAccessUser
  * 
  */
@@ -1566,6 +1571,16 @@ export class PrismaClient<
   get projectTask(): Prisma.ProjectTaskDelegate<ExtArgs>;
 
   /**
+   * `prisma.projectService`: Exposes CRUD operations for the **ProjectService** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectServices
+    * const projectServices = await prisma.projectService.findMany()
+    * ```
+    */
+  get projectService(): Prisma.ProjectServiceDelegate<ExtArgs>;
+
+  /**
    * `prisma.ticketAccessUser`: Exposes CRUD operations for the **TicketAccessUser** model.
     * Example usage:
     * ```ts
@@ -2647,6 +2662,7 @@ export namespace Prisma {
     Setor: 'Setor',
     SetorClickupList: 'SetorClickupList',
     ProjectTask: 'ProjectTask',
+    ProjectService: 'ProjectService',
     TicketAccessUser: 'TicketAccessUser',
     ProjectAccessUser: 'ProjectAccessUser',
     ProjectTaskState: 'ProjectTaskState',
@@ -2723,7 +2739,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4964,6 +4980,76 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectTaskCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectTaskCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectService: {
+        payload: Prisma.$ProjectServicePayload<ExtArgs>
+        fields: Prisma.ProjectServiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectServiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectServiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectServiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectServiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          findMany: {
+            args: Prisma.ProjectServiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>[]
+          }
+          create: {
+            args: Prisma.ProjectServiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          createMany: {
+            args: Prisma.ProjectServiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectServiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectServiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          update: {
+            args: Prisma.ProjectServiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectServiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectServiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectServiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectServicePayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectServiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectService>
+          }
+          groupBy: {
+            args: Prisma.ProjectServiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectServiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectServiceCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectServiceCountAggregateOutputType> | number
           }
         }
       }
@@ -10713,6 +10799,7 @@ export namespace Prisma {
     internalTasks: number
     accessUsers: number
     materials: number
+    serviceSteps: number
   }
 
   export type SetorClickupListCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10723,6 +10810,7 @@ export namespace Prisma {
     internalTasks?: boolean | SetorClickupListCountOutputTypeCountInternalTasksArgs
     accessUsers?: boolean | SetorClickupListCountOutputTypeCountAccessUsersArgs
     materials?: boolean | SetorClickupListCountOutputTypeCountMaterialsArgs
+    serviceSteps?: boolean | SetorClickupListCountOutputTypeCountServiceStepsArgs
   }
 
   // Custom InputTypes
@@ -10785,6 +10873,13 @@ export namespace Prisma {
     where?: ProjectMaterialWhereInput
   }
 
+  /**
+   * SetorClickupListCountOutputType without action
+   */
+  export type SetorClickupListCountOutputTypeCountServiceStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectServiceWhereInput
+  }
+
 
   /**
    * Count Type ProjectTaskCountOutputType
@@ -10814,6 +10909,37 @@ export namespace Prisma {
    */
   export type ProjectTaskCountOutputTypeCountMaterialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectMaterialWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectServiceCountOutputType
+   */
+
+  export type ProjectServiceCountOutputType = {
+    tasks: number
+  }
+
+  export type ProjectServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tasks?: boolean | ProjectServiceCountOutputTypeCountTasksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectServiceCountOutputType without action
+   */
+  export type ProjectServiceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectServiceCountOutputType
+     */
+    select?: ProjectServiceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectServiceCountOutputType without action
+   */
+  export type ProjectServiceCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectTaskWhereInput
   }
 
 
@@ -11223,11 +11349,13 @@ export namespace Prisma {
   export type ServiceCountOutputType = {
     clientInstances: number
     projects: number
+    projectSteps: number
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clientInstances?: boolean | ServiceCountOutputTypeCountClientInstancesArgs
     projects?: boolean | ServiceCountOutputTypeCountProjectsArgs
+    projectSteps?: boolean | ServiceCountOutputTypeCountProjectStepsArgs
   }
 
   // Custom InputTypes
@@ -11253,6 +11381,13 @@ export namespace Prisma {
    */
   export type ServiceCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorClickupListWhereInput
+  }
+
+  /**
+   * ServiceCountOutputType without action
+   */
+  export type ServiceCountOutputTypeCountProjectStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectServiceWhereInput
   }
 
 
@@ -46052,6 +46187,7 @@ export namespace Prisma {
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
     accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
+    serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setorClickupList"]>
 
@@ -46123,6 +46259,7 @@ export namespace Prisma {
     internalTasks?: boolean | SetorClickupList$internalTasksArgs<ExtArgs>
     accessUsers?: boolean | SetorClickupList$accessUsersArgs<ExtArgs>
     materials?: boolean | SetorClickupList$materialsArgs<ExtArgs>
+    serviceSteps?: boolean | SetorClickupList$serviceStepsArgs<ExtArgs>
     _count?: boolean | SetorClickupListCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorClickupListIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46144,6 +46281,7 @@ export namespace Prisma {
       internalTasks: Prisma.$ProjectTaskPayload<ExtArgs>[]
       accessUsers: Prisma.$ProjectAccessUserPayload<ExtArgs>[]
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
+      serviceSteps: Prisma.$ProjectServicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -46544,6 +46682,7 @@ export namespace Prisma {
     internalTasks<T extends SetorClickupList$internalTasksArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$internalTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
     accessUsers<T extends SetorClickupList$accessUsersArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$accessUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectAccessUserPayload<ExtArgs>, T, "findMany"> | Null>
     materials<T extends SetorClickupList$materialsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
+    serviceSteps<T extends SetorClickupList$serviceStepsArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupList$serviceStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -47085,6 +47224,26 @@ export namespace Prisma {
   }
 
   /**
+   * SetorClickupList.serviceSteps
+   */
+  export type SetorClickupList$serviceStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    where?: ProjectServiceWhereInput
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    cursor?: ProjectServiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
+  }
+
+  /**
    * SetorClickupList without action
    */
   export type SetorClickupListDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -47115,6 +47274,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     stage: string | null
+    projectServiceId: string | null
     clickupTaskId: string | null
     awaitingClient: boolean | null
     done: boolean | null
@@ -47134,6 +47294,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     stage: string | null
+    projectServiceId: string | null
     clickupTaskId: string | null
     awaitingClient: boolean | null
     done: boolean | null
@@ -47153,6 +47314,7 @@ export namespace Prisma {
     title: number
     description: number
     stage: number
+    projectServiceId: number
     checklist: number
     comments: number
     clickupTaskId: number
@@ -47176,6 +47338,7 @@ export namespace Prisma {
     title?: true
     description?: true
     stage?: true
+    projectServiceId?: true
     clickupTaskId?: true
     awaitingClient?: true
     done?: true
@@ -47195,6 +47358,7 @@ export namespace Prisma {
     title?: true
     description?: true
     stage?: true
+    projectServiceId?: true
     clickupTaskId?: true
     awaitingClient?: true
     done?: true
@@ -47214,6 +47378,7 @@ export namespace Prisma {
     title?: true
     description?: true
     stage?: true
+    projectServiceId?: true
     checklist?: true
     comments?: true
     clickupTaskId?: true
@@ -47308,6 +47473,7 @@ export namespace Prisma {
     title: string
     description: string | null
     stage: string | null
+    projectServiceId: string | null
     checklist: JsonValue | null
     comments: JsonValue | null
     clickupTaskId: string | null
@@ -47346,6 +47512,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     stage?: boolean
+    projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
@@ -47360,6 +47527,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    projectService?: boolean | ProjectTask$projectServiceArgs<ExtArgs>
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
@@ -47372,6 +47540,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     stage?: boolean
+    projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
@@ -47386,6 +47555,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    projectService?: boolean | ProjectTask$projectServiceArgs<ExtArgs>
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["projectTask"]>
@@ -47396,6 +47566,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     stage?: boolean
+    projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
     clickupTaskId?: boolean
@@ -47413,6 +47584,7 @@ export namespace Prisma {
 
   export type ProjectTaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    projectService?: boolean | ProjectTask$projectServiceArgs<ExtArgs>
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
     materials?: boolean | ProjectTask$materialsArgs<ExtArgs>
@@ -47420,6 +47592,7 @@ export namespace Prisma {
   }
   export type ProjectTaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    projectService?: boolean | ProjectTask$projectServiceArgs<ExtArgs>
     assignee?: boolean | ProjectTask$assigneeArgs<ExtArgs>
     createdBy?: boolean | ProjectTask$createdByArgs<ExtArgs>
   }
@@ -47428,6 +47601,7 @@ export namespace Prisma {
     name: "ProjectTask"
     objects: {
       project: Prisma.$SetorClickupListPayload<ExtArgs>
+      projectService: Prisma.$ProjectServicePayload<ExtArgs> | null
       assignee: Prisma.$UserPayload<ExtArgs> | null
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       materials: Prisma.$ProjectMaterialPayload<ExtArgs>[]
@@ -47438,6 +47612,7 @@ export namespace Prisma {
       title: string
       description: string | null
       stage: string | null
+      projectServiceId: string | null
       checklist: Prisma.JsonValue | null
       comments: Prisma.JsonValue | null
       clickupTaskId: string | null
@@ -47816,6 +47991,7 @@ export namespace Prisma {
   export interface Prisma__ProjectTaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    projectService<T extends ProjectTask$projectServiceArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$projectServiceArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     assignee<T extends ProjectTask$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     createdBy<T extends ProjectTask$createdByArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     materials<T extends ProjectTask$materialsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectTask$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMaterialPayload<ExtArgs>, T, "findMany"> | Null>
@@ -47853,6 +48029,7 @@ export namespace Prisma {
     readonly title: FieldRef<"ProjectTask", 'String'>
     readonly description: FieldRef<"ProjectTask", 'String'>
     readonly stage: FieldRef<"ProjectTask", 'String'>
+    readonly projectServiceId: FieldRef<"ProjectTask", 'String'>
     readonly checklist: FieldRef<"ProjectTask", 'Json'>
     readonly comments: FieldRef<"ProjectTask", 'Json'>
     readonly clickupTaskId: FieldRef<"ProjectTask", 'String'>
@@ -48184,6 +48361,21 @@ export namespace Prisma {
   }
 
   /**
+   * ProjectTask.projectService
+   */
+  export type ProjectTask$projectServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    where?: ProjectServiceWhereInput
+  }
+
+  /**
    * ProjectTask.assignee
    */
   export type ProjectTask$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -48245,6 +48437,1032 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectTaskInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectService
+   */
+
+  export type AggregateProjectService = {
+    _count: ProjectServiceCountAggregateOutputType | null
+    _avg: ProjectServiceAvgAggregateOutputType | null
+    _sum: ProjectServiceSumAggregateOutputType | null
+    _min: ProjectServiceMinAggregateOutputType | null
+    _max: ProjectServiceMaxAggregateOutputType | null
+  }
+
+  export type ProjectServiceAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ProjectServiceSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ProjectServiceMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    serviceId: string | null
+    name: string | null
+    order: number | null
+    createdAt: Date | null
+  }
+
+  export type ProjectServiceMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    serviceId: string | null
+    name: string | null
+    order: number | null
+    createdAt: Date | null
+  }
+
+  export type ProjectServiceCountAggregateOutputType = {
+    id: number
+    projectId: number
+    serviceId: number
+    name: number
+    order: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProjectServiceAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ProjectServiceSumAggregateInputType = {
+    order?: true
+  }
+
+  export type ProjectServiceMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    serviceId?: true
+    name?: true
+    order?: true
+    createdAt?: true
+  }
+
+  export type ProjectServiceMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    serviceId?: true
+    name?: true
+    order?: true
+    createdAt?: true
+  }
+
+  export type ProjectServiceCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    serviceId?: true
+    name?: true
+    order?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProjectServiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectService to aggregate.
+     */
+    where?: ProjectServiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectServices to fetch.
+     */
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectServiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectServices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectServices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectServices
+    **/
+    _count?: true | ProjectServiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectServiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectServiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectServiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectServiceMaxAggregateInputType
+  }
+
+  export type GetProjectServiceAggregateType<T extends ProjectServiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectService]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectService[P]>
+      : GetScalarType<T[P], AggregateProjectService[P]>
+  }
+
+
+
+
+  export type ProjectServiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectServiceWhereInput
+    orderBy?: ProjectServiceOrderByWithAggregationInput | ProjectServiceOrderByWithAggregationInput[]
+    by: ProjectServiceScalarFieldEnum[] | ProjectServiceScalarFieldEnum
+    having?: ProjectServiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectServiceCountAggregateInputType | true
+    _avg?: ProjectServiceAvgAggregateInputType
+    _sum?: ProjectServiceSumAggregateInputType
+    _min?: ProjectServiceMinAggregateInputType
+    _max?: ProjectServiceMaxAggregateInputType
+  }
+
+  export type ProjectServiceGroupByOutputType = {
+    id: string
+    projectId: string
+    serviceId: string | null
+    name: string | null
+    order: number
+    createdAt: Date
+    _count: ProjectServiceCountAggregateOutputType | null
+    _avg: ProjectServiceAvgAggregateOutputType | null
+    _sum: ProjectServiceSumAggregateOutputType | null
+    _min: ProjectServiceMinAggregateOutputType | null
+    _max: ProjectServiceMaxAggregateOutputType | null
+  }
+
+  type GetProjectServiceGroupByPayload<T extends ProjectServiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectServiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectServiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectServiceGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectServiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    serviceId?: boolean
+    name?: boolean
+    order?: boolean
+    createdAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    service?: boolean | ProjectService$serviceArgs<ExtArgs>
+    tasks?: boolean | ProjectService$tasksArgs<ExtArgs>
+    _count?: boolean | ProjectServiceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectService"]>
+
+  export type ProjectServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    serviceId?: boolean
+    name?: boolean
+    order?: boolean
+    createdAt?: boolean
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    service?: boolean | ProjectService$serviceArgs<ExtArgs>
+  }, ExtArgs["result"]["projectService"]>
+
+  export type ProjectServiceSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    serviceId?: boolean
+    name?: boolean
+    order?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProjectServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    service?: boolean | ProjectService$serviceArgs<ExtArgs>
+    tasks?: boolean | ProjectService$tasksArgs<ExtArgs>
+    _count?: boolean | ProjectServiceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProjectServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
+    service?: boolean | ProjectService$serviceArgs<ExtArgs>
+  }
+
+  export type $ProjectServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectService"
+    objects: {
+      project: Prisma.$SetorClickupListPayload<ExtArgs>
+      service: Prisma.$ServicePayload<ExtArgs> | null
+      tasks: Prisma.$ProjectTaskPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      serviceId: string | null
+      name: string | null
+      order: number
+      createdAt: Date
+    }, ExtArgs["result"]["projectService"]>
+    composites: {}
+  }
+
+  type ProjectServiceGetPayload<S extends boolean | null | undefined | ProjectServiceDefaultArgs> = $Result.GetResult<Prisma.$ProjectServicePayload, S>
+
+  type ProjectServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectServiceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectServiceCountAggregateInputType | true
+    }
+
+  export interface ProjectServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectService'], meta: { name: 'ProjectService' } }
+    /**
+     * Find zero or one ProjectService that matches the filter.
+     * @param {ProjectServiceFindUniqueArgs} args - Arguments to find a ProjectService
+     * @example
+     * // Get one ProjectService
+     * const projectService = await prisma.projectService.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectServiceFindUniqueArgs>(args: SelectSubset<T, ProjectServiceFindUniqueArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectService that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectServiceFindUniqueOrThrowArgs} args - Arguments to find a ProjectService
+     * @example
+     * // Get one ProjectService
+     * const projectService = await prisma.projectService.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectService that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceFindFirstArgs} args - Arguments to find a ProjectService
+     * @example
+     * // Get one ProjectService
+     * const projectService = await prisma.projectService.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectServiceFindFirstArgs>(args?: SelectSubset<T, ProjectServiceFindFirstArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectService that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceFindFirstOrThrowArgs} args - Arguments to find a ProjectService
+     * @example
+     * // Get one ProjectService
+     * const projectService = await prisma.projectService.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectServices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectServices
+     * const projectServices = await prisma.projectService.findMany()
+     * 
+     * // Get first 10 ProjectServices
+     * const projectServices = await prisma.projectService.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectServiceWithIdOnly = await prisma.projectService.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectServiceFindManyArgs>(args?: SelectSubset<T, ProjectServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectService.
+     * @param {ProjectServiceCreateArgs} args - Arguments to create a ProjectService.
+     * @example
+     * // Create one ProjectService
+     * const ProjectService = await prisma.projectService.create({
+     *   data: {
+     *     // ... data to create a ProjectService
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectServiceCreateArgs>(args: SelectSubset<T, ProjectServiceCreateArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectServices.
+     * @param {ProjectServiceCreateManyArgs} args - Arguments to create many ProjectServices.
+     * @example
+     * // Create many ProjectServices
+     * const projectService = await prisma.projectService.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectServiceCreateManyArgs>(args?: SelectSubset<T, ProjectServiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectServices and returns the data saved in the database.
+     * @param {ProjectServiceCreateManyAndReturnArgs} args - Arguments to create many ProjectServices.
+     * @example
+     * // Create many ProjectServices
+     * const projectService = await prisma.projectService.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectServices and only return the `id`
+     * const projectServiceWithIdOnly = await prisma.projectService.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectService.
+     * @param {ProjectServiceDeleteArgs} args - Arguments to delete one ProjectService.
+     * @example
+     * // Delete one ProjectService
+     * const ProjectService = await prisma.projectService.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectService
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectServiceDeleteArgs>(args: SelectSubset<T, ProjectServiceDeleteArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectService.
+     * @param {ProjectServiceUpdateArgs} args - Arguments to update one ProjectService.
+     * @example
+     * // Update one ProjectService
+     * const projectService = await prisma.projectService.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectServiceUpdateArgs>(args: SelectSubset<T, ProjectServiceUpdateArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectServices.
+     * @param {ProjectServiceDeleteManyArgs} args - Arguments to filter ProjectServices to delete.
+     * @example
+     * // Delete a few ProjectServices
+     * const { count } = await prisma.projectService.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectServiceDeleteManyArgs>(args?: SelectSubset<T, ProjectServiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectServices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectServices
+     * const projectService = await prisma.projectService.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectServiceUpdateManyArgs>(args: SelectSubset<T, ProjectServiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectService.
+     * @param {ProjectServiceUpsertArgs} args - Arguments to update or create a ProjectService.
+     * @example
+     * // Update or create a ProjectService
+     * const projectService = await prisma.projectService.upsert({
+     *   create: {
+     *     // ... data to create a ProjectService
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectService we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectServiceUpsertArgs>(args: SelectSubset<T, ProjectServiceUpsertArgs<ExtArgs>>): Prisma__ProjectServiceClient<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectServices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceCountArgs} args - Arguments to filter ProjectServices to count.
+     * @example
+     * // Count the number of ProjectServices
+     * const count = await prisma.projectService.count({
+     *   where: {
+     *     // ... the filter for the ProjectServices we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectServiceCountArgs>(
+      args?: Subset<T, ProjectServiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectServiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectService.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectServiceAggregateArgs>(args: Subset<T, ProjectServiceAggregateArgs>): Prisma.PrismaPromise<GetProjectServiceAggregateType<T>>
+
+    /**
+     * Group by ProjectService.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectServiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectServiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectServiceGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectServiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectServiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectServiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectService model
+   */
+  readonly fields: ProjectServiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectService.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends SetorClickupListDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorClickupListDefaultArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    service<T extends ProjectService$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ProjectService$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    tasks<T extends ProjectService$tasksArgs<ExtArgs> = {}>(args?: Subset<T, ProjectService$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectService model
+   */ 
+  interface ProjectServiceFieldRefs {
+    readonly id: FieldRef<"ProjectService", 'String'>
+    readonly projectId: FieldRef<"ProjectService", 'String'>
+    readonly serviceId: FieldRef<"ProjectService", 'String'>
+    readonly name: FieldRef<"ProjectService", 'String'>
+    readonly order: FieldRef<"ProjectService", 'Int'>
+    readonly createdAt: FieldRef<"ProjectService", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectService findUnique
+   */
+  export type ProjectServiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectService to fetch.
+     */
+    where: ProjectServiceWhereUniqueInput
+  }
+
+  /**
+   * ProjectService findUniqueOrThrow
+   */
+  export type ProjectServiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectService to fetch.
+     */
+    where: ProjectServiceWhereUniqueInput
+  }
+
+  /**
+   * ProjectService findFirst
+   */
+  export type ProjectServiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectService to fetch.
+     */
+    where?: ProjectServiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectServices to fetch.
+     */
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectServices.
+     */
+    cursor?: ProjectServiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectServices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectServices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectServices.
+     */
+    distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectService findFirstOrThrow
+   */
+  export type ProjectServiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectService to fetch.
+     */
+    where?: ProjectServiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectServices to fetch.
+     */
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectServices.
+     */
+    cursor?: ProjectServiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectServices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectServices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectServices.
+     */
+    distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectService findMany
+   */
+  export type ProjectServiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectServices to fetch.
+     */
+    where?: ProjectServiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectServices to fetch.
+     */
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectServices.
+     */
+    cursor?: ProjectServiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectServices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectServices.
+     */
+    skip?: number
+    distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectService create
+   */
+  export type ProjectServiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectService.
+     */
+    data: XOR<ProjectServiceCreateInput, ProjectServiceUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectService createMany
+   */
+  export type ProjectServiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectServices.
+     */
+    data: ProjectServiceCreateManyInput | ProjectServiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectService createManyAndReturn
+   */
+  export type ProjectServiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectServices.
+     */
+    data: ProjectServiceCreateManyInput | ProjectServiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectService update
+   */
+  export type ProjectServiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectService.
+     */
+    data: XOR<ProjectServiceUpdateInput, ProjectServiceUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectService to update.
+     */
+    where: ProjectServiceWhereUniqueInput
+  }
+
+  /**
+   * ProjectService updateMany
+   */
+  export type ProjectServiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectServices.
+     */
+    data: XOR<ProjectServiceUpdateManyMutationInput, ProjectServiceUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectServices to update
+     */
+    where?: ProjectServiceWhereInput
+  }
+
+  /**
+   * ProjectService upsert
+   */
+  export type ProjectServiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectService to update in case it exists.
+     */
+    where: ProjectServiceWhereUniqueInput
+    /**
+     * In case the ProjectService found by the `where` argument doesn't exist, create a new ProjectService with this data.
+     */
+    create: XOR<ProjectServiceCreateInput, ProjectServiceUncheckedCreateInput>
+    /**
+     * In case the ProjectService was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectServiceUpdateInput, ProjectServiceUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectService delete
+   */
+  export type ProjectServiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectService to delete.
+     */
+    where: ProjectServiceWhereUniqueInput
+  }
+
+  /**
+   * ProjectService deleteMany
+   */
+  export type ProjectServiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectServices to delete
+     */
+    where?: ProjectServiceWhereInput
+  }
+
+  /**
+   * ProjectService.service
+   */
+  export type ProjectService$serviceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+  }
+
+  /**
+   * ProjectService.tasks
+   */
+  export type ProjectService$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectTask
+     */
+    select?: ProjectTaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectTaskInclude<ExtArgs> | null
+    where?: ProjectTaskWhereInput
+    orderBy?: ProjectTaskOrderByWithRelationInput | ProjectTaskOrderByWithRelationInput[]
+    cursor?: ProjectTaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectTaskScalarFieldEnum | ProjectTaskScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectService without action
+   */
+  export type ProjectServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
   }
 
 
@@ -108447,6 +109665,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     clientInstances?: boolean | Service$clientInstancesArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
+    projectSteps?: boolean | Service$projectStepsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
@@ -108487,6 +109706,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     clientInstances?: boolean | Service$clientInstancesArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
+    projectSteps?: boolean | Service$projectStepsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -108499,6 +109719,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       clientInstances: Prisma.$ClientServicePayload<ExtArgs>[]
       projects: Prisma.$SetorClickupListPayload<ExtArgs>[]
+      projectSteps: Prisma.$ProjectServicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -108881,6 +110102,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     clientInstances<T extends Service$clientInstancesArgs<ExtArgs> = {}>(args?: Subset<T, Service$clientInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findMany"> | Null>
     projects<T extends Service$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Service$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
+    projectSteps<T extends Service$projectStepsArgs<ExtArgs> = {}>(args?: Subset<T, Service$projectStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectServicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -109278,6 +110500,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * Service.projectSteps
+   */
+  export type Service$projectStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectService
+     */
+    select?: ProjectServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectServiceInclude<ExtArgs> | null
+    where?: ProjectServiceWhereInput
+    orderBy?: ProjectServiceOrderByWithRelationInput | ProjectServiceOrderByWithRelationInput[]
+    cursor?: ProjectServiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectServiceScalarFieldEnum | ProjectServiceScalarFieldEnum[]
   }
 
   /**
@@ -112105,6 +113347,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     stage: 'stage',
+    projectServiceId: 'projectServiceId',
     checklist: 'checklist',
     comments: 'comments',
     clickupTaskId: 'clickupTaskId',
@@ -112121,6 +113364,18 @@ export namespace Prisma {
   };
 
   export type ProjectTaskScalarFieldEnum = (typeof ProjectTaskScalarFieldEnum)[keyof typeof ProjectTaskScalarFieldEnum]
+
+
+  export const ProjectServiceScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    serviceId: 'serviceId',
+    name: 'name',
+    order: 'order',
+    createdAt: 'createdAt'
+  };
+
+  export type ProjectServiceScalarFieldEnum = (typeof ProjectServiceScalarFieldEnum)[keyof typeof ProjectServiceScalarFieldEnum]
 
 
   export const TicketAccessUserScalarFieldEnum: {
@@ -117120,6 +118375,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskListRelationFilter
     accessUsers?: ProjectAccessUserListRelationFilter
     materials?: ProjectMaterialListRelationFilter
+    serviceSteps?: ProjectServiceListRelationFilter
   }
 
   export type SetorClickupListOrderByWithRelationInput = {
@@ -117157,6 +118413,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskOrderByRelationAggregateInput
     accessUsers?: ProjectAccessUserOrderByRelationAggregateInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
+    serviceSteps?: ProjectServiceOrderByRelationAggregateInput
   }
 
   export type SetorClickupListWhereUniqueInput = Prisma.AtLeast<{
@@ -117198,6 +118455,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskListRelationFilter
     accessUsers?: ProjectAccessUserListRelationFilter
     materials?: ProjectMaterialListRelationFilter
+    serviceSteps?: ProjectServiceListRelationFilter
   }, "id" | "publicToken" | "setorId_clickupListId">
 
   export type SetorClickupListOrderByWithAggregationInput = {
@@ -117271,6 +118529,7 @@ export namespace Prisma {
     title?: StringFilter<"ProjectTask"> | string
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
+    projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
@@ -117285,6 +118544,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTask"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    projectService?: XOR<ProjectServiceNullableRelationFilter, ProjectServiceWhereInput> | null
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
@@ -117296,6 +118556,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     stage?: SortOrderInput | SortOrder
+    projectServiceId?: SortOrderInput | SortOrder
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -117310,6 +118571,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     project?: SetorClickupListOrderByWithRelationInput
+    projectService?: ProjectServiceOrderByWithRelationInput
     assignee?: UserOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     materials?: ProjectMaterialOrderByRelationAggregateInput
@@ -117324,6 +118586,7 @@ export namespace Prisma {
     title?: StringFilter<"ProjectTask"> | string
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
+    projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
@@ -117338,6 +118601,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTask"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    projectService?: XOR<ProjectServiceNullableRelationFilter, ProjectServiceWhereInput> | null
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     materials?: ProjectMaterialListRelationFilter
@@ -117349,6 +118613,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     stage?: SortOrderInput | SortOrder
+    projectServiceId?: SortOrderInput | SortOrder
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
@@ -117376,6 +118641,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"ProjectTask"> | string
     description?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     stage?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
+    projectServiceId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableWithAggregatesFilter<"ProjectTask">
     comments?: JsonNullableWithAggregatesFilter<"ProjectTask">
     clickupTaskId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
@@ -117389,6 +118655,74 @@ export namespace Prisma {
     completedAt?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectTask"> | Date | string
+  }
+
+  export type ProjectServiceWhereInput = {
+    AND?: ProjectServiceWhereInput | ProjectServiceWhereInput[]
+    OR?: ProjectServiceWhereInput[]
+    NOT?: ProjectServiceWhereInput | ProjectServiceWhereInput[]
+    id?: StringFilter<"ProjectService"> | string
+    projectId?: StringFilter<"ProjectService"> | string
+    serviceId?: StringNullableFilter<"ProjectService"> | string | null
+    name?: StringNullableFilter<"ProjectService"> | string | null
+    order?: IntFilter<"ProjectService"> | number
+    createdAt?: DateTimeFilter<"ProjectService"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    tasks?: ProjectTaskListRelationFilter
+  }
+
+  export type ProjectServiceOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    project?: SetorClickupListOrderByWithRelationInput
+    service?: ServiceOrderByWithRelationInput
+    tasks?: ProjectTaskOrderByRelationAggregateInput
+  }
+
+  export type ProjectServiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProjectServiceWhereInput | ProjectServiceWhereInput[]
+    OR?: ProjectServiceWhereInput[]
+    NOT?: ProjectServiceWhereInput | ProjectServiceWhereInput[]
+    projectId?: StringFilter<"ProjectService"> | string
+    serviceId?: StringNullableFilter<"ProjectService"> | string | null
+    name?: StringNullableFilter<"ProjectService"> | string | null
+    order?: IntFilter<"ProjectService"> | number
+    createdAt?: DateTimeFilter<"ProjectService"> | Date | string
+    project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
+    service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
+    tasks?: ProjectTaskListRelationFilter
+  }, "id">
+
+  export type ProjectServiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    serviceId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    _count?: ProjectServiceCountOrderByAggregateInput
+    _avg?: ProjectServiceAvgOrderByAggregateInput
+    _max?: ProjectServiceMaxOrderByAggregateInput
+    _min?: ProjectServiceMinOrderByAggregateInput
+    _sum?: ProjectServiceSumOrderByAggregateInput
+  }
+
+  export type ProjectServiceScalarWhereWithAggregatesInput = {
+    AND?: ProjectServiceScalarWhereWithAggregatesInput | ProjectServiceScalarWhereWithAggregatesInput[]
+    OR?: ProjectServiceScalarWhereWithAggregatesInput[]
+    NOT?: ProjectServiceScalarWhereWithAggregatesInput | ProjectServiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectService"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectService"> | string
+    serviceId?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
+    name?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
+    order?: IntWithAggregatesFilter<"ProjectService"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectService"> | Date | string
   }
 
   export type TicketAccessUserWhereInput = {
@@ -122499,6 +123833,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     clientInstances?: ClientServiceListRelationFilter
     projects?: SetorClickupListListRelationFilter
+    projectSteps?: ProjectServiceListRelationFilter
   }
 
   export type ServiceOrderByWithRelationInput = {
@@ -122518,6 +123853,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     clientInstances?: ClientServiceOrderByRelationAggregateInput
     projects?: SetorClickupListOrderByRelationAggregateInput
+    projectSteps?: ProjectServiceOrderByRelationAggregateInput
   }
 
   export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -122540,6 +123876,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     clientInstances?: ClientServiceListRelationFilter
     projects?: SetorClickupListListRelationFilter
+    projectSteps?: ProjectServiceListRelationFilter
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
@@ -126447,6 +127784,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateInput = {
@@ -126481,6 +127819,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUpdateInput = {
@@ -126515,6 +127854,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateInput = {
@@ -126549,6 +127889,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateManyInput = {
@@ -126646,6 +127987,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
@@ -126657,6 +127999,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -126690,6 +128033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
@@ -126701,6 +128045,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126723,6 +128068,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -126762,6 +128108,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126775,6 +128122,71 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectServiceCreateInput = {
+    id?: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
+    service?: ServiceCreateNestedOneWithoutProjectStepsInput
+    tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    serviceId?: string | null
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
+    service?: ServiceUpdateOneWithoutProjectStepsNestedInput
+    tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceCreateManyInput = {
+    id?: string
+    projectId: string
+    serviceId?: string | null
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+  }
+
+  export type ProjectServiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectServiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketAccessUserCreateInput = {
@@ -132405,6 +133817,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutServicesInput
     clientInstances?: ClientServiceCreateNestedManyWithoutServiceInput
     projects?: SetorClickupListCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
@@ -132423,6 +133836,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientInstances?: ClientServiceUncheckedCreateNestedManyWithoutServiceInput
     projects?: SetorClickupListUncheckedCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUpdateInput = {
@@ -132441,6 +133855,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutServicesNestedInput
     clientInstances?: ClientServiceUpdateManyWithoutServiceNestedInput
     projects?: SetorClickupListUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
@@ -132459,6 +133874,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientInstances?: ClientServiceUncheckedUpdateManyWithoutServiceNestedInput
     projects?: SetorClickupListUncheckedUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
@@ -135836,6 +137252,12 @@ export namespace Prisma {
     none?: ProjectMaterialWhereInput
   }
 
+  export type ProjectServiceListRelationFilter = {
+    every?: ProjectServiceWhereInput
+    some?: ProjectServiceWhereInput
+    none?: ProjectServiceWhereInput
+  }
+
   export type ProjectTaskStateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -135845,6 +137267,10 @@ export namespace Prisma {
   }
 
   export type ProjectMaterialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectServiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -135965,12 +137391,18 @@ export namespace Prisma {
     isNot?: SetorClickupListWhereInput
   }
 
+  export type ProjectServiceNullableRelationFilter = {
+    is?: ProjectServiceWhereInput | null
+    isNot?: ProjectServiceWhereInput | null
+  }
+
   export type ProjectTaskCountOrderByAggregateInput = {
     id?: SortOrder
     projectId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     stage?: SortOrder
+    projectServiceId?: SortOrder
     checklist?: SortOrder
     comments?: SortOrder
     clickupTaskId?: SortOrder
@@ -135992,6 +137424,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     stage?: SortOrder
+    projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
     awaitingClient?: SortOrder
     done?: SortOrder
@@ -136011,6 +137444,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     stage?: SortOrder
+    projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
     awaitingClient?: SortOrder
     done?: SortOrder
@@ -136022,6 +137456,41 @@ export namespace Prisma {
     completedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ProjectServiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    serviceId?: SortOrder
+    name?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectServiceAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ProjectServiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    serviceId?: SortOrder
+    name?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectServiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    serviceId?: SortOrder
+    name?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProjectServiceSumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type TicketAccessUserTicketIdUserIdCompoundUniqueInput = {
@@ -145795,6 +147264,13 @@ export namespace Prisma {
     connect?: ProjectMaterialWhereUniqueInput | ProjectMaterialWhereUniqueInput[]
   }
 
+  export type ProjectServiceCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput> | ProjectServiceCreateWithoutProjectInput[] | ProjectServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutProjectInput | ProjectServiceCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectServiceCreateManyProjectInputEnvelope
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -145842,6 +147318,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectMaterialCreateOrConnectWithoutProjectInput | ProjectMaterialCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectMaterialCreateManyProjectInputEnvelope
     connect?: ProjectMaterialWhereUniqueInput | ProjectMaterialWhereUniqueInput[]
+  }
+
+  export type ProjectServiceUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput> | ProjectServiceCreateWithoutProjectInput[] | ProjectServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutProjectInput | ProjectServiceCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectServiceCreateManyProjectInputEnvelope
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -145974,6 +147457,20 @@ export namespace Prisma {
     deleteMany?: ProjectMaterialScalarWhereInput | ProjectMaterialScalarWhereInput[]
   }
 
+  export type ProjectServiceUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput> | ProjectServiceCreateWithoutProjectInput[] | ProjectServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutProjectInput | ProjectServiceCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectServiceUpsertWithWhereUniqueWithoutProjectInput | ProjectServiceUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectServiceCreateManyProjectInputEnvelope
+    set?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    disconnect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    delete?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    update?: ProjectServiceUpdateWithWhereUniqueWithoutProjectInput | ProjectServiceUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectServiceUpdateManyWithWhereWithoutProjectInput | ProjectServiceUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -146072,10 +147569,30 @@ export namespace Prisma {
     deleteMany?: ProjectMaterialScalarWhereInput | ProjectMaterialScalarWhereInput[]
   }
 
+  export type ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput> | ProjectServiceCreateWithoutProjectInput[] | ProjectServiceUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutProjectInput | ProjectServiceCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectServiceUpsertWithWhereUniqueWithoutProjectInput | ProjectServiceUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectServiceCreateManyProjectInputEnvelope
+    set?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    disconnect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    delete?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    update?: ProjectServiceUpdateWithWhereUniqueWithoutProjectInput | ProjectServiceUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectServiceUpdateManyWithWhereWithoutProjectInput | ProjectServiceUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+  }
+
   export type SetorClickupListCreateNestedOneWithoutInternalTasksInput = {
     create?: XOR<SetorClickupListCreateWithoutInternalTasksInput, SetorClickupListUncheckedCreateWithoutInternalTasksInput>
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutInternalTasksInput
     connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type ProjectServiceCreateNestedOneWithoutTasksInput = {
+    create?: XOR<ProjectServiceCreateWithoutTasksInput, ProjectServiceUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutTasksInput
+    connect?: ProjectServiceWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutProjectTasksAssignedInput = {
@@ -146110,6 +147627,16 @@ export namespace Prisma {
     upsert?: SetorClickupListUpsertWithoutInternalTasksInput
     connect?: SetorClickupListWhereUniqueInput
     update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutInternalTasksInput, SetorClickupListUpdateWithoutInternalTasksInput>, SetorClickupListUncheckedUpdateWithoutInternalTasksInput>
+  }
+
+  export type ProjectServiceUpdateOneWithoutTasksNestedInput = {
+    create?: XOR<ProjectServiceCreateWithoutTasksInput, ProjectServiceUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutTasksInput
+    upsert?: ProjectServiceUpsertWithoutTasksInput
+    disconnect?: ProjectServiceWhereInput | boolean
+    delete?: ProjectServiceWhereInput | boolean
+    connect?: ProjectServiceWhereUniqueInput
+    update?: XOR<XOR<ProjectServiceUpdateToOneWithWhereWithoutTasksInput, ProjectServiceUpdateWithoutTasksInput>, ProjectServiceUncheckedUpdateWithoutTasksInput>
   }
 
   export type UserUpdateOneWithoutProjectTasksAssignedNestedInput = {
@@ -146158,6 +147685,78 @@ export namespace Prisma {
     update?: ProjectMaterialUpdateWithWhereUniqueWithoutTaskInput | ProjectMaterialUpdateWithWhereUniqueWithoutTaskInput[]
     updateMany?: ProjectMaterialUpdateManyWithWhereWithoutTaskInput | ProjectMaterialUpdateManyWithWhereWithoutTaskInput[]
     deleteMany?: ProjectMaterialScalarWhereInput | ProjectMaterialScalarWhereInput[]
+  }
+
+  export type SetorClickupListCreateNestedOneWithoutServiceStepsInput = {
+    create?: XOR<SetorClickupListCreateWithoutServiceStepsInput, SetorClickupListUncheckedCreateWithoutServiceStepsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutServiceStepsInput
+    connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type ServiceCreateNestedOneWithoutProjectStepsInput = {
+    create?: XOR<ServiceCreateWithoutProjectStepsInput, ServiceUncheckedCreateWithoutProjectStepsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutProjectStepsInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type ProjectTaskCreateNestedManyWithoutProjectServiceInput = {
+    create?: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput> | ProjectTaskCreateWithoutProjectServiceInput[] | ProjectTaskUncheckedCreateWithoutProjectServiceInput[]
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutProjectServiceInput | ProjectTaskCreateOrConnectWithoutProjectServiceInput[]
+    createMany?: ProjectTaskCreateManyProjectServiceInputEnvelope
+    connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+  }
+
+  export type ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput = {
+    create?: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput> | ProjectTaskCreateWithoutProjectServiceInput[] | ProjectTaskUncheckedCreateWithoutProjectServiceInput[]
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutProjectServiceInput | ProjectTaskCreateOrConnectWithoutProjectServiceInput[]
+    createMany?: ProjectTaskCreateManyProjectServiceInputEnvelope
+    connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+  }
+
+  export type SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput = {
+    create?: XOR<SetorClickupListCreateWithoutServiceStepsInput, SetorClickupListUncheckedCreateWithoutServiceStepsInput>
+    connectOrCreate?: SetorClickupListCreateOrConnectWithoutServiceStepsInput
+    upsert?: SetorClickupListUpsertWithoutServiceStepsInput
+    connect?: SetorClickupListWhereUniqueInput
+    update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutServiceStepsInput, SetorClickupListUpdateWithoutServiceStepsInput>, SetorClickupListUncheckedUpdateWithoutServiceStepsInput>
+  }
+
+  export type ServiceUpdateOneWithoutProjectStepsNestedInput = {
+    create?: XOR<ServiceCreateWithoutProjectStepsInput, ServiceUncheckedCreateWithoutProjectStepsInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutProjectStepsInput
+    upsert?: ServiceUpsertWithoutProjectStepsInput
+    disconnect?: ServiceWhereInput | boolean
+    delete?: ServiceWhereInput | boolean
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutProjectStepsInput, ServiceUpdateWithoutProjectStepsInput>, ServiceUncheckedUpdateWithoutProjectStepsInput>
+  }
+
+  export type ProjectTaskUpdateManyWithoutProjectServiceNestedInput = {
+    create?: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput> | ProjectTaskCreateWithoutProjectServiceInput[] | ProjectTaskUncheckedCreateWithoutProjectServiceInput[]
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutProjectServiceInput | ProjectTaskCreateOrConnectWithoutProjectServiceInput[]
+    upsert?: ProjectTaskUpsertWithWhereUniqueWithoutProjectServiceInput | ProjectTaskUpsertWithWhereUniqueWithoutProjectServiceInput[]
+    createMany?: ProjectTaskCreateManyProjectServiceInputEnvelope
+    set?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    disconnect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    delete?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    update?: ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput | ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput[]
+    updateMany?: ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput | ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput[]
+    deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
+  }
+
+  export type ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput = {
+    create?: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput> | ProjectTaskCreateWithoutProjectServiceInput[] | ProjectTaskUncheckedCreateWithoutProjectServiceInput[]
+    connectOrCreate?: ProjectTaskCreateOrConnectWithoutProjectServiceInput | ProjectTaskCreateOrConnectWithoutProjectServiceInput[]
+    upsert?: ProjectTaskUpsertWithWhereUniqueWithoutProjectServiceInput | ProjectTaskUpsertWithWhereUniqueWithoutProjectServiceInput[]
+    createMany?: ProjectTaskCreateManyProjectServiceInputEnvelope
+    set?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    disconnect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    delete?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    connect?: ProjectTaskWhereUniqueInput | ProjectTaskWhereUniqueInput[]
+    update?: ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput | ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput[]
+    updateMany?: ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput | ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput[]
+    deleteMany?: ProjectTaskScalarWhereInput | ProjectTaskScalarWhereInput[]
   }
 
   export type TicketCreateNestedOneWithoutAccessUsersInput = {
@@ -148112,6 +149711,13 @@ export namespace Prisma {
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
   }
 
+  export type ProjectServiceCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput> | ProjectServiceCreateWithoutServiceInput[] | ProjectServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutServiceInput | ProjectServiceCreateOrConnectWithoutServiceInput[]
+    createMany?: ProjectServiceCreateManyServiceInputEnvelope
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+  }
+
   export type ClientServiceUncheckedCreateNestedManyWithoutServiceInput = {
     create?: XOR<ClientServiceCreateWithoutServiceInput, ClientServiceUncheckedCreateWithoutServiceInput> | ClientServiceCreateWithoutServiceInput[] | ClientServiceUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ClientServiceCreateOrConnectWithoutServiceInput | ClientServiceCreateOrConnectWithoutServiceInput[]
@@ -148124,6 +149730,13 @@ export namespace Prisma {
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutServiceInput | SetorClickupListCreateOrConnectWithoutServiceInput[]
     createMany?: SetorClickupListCreateManyServiceInputEnvelope
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
+  export type ProjectServiceUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput> | ProjectServiceCreateWithoutServiceInput[] | ProjectServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutServiceInput | ProjectServiceCreateOrConnectWithoutServiceInput[]
+    createMany?: ProjectServiceCreateManyServiceInputEnvelope
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutServicesNestedInput = {
@@ -148162,6 +149775,20 @@ export namespace Prisma {
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
   }
 
+  export type ProjectServiceUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput> | ProjectServiceCreateWithoutServiceInput[] | ProjectServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutServiceInput | ProjectServiceCreateOrConnectWithoutServiceInput[]
+    upsert?: ProjectServiceUpsertWithWhereUniqueWithoutServiceInput | ProjectServiceUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ProjectServiceCreateManyServiceInputEnvelope
+    set?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    disconnect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    delete?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    update?: ProjectServiceUpdateWithWhereUniqueWithoutServiceInput | ProjectServiceUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ProjectServiceUpdateManyWithWhereWithoutServiceInput | ProjectServiceUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+  }
+
   export type ClientServiceUncheckedUpdateManyWithoutServiceNestedInput = {
     create?: XOR<ClientServiceCreateWithoutServiceInput, ClientServiceUncheckedCreateWithoutServiceInput> | ClientServiceCreateWithoutServiceInput[] | ClientServiceUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: ClientServiceCreateOrConnectWithoutServiceInput | ClientServiceCreateOrConnectWithoutServiceInput[]
@@ -148188,6 +149815,20 @@ export namespace Prisma {
     update?: SetorClickupListUpdateWithWhereUniqueWithoutServiceInput | SetorClickupListUpdateWithWhereUniqueWithoutServiceInput[]
     updateMany?: SetorClickupListUpdateManyWithWhereWithoutServiceInput | SetorClickupListUpdateManyWithWhereWithoutServiceInput[]
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
+  export type ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput> | ProjectServiceCreateWithoutServiceInput[] | ProjectServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ProjectServiceCreateOrConnectWithoutServiceInput | ProjectServiceCreateOrConnectWithoutServiceInput[]
+    upsert?: ProjectServiceUpsertWithWhereUniqueWithoutServiceInput | ProjectServiceUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ProjectServiceCreateManyServiceInputEnvelope
+    set?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    disconnect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    delete?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    connect?: ProjectServiceWhereUniqueInput | ProjectServiceWhereUniqueInput[]
+    update?: ProjectServiceUpdateWithWhereUniqueWithoutServiceInput | ProjectServiceUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ProjectServiceUpdateManyWithWhereWithoutServiceInput | ProjectServiceUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutClientServicesInput = {
@@ -150208,6 +151849,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
   }
@@ -150218,6 +151860,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -150260,6 +151903,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
   }
@@ -150270,6 +151914,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -151225,6 +152870,7 @@ export namespace Prisma {
     title?: StringFilter<"ProjectTask"> | string
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
+    projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
@@ -152607,6 +154253,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutClientCompanyInput = {
@@ -152640,6 +154287,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutClientCompanyInput = {
@@ -155100,6 +156748,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientInstances?: ClientServiceCreateNestedManyWithoutServiceInput
     projects?: SetorClickupListCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutCompanyInput = {
@@ -155117,6 +156766,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientInstances?: ClientServiceUncheckedCreateNestedManyWithoutServiceInput
     projects?: SetorClickupListUncheckedCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutCompanyInput = {
@@ -169818,6 +171468,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTicketsInput = {
@@ -169851,6 +171502,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTicketsInput = {
@@ -170665,6 +172317,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTicketsInput = {
@@ -170698,6 +172351,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -171283,6 +172937,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutSetorInput = {
@@ -171316,6 +172971,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutSetorInput = {
@@ -171912,6 +173568,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutServicesInput
     clientInstances?: ClientServiceCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutProjectsInput = {
@@ -171929,6 +173586,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     clientInstances?: ClientServiceUncheckedCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutProjectsInput = {
@@ -172104,6 +173762,7 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
     materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
@@ -172114,6 +173773,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -172193,6 +173853,34 @@ export namespace Prisma {
 
   export type ProjectMaterialCreateManyProjectInputEnvelope = {
     data: ProjectMaterialCreateManyProjectInput | ProjectMaterialCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectServiceCreateWithoutProjectInput = {
+    id?: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    service?: ServiceCreateNestedOneWithoutProjectStepsInput
+    tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceUncheckedCreateWithoutProjectInput = {
+    id?: string
+    serviceId?: string | null
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceCreateOrConnectWithoutProjectInput = {
+    where: ProjectServiceWhereUniqueInput
+    create: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectServiceCreateManyProjectInputEnvelope = {
+    data: ProjectServiceCreateManyProjectInput | ProjectServiceCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -172508,6 +174196,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutServicesNestedInput
     clientInstances?: ClientServiceUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutProjectsInput = {
@@ -172525,6 +174214,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientInstances?: ClientServiceUncheckedUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
@@ -172689,6 +174379,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
   }
 
+  export type ProjectServiceUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectServiceWhereUniqueInput
+    update: XOR<ProjectServiceUpdateWithoutProjectInput, ProjectServiceUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectServiceCreateWithoutProjectInput, ProjectServiceUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectServiceUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectServiceWhereUniqueInput
+    data: XOR<ProjectServiceUpdateWithoutProjectInput, ProjectServiceUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectServiceUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectServiceScalarWhereInput
+    data: XOR<ProjectServiceUpdateManyMutationInput, ProjectServiceUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectServiceScalarWhereInput = {
+    AND?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+    OR?: ProjectServiceScalarWhereInput[]
+    NOT?: ProjectServiceScalarWhereInput | ProjectServiceScalarWhereInput[]
+    id?: StringFilter<"ProjectService"> | string
+    projectId?: StringFilter<"ProjectService"> | string
+    serviceId?: StringNullableFilter<"ProjectService"> | string | null
+    name?: StringNullableFilter<"ProjectService"> | string | null
+    order?: IntFilter<"ProjectService"> | number
+    createdAt?: DateTimeFilter<"ProjectService"> | Date | string
+  }
+
   export type SetorClickupListCreateWithoutInternalTasksInput = {
     id?: string
     clickupListId?: string | null
@@ -172720,6 +174438,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutInternalTasksInput = {
@@ -172753,11 +174472,35 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutInternalTasksInput = {
     where: SetorClickupListWhereUniqueInput
     create: XOR<SetorClickupListCreateWithoutInternalTasksInput, SetorClickupListUncheckedCreateWithoutInternalTasksInput>
+  }
+
+  export type ProjectServiceCreateWithoutTasksInput = {
+    id?: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
+    service?: ServiceCreateNestedOneWithoutProjectStepsInput
+  }
+
+  export type ProjectServiceUncheckedCreateWithoutTasksInput = {
+    id?: string
+    projectId: string
+    serviceId?: string | null
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+  }
+
+  export type ProjectServiceCreateOrConnectWithoutTasksInput = {
+    where: ProjectServiceWhereUniqueInput
+    create: XOR<ProjectServiceCreateWithoutTasksInput, ProjectServiceUncheckedCreateWithoutTasksInput>
   }
 
   export type UserCreateWithoutProjectTasksAssignedInput = {
@@ -173002,6 +174745,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutInternalTasksInput = {
@@ -173035,6 +174779,36 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectServiceUpsertWithoutTasksInput = {
+    update: XOR<ProjectServiceUpdateWithoutTasksInput, ProjectServiceUncheckedUpdateWithoutTasksInput>
+    create: XOR<ProjectServiceCreateWithoutTasksInput, ProjectServiceUncheckedCreateWithoutTasksInput>
+    where?: ProjectServiceWhereInput
+  }
+
+  export type ProjectServiceUpdateToOneWithWhereWithoutTasksInput = {
+    where?: ProjectServiceWhereInput
+    data: XOR<ProjectServiceUpdateWithoutTasksInput, ProjectServiceUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type ProjectServiceUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
+    service?: ServiceUpdateOneWithoutProjectStepsNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutProjectTasksAssignedInput = {
@@ -173225,6 +174999,316 @@ export namespace Prisma {
   export type ProjectMaterialUpdateManyWithWhereWithoutTaskInput = {
     where: ProjectMaterialScalarWhereInput
     data: XOR<ProjectMaterialUpdateManyMutationInput, ProjectMaterialUncheckedUpdateManyWithoutTaskInput>
+  }
+
+  export type SetorClickupListCreateWithoutServiceStepsInput = {
+    id?: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutClickupListsInput
+    clientCompany?: CompanyCreateNestedOneWithoutSetorClickupListsAsClientInput
+    service?: ServiceCreateNestedOneWithoutProjectsInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    tickets?: TicketCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListUncheckedCreateWithoutServiceStepsInput = {
+    id?: string
+    setorId: string
+    clickupListId?: string | null
+    name: string
+    description?: string | null
+    type?: string | null
+    clientCompanyId?: string | null
+    serviceId?: string | null
+    status?: $Enums.ProjectStatus
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    deliveredAt?: Date | string | null
+    visibility?: string
+    publicToken?: string | null
+    taskCount?: number
+    taskCompleted?: number
+    taskOverdue?: number
+    taskNoDueDate?: number
+    taskNoAssignee?: number
+    lastSyncedAt?: Date | string | null
+    clientExpectedAt?: Date | string | null
+    clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    taskStates?: ProjectTaskStateUncheckedCreateNestedManyWithoutProjectInput
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
+    internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
+    accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type SetorClickupListCreateOrConnectWithoutServiceStepsInput = {
+    where: SetorClickupListWhereUniqueInput
+    create: XOR<SetorClickupListCreateWithoutServiceStepsInput, SetorClickupListUncheckedCreateWithoutServiceStepsInput>
+  }
+
+  export type ServiceCreateWithoutProjectStepsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    qualifyingQuestions?: string | null
+    salesArguments?: string | null
+    references?: string | null
+    priceRange?: string | null
+    isActive?: boolean
+    showInClientArea?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutServicesInput
+    clientInstances?: ClientServiceCreateNestedManyWithoutServiceInput
+    projects?: SetorClickupListCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutProjectStepsInput = {
+    id?: string
+    companyId: string
+    name: string
+    description?: string | null
+    qualifyingQuestions?: string | null
+    salesArguments?: string | null
+    references?: string | null
+    priceRange?: string | null
+    isActive?: boolean
+    showInClientArea?: boolean
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientInstances?: ClientServiceUncheckedCreateNestedManyWithoutServiceInput
+    projects?: SetorClickupListUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutProjectStepsInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutProjectStepsInput, ServiceUncheckedCreateWithoutProjectStepsInput>
+  }
+
+  export type ProjectTaskCreateWithoutProjectServiceInput = {
+    id?: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    awaitingClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
+    createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
+    materials?: ProjectMaterialCreateNestedManyWithoutTaskInput
+  }
+
+  export type ProjectTaskUncheckedCreateWithoutProjectServiceInput = {
+    id?: string
+    projectId: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    awaitingClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdById?: string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    materials?: ProjectMaterialUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type ProjectTaskCreateOrConnectWithoutProjectServiceInput = {
+    where: ProjectTaskWhereUniqueInput
+    create: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput>
+  }
+
+  export type ProjectTaskCreateManyProjectServiceInputEnvelope = {
+    data: ProjectTaskCreateManyProjectServiceInput | ProjectTaskCreateManyProjectServiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SetorClickupListUpsertWithoutServiceStepsInput = {
+    update: XOR<SetorClickupListUpdateWithoutServiceStepsInput, SetorClickupListUncheckedUpdateWithoutServiceStepsInput>
+    create: XOR<SetorClickupListCreateWithoutServiceStepsInput, SetorClickupListUncheckedCreateWithoutServiceStepsInput>
+    where?: SetorClickupListWhereInput
+  }
+
+  export type SetorClickupListUpdateToOneWithWhereWithoutServiceStepsInput = {
+    where?: SetorClickupListWhereInput
+    data: XOR<SetorClickupListUpdateWithoutServiceStepsInput, SetorClickupListUncheckedUpdateWithoutServiceStepsInput>
+  }
+
+  export type SetorClickupListUpdateWithoutServiceStepsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutClickupListsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSetorClickupListsAsClientNestedInput
+    service?: ServiceUpdateOneWithoutProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+  }
+
+  export type SetorClickupListUncheckedUpdateWithoutServiceStepsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    clickupListId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visibility?: StringFieldUpdateOperationsInput | string
+    publicToken?: NullableStringFieldUpdateOperationsInput | string | null
+    taskCount?: IntFieldUpdateOperationsInput | number
+    taskCompleted?: IntFieldUpdateOperationsInput | number
+    taskOverdue?: IntFieldUpdateOperationsInput | number
+    taskNoDueDate?: IntFieldUpdateOperationsInput | number
+    taskNoAssignee?: IntFieldUpdateOperationsInput | number
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskStates?: ProjectTaskStateUncheckedUpdateManyWithoutProjectNestedInput
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
+    internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
+    accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ServiceUpsertWithoutProjectStepsInput = {
+    update: XOR<ServiceUpdateWithoutProjectStepsInput, ServiceUncheckedUpdateWithoutProjectStepsInput>
+    create: XOR<ServiceCreateWithoutProjectStepsInput, ServiceUncheckedCreateWithoutProjectStepsInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutProjectStepsInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutProjectStepsInput, ServiceUncheckedUpdateWithoutProjectStepsInput>
+  }
+
+  export type ServiceUpdateWithoutProjectStepsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    qualifyingQuestions?: NullableStringFieldUpdateOperationsInput | string | null
+    salesArguments?: NullableStringFieldUpdateOperationsInput | string | null
+    references?: NullableStringFieldUpdateOperationsInput | string | null
+    priceRange?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showInClientArea?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutServicesNestedInput
+    clientInstances?: ClientServiceUpdateManyWithoutServiceNestedInput
+    projects?: SetorClickupListUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutProjectStepsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    qualifyingQuestions?: NullableStringFieldUpdateOperationsInput | string | null
+    salesArguments?: NullableStringFieldUpdateOperationsInput | string | null
+    references?: NullableStringFieldUpdateOperationsInput | string | null
+    priceRange?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showInClientArea?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientInstances?: ClientServiceUncheckedUpdateManyWithoutServiceNestedInput
+    projects?: SetorClickupListUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ProjectTaskUpsertWithWhereUniqueWithoutProjectServiceInput = {
+    where: ProjectTaskWhereUniqueInput
+    update: XOR<ProjectTaskUpdateWithoutProjectServiceInput, ProjectTaskUncheckedUpdateWithoutProjectServiceInput>
+    create: XOR<ProjectTaskCreateWithoutProjectServiceInput, ProjectTaskUncheckedCreateWithoutProjectServiceInput>
+  }
+
+  export type ProjectTaskUpdateWithWhereUniqueWithoutProjectServiceInput = {
+    where: ProjectTaskWhereUniqueInput
+    data: XOR<ProjectTaskUpdateWithoutProjectServiceInput, ProjectTaskUncheckedUpdateWithoutProjectServiceInput>
+  }
+
+  export type ProjectTaskUpdateManyWithWhereWithoutProjectServiceInput = {
+    where: ProjectTaskScalarWhereInput
+    data: XOR<ProjectTaskUpdateManyMutationInput, ProjectTaskUncheckedUpdateManyWithoutProjectServiceInput>
   }
 
   export type TicketCreateWithoutAccessUsersInput = {
@@ -173546,6 +175630,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutAccessUsersInput = {
@@ -173579,6 +175664,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutAccessUsersInput = {
@@ -173709,6 +175795,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutAccessUsersInput = {
@@ -173742,6 +175829,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectAccessInput = {
@@ -173862,6 +175950,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutTaskStatesInput = {
@@ -173895,6 +175984,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutTaskStatesInput = {
@@ -173944,6 +176034,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutTaskStatesInput = {
@@ -173977,6 +176068,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutActivitiesInput = {
@@ -174010,6 +176102,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutActivitiesInput = {
@@ -174043,6 +176136,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutActivitiesInput = {
@@ -174092,6 +176186,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutActivitiesInput = {
@@ -174125,6 +176220,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListCreateWithoutMembersInput = {
@@ -174158,6 +176254,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMembersInput = {
@@ -174191,6 +176288,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMembersInput = {
@@ -174321,6 +176419,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMembersInput = {
@@ -174354,6 +176453,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembershipsInput = {
@@ -174474,6 +176574,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutMaterialsInput = {
@@ -174507,6 +176608,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutProjetoInput
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutMaterialsInput = {
@@ -174531,6 +176633,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutInternalTasksInput
+    projectService?: ProjectServiceCreateNestedOneWithoutTasksInput
     assignee?: UserCreateNestedOneWithoutProjectTasksAssignedInput
     createdBy?: UserCreateNestedOneWithoutProjectTasksCreatedInput
   }
@@ -174541,6 +176644,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -174603,6 +176707,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutMaterialsInput = {
@@ -174636,6 +176741,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutProjetoNestedInput
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectTaskUpsertWithoutMaterialsInput = {
@@ -174666,6 +176772,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
   }
@@ -174676,6 +176783,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197138,6 +199246,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListUncheckedCreateWithoutServiceInput = {
@@ -197171,6 +199280,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectInput
     accessUsers?: ProjectAccessUserUncheckedCreateNestedManyWithoutProjectInput
     materials?: ProjectMaterialUncheckedCreateNestedManyWithoutProjectInput
+    serviceSteps?: ProjectServiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type SetorClickupListCreateOrConnectWithoutServiceInput = {
@@ -197180,6 +199290,34 @@ export namespace Prisma {
 
   export type SetorClickupListCreateManyServiceInputEnvelope = {
     data: SetorClickupListCreateManyServiceInput | SetorClickupListCreateManyServiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectServiceCreateWithoutServiceInput = {
+    id?: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
+    tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceUncheckedCreateWithoutServiceInput = {
+    id?: string
+    projectId: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+    tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
+  }
+
+  export type ProjectServiceCreateOrConnectWithoutServiceInput = {
+    where: ProjectServiceWhereUniqueInput
+    create: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ProjectServiceCreateManyServiceInputEnvelope = {
+    data: ProjectServiceCreateManyServiceInput | ProjectServiceCreateManyServiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -197430,6 +199568,22 @@ export namespace Prisma {
     data: XOR<SetorClickupListUpdateManyMutationInput, SetorClickupListUncheckedUpdateManyWithoutServiceInput>
   }
 
+  export type ProjectServiceUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ProjectServiceWhereUniqueInput
+    update: XOR<ProjectServiceUpdateWithoutServiceInput, ProjectServiceUncheckedUpdateWithoutServiceInput>
+    create: XOR<ProjectServiceCreateWithoutServiceInput, ProjectServiceUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ProjectServiceUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ProjectServiceWhereUniqueInput
+    data: XOR<ProjectServiceUpdateWithoutServiceInput, ProjectServiceUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type ProjectServiceUpdateManyWithWhereWithoutServiceInput = {
+    where: ProjectServiceScalarWhereInput
+    data: XOR<ProjectServiceUpdateManyMutationInput, ProjectServiceUncheckedUpdateManyWithoutServiceInput>
+  }
+
   export type CompanyCreateWithoutClientServicesInput = {
     id?: string
     name: string
@@ -197654,6 +199808,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutServicesInput
     projects?: SetorClickupListCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutClientInstancesInput = {
@@ -197671,6 +199826,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     projects?: SetorClickupListUncheckedCreateNestedManyWithoutServiceInput
+    projectSteps?: ProjectServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutClientInstancesInput = {
@@ -197965,6 +200121,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutServicesNestedInput
     projects?: SetorClickupListUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutClientInstancesInput = {
@@ -197982,6 +200139,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: SetorClickupListUncheckedUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ClientInvoiceUpsertWithWhereUniqueWithoutClientServiceInput = {
@@ -198714,6 +200872,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -198734,6 +200893,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -199467,6 +201627,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
   }
@@ -199477,6 +201638,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199498,6 +201660,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199529,6 +201692,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
   }
@@ -199539,6 +201703,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199560,6 +201725,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201203,6 +203369,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutClientCompanyInput = {
@@ -201236,6 +203403,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -203874,6 +206042,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientInstances?: ClientServiceUpdateManyWithoutServiceNestedInput
     projects?: SetorClickupListUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutCompanyInput = {
@@ -203891,6 +206060,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientInstances?: ClientServiceUncheckedUpdateManyWithoutServiceNestedInput
     projects?: SetorClickupListUncheckedUpdateManyWithoutServiceNestedInput
+    projectSteps?: ProjectServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateManyWithoutCompanyInput = {
@@ -205917,6 +208087,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutSetorInput = {
@@ -205950,6 +208121,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutSetorInput = {
@@ -206036,6 +208208,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     stage?: string | null
+    projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -206067,6 +208240,14 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ProjectServiceCreateManyProjectInput = {
+    id?: string
+    serviceId?: string | null
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
   }
 
   export type ProjectMemberUpdateWithoutProjectInput = {
@@ -206250,6 +208431,7 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectService?: ProjectServiceUpdateOneWithoutTasksNestedInput
     assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
     createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
     materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
@@ -206260,6 +208442,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206281,6 +208464,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
+    projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206350,6 +208534,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProjectServiceUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: ServiceUpdateOneWithoutProjectStepsNestedInput
+    tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectMaterialCreateManyTaskInput = {
     id?: string
     projectId: string
@@ -206402,6 +208612,92 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectTaskCreateManyProjectServiceInput = {
+    id?: string
+    projectId: string
+    title: string
+    description?: string | null
+    stage?: string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: string | null
+    awaitingClient?: boolean
+    done?: boolean
+    priority?: $Enums.TicketPriority
+    startDate?: Date | string | null
+    dueDate?: Date | string | null
+    assigneeId?: string | null
+    createdById?: string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectTaskUpdateWithoutProjectServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutInternalTasksNestedInput
+    assignee?: UserUpdateOneWithoutProjectTasksAssignedNestedInput
+    createdBy?: UserUpdateOneWithoutProjectTasksCreatedNestedInput
+    materials?: ProjectMaterialUpdateManyWithoutTaskNestedInput
+  }
+
+  export type ProjectTaskUncheckedUpdateWithoutProjectServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    materials?: ProjectMaterialUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type ProjectTaskUncheckedUpdateManyWithoutProjectServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: NullableStringFieldUpdateOperationsInput | string | null
+    checklist?: NullableJsonNullValueInput | InputJsonValue
+    comments?: NullableJsonNullValueInput | InputJsonValue
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    done?: BoolFieldUpdateOperationsInput | boolean
+    priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -207476,6 +209772,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProjectServiceCreateManyServiceInput = {
+    id?: string
+    projectId: string
+    name?: string | null
+    order?: number
+    createdAt?: Date | string
+  }
+
   export type ClientServiceUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
@@ -207551,6 +209855,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateWithoutServiceInput = {
@@ -207584,6 +209889,7 @@ export namespace Prisma {
     internalTasks?: ProjectTaskUncheckedUpdateManyWithoutProjectNestedInput
     accessUsers?: ProjectAccessUserUncheckedUpdateManyWithoutProjectNestedInput
     materials?: ProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput
+    serviceSteps?: ProjectServiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type SetorClickupListUncheckedUpdateManyWithoutServiceInput = {
@@ -207610,6 +209916,32 @@ export namespace Prisma {
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectServiceUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
+    tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
+  }
+
+  export type ProjectServiceUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClientInvoiceCreateManyClientServiceInput = {
@@ -207745,6 +210077,10 @@ export namespace Prisma {
      * @deprecated Use ProjectTaskCountOutputTypeDefaultArgs instead
      */
     export type ProjectTaskCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectTaskCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectServiceCountOutputTypeDefaultArgs instead
+     */
+    export type ProjectServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectServiceCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CompanyAssetCountOutputTypeDefaultArgs instead
      */
@@ -207929,6 +210265,10 @@ export namespace Prisma {
      * @deprecated Use ProjectTaskDefaultArgs instead
      */
     export type ProjectTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectTaskDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectServiceDefaultArgs instead
+     */
+    export type ProjectServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectServiceDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TicketAccessUserDefaultArgs instead
      */

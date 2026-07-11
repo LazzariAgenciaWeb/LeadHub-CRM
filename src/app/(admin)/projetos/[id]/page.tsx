@@ -89,6 +89,7 @@ export default async function ProjectDetailPage({
     title:        t.title,
     description:  t.description,
     stage:        t.stage ?? null,
+    projectServiceId: t.projectServiceId ?? null,
     checklist:    readChecklist(t.checklist),
     comments:     readComments(t.comments),
     done:         t.done,
@@ -147,6 +148,17 @@ export default async function ProjectDetailPage({
     select:  { id: true, name: true },
   });
 
+  // Serviços em sequência deste projeto (etapas ordenadas do Gantt do cliente).
+  const serviceStepsRaw = await prisma.projectService.findMany({
+    where:   { projectId: project.id },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select:  { id: true, name: true, order: true, service: { select: { name: true } } },
+  });
+  const serviceSteps = serviceStepsRaw.map((s) => ({
+    id: s.id, order: s.order, name: s.name || s.service?.name || "Serviço",
+    taskCount: internalTasks.filter((t) => t.projectServiceId === s.id).length,
+  }));
+
   // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.
   const materials = await prisma.projectMaterial.findMany({
     where:   { projectId: project.id },
@@ -166,6 +178,7 @@ export default async function ProjectDetailPage({
       openTasks={openTasks}
       internalTasks={internalTasks}
       catalogServices={catalogServices}
+      serviceSteps={serviceSteps}
       currentServiceId={(project as any).serviceId ?? null}
       chamados={chamados.map((c) => ({
         id:           c.id,

@@ -1262,6 +1262,7 @@ model SetorClickupList {
   internalTasks ProjectTask[]
   accessUsers   ProjectAccessUser[]
   materials     ProjectMaterial[]
+  serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1275,20 +1276,24 @@ model SetorClickupList {
 // ir pro ClickUp NÃO usam este modelo: são criadas direto na lista do projeto
 // e aparecem via ProjectTaskState (snapshot do sync).
 model ProjectTask {
-  id             String           @id @default(cuid())
-  projectId      String
-  project        SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  title          String
-  description    String?          @db.Text
-  stage          String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — agrupa tarefas na visão do cliente
-  checklist      Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
-  comments       Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
-  clickupTaskId  String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
-  awaitingClient Boolean          @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
-  done           Boolean          @default(false)
-  priority       TicketPriority   @default(MEDIUM)
-  startDate      DateTime? // início — pro cliente acompanhar o cronograma
-  dueDate        DateTime? // fim / prazo
+  id               String           @id @default(cuid())
+  projectId        String
+  project          SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?          @db.Text
+  stage            String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — fallback quando não há serviço vinculado
+  // Serviço (etapa da sequência) ao qual a tarefa pertence. Quando preenchido, o
+  // Gantt do cliente agrupa a tarefa sob este serviço, na ordem definida no projeto.
+  projectService   ProjectService?  @relation(fields: [projectServiceId], references: [id], onDelete: SetNull)
+  projectServiceId String?
+  checklist        Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
+  comments         Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
+  clickupTaskId    String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
+  awaitingClient   Boolean          @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
+  done             Boolean          @default(false)
+  priority         TicketPriority   @default(MEDIUM)
+  startDate        DateTime? // início — pro cliente acompanhar o cronograma
+  dueDate          DateTime? // fim / prazo
 
   assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
   assigneeId String?
@@ -1304,6 +1309,26 @@ model ProjectTask {
 
   @@index([projectId, done])
   @@index([assigneeId])
+  @@index([projectServiceId])
+}
+
+// Serviço do catálogo entregue dentro de um projeto, com posição na sequência.
+// Um projeto pode empacotar vários (ex.: 01 Diagnóstico → 02 Planejamento → 03 Execução).
+// serviceId é opcional: permite uma etapa livre (só rótulo) sem serviço do catálogo.
+model ProjectService {
+  id        String           @id @default(cuid())
+  projectId String
+  project   SetorClickupList @relation("ProjectServicesList", fields: [projectId], references: [id], onDelete: Cascade)
+  serviceId String?
+  service   Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
+  name      String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+
+  tasks ProjectTask[]
+
+  @@index([projectId])
+  @@index([serviceId])
 }
 
 // Pessoas extras autorizadas a ver um chamado RESTRICTED (além do setor).
@@ -3038,7 +3063,8 @@ model Service {
   order            Int     @default(0)
 
   clientInstances ClientService[] // contratações deste serviço por clientes
-  projects        SetorClickupList[] @relation("ServiceProjects") // projetos que entregam este serviço
+  projects        SetorClickupList[] @relation("ServiceProjects") // projetos que entregam este serviço (carro-chefe)
+  projectSteps    ProjectService[]   @relation("ServiceProjectLinks") // etapas de projeto que entregam este serviço
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

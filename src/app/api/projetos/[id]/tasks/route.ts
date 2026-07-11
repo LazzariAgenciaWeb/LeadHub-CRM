@@ -50,10 +50,24 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.json();
-  const { destino, title, description, priority, dueDate, startDate, assigneeId, stage, checklist } = body;
+  const { destino, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, projectServiceId } = body;
   const start = startDate ? new Date(startDate) : null;
-  const stageClean = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
+  let stageClean = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   const checklistClean = sanitizeChecklist(checklist);
+
+  // Serviço/etapa da sequência (só destino interno). Valida e espelha o nome no stage.
+  let stepId: string | null = null;
+  if (projectServiceId) {
+    const step = await prisma.projectService.findUnique({
+      where: { id: String(projectServiceId) },
+      select: { projectId: true, name: true, service: { select: { name: true } } },
+    });
+    if (!step || step.projectId !== id) {
+      return NextResponse.json({ error: "Serviço inválido" }, { status: 400 });
+    }
+    stepId = String(projectServiceId);
+    if (!stageClean) stageClean = (step.name || step.service?.name || "").slice(0, 80) || null;
+  }
 
   if (!title || !String(title).trim()) {
     return NextResponse.json({ error: "Título é obrigatório" }, { status: 400 });
@@ -123,6 +137,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       title:       String(title).trim(),
       description: description ? String(description) : null,
       stage:       stageClean,
+      projectServiceId: stepId,
       checklist:   checklistClean ?? undefined,
       priority:    prio,
       startDate:   start && !Number.isNaN(start.getTime()) ? start : null,
