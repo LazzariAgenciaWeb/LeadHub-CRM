@@ -91,6 +91,7 @@ type InternalTask = {
   startDate:    string | null; // ISO — início
   dueDate:      string | null; // ISO — fim/prazo
   updatedAt:    string; // ISO — última atualização
+  clickupTaskId: string | null; // vínculo ClickUp (se importada)
   assigneeName: string | null;
 };
 
@@ -132,6 +133,21 @@ export default function ProjectDetail({
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+
+  // ClickUp: quais tarefas já foram importadas como interna (pra não duplicar).
+  const importedClickupIds = new Set(internalTasks.map((t) => t.clickupTaskId).filter((x): x is string => !!x));
+  const [importing, setImporting] = useState<string | null>(null);
+  async function importFromClickup(taskId: string) {
+    setImporting(taskId);
+    await fetch(`/api/projetos/${project.id}/tasks/import-clickup`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ taskId }),
+    }).catch(() => {});
+    setImporting(null);
+    router.refresh();
+  }
+
   const [form, setForm] = useState({
     name:        project.name,
     description: project.description ?? "",
@@ -328,31 +344,44 @@ export default function ProjectDetail({
                     <div className="space-y-1 max-h-[260px] overflow-y-auto pr-1">
                       {openTasks.map((t) => {
                         const overdue = t.dueDate !== null && t.dueDate < Date.now();
+                        const imported = importedClickupIds.has(t.taskId);
                         return (
-                          <a
+                          <div
                             key={t.id}
-                            href={`https://app.clickup.com/t/${t.taskId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-start gap-2 px-2 py-1.5 rounded hover:bg-[#080b12] group"
+                            className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-[#080b12] group"
                             title={t.statusName ?? undefined}
                           >
-                            <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
                               overdue ? "bg-red-400" : t.dueDate === null ? "bg-amber-400" : "bg-slate-500"
                             }`} />
-                            <span className="text-slate-200 text-xs flex-1 group-hover:text-white truncate">
+                            <a
+                              href={`https://app.clickup.com/t/${t.taskId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-slate-200 text-xs flex-1 min-w-0 group-hover:text-white truncate hover:underline"
+                            >
                               {t.name}
-                            </span>
+                            </a>
                             {t.dueDate !== null ? (
-                              <span className={`text-[10px] font-medium flex-shrink-0 ${
-                                overdue ? "text-red-300" : "text-slate-500"
-                              }`}>
+                              <span className={`text-[10px] font-medium flex-shrink-0 ${overdue ? "text-red-300" : "text-slate-500"}`}>
                                 {formatBrazilDate(new Date(t.dueDate))}
                               </span>
                             ) : (
                               <span className="text-[10px] text-amber-400 flex-shrink-0">sem prazo</span>
                             )}
-                          </a>
+                            {imported ? (
+                              <span className="text-[10px] text-emerald-400 flex-shrink-0 whitespace-nowrap">importada ✓</span>
+                            ) : (
+                              <button
+                                onClick={() => importFromClickup(t.taskId)}
+                                disabled={importing === t.taskId}
+                                className="text-[10px] px-2 py-0.5 rounded border border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10 flex-shrink-0 disabled:opacity-50 whitespace-nowrap"
+                                title="Importar como tarefa interna (aparece pro cliente)"
+                              >
+                                {importing === t.taskId ? "…" : "importar"}
+                              </button>
+                            )}
+                          </div>
                         );
                       })}
                     </div>

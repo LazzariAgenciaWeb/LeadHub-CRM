@@ -1275,18 +1275,19 @@ model SetorClickupList {
 // ir pro ClickUp NÃO usam este modelo: são criadas direto na lista do projeto
 // e aparecem via ProjectTaskState (snapshot do sync).
 model ProjectTask {
-  id          String           @id @default(cuid())
-  projectId   String
-  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  title       String
-  description String?          @db.Text
-  stage       String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — agrupa tarefas na visão do cliente
-  checklist   Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
-  comments    Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
-  done        Boolean          @default(false)
-  priority    TicketPriority   @default(MEDIUM)
-  startDate   DateTime? // início — pro cliente acompanhar o cronograma
-  dueDate     DateTime? // fim / prazo
+  id            String           @id @default(cuid())
+  projectId     String
+  project       SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?          @db.Text
+  stage         String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — agrupa tarefas na visão do cliente
+  checklist     Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
+  comments      Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
+  clickupTaskId String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
+  done          Boolean          @default(false)
+  priority      TicketPriority   @default(MEDIUM)
+  startDate     DateTime? // início — pro cliente acompanhar o cronograma
+  dueDate       DateTime? // fim / prazo
 
   assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
   assigneeId String?

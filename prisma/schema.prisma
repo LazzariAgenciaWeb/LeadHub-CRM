@@ -1283,6 +1283,7 @@ model ProjectTask {
   stage       String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — agrupa tarefas na visão do cliente
   checklist   Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
   comments    Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
+  clickupTaskId String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
   done        Boolean          @default(false)
   priority    TicketPriority   @default(MEDIUM)
   startDate   DateTime? // início — pro cliente acompanhar o cronograma
