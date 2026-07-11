@@ -199,6 +199,36 @@ export async function updateClickupTask({
   }
 }
 
+/** Busca a descrição (texto) de uma tarefa do ClickUp. Retorna "" se vazia/erro. */
+export async function fetchClickupTaskDescription(apiToken: string, taskId: string): Promise<string> {
+  if (!taskId) return "";
+  try {
+    const res = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!res.ok) return "";
+    const t = await res.json();
+    return String(t.text_content ?? t.description ?? "").trim();
+  } catch { return ""; }
+}
+
+/** Busca os comentários de uma tarefa do ClickUp como [{text, at}] (ordem cronológica). */
+export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string }[]> {
+  if (!taskId) return [];
+  try {
+    const res = await fetch(taskApiUrl(taskId, "/comment"), { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    const raw: any[] = data.comments ?? [];
+    const out = raw.map((c) => {
+      const text = String(c.comment_text ?? "").trim();
+      const ms = c.date ? Number(c.date) : NaN;
+      const at = Number.isFinite(ms) ? new Date(ms).toISOString() : new Date().toISOString();
+      return { text, at };
+    }).filter((c) => c.text);
+    // ClickUp devolve mais recente primeiro — invertemos pra ordem cronológica.
+    return out.reverse();
+  } catch { return []; }
+}
+
 /** Add a comment to a ClickUp task. Returns the new comment ID (string) or null on failure.
  *  O ID é guardado em TicketMessage.externalId pra dedup quando o webhook do
  *  ClickUp devolver o mesmo comentário. */

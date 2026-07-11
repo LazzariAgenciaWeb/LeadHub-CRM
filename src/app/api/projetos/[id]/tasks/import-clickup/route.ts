@@ -3,6 +3,8 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
+import { getClickupSettings, fetchClickupTaskDescription, fetchClickupTaskComments } from "@/lib/clickup";
+import { sanitizeComments } from "@/lib/checklist";
 
 // POST /api/projetos/[id]/tasks/import-clickup
 // Body: { taskId }  (ID da tarefa no ClickUp — vem do snapshot ProjectTaskState)
@@ -63,10 +65,25 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const due = state.dueDate != null ? new Date(Number(state.dueDate)) : null;
 
+  // Busca descrição + comentários direto no ClickUp (o snapshot não guarda isso).
+  let description: string | null = null;
+  let comments: { text: string; at: string }[] | null = null;
+  const settings = await getClickupSettings(project.setor.companyId);
+  if (settings) {
+    const [desc, cmts] = await Promise.all([
+      fetchClickupTaskDescription(settings.apiToken, taskId),
+      fetchClickupTaskComments(settings.apiToken, taskId),
+    ]);
+    description = desc || null;
+    comments = sanitizeComments(cmts);
+  }
+
   const task = await prisma.projectTask.create({
     data: {
       projectId:     id,
       title:         state.name,
+      description,
+      comments:      comments ?? undefined,
       done:          state.isCompleted,
       dueDate:       due && !Number.isNaN(due.getTime()) ? due : null,
       clickupTaskId: taskId,
