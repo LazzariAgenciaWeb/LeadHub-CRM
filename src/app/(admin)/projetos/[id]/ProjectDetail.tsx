@@ -911,9 +911,10 @@ function ChecklistEditor({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose }: { projectId: string; task: InternalTask; onClose: () => void }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[] }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
+  const [stage, setStage] = useState(task.stage ?? "");
   const [description, setDescription] = useState(task.description ?? "");
   const [startDate, setStartDate] = useState(task.startDate ? task.startDate.slice(0, 10) : "");
   const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.slice(0, 10) : "");
@@ -949,6 +950,7 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title:       title.trim(),
+        stage:       stage.trim() || null,
         description: description.trim() || null,
         startDate:   startDate ? new Date(startDate).toISOString() : null,
         dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
@@ -973,13 +975,24 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
 
   return (
     <div className="space-y-4">
-      <div>
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
+      <div className="grid sm:grid-cols-2 gap-3">
+        <div>
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
+        </div>
+        <div>
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Etapa</label>
+          <input list="etapas-list" value={stage} onChange={(e) => setStage(e.target.value)} placeholder="Ex.: Diagnóstico" className={inCls} />
+          <datalist id="etapas-list">{stageSuggestions.map((s) => <option key={s} value={s} />)}</datalist>
+        </div>
       </div>
       <div>
         <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê)</span></label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={5} placeholder="O que será feito nesta tarefa…" className={`${inCls} resize-y`} />
+      </div>
+      <div>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Checklist / sub-passos</label>
+        <ChecklistEditor projectId={projectId} taskId={task.id} initial={task.checklist} />
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
@@ -1256,23 +1269,20 @@ function ProjectTasksCard({
             const overdue = due && due < new Date() && !t.done;
             const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
             return (
-              <div key={t.id} className="flex items-start gap-2 px-5 py-2.5 hover:bg-[#080b12] group">
+              <div key={t.id} className="flex items-center gap-2 px-5 py-2.5 hover:bg-[#080b12] group">
                 <input
                   type="checkbox"
                   checked={t.done}
                   onChange={() => toggleDone(t)}
-                  className="w-4 h-4 mt-0.5 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
+                  className="w-4 h-4 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
+                  title="Concluir"
                 />
-                <div className="min-w-0 flex-1">
+                <button onClick={() => setEditingId(t.id)} className="min-w-0 flex-1 text-left cursor-pointer">
                   <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
                     {t.title}
                   </span>
                   <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
-                    <StageChip
-                      value={t.stage}
-                      suggestions={knownStages}
-                      onSave={(s) => saveStage(t, s)}
-                    />
+                    {t.stage && <span className="px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-medium">{t.stage}</span>}
                     <span className={prio.cls}>{prio.label}</span>
                     {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
                     {(start || due) && (
@@ -1280,27 +1290,17 @@ function ProjectTasksCard({
                         · {start ? formatBrazilDate(start) : "?"}{due ? ` → ${formatBrazilDate(due)}` : ""}
                       </span>
                     )}
-                    <span className="text-slate-700">· interna</span>
+                    {t.checklist.length > 0 && <span className="text-slate-600">· {t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span>}
+                    {t.comments.length > 0 && <span className="text-slate-600">· 💬 {t.comments.length}</span>}
                   </div>
-                  {t.description && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{t.description}</p>}
-                  <ChecklistEditor projectId={projectId} taskId={t.id} initial={t.checklist} />
-                </div>
-                <div className="flex gap-1 flex-shrink-0">
-                  <button
-                    onClick={() => setEditingId(editingId === t.id ? null : t.id)}
-                    className={`transition-opacity ${editingId === t.id ? "text-indigo-400" : "text-slate-600 hover:text-indigo-400 opacity-0 group-hover:opacity-100"}`}
-                    title="Editar tarefa"
-                  >
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    onClick={() => remove(t)}
-                    className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Excluir"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                </button>
+                <button
+                  onClick={() => remove(t)}
+                  className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                  title="Excluir"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
               </div>
             );
           })}
@@ -1316,13 +1316,13 @@ function ProjectTasksCard({
             <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2d45] flex-shrink-0">
                 <div className="min-w-0">
-                  <h3 className="text-white text-sm font-semibold truncate">Editar tarefa</h3>
-                  <p className="text-slate-500 text-xs truncate">{t.title}</p>
+                  <h3 className="text-white text-base font-semibold truncate">{t.title}</h3>
+                  <p className="text-slate-500 text-xs">Detalhes da tarefa · edite ou adicione o que precisar</p>
                 </div>
                 <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-6 py-5">
-                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} />
+                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} />
               </div>
             </div>
           </div>
