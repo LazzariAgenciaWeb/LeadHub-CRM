@@ -155,7 +155,8 @@ model Company {
   updatedAt DateTime      @updatedAt
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess      Boolean @default(false) // pode fazer login no portal?
+  hasSystemAccess      Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
+  fullSystemAccess     Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
   moduleWhatsapp       Boolean @default(false)
   moduleCrm            Boolean @default(true)
   moduleTickets        Boolean @default(false)

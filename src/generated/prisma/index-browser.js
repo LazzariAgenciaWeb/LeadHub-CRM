@@ -185,6 +185,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   hasSystemAccess: 'hasSystemAccess',
+  fullSystemAccess: 'fullSystemAccess',
   moduleWhatsapp: 'moduleWhatsapp',
   moduleCrm: 'moduleCrm',
   moduleTickets: 'moduleTickets',

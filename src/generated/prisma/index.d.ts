@@ -15887,6 +15887,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     hasSystemAccess: boolean | null
+    fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
     moduleCrm: boolean | null
     moduleTickets: boolean | null
@@ -15923,6 +15924,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     hasSystemAccess: boolean | null
+    fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
     moduleCrm: boolean | null
     moduleTickets: boolean | null
@@ -15959,6 +15961,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     hasSystemAccess: number
+    fullSystemAccess: number
     moduleWhatsapp: number
     moduleCrm: number
     moduleTickets: number
@@ -16007,6 +16010,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     hasSystemAccess?: true
+    fullSystemAccess?: true
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
@@ -16043,6 +16047,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     hasSystemAccess?: true
+    fullSystemAccess?: true
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
@@ -16079,6 +16084,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     hasSystemAccess?: true
+    fullSystemAccess?: true
     moduleWhatsapp?: true
     moduleCrm?: true
     moduleTickets?: true
@@ -16202,6 +16208,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     hasSystemAccess: boolean
+    fullSystemAccess: boolean
     moduleWhatsapp: boolean
     moduleCrm: boolean
     moduleTickets: boolean
@@ -16257,6 +16264,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -16361,6 +16369,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -16398,6 +16407,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -16579,6 +16589,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       hasSystemAccess: boolean
+      fullSystemAccess: boolean
       moduleWhatsapp: boolean
       moduleCrm: boolean
       moduleTickets: boolean
@@ -17072,6 +17083,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
     readonly hasSystemAccess: FieldRef<"Company", 'Boolean'>
+    readonly fullSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
     readonly moduleCrm: FieldRef<"Company", 'Boolean'>
     readonly moduleTickets: FieldRef<"Company", 'Boolean'>
@@ -111562,6 +111574,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     hasSystemAccess: 'hasSystemAccess',
+    fullSystemAccess: 'fullSystemAccess',
     moduleWhatsapp: 'moduleWhatsapp',
     moduleCrm: 'moduleCrm',
     moduleTickets: 'moduleTickets',
@@ -114236,6 +114249,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     hasSystemAccess?: BoolFilter<"Company"> | boolean
+    fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
@@ -114339,6 +114353,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     hasSystemAccess?: SortOrder
+    fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
@@ -114446,6 +114461,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     hasSystemAccess?: BoolFilter<"Company"> | boolean
+    fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
@@ -114548,6 +114564,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     hasSystemAccess?: SortOrder
+    fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
@@ -114592,6 +114609,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     hasSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
+    fullSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCrm?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleTickets?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -123196,6 +123214,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -123298,6 +123317,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -123400,6 +123420,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -123502,6 +123523,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -123604,6 +123626,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -123640,6 +123663,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -123675,6 +123699,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -133807,6 +133832,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     hasSystemAccess?: SortOrder
+    fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
@@ -133848,6 +133874,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     hasSystemAccess?: SortOrder
+    fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
@@ -133884,6 +133911,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     hasSystemAccess?: SortOrder
+    fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
     moduleCrm?: SortOrder
     moduleTickets?: SortOrder
@@ -149296,6 +149324,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -149397,6 +149426,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -150418,6 +150448,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -150519,6 +150550,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -151860,6 +151892,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -151961,6 +151994,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -152067,6 +152101,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -152168,6 +152203,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -155051,6 +155087,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -155152,6 +155189,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -155272,6 +155310,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     hasSystemAccess?: BoolFilter<"Company"> | boolean
+    fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
     moduleCrm?: BoolFilter<"Company"> | boolean
     moduleTickets?: BoolFilter<"Company"> | boolean
@@ -157382,6 +157421,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -157483,6 +157523,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -157844,6 +157885,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -157945,6 +157987,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -158151,6 +158194,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -158252,6 +158296,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -158554,6 +158599,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -158655,6 +158701,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -158884,6 +158931,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -158985,6 +159033,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -159548,6 +159597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -159649,6 +159699,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -160133,6 +160184,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -160234,6 +160286,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -160371,6 +160424,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -160472,6 +160526,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -160865,6 +160920,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -160966,6 +161022,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -161109,6 +161166,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -161210,6 +161268,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -161615,6 +161674,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -161716,6 +161776,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -161859,6 +161920,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -161960,6 +162022,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -162077,6 +162140,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -162178,6 +162242,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -162324,6 +162389,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -162425,6 +162491,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -162668,6 +162735,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -162769,6 +162837,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -163161,6 +163230,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -163262,6 +163332,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -163757,6 +163828,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -163858,6 +163930,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -163975,6 +164048,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -164076,6 +164150,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -164177,6 +164252,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -164278,6 +164354,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -164476,6 +164553,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -164577,6 +164655,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -164765,6 +164844,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -164866,6 +164946,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -165101,6 +165182,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -165202,6 +165284,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -165359,6 +165442,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -165460,6 +165544,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -165900,6 +165985,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -166001,6 +166087,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -166455,6 +166542,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -166556,6 +166644,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -166714,6 +166803,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -166815,6 +166905,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -167109,6 +167200,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -167210,6 +167302,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -167719,6 +167812,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -167820,6 +167914,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -168333,6 +168428,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -168434,6 +168530,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -168788,6 +168885,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -168889,6 +168987,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -168990,6 +169089,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -169091,6 +169191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -169278,6 +169379,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -169379,6 +169481,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -169803,6 +169906,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -169904,6 +170008,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -170103,6 +170208,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -170204,6 +170310,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -170725,6 +170832,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -170826,6 +170934,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -171177,6 +171286,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -171278,6 +171388,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -171524,6 +171635,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -171625,6 +171737,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -172108,6 +172221,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -172209,6 +172323,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -175035,6 +175150,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -175136,6 +175252,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -175303,6 +175420,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -175404,6 +175522,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -175727,6 +175846,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -175828,6 +175948,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -175996,6 +176117,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -176097,6 +176219,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -176198,6 +176321,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -176299,6 +176423,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -176450,6 +176575,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -176551,6 +176677,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -176699,6 +176826,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -176800,6 +176928,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -176954,6 +177083,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177055,6 +177185,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177156,6 +177287,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -177257,6 +177389,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -177374,6 +177507,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177475,6 +177609,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177576,6 +177711,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -177677,6 +177813,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -177794,6 +177931,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177895,6 +178033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -177996,6 +178135,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -178097,6 +178237,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -178214,6 +178355,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -178315,6 +178457,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -178416,6 +178559,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -178517,6 +178661,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -178778,6 +178923,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -178879,6 +179025,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -179028,6 +179175,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -179129,6 +179277,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -179335,6 +179484,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -179436,6 +179586,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -179604,6 +179755,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -179705,6 +179857,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -179918,6 +180071,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -180019,6 +180173,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -180228,6 +180383,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -180329,6 +180485,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -180521,6 +180678,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -180622,6 +180780,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -180888,6 +181047,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -180989,6 +181149,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -181106,6 +181267,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -181207,6 +181369,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -181308,6 +181471,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -181409,6 +181573,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -181526,6 +181691,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -181627,6 +181793,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -181728,6 +181895,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -181829,6 +181997,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -181946,6 +182115,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182047,6 +182217,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182148,6 +182319,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -182249,6 +182421,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -182366,6 +182539,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182467,6 +182641,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182568,6 +182743,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -182669,6 +182845,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -182786,6 +182963,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182887,6 +183065,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -182988,6 +183167,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -183089,6 +183269,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -183206,6 +183387,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -183307,6 +183489,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -183408,6 +183591,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -183509,6 +183693,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -183626,6 +183811,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -183727,6 +183913,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -183828,6 +184015,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -183929,6 +184117,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -184046,6 +184235,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -184147,6 +184337,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -184248,6 +184439,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -184349,6 +184541,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -184466,6 +184659,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -184567,6 +184761,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -184668,6 +184863,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -184769,6 +184965,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -184886,6 +185083,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -184987,6 +185185,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -185088,6 +185287,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -185189,6 +185389,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -185306,6 +185507,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -185407,6 +185609,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -185508,6 +185711,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -185609,6 +185813,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -185726,6 +185931,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -185827,6 +186033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -185928,6 +186135,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186029,6 +186237,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186146,6 +186355,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -186247,6 +186457,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -186348,6 +186559,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186449,6 +186661,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186566,6 +186779,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -186667,6 +186881,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -186768,6 +186983,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186869,6 +187085,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -186986,6 +187203,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -187087,6 +187305,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -187188,6 +187407,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -187289,6 +187509,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -187406,6 +187627,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -187507,6 +187729,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -187608,6 +187831,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -187709,6 +187933,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -187826,6 +188051,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -187927,6 +188153,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -188028,6 +188255,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -188129,6 +188357,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -188270,6 +188499,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -188371,6 +188601,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -188559,6 +188790,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -188660,6 +188892,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -188813,6 +189046,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -188914,6 +189148,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -189112,6 +189347,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -189213,6 +189449,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -189448,6 +189685,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -189549,6 +189787,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -189768,6 +190007,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -189869,6 +190109,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -190073,6 +190314,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -190174,6 +190416,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -190356,6 +190599,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -190457,6 +190701,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -190661,6 +190906,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -190762,6 +191008,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -190944,6 +191191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -191045,6 +191293,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -191249,6 +191498,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -191350,6 +191600,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -191451,6 +191702,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -191552,6 +191804,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -191669,6 +191922,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -191770,6 +192024,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -192207,6 +192462,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -192308,6 +192564,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -192425,6 +192682,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -192526,6 +192784,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -192627,6 +192886,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -192728,6 +192988,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -192907,6 +193168,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -193008,6 +193270,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -193152,6 +193415,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -193253,6 +193517,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -193642,6 +193907,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -193743,6 +194009,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -194448,6 +194715,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -194549,6 +194817,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -194666,6 +194935,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -194767,6 +195037,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -194868,6 +195139,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -194969,6 +195241,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -195086,6 +195359,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -195187,6 +195461,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -195288,6 +195563,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -195389,6 +195665,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -195660,6 +195937,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -195761,6 +196039,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -196010,6 +196289,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -196111,6 +196391,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -196265,6 +196546,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -196366,6 +196648,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -196510,6 +196793,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -196611,6 +196895,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -196844,6 +197129,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -196945,6 +197231,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -197078,6 +197365,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -197179,6 +197467,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -197381,6 +197670,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -197482,6 +197772,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -197644,6 +197935,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -197745,6 +198037,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -197897,6 +198190,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -197998,6 +198292,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -199378,6 +199673,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
     moduleCrm?: boolean
     moduleTickets?: boolean
@@ -200342,6 +200638,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -200443,6 +200740,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean
@@ -200544,6 +200842,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
     moduleCrm?: BoolFieldUpdateOperationsInput | boolean
     moduleTickets?: BoolFieldUpdateOperationsInput | boolean

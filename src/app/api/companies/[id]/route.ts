@@ -79,7 +79,7 @@ export async function PATCH(
   const {
     name, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
-    hasSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
+    hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleInstagram, serpapiKey,
     modoAtendimento,
     parentCompanyId,
@@ -91,6 +91,7 @@ export async function PATCH(
         ...(status !== undefined && { status }),
         ...(triggerOnly !== undefined && { triggerOnly }),
         ...(hasSystemAccess !== undefined && { hasSystemAccess }),
+        ...(fullSystemAccess !== undefined && { fullSystemAccess }),
         ...(moduleWhatsapp !== undefined && { moduleWhatsapp }),
         ...(moduleCrm !== undefined && { moduleCrm }),
         ...(moduleTickets !== undefined && { moduleTickets }),

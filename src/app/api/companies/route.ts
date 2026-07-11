@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
     website,
     // SUPER_ADMIN only
     hasSystemAccess,
+    fullSystemAccess,
     moduleWhatsapp,
     moduleCrm,
     moduleTickets,
@@ -121,6 +122,7 @@ export async function POST(request: NextRequest) {
   if (isSuperAdmin(session)) {
     // SUPER_ADMIN pode definir tudo
     if (hasSystemAccess !== undefined) data.hasSystemAccess = hasSystemAccess;
+    if (fullSystemAccess !== undefined) data.fullSystemAccess = fullSystemAccess;
     if (moduleWhatsapp !== undefined) data.moduleWhatsapp = moduleWhatsapp;
     if (moduleCrm !== undefined) data.moduleCrm = moduleCrm;
     if (moduleTickets !== undefined) data.moduleTickets = moduleTickets;

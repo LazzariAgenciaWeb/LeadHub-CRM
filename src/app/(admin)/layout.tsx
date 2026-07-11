@@ -33,9 +33,11 @@ export default async function AdminLayout({
   if (companyId && role !== "SUPER_ADMIN") {
     const company = await prisma.company.findUnique({
       where: { id: companyId },
-      select: { parentCompanyId: true },
+      select: { parentCompanyId: true, fullSystemAccess: true },
     });
     isClient = !!company?.parentCompanyId;
+    // Cliente sem acesso completo → só o Meu Espaço (não entra no sistema da agência).
+    if (isClient && !company?.fullSystemAccess) redirect("/meu-espaco");
   }
 
   return (

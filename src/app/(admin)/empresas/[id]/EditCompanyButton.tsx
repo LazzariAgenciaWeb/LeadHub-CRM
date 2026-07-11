@@ -15,6 +15,7 @@ interface Company {
   status: "ACTIVE" | "INACTIVE";
   triggerOnly: boolean;
   hasSystemAccess: boolean;
+  fullSystemAccess: boolean;
   moduleWhatsapp: boolean;
   moduleCrm: boolean;
   moduleTickets: boolean;
@@ -48,6 +49,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     status: company.status,
     triggerOnly: company.triggerOnly,
     hasSystemAccess: company.hasSystemAccess,
+    fullSystemAccess: company.fullSystemAccess,
     moduleWhatsapp: company.moduleWhatsapp,
     moduleCrm: company.moduleCrm,
     moduleTickets: company.moduleTickets,
@@ -82,6 +84,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.status = form.status;
         payload.triggerOnly = form.triggerOnly;
         payload.hasSystemAccess = form.hasSystemAccess;
+        payload.fullSystemAccess = form.fullSystemAccess;
         payload.moduleWhatsapp = form.moduleWhatsapp;
         payload.moduleCrm = form.moduleCrm;
         payload.moduleTickets = form.moduleTickets;
@@ -220,12 +223,26 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                         <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4" />
                       </div>
                       <div>
-                        <p className="text-sm text-white font-medium">Acesso ao portal</p>
-                        <p className="text-xs text-slate-500 mt-0.5">Pode fazer login e usar o LeadHub</p>
+                        <p className="text-sm text-white font-medium">Liberar acesso do cliente</p>
+                        <p className="text-xs text-slate-500 mt-0.5">Faz login e vê o <b className="text-slate-400">Meu Espaço</b> (acompanha serviços e atendimentos)</p>
                       </div>
                     </label>
 
                     {form.hasSystemAccess && (
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <div className="relative mt-0.5 shrink-0">
+                          <input type="checkbox" checked={form.fullSystemAccess} onChange={(e) => set("fullSystemAccess", e.target.checked)} className="sr-only peer" />
+                          <div className="w-9 h-5 bg-[#1e2d45] rounded-full peer-checked:bg-indigo-600 transition-colors" />
+                          <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-white font-medium">Acesso ao sistema completo</p>
+                          <p className="text-xs text-slate-500 mt-0.5">Além do Meu Espaço, acessa o LeadHub com os módulos. <b className="text-slate-400">Desligado = só o painel.</b></p>
+                        </div>
+                      </label>
+                    )}
+
+                    {form.hasSystemAccess && form.fullSystemAccess && (
                       <div>
                         <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">Módulos</p>
                         <div className="flex flex-col gap-2">
