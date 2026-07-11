@@ -92,6 +92,7 @@ type InternalTask = {
   dueDate:      string | null; // ISO — fim/prazo
   updatedAt:    string; // ISO — última atualização
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
+  awaitingClient: boolean; // aguardando resposta do cliente
   assigneeName: string | null;
 };
 
@@ -953,6 +954,18 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId:
   const [matMsg, setMatMsg] = useState("");
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
+  const [awaiting, setAwaiting] = useState(task.awaitingClient);
+
+  async function toggleAwaiting() {
+    const v = !awaiting;
+    setAwaiting(v);
+    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ awaitingClient: v }),
+    }).catch(() => {});
+    router.refresh();
+  }
 
   const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
@@ -1004,6 +1017,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions }: { projectId:
 
   return (
     <div className="space-y-4">
+      {/* Aguardando resposta do cliente */}
+      <button
+        type="button"
+        onClick={toggleAwaiting}
+        className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-colors ${
+          awaiting ? "bg-amber-500/10 border-amber-500/40" : "bg-[#0a0f1a] border-[#1e2d45] hover:border-amber-500/30"
+        }`}
+      >
+        <div className="relative shrink-0">
+          <div className={`w-9 h-5 rounded-full transition-colors ${awaiting ? "bg-amber-500" : "bg-[#1e2d45]"}`} />
+          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${awaiting ? "translate-x-4" : ""}`} />
+        </div>
+        <div>
+          <p className={`text-sm font-medium ${awaiting ? "text-amber-300" : "text-white"}`}>Aguardando resposta do cliente</p>
+          <p className="text-xs text-slate-500">Marca a tarefa como "Aguardando você" no painel — o cliente pode responder.</p>
+        </div>
+      </button>
+
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
           <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>

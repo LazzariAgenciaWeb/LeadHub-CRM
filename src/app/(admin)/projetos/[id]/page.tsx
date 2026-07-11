@@ -97,6 +97,7 @@ export default async function ProjectDetailPage({
     dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
     updatedAt:    t.updatedAt.toISOString(),
     clickupTaskId: t.clickupTaskId ?? null,
+    awaitingClient: t.awaitingClient,
     assigneeName: t.assignee?.name ?? null,
   }));
 

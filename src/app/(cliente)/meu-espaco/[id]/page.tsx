@@ -22,7 +22,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
       clientCompany: { select: { name: true } },
       internalTasks: {
         orderBy: [{ createdAt: "asc" }],
-        select: { id: true, title: true, description: true, stage: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true },
+        select: { id: true, title: true, description: true, stage: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
       },
       materials: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -36,7 +36,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
 
   const tasks = project.internalTasks.map((t) => ({
     id: t.id, title: t.title, description: t.description, stage: t.stage,
-    checklist: readChecklist(t.checklist), comments: readComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt,
+    checklist: readChecklist(t.checklist), comments: readComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
   }));
 
   return (

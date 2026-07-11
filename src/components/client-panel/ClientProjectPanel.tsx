@@ -1,4 +1,5 @@
 import type { ChecklistItem } from "@/lib/checklist";
+import TaskRespond from "./TaskRespond";
 
 /**
  * Painel premium do cliente para UM projeto/serviço. Reusado em dois lugares:
@@ -9,8 +10,9 @@ import type { ChecklistItem } from "@/lib/checklist";
 
 export type PanelTask = {
   id: string; title: string; description: string | null; stage: string | null;
-  checklist: ChecklistItem[]; comments: { text: string; at: string }[];
+  checklist: ChecklistItem[]; comments: { text: string; at: string; by?: "client" }[];
   done: boolean; startDate: Date | null; dueDate: Date | null; updatedAt: Date | null;
+  awaitingClient: boolean;
 };
 export type PanelMat = {
   id: string; kind: string; taskId: string | null; title: string;
@@ -105,6 +107,16 @@ const STYLE = `
 .tk.done .tkt{color:var(--ink2)}
 .tkmeta{font-size:12px;font-weight:650;color:var(--ink3);white-space:nowrap;flex:none}
 .tkmeta.ok{color:var(--ok)}.tkmeta.late{color:var(--warn)}
+.tkmeta.await{color:#0B0E14;background:var(--warn);padding:3px 10px;border-radius:99px;font-weight:700}
+.tkdot.await{background:var(--warn);box-shadow:0 0 0 4px rgba(245,181,100,.14)}
+.tkupd li.byclient{background:rgba(110,134,255,.05);margin:0 -6px;padding:2px 6px;border-radius:6px}
+.tkupd .uby{color:var(--accent);font-weight:700}
+.tkresp{margin-top:12px;padding:13px;border:1px solid rgba(245,181,100,.32);background:rgba(245,181,100,.06);border-radius:13px}
+.tkresp textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-size:13.5px;padding:9px 11px;outline:none;font-family:inherit;resize:vertical}
+.tkresp textarea:focus{border-color:var(--warn)}
+.tkresp button{margin-top:8px;background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border:none;border-radius:9px;font-weight:660;font-size:13px;padding:8px 16px;cursor:pointer}
+.tkresp button:disabled{opacity:.5;cursor:default}
+.tkresperr{color:#FCA5A5;font-size:12px;margin:6px 0 0}
 .tkdates{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:11.5px;font-weight:640;color:var(--ink3);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
 .tkdesc{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.6}
 .tkck{list-style:none;margin:11px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
@@ -260,20 +272,22 @@ export default function ClientProjectPanel({
 
   function TaskRow({ t }: { t: PanelTask }) {
     const overdue = !t.done && !!t.dueDate && new Date(t.dueDate) < now;
-    const dot = t.done ? "done" : overdue ? "late" : "todo";
+    const dot = t.done ? "done" : t.awaitingClient ? "await" : overdue ? "late" : "todo";
     const mats = matsByTask.get(t.id) ?? [];
     return (
       <div className={`tk ${t.done ? "done" : ""}`}>
         <div className="tkh">
-          <span className={`tkdot ${dot}`}>{t.done ? IconChk : overdue ? "!" : ""}</span>
+          <span className={`tkdot ${dot}`}>{t.done ? IconChk : (t.awaitingClient || overdue) ? "!" : ""}</span>
           <div className="tkmain">
             <div className="tktop">
               <span className="tkt">{t.title}</span>
               {t.done
                 ? <span className="tkmeta ok">Concluído</span>
-                : t.dueDate
-                  ? <span className={"tkmeta " + (overdue ? "late" : "")}>{overdue ? "Atrasado · " : "Prazo "}{fmtDM(new Date(t.dueDate))}</span>
-                  : <span className="tkmeta">Em andamento</span>}
+                : t.awaitingClient
+                  ? <span className="tkmeta await">Aguardando você</span>
+                  : t.dueDate
+                    ? <span className={"tkmeta " + (overdue ? "late" : "")}>{overdue ? "Atrasado · " : "Prazo "}{fmtDM(new Date(t.dueDate))}</span>
+                    : <span className="tkmeta">Em andamento</span>}
             </div>
             {(t.startDate || t.dueDate) && (
               <div className="tkdates">
@@ -297,14 +311,15 @@ export default function ClientProjectPanel({
             {t.comments.length > 0 && (
               <ul className="tkupd">
                 {t.comments.map((c, i) => (
-                  <li key={i}>
+                  <li key={i} className={c.by === "client" ? "byclient" : ""}>
                     <span className="ud">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
-                    <span className="ut">{c.text}</span>
+                    <span className="ut">{c.by === "client" && <b className="uby">Você:</b>} {c.text}</span>
                   </li>
                 ))}
               </ul>
             )}
             {mats.length > 0 && <div className="tkmats">{mats.map((m) => <TaskMat key={m.id} m={m} />)}</div>}
+            {t.awaitingClient && <TaskRespond taskId={t.id} />}
             {t.updatedAt && <div className="tkupat">Atualizado em {new Date(t.updatedAt).toLocaleDateString("pt-BR")}</div>}
           </div>
         </div>

@@ -41,7 +41,7 @@ export function readChecklist(raw: unknown): ChecklistItem[] {
 // ── Comentários / atualizações datadas de uma tarefa ────────────────────────
 // Guardado como Json na coluna `comments`: [{ text, at }] (at = data ISO).
 
-export type TaskComment = { text: string; at: string };
+export type TaskComment = { text: string; at: string; by?: "client" };
 
 const MAX_COMMENTS = 100;
 const MAX_COMMENT_TEXT = 2000;
@@ -56,7 +56,9 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     const rawAt = (it as any).at;
     const d = rawAt ? new Date(rawAt) : null;
     const at = d && !Number.isNaN(d.getTime()) ? d.toISOString() : new Date().toISOString();
-    out.push({ text, at });
+    const c: TaskComment = { text, at };
+    if ((it as any).by === "client") c.by = "client"; // resposta do cliente
+    out.push(c);
     if (out.length >= MAX_COMMENTS) break;
   }
   return out.length ? out : null;

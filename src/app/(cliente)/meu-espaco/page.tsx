@@ -44,7 +44,7 @@ export default async function MeuEspacoPage() {
     select: {
       id: true, name: true, description: true, status: true,
       service: { select: { name: true } },
-      internalTasks: { select: { done: true, dueDate: true } },
+      internalTasks: { select: { done: true, dueDate: true, awaitingClient: true } },
     },
   });
 
@@ -81,15 +81,16 @@ export default async function MeuEspacoPage() {
     const total = p.internalTasks.length;
     const done = p.internalTasks.filter((t) => t.done).length;
     const overdue = p.internalTasks.filter((t) => !t.done && t.dueDate && new Date(t.dueDate) < now).length;
+    const awaiting = p.internalTasks.filter((t) => t.awaitingClient).length;
     const pct = total ? Math.round((done / total) * 100) : 0;
     const nextDue = p.internalTasks
       .filter((t) => !t.done && t.dueDate && new Date(t.dueDate) >= now)
       .map((t) => new Date(t.dueDate as Date))
       .sort((a, b) => a.getTime() - b.getTime())[0] ?? null;
-    return { ...p, total, done, overdue, pct, nextDue, cover: COVERS[i % COVERS.length] };
+    return { ...p, total, done, overdue, awaiting, pct, nextDue, cover: COVERS[i % COVERS.length] };
   });
 
-  const attention = cards.filter((c) => c.status === "AGUARDANDO_CLIENTE" || c.overdue > 0);
+  const attention = cards.filter((c) => c.status === "AGUARDANDO_CLIENTE" || c.overdue > 0 || c.awaiting > 0);
   const attentionCount = attention.length;
 
   function Poster({ c }: { c: (typeof cards)[number] }) {
