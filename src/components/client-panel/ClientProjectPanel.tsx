@@ -1,5 +1,5 @@
 import type { ChecklistItem } from "@/lib/checklist";
-import TaskRespond from "./TaskRespond";
+import ServiceGantt from "./ServiceGantt";
 
 /**
  * Painel premium do cliente para UM projeto/serviço. Reusado em dois lugares:
@@ -20,7 +20,6 @@ export type PanelMat = {
 };
 
 const catOf = (kind: string) => (kind === "DOCUMENTO" ? "doc" : kind === "LINK" || kind === "ANEXO" ? "link" : "video");
-const fmtDM = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
 const KIND_LABEL: Record<string, string> = { DOCUMENTO: "Documento", REUNIAO: "Reunião", APOIO: "Apoio", LINK: "Link", ANEXO: "Anexo" };
 const CIRC = 2 * Math.PI * 32;
 
@@ -177,6 +176,63 @@ details>summary{list-style:none}details>summary::-webkit-details-marker{display:
 .foot b{color:var(--ink2);font-weight:650}
 .empty{color:var(--ink3);font-size:14px}
 svg{display:block}
+
+/* ===== GANTT ===== */
+.glegend{display:flex;gap:15px;flex-wrap:wrap;margin:0 2px 14px;font-size:12px;color:var(--ink2);align-items:center}
+.glegend span{display:inline-flex;align-items:center;gap:6px}
+.glegend i{width:12px;height:12px;border-radius:3px;flex:none}
+.gwrap{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));overflow-x:auto;box-shadow:0 24px 46px -34px rgba(0,0,0,.9)}
+.ginner{min-width:760px;position:relative}
+.ghead{display:flex;height:34px;border-bottom:1px solid var(--line)}
+.gcolh{width:230px;flex:none;display:flex;align-items:center;padding:0 16px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.gtime{flex:1;position:relative}
+.gmonth{position:absolute;top:0;height:34px;font-size:11px;font-weight:700;color:var(--ink3);padding:9px 0 0 8px;border-left:1px solid var(--line)}
+.ggrp{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;font-weight:800;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+.ggrp .pb{width:26px;height:21px;border-radius:6px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px;flex:none}
+.ggrp .gt{flex:1;min-width:0;letter-spacing:-.01em}
+.ggrp .tagm{font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;color:var(--ink3);background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.grow{display:flex;align-items:center;height:46px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.grow:hover{background:rgba(255,255,255,.04)}
+.grow:last-child{border-bottom:0}
+.gnm{width:230px;flex:none;padding:0 16px;overflow:hidden}
+.gnm .tn{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.gnm .td{font-size:11px;color:var(--ink3)}
+.gtk{flex:1;position:relative;height:100%}
+.gbar{position:absolute;top:50%;transform:translateY(-50%);height:22px;border-radius:7px;box-shadow:0 4px 10px -4px rgba(0,0,0,.6);overflow:hidden}
+.gbar.done{background:#10B981}
+.gbar.todo{background:#4B5563}
+.gbar.late{background:#F87171}
+.gbar.exec{background:rgba(110,134,255,.35)}
+.gbar.exec i{position:absolute;left:0;top:0;bottom:0;width:55%;background:#6E86FF}
+.gbar.wait{background:#F5B564;animation:gpulse 2.2s ease-in-out infinite}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 3px rgba(245,181,100,.22)}50%{box-shadow:0 0 0 7px rgba(245,181,100,.02)}}
+.gnodate{position:absolute;top:50%;left:12px;transform:translateY(-50%);font-size:11px;color:var(--ink3);font-style:italic}
+.gtoday{position:absolute;top:34px;bottom:0;width:0;border-left:2px dashed var(--warn);z-index:4;pointer-events:none}
+.gtoday span{position:absolute;top:2px;left:0;transform:translateX(-50%);font-size:9px;font-weight:800;letter-spacing:.06em;color:#0B0E14;background:var(--warn);padding:1px 7px;border-radius:5px}
+
+/* ===== MODAL TAREFA ===== */
+.gov{position:fixed;inset:0;background:rgba(6,7,12,.72);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:80;padding:18px}
+.gmodal{background:#0C0F17;border:1px solid var(--line2);border-radius:20px;width:100%;max-width:500px;max-height:92vh;overflow:auto;box-shadow:0 40px 90px -30px rgba(0,0,0,.9);position:relative}
+.gmodal .gx{position:absolute;top:13px;right:13px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink);display:grid;place-items:center;cursor:pointer;z-index:2}
+.gmh{padding:20px 20px 0}
+.gmchips{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.gmph{font-size:10.5px;font-weight:700;color:#fff;padding:3px 10px;border-radius:6px}
+.gmpill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:99px;border:1px solid transparent}
+.gmpill.done{color:var(--ok);background:rgba(79,209,160,.10);border-color:rgba(79,209,160,.24)}
+.gmpill.exec{color:#B6C4FF;background:rgba(110,134,255,.12);border-color:rgba(110,134,255,.28)}
+.gmpill.wait,.gmpill.late{color:var(--warn);background:rgba(245,181,100,.12);border-color:rgba(245,181,100,.30)}
+.gmpill.todo{color:var(--ink3);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.10)}
+.gmt{margin:0;font-size:20px;font-weight:760;letter-spacing:-.02em}
+.gmdt{display:flex;margin:16px 20px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.gmdt div{flex:1;padding:11px 15px}
+.gmdt div+div{border-left:1px solid var(--line)}
+.gmdt .k{font-size:11px;color:var(--ink3)}
+.gmdt .v{font-size:14px;font-weight:680;margin-top:2px}
+.gms{padding:16px 20px 0}
+.gms h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);margin:0 0 7px;font-weight:700}
+.gms p.desc{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.55}
+.gms .tkck,.gms .tkupd,.gms .tkmats{margin-top:0}
+.gmfoot{padding:10px 20px 20px}
 `;
 
 const FILTER_JS = `
@@ -192,16 +248,10 @@ document.querySelectorAll('.cp .chip').forEach(function(c){
   });
 });`;
 
-const IconDoc   = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>;
-const IconPlayS = <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4Z"/></svg>;
 const IconPlay  = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4Z"/></svg>;
-const IconLink  = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 15 15 9M10.5 6.5 12 5a4 4 0 0 1 6 6l-1.5 1.5M13.5 17.5 12 19a4 4 0 0 1-6-6l1.5-1.5"/></svg>;
 const IconLinkL = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 15 15 9M10.5 6.5 12 5a4 4 0 0 1 6 6l-1.5 1.5M13.5 17.5 12 19a4 4 0 0 1-6-6l1.5-1.5"/></svg>;
 const IconDocL  = <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>;
 const IconExt   = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>;
-const IconChk   = <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8"><path d="M20 6 9 17l-5-5"/></svg>;
-const IconChkS  = <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6 9 17l-5-5"/></svg>;
-const IconChv   = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>;
 
 export default function ClientProjectPanel({
   name, description, clientName, tasks, materials, embedded = false,
@@ -213,119 +263,9 @@ export default function ClientProjectPanel({
   materials: PanelMat[];
   embedded?: boolean;
 }) {
-  const now = new Date();
   const doneCount = tasks.filter((t) => t.done).length;
   const pct = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
-
-  const matsByTask = new Map<string, PanelMat[]>();
-  const looseMats: PanelMat[] = [];
-  for (const m of materials) {
-    if (m.taskId) {
-      const arr = matsByTask.get(m.taskId) ?? [];
-      arr.push(m);
-      matsByTask.set(m.taskId, arr);
-    } else looseMats.push(m);
-  }
-
-  const groups = new Map<string, PanelTask[]>();
-  for (const t of tasks) {
-    const key = t.stage?.trim() || "";
-    const arr = groups.get(key) ?? [];
-    arr.push(t);
-    groups.set(key, arr);
-  }
-  const etapas = Array.from(groups.entries()).map(([key, ts]) => {
-    const total = ts.length;
-    const done = ts.filter((t) => t.done).length;
-    const overdue = ts.filter((t) => !t.done && t.dueDate && new Date(t.dueDate) < now).length;
-    const allDone = total > 0 && done === total;
-    const status = allDone ? "done" : overdue > 0 ? "late" : done > 0 ? "prog" : "todo";
-    const p = total ? Math.round((done / total) * 100) : 0;
-    return { key, label: key || "Atividades", tasks: ts, total, done, overdue, allDone, status, pct: p };
-  });
-
-  function TaskMat({ m }: { m: PanelMat }) {
-    const cat = catOf(m.kind);
-    return (
-      <div className={`tkmat ${cat}`}>
-        <span className="ic">{cat === "video" ? IconPlayS : cat === "doc" ? IconDoc : IconLink}</span>
-        <div className="mt">
-          <div className="mtt">{m.title}</div>
-          <div className="mtk">{KIND_LABEL[m.kind] ?? m.kind}</div>
-          {m.docHtml && (
-            <details className="tkexp">
-              <summary className="go">Ver documento</summary>
-              <div className="doc" dangerouslySetInnerHTML={{ __html: m.docHtml }} />
-            </details>
-          )}
-          {m.ata && (
-            <details className="tkexp">
-              <summary className="go">Ata da reunião</summary>
-              <p className="ata">{m.ata}</p>
-            </details>
-          )}
-        </div>
-        {m.url && <a className="go" href={m.url} target="_blank" rel="noreferrer">{cat === "video" ? "Assistir" : "Abrir"} {IconExt}</a>}
-      </div>
-    );
-  }
-
-  function TaskRow({ t }: { t: PanelTask }) {
-    const overdue = !t.done && !!t.dueDate && new Date(t.dueDate) < now;
-    const dot = t.done ? "done" : t.awaitingClient ? "await" : overdue ? "late" : "todo";
-    const mats = matsByTask.get(t.id) ?? [];
-    return (
-      <div className={`tk ${t.done ? "done" : ""}`}>
-        <div className="tkh">
-          <span className={`tkdot ${dot}`}>{t.done ? IconChk : (t.awaitingClient || overdue) ? "!" : ""}</span>
-          <div className="tkmain">
-            <div className="tktop">
-              <span className="tkt">{t.title}</span>
-              {t.done
-                ? <span className="tkmeta ok">Concluído</span>
-                : t.awaitingClient
-                  ? <span className="tkmeta await">Aguardando você</span>
-                  : t.dueDate
-                    ? <span className={"tkmeta " + (overdue ? "late" : "")}>{overdue ? "Atrasado · " : "Prazo "}{fmtDM(new Date(t.dueDate))}</span>
-                    : <span className="tkmeta">Em andamento</span>}
-            </div>
-            {(t.startDate || t.dueDate) && (
-              <div className="tkdates">
-                {t.startDate ? fmtDM(new Date(t.startDate)) : "—"}
-                {" → "}
-                {t.dueDate ? fmtDM(new Date(t.dueDate)) : "—"}
-              </div>
-            )}
-            {t.description && <p className="tkdesc">{t.description}</p>}
-            {t.checklist.length > 0 && (
-              <ul className="tkck">
-                {t.checklist.map((c, i) => (
-                  <li key={i} className={c.done ? "on" : ""}>
-                    <span className="ck">{c.done ? IconChkS : ""}</span>
-                    <span className="ckt">{c.text}</span>
-                    {c.done && c.doneAt && <span className="ckd">{new Date(c.doneAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}</span>}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {t.comments.length > 0 && (
-              <ul className="tkupd">
-                {t.comments.map((c, i) => (
-                  <li key={i} className={c.by === "client" ? "byclient" : ""}>
-                    <span className="ud">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
-                    <span className="ut">{c.by === "client" && <b className="uby">Você:</b>} {c.text}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {mats.length > 0 && <div className="tkmats">{mats.map((m) => <TaskMat key={m.id} m={m} />)}</div>}
-            {t.awaitingClient && <TaskRespond taskId={t.id} />}
-            {t.updatedAt && <div className="tkupat">Atualizado em {new Date(t.updatedAt).toLocaleDateString("pt-BR")}</div>}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const looseMats = materials.filter((m) => !m.taskId);
 
   function Poster({ m }: { m: PanelMat }) {
     const cat = catOf(m.kind);
@@ -380,32 +320,13 @@ export default function ClientProjectPanel({
           )}
         </header>
 
-        {etapas.length > 0 && (
+        {tasks.length > 0 && (
           <section className="sec">
             <div className="sh">
-              <h2>O que estamos construindo</h2>
+              <h2>Andamento</h2>
               <span className="sc">{doneCount} de {tasks.length} entregas</span>
             </div>
-            <div className="journey">
-              {etapas.map((e, i) => (
-                <details key={e.key || "__none__"} className={`ch ${e.status}`} open={!e.allDone}>
-                  <summary className="chh">
-                    <span className="chnum">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="chmeta">
-                      <span className="chname">{e.label}</span>
-                      <span className="chbar"><i style={{ width: `${e.pct}%` }} /></span>
-                    </span>
-                    <span className={`chpill ${e.status}`}>
-                      {e.allDone ? "Concluída" : e.overdue > 0 ? `${e.overdue} em atraso` : `${e.done}/${e.total}`}
-                    </span>
-                    <span className="chchv">{IconChv}</span>
-                  </summary>
-                  <div className="chbody">
-                    {e.tasks.map((t) => <TaskRow key={t.id} t={t} />)}
-                  </div>
-                </details>
-              ))}
-            </div>
+            <ServiceGantt tasks={tasks} materials={materials} />
           </section>
         )}
 
