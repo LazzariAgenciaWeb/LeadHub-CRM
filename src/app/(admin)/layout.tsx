@@ -37,7 +37,8 @@ export default async function AdminLayout({
     });
     isClient = !!company?.parentCompanyId;
     // Cliente sem acesso completo → só o Meu Espaço (não entra no sistema da agência).
-    if (isClient && !company?.fullSystemAccess) redirect("/meu-espaco");
+    // EXCEÇÃO: quando é SUPER_ADMIN impersonando, não trava — ele está inspecionando.
+    if (isClient && !company?.fullSystemAccess && !impersonating) redirect("/meu-espaco");
   }
 
   return (
