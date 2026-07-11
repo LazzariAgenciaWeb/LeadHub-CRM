@@ -10,7 +10,7 @@ import type { ChecklistItem } from "@/lib/checklist";
 export type PanelTask = {
   id: string; title: string; description: string | null; stage: string | null;
   checklist: ChecklistItem[]; comments: { text: string; at: string }[];
-  done: boolean; startDate: Date | null; dueDate: Date | null;
+  done: boolean; startDate: Date | null; dueDate: Date | null; updatedAt: Date | null;
 };
 export type PanelMat = {
   id: string; kind: string; taskId: string | null; title: string;
@@ -112,6 +112,9 @@ const STYLE = `
 .tkck .ck{width:17px;height:17px;border-radius:50%;flex:none;display:grid;place-items:center;border:1.5px solid var(--line2);color:#08090C}
 .tkck li.on .ck{background:var(--ok);border-color:var(--ok)}
 .tkck li.on .ckt{color:var(--ink3);text-decoration:line-through}
+.tkck .ckt{flex:1;min-width:0}
+.tkck .ckd{flex:none;font-size:11px;font-weight:650;color:var(--ok);white-space:nowrap}
+.tkupat{margin-top:10px;font-size:11px;color:var(--ink3);font-style:italic}
 .tkupd{list-style:none;margin:11px 0 0;padding:11px 13px;border-left:2px solid var(--accent-line,rgba(110,134,255,.35));background:rgba(110,134,255,.05);border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:8px}
 .tkupd li{display:flex;gap:9px;font-size:12.5px;line-height:1.5}
 .tkupd .ud{color:var(--accent);font-weight:700;white-space:nowrap;flex:none;font-variant-numeric:tabular-nums}
@@ -286,6 +289,7 @@ export default function ClientProjectPanel({
                   <li key={i} className={c.done ? "on" : ""}>
                     <span className="ck">{c.done ? IconChkS : ""}</span>
                     <span className="ckt">{c.text}</span>
+                    {c.done && c.doneAt && <span className="ckd">{new Date(c.doneAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}</span>}
                   </li>
                 ))}
               </ul>
@@ -301,6 +305,7 @@ export default function ClientProjectPanel({
               </ul>
             )}
             {mats.length > 0 && <div className="tkmats">{mats.map((m) => <TaskMat key={m.id} m={m} />)}</div>}
+            {t.updatedAt && <div className="tkupat">Atualizado em {new Date(t.updatedAt).toLocaleDateString("pt-BR")}</div>}
           </div>
         </div>
       </div>

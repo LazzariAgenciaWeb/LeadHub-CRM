@@ -78,7 +78,7 @@ type OpenTask = {
   dueDate:    number | null; // epoch ms
 };
 
-type ChecklistItem = { text: string; done: boolean };
+type ChecklistItem = { text: string; done: boolean; doneAt: string | null };
 type InternalTask = {
   id:           string;
   title:        string;
@@ -90,6 +90,7 @@ type InternalTask = {
   priority:     string;
   startDate:    string | null; // ISO — início
   dueDate:      string | null; // ISO — fim/prazo
+  updatedAt:    string; // ISO — última atualização
   assigneeName: string | null;
 };
 
@@ -837,7 +838,6 @@ function ChecklistEditor({
 }) {
   const [items, setItems] = useState<ChecklistItem[]>(initial);
   const [text, setText] = useState("");
-  const [open, setOpen] = useState(initial.length > 0);
 
   async function persist(next: ChecklistItem[]) {
     setItems(next);
@@ -850,58 +850,58 @@ function ChecklistEditor({
   function add() {
     const t = text.trim();
     if (!t) return;
-    persist([...items, { text: t, done: false }]);
+    persist([...items, { text: t, done: false, doneAt: null }]);
     setText("");
+  }
+  function toggle(i: number) {
+    persist(items.map((x, idx) => {
+      if (idx !== i) return x;
+      const nowDone = !x.done;
+      return { ...x, done: nowDone, doneAt: nowDone ? new Date().toISOString() : null };
+    }));
   }
 
   const doneCount = items.filter((i) => i.done).length;
 
-  if (!open) {
-    return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="mt-1 text-[10px] text-slate-600 hover:text-indigo-300"
-      >
-        + checklist
-      </button>
-    );
-  }
-
   return (
-    <div className="mt-1.5 pl-0.5 space-y-1">
+    <div className="space-y-2">
       {items.length > 0 && (
-        <div className="text-[10px] text-slate-500">Checklist · {doneCount}/{items.length}</div>
+        <div className="text-[11px] text-slate-500 font-medium">{doneCount} de {items.length} concluído{doneCount === 1 ? "" : "s"}</div>
       )}
       {items.map((it, i) => (
-        <div key={i} className="flex items-center gap-2 group/ck">
+        <div key={i} className="flex items-center gap-2.5 group/ck bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2">
           <input
             type="checkbox"
             checked={it.done}
-            onChange={() => persist(items.map((x, idx) => (idx === i ? { ...x, done: !x.done } : x)))}
-            className="w-3.5 h-3.5 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
+            onChange={() => toggle(i)}
+            className="w-4 h-4 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
           />
-          <span className={`text-[11px] flex-1 ${it.done ? "text-slate-600 line-through" : "text-slate-300"}`}>{it.text}</span>
+          <span className={`text-sm flex-1 min-w-0 ${it.done ? "text-slate-500 line-through" : "text-slate-200"}`}>{it.text}</span>
+          {it.done && it.doneAt && (
+            <span className="text-[10px] text-emerald-500/90 whitespace-nowrap flex-shrink-0">
+              ✓ {new Date(it.doneAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+            </span>
+          )}
           <button
             onClick={() => persist(items.filter((_, idx) => idx !== i))}
             className="text-slate-600 hover:text-red-400 opacity-0 group-hover/ck:opacity-100 flex-shrink-0"
             title="Remover passo"
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       ))}
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(); } }}
-          placeholder="+ adicionar passo"
-          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded px-2 py-1 text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+          placeholder="Escreva um passo e clique em Adicionar…"
+          className="flex-1 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
         />
-        {text.trim() && (
-          <button onClick={add} className="text-[11px] px-2 py-1 rounded bg-indigo-600/80 hover:bg-indigo-500 text-white">add</button>
-        )}
+        <button onClick={add} disabled={!text.trim()} className="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-sm font-medium flex items-center gap-1 whitespace-nowrap">
+          <Plus className="w-4 h-4" /> Adicionar
+        </button>
       </div>
     </div>
   );
@@ -1317,7 +1317,7 @@ function ProjectTasksCard({
               <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2d45] flex-shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-white text-base font-semibold truncate">{t.title}</h3>
-                  <p className="text-slate-500 text-xs">Detalhes da tarefa · edite ou adicione o que precisar</p>
+                  <p className="text-slate-500 text-xs">Última atualização: {new Date(t.updatedAt).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" })}</p>
                 </div>
                 <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>

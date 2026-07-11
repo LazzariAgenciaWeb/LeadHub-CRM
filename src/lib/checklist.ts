@@ -2,14 +2,15 @@
 // Guardado como Json na coluna `checklist`: [{ text, done }].
 // Sem tabela/rota própria — normalizado aqui pra entrar/sair seguro.
 
-export type ChecklistItem = { text: string; done: boolean };
+export type ChecklistItem = { text: string; done: boolean; doneAt: string | null };
 
 const MAX_ITEMS = 50;
 const MAX_TEXT = 200;
 
 /**
  * Normaliza um valor cru (body do request ou Json do banco) numa lista limpa.
- * Descarta itens sem texto, corta tamanho e limita a quantidade.
+ * Descarta itens sem texto, corta tamanho e limita a quantidade. Guarda `doneAt`
+ * (data/hora de conclusão) só quando o item está concluído.
  * Retorna `null` se não sobrar nada (deixa a coluna limpa).
  */
 export function sanitizeChecklist(raw: unknown): ChecklistItem[] | null {
@@ -19,7 +20,14 @@ export function sanitizeChecklist(raw: unknown): ChecklistItem[] | null {
     if (!it || typeof it !== "object") continue;
     const text = String((it as any).text ?? "").trim().slice(0, MAX_TEXT);
     if (!text) continue;
-    items.push({ text, done: !!(it as any).done });
+    const done = !!(it as any).done;
+    let doneAt: string | null = null;
+    if (done) {
+      const rawAt = (it as any).doneAt;
+      const d = rawAt ? new Date(rawAt) : null;
+      doneAt = d && !Number.isNaN(d.getTime()) ? d.toISOString() : null;
+    }
+    items.push({ text, done, doneAt });
     if (items.length >= MAX_ITEMS) break;
   }
   return items.length ? items : null;

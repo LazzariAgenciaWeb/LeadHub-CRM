@@ -95,6 +95,7 @@ export default async function ProjectDetailPage({
     priority:     t.priority as string,
     startDate:    t.startDate ? t.startDate.toISOString() : null,
     dueDate:      t.dueDate ? t.dueDate.toISOString() : null,
+    updatedAt:    t.updatedAt.toISOString(),
     assigneeName: t.assignee?.name ?? null,
   }));
 
