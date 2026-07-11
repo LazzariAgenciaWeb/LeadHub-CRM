@@ -92,6 +92,9 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
   const taskGroup = new Map<string, { idx: number; label: string }>();
   allGroups.forEach((g, gi) => g.tasks.forEach((t) => taskGroup.set(t.id, { idx: gi, label: g.label })));
 
+  // tarefas com anexos, na ordem da sequência — listadas abaixo do Gantt
+  const tasksWithMats = allGroups.flatMap((g) => g.tasks).filter((t) => (matsByTask.get(t.id)?.length ?? 0) > 0);
+
   // eixo de tempo
   const spans = tasks.map(spanOf).filter((x): x is { s: number; e: number } => !!x);
   const hasDates = spans.length > 0;
@@ -222,6 +225,18 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
           })}
         </div>
       </div>
+
+      {tasksWithMats.length > 0 && (
+        <div className="gattach">
+          <div className="gattach-h">Anexos das entregas 📎</div>
+          {tasksWithMats.map((t) => (
+            <div key={t.id} className="gatt-task">
+              <div className="gatt-tt" onClick={() => setOpenId(t.id)}><span className="gdot" />{t.title}</div>
+              <div className="tkmats">{(matsByTask.get(t.id) ?? []).map((m) => <MatRow key={m.id} m={m} />)}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {openTask && (() => {
         const st = statusOf(openTask, now);

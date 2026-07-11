@@ -235,6 +235,15 @@ svg{display:block}
 .gms p.desc{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.55}
 .gms .tkck,.gms .tkupd,.gms .tkmats{margin-top:0}
 .gmfoot{padding:10px 20px 20px}
+
+/* ===== ANEXOS ABAIXO DO GANTT ===== */
+.gattach{margin-top:24px}
+.gattach-h{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0 2px 16px}
+.gatt-task{margin-bottom:16px}
+.gatt-tt{font-size:14px;font-weight:660;color:var(--ink);margin:0 2px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.gatt-tt:hover{color:#AFC0FF}
+.gatt-tt .gdot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 8px 1px rgba(110,134,255,.6)}
+.gatt-task .tkmats{margin-top:0}
 `;
 
 const FILTER_JS = `
