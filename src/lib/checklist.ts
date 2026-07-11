@@ -29,3 +29,31 @@ export function sanitizeChecklist(raw: unknown): ChecklistItem[] | null {
 export function readChecklist(raw: unknown): ChecklistItem[] {
   return sanitizeChecklist(raw) ?? [];
 }
+
+// ── Comentários / atualizações datadas de uma tarefa ────────────────────────
+// Guardado como Json na coluna `comments`: [{ text, at }] (at = data ISO).
+
+export type TaskComment = { text: string; at: string };
+
+const MAX_COMMENTS = 100;
+const MAX_COMMENT_TEXT = 2000;
+
+export function sanitizeComments(raw: unknown): TaskComment[] | null {
+  if (!Array.isArray(raw)) return null;
+  const out: TaskComment[] = [];
+  for (const it of raw) {
+    if (!it || typeof it !== "object") continue;
+    const text = String((it as any).text ?? "").trim().slice(0, MAX_COMMENT_TEXT);
+    if (!text) continue;
+    const rawAt = (it as any).at;
+    const d = rawAt ? new Date(rawAt) : null;
+    const at = d && !Number.isNaN(d.getTime()) ? d.toISOString() : new Date().toISOString();
+    out.push({ text, at });
+    if (out.length >= MAX_COMMENTS) break;
+  }
+  return out.length ? out : null;
+}
+
+export function readComments(raw: unknown): TaskComment[] {
+  return sanitizeComments(raw) ?? [];
+}

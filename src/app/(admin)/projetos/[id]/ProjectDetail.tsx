@@ -85,6 +85,7 @@ type InternalTask = {
   description:  string | null;
   stage:        string | null; // etapa/fase (rótulo)
   checklist:    ChecklistItem[]; // sub-passos
+  comments:     { text: string; at: string }[]; // atualizações datadas
   done:         boolean;
   priority:     string;
   startDate:    string | null; // ISO — início
@@ -920,8 +921,25 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
   const [matTitle, setMatTitle] = useState("");
   const [matUrl, setMatUrl] = useState("");
   const [matMsg, setMatMsg] = useState("");
+  const [comments, setComments] = useState(task.comments);
+  const [newComment, setNewComment] = useState("");
 
   const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
+
+  async function persistComments(next: { text: string; at: string }[]) {
+    setComments(next);
+    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ comments: next }),
+    }).catch(() => {});
+    router.refresh();
+  }
+  function addComment() {
+    if (!newComment.trim()) return;
+    persistComments([...comments, { text: newComment.trim(), at: new Date().toISOString() }]);
+    setNewComment("");
+  }
 
   async function save() {
     if (!title.trim()) return;
@@ -975,6 +993,32 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
           <button type="button" onClick={addMaterial} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
         </div>
         {matMsg && <p className="text-[10px] text-slate-500 mt-1">{matMsg}</p>}
+      </div>
+      <div className="pt-1 border-t border-[#1e2d45]">
+        <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-1">Atualizações / comentários (o cliente vê)</label>
+        {comments.length > 0 && (
+          <div className="space-y-1 mb-1.5">
+            {comments.map((c, i) => (
+              <div key={i} className="flex items-start gap-2 text-[11px] group/cm">
+                <span className="text-slate-600 whitespace-nowrap mt-0.5">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                <span className="text-slate-300 flex-1">{c.text}</span>
+                <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="flex gap-1.5">
+          <input
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addComment(); } }}
+            placeholder="Ex.: Aguardando o Google liberar (uns 3 dias)…"
+            className={inCls + " flex-1"}
+          />
+          <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
+        </div>
       </div>
       <div className="flex gap-2 pt-0.5">
         <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar"}</button>

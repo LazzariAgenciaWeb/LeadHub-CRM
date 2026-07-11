@@ -611,6 +611,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   description: 'description',
   stage: 'stage',
   checklist: 'checklist',
+  comments: 'comments',
   done: 'done',
   priority: 'priority',
   startDate: 'startDate',

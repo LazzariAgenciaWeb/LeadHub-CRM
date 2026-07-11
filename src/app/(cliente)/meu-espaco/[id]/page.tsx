@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getEffectiveSession } from "@/lib/effective-session";
-import { readChecklist } from "@/lib/checklist";
+import { readChecklist, readComments } from "@/lib/checklist";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import ClientProjectPanel from "@/components/client-panel/ClientProjectPanel";
@@ -22,7 +22,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
       clientCompany: { select: { name: true } },
       internalTasks: {
         orderBy: [{ createdAt: "asc" }],
-        select: { id: true, title: true, description: true, stage: true, checklist: true, done: true, startDate: true, dueDate: true },
+        select: { id: true, title: true, description: true, stage: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true },
       },
       materials: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -36,7 +36,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
 
   const tasks = project.internalTasks.map((t) => ({
     id: t.id, title: t.title, description: t.description, stage: t.stage,
-    checklist: readChecklist(t.checklist), done: t.done, startDate: t.startDate, dueDate: t.dueDate,
+    checklist: readChecklist(t.checklist), comments: readComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate,
   }));
 
   return (

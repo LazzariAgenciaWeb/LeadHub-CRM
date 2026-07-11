@@ -1,7 +1,7 @@
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getViewer, canSeeProject } from "@/lib/visibility";
-import { readChecklist } from "@/lib/checklist";
+import { readChecklist, readComments } from "@/lib/checklist";
 import { notFound } from "next/navigation";
 import ProjectDetail from "./ProjectDetail";
 import ProjectMateriais from "./ProjectMateriais";
@@ -90,6 +90,7 @@ export default async function ProjectDetailPage({
     description:  t.description,
     stage:        t.stage ?? null,
     checklist:    readChecklist(t.checklist),
+    comments:     readComments(t.comments),
     done:         t.done,
     priority:     t.priority as string,
     startDate:    t.startDate ? t.startDate.toISOString() : null,
