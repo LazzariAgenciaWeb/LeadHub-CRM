@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, Pencil, Plus, Link2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, Pencil, Plus, Link2, X } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
 import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
@@ -924,7 +924,7 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
 
-  const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
+  const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
   async function persistComments(next: { text: string; at: string }[]) {
     setComments(next);
@@ -972,21 +972,27 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
   }
 
   return (
-    <div className="mt-2 p-3 rounded-lg bg-[#0a0f1a] border border-indigo-500/30 space-y-2">
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
-      <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} placeholder="Descrição (o cliente vê)" className={`${inCls} resize-y`} />
+    <div className="space-y-4">
+      <div>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Título</label>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Título" className={inCls} />
+      </div>
+      <div>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê)</span></label>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={5} placeholder="O que será feito nesta tarefa…" className={`${inCls} resize-y`} />
+      </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-0.5">Início</label>
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Início</label>
           <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inCls} />
         </div>
         <div>
-          <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-0.5">Fim / prazo</label>
+          <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-0.5">Fim / prazo</label>
           <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className={inCls} />
         </div>
       </div>
       <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-500 text-[9px] uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Adicionar link / anexo na tarefa</label>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Adicionar link / anexo na tarefa</label>
         <div className="flex gap-1.5">
           <input value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título" className={inCls + " flex-1"} />
           <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls + " flex-1"} />
@@ -995,7 +1001,7 @@ function TaskEditor({ projectId, task, onClose }: { projectId: string; task: Int
         {matMsg && <p className="text-[10px] text-slate-500 mt-1">{matMsg}</p>}
       </div>
       <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-500 text-[9px] uppercase tracking-wide block mb-1">Atualizações / comentários (o cliente vê)</label>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Atualizações / comentários (o cliente vê)</label>
         {comments.length > 0 && (
           <div className="space-y-1 mb-1.5">
             {comments.map((c, i) => (
@@ -1049,6 +1055,13 @@ function ProjectTasksCard({
     title: "", description: "", stage: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!editingId) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setEditingId(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [editingId]);
 
   // Etapas já usadas neste projeto — vira sugestão (datalist) pra reaproveitar rótulos.
   const knownStages = Array.from(
@@ -1271,7 +1284,6 @@ function ProjectTasksCard({
                   </div>
                   {t.description && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{t.description}</p>}
                   <ChecklistEditor projectId={projectId} taskId={t.id} initial={t.checklist} />
-                  {editingId === t.id && <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} />}
                 </div>
                 <div className="flex gap-1 flex-shrink-0">
                   <button
@@ -1294,6 +1306,28 @@ function ProjectTasksCard({
           })}
         </div>
       )}
+
+      {/* Modal de edição da tarefa (85% da tela) */}
+      {editingId && (() => {
+        const t = internalTasks.find((x) => x.id === editingId);
+        if (!t) return null;
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setEditingId(null)}>
+            <div className="w-[85vw] h-[85vh] max-w-5xl bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e2d45] flex-shrink-0">
+                <div className="min-w-0">
+                  <h3 className="text-white text-sm font-semibold truncate">Editar tarefa</h3>
+                  <p className="text-slate-500 text-xs truncate">{t.title}</p>
+                </div>
+                <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
+              </div>
+              <div className="flex-1 overflow-y-auto px-6 py-5">
+                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} />
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
