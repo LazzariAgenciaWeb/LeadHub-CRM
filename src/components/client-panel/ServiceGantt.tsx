@@ -27,6 +27,9 @@ const IconLink = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" str
 const IconExt = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>;
 const IconX = <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12" /></svg>;
 const IconChkS = <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6 9 17l-5-5" /></svg>;
+const IconPlayBig = <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: 3 }}><path d="M7 4v16l13-8L7 4Z" /></svg>;
+const IconDocBig = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></svg>;
+const IconLinkBig = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M9 15 15 9M10.5 6.5 12 5a4 4 0 0 1 6 6l-1.5 1.5M13.5 17.5 12 19a4 4 0 0 1-6-6l1.5-1.5" /></svg>;
 
 type Span = { s: number; e: number } | null;
 const spanOf = (t: PanelTask): Span => {
@@ -92,8 +95,10 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
   const taskGroup = new Map<string, { idx: number; label: string }>();
   allGroups.forEach((g, gi) => g.tasks.forEach((t) => taskGroup.set(t.id, { idx: gi, label: g.label })));
 
-  // tarefas com anexos, na ordem da sequência — listadas abaixo do Gantt
-  const tasksWithMats = allGroups.flatMap((g) => g.tasks).filter((t) => (matsByTask.get(t.id)?.length ?? 0) > 0);
+  // anexos de todas as tarefas, na ordem da sequência — pôsteres abaixo do Gantt
+  const taskMats = allGroups
+    .flatMap((g) => g.tasks)
+    .flatMap((t) => (matsByTask.get(t.id) ?? []).map((m) => ({ m, taskTitle: t.title })));
 
   // eixo de tempo
   const spans = tasks.map(spanOf).filter((x): x is { s: number; e: number } => !!x);
@@ -130,6 +135,27 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
     const left = frac(sp.s) * 100;
     const width = Math.max(((sp.e - sp.s) / range) * 100, 1.4);
     return <div className={`gbar ${st}`} style={{ left: `${left}%`, width: `${width}%` }}>{st === "exec" && <i />}</div>;
+  }
+
+  function MatPoster({ m, taskTitle }: { m: PanelMat; taskTitle: string }) {
+    const cat = catOf(m.kind);
+    const cover = (
+      <div className="acov">
+        <span className="akt">{KIND_LABEL[m.kind] ?? m.kind}</span>
+        {cat === "video" ? <span className="aplay">{IconPlayBig}</span> : <span className="aic">{cat === "doc" ? IconDocBig : IconLinkBig}</span>}
+      </div>
+    );
+    const body = (
+      <div className="abody">
+        <div className="atitle">{m.title}</div>
+        <div className="asub">{taskTitle}</div>
+      </div>
+    );
+    // Com link externo → abre direto. Só documento/ata → abre o modal da tarefa.
+    if (m.url) {
+      return <a className={`aposter ${cat}`} href={m.url} target="_blank" rel="noreferrer">{cover}{body}</a>;
+    }
+    return <div className={`aposter ${cat}`} role="button" onClick={() => m.taskId && setOpenId(m.taskId)}>{cover}{body}</div>;
   }
 
   function MatRow({ m }: { m: PanelMat }) {
@@ -226,15 +252,12 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
         </div>
       </div>
 
-      {tasksWithMats.length > 0 && (
+      {taskMats.length > 0 && (
         <div className="gattach">
           <div className="gattach-h">Anexos das entregas 📎</div>
-          {tasksWithMats.map((t) => (
-            <div key={t.id} className="gatt-task">
-              <div className="gatt-tt" onClick={() => setOpenId(t.id)}><span className="gdot" />{t.title}</div>
-              <div className="tkmats">{(matsByTask.get(t.id) ?? []).map((m) => <MatRow key={m.id} m={m} />)}</div>
-            </div>
-          ))}
+          <div className="arail">
+            {taskMats.map(({ m, taskTitle }) => <MatPoster key={m.id} m={m} taskTitle={taskTitle} />)}
+          </div>
         </div>
       )}
 
