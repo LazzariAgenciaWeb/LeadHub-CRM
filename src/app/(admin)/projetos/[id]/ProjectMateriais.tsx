@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users, X } from "lucide-react";
+import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users, X, Star } from "lucide-react";
 
 type Task = { id: string; title: string };
 type Material = {
   id: string; kind: string; taskId: string | null; stage: string | null;
   title: string; docHtml: string | null; url: string | null; ata: string | null;
+  featured: boolean;
 };
 
 const KIND_OPTS = [
@@ -49,12 +50,13 @@ export default function ProjectMateriais({
   const [url, setUrl] = useState("");
   const [docHtml, setDocHtml] = useState("");
   const [ata, setAta] = useState("");
+  const [featured, setFeatured] = useState(false);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
 
   // Abre o modal; `preTask` pré-seleciona a tarefa (""=no projeto).
   function openModal(preTask: string) {
-    setErr(""); setTitle(""); setUrl(""); setDocHtml(""); setAta("");
+    setErr(""); setTitle(""); setUrl(""); setDocHtml(""); setAta(""); setFeatured(false);
     setTaskId(preTask);
     setModalOpen(true);
   }
@@ -75,7 +77,7 @@ export default function ProjectMateriais({
       const res = await fetch(`/api/projetos/${projectId}/materiais`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          kind, taskId: taskId || undefined, title,
+          kind, taskId: taskId || undefined, title, featured,
           url: kind === "DOCUMENTO" ? undefined : url,
           docHtml: kind === "DOCUMENTO" ? docHtml : undefined,
           ata: kind === "REUNIAO" ? ata : undefined,
@@ -95,17 +97,37 @@ export default function ProjectMateriais({
     await fetch(`/api/projetos/${projectId}/materiais/${mid}`, { method: "DELETE" });
   }
 
+  async function toggleFeatured(m: Material) {
+    const v = !m.featured;
+    setMaterials((ms) => ms.map((x) => (x.id === m.id ? { ...x, featured: v } : x)));
+    await fetch(`/api/projetos/${projectId}/materiais/${m.id}`, {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ featured: v }),
+    }).catch(() => {});
+  }
+
   const loose = materials.filter((m) => !m.taskId);
 
   function MaterialRow({ m }: { m: Material }) {
     const Icon = KIND_ICON[m.kind] ?? Link2;
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-2.5 flex items-center gap-3">
+      <div className={`rounded-lg border p-2.5 flex items-center gap-3 ${m.featured ? "border-amber-500/40 bg-amber-500/5" : "border-slate-800 bg-slate-900/50"}`}>
         <Icon className="w-4 h-4 text-indigo-400 flex-none" />
         <div className="min-w-0 flex-1">
-          <div className="text-slate-200 text-sm truncate">{m.title}</div>
+          <div className="text-slate-200 text-sm truncate flex items-center gap-1.5">
+            {m.title}
+            {m.featured && <span className="text-[10px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded px-1.5 py-0.5 flex-none">Destaque</span>}
+          </div>
           {m.url && <div className="text-slate-500 text-[11px] truncate">{m.url}</div>}
         </div>
+        <button
+          onClick={() => toggleFeatured(m)}
+          className={`flex-none ${m.featured ? "text-amber-400" : "text-slate-600 hover:text-amber-400"}`}
+          aria-label={m.featured ? "Tirar destaque" : "Destacar"}
+          title={m.featured ? "Tirar dos destaques" : "Destacar pro cliente"}
+        >
+          <Star className="w-4 h-4" fill={m.featured ? "currentColor" : "none"} />
+        </button>
         {m.url && (
           <a href={m.url} target="_blank" rel="noreferrer" className="text-slate-500 hover:text-indigo-400 flex-none" aria-label="Abrir">
             <ExternalLink className="w-4 h-4" />
@@ -247,6 +269,12 @@ export default function ProjectMateriais({
                   <textarea value={ata} onChange={(e) => setAta(e.target.value)} rows={3} className={inputCls + " mt-1"} placeholder="Resumo da reunião…" />
                 </div>
               )}
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} className="accent-amber-500 w-4 h-4" />
+                <span className="text-slate-300 text-sm flex items-center gap-1.5">
+                  <Star className="w-4 h-4 text-amber-400" fill={featured ? "currentColor" : "none"} /> Destacar (material principal — aparece em evidência no topo do painel do cliente)
+                </span>
+              </label>
               {err && <p className="text-red-400 text-xs">{err}</p>}
             </div>
 

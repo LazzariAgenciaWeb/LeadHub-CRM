@@ -1429,6 +1429,7 @@ model ProjectMaterial {
   docHtml   String?          @db.Text // DOCUMENTO: HTML inline
   url       String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
   ata       String?          @db.Text // resumo/ata (reuniões)
+  featured  Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
   order     Int              @default(0)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt

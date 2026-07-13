@@ -33,7 +33,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if ("error" in owned) return owned.error;
 
   const body = await req.json();
-  const { kind, taskId, stage, title, docHtml, url, ata, order } = body;
+  const { kind, taskId, stage, title, docHtml, url, ata, order, featured } = body;
   if (!kind || !KINDS.includes(kind)) {
     return NextResponse.json({ error: "kind inválido" }, { status: 400 });
   }
@@ -59,6 +59,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       docHtml: typeof docHtml === "string" && docHtml.trim() ? docHtml : null,
       url:     typeof url === "string" && url.trim() ? url.trim() : null,
       ata:     typeof ata === "string" && ata.trim() ? ata : null,
+      featured: !!featured,
       order:   Number.isInteger(order) ? order : 0,
     },
   });

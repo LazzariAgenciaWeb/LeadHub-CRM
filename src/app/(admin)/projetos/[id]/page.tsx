@@ -163,7 +163,7 @@ export default async function ProjectDetailPage({
   const materials = await prisma.projectMaterial.findMany({
     where:   { projectId: project.id },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true },
+    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true },
   });
 
   return (

@@ -38,6 +38,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (body.url     !== undefined) data.url     = body.url ? String(body.url).trim() : null;
   if (body.ata     !== undefined) data.ata     = body.ata || null;
   if (body.stage   !== undefined) data.stage   = body.stage ? String(body.stage).trim() : null;
+  if (body.featured !== undefined) data.featured = !!body.featured;
   if (Number.isInteger(body.order)) data.order = body.order;
   if (body.taskId !== undefined) {
     // null solta o material no projeto; senão a tarefa precisa ser deste projeto.

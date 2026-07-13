@@ -54253,6 +54253,7 @@ export namespace Prisma {
     docHtml: string | null
     url: string | null
     ata: string | null
+    featured: boolean | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -54268,6 +54269,7 @@ export namespace Prisma {
     docHtml: string | null
     url: string | null
     ata: string | null
+    featured: boolean | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -54283,6 +54285,7 @@ export namespace Prisma {
     docHtml: number
     url: number
     ata: number
+    featured: number
     order: number
     createdAt: number
     updatedAt: number
@@ -54308,6 +54311,7 @@ export namespace Prisma {
     docHtml?: true
     url?: true
     ata?: true
+    featured?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54323,6 +54327,7 @@ export namespace Prisma {
     docHtml?: true
     url?: true
     ata?: true
+    featured?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54338,6 +54343,7 @@ export namespace Prisma {
     docHtml?: true
     url?: true
     ata?: true
+    featured?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54440,6 +54446,7 @@ export namespace Prisma {
     docHtml: string | null
     url: string | null
     ata: string | null
+    featured: boolean
     order: number
     createdAt: Date
     updatedAt: Date
@@ -54474,6 +54481,7 @@ export namespace Prisma {
     docHtml?: boolean
     url?: boolean
     ata?: boolean
+    featured?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54491,6 +54499,7 @@ export namespace Prisma {
     docHtml?: boolean
     url?: boolean
     ata?: boolean
+    featured?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54508,6 +54517,7 @@ export namespace Prisma {
     docHtml?: boolean
     url?: boolean
     ata?: boolean
+    featured?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54538,6 +54548,7 @@ export namespace Prisma {
       docHtml: string | null
       url: string | null
       ata: string | null
+      featured: boolean
       order: number
       createdAt: Date
       updatedAt: Date
@@ -54945,6 +54956,7 @@ export namespace Prisma {
     readonly docHtml: FieldRef<"ProjectMaterial", 'String'>
     readonly url: FieldRef<"ProjectMaterial", 'String'>
     readonly ata: FieldRef<"ProjectMaterial", 'String'>
+    readonly featured: FieldRef<"ProjectMaterial", 'Boolean'>
     readonly order: FieldRef<"ProjectMaterial", 'Int'>
     readonly createdAt: FieldRef<"ProjectMaterial", 'DateTime'>
     readonly updatedAt: FieldRef<"ProjectMaterial", 'DateTime'>
@@ -113446,6 +113458,7 @@ export namespace Prisma {
     docHtml: 'docHtml',
     url: 'url',
     ata: 'ata',
+    featured: 'featured',
     order: 'order',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -119043,6 +119056,7 @@ export namespace Prisma {
     docHtml?: StringNullableFilter<"ProjectMaterial"> | string | null
     url?: StringNullableFilter<"ProjectMaterial"> | string | null
     ata?: StringNullableFilter<"ProjectMaterial"> | string | null
+    featured?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -119060,6 +119074,7 @@ export namespace Prisma {
     docHtml?: SortOrderInput | SortOrder
     url?: SortOrderInput | SortOrder
     ata?: SortOrderInput | SortOrder
+    featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -119080,6 +119095,7 @@ export namespace Prisma {
     docHtml?: StringNullableFilter<"ProjectMaterial"> | string | null
     url?: StringNullableFilter<"ProjectMaterial"> | string | null
     ata?: StringNullableFilter<"ProjectMaterial"> | string | null
+    featured?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -119097,6 +119113,7 @@ export namespace Prisma {
     docHtml?: SortOrderInput | SortOrder
     url?: SortOrderInput | SortOrder
     ata?: SortOrderInput | SortOrder
+    featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -119120,6 +119137,7 @@ export namespace Prisma {
     docHtml?: StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
     url?: StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
     ata?: StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
+    featured?: BoolWithAggregatesFilter<"ProjectMaterial"> | boolean
     order?: IntWithAggregatesFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectMaterial"> | Date | string
@@ -128492,6 +128510,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128509,6 +128528,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128522,6 +128542,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128539,6 +128560,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128554,6 +128576,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128567,6 +128590,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128582,6 +128606,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -137694,6 +137719,7 @@ export namespace Prisma {
     docHtml?: SortOrder
     url?: SortOrder
     ata?: SortOrder
+    featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137713,6 +137739,7 @@ export namespace Prisma {
     docHtml?: SortOrder
     url?: SortOrder
     ata?: SortOrder
+    featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137728,6 +137755,7 @@ export namespace Prisma {
     docHtml?: SortOrder
     url?: SortOrder
     ata?: SortOrder
+    featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -173826,6 +173854,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -173841,6 +173870,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174374,6 +174404,7 @@ export namespace Prisma {
     docHtml?: StringNullableFilter<"ProjectMaterial"> | string | null
     url?: StringNullableFilter<"ProjectMaterial"> | string | null
     ata?: StringNullableFilter<"ProjectMaterial"> | string | null
+    featured?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -174673,6 +174704,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174688,6 +174720,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208237,6 +208270,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208500,6 +208534,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208515,6 +208550,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208529,6 +208565,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208569,6 +208606,7 @@ export namespace Prisma {
     docHtml?: string | null
     url?: string | null
     ata?: string | null
+    featured?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208582,6 +208620,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208597,6 +208636,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208611,6 +208651,7 @@ export namespace Prisma {
     docHtml?: NullableStringFieldUpdateOperationsInput | string | null
     url?: NullableStringFieldUpdateOperationsInput | string | null
     ata?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

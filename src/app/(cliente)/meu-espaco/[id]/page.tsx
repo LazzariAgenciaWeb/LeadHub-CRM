@@ -30,7 +30,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
       },
       materials: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-        select: { id: true, kind: true, taskId: true, title: true, docHtml: true, url: true, ata: true, stage: true },
+        select: { id: true, kind: true, taskId: true, title: true, docHtml: true, url: true, ata: true, stage: true, featured: true },
       },
     },
   });

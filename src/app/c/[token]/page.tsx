@@ -22,7 +22,7 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
       },
       materials: {
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-        select: { id: true, kind: true, taskId: true, title: true, docHtml: true, url: true, ata: true, stage: true },
+        select: { id: true, kind: true, taskId: true, title: true, docHtml: true, url: true, ata: true, stage: true, featured: true },
       },
     },
   });

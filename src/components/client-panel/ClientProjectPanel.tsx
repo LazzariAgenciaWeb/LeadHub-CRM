@@ -19,6 +19,7 @@ export type PanelStep = { id: string; name: string; order: number };
 export type PanelMat = {
   id: string; kind: string; taskId: string | null; title: string;
   docHtml: string | null; url: string | null; ata: string | null; stage: string | null;
+  featured?: boolean;
 };
 
 const catOf = (kind: string) => (kind === "DOCUMENTO" ? "doc" : kind === "LINK" || kind === "ANEXO" ? "link" : "video");
@@ -179,6 +180,28 @@ details>summary{list-style:none}details>summary::-webkit-details-marker{display:
 .empty{color:var(--ink3);font-size:14px}
 svg{display:block}
 
+/* ===== DESTAQUES (materiais principais) ===== */
+.featgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.featcard{position:relative;overflow:hidden;border-radius:18px;padding:20px 22px;
+  background:linear-gradient(180deg,rgba(245,181,100,.10),rgba(255,255,255,.02)),#0A0C14;
+  border:1px solid rgba(245,181,100,.34);
+  box-shadow:0 26px 54px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.06)}
+.featcard::before{content:"";position:absolute;right:-60px;top:-90px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,181,100,.30),transparent 62%);filter:blur(14px);pointer-events:none}
+.feathead{position:relative;z-index:1;display:flex;align-items:flex-start;gap:15px}
+.featic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:#0B0E14;flex:none;
+  background:linear-gradient(135deg,#F7C97E,#E09A3E);box-shadow:0 10px 22px -8px rgba(245,181,100,.6)}
+.featmeta{flex:1;min-width:0}
+.featpill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#F5B564;background:rgba(245,181,100,.12);border:1px solid rgba(245,181,100,.30);padding:3px 9px;border-radius:99px}
+.feattitle{font-size:18px;font-weight:740;letter-spacing:-.02em;margin:9px 0 2px;line-height:1.2}
+.featsub{font-size:12.5px;color:var(--ink3)}
+.featacts{position:relative;z-index:1;margin-top:15px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.featacts a,.featacts .lk{font-size:13.5px;font-weight:660;color:#0B0E14;background:linear-gradient(135deg,#F7C97E,#E9A24E);
+  padding:9px 16px;border-radius:10px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;border:none}
+.featacts details{width:100%}
+.featacts details .doc,.featacts details .ata{margin-top:12px}
+
 /* ===== GANTT ===== */
 .glegend{display:flex;gap:15px;flex-wrap:wrap;margin:0 2px 14px;font-size:12px;color:var(--ink2);align-items:center}
 .glegend span{display:inline-flex;align-items:center;gap:6px}
@@ -275,6 +298,7 @@ const IconPlay  = <svg width="20" height="20" viewBox="0 0 24 24" fill="currentC
 const IconLinkL = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 15 15 9M10.5 6.5 12 5a4 4 0 0 1 6 6l-1.5 1.5M13.5 17.5 12 19a4 4 0 0 1-6-6l1.5-1.5"/></svg>;
 const IconDocL  = <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>;
 const IconExt   = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>;
+const IconStar  = <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 5.9 20.5l1.4-6.8L2.2 9.1l6.9-.8Z"/></svg>;
 
 export default function ClientProjectPanel({
   name, description, clientName, tasks, materials, serviceSteps = [], embedded = false,
@@ -289,7 +313,40 @@ export default function ClientProjectPanel({
 }) {
   const doneCount = tasks.filter((t) => t.done).length;
   const pct = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
-  const looseMats = materials.filter((m) => !m.taskId);
+  const featured = materials.filter((m) => m.featured);
+  const looseMats = materials.filter((m) => !m.taskId && !m.featured);
+  const ganttMats = materials.filter((m) => !m.featured); // destaques saem do rail/modal (ficam no topo)
+
+  function Feature({ m }: { m: PanelMat }) {
+    const cat = catOf(m.kind);
+    return (
+      <div className="featcard">
+        <div className="feathead">
+          <span className="featic">{cat === "video" ? IconPlay : cat === "doc" ? IconDocL : IconLinkL}</span>
+          <div className="featmeta">
+            <span className="featpill">{IconStar} Destaque</span>
+            <div className="feattitle">{m.title}</div>
+            <div className="featsub">{KIND_LABEL[m.kind] ?? m.kind}{m.stage ? ` · ${m.stage}` : ""}</div>
+          </div>
+        </div>
+        <div className="featacts">
+          {m.url && <a href={m.url} target="_blank" rel="noreferrer">{cat === "video" ? "Assistir" : "Abrir"} {IconExt}</a>}
+          {m.docHtml && (
+            <details>
+              <summary className="lk">Abrir documento</summary>
+              <div className="doc" dangerouslySetInnerHTML={{ __html: m.docHtml }} />
+            </details>
+          )}
+          {m.ata && (
+            <details>
+              <summary className="lk">Ata da reunião</summary>
+              <p className="ata">{m.ata}</p>
+            </details>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   function Poster({ m }: { m: PanelMat }) {
     const cat = catOf(m.kind);
@@ -344,13 +401,22 @@ export default function ClientProjectPanel({
           )}
         </header>
 
+        {featured.length > 0 && (
+          <section className="sec">
+            <div className="sh"><h2>Destaques</h2></div>
+            <div className="featgrid">
+              {featured.map((m) => <Feature key={m.id} m={m} />)}
+            </div>
+          </section>
+        )}
+
         {tasks.length > 0 && (
           <section className="sec">
             <div className="sh">
               <h2>Andamento</h2>
               <span className="sc">{doneCount} de {tasks.length} entregas</span>
             </div>
-            <ServiceGantt tasks={tasks} materials={materials} serviceSteps={serviceSteps} />
+            <ServiceGantt tasks={tasks} materials={ganttMats} serviceSteps={serviceSteps} />
           </section>
         )}
 
@@ -369,7 +435,7 @@ export default function ClientProjectPanel({
           </section>
         )}
 
-        {tasks.length === 0 && looseMats.length === 0 && (
+        {tasks.length === 0 && looseMats.length === 0 && featured.length === 0 && (
           <p className="empty" style={{ marginTop: 24 }}>Ainda não há nada por aqui. Volte em breve.</p>
         )}
 

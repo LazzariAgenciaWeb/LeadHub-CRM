@@ -689,6 +689,7 @@ exports.Prisma.ProjectMaterialScalarFieldEnum = {
   docHtml: 'docHtml',
   url: 'url',
   ata: 'ata',
+  featured: 'featured',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
