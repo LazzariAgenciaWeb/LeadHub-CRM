@@ -24,9 +24,10 @@ const fmt = (s: string) => new Date(s).toLocaleDateString("pt-BR", { day: "2-dig
 const fmtDT = (s: string) => new Date(s).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 
 export default function MeuEspacoInteracoes({
-  tickets: initialTickets, services,
+  tickets: initialTickets, services, stats,
 }: {
   tickets: Ticket[]; services: Service[];
+  stats: { open: number; inProgress: number; resolved: number; total: number };
 }) {
   const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
 
@@ -93,6 +94,13 @@ export default function MeuEspacoInteracoes({
       {/* CHAMADOS & PEDIDOS */}
       <section className="row">
         <div className="rowhead"><h2>Chamados &amp; pedidos</h2><span className="sub">suporte e solicitações</span></div>
+        {stats.total > 0 && (
+          <div className="tkstats">
+            <div className="tkstat open"><span className="dot" /><b>{stats.open}</b><span>Em aberto</span></div>
+            <div className="tkstat prog"><span className="dot" /><b>{stats.inProgress}</b><span>Em atendimento</span></div>
+            <div className="tkstat done"><span className="dot" /><b>{stats.resolved}</b><span>Atendidos</span></div>
+          </div>
+        )}
         <div className="rail">
           <button className="actcard sup" onClick={() => open("SUPPORT")}>
             <span className="acic">🛟</span>

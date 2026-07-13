@@ -49,7 +49,7 @@ export default async function MeuEspacoPage() {
   });
 
   // Chamados/pedidos + catálogo visível pro cliente + serviços contratados dele.
-  const [ticketsRaw, servicesRaw, contractedRaw, invoicesRaw] = await Promise.all([
+  const [ticketsRaw, servicesRaw, contractedRaw, invoicesRaw, ticketStatsRaw] = await Promise.all([
     prisma.ticket.findMany({
       where:   { clientCompanyId: companyId },
       orderBy: [{ createdAt: "desc" }],
@@ -73,8 +73,20 @@ export default async function MeuEspacoPage() {
       take:    24,
       select:  { id: true, description: true, amountCents: true, dueDate: true, status: true, paidAt: true, boletoUrl: true, invoiceUrl: true },
     }),
+    prisma.ticket.groupBy({
+      by: ["status"],
+      where: { clientCompanyId: companyId, isInternal: false },
+      _count: { _all: true },
+    }),
   ]);
   const tickets = ticketsRaw.map((t) => ({ ...t, createdAt: t.createdAt.toISOString() }));
+  const byStatus: Record<string, number> = Object.fromEntries(ticketStatsRaw.map((g) => [g.status, g._count._all]));
+  const ticketStats = {
+    open:       byStatus.OPEN ?? 0,
+    inProgress: byStatus.IN_PROGRESS ?? 0,
+    resolved:   (byStatus.RESOLVED ?? 0) + (byStatus.CLOSED ?? 0),
+    total:      Object.values(byStatus).reduce((a, b) => a + b, 0),
+  };
 
   const now = new Date();
   const cards = projects.map((p, i) => {
@@ -230,7 +242,7 @@ export default async function MeuEspacoPage() {
         );
       })()}
 
-      <MeuEspacoInteracoes tickets={tickets} services={servicesRaw} />
+      <MeuEspacoInteracoes tickets={tickets} services={servicesRaw} stats={ticketStats} />
     </div>
   );
 }
@@ -318,16 +330,30 @@ const CSS = `
 .finlk{font-size:12.5px;font-weight:650;color:#AFC0FF;text-decoration:none;white-space:nowrap}
 @media (max-width:560px){.finrow{flex-wrap:wrap}.finval{min-width:0}.finact{width:100%}}
 
-/* Ações: abrir chamado / pedir extra */
-.actcard{width:262px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;padding:16px;border-radius:16px;
-  color:var(--ink);border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));transition:.16s}
-.actcard:hover{transform:translateY(-4px);box-shadow:0 30px 54px -30px rgba(0,0,0,.9)}
-.actcard.sup{border-color:rgba(110,134,255,.4)} .actcard.sup:hover{box-shadow:0 26px 50px -28px rgba(80,100,255,.55)}
-.actcard.ped{border-color:rgba(155,123,255,.45)} .actcard.ped:hover{box-shadow:0 26px 50px -28px rgba(155,123,255,.5)}
-.actcard .acic{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.06);border:1px solid var(--line2)}
+/* Contador de chamados */
+.tkstats{display:flex;gap:10px;flex-wrap:wrap;margin:0 2px 15px}
+.tkstat{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
+.tkstat .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.tkstat b{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.tkstat span{font-size:11.5px;color:var(--ink3);font-weight:600}
+.tkstat.open .dot{background:#6E86FF} .tkstat.open b{color:#B6C4FF}
+.tkstat.prog .dot{background:#F5B564} .tkstat.prog b{color:#F5B564}
+.tkstat.done .dot{background:#4FD1A0} .tkstat.done b{color:#4FD1A0}
+
+/* Ações: abrir chamado / pedir extra — CTAs (visual distinto dos chamados) */
+.actcard{width:262px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;padding:16px;border-radius:16px;position:relative;
+  color:var(--ink);border:1px solid rgba(110,134,255,.45);background:linear-gradient(135deg,rgba(110,134,255,.22),rgba(155,123,255,.12));transition:.16s}
+.actcard::after{content:"+";position:absolute;top:9px;right:14px;font-size:20px;font-weight:700;color:#B6C4FF;opacity:.65;line-height:1}
+.actcard:hover{transform:translateY(-4px);box-shadow:0 26px 50px -28px rgba(80,100,255,.6)}
+.actcard.ped{border-color:rgba(155,123,255,.5);background:linear-gradient(135deg,rgba(155,123,255,.24),rgba(236,72,153,.12))}
+.actcard.ped::after{color:#E7B8FF}
+.actcard.ped:hover{box-shadow:0 26px 50px -28px rgba(155,123,255,.55)}
+.actcard .acic{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:22px;
+  background:linear-gradient(135deg,#6E86FF,#9B7BFF);border:none;box-shadow:0 8px 18px -6px rgba(110,134,255,.6)}
+.actcard.ped .acic{background:linear-gradient(135deg,#9B7BFF,#EC4899)}
 .actcard .acb{display:flex;flex-direction:column;gap:2px;min-width:0}
 .actcard .acb b{font-size:15px;font-weight:720}
-.actcard .acb span{font-size:12.5px;color:var(--ink3)}
+.actcard .acb span{font-size:12.5px;color:var(--ink2)}
 
 /* Ticket card */
 .tkt{width:272px;display:flex;flex-direction:column;gap:9px;padding:15px;border-radius:14px;
