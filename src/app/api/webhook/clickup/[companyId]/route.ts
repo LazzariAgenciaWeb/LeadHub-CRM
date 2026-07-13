@@ -39,7 +39,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { getClickupWebhookSecret } from "@/lib/clickup";
+import { getClickupWebhookSecret, getClickupSettings, fetchClickupTaskDescription, fetchClickupTaskComments } from "@/lib/clickup";
+import { readComments, sanitizeComments } from "@/lib/checklist";
 
 // Webhook precisa do body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -91,7 +92,7 @@ export async function POST(
   // Descobre se a task corresponde a um Ticket OU a um Lead desta empresa.
   // Lookup paralelo — ClickUp lists são distintas (chamados vs oportunidades),
   // então no normal só um dos dois bate.
-  const [ticket, lead] = await Promise.all([
+  const [ticket, lead, projTask] = await Promise.all([
     prisma.ticket.findFirst({
       where: { clickupTaskId: taskId, companyId },
       select: { id: true, companyId: true },
@@ -100,10 +101,47 @@ export async function POST(
       where: { clickupTaskId: taskId, companyId },
       select: { id: true, companyId: true, pipeline: true },
     }),
+    prisma.projectTask.findFirst({
+      where: { clickupTaskId: taskId, project: { setor: { companyId } } },
+      select: { id: true, comments: true },
+    }),
   ]);
 
-  if (!ticket && !lead) {
+  if (!ticket && !lead && !projTask) {
     return NextResponse.json({ ok: true, skipped: "task-not-found" });
+  }
+
+  // ─── TAREFA DE PROJETO (painel do cliente) ──────────────────────────────────
+  // taskUpdated → puxa o descritivo atual; taskCommentPosted → traz os comentários
+  // como atualizações do cliente (merge deduplicado por texto+data). Busca via API
+  // pra pegar o conteúdo consolidado, evitando parsear history_items.
+  if (projTask) {
+    const settings = await getClickupSettings(companyId);
+    if (!settings) return NextResponse.json({ ok: true, skipped: "clickup-not-configured" });
+    const data: any = {};
+
+    if (event === "taskUpdated") {
+      try { const d = await fetchClickupTaskDescription(settings.apiToken, taskId); if (d) data.description = d; } catch { /* silencioso */ }
+    }
+    if (event === "taskCommentPosted") {
+      try {
+        const cmts = await fetchClickupTaskComments(settings.apiToken, taskId);
+        const existing = readComments(projTask.comments);
+        const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
+        const fresh = cmts.filter((c) => !seen.has(`${c.text}|${c.at}`));
+        if (fresh.length) {
+          const merged = sanitizeComments(
+            [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),
+          );
+          if (merged) data.comments = merged;
+        }
+      } catch { /* silencioso */ }
+    }
+
+    if (Object.keys(data).length) {
+      await prisma.projectTask.update({ where: { id: projTask.id }, data }).catch(() => {});
+    }
+    return NextResponse.json({ ok: true, projectTask: projTask.id, updated: Object.keys(data) });
   }
 
   // ─── TICKET (chamados) ──────────────────────────────────────────────────────
