@@ -11,6 +11,9 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "projetos");
   if (!gate.ok) return gate.response;
+  // Publicar o painel do cliente exige o módulo "Espaço do Cliente".
+  const espaco = await assertModule(session, "espacoCliente");
+  if (!espaco.ok) return NextResponse.json({ error: "Módulo Espaço do Cliente não habilitado para esta empresa." }, { status: 403 });
 
   const { id } = await params;
   const role          = (session.user as any).role as string;

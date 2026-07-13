@@ -200,6 +200,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleCampanhas: 'moduleCampanhas',
   moduleLinks: 'moduleLinks',
   moduleInstagram: 'moduleInstagram',
+  moduleEspacoCliente: 'moduleEspacoCliente',
   modoAtendimento: 'modoAtendimento',
   aiMonthlyQuota: 'aiMonthlyQuota',
   aiUsedThisMonth: 'aiUsedThisMonth',

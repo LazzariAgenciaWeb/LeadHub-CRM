@@ -106,6 +106,7 @@ export const authOptions: NextAuthOptions = {
                 moduleCampanhas: true,
                 moduleLinks: true,
                 moduleInstagram: true,
+                moduleEspacoCliente: true,
               },
             },
             setores: {
@@ -165,6 +166,7 @@ export const authOptions: NextAuthOptions = {
             campanhas:   (user.company as any)?.moduleCampanhas ?? false,
             links:       (user.company as any)?.moduleLinks ?? false,
             instagram:   (user.company as any)?.moduleInstagram ?? false,
+            espacoCliente: (user.company as any)?.moduleEspacoCliente ?? false,
             cofre:       cofreEnabled,
             crmPipelineProspeccao:    pipelineProspeccao,
             crmPipelineLeads:         pipelineLeads,
@@ -220,6 +222,7 @@ export const authOptions: NextAuthOptions = {
                     moduleCampanhas: true,
                     moduleLinks: true,
                     moduleInstagram: true,
+                    moduleEspacoCliente: true,
                   },
                 },
                 setores: {
@@ -262,6 +265,7 @@ export const authOptions: NextAuthOptions = {
                 campanhas:   (dbUser.company as any)?.moduleCampanhas   ?? false,
                 links:       (dbUser.company as any)?.moduleLinks       ?? false,
                 instagram:   (dbUser.company as any)?.moduleInstagram   ?? false,
+                espacoCliente: (dbUser.company as any)?.moduleEspacoCliente ?? false,
                 cofre:       cofreEnabled,
                 crmPipelineProspeccao:    pipelineProspeccao,
                 crmPipelineLeads:         pipelineLeads,

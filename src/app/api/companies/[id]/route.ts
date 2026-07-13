@@ -80,7 +80,7 @@ export async function PATCH(
     name, segment, phone, email, website, logoUrl, status, triggerOnly,
     // SUPER_ADMIN only
     hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
-    moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleInstagram, serpapiKey,
+    moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleInstagram, moduleEspacoCliente, serpapiKey,
     modoAtendimento,
     parentCompanyId,
   } = body;
@@ -103,10 +103,24 @@ export async function PATCH(
         ...(moduleProspeccao !== undefined && { moduleProspeccao }),
         ...(moduleEmailMarketing !== undefined && { moduleEmailMarketing }),
         ...(moduleInstagram !== undefined && { moduleInstagram }),
+        ...(moduleEspacoCliente !== undefined && { moduleEspacoCliente }),
         ...(serpapiKey !== undefined && { serpapiKey: serpapiKey || null }),
         ...(parentCompanyId !== undefined && { parentCompanyId: parentCompanyId || null }),
       }
     : {};
+
+  // Self-serve da agência: ADMIN com o módulo "Espaço do Cliente" pode liberar o
+  // acesso ao painel (Meu Espaço) de uma sub-empresa sua — NUNCA o sistema completo.
+  let selfServeData: any = {};
+  if (!isSuperAdmin && userRole === "ADMIN" && hasSystemAccess !== undefined && userCompanyId && id !== userCompanyId) {
+    const [sub, agency] = await Promise.all([
+      prisma.company.findFirst({ where: { id, parentCompanyId: userCompanyId }, select: { id: true } }),
+      prisma.company.findUnique({ where: { id: userCompanyId }, select: { moduleEspacoCliente: true } }),
+    ]);
+    if (sub && agency?.moduleEspacoCliente) {
+      selfServeData = { hasSystemAccess: !!hasSystemAccess, fullSystemAccess: false };
+    }
+  }
 
   const company = await prisma.company.update({
     where: { id },
@@ -118,6 +132,7 @@ export async function PATCH(
       ...(website !== undefined && { website }),
       ...(logoUrl !== undefined && { logoUrl }),
       ...adminOnlyData,
+      ...selfServeData,
     },
   });
 

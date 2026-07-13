@@ -78,6 +78,9 @@ export default async function EmpresaDetailPage({
   const canDeleteOrMerge =
     isSuperAdmin || (role === "ADMIN" && company.parentCompanyId === userCompanyId);
 
+  // Agência com o módulo Espaço do Cliente → pode liberar o painel da sub-empresa sozinha.
+  const canOfferPanel = (session?.user as any)?.modules?.espacoCliente === true;
+
   // Empresas elegíveis como destino do merge.
   // SUPER_ADMIN: todas as outras. ADMIN: outras sub-empresas do mesmo parent.
   const eligibleTargets = canDeleteOrMerge
@@ -197,7 +200,7 @@ export default async function EmpresaDetailPage({
               eligibleTargets={eligibleTargets}
             />
           )}
-          <EditCompanyButton company={company as any} isSuperAdmin={isSuperAdmin} />
+          <EditCompanyButton company={company as any} isSuperAdmin={isSuperAdmin} canOfferPanel={canOfferPanel} />
           {isSuperAdmin && (
             <>
               <Link

@@ -43,6 +43,8 @@ export interface UserModules {
   campanhas: boolean;
   links: boolean;
   instagram: boolean;
+  // Espaço do Cliente: agência pode oferecer o painel (link público + login Meu Espaço).
+  espacoCliente: boolean;
   // Cofre é gateado por PlanFeatures.cofreCredenciais (não tem flag em Company).
   // Populado no session callback a partir do plano efetivo da empresa.
   cofre: boolean;
@@ -101,7 +103,7 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
 const ALL_MODULES: UserModules = {
   ai: true, crm: true, whatsapp: true, tickets: true, clickup: true,
   gamificacao: true, projetos: true, calendario: true, prospeccao: true,
-  campanhas: true, links: true, instagram: true,
+  campanhas: true, links: true, instagram: true, espacoCliente: true,
   cofre: true,
   crmPipelineProspeccao: true, crmPipelineLeads: true, crmPipelineOportunidades: true,
 };
@@ -109,7 +111,7 @@ const ALL_MODULES: UserModules = {
 const DEFAULT_MODULES: UserModules = {
   ai: false, crm: true, whatsapp: false, tickets: false, clickup: false,
   gamificacao: false, projetos: false, calendario: false, prospeccao: false,
-  campanhas: false, links: false, instagram: false,
+  campanhas: false, links: false, instagram: false, espacoCliente: false,
   cofre: false,
   crmPipelineProspeccao: false, crmPipelineLeads: true, crmPipelineOportunidades: false,
 };

@@ -16037,6 +16037,7 @@ export namespace Prisma {
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
+    moduleEspacoCliente: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -16074,6 +16075,7 @@ export namespace Prisma {
     moduleCampanhas: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
+    moduleEspacoCliente: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -16111,6 +16113,7 @@ export namespace Prisma {
     moduleCampanhas: number
     moduleLinks: number
     moduleInstagram: number
+    moduleEspacoCliente: number
     modoAtendimento: number
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -16160,6 +16163,7 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     moduleInstagram?: true
+    moduleEspacoCliente?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16197,6 +16201,7 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     moduleInstagram?: true
+    moduleEspacoCliente?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16234,6 +16239,7 @@ export namespace Prisma {
     moduleCampanhas?: true
     moduleLinks?: true
     moduleInstagram?: true
+    moduleEspacoCliente?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16358,6 +16364,7 @@ export namespace Prisma {
     moduleCampanhas: boolean
     moduleLinks: boolean
     moduleInstagram: boolean
+    moduleEspacoCliente: boolean
     modoAtendimento: $Enums.ModoAtendimento
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -16414,6 +16421,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16519,6 +16527,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16557,6 +16566,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16739,6 +16749,7 @@ export namespace Prisma {
       moduleCampanhas: boolean
       moduleLinks: boolean
       moduleInstagram: boolean
+      moduleEspacoCliente: boolean
       modoAtendimento: $Enums.ModoAtendimento
       aiMonthlyQuota: number
       aiUsedThisMonth: number
@@ -17233,6 +17244,7 @@ export namespace Prisma {
     readonly moduleCampanhas: FieldRef<"Company", 'Boolean'>
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
     readonly moduleInstagram: FieldRef<"Company", 'Boolean'>
+    readonly moduleEspacoCliente: FieldRef<"Company", 'Boolean'>
     readonly modoAtendimento: FieldRef<"Company", 'ModoAtendimento'>
     readonly aiMonthlyQuota: FieldRef<"Company", 'Int'>
     readonly aiUsedThisMonth: FieldRef<"Company", 'Int'>
@@ -112867,6 +112879,7 @@ export namespace Prisma {
     moduleCampanhas: 'moduleCampanhas',
     moduleLinks: 'moduleLinks',
     moduleInstagram: 'moduleInstagram',
+    moduleEspacoCliente: 'moduleEspacoCliente',
     modoAtendimento: 'modoAtendimento',
     aiMonthlyQuota: 'aiMonthlyQuota',
     aiUsedThisMonth: 'aiUsedThisMonth',
@@ -115558,6 +115571,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
+    moduleEspacoCliente?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -115662,6 +115676,7 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
+    moduleEspacoCliente?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -115770,6 +115785,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
+    moduleEspacoCliente?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -115873,6 +115889,7 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
+    moduleEspacoCliente?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -115918,6 +115935,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleInstagram?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleEspacoCliente?: BoolWithAggregatesFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoWithAggregatesFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntWithAggregatesFilter<"Company"> | number
     aiUsedThisMonth?: IntWithAggregatesFilter<"Company"> | number
@@ -124620,6 +124638,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -124723,6 +124742,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -124826,6 +124846,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -124929,6 +124950,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125032,6 +125054,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -125069,6 +125092,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125105,6 +125129,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -135338,6 +135363,7 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
+    moduleEspacoCliente?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -135380,6 +135406,7 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
+    moduleEspacoCliente?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -135417,6 +135444,7 @@ export namespace Prisma {
     moduleCampanhas?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
+    moduleEspacoCliente?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -151064,6 +151092,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151166,6 +151195,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -152200,6 +152230,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152302,6 +152333,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -153647,6 +153679,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153749,6 +153782,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153856,6 +153890,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153958,6 +153993,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -156846,6 +156882,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -156948,6 +156985,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -157069,6 +157107,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
+    moduleEspacoCliente?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -159180,6 +159219,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -159282,6 +159322,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -159644,6 +159685,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -159746,6 +159788,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -159953,6 +159996,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160055,6 +160099,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160358,6 +160403,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160460,6 +160506,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160690,6 +160737,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160792,6 +160840,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -161356,6 +161405,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -161458,6 +161508,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -161943,6 +161994,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162045,6 +162097,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162183,6 +162236,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -162285,6 +162339,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -162679,6 +162734,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162781,6 +162837,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162925,6 +162982,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163027,6 +163085,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163433,6 +163492,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -163535,6 +163595,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -163679,6 +163740,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163781,6 +163843,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163899,6 +163962,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164001,6 +164065,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164148,6 +164213,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -164250,6 +164316,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -164494,6 +164561,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164596,6 +164664,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164989,6 +165058,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -165091,6 +165161,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -165587,6 +165658,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -165689,6 +165761,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -165807,6 +165880,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -165909,6 +165983,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166011,6 +166086,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166113,6 +166189,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166312,6 +166389,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166414,6 +166492,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166603,6 +166682,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166705,6 +166785,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166941,6 +167022,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -167043,6 +167125,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -167201,6 +167284,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -167303,6 +167387,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -167744,6 +167829,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -167846,6 +167932,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168301,6 +168388,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -168403,6 +168491,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -168562,6 +168651,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168664,6 +168754,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168959,6 +169050,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -169061,6 +169153,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -169571,6 +169664,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -169673,6 +169767,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -170187,6 +170282,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -170289,6 +170385,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -170644,6 +170741,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -170746,6 +170844,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -170848,6 +170947,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -170950,6 +171050,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171138,6 +171239,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171240,6 +171342,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171667,6 +171770,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -171769,6 +171873,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -171969,6 +172074,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172071,6 +172177,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172595,6 +172702,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -172697,6 +172805,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -173051,6 +173160,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -173153,6 +173263,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -173400,6 +173511,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -173502,6 +173614,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -174024,6 +174137,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -174126,6 +174240,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -177384,6 +177499,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -177486,6 +177602,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -177654,6 +177771,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -177756,6 +177874,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178080,6 +178199,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178182,6 +178302,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178351,6 +178472,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178453,6 +178575,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178555,6 +178678,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178657,6 +178781,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178809,6 +178934,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178911,6 +179037,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179060,6 +179187,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179162,6 +179290,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179317,6 +179446,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179419,6 +179549,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179521,6 +179652,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179623,6 +179755,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179741,6 +179874,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179843,6 +179977,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179945,6 +180080,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180047,6 +180183,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180165,6 +180302,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180267,6 +180405,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180369,6 +180508,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180471,6 +180611,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180589,6 +180730,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180691,6 +180833,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180793,6 +180936,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180895,6 +181039,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181157,6 +181302,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181259,6 +181405,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181409,6 +181556,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181511,6 +181659,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181718,6 +181867,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181820,6 +181970,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181989,6 +182140,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182091,6 +182243,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182305,6 +182458,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182407,6 +182561,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182617,6 +182772,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182719,6 +182875,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182912,6 +183069,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183014,6 +183172,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183281,6 +183440,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183383,6 +183543,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183501,6 +183662,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183603,6 +183765,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183705,6 +183868,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183807,6 +183971,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183925,6 +184090,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184027,6 +184193,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184129,6 +184296,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184231,6 +184399,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184349,6 +184518,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184451,6 +184621,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184553,6 +184724,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184655,6 +184827,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184773,6 +184946,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184875,6 +185049,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184977,6 +185152,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185079,6 +185255,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185197,6 +185374,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185299,6 +185477,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185401,6 +185580,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185503,6 +185683,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185621,6 +185802,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185723,6 +185905,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185825,6 +186008,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185927,6 +186111,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186045,6 +186230,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186147,6 +186333,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186249,6 +186436,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186351,6 +186539,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186469,6 +186658,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186571,6 +186761,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186673,6 +186864,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186775,6 +186967,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186893,6 +187086,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186995,6 +187189,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187097,6 +187292,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187199,6 +187395,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187317,6 +187514,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187419,6 +187617,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187521,6 +187720,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187623,6 +187823,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187741,6 +187942,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187843,6 +188045,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187945,6 +188148,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188047,6 +188251,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188165,6 +188370,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188267,6 +188473,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188369,6 +188576,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188471,6 +188679,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188589,6 +188798,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188691,6 +188901,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188793,6 +189004,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188895,6 +189107,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189013,6 +189226,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189115,6 +189329,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189217,6 +189432,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189319,6 +189535,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189437,6 +189654,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189539,6 +189757,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189641,6 +189860,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189743,6 +189963,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189861,6 +190082,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189963,6 +190185,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190065,6 +190288,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190167,6 +190391,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190285,6 +190510,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190387,6 +190613,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190489,6 +190716,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190591,6 +190819,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190733,6 +190962,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190835,6 +191065,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191024,6 +191255,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191126,6 +191358,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191280,6 +191513,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191382,6 +191616,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191581,6 +191816,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191683,6 +191919,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191919,6 +192156,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192021,6 +192259,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192241,6 +192480,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192343,6 +192583,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192548,6 +192789,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192650,6 +192892,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192833,6 +193076,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192935,6 +193179,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193140,6 +193385,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193242,6 +193488,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193425,6 +193672,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193527,6 +193775,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193732,6 +193981,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193834,6 +194084,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193936,6 +194187,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194038,6 +194290,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194156,6 +194409,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194258,6 +194512,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194696,6 +194951,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194798,6 +195054,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194916,6 +195173,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195018,6 +195276,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195120,6 +195379,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195222,6 +195482,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195402,6 +195663,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195504,6 +195766,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195649,6 +195912,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195751,6 +196015,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -196141,6 +196406,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -196243,6 +196509,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -196949,6 +197216,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197051,6 +197319,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197169,6 +197438,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197271,6 +197541,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197373,6 +197644,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197475,6 +197747,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197593,6 +197866,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197695,6 +197969,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197797,6 +198072,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197899,6 +198175,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198171,6 +198448,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198273,6 +198551,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198523,6 +198802,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198625,6 +198905,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198780,6 +199061,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198882,6 +199164,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199027,6 +199310,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199129,6 +199413,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199393,6 +199678,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199495,6 +199781,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199645,6 +199932,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199747,6 +200035,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199952,6 +200241,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200054,6 +200344,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200219,6 +200510,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200321,6 +200613,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200474,6 +200767,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200576,6 +200870,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -201981,6 +202276,7 @@ export namespace Prisma {
     moduleCampanhas?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -202946,6 +203242,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -203048,6 +203345,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -203150,6 +203448,7 @@ export namespace Prisma {
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number

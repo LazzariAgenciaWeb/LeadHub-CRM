@@ -185,6 +185,10 @@ model Company {
   // Profissional via "API com Login do Instagram" e dispara respostas a
   // comentários + DM (private reply). Cada empresa conecta a própria conta.
   moduleInstagram      Boolean @default(false)
+  // Módulo "Espaço do Cliente": permite a AGÊNCIA oferecer o painel do cliente —
+  // gerar o link público /c/[token] e liberar login no Meu Espaço pros clientes
+  // dela (sub-empresas). Habilitado pelo SUPER_ADMIN por agência.
+  moduleEspacoCliente  Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento

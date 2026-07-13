@@ -27,15 +27,20 @@ interface Company {
   moduleProspeccao: boolean;
   moduleEmailMarketing: boolean;
   moduleInstagram: boolean;
+  moduleEspacoCliente: boolean;
+  parentCompanyId?: string | null;
   modoAtendimento: "VISAO" | "ATENDE";
 }
 
 interface Props {
   company: Company;
   isSuperAdmin?: boolean;
+  // Agência do usuário logado tem o módulo Espaço do Cliente? Habilita o self-serve
+  // (ADMIN libera o painel de uma sub-empresa sem depender do super-admin).
+  canOfferPanel?: boolean;
 }
 
-export default function EditCompanyButton({ company, isSuperAdmin = false }: Props) {
+export default function EditCompanyButton({ company, isSuperAdmin = false, canOfferPanel = false }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -61,8 +66,12 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
     moduleProspeccao: company.moduleProspeccao,
     moduleEmailMarketing: company.moduleEmailMarketing,
     moduleInstagram: company.moduleInstagram,
+    moduleEspacoCliente: company.moduleEspacoCliente,
     modoAtendimento: company.modoAtendimento,
   });
+
+  // Sub-empresa (cliente da agência) + agência tem o módulo → mostra o self-serve.
+  const canSelfServePanel = !isSuperAdmin && canOfferPanel && !!company.parentCompanyId;
 
   function set(field: string, value: string | boolean) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -96,7 +105,13 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
         payload.moduleProspeccao = form.moduleProspeccao;
         payload.moduleEmailMarketing = form.moduleEmailMarketing;
         payload.moduleInstagram = form.moduleInstagram;
+        payload.moduleEspacoCliente = form.moduleEspacoCliente;
         payload.modoAtendimento = form.modoAtendimento;
+      }
+
+      // Self-serve: agência com o módulo libera o painel (Meu Espaço) da sub-empresa.
+      if (canSelfServePanel) {
+        payload.hasSystemAccess = form.hasSystemAccess;
       }
 
       const res = await fetch(`/api/companies/${company.id}`, {
@@ -190,6 +205,24 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                 )}
               </div>
 
+              {/* AGÊNCIA (self-serve): libera o Espaço do Cliente da sub-empresa */}
+              {canSelfServePanel && (
+                <div className="border border-indigo-500/30 rounded-xl p-4 bg-indigo-500/5 flex flex-col gap-2">
+                  <p className="text-[11px] text-indigo-300 font-semibold uppercase tracking-wide">Espaço do Cliente</p>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <div className="relative mt-0.5 shrink-0">
+                      <input type="checkbox" checked={form.hasSystemAccess} onChange={(e) => set("hasSystemAccess", e.target.checked)} className="sr-only peer" />
+                      <div className="w-9 h-5 bg-[#1e2d45] rounded-full peer-checked:bg-indigo-600 transition-colors" />
+                      <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-white font-medium">Liberar o painel pro cliente</p>
+                      <p className="text-xs text-slate-500 mt-0.5">O cliente faz login e vê o <b className="text-slate-400">Meu Espaço</b> (só o painel — não entra no sistema). Depois, conceda o login em <b className="text-slate-400">Contatos</b>.</p>
+                    </div>
+                  </label>
+                </div>
+              )}
+
               {/* SUPER_ADMIN: Status + TriggerOnly + Acesso + Módulos */}
               {isSuperAdmin && (
                 <>
@@ -258,6 +291,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false }: Pro
                             { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
                             { key: "moduleEmailMarketing", label: "E-mail Marketing (campanhas)" },
                             { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
+                            { key: "moduleEspacoCliente", label: "Espaço do Cliente (oferecer painel aos clientes)" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />

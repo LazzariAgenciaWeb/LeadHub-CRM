@@ -40,7 +40,8 @@ export type ModuleName =
   | "projetos"
   | "clickup"
   | "emailMarketing"
-  | "instagram";
+  | "instagram"
+  | "espacoCliente";
 
 export type ModuleGateResult =
   | { ok: true }
@@ -59,6 +60,7 @@ const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   clickup:     null,                // integração — habilitada manualmente, sem feature de plano
   emailMarketing: "emailMassa",     // feature do plano (PlanFeatures.emailMassa) + override custom
   instagram:   null,                // integração — habilitada manualmente (moduleInstagram), sem feature de plano (por ora)
+  espacoCliente: null,              // toggle manual do super-admin por agência (sem feature de plano por ora)
 };
 
 function denied(reason: string): ModuleGateResult {
@@ -108,6 +110,7 @@ export async function assertModule(
       moduleClickup: true,
       moduleEmailMarketing: true,
       moduleInstagram: true,
+      moduleEspacoCliente: true,
       subscription: {
         select: {
           plan: true,
@@ -131,6 +134,7 @@ export async function assertModule(
     clickup:     (company as any).moduleClickup ?? false,
     emailMarketing: (company as any).moduleEmailMarketing ?? false,
     instagram:   (company as any).moduleInstagram ?? false,
+    espacoCliente: (company as any).moduleEspacoCliente ?? false,
     marketing:   null,
     cofre:       null,
   };
