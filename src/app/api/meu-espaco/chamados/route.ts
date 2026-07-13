@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
           authorName: userName ?? company.name,
           authorRole: role ?? "CLIENT",
           isInternal: false,
-          source:     "LEADHUB",
+          source:     "CLIENT_PORTAL",
         },
       },
     },
