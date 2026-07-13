@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
+import { getClickupSettings, fetchClickupTasks, fetchClickupTaskDescription } from "@/lib/clickup";
 import { syncProjectTasks } from "@/lib/gamification";
 import { assertModule } from "@/lib/billing";
 
@@ -56,10 +56,16 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
     for (const lt of linked) {
       const src = byId.get(lt.clickupTaskId!);
       if (!src) continue;
+      // Puxa o descritivo atualizado do ClickUp (best-effort, 1 chamada por tarefa
+      // vinculada). Só sobrescreve quando vem conteúdo — não apaga o descritivo
+      // interno se o do ClickUp estiver vazio.
+      let desc: string | null = null;
+      try { desc = (await fetchClickupTaskDescription(settings.apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
       await prisma.projectTask.update({
         where: { id: lt.id },
         data: {
           ...(src.name ? { title: src.name } : {}),
+          ...(desc ? { description: desc } : {}),
           done: src.isCompleted,
           completedAt: src.isCompleted ? new Date() : null,
           dueDate: src.dueDate != null ? new Date(src.dueDate) : null,

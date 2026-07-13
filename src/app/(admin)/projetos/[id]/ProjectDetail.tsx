@@ -1097,16 +1097,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
       <div className="pt-1 border-t border-[#1e2d45]">
         <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Atualizações / comentários (o cliente vê)</label>
         {comments.length > 0 && (
-          <div className="space-y-1 mb-1.5">
-            {comments.map((c, i) => (
-              <div key={i} className="flex items-start gap-2 text-[11px] group/cm">
-                <span className="text-slate-600 whitespace-nowrap mt-0.5">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
-                <span className="text-slate-300 flex-1">{c.text}</span>
-                <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
-                  <Trash2 className="w-3 h-3" />
-                </button>
-              </div>
-            ))}
+          <div className="flex flex-col gap-2 mb-2">
+            {comments.map((c, i) => {
+              const fromClient = (c as any).by === "client";
+              return (
+                <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : "border-[#1e2d45] bg-[#0f1729]"}`}>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-slate-500 tabular-nums">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                      <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-[13px] text-slate-200 leading-relaxed whitespace-pre-wrap">{c.text}</div>
+                </div>
+              );
+            })}
           </div>
         )}
         <div className="flex gap-1.5">

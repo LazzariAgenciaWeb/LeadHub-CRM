@@ -302,12 +302,18 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
               )}
               {openTask.comments.length > 0 && (
                 <div className="gms">
-                  <h4>Atualizações</h4>
+                  <h4>O que estamos fazendo</h4>
                   <ul className="tkupd">
                     {openTask.comments.map((c, i) => (
                       <li key={i} className={c.by === "client" ? "byclient" : ""}>
-                        <span className="ud">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
-                        <span className="ut">{c.by === "client" && <b className="uby">Você:</b>} {c.text}</span>
+                        <span className="fdot" />
+                        <div className="fbubble">
+                          <div className="fhead">
+                            <b className="fauthor">{c.by === "client" ? "Você" : "Equipe Azz"}</b>
+                            <span className="fdate">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
+                          </div>
+                          <div className="ftext">{c.text}</div>
+                        </div>
                       </li>
                     ))}
                   </ul>
