@@ -199,6 +199,56 @@ export async function updateClickupTask({
   }
 }
 
+/**
+ * Marca uma tarefa do ClickUp como CONCLUÍDA. O ClickUp não tem "complete=true":
+ * concluir é setar o status pra um de tipo "closed"/"done" da lista da tarefa.
+ * Estratégia:
+ *   1) se `preferredStatus` vier (ex.: o "status quando concluído" configurado),
+ *      tenta ele primeiro;
+ *   2) senão (ou se falhar), descobre o status fechado da lista da própria tarefa
+ *      e usa ele — assim funciona em qualquer lista sem config manual.
+ * Best-effort: retorna false sem lançar.
+ */
+export async function markClickupTaskDone(
+  apiToken: string,
+  taskId: string,
+  preferredStatus?: string,
+): Promise<boolean> {
+  if (!taskId) return false;
+
+  if (preferredStatus?.trim()) {
+    const ok = await updateClickupTask({ apiToken, taskId, status: preferredStatus.trim() });
+    if (ok) return true;
+    // status não existe nessa lista → cai pro auto-detect abaixo
+  }
+
+  try {
+    // 1) descobre a lista da tarefa
+    const taskRes = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!taskRes.ok) return false;
+    const task = await taskRes.json();
+    const listId = task?.list?.id as string | undefined;
+    if (!listId) return false;
+
+    // 2) pega os status da lista e acha o de encerramento
+    const listRes = await fetch(`${BASE}/list/${listId}`, { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!listRes.ok) return false;
+    const list = await listRes.json();
+    const statuses: { status: string; type: string }[] = list?.statuses ?? [];
+    const closed = statuses.find((s) => s.type === "closed") ?? statuses.find((s) => s.type === "done");
+    if (!closed) return false;
+
+    // 3) já está fechada? não precisa mexer
+    const current = (task?.status?.status as string | undefined)?.toLowerCase();
+    if (current && current === closed.status.toLowerCase()) return true;
+
+    return await updateClickupTask({ apiToken, taskId, status: closed.status });
+  } catch (err) {
+    console.error("[ClickUp] markTaskDone error", err);
+    return false;
+  }
+}
+
 /** Busca a descrição (texto) de uma tarefa do ClickUp. Retorna "" se vazia/erro. */
 export async function fetchClickupTaskDescription(apiToken: string, taskId: string): Promise<string> {
   if (!taskId) return "";

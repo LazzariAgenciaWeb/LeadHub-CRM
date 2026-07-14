@@ -5,7 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist, sanitizeComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
-import { getClickupSettings, updateClickupTask } from "@/lib/clickup";
+import { getClickupSettings, updateClickupTask, markClickupTaskDone } from "@/lib/clickup";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -105,18 +105,26 @@ export async function PATCH(
     include: { assignee: { select: { id: true, name: true } } },
   });
 
-  // Fase 2 (interna → ClickUp): se a tarefa é vinculada, reflete título/prazo lá.
-  // Best-effort — falha no ClickUp NÃO quebra a atualização interna.
-  if (res.task.clickupTaskId && (data.title !== undefined || data.dueDate !== undefined)) {
+  // Interna → ClickUp (best-effort — falha no ClickUp NÃO quebra a atualização):
+  //  • título/prazo: reflete no update da tarefa vinculada.
+  //  • concluir no LeadHub → conclui no ClickUp (seta o status de encerramento).
+  const syncTitleDue = data.title !== undefined || data.dueDate !== undefined;
+  const syncDone = data.done === true; // só concluir; reabrir fica com o ClickUp
+  if (res.task.clickupTaskId && (syncTitleDue || syncDone)) {
     try {
       const settings = await getClickupSettings(res.task.project.setor.companyId);
       if (settings) {
-        await updateClickupTask({
-          apiToken: settings.apiToken,
-          taskId:   res.task.clickupTaskId,
-          name:     data.title as string | undefined,
-          dueDate:  data.dueDate !== undefined ? (data.dueDate instanceof Date ? data.dueDate.getTime() : null) : undefined,
-        });
+        if (syncTitleDue) {
+          await updateClickupTask({
+            apiToken: settings.apiToken,
+            taskId:   res.task.clickupTaskId,
+            name:     data.title as string | undefined,
+            dueDate:  data.dueDate !== undefined ? (data.dueDate instanceof Date ? data.dueDate.getTime() : null) : undefined,
+          });
+        }
+        if (syncDone) {
+          await markClickupTaskDone(settings.apiToken, res.task.clickupTaskId, settings.statusChamadoConcluido);
+        }
       }
     } catch { /* silencioso */ }
   }

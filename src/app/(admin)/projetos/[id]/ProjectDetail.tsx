@@ -96,6 +96,7 @@ type InternalTask = {
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
   awaitingClient: boolean; // aguardando resposta do cliente
   assigneeName: string | null;
+  materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
 
 type Chamado = {
@@ -1027,6 +1028,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
     else setMatMsg("Falha ao adicionar.");
   }
 
+  async function removeMaterial(materialId: string) {
+    const res = await fetch(`/api/projetos/${projectId}/materiais/${materialId}`, { method: "DELETE" });
+    if (res.ok) router.refresh();
+  }
+
   return (
     <div className="space-y-4">
       {/* Aguardando resposta do cliente */}
@@ -1086,7 +1092,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
         </div>
       </div>
       <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Adicionar link / anexo na tarefa</label>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide flex items-center gap-1 mb-1"><Link2 className="w-3 h-3" /> Links / anexos da tarefa</label>
+        {task.materials.length > 0 && (
+          <div className="space-y-1 mb-2">
+            {task.materials.map((m) => (
+              <div key={m.id} className="flex items-center gap-2 text-xs bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2.5 py-1.5">
+                <Link2 className="w-3 h-3 text-slate-500 shrink-0" />
+                {m.url ? (
+                  <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-indigo-300 hover:underline truncate flex-1" title={m.url}>{m.title}</a>
+                ) : (
+                  <span className="text-slate-300 truncate flex-1">{m.title}</span>
+                )}
+                <button type="button" onClick={() => removeMaterial(m.id)} className="text-slate-600 hover:text-red-400 shrink-0" title="Remover">
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="flex gap-1.5">
           <input value={matTitle} onChange={(e) => setMatTitle(e.target.value)} placeholder="Título" className={inCls + " flex-1"} />
           <input value={matUrl} onChange={(e) => setMatUrl(e.target.value)} placeholder="https://…" className={inCls + " flex-1"} />
@@ -1158,6 +1181,43 @@ function ProjectTasksCard({
     title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Seleção em massa — mudar serviço/etapa de várias tarefas de uma vez.
+  const [selectMode, setSelectMode] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkSvc, setBulkSvc] = useState("");
+  const [bulkStage, setBulkStage] = useState("");
+  const [bulkSaving, setBulkSaving] = useState(false);
+
+  function toggleSelect(taskId: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(taskId)) next.delete(taskId); else next.add(taskId);
+      return next;
+    });
+  }
+  function exitSelectMode() {
+    setSelectMode(false);
+    setSelected(new Set());
+    setBulkSvc("");
+    setBulkStage("");
+  }
+  async function applyBulk() {
+    if (selected.size === 0) return;
+    const usesServices = serviceSteps.length > 0;
+    if (usesServices ? bulkSvc === "" : bulkStage.trim() === "") return;
+    setBulkSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/bulk`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({
+        taskIds: Array.from(selected),
+        ...(usesServices ? { projectServiceId: bulkSvc || null } : { stage: bulkStage.trim() || null }),
+      }),
+    });
+    setBulkSaving(false);
+    if (res.ok) { exitSelectMode(); router.refresh(); }
+  }
 
   useEffect(() => {
     if (!editingId) return;
@@ -1235,13 +1295,60 @@ function ProjectTasksCard({
           <h3 className="text-white font-semibold text-sm">✅ Tarefas do projeto</h3>
           <p className="text-slate-500 text-xs mt-0.5">Tarefas internas (LeadHub) e tarefas criadas no ClickUp.</p>
         </div>
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
-        >
-          {open ? "Fechar" : "+ Nova tarefa"}
-        </button>
+        <div className="flex items-center gap-2">
+          {internalTasks.length > 0 && (
+            <button
+              onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
+              className={`text-xs px-3 py-1.5 rounded-lg font-medium border ${selectMode ? "border-indigo-500 text-indigo-300 bg-indigo-500/10" : "border-[#1e2d45] text-slate-400 hover:text-white"}`}
+            >
+              {selectMode ? "Cancelar seleção" : "☑ Selecionar"}
+            </button>
+          )}
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
+          >
+            {open ? "Fechar" : "+ Nova tarefa"}
+          </button>
+        </div>
       </div>
+
+      {/* Barra de ação em massa */}
+      {selectMode && (
+        <div className="px-5 py-3 border-b border-[#1e2d45] bg-[#080b12] flex flex-wrap items-center gap-2">
+          <span className="text-xs text-slate-400 font-medium">{selected.size} selecionada{selected.size === 1 ? "" : "s"}</span>
+          <span className="text-slate-600 text-xs">→ mudar {serviceSteps.length > 0 ? "serviço/etapa" : "etapa"}:</span>
+          {serviceSteps.length > 0 ? (
+            <select
+              value={bulkSvc}
+              onChange={(e) => setBulkSvc(e.target.value)}
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+            >
+              <option value="">— escolher —</option>
+              <option value="__none__" disabled>──────</option>
+              {serviceSteps.map((s, i) => <option key={s.id} value={s.id}>{String(i + 1).padStart(2, "0")} · {s.name}</option>)}
+            </select>
+          ) : (
+            <input
+              list="etapas-list"
+              value={bulkStage}
+              onChange={(e) => setBulkStage(e.target.value)}
+              placeholder="Etapa (ex.: Diagnóstico)"
+              className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+            />
+          )}
+          <button
+            onClick={applyBulk}
+            disabled={bulkSaving || selected.size === 0 || (serviceSteps.length > 0 ? bulkSvc === "" : bulkStage.trim() === "")}
+            className="text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-40"
+          >
+            {bulkSaving ? "Aplicando..." : `Aplicar a ${selected.size}`}
+          </button>
+          {selected.size > 0 && (
+            <button onClick={() => setSelected(new Set())} className="text-xs text-slate-500 hover:text-white">Limpar</button>
+          )}
+        </div>
+      )}
 
       {open && (
         <div className="p-5 border-b border-[#1e2d45] bg-[#080b12] space-y-3">
@@ -1371,15 +1478,15 @@ function ProjectTasksCard({
             const overdue = due && due < new Date() && !t.done;
             const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
             return (
-              <div key={t.id} className="flex items-center gap-2 px-5 py-2.5 hover:bg-[#080b12] group">
+              <div key={t.id} className={`flex items-center gap-2 px-5 py-2.5 group ${selectMode && selected.has(t.id) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}>
                 <input
                   type="checkbox"
-                  checked={t.done}
-                  onChange={() => toggleDone(t)}
-                  className="w-4 h-4 rounded accent-emerald-500 cursor-pointer flex-shrink-0"
-                  title="Concluir"
+                  checked={selectMode ? selected.has(t.id) : t.done}
+                  onChange={() => (selectMode ? toggleSelect(t.id) : toggleDone(t))}
+                  className={`w-4 h-4 rounded cursor-pointer flex-shrink-0 ${selectMode ? "accent-indigo-500" : "accent-emerald-500"}`}
+                  title={selectMode ? "Selecionar" : "Concluir"}
                 />
-                <button onClick={() => setEditingId(t.id)} className="min-w-0 flex-1 text-left cursor-pointer">
+                <button onClick={() => (selectMode ? toggleSelect(t.id) : setEditingId(t.id))} className="min-w-0 flex-1 text-left cursor-pointer">
                   <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
                     {t.title}
                   </span>

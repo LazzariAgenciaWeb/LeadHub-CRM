@@ -84,6 +84,13 @@ export default async function ProjectDetailPage({
     orderBy: [{ done: "asc" }, { dueDate: "asc" }, { createdAt: "desc" }],
     include: { assignee: { select: { id: true, name: true } } },
   });
+  // Materiais (links/anexos) do projeto — usados abaixo pra anexar por tarefa e
+  // também passados pro ProjectMateriais (nível do projeto).
+  const materials = await prisma.projectMaterial.findMany({
+    where:   { projectId: project.id },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true },
+  });
   const internalTasks = internalTasksRaw.map((t) => ({
     id:           t.id,
     title:        t.title,
@@ -100,6 +107,9 @@ export default async function ProjectDetailPage({
     clickupTaskId: t.clickupTaskId ?? null,
     awaitingClient: t.awaitingClient,
     assigneeName: t.assignee?.name ?? null,
+    materials: materials
+      .filter((m) => m.taskId === t.id)
+      .map((m) => ({ id: m.id, kind: m.kind, title: m.title, url: m.url })),
   }));
 
   // Tarefas abertas (snapshot do último sync). Atrasadas primeiro, depois por
@@ -160,12 +170,6 @@ export default async function ProjectDetailPage({
   }));
 
   // Materiais do projeto (documentos/links/vídeos/anexos), opcionalmente por tarefa.
-  const materials = await prisma.projectMaterial.findMany({
-    where:   { projectId: project.id },
-    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true },
-  });
-
   return (
     <>
     <ProjectDetail
