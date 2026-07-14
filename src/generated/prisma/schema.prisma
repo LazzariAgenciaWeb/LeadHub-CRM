@@ -1420,23 +1420,29 @@ model ProjectMember {
 // Reaproveita o Projeto (SetorClickupList) — sem subsistema à parte. Sem
 // storage de arquivo no LeadHub: doc em HTML @db.Text, vídeo por URL externa.
 model ProjectMaterial {
-  id        String           @id @default(cuid())
-  projectId String
-  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id          String           @id @default(cuid())
+  projectId   String
+  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   // Opcional: material preso a uma TAREFA específica do projeto. null = material
   // solto no nível do projeto. Um projeto tem N tarefas, cada tarefa N materiais.
-  taskId    String?
-  task      ProjectTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
-  kind      String // "DOCUMENTO" | "REUNIAO" | "APOIO" | "LINK" | "ANEXO"
-  stage     String? // rótulo opcional da etapa (ex.: "Diagnóstico")
-  title     String
-  docHtml   String?          @db.Text // DOCUMENTO: HTML inline
-  url       String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
-  ata       String?          @db.Text // resumo/ata (reuniões)
-  featured  Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
-  order     Int              @default(0)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+  taskId      String?
+  task        ProjectTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  kind        String // "DOCUMENTO" | "REUNIAO" | "APOIO" | "LINK" | "ANEXO" | "INLINE"
+  stage       String? // rótulo opcional da etapa (ex.: "Diagnóstico")
+  title       String
+  docHtml     String?          @db.Text // DOCUMENTO: HTML inline
+  url         String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
+  ata         String?          @db.Text // resumo/ata (reuniões)
+  // Imagem/print embutido (kind INLINE ou ANEXO): binário em base64 + MIME.
+  // Mesmo padrão de TicketMessage.mediaBase64 — servido por endpoint dedicado
+  // (/materiais/[id]/media), NUNCA carregado inline em listas (evita OOM).
+  // No descritivo da tarefa a imagem é referenciada por um token [[img:<id>]].
+  mediaBase64 String?          @db.Text
+  mediaType   String? // MIME: "image/png", "image/jpeg"…
+  featured    Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
+  order       Int              @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 
   @@index([projectId])
   @@index([taskId])

@@ -46,51 +46,72 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.json().catch(() => ({}));
-  const taskId = String(body?.taskId ?? "").trim();
-  if (!taskId) return NextResponse.json({ error: "taskId é obrigatório" }, { status: 400 });
+  // Aceita 1 (taskId) ou vários (taskIds[]). Cap de 50 por chamada pra não
+  // estourar rate limit do ClickUp (cada import faz 2 GETs: desc + comentários).
+  const rawIds: string[] = Array.isArray(body?.taskIds)
+    ? body.taskIds
+    : (body?.taskId ? [body.taskId] : []);
+  const taskIds = Array.from(new Set(rawIds.map((x) => String(x).trim()).filter(Boolean))).slice(0, 50);
+  if (taskIds.length === 0) return NextResponse.json({ error: "taskId(s) obrigatório(s)" }, { status: 400 });
 
-  // Já importada? devolve a interna existente (não duplica).
-  const existing = await prisma.projectTask.findFirst({
-    where: { projectId: id, clickupTaskId: taskId },
-    include: { assignee: { select: { id: true, name: true } } },
-  });
-  if (existing) return NextResponse.json({ ok: true, already: true, task: existing });
-
-  // Pega o snapshot da tarefa do ClickUp pra copiar nome/prazo/status.
-  const state = await prisma.projectTaskState.findUnique({
-    where: { projectId_taskId: { projectId: id, taskId } },
-    select: { name: true, isCompleted: true, dueDate: true },
-  });
-  if (!state) return NextResponse.json({ error: "Tarefa do ClickUp não encontrada no snapshot. Rode o Sync." }, { status: 404 });
-
-  const due = state.dueDate != null ? new Date(Number(state.dueDate)) : null;
-
-  // Busca descrição + comentários direto no ClickUp (o snapshot não guarda isso).
-  let description: string | null = null;
-  let comments: { text: string; at: string }[] | null = null;
   const settings = await getClickupSettings(project.setor.companyId);
-  if (settings) {
-    const [desc, cmts] = await Promise.all([
-      fetchClickupTaskDescription(settings.apiToken, taskId),
-      fetchClickupTaskComments(settings.apiToken, taskId),
-    ]);
-    description = desc || null;
-    comments = sanitizeComments(cmts);
+
+  const created: unknown[] = [];
+  let alreadyCount = 0;
+  let notFoundCount = 0;
+
+  for (const taskId of taskIds) {
+    // Já importada? não duplica.
+    const existing = await prisma.projectTask.findFirst({
+      where: { projectId: id, clickupTaskId: taskId },
+      select: { id: true },
+    });
+    if (existing) { alreadyCount++; continue; }
+
+    // Snapshot da tarefa (nome/prazo/status). Sem snapshot → pede Sync.
+    const state = await prisma.projectTaskState.findUnique({
+      where: { projectId_taskId: { projectId: id, taskId } },
+      select: { name: true, isCompleted: true, dueDate: true },
+    });
+    if (!state) { notFoundCount++; continue; }
+
+    const due = state.dueDate != null ? new Date(Number(state.dueDate)) : null;
+
+    // Descrição + comentários direto no ClickUp (não vêm no snapshot).
+    let description: string | null = null;
+    let comments: { text: string; at: string }[] | null = null;
+    if (settings) {
+      const [desc, cmts] = await Promise.all([
+        fetchClickupTaskDescription(settings.apiToken, taskId),
+        fetchClickupTaskComments(settings.apiToken, taskId),
+      ]);
+      description = desc || null;
+      comments = sanitizeComments(cmts);
+    }
+
+    const task = await prisma.projectTask.create({
+      data: {
+        projectId:     id,
+        title:         state.name,
+        description,
+        comments:      comments ?? undefined,
+        done:          state.isCompleted,
+        dueDate:       due && !Number.isNaN(due.getTime()) ? due : null,
+        clickupTaskId: taskId,
+        createdById:   userId ?? null,
+      },
+      include: { assignee: { select: { id: true, name: true } } },
+    });
+    created.push(task);
   }
 
-  const task = await prisma.projectTask.create({
-    data: {
-      projectId:     id,
-      title:         state.name,
-      description,
-      comments:      comments ?? undefined,
-      done:          state.isCompleted,
-      dueDate:       due && !Number.isNaN(due.getTime()) ? due : null,
-      clickupTaskId: taskId,
-      createdById:   userId ?? null,
-    },
-    include: { assignee: { select: { id: true, name: true } } },
-  });
-
-  return NextResponse.json({ ok: true, task }, { status: 201 });
+  // Compat com o caller antigo (import 1-a-1): devolve `task` quando foi só uma.
+  return NextResponse.json({
+    ok: true,
+    imported: created.length,
+    already: alreadyCount,
+    notFound: notFoundCount,
+    tasks: created,
+    ...(created.length === 1 ? { task: created[0] } : {}),
+  }, { status: 201 });
 }

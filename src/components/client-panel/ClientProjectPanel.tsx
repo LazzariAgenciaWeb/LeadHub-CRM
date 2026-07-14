@@ -309,6 +309,7 @@ const IconStar  = <svg width="12" height="12" viewBox="0 0 24 24" fill="currentC
 
 export default function ClientProjectPanel({
   name, description, clientName, tasks, materials, serviceSteps = [], embedded = false,
+  projectId = "", token = "",
 }: {
   name: string;
   description: string | null;
@@ -317,6 +318,8 @@ export default function ClientProjectPanel({
   materials: PanelMat[];
   serviceSteps?: PanelStep[];
   embedded?: boolean;
+  projectId?: string;
+  token?: string;
 }) {
   const doneCount = tasks.filter((t) => t.done).length;
   const pct = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
@@ -423,7 +426,7 @@ export default function ClientProjectPanel({
               <h2>Andamento</h2>
               <span className="sc">{doneCount} de {tasks.length} entregas</span>
             </div>
-            <ServiceGantt tasks={tasks} materials={ganttMats} serviceSteps={serviceSteps} />
+            <ServiceGantt tasks={tasks} materials={ganttMats} serviceSteps={serviceSteps} projectId={projectId} token={token} />
           </section>
         )}
 

@@ -10,7 +10,7 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
   const project = await prisma.setorClickupList.findUnique({
     where: { publicToken: token },
     select: {
-      name: true, description: true,
+      id: true, name: true, description: true,
       clientCompany: { select: { name: true } },
       internalTasks: {
         orderBy: [{ createdAt: "asc" }],
@@ -49,6 +49,8 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
       tasks={tasks}
       materials={project.materials}
       serviceSteps={serviceSteps}
+      projectId={project.id}
+      token={token}
     />
   );
 }

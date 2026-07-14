@@ -10,6 +10,7 @@ import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
+import { DescricaoEditor } from "@/components/DescricaoRich";
 
 type Project = {
   id:                  string;
@@ -150,6 +151,30 @@ export default function ProjectDetail({
       body:    JSON.stringify({ taskId }),
     }).catch(() => {});
     setImporting(null);
+    router.refresh();
+  }
+
+  // Importação em massa do ClickUp — seleciona várias tarefas abertas e importa.
+  const importableIds = openTasks.map((t) => t.taskId).filter((tid) => !importedClickupIds.has(tid));
+  const [importSel, setImportSel] = useState<Set<string>>(new Set());
+  const [bulkImporting, setBulkImporting] = useState(false);
+  function toggleImportSel(taskId: string) {
+    setImportSel((prev) => {
+      const next = new Set(prev);
+      if (next.has(taskId)) next.delete(taskId); else next.add(taskId);
+      return next;
+    });
+  }
+  async function importBulk() {
+    if (importSel.size === 0) return;
+    setBulkImporting(true);
+    await fetch(`/api/projetos/${project.id}/tasks/import-clickup`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ taskIds: Array.from(importSel) }),
+    }).catch(() => {});
+    setBulkImporting(false);
+    setImportSel(new Set());
     router.refresh();
   }
 
@@ -346,6 +371,25 @@ export default function ProjectDetail({
                       </span>
                       <span className="text-slate-600 text-[10px]">snapshot do último sync</span>
                     </div>
+                    {importableIds.length > 0 && (
+                      <div className="flex items-center gap-2 mb-1.5 text-[10px]">
+                        <button
+                          onClick={() => setImportSel(importSel.size === importableIds.length ? new Set() : new Set(importableIds))}
+                          className="text-slate-400 hover:text-white underline"
+                        >
+                          {importSel.size === importableIds.length ? "Limpar seleção" : `Selecionar todas (${importableIds.length})`}
+                        </button>
+                        {importSel.size > 0 && (
+                          <button
+                            onClick={importBulk}
+                            disabled={bulkImporting}
+                            className="ml-auto px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium disabled:opacity-50"
+                          >
+                            {bulkImporting ? "Importando…" : `Importar ${importSel.size} selecionada${importSel.size === 1 ? "" : "s"}`}
+                          </button>
+                        )}
+                      </div>
+                    )}
                     <div className="space-y-1 max-h-[260px] overflow-y-auto pr-1">
                       {openTasks.map((t) => {
                         const overdue = t.dueDate !== null && t.dueDate < Date.now();
@@ -353,9 +397,18 @@ export default function ProjectDetail({
                         return (
                           <div
                             key={t.id}
-                            className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-[#080b12] group"
+                            className={`flex items-center gap-2 px-2 py-1.5 rounded group ${importSel.has(t.taskId) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}
                             title={t.statusName ?? undefined}
                           >
+                            {!imported && (
+                              <input
+                                type="checkbox"
+                                checked={importSel.has(t.taskId)}
+                                onChange={() => toggleImportSel(t.taskId)}
+                                className="w-3.5 h-3.5 rounded accent-indigo-500 cursor-pointer flex-shrink-0"
+                                title="Selecionar pra importar"
+                              />
+                            )}
                             <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
                               overdue ? "bg-red-400" : t.dueDate === null ? "bg-amber-400" : "bg-slate-500"
                             }`} />
@@ -1033,6 +1086,27 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
     if (res.ok) router.refresh();
   }
 
+  // Upload de print pro descritivo: lê o arquivo em base64, cria um material
+  // INLINE e devolve o id (o token [[img:id]] é inserido pelo editor).
+  const descMediaUrl = (mid: string) => `/api/projetos/${projectId}/materiais/${mid}/media`;
+  async function uploadDescImage(file: File): Promise<string | null> {
+    const dataUrl: string = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result));
+      r.onerror = () => reject(new Error("read"));
+      r.readAsDataURL(file);
+    }).catch(() => "") as string;
+    if (!dataUrl) return null;
+    const res = await fetch(`/api/projetos/${projectId}/materiais`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ kind: "INLINE", taskId: task.id, title: file.name || "Print", mediaBase64: dataUrl }),
+    });
+    if (!res.ok) return null;
+    const m = await res.json();
+    return (m?.id as string) ?? null;
+  }
+
   return (
     <div className="space-y-4">
       {/* Aguardando resposta do cliente */}
@@ -1074,8 +1148,16 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
         </div>
       </div>
       <div>
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê)</span></label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={5} placeholder="O que será feito nesta tarefa…" className={`${inCls} resize-y`} />
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Descrição <span className="text-slate-600 normal-case">(o cliente vê · cole prints aqui)</span></label>
+        <DescricaoEditor
+          value={description}
+          onChange={setDescription}
+          onUpload={uploadDescImage}
+          mediaUrl={descMediaUrl}
+          rows={5}
+          placeholder="O que será feito nesta tarefa… (cole um print pra ilustrar)"
+          className={`${inCls} resize-y`}
+        />
       </div>
       <div>
         <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Checklist / sub-passos</label>

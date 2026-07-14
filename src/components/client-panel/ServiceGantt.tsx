@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { PanelTask, PanelMat, PanelStep } from "./ClientProjectPanel";
 import TaskRespond from "./TaskRespond";
+import { DescricaoView } from "@/components/DescricaoRich";
 
 /**
  * Andamento em Gantt (client): tarefas agrupadas por etapa viram barras no tempo,
@@ -52,7 +53,9 @@ function statusOf(t: PanelTask, now: number): keyof typeof STATUS_LABEL {
 
 type Group = { key: string; label: string; tasks: PanelTask[] };
 
-export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { tasks: PanelTask[]; materials: PanelMat[]; serviceSteps?: PanelStep[] }) {
+export default function ServiceGantt({ tasks, materials, serviceSteps = [], projectId = "", token = "" }: { tasks: PanelTask[]; materials: PanelMat[]; serviceSteps?: PanelStep[]; projectId?: string; token?: string }) {
+  // URL da imagem inline do descritivo — pública via ?t=token (painel do cliente).
+  const descMediaUrl = (mid: string) => `/api/projetos/${projectId}/materiais/${mid}/media?t=${encodeURIComponent(token)}`;
   const [openId, setOpenId] = useState<string | null>(null);
   const now = Date.now();
 
@@ -284,7 +287,7 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [] }: { 
                 <div><div className="k">Fim</div><div className="v">{openTask.dueDate ? fmtDM(new Date(openTask.dueDate)) : "—"}</div></div>
               </div>
               {openTask.description && (
-                <div className="gms"><h4>Descrição</h4><p className="desc">{openTask.description}</p></div>
+                <div className="gms"><h4>Descrição</h4><DescricaoView text={openTask.description} mediaUrl={descMediaUrl} className="desc" /></div>
               )}
               {openTask.checklist.length > 0 && (
                 <div className="gms">

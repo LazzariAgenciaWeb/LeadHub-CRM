@@ -108,7 +108,7 @@ export default async function ProjectDetailPage({
     awaitingClient: t.awaitingClient,
     assigneeName: t.assignee?.name ?? null,
     materials: materials
-      .filter((m) => m.taskId === t.id)
+      .filter((m) => m.taskId === t.id && m.kind !== "INLINE") // INLINE = print no descritivo
       .map((m) => ({ id: m.id, kind: m.kind, title: m.title, url: m.url })),
   }));
 

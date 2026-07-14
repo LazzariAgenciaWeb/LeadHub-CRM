@@ -56,6 +56,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
         tasks={tasks}
         materials={project.materials}
         serviceSteps={serviceSteps}
+        projectId={id}
         embedded
       />
     </div>

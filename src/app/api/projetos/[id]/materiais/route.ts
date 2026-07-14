@@ -3,7 +3,8 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 
-const KINDS = ["DOCUMENTO", "REUNIAO", "APOIO", "LINK", "ANEXO"];
+const KINDS = ["DOCUMENTO", "REUNIAO", "APOIO", "LINK", "ANEXO", "INLINE"];
+const MAX_IMG_BYTES = 4 * 1024 * 1024; // 4 MB por print (base64 no DB)
 
 // Carrega o projeto e confere que pertence à empresa da sessão.
 async function ownedProject(id: string, session: any) {
@@ -33,12 +34,32 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if ("error" in owned) return owned.error;
 
   const body = await req.json();
-  const { kind, taskId, stage, title, docHtml, url, ata, order, featured } = body;
+  const { kind, taskId, stage, title, docHtml, url, ata, order, featured, mediaBase64, mediaType } = body;
   if (!kind || !KINDS.includes(kind)) {
     return NextResponse.json({ error: "kind inválido" }, { status: 400 });
   }
-  if (typeof title !== "string" || !title.trim()) {
+  // INLINE (print embutido no descritivo) não exige título — geramos um.
+  const isInline = kind === "INLINE";
+  if (!isInline && (typeof title !== "string" || !title.trim())) {
     return NextResponse.json({ error: "título obrigatório" }, { status: 400 });
+  }
+
+  // Imagem embutida: aceita data URL ("data:image/png;base64,…") ou base64 cru.
+  let cleanBase64: string | null = null;
+  let cleanMime: string | null = null;
+  if (mediaBase64 && typeof mediaBase64 === "string") {
+    const m = mediaBase64.match(/^data:([^;]+);base64,([\s\S]*)$/);
+    cleanBase64 = m ? m[2] : mediaBase64;
+    cleanMime = (m ? m[1] : (typeof mediaType === "string" ? mediaType : "")) || null;
+    if (!cleanMime || !cleanMime.startsWith("image/")) {
+      return NextResponse.json({ error: "Só imagens são aceitas" }, { status: 400 });
+    }
+    // Buffer.byteLength do base64 ≈ tamanho decodificado.
+    if (Buffer.byteLength(cleanBase64, "base64") > MAX_IMG_BYTES) {
+      return NextResponse.json({ error: "Imagem grande demais (máx. 4 MB)" }, { status: 413 });
+    }
+  } else if (isInline) {
+    return NextResponse.json({ error: "mediaBase64 obrigatório pra imagem inline" }, { status: 400 });
   }
 
   // Se veio taskId, a tarefa precisa ser deste projeto.
@@ -55,13 +76,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       taskId:  taskId || null,
       kind,
       stage:   typeof stage === "string" && stage.trim() ? stage.trim() : null,
-      title:   title.trim(),
+      title:   (typeof title === "string" && title.trim()) ? title.trim() : "Print",
       docHtml: typeof docHtml === "string" && docHtml.trim() ? docHtml : null,
       url:     typeof url === "string" && url.trim() ? url.trim() : null,
       ata:     typeof ata === "string" && ata.trim() ? ata : null,
       featured: !!featured,
       order:   Number.isInteger(order) ? order : 0,
+      mediaBase64: cleanBase64,
+      mediaType:   cleanMime,
     },
+    select: { id: true, kind: true, title: true, url: true, mediaType: true },
   });
   return NextResponse.json(material, { status: 201 });
 }
