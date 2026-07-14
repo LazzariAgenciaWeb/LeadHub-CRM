@@ -106,20 +106,26 @@ export async function PATCH(
   });
 
   // Interna → ClickUp (best-effort — falha no ClickUp NÃO quebra a atualização):
-  //  • título/prazo: reflete no update da tarefa vinculada.
+  //  • título/prazo/início/descritivo: reflete no update da tarefa vinculada.
   //  • concluir no LeadHub → conclui no ClickUp (seta o status de encerramento).
-  const syncTitleDue = data.title !== undefined || data.dueDate !== undefined;
+  const syncFields =
+    data.title       !== undefined ||
+    data.dueDate     !== undefined ||
+    data.startDate   !== undefined ||
+    data.description !== undefined;
   const syncDone = data.done === true; // só concluir; reabrir fica com o ClickUp
-  if (res.task.clickupTaskId && (syncTitleDue || syncDone)) {
+  if (res.task.clickupTaskId && (syncFields || syncDone)) {
     try {
       const settings = await getClickupSettings(res.task.project.setor.companyId);
       if (settings) {
-        if (syncTitleDue) {
+        if (syncFields) {
           await updateClickupTask({
-            apiToken: settings.apiToken,
-            taskId:   res.task.clickupTaskId,
-            name:     data.title as string | undefined,
-            dueDate:  data.dueDate !== undefined ? (data.dueDate instanceof Date ? data.dueDate.getTime() : null) : undefined,
+            apiToken:    settings.apiToken,
+            taskId:      res.task.clickupTaskId,
+            name:        data.title as string | undefined,
+            description: data.description !== undefined ? ((data.description as string | null) ?? "") : undefined,
+            dueDate:     data.dueDate   !== undefined ? (data.dueDate   instanceof Date ? data.dueDate.getTime()   : null) : undefined,
+            startDate:   data.startDate !== undefined ? (data.startDate instanceof Date ? data.startDate.getTime() : null) : undefined,
           });
         }
         if (syncDone) {

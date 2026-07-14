@@ -51298,11 +51298,13 @@ export namespace Prisma {
 
   export type ProjectTaskStateAvgAggregateOutputType = {
     dueDate: number | null
+    startDate: number | null
     dateUpdated: number | null
   }
 
   export type ProjectTaskStateSumAggregateOutputType = {
     dueDate: bigint | null
+    startDate: bigint | null
     dateUpdated: bigint | null
   }
 
@@ -51315,6 +51317,7 @@ export namespace Prisma {
     isCompleted: boolean | null
     hasNoAssignee: boolean | null
     dueDate: bigint | null
+    startDate: bigint | null
     dateUpdated: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -51329,6 +51332,7 @@ export namespace Prisma {
     isCompleted: boolean | null
     hasNoAssignee: boolean | null
     dueDate: bigint | null
+    startDate: bigint | null
     dateUpdated: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -51343,6 +51347,7 @@ export namespace Prisma {
     isCompleted: number
     hasNoAssignee: number
     dueDate: number
+    startDate: number
     dateUpdated: number
     createdAt: number
     updatedAt: number
@@ -51352,11 +51357,13 @@ export namespace Prisma {
 
   export type ProjectTaskStateAvgAggregateInputType = {
     dueDate?: true
+    startDate?: true
     dateUpdated?: true
   }
 
   export type ProjectTaskStateSumAggregateInputType = {
     dueDate?: true
+    startDate?: true
     dateUpdated?: true
   }
 
@@ -51369,6 +51376,7 @@ export namespace Prisma {
     isCompleted?: true
     hasNoAssignee?: true
     dueDate?: true
+    startDate?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -51383,6 +51391,7 @@ export namespace Prisma {
     isCompleted?: true
     hasNoAssignee?: true
     dueDate?: true
+    startDate?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -51397,6 +51406,7 @@ export namespace Prisma {
     isCompleted?: true
     hasNoAssignee?: true
     dueDate?: true
+    startDate?: true
     dateUpdated?: true
     createdAt?: true
     updatedAt?: true
@@ -51498,6 +51508,7 @@ export namespace Prisma {
     isCompleted: boolean
     hasNoAssignee: boolean
     dueDate: bigint | null
+    startDate: bigint | null
     dateUpdated: bigint | null
     createdAt: Date
     updatedAt: Date
@@ -51531,6 +51542,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: boolean
+    startDate?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51546,6 +51558,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: boolean
+    startDate?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51561,6 +51574,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: boolean
+    startDate?: boolean
     dateUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -51587,6 +51601,7 @@ export namespace Prisma {
       isCompleted: boolean
       hasNoAssignee: boolean
       dueDate: bigint | null
+      startDate: bigint | null
       dateUpdated: bigint | null
       createdAt: Date
       updatedAt: Date
@@ -51992,6 +52007,7 @@ export namespace Prisma {
     readonly isCompleted: FieldRef<"ProjectTaskState", 'Boolean'>
     readonly hasNoAssignee: FieldRef<"ProjectTaskState", 'Boolean'>
     readonly dueDate: FieldRef<"ProjectTaskState", 'BigInt'>
+    readonly startDate: FieldRef<"ProjectTaskState", 'BigInt'>
     readonly dateUpdated: FieldRef<"ProjectTaskState", 'BigInt'>
     readonly createdAt: FieldRef<"ProjectTaskState", 'DateTime'>
     readonly updatedAt: FieldRef<"ProjectTaskState", 'DateTime'>
@@ -113452,6 +113468,7 @@ export namespace Prisma {
     isCompleted: 'isCompleted',
     hasNoAssignee: 'hasNoAssignee',
     dueDate: 'dueDate',
+    startDate: 'startDate',
     dateUpdated: 'dateUpdated',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -118882,6 +118899,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
     hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dueDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    startDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -118897,6 +118915,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     hasNoAssignee?: SortOrder
     dueDate?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
     dateUpdated?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118916,6 +118935,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
     hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dueDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    startDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -118931,6 +118951,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     hasNoAssignee?: SortOrder
     dueDate?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
     dateUpdated?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -118953,6 +118974,7 @@ export namespace Prisma {
     isCompleted?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
     hasNoAssignee?: BoolWithAggregatesFilter<"ProjectTaskState"> | boolean
     dueDate?: BigIntNullableWithAggregatesFilter<"ProjectTaskState"> | bigint | number | null
+    startDate?: BigIntNullableWithAggregatesFilter<"ProjectTaskState"> | bigint | number | null
     dateUpdated?: BigIntNullableWithAggregatesFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectTaskState"> | Date | string
@@ -128344,6 +128366,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128359,6 +128382,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128372,6 +128396,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128387,6 +128412,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128401,6 +128427,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128414,6 +128441,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128428,6 +128456,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -137661,6 +137690,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     hasNoAssignee?: SortOrder
     dueDate?: SortOrder
+    startDate?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137668,6 +137698,7 @@ export namespace Prisma {
 
   export type ProjectTaskStateAvgOrderByAggregateInput = {
     dueDate?: SortOrder
+    startDate?: SortOrder
     dateUpdated?: SortOrder
   }
 
@@ -137680,6 +137711,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     hasNoAssignee?: SortOrder
     dueDate?: SortOrder
+    startDate?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137694,6 +137726,7 @@ export namespace Prisma {
     isCompleted?: SortOrder
     hasNoAssignee?: SortOrder
     dueDate?: SortOrder
+    startDate?: SortOrder
     dateUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137701,6 +137734,7 @@ export namespace Prisma {
 
   export type ProjectTaskStateSumOrderByAggregateInput = {
     dueDate?: SortOrder
+    startDate?: SortOrder
     dateUpdated?: SortOrder
   }
 
@@ -173821,6 +173855,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -173834,6 +173869,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174466,6 +174502,7 @@ export namespace Prisma {
     isCompleted?: BoolFilter<"ProjectTaskState"> | boolean
     hasNoAssignee?: BoolFilter<"ProjectTaskState"> | boolean
     dueDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
+    startDate?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     dateUpdated?: BigIntNullableFilter<"ProjectTaskState"> | bigint | number | null
     createdAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectTaskState"> | Date | string
@@ -208562,6 +208599,7 @@ export namespace Prisma {
     isCompleted?: boolean
     hasNoAssignee?: boolean
     dueDate?: bigint | number | null
+    startDate?: bigint | number | null
     dateUpdated?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208677,6 +208715,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208690,6 +208729,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -208703,6 +208743,7 @@ export namespace Prisma {
     isCompleted?: BoolFieldUpdateOperationsInput | boolean
     hasNoAssignee?: BoolFieldUpdateOperationsInput | boolean
     dueDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    startDate?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     dateUpdated?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

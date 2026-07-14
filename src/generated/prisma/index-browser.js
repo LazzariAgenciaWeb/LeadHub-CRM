@@ -656,6 +656,7 @@ exports.Prisma.ProjectTaskStateScalarFieldEnum = {
   isCompleted: 'isCompleted',
   hasNoAssignee: 'hasNoAssignee',
   dueDate: 'dueDate',
+  startDate: 'startDate',
   dateUpdated: 'dateUpdated',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -731,7 +731,7 @@ export async function runDailyPenalties(companyId: string): Promise<void> {
  */
 export async function syncProjectTasks(
   projectId: string,
-  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; hasNoAssignee: boolean; dueDate: number | null; dateUpdated: number | null }>,
+  tasks:     Array<{ id: string; name: string; statusName: string | null; isCompleted: boolean; hasNoAssignee: boolean; dueDate: number | null; startDate?: number | null; dateUpdated: number | null }>,
 ): Promise<{ created: number; updated: number; completed: number }> {
   const project = await prisma.setorClickupList.findUnique({
     where: { id: projectId },
@@ -831,6 +831,7 @@ export async function syncProjectTasks(
         isCompleted:   t.isCompleted,
         hasNoAssignee: t.hasNoAssignee,
         dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
+        startDate:     t.startDate   ? BigInt(t.startDate)   : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
       update: {
@@ -839,6 +840,7 @@ export async function syncProjectTasks(
         isCompleted:   t.isCompleted,
         hasNoAssignee: t.hasNoAssignee,
         dueDate:       t.dueDate     ? BigInt(t.dueDate)     : null,
+        startDate:     t.startDate   ? BigInt(t.startDate)   : null,
         dateUpdated:   t.dateUpdated ? BigInt(t.dateUpdated) : null,
       },
     });

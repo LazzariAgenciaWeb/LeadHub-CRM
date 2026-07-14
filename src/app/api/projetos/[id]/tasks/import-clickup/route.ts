@@ -71,11 +71,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     // Snapshot da tarefa (nome/prazo/status). Sem snapshot → pede Sync.
     const state = await prisma.projectTaskState.findUnique({
       where: { projectId_taskId: { projectId: id, taskId } },
-      select: { name: true, isCompleted: true, dueDate: true },
+      select: { name: true, isCompleted: true, dueDate: true, startDate: true },
     });
     if (!state) { notFoundCount++; continue; }
 
-    const due = state.dueDate != null ? new Date(Number(state.dueDate)) : null;
+    const due   = state.dueDate   != null ? new Date(Number(state.dueDate))   : null;
+    const start = state.startDate != null ? new Date(Number(state.startDate)) : null;
 
     // Descrição + comentários direto no ClickUp (não vêm no snapshot).
     let description: string | null = null;
@@ -96,7 +97,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         description,
         comments:      comments ?? undefined,
         done:          state.isCompleted,
-        dueDate:       due && !Number.isNaN(due.getTime()) ? due : null,
+        dueDate:       due   && !Number.isNaN(due.getTime())   ? due   : null,
+        startDate:     start && !Number.isNaN(start.getTime()) ? start : null,
         clickupTaskId: taskId,
         createdById:   userId ?? null,
       },

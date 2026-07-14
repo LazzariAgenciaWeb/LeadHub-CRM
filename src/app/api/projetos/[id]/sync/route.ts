@@ -50,21 +50,32 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   // internas VINCULADAS (importadas). Não cria novas — só atualiza as ligadas.
   const linked = await prisma.projectTask.findMany({
     where:  { projectId: id, clickupTaskId: { not: null } },
-    select: { id: true, clickupTaskId: true, comments: true },
+    select: { id: true, clickupTaskId: true, comments: true, updatedAt: true },
   });
   if (linked.length) {
     const byId = new Map(tasks.map((t) => [t.id, t]));
     for (const lt of linked) {
       const src = byId.get(lt.clickupTaskId!);
       if (!src) continue;
-      // Puxa o descritivo atualizado do ClickUp (best-effort, 1 chamada por tarefa
-      // vinculada). Só sobrescreve quando vem conteúdo — não apaga o descritivo
-      // interno se o do ClickUp estiver vazio.
+
+      // "Quem venceu a corrida" — só sobrescreve campos editáveis (título, prazo,
+      // início, descritivo) quando o ClickUp foi atualizado DEPOIS da última
+      // edição no LeadHub. Se o Diego editou no LeadHub e o ClickUp está mais
+      // velho, preserva a edição local.
+      const remoteMs = src.dateUpdated ?? 0;
+      const localMs  = lt.updatedAt.getTime();
+      const remoteWins = remoteMs > localMs;
+
+      // Descritivo (só quando remote é mais novo). Best-effort — 1 chamada por
+      // tarefa vinculada. Não apaga o descritivo local se o do ClickUp for vazio.
       let desc: string | null = null;
-      try { desc = (await fetchClickupTaskDescription(settings.apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
+      if (remoteWins) {
+        try { desc = (await fetchClickupTaskDescription(settings.apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
+      }
       // Comentários do ClickUp → atualizações do cliente. Merge deduplicado por
       // texto+data; comentários do cliente (by:"client") nunca colidem (não vão
-      // pro ClickUp). Ordena cronologicamente.
+      // pro ClickUp). Ordena cronologicamente. Comentários sempre mergam
+      // (independente de "quem venceu"): comentário é append-only.
       let mergedComments: ReturnType<typeof sanitizeComments> = undefined as any;
       try {
         const cmts = await fetchClickupTaskComments(settings.apiToken, lt.clickupTaskId!);
@@ -77,15 +88,21 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
           );
         }
       } catch { /* silencioso */ }
+
       await prisma.projectTask.update({
         where: { id: lt.id },
         data: {
-          ...(src.name ? { title: src.name } : {}),
-          ...(desc ? { description: desc } : {}),
-          ...(mergedComments ? { comments: mergedComments } : {}),
+          // Campos que respeitam "quem venceu" — não sobrescrevem edição local.
+          ...(remoteWins && src.name ? { title: src.name } : {}),
+          ...(remoteWins && desc ? { description: desc } : {}),
+          ...(remoteWins ? { dueDate:   src.dueDate   != null ? new Date(src.dueDate)   : null } : {}),
+          ...(remoteWins ? { startDate: src.startDate != null ? new Date(src.startDate) : null } : {}),
+          // done é sempre alinhado com o ClickUp (idempotente e não conflita:
+          // concluir no LeadHub já foi empurrado pro ClickUp via markClickupTaskDone).
           done: src.isCompleted,
           completedAt: src.isCompleted ? new Date() : null,
-          dueDate: src.dueDate != null ? new Date(src.dueDate) : null,
+          // Comentários mergados (append-only).
+          ...(mergedComments ? { comments: mergedComments } : {}),
         },
       }).catch(() => {});
     }

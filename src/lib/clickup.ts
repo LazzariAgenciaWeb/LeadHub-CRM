@@ -163,6 +163,7 @@ export async function updateClickupTask({
   status,
   archived,
   dueDate,
+  startDate,
 }: {
   apiToken: string;
   taskId: string;
@@ -171,17 +172,20 @@ export async function updateClickupTask({
   priority?: string;
   status?: string;
   archived?: boolean;
-  dueDate?: number | null; // epoch ms (null = limpar)
+  dueDate?: number | null;   // epoch ms (null = limpar)
+  startDate?: number | null; // epoch ms (null = limpar)
 }): Promise<boolean> {
   if (!taskId) return false;
   try {
     const body: Record<string, unknown> = {};
     if (name)        body.name        = name;
-    if (description) body.description = description;
+    // description: aceita string vazia (limpar). undefined = não mexer.
+    if (description !== undefined) body.description = description;
     if (priority && PRIORITY_MAP[priority]) body.priority = PRIORITY_MAP[priority];
     if (status)      body.status      = status;
     if (archived !== undefined) body.archived = archived;
-    if (dueDate !== undefined) body.due_date = dueDate;
+    if (dueDate !== undefined)   body.due_date   = dueDate;
+    if (startDate !== undefined) body.start_date = startDate;
 
     const res = await fetch(taskApiUrl(taskId, ""), {
       method: "PUT",
@@ -546,6 +550,7 @@ export type ClickupTaskLite = {
   isCompleted:   boolean;
   hasNoAssignee: boolean;
   dueDate:       number | null;     // epoch ms
+  startDate:     number | null;     // epoch ms — data de início do ClickUp
   dateUpdated:   number | null;     // epoch ms
 };
 
@@ -573,6 +578,7 @@ export async function fetchClickupTasks(
       isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
       hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
       dueDate:       t.due_date     ? Number(t.due_date)     : null,
+      startDate:     t.start_date   ? Number(t.start_date)   : null,
       dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
     }));
   } catch {
