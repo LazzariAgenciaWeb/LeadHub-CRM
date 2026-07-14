@@ -200,7 +200,7 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
       <div className="gwrap">
         <div className="ginner">
           {hasDates && (
-            <div className="gtoday" style={{ left: `calc(230px + (100% - 230px) * ${frac(now)})` }}><span>HOJE</span></div>
+            <div className="gtoday" style={{ left: `calc(280px + (100% - 280px) * ${frac(now)})` }}><span>HOJE</span></div>
           )}
           <div className="ghead">
             <div className="gcolh">Etapa / tarefa</div>
@@ -242,7 +242,7 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
                   return (
                     <div key={t.id} className="grow" onClick={() => setOpenId(t.id)}>
                       <div className="gnm">
-                        <div className="tn">{hasVid ? "🎥 " : hasDoc ? "📄 " : ""}{t.title}</div>
+                        <div className="tn" title={t.title}>{hasVid ? "🎥 " : hasDoc ? "📄 " : ""}{t.title}</div>
                         <div className="td">{statusOf(t, now) === "late" ? `${dstr} · atrasado` : statusOf(t, now) === "wait" ? "aguardando você" : dstr}</div>
                       </div>
                       <div className="gtk"><Bar t={t} /></div>

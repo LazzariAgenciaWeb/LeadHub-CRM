@@ -214,21 +214,21 @@ svg{display:block}
 .glegend span{display:inline-flex;align-items:center;gap:6px}
 .glegend i{width:12px;height:12px;border-radius:3px;flex:none}
 .gwrap{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));overflow-x:auto;box-shadow:0 24px 46px -34px rgba(0,0,0,.9)}
-.ginner{min-width:760px;position:relative}
+.ginner{min-width:820px;position:relative}
 .ghead{display:flex;height:34px;border-bottom:1px solid var(--line)}
-.gcolh{width:230px;flex:none;display:flex;align-items:center;padding:0 16px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.gcolh{width:280px;flex:none;display:flex;align-items:center;padding:0 16px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
 .gtime{flex:1;position:relative}
 .gmonth{position:absolute;top:0;height:34px;font-size:11px;font-weight:700;color:var(--ink3);padding:9px 0 0 8px;border-left:1px solid var(--line)}
 .ggrp{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;font-weight:800;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
 .ggrp .pb{width:26px;height:21px;border-radius:6px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px;flex:none}
 .ggrp .gt{flex:1;min-width:0;letter-spacing:-.01em}
 .ggrp .tagm{font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;color:var(--ink3);background:rgba(255,255,255,.05);border:1px solid var(--line)}
-.grow{display:flex;align-items:center;height:46px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.grow{display:flex;align-items:center;min-height:48px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
 .grow:hover{background:rgba(255,255,255,.04)}
 .grow:last-child{border-bottom:0}
-.gnm{width:230px;flex:none;padding:0 16px;overflow:hidden}
-.gnm .tn{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
-.gnm .td{font-size:11px;color:var(--ink3)}
+.gnm{width:280px;flex:none;padding:8px 16px;overflow:hidden}
+.gnm .tn{font-size:13px;font-weight:600;line-height:1.28;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gnm .td{font-size:11px;color:var(--ink3);margin-top:2px}
 .gtk{flex:1;position:relative;height:100%}
 .gbar{position:absolute;top:50%;transform:translateY(-50%);height:22px;border-radius:7px;box-shadow:0 4px 10px -4px rgba(0,0,0,.6);overflow:hidden}
 .gbar.done{background:#10B981}
