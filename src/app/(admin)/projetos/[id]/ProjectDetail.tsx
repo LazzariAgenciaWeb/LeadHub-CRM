@@ -10,6 +10,7 @@ import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
+import ProjectInbox from "./ProjectInbox";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 
 type Project = {
@@ -459,6 +460,18 @@ export default function ProjectDetail({
               Abrir no ClickUp <ExternalLink className="w-3 h-3" />
             </a>
           </div>
+          )}
+
+          {/* Caixa de entrada: tarefas do ClickUp espelhadas, ainda sem serviço */}
+          {serviceSteps.length > 0 && (
+            <ProjectInbox
+              projectId={project.id}
+              tasks={internalTasks
+                .filter((t) => t.clickupTaskId && !t.projectServiceId)
+                .map((t) => ({ id: t.id, title: t.title, done: t.done, visibleToClient: t.visibleToClient, clickupTaskId: t.clickupTaskId }))}
+              serviceSteps={serviceSteps}
+              clickupUrlBase={null}
+            />
           )}
 
           {/* Tarefas do projeto (LeadHub + ClickUp) */}

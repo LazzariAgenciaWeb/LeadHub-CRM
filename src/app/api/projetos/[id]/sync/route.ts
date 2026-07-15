@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getClickupSettings, fetchClickupTasks, fetchClickupTaskDescription, fetchClickupTaskComments } from "@/lib/clickup";
 import { readComments, sanitizeComments } from "@/lib/checklist";
 import { syncProjectTasks } from "@/lib/gamification";
+import { mirrorClickupTasks } from "@/lib/project-mirror";
 import { assertModule } from "@/lib/billing";
 
 // POST /api/projetos/[id]/sync — sync manual de UM projeto
@@ -46,11 +47,16 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
 
   const result = await syncProjectTasks(id, tasks);
 
+  // Espelho automático: toda tarefa do ClickUp vira ProjectTask nativa (oculta +
+  // sem serviço → cai na Caixa de entrada). Roda ANTES da Fase 2 pra as recém
+  // criadas já entrarem no loop e receberem descritivo/comentários nesta sync.
+  const mirrored = await mirrorClickupTasks(id, tasks);
+
   // Fase 2 (ClickUp → interna): reflete título/prazo/concluído nas tarefas
-  // internas VINCULADAS (importadas). Não cria novas — só atualiza as ligadas.
+  // internas VINCULADAS (importadas/espelhadas). Não cria novas — só atualiza.
   const linked = await prisma.projectTask.findMany({
     where:  { projectId: id, clickupTaskId: { not: null } },
-    select: { id: true, clickupTaskId: true, comments: true, updatedAt: true },
+    select: { id: true, clickupTaskId: true, comments: true, description: true, updatedAt: true },
   });
   if (linked.length) {
     const byId = new Map(tasks.map((t) => [t.id, t]));
@@ -66,10 +72,12 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
       const localMs  = lt.updatedAt.getTime();
       const remoteWins = remoteMs > localMs;
 
-      // Descritivo (só quando remote é mais novo). Best-effort — 1 chamada por
-      // tarefa vinculada. Não apaga o descritivo local se o do ClickUp for vazio.
+      // Descritivo: puxa quando o remote é mais novo OU quando ainda não há
+      // descritivo local (caso das tarefas recém-espelhadas — nascem sem descrição
+      // e precisam preencher já nesta sync). Best-effort — 1 chamada por tarefa.
+      const noLocalDesc = !lt.description || !lt.description.trim();
       let desc: string | null = null;
-      if (remoteWins) {
+      if (remoteWins || noLocalDesc) {
         try { desc = (await fetchClickupTaskDescription(settings.apiToken, lt.clickupTaskId!)) || null; } catch { /* silencioso */ }
       }
       // Comentários do ClickUp → atualizações do cliente. Merge deduplicado por
@@ -94,7 +102,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
         data: {
           // Campos que respeitam "quem venceu" — não sobrescrevem edição local.
           ...(remoteWins && src.name ? { title: src.name } : {}),
-          ...(remoteWins && desc ? { description: desc } : {}),
+          ...(desc ? { description: desc } : {}),
           ...(remoteWins ? { dueDate:   src.dueDate   != null ? new Date(src.dueDate)   : null } : {}),
           ...(remoteWins ? { startDate: src.startDate != null ? new Date(src.startDate) : null } : {}),
           // done é sempre alinhado com o ClickUp (idempotente e não conflita:
@@ -111,6 +119,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   return NextResponse.json({
     ok: true,
     tasksFound: tasks.length,
+    mirrored, // quantas tarefas do ClickUp viraram tarefas nativas nesta sync
     activities: result,
     syncedAt: new Date().toISOString(),
   });
