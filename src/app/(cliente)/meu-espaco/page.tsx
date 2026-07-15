@@ -112,9 +112,6 @@ export default async function MeuEspacoPage() {
     return { ...p, total, done, overdue, awaiting, pct, nextDue, cover: COVERS[i % COVERS.length] };
   });
 
-  const attention = cards.filter((c) => c.status === "AGUARDANDO_CLIENTE" || c.overdue > 0 || c.awaiting > 0);
-  const attentionCount = attention.length;
-
   // Estrutura projeto → serviço → tarefas visíveis (pra seção "Serviços em execução").
   const PROJECT_TINT = ["#8B6DFF", "#4B9BFF", "#2DD4BF", "#F59E0B", "#EC4899"];
   const projectsData = projects
@@ -134,6 +131,13 @@ export default async function MeuEspacoPage() {
       return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
     })
     .filter((p) => p.services.length > 0);
+
+  // Itens que dependem de uma AÇÃO do cliente (tarefas "aguardando você") — vão no topo.
+  const awaitingItems = projects.flatMap((p) =>
+    p.internalTasks
+      .filter((t) => t.awaitingClient)
+      .map((t) => ({ id: t.id, title: t.title, projectId: p.id, projectName: p.name })),
+  );
 
   function Poster({ c }: { c: (typeof cards)[number] }) {
     const st = STATUS[c.status] ?? { label: c.status, tone: "muted" };
@@ -165,43 +169,37 @@ export default async function MeuEspacoPage() {
     <div className="cli">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      {/* HERO */}
+      {/* HERO + AGUARDANDO VOCÊ */}
       <section className="hero">
-        <div className="eyebrow">Olá{userName ? `, ${userName}` : ""} · {company.name}</div>
-        {attentionCount > 0 ? (
-          <>
-            <h1>Você tem <em>{attentionCount === 1 ? "1 coisa" : `${attentionCount} coisas`}</em> esperando por você.</h1>
-            <p>Dê uma olhada no que precisa da sua atenção — leva pouquinho e a gente já segue com tudo.</p>
-          </>
-        ) : (
-          <>
-            <h1>Tudo caminhando por aqui. 👌</h1>
-            <p>Acompanhe abaixo cada serviço, o andamento e os materiais entregues.</p>
-          </>
-        )}
-      </section>
-
-      {/* PRECISA DA SUA ATENÇÃO */}
-      {attentionCount > 0 && (
-        <section className="row">
-          <div className="rowhead"><h2>Precisa da sua atenção</h2><span className="count">{attentionCount}</span></div>
-          <div className="rail">{attention.map((c) => <Poster key={c.id} c={c} />)}</div>
-        </section>
-      )}
-
-      {/* SEUS PROJETOS + SERVIÇOS EM EXECUÇÃO (com as tarefas) */}
-      {projectsData.length > 0 ? (
-        <ProjetosServicos projects={projectsData} />
-      ) : (
-        <section className="row">
-          <div className="rowhead"><h2>Seus serviços</h2><span className="sub">tudo que estamos fazendo com você</span></div>
-          {cards.length === 0 ? (
-            <div className="empty">Nenhum serviço ativo no momento. Assim que algo começar, aparece aqui.</div>
-          ) : (
-            <div className="rail">{cards.map((c) => <Poster key={c.id} c={c} />)}</div>
+        <div className="herogrid">
+          <div>
+            <div className="eyebrow">Olá{userName ? `, ${userName}` : ""} · {company.name}</div>
+            {awaitingItems.length > 0 ? (
+              <>
+                <h1>Você tem <em>{awaitingItems.length === 1 ? "1 coisa" : `${awaitingItems.length} coisas`}</em> esperando por você.</h1>
+                <p>Resolvendo o que está do seu lado, a gente já segue com tudo.</p>
+              </>
+            ) : (
+              <>
+                <h1>Tudo caminhando por aqui. 👌</h1>
+                <p>Acompanhe abaixo cada serviço, o andamento e os materiais entregues.</p>
+              </>
+            )}
+          </div>
+          {awaitingItems.length > 0 && (
+            <div className="awaitbox">
+              <div className="awaith"><span className="awaitn">{awaitingItems.length}</span> Aguardando você</div>
+              {awaitingItems.slice(0, 4).map((it) => (
+                <Link key={it.id} href={`/meu-espaco/${it.projectId}`} className="awaititem">
+                  <span className="awi-ic">✍️</span>
+                  <span className="awi-tx"><span className="awi-t">{it.title}</span><span className="awi-p">{it.projectName}</span></span>
+                  <span className="awi-go">Responder →</span>
+                </Link>
+              ))}
+            </div>
           )}
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* SEUS PRODUTOS CONTRATADOS — LeadHub (sistema) + serviços contratados do cliente */}
       <section className="row">
@@ -236,6 +234,20 @@ export default async function MeuEspacoPage() {
           })}
         </div>
       </section>
+
+      {/* SEUS PROJETOS + SERVIÇOS EM EXECUÇÃO (com as tarefas) */}
+      {projectsData.length > 0 ? (
+        <ProjetosServicos projects={projectsData} />
+      ) : (
+        <section className="row">
+          <div className="rowhead"><h2>Seus serviços</h2><span className="sub">tudo que estamos fazendo com você</span></div>
+          {cards.length === 0 ? (
+            <div className="empty">Nenhum serviço ativo no momento. Assim que algo começar, aparece aqui.</div>
+          ) : (
+            <div className="rail">{cards.map((c) => <Poster key={c.id} c={c} />)}</div>
+          )}
+        </section>
+      )}
 
       {/* FINANCEIRO (resumo — detalhe em /meu-espaco/financeiro) */}
       {invoicesRaw.length > 0 && (() => {
@@ -293,6 +305,18 @@ const CSS = `
 .hero::after{content:"";position:absolute;width:320px;height:320px;right:-60px;top:-130px;border-radius:50%;
   background:radial-gradient(circle,rgba(139,131,255,.5),transparent 62%);filter:blur(20px);pointer-events:none}
 .hero>*{position:relative;z-index:1}
+.herogrid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
+@media(max-width:760px){.herogrid{grid-template-columns:1fr}}
+.awaitbox{background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:16px;padding:14px}
+.awaith{display:flex;align-items:center;gap:9px;font-weight:800;font-size:13px;margin-bottom:10px;color:#fff}
+.awaitn{background:#6E86FF;color:#fff;font-weight:800;font-size:12px;min-width:22px;height:22px;border-radius:99px;display:grid;place-items:center;padding:0 6px}
+.awaititem{display:flex;align-items:center;gap:11px;padding:10px;border-radius:11px;border:1px solid var(--line);background:rgba(10,12,20,.45);margin-top:8px;text-decoration:none}
+.awaititem:hover{border-color:var(--line2)}
+.awi-ic{width:28px;height:28px;border-radius:8px;background:rgba(110,134,255,.16);display:grid;place-items:center;font-size:13px;flex:none}
+.awi-tx{min-width:0;flex:1;display:flex;flex-direction:column}
+.awi-t{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.awi-p{font-size:11px;color:var(--ink3)}
+.awi-go{flex:none;font-size:12px;font-weight:700;color:#8FA4FF;white-space:nowrap}
 .hero .eyebrow{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(243,244,248,.6)}
 .hero h1{margin:10px 0 8px;font-size:29px;line-height:1.14;font-weight:800;letter-spacing:-.025em;max-width:18ch;text-wrap:balance;
   background:linear-gradient(180deg,#FFFFFF,#C7CEE0);-webkit-background-clip:text;background-clip:text;color:transparent}
