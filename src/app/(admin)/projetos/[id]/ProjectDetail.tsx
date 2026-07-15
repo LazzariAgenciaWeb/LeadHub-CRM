@@ -462,6 +462,26 @@ export default function ProjectDetail({
           </div>
           )}
 
+          {/* KPIs do projeto */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
+              <div className="text-2xl font-bold text-indigo-300 tabular-nums leading-none">{serviceSteps.length}</div>
+              <div className="text-[11px] text-slate-500 mt-1.5">Serviços</div>
+            </div>
+            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
+              <div className="text-2xl font-bold text-white tabular-nums leading-none">{internalTasks.length}</div>
+              <div className="text-[11px] text-slate-500 mt-1.5">Tarefas</div>
+            </div>
+            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
+              <div className="text-2xl font-bold text-amber-300 tabular-nums leading-none">{internalTasks.filter((t) => !t.done).length}</div>
+              <div className="text-[11px] text-slate-500 mt-1.5">Em andamento</div>
+            </div>
+            <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl px-4 py-3">
+              <div className="text-2xl font-bold text-emerald-300 tabular-nums leading-none">{internalTasks.filter((t) => t.visibleToClient).length}</div>
+              <div className="text-[11px] text-slate-500 mt-1.5">Visíveis ao cliente</div>
+            </div>
+          </div>
+
           {/* Caixa de entrada: tarefas do ClickUp espelhadas, ainda sem serviço */}
           {serviceSteps.length > 0 && (
             <ProjectInbox
@@ -1368,6 +1388,8 @@ function ProjectTasksCard({
   const [bulkSvc, setBulkSvc] = useState("");
   const [bulkStage, setBulkStage] = useState("");
   const [bulkSaving, setBulkSaving] = useState(false);
+  const [taskFilter, setTaskFilter] = useState<"all" | "doing" | "done">("all");
+  const [taskQuery, setTaskQuery] = useState("");
 
   function toggleSelect(taskId: string) {
     setSelected((prev) => {
@@ -1648,6 +1670,28 @@ function ProjectTasksCard({
         </div>
       )}
 
+      {internalTasks.length > 0 && (
+        <div className="px-5 py-3 border-b border-[#1e2d45] flex items-center gap-2 flex-wrap">
+          <div className="inline-flex bg-[#080b12] border border-[#1e2d45] rounded-lg p-0.5">
+            {(["all", "doing", "done"] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setTaskFilter(f)}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-md transition-colors ${taskFilter === f ? "bg-[#1e2d45] text-white" : "text-slate-500 hover:text-white"}`}
+              >
+                {f === "all" ? "Tudo" : f === "doing" ? "Em andamento" : "Concluído"}
+              </button>
+            ))}
+          </div>
+          <input
+            value={taskQuery}
+            onChange={(e) => setTaskQuery(e.target.value)}
+            placeholder="Buscar tarefa…"
+            className="flex-1 min-w-[140px] bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+      )}
+
       {(() => {
         const rowOf = (t: InternalTask) => {
           const start = t.startDate ? new Date(t.startDate) : null;
@@ -1696,18 +1740,30 @@ function ProjectTasksCard({
         if (internalTasks.length === 0) {
           return <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa interna ainda.</div>;
         }
+        // Filtro (Tudo/Em andamento/Concluído) + busca.
+        const q = taskQuery.trim().toLowerCase();
+        const filtering = taskFilter !== "all" || q.length > 0;
+        const list = internalTasks.filter((t) => {
+          if (taskFilter === "doing" && t.done) return false;
+          if (taskFilter === "done" && !t.done) return false;
+          if (q && !t.title.toLowerCase().includes(q)) return false;
+          return true;
+        });
+        if (list.length === 0) {
+          return <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa neste filtro.</div>;
+        }
         // Sem serviços na sequência → lista plana (comportamento antigo).
         if (serviceSteps.length === 0) {
-          return <div className="divide-y divide-[#1e2d45]">{internalTasks.map(rowOf)}</div>;
+          return <div className="divide-y divide-[#1e2d45]">{list.map(rowOf)}</div>;
         }
         // Com serviços → agrupa as tarefas por serviço (igual o cliente vê).
         const svcIds = new Set(serviceSteps.map((s) => s.id));
         const groups = serviceSteps.map((s, i) => ({
           id: s.id,
           label: `${String(i + 1).padStart(2, "0")} · ${s.name}`,
-          tasks: internalTasks.filter((t) => t.projectServiceId === s.id),
+          tasks: list.filter((t) => t.projectServiceId === s.id),
         }));
-        const noSvc = internalTasks.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
+        const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
         const GroupHead = ({ label, tasks, muted }: { label: string; tasks: InternalTask[]; muted?: boolean }) => (
           <div className={`px-5 py-2 bg-[#0b111c] border-t border-b border-[#1e2d45] text-[11px] font-bold flex items-center justify-between ${muted ? "text-slate-400" : "text-indigo-300"}`}>
@@ -1718,7 +1774,7 @@ function ProjectTasksCard({
 
         return (
           <div>
-            {groups.map((g) => (
+            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g) => (
               <div key={g.id}>
                 <GroupHead label={g.label} tasks={g.tasks} />
                 {g.tasks.length === 0
