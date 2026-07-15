@@ -141,6 +141,7 @@ export default function ProjectDetail({
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
 
   // ClickUp: quais tarefas já foram importadas como interna (pra não duplicar).
   const importedClickupIds = new Set(internalTasks.map((t) => t.clickupTaskId).filter((x): x is string => !!x));
@@ -289,9 +290,14 @@ export default function ProjectDetail({
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Coluna principal */}
-        <div className="lg:col-span-2 space-y-5">
+      <div>
+        {/* Coluna principal — full width; toda a config foi pro modal (botão abaixo) */}
+        <div className="space-y-5">
+          <div className="flex justify-end">
+            <button onClick={() => setConfigOpen(true)} className="text-xs px-3 py-1.5 rounded-lg border border-[#1e2d45] text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
+              ⚙ Configurar projeto
+            </button>
+          </div>
           {/* Status — pipeline horizontal com navegação */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
@@ -536,8 +542,14 @@ export default function ProjectDetail({
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-5">
+        {/* Configuração do projeto — modal (abre pelo botão "⚙ Configurar projeto") */}
+        {configOpen && (
+          <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm" onClick={() => setConfigOpen(false)}>
+            <div className="w-full max-w-md h-full overflow-y-auto bg-[#0b111c] border-l border-[#1e2d45] p-5 space-y-5" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-white font-semibold text-sm">⚙ Configuração do projeto</h3>
+                <button onClick={() => setConfigOpen(false)} className="text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
+              </div>
           {/* Datas */}
           <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-3">
             <div>
@@ -648,7 +660,9 @@ export default function ProjectDetail({
             projectId={project.id}
             members={project.members.map((m) => ({ id: m.user.id, name: m.user.name }))}
           />
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
