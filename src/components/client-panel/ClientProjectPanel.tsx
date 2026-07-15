@@ -226,6 +226,20 @@ svg{display:block}
 .grow{display:flex;align-items:center;min-height:48px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
 .grow:hover{background:rgba(255,255,255,.04)}
 .grow:last-child{border-bottom:0}
+.vtoggle{display:inline-flex;gap:3px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:11px;padding:3px;margin-bottom:14px}
+.vtoggle button{border:0;background:transparent;color:var(--ink3);font-weight:700;font-size:12.5px;padding:7px 15px;border-radius:8px;cursor:pointer;font-family:inherit}
+.vtoggle button.on{background:rgba(255,255,255,.1);color:var(--ink)}
+.glist{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008))}
+.glist .ggrp:first-child{border-top:0}
+.gl-empty{padding:11px 16px;font-size:12.5px;font-style:italic;color:var(--ink3);border-bottom:1px solid var(--line)}
+.gl-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.gl-row:hover{background:rgba(255,255,255,.04)}
+.gl-row:last-child{border-bottom:0}
+.gl-dot{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;border:2px solid}
+.gl-tn{flex:1;min-width:0;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl-badge{font-size:11px;font-weight:800;flex:none}
+.gl-when{font-size:11.5px;color:var(--ink3);flex:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gl-go{color:var(--ink3);font-size:18px;font-weight:700;flex:none}
 .gnm{width:280px;flex:none;padding:8px 16px;overflow:hidden}
 .gnm .tn{font-size:13px;font-weight:600;line-height:1.28;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gnm .td{font-size:11px;color:var(--ink3);margin-top:2px}

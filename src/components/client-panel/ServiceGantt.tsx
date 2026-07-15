@@ -21,6 +21,7 @@ const fmtDM = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month
 const ms = (d: Date | null) => (d ? new Date(d).getTime() : null);
 
 const STATUS_LABEL: Record<string, string> = { done: "Concluído", wait: "Aguardando você", late: "Atrasado", exec: "Em execução", todo: "A fazer" };
+const STATUS_COLOR: Record<string, string> = { done: "#10B981", wait: "#F5B564", late: "#F87171", exec: "#6E86FF", todo: "#4B5563" };
 
 const IconDoc = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></svg>;
 const IconPlayS = <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8L7 4Z" /></svg>;
@@ -57,6 +58,7 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
   // URL da imagem inline do descritivo — pública via ?t=token (painel do cliente).
   const descMediaUrl = (mid: string) => `/api/projetos/${projectId}/materiais/${mid}/media?t=${encodeURIComponent(token)}`;
   const [openId, setOpenId] = useState<string | null>(null);
+  const [view, setView] = useState<"lista" | "cronograma">("lista");
   const now = Date.now();
 
   useEffect(() => {
@@ -189,6 +191,53 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
 
   return (
     <>
+      <div className="vtoggle">
+        <button className={view === "lista" ? "on" : ""} onClick={() => setView("lista")}>☰ Lista</button>
+        <button className={view === "cronograma" ? "on" : ""} onClick={() => setView("cronograma")}>📅 Cronograma</button>
+      </div>
+
+      {view === "lista" && (
+        <div className="glist">
+          {allGroups.map((g, gi) => {
+            const total = g.tasks.length;
+            const done = g.tasks.filter((t) => t.done).length;
+            const overdue = g.tasks.filter((t) => !t.done && t.dueDate && new Date(t.dueDate).getTime() < now).length;
+            const tag = total === 0 ? "a iniciar" : done === total ? "concluída" : overdue > 0 ? `${overdue} em atraso` : `${done}/${total}`;
+            const color = GROUP_COLORS[gi % GROUP_COLORS.length];
+            return (
+              <div key={g.key}>
+                <div className="ggrp">
+                  <span className="pb" style={{ background: color }}>{String(gi + 1).padStart(2, "0")}</span>
+                  <span className="gt">{g.label}</span>
+                  <span className="tagm">{tag}</span>
+                </div>
+                {total === 0 && <div className="gl-empty">nenhuma tarefa ainda</div>}
+                {g.tasks.map((t) => {
+                  const st = statusOf(t, now);
+                  const sp = spanOf(t);
+                  const dstr = sp
+                    ? (t.startDate && t.dueDate ? `${fmtDM(new Date(t.startDate))}–${fmtDM(new Date(t.dueDate))}` : fmtDM(new Date((t.dueDate ?? t.startDate)!)))
+                    : "";
+                  const mats = matsByTask.get(t.id) ?? [];
+                  const hasVid = mats.some((m) => catOf(m.kind) === "video");
+                  const hasDoc = mats.some((m) => catOf(m.kind) === "doc");
+                  return (
+                    <div key={t.id} className="gl-row" onClick={() => setOpenId(t.id)}>
+                      <span className="gl-dot" style={{ background: STATUS_COLOR[st], borderColor: STATUS_COLOR[st] }}>{st === "done" ? IconChkS : null}</span>
+                      <span className="gl-tn">{hasVid ? "🎥 " : hasDoc ? "📄 " : ""}{t.title}</span>
+                      <span className="gl-badge" style={{ color: STATUS_COLOR[st] }}>{STATUS_LABEL[st]}</span>
+                      {dstr && <span className="gl-when">{st === "late" ? `${dstr} · atrasado` : dstr}</span>}
+                      <span className="gl-go">›</span>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {view === "cronograma" && (<>
       <div className="glegend">
         <span><i style={{ background: "#10B981" }} /> Concluído</span>
         <span><i style={{ background: "#6E86FF" }} /> Em execução</span>
@@ -254,6 +303,7 @@ export default function ServiceGantt({ tasks, materials, serviceSteps = [], proj
           })}
         </div>
       </div>
+      </>)}
 
       {taskMats.length > 0 && (
         <div className="gattach">
