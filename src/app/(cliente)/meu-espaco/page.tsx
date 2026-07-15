@@ -130,8 +130,7 @@ export default async function MeuEspacoPage() {
         .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) }));
       if (loose.length) services.push({ id: `loose:${p.id}`, name: "Outras tarefas", tasks: loose });
       return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
-    })
-    .filter((p) => p.services.length > 0);
+    });
 
   // Itens que dependem de uma AÇÃO do cliente (tarefas "aguardando você") — vão no topo.
   const awaitingItems = projects.flatMap((p) =>
@@ -391,6 +390,19 @@ const CSS = `
 
 /* Contador de chamados */
 .tkstats{display:flex;gap:10px;flex-wrap:wrap;margin:0 2px 15px}
+.acrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 2px 16px}
+.acrow .actcard{width:auto}
+@media(max-width:640px){.acrow{grid-template-columns:1fr}}
+.demands{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);overflow:hidden;margin:0 2px}
+.dhead{padding:12px 16px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)}
+.drow{display:flex;align-items:center;gap:13px;padding:13px 16px;border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+.drow:first-of-type{border-top:0}
+.drow:hover{background:rgba(255,255,255,.03)}
+.didx{width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.05);color:var(--ink3);display:grid;place-items:center;font-size:11px;font-weight:700;flex:none;font-variant-numeric:tabular-nums}
+.dmid{flex:1;min-width:0}
+.dtt{font-size:14px;font-weight:640;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dsub{font-size:11.5px;color:var(--ink3);margin-top:1px}
+.dwhen{font-size:11.5px;color:var(--ink3);white-space:nowrap;flex:none;min-width:64px;text-align:right}
 .tkstat{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
 .tkstat .dot{width:8px;height:8px;border-radius:50%;flex:none}
 .tkstat b{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}

@@ -52,6 +52,9 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
 
       <section className="row">
         <div className="rowhead"><h2>Serviços em execução</h2><span className="sub">tudo que estamos fazendo com você</span></div>
+        {shown.every((p) => p.services.length === 0) ? (
+          <div className="ps-empty">Nada em execução visível por aqui ainda. Assim que liberarmos algo pra você acompanhar, aparece aqui.</div>
+        ) : (
         <div className="ps-grid">
           {shown.flatMap((p) => p.services.map((s) => {
             const total = s.tasks.length;
@@ -87,6 +90,7 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
             );
           }))}
         </div>
+        )}
       </section>
 
       {open && (() => {
@@ -140,6 +144,7 @@ const PS_CSS = `
 .ps-proj .ps-mt{display:block;color:var(--ink3);font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums}
 .ps-clear{align-self:center;border:0;background:transparent;color:var(--info);font-weight:700;font-size:13px;cursor:pointer;padding:0 8px}
 .ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.ps-empty{border:1px dashed var(--line2);border-radius:14px;padding:22px;color:var(--ink3);font-size:13.5px;text-align:center}
 .ps-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));border-radius:16px;padding:16px;box-shadow:0 24px 46px -34px rgba(0,0,0,.9)}
 .ps-tags{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .ps-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;color:var(--pc);border:1px solid color-mix(in srgb,var(--pc) 45%,transparent)}

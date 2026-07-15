@@ -101,7 +101,7 @@ export default function MeuEspacoInteracoes({
             <div className="tkstat done"><span className="dot" /><b>{stats.resolved}</b><span>Atendidos</span></div>
           </div>
         )}
-        <div className="rail">
+        <div className="acrow">
           <button className="actcard sup" onClick={() => open("SUPPORT")}>
             <span className="acic">🛟</span>
             <span className="acb"><b>Abrir chamado</b><span>problema, dúvida ou ajuste</span></span>
@@ -110,21 +110,27 @@ export default function MeuEspacoInteracoes({
             <span className="acic">✨</span>
             <span className="acb"><b>Pedir algo extra</b><span>serviço ou conteúdo pontual</span></span>
           </button>
-          {tickets.map((t) => {
-            const st = ST[t.status] ?? { label: t.status, tone: "muted" };
-            const ped = t.category === "Pedido";
-            return (
-              <div key={t.id} className="tkt" onClick={() => openDetail(t.id)} style={{ cursor: "pointer" }}>
-                <div className="tkttop">
-                  <span className={`tktype ${ped ? "ped" : "sup"}`}>{ped ? "Pedido" : "Suporte"}</span>
-                  <span className={`pill ${st.tone}`}>{st.label}</span>
-                </div>
-                <h3>{t.title}</h3>
-                <div className="tktmeta">{fmt(t.createdAt)} · ver andamento →</div>
-              </div>
-            );
-          })}
         </div>
+        {tickets.length > 0 && (
+          <div className="demands">
+            <div className="dhead">Últimas demandas · por ordem de execução</div>
+            {tickets.map((t, i) => {
+              const st = ST[t.status] ?? { label: t.status, tone: "muted" };
+              const ped = t.category === "Pedido";
+              return (
+                <div key={t.id} className="drow" onClick={() => openDetail(t.id)}>
+                  <span className="didx">{i + 1}</span>
+                  <div className="dmid">
+                    <div className="dtt">{t.title}</div>
+                    <div className="dsub">{ped ? "Pedido" : "Suporte"}</div>
+                  </div>
+                  <span className={`pill ${st.tone}`}>{st.label}</span>
+                  <span className="dwhen">{fmt(t.createdAt)}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* DISPONÍVEL PARA VOCÊ */}
