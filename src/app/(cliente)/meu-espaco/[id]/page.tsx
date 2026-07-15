@@ -21,6 +21,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
       name: true, description: true, clientCompanyId: true,
       clientCompany: { select: { name: true } },
       internalTasks: {
+        where: { visibleToClient: true },
         orderBy: [{ createdAt: "asc" }],
         select: { id: true, title: true, description: true, stage: true, projectServiceId: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
       },

@@ -13,6 +13,7 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
       id: true, name: true, description: true,
       clientCompany: { select: { name: true } },
       internalTasks: {
+        where: { visibleToClient: true },
         orderBy: [{ createdAt: "asc" }],
         select: { id: true, title: true, description: true, stage: true, projectServiceId: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
       },

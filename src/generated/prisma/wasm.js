@@ -617,6 +617,7 @@ exports.Prisma.ProjectTaskScalarFieldEnum = {
   comments: 'comments',
   clickupTaskId: 'clickupTaskId',
   awaitingClient: 'awaitingClient',
+  visibleToClient: 'visibleToClient',
   done: 'done',
   priority: 'priority',
   startDate: 'startDate',

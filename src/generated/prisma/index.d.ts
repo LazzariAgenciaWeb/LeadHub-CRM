@@ -47289,6 +47289,7 @@ export namespace Prisma {
     projectServiceId: string | null
     clickupTaskId: string | null
     awaitingClient: boolean | null
+    visibleToClient: boolean | null
     done: boolean | null
     priority: $Enums.TicketPriority | null
     startDate: Date | null
@@ -47309,6 +47310,7 @@ export namespace Prisma {
     projectServiceId: string | null
     clickupTaskId: string | null
     awaitingClient: boolean | null
+    visibleToClient: boolean | null
     done: boolean | null
     priority: $Enums.TicketPriority | null
     startDate: Date | null
@@ -47331,6 +47333,7 @@ export namespace Prisma {
     comments: number
     clickupTaskId: number
     awaitingClient: number
+    visibleToClient: number
     done: number
     priority: number
     startDate: number
@@ -47353,6 +47356,7 @@ export namespace Prisma {
     projectServiceId?: true
     clickupTaskId?: true
     awaitingClient?: true
+    visibleToClient?: true
     done?: true
     priority?: true
     startDate?: true
@@ -47373,6 +47377,7 @@ export namespace Prisma {
     projectServiceId?: true
     clickupTaskId?: true
     awaitingClient?: true
+    visibleToClient?: true
     done?: true
     priority?: true
     startDate?: true
@@ -47395,6 +47400,7 @@ export namespace Prisma {
     comments?: true
     clickupTaskId?: true
     awaitingClient?: true
+    visibleToClient?: true
     done?: true
     priority?: true
     startDate?: true
@@ -47490,6 +47496,7 @@ export namespace Prisma {
     comments: JsonValue | null
     clickupTaskId: string | null
     awaitingClient: boolean
+    visibleToClient: boolean
     done: boolean
     priority: $Enums.TicketPriority
     startDate: Date | null
@@ -47529,6 +47536,7 @@ export namespace Prisma {
     comments?: boolean
     clickupTaskId?: boolean
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: boolean
     startDate?: boolean
@@ -47557,6 +47565,7 @@ export namespace Prisma {
     comments?: boolean
     clickupTaskId?: boolean
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: boolean
     startDate?: boolean
@@ -47583,6 +47592,7 @@ export namespace Prisma {
     comments?: boolean
     clickupTaskId?: boolean
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: boolean
     startDate?: boolean
@@ -47629,6 +47639,7 @@ export namespace Prisma {
       comments: Prisma.JsonValue | null
       clickupTaskId: string | null
       awaitingClient: boolean
+      visibleToClient: boolean
       done: boolean
       priority: $Enums.TicketPriority
       startDate: Date | null
@@ -48046,6 +48057,7 @@ export namespace Prisma {
     readonly comments: FieldRef<"ProjectTask", 'Json'>
     readonly clickupTaskId: FieldRef<"ProjectTask", 'String'>
     readonly awaitingClient: FieldRef<"ProjectTask", 'Boolean'>
+    readonly visibleToClient: FieldRef<"ProjectTask", 'Boolean'>
     readonly done: FieldRef<"ProjectTask", 'Boolean'>
     readonly priority: FieldRef<"ProjectTask", 'TicketPriority'>
     readonly startDate: FieldRef<"ProjectTask", 'DateTime'>
@@ -113417,6 +113429,7 @@ export namespace Prisma {
     comments: 'comments',
     clickupTaskId: 'clickupTaskId',
     awaitingClient: 'awaitingClient',
+    visibleToClient: 'visibleToClient',
     done: 'done',
     priority: 'priority',
     startDate: 'startDate',
@@ -118608,6 +118621,7 @@ export namespace Prisma {
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
+    visibleToClient?: BoolFilter<"ProjectTask"> | boolean
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -118635,6 +118649,7 @@ export namespace Prisma {
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     awaitingClient?: SortOrder
+    visibleToClient?: SortOrder
     done?: SortOrder
     priority?: SortOrder
     startDate?: SortOrderInput | SortOrder
@@ -118665,6 +118680,7 @@ export namespace Prisma {
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
+    visibleToClient?: BoolFilter<"ProjectTask"> | boolean
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -118692,6 +118708,7 @@ export namespace Prisma {
     comments?: SortOrderInput | SortOrder
     clickupTaskId?: SortOrderInput | SortOrder
     awaitingClient?: SortOrder
+    visibleToClient?: SortOrder
     done?: SortOrder
     priority?: SortOrder
     startDate?: SortOrderInput | SortOrder
@@ -118720,6 +118737,7 @@ export namespace Prisma {
     comments?: JsonNullableWithAggregatesFilter<"ProjectTask">
     clickupTaskId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     awaitingClient?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
+    visibleToClient?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
     done?: BoolWithAggregatesFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityWithAggregatesFilter<"ProjectTask"> | $Enums.TicketPriority
     startDate?: DateTimeNullableWithAggregatesFilter<"ProjectTask"> | Date | string | null
@@ -128080,6 +128098,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -128105,6 +128124,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -128126,6 +128146,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128151,6 +128172,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128174,6 +128196,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -128194,6 +128217,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128214,6 +128238,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137539,6 +137564,7 @@ export namespace Prisma {
     comments?: SortOrder
     clickupTaskId?: SortOrder
     awaitingClient?: SortOrder
+    visibleToClient?: SortOrder
     done?: SortOrder
     priority?: SortOrder
     startDate?: SortOrder
@@ -137559,6 +137585,7 @@ export namespace Prisma {
     projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
     awaitingClient?: SortOrder
+    visibleToClient?: SortOrder
     done?: SortOrder
     priority?: SortOrder
     startDate?: SortOrder
@@ -137579,6 +137606,7 @@ export namespace Prisma {
     projectServiceId?: SortOrder
     clickupTaskId?: SortOrder
     awaitingClient?: SortOrder
+    visibleToClient?: SortOrder
     done?: SortOrder
     priority?: SortOrder
     startDate?: SortOrder
@@ -151989,6 +152017,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -152013,6 +152042,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -152043,6 +152073,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -152067,6 +152098,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -153025,6 +153057,7 @@ export namespace Prisma {
     comments?: JsonNullableFilter<"ProjectTask">
     clickupTaskId?: StringNullableFilter<"ProjectTask"> | string | null
     awaitingClient?: BoolFilter<"ProjectTask"> | boolean
+    visibleToClient?: BoolFilter<"ProjectTask"> | boolean
     done?: BoolFilter<"ProjectTask"> | boolean
     priority?: EnumTicketPriorityFilter<"ProjectTask"> | $Enums.TicketPriority
     startDate?: DateTimeNullableFilter<"ProjectTask"> | Date | string | null
@@ -173988,6 +174021,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -174011,6 +174045,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -175375,6 +175410,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -175398,6 +175434,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -176876,6 +176913,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -176900,6 +176938,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -177015,6 +177054,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177039,6 +177079,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -201308,6 +201349,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -201329,6 +201371,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -202050,6 +202093,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -202074,6 +202118,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -202096,6 +202141,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -202115,6 +202161,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -202139,6 +202186,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -202161,6 +202209,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -208649,6 +208698,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -208866,6 +208916,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -208889,6 +208940,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -208911,6 +208963,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -209089,6 +209142,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
     awaitingClient?: boolean
+    visibleToClient?: boolean
     done?: boolean
     priority?: $Enums.TicketPriority
     startDate?: Date | string | null
@@ -209109,6 +209163,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -209132,6 +209187,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -209154,6 +209210,7 @@ export namespace Prisma {
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     awaitingClient?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     done?: BoolFieldUpdateOperationsInput | boolean
     priority?: EnumTicketPriorityFieldUpdateOperationsInput | $Enums.TicketPriority
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

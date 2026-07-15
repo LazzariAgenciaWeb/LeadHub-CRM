@@ -96,6 +96,7 @@ type InternalTask = {
   updatedAt:    string; // ISO — última atualização
   clickupTaskId: string | null; // vínculo ClickUp (se importada)
   awaitingClient: boolean; // aguardando resposta do cliente
+  visibleToClient: boolean; // aparece pro cliente no painel
   assigneeName: string | null;
   materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
@@ -1021,6 +1022,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
   const [awaiting, setAwaiting] = useState(task.awaitingClient);
+  const [visible, setVisible] = useState(task.visibleToClient);
 
   async function toggleAwaiting() {
     const v = !awaiting;
@@ -1029,6 +1031,17 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
       method:  "PATCH",
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify({ awaitingClient: v }),
+    }).catch(() => {});
+    router.refresh();
+  }
+
+  async function toggleVisible() {
+    const v = !visible;
+    setVisible(v);
+    await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ visibleToClient: v }),
     }).catch(() => {});
     router.refresh();
   }
@@ -1124,6 +1137,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
         <div>
           <p className={`text-sm font-medium ${awaiting ? "text-amber-300" : "text-white"}`}>Aguardando resposta do cliente</p>
           <p className="text-xs text-slate-500">Marca a tarefa como "Aguardando você" no painel — o cliente pode responder.</p>
+        </div>
+      </button>
+
+      {/* Mostrar pro cliente */}
+      <button
+        type="button"
+        onClick={toggleVisible}
+        className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-colors ${
+          visible ? "bg-emerald-500/10 border-emerald-500/40" : "bg-[#0a0f1a] border-[#1e2d45] hover:border-emerald-500/30"
+        }`}
+      >
+        <div className="relative shrink-0">
+          <div className={`w-9 h-5 rounded-full transition-colors ${visible ? "bg-emerald-500" : "bg-[#1e2d45]"}`} />
+          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${visible ? "translate-x-4" : ""}`} />
+        </div>
+        <div>
+          <p className={`text-sm font-medium ${visible ? "text-emerald-300" : "text-white"}`}>{visible ? "Cliente vê esta tarefa" : "Oculta do cliente"}</p>
+          <p className="text-xs text-slate-500">Quando ligado, a tarefa aparece no painel do cliente. Desligue para deixá-la só interna.</p>
         </div>
       </button>
 
@@ -1573,6 +1604,7 @@ function ProjectTasksCard({
                     {t.title}
                   </span>
                   <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
+                    {!t.visibleToClient && <span className="px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 font-medium" title="Não aparece pro cliente">🔒 interna</span>}
                     {t.stage && <span className="px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-medium">{t.stage}</span>}
                     <span className={prio.cls}>{prio.label}</span>
                     {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}

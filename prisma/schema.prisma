@@ -1294,6 +1294,10 @@ model ProjectTask {
   comments    Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
   clickupTaskId String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
   awaitingClient Boolean         @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
+  // Controla se a tarefa aparece pro cliente no painel (/c/[token] e /meu-espaco).
+  // default true = tarefa nativa criada no LeadHub aparece. Tarefas espelhadas do
+  // ClickUp entram com false (ocultas) até você optar por "mostrar pro cliente".
+  visibleToClient Boolean        @default(true)
   done        Boolean          @default(false)
   priority    TicketPriority   @default(MEDIUM)
   startDate   DateTime? // início — pro cliente acompanhar o cronograma

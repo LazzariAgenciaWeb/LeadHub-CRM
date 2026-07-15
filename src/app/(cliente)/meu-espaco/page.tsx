@@ -44,7 +44,7 @@ export default async function MeuEspacoPage() {
     select: {
       id: true, name: true, description: true, status: true,
       service: { select: { name: true } },
-      internalTasks: { select: { done: true, dueDate: true, awaitingClient: true } },
+      internalTasks: { where: { visibleToClient: true }, select: { done: true, dueDate: true, awaitingClient: true } },
     },
   });
 
