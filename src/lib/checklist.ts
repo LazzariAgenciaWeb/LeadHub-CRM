@@ -41,7 +41,10 @@ export function readChecklist(raw: unknown): ChecklistItem[] {
 // ── Comentários / atualizações datadas de uma tarefa ────────────────────────
 // Guardado como Json na coluna `comments`: [{ text, at }] (at = data ISO).
 
-export type TaskComment = { text: string; at: string; by?: "client" };
+// `vis: false` = comentário interno (a equipe vê no admin, o cliente NÃO vê).
+// Ausente = visível pro cliente (comportamento padrão). Resposta do cliente
+// (by:"client") é sempre visível pra ele.
+export type TaskComment = { text: string; at: string; by?: "client"; vis?: boolean };
 
 const MAX_COMMENTS = 100;
 const MAX_COMMENT_TEXT = 2000;
@@ -58,6 +61,7 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     const at = d && !Number.isNaN(d.getTime()) ? d.toISOString() : new Date().toISOString();
     const c: TaskComment = { text, at };
     if ((it as any).by === "client") c.by = "client"; // resposta do cliente
+    if ((it as any).vis === false) c.vis = false; // marcado como interno
     out.push(c);
     if (out.length >= MAX_COMMENTS) break;
   }
@@ -66,4 +70,13 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
 
 export function readComments(raw: unknown): TaskComment[] {
   return sanitizeComments(raw) ?? [];
+}
+
+/**
+ * Comentários que o CLIENTE pode ver: a própria resposta dele + os da equipe
+ * que não estão marcados como internos (vis !== false). Usado nas leituras do
+ * painel do cliente (/c/[token] e /meu-espaco).
+ */
+export function clientComments(raw: unknown): TaskComment[] {
+  return readComments(raw).filter((c) => c.by === "client" || c.vis !== false);
 }

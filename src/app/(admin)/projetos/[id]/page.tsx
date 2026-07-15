@@ -89,7 +89,7 @@ export default async function ProjectDetailPage({
   const materials = await prisma.projectMaterial.findMany({
     where:   { projectId: project.id },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true },
+    select:  { id: true, kind: true, taskId: true, stage: true, title: true, docHtml: true, url: true, ata: true, featured: true, visibleToClient: true },
   });
   const internalTasks = internalTasksRaw.map((t) => ({
     id:           t.id,
@@ -163,10 +163,11 @@ export default async function ProjectDetailPage({
   const serviceStepsRaw = await prisma.projectService.findMany({
     where:   { projectId: project.id },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select:  { id: true, name: true, order: true, service: { select: { name: true } } },
+    select:  { id: true, name: true, order: true, visibleToClient: true, service: { select: { name: true } } },
   });
   const serviceSteps = serviceStepsRaw.map((s) => ({
     id: s.id, order: s.order, name: s.name || s.service?.name || "Serviço",
+    visibleToClient: s.visibleToClient,
     taskCount: internalTasks.filter((t) => t.projectServiceId === s.id).length,
   }));
 

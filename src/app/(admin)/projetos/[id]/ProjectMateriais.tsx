@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users, X, Star } from "lucide-react";
+import { Copy, Check, Plus, Trash2, FileText, Video, PlayCircle, Link2, Paperclip, ExternalLink, Users, X, Star, Eye, EyeOff } from "lucide-react";
 
 type Task = { id: string; title: string };
 type Material = {
   id: string; kind: string; taskId: string | null; stage: string | null;
   title: string; docHtml: string | null; url: string | null; ata: string | null;
-  featured: boolean;
+  featured: boolean; visibleToClient: boolean;
 };
 
 const KIND_OPTS = [
@@ -106,20 +106,38 @@ export default function ProjectMateriais({
     }).catch(() => {});
   }
 
+  async function toggleVisible(m: Material) {
+    const v = !m.visibleToClient;
+    setMaterials((ms) => ms.map((x) => (x.id === m.id ? { ...x, visibleToClient: v } : x)));
+    await fetch(`/api/projetos/${projectId}/materiais/${m.id}`, {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visibleToClient: v }),
+    }).catch(() => {});
+  }
+
   const loose = materials.filter((m) => !m.taskId);
 
   function MaterialRow({ m }: { m: Material }) {
     const Icon = KIND_ICON[m.kind] ?? Link2;
     return (
-      <div className={`rounded-lg border p-2.5 flex items-center gap-3 ${m.featured ? "border-amber-500/40 bg-amber-500/5" : "border-slate-800 bg-slate-900/50"}`}>
+      <div className={`rounded-lg border p-2.5 flex items-center gap-3 ${!m.visibleToClient ? "border-slate-800 bg-slate-900/30 opacity-70" : m.featured ? "border-amber-500/40 bg-amber-500/5" : "border-slate-800 bg-slate-900/50"}`}>
         <Icon className="w-4 h-4 text-indigo-400 flex-none" />
         <div className="min-w-0 flex-1">
           <div className="text-slate-200 text-sm truncate flex items-center gap-1.5">
             {m.title}
+            {!m.visibleToClient && <span className="text-[10px] font-semibold text-slate-400 bg-slate-500/15 border border-slate-500/30 rounded px-1.5 py-0.5 flex-none">🔒 interno</span>}
             {m.featured && <span className="text-[10px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded px-1.5 py-0.5 flex-none">Destaque</span>}
           </div>
           {m.url && <div className="text-slate-500 text-[11px] truncate">{m.url}</div>}
         </div>
+        <button
+          onClick={() => toggleVisible(m)}
+          className={`flex-none ${m.visibleToClient ? "text-emerald-400 hover:text-emerald-300" : "text-slate-600 hover:text-white"}`}
+          aria-label={m.visibleToClient ? "Ocultar do cliente" : "Mostrar pro cliente"}
+          title={m.visibleToClient ? "Cliente vê — clique pra ocultar" : "Oculto do cliente — clique pra mostrar"}
+        >
+          {m.visibleToClient ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+        </button>
         <button
           onClick={() => toggleFeatured(m)}
           className={`flex-none ${m.featured ? "text-amber-400" : "text-slate-600 hover:text-amber-400"}`}

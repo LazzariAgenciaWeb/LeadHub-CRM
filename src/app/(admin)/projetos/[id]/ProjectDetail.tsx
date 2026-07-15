@@ -88,7 +88,7 @@ type InternalTask = {
   stage:        string | null; // etapa/fase (rótulo)
   projectServiceId: string | null; // serviço da sequência ao qual pertence
   checklist:    ChecklistItem[]; // sub-passos
-  comments:     { text: string; at: string }[]; // atualizações datadas
+  comments:     { text: string; at: string; by?: "client"; vis?: boolean }[]; // atualizações datadas (vis:false = interno)
   done:         boolean;
   priority:     string;
   startDate:    string | null; // ISO — início
@@ -135,7 +135,7 @@ export default function ProjectDetail({
   internalTasks: InternalTask[];
   chamados: Chamado[];
   catalogServices: { id: string; name: string }[];
-  serviceSteps: { id: string; name: string; order: number; taskCount: number }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; visibleToClient: boolean }[];
   currentServiceId: string | null;
 }) {
   const router = useRouter();
@@ -1021,6 +1021,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
   const [matMsg, setMatMsg] = useState("");
   const [comments, setComments] = useState(task.comments);
   const [newComment, setNewComment] = useState("");
+  const [commentInternal, setCommentInternal] = useState(false);
   const [awaiting, setAwaiting] = useState(task.awaitingClient);
   const [visible, setVisible] = useState(task.visibleToClient);
 
@@ -1048,7 +1049,7 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
 
   const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
-  async function persistComments(next: { text: string; at: string }[]) {
+  async function persistComments(next: { text: string; at: string; by?: "client"; vis?: boolean }[]) {
     setComments(next);
     await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
       method:  "PATCH",
@@ -1059,8 +1060,9 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
   }
   function addComment() {
     if (!newComment.trim()) return;
-    persistComments([...comments, { text: newComment.trim(), at: new Date().toISOString() }]);
+    persistComments([...comments, { text: newComment.trim(), at: new Date().toISOString(), ...(commentInternal ? { vis: false as const } : {}) }]);
     setNewComment("");
+    setCommentInternal(false);
   }
 
   async function save() {
@@ -1231,16 +1233,20 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
         {matMsg && <p className="text-[10px] text-slate-500 mt-1">{matMsg}</p>}
       </div>
       <div className="pt-1 border-t border-[#1e2d45]">
-        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Atualizações / comentários (o cliente vê)</label>
+        <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Atualizações / comentários <span className="text-slate-600 normal-case">(o cliente vê, exceto as marcadas 🔒 interno)</span></label>
         {comments.length > 0 && (
           <div className="flex flex-col gap-2 mb-2">
             {comments.map((c, i) => {
               const fromClient = (c as any).by === "client";
+              const internal = (c as any).vis === false;
               return (
-                <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : "border-[#1e2d45] bg-[#0f1729]"}`}>
+                <div key={i} className={`group/cm rounded-lg border px-3 py-2 ${fromClient ? "border-amber-500/30 bg-amber-500/5" : internal ? "border-slate-700 bg-[#0b0f18]" : "border-[#1e2d45] bg-[#0f1729]"}`}>
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}</span>
+                    <span className={`text-[11px] font-bold ${fromClient ? "text-amber-300" : internal ? "text-slate-400" : "text-indigo-300"}`}>{fromClient ? "Cliente" : "Equipe"}{internal && !fromClient ? " · 🔒 interno" : ""}</span>
                     <div className="flex items-center gap-2">
+                      {!fromClient && (
+                        <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
+                      )}
                       <span className="text-[10px] text-slate-500 tabular-nums">{new Date(c.at).toLocaleDateString("pt-BR")}</span>
                       <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
                         <Trash2 className="w-3 h-3" />
@@ -1258,11 +1264,15 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addComment(); } }}
-            placeholder="Ex.: Aguardando o Google liberar (uns 3 dias)…"
+            placeholder={commentInternal ? "Nota interna (o cliente não vê)…" : "Ex.: Aguardando o Google liberar (uns 3 dias)…"}
             className={inCls + " flex-1"}
           />
           <button type="button" onClick={addComment} className="px-2 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white text-xs flex items-center"><Plus className="w-3.5 h-3.5" /></button>
         </div>
+        <label className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 cursor-pointer select-none">
+          <input type="checkbox" checked={commentInternal} onChange={(e) => setCommentInternal(e.target.checked)} className="accent-slate-500 w-3.5 h-3.5" />
+          🔒 Só interno — o cliente não vê esta atualização
+        </label>
       </div>
       <div className="flex gap-2 pt-0.5">
         <button onClick={save} disabled={saving} className="px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium">{saving ? "Salvando…" : "Salvar"}</button>

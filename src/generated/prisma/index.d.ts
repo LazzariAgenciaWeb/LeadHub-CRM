@@ -48490,6 +48490,7 @@ export namespace Prisma {
     serviceId: string | null
     name: string | null
     order: number | null
+    visibleToClient: boolean | null
     createdAt: Date | null
   }
 
@@ -48499,6 +48500,7 @@ export namespace Prisma {
     serviceId: string | null
     name: string | null
     order: number | null
+    visibleToClient: boolean | null
     createdAt: Date | null
   }
 
@@ -48508,6 +48510,7 @@ export namespace Prisma {
     serviceId: number
     name: number
     order: number
+    visibleToClient: number
     createdAt: number
     _all: number
   }
@@ -48527,6 +48530,7 @@ export namespace Prisma {
     serviceId?: true
     name?: true
     order?: true
+    visibleToClient?: true
     createdAt?: true
   }
 
@@ -48536,6 +48540,7 @@ export namespace Prisma {
     serviceId?: true
     name?: true
     order?: true
+    visibleToClient?: true
     createdAt?: true
   }
 
@@ -48545,6 +48550,7 @@ export namespace Prisma {
     serviceId?: true
     name?: true
     order?: true
+    visibleToClient?: true
     createdAt?: true
     _all?: true
   }
@@ -48641,6 +48647,7 @@ export namespace Prisma {
     serviceId: string | null
     name: string | null
     order: number
+    visibleToClient: boolean
     createdAt: Date
     _count: ProjectServiceCountAggregateOutputType | null
     _avg: ProjectServiceAvgAggregateOutputType | null
@@ -48669,6 +48676,7 @@ export namespace Prisma {
     serviceId?: boolean
     name?: boolean
     order?: boolean
+    visibleToClient?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
     service?: boolean | ProjectService$serviceArgs<ExtArgs>
@@ -48682,6 +48690,7 @@ export namespace Prisma {
     serviceId?: boolean
     name?: boolean
     order?: boolean
+    visibleToClient?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
     service?: boolean | ProjectService$serviceArgs<ExtArgs>
@@ -48693,6 +48702,7 @@ export namespace Prisma {
     serviceId?: boolean
     name?: boolean
     order?: boolean
+    visibleToClient?: boolean
     createdAt?: boolean
   }
 
@@ -48720,6 +48730,7 @@ export namespace Prisma {
       serviceId: string | null
       name: string | null
       order: number
+      visibleToClient: boolean
       createdAt: Date
     }, ExtArgs["result"]["projectService"]>
     composites: {}
@@ -49122,6 +49133,7 @@ export namespace Prisma {
     readonly serviceId: FieldRef<"ProjectService", 'String'>
     readonly name: FieldRef<"ProjectService", 'String'>
     readonly order: FieldRef<"ProjectService", 'Int'>
+    readonly visibleToClient: FieldRef<"ProjectService", 'Boolean'>
     readonly createdAt: FieldRef<"ProjectService", 'DateTime'>
   }
     
@@ -54296,6 +54308,7 @@ export namespace Prisma {
     mediaBase64: string | null
     mediaType: string | null
     featured: boolean | null
+    visibleToClient: boolean | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -54314,6 +54327,7 @@ export namespace Prisma {
     mediaBase64: string | null
     mediaType: string | null
     featured: boolean | null
+    visibleToClient: boolean | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -54332,6 +54346,7 @@ export namespace Prisma {
     mediaBase64: number
     mediaType: number
     featured: number
+    visibleToClient: number
     order: number
     createdAt: number
     updatedAt: number
@@ -54360,6 +54375,7 @@ export namespace Prisma {
     mediaBase64?: true
     mediaType?: true
     featured?: true
+    visibleToClient?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54378,6 +54394,7 @@ export namespace Prisma {
     mediaBase64?: true
     mediaType?: true
     featured?: true
+    visibleToClient?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54396,6 +54413,7 @@ export namespace Prisma {
     mediaBase64?: true
     mediaType?: true
     featured?: true
+    visibleToClient?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -54501,6 +54519,7 @@ export namespace Prisma {
     mediaBase64: string | null
     mediaType: string | null
     featured: boolean
+    visibleToClient: boolean
     order: number
     createdAt: Date
     updatedAt: Date
@@ -54538,6 +54557,7 @@ export namespace Prisma {
     mediaBase64?: boolean
     mediaType?: boolean
     featured?: boolean
+    visibleToClient?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54558,6 +54578,7 @@ export namespace Prisma {
     mediaBase64?: boolean
     mediaType?: boolean
     featured?: boolean
+    visibleToClient?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54578,6 +54599,7 @@ export namespace Prisma {
     mediaBase64?: boolean
     mediaType?: boolean
     featured?: boolean
+    visibleToClient?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -54611,6 +54633,7 @@ export namespace Prisma {
       mediaBase64: string | null
       mediaType: string | null
       featured: boolean
+      visibleToClient: boolean
       order: number
       createdAt: Date
       updatedAt: Date
@@ -55021,6 +55044,7 @@ export namespace Prisma {
     readonly mediaBase64: FieldRef<"ProjectMaterial", 'String'>
     readonly mediaType: FieldRef<"ProjectMaterial", 'String'>
     readonly featured: FieldRef<"ProjectMaterial", 'Boolean'>
+    readonly visibleToClient: FieldRef<"ProjectMaterial", 'Boolean'>
     readonly order: FieldRef<"ProjectMaterial", 'Int'>
     readonly createdAt: FieldRef<"ProjectMaterial", 'DateTime'>
     readonly updatedAt: FieldRef<"ProjectMaterial", 'DateTime'>
@@ -113450,6 +113474,7 @@ export namespace Prisma {
     serviceId: 'serviceId',
     name: 'name',
     order: 'order',
+    visibleToClient: 'visibleToClient',
     createdAt: 'createdAt'
   };
 
@@ -113528,6 +113553,7 @@ export namespace Prisma {
     mediaBase64: 'mediaBase64',
     mediaType: 'mediaType',
     featured: 'featured',
+    visibleToClient: 'visibleToClient',
     order: 'order',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -118758,6 +118784,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
+    visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
@@ -118770,6 +118797,7 @@ export namespace Prisma {
     serviceId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     order?: SortOrder
+    visibleToClient?: SortOrder
     createdAt?: SortOrder
     project?: SetorClickupListOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
@@ -118785,6 +118813,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
+    visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
@@ -118797,6 +118826,7 @@ export namespace Prisma {
     serviceId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     order?: SortOrder
+    visibleToClient?: SortOrder
     createdAt?: SortOrder
     _count?: ProjectServiceCountOrderByAggregateInput
     _avg?: ProjectServiceAvgOrderByAggregateInput
@@ -118814,6 +118844,7 @@ export namespace Prisma {
     serviceId?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
     name?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
     order?: IntWithAggregatesFilter<"ProjectService"> | number
+    visibleToClient?: BoolWithAggregatesFilter<"ProjectService"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"ProjectService"> | Date | string
   }
 
@@ -119143,6 +119174,7 @@ export namespace Prisma {
     mediaBase64?: StringNullableFilter<"ProjectMaterial"> | string | null
     mediaType?: StringNullableFilter<"ProjectMaterial"> | string | null
     featured?: BoolFilter<"ProjectMaterial"> | boolean
+    visibleToClient?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -119163,6 +119195,7 @@ export namespace Prisma {
     mediaBase64?: SortOrderInput | SortOrder
     mediaType?: SortOrderInput | SortOrder
     featured?: SortOrder
+    visibleToClient?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -119186,6 +119219,7 @@ export namespace Prisma {
     mediaBase64?: StringNullableFilter<"ProjectMaterial"> | string | null
     mediaType?: StringNullableFilter<"ProjectMaterial"> | string | null
     featured?: BoolFilter<"ProjectMaterial"> | boolean
+    visibleToClient?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -119206,6 +119240,7 @@ export namespace Prisma {
     mediaBase64?: SortOrderInput | SortOrder
     mediaType?: SortOrderInput | SortOrder
     featured?: SortOrder
+    visibleToClient?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -119232,6 +119267,7 @@ export namespace Prisma {
     mediaBase64?: StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
     mediaType?: StringNullableWithAggregatesFilter<"ProjectMaterial"> | string | null
     featured?: BoolWithAggregatesFilter<"ProjectMaterial"> | boolean
+    visibleToClient?: BoolWithAggregatesFilter<"ProjectMaterial"> | boolean
     order?: IntWithAggregatesFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProjectMaterial"> | Date | string
@@ -128254,6 +128290,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
@@ -128266,6 +128303,7 @@ export namespace Prisma {
     serviceId?: string | null
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -128274,6 +128312,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
@@ -128286,6 +128325,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -128296,6 +128336,7 @@ export namespace Prisma {
     serviceId?: string | null
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
   }
 
@@ -128303,6 +128344,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -128312,6 +128354,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -128628,6 +128671,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128648,6 +128692,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128664,6 +128709,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128684,6 +128730,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128702,6 +128749,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128718,6 +128766,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -128736,6 +128785,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -137624,6 +137674,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     name?: SortOrder
     order?: SortOrder
+    visibleToClient?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -137637,6 +137688,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     name?: SortOrder
     order?: SortOrder
+    visibleToClient?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -137646,6 +137698,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     name?: SortOrder
     order?: SortOrder
+    visibleToClient?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -137862,6 +137915,7 @@ export namespace Prisma {
     mediaBase64?: SortOrder
     mediaType?: SortOrder
     featured?: SortOrder
+    visibleToClient?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137884,6 +137938,7 @@ export namespace Prisma {
     mediaBase64?: SortOrder
     mediaType?: SortOrder
     featured?: SortOrder
+    visibleToClient?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -137902,6 +137957,7 @@ export namespace Prisma {
     mediaBase64?: SortOrder
     mediaType?: SortOrder
     featured?: SortOrder
+    visibleToClient?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -174097,6 +174153,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174115,6 +174172,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174134,6 +174192,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
     tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
@@ -174144,6 +174203,7 @@ export namespace Prisma {
     serviceId?: string | null
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -174654,6 +174714,7 @@ export namespace Prisma {
     mediaBase64?: StringNullableFilter<"ProjectMaterial"> | string | null
     mediaType?: StringNullableFilter<"ProjectMaterial"> | string | null
     featured?: BoolFilter<"ProjectMaterial"> | boolean
+    visibleToClient?: BoolFilter<"ProjectMaterial"> | boolean
     order?: IntFilter<"ProjectMaterial"> | number
     createdAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
     updatedAt?: DateTimeFilter<"ProjectMaterial"> | Date | string
@@ -174684,6 +174745,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"ProjectService"> | string | null
     name?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
+    visibleToClient?: BoolFilter<"ProjectService"> | boolean
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
   }
 
@@ -174764,6 +174826,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
@@ -174775,6 +174838,7 @@ export namespace Prisma {
     serviceId?: string | null
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
   }
 
@@ -174956,6 +175020,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -174974,6 +175039,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -175083,6 +175149,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
@@ -175094,6 +175161,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -199759,6 +199827,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
@@ -199769,6 +199838,7 @@ export namespace Prisma {
     projectId: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -208726,6 +208796,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -208736,6 +208807,7 @@ export namespace Prisma {
     serviceId?: string | null
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
   }
 
@@ -208998,6 +209070,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209016,6 +209089,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209033,6 +209107,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209042,6 +209117,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
     tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
@@ -209052,6 +209128,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -209061,6 +209138,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -209076,6 +209154,7 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     featured?: boolean
+    visibleToClient?: boolean
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -209092,6 +209171,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209110,6 +209190,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -209127,6 +209208,7 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -210297,6 +210379,7 @@ export namespace Prisma {
     projectId: string
     name?: string | null
     order?: number
+    visibleToClient?: boolean
     createdAt?: Date | string
   }
 
@@ -210442,6 +210525,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
@@ -210452,6 +210536,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -210461,6 +210546,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    visibleToClient?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

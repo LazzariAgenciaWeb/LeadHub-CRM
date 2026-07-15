@@ -635,6 +635,7 @@ exports.Prisma.ProjectServiceScalarFieldEnum = {
   serviceId: 'serviceId',
   name: 'name',
   order: 'order',
+  visibleToClient: 'visibleToClient',
   createdAt: 'createdAt'
 };
 
@@ -695,6 +696,7 @@ exports.Prisma.ProjectMaterialScalarFieldEnum = {
   mediaBase64: 'mediaBase64',
   mediaType: 'mediaType',
   featured: 'featured',
+  visibleToClient: 'visibleToClient',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

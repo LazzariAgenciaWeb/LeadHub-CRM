@@ -52,6 +52,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ ok: true });
   }
 
+  if (typeof body.visibleToClient === "boolean") {
+    await prisma.projectService.update({ where: { id: stepId }, data: { visibleToClient: body.visibleToClient } });
+    return NextResponse.json({ ok: true });
+  }
+
   return NextResponse.json({ error: "Nada para atualizar" }, { status: 400 });
 }
 

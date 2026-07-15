@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { readChecklist, readComments } from "@/lib/checklist";
+import { readChecklist, clientComments } from "@/lib/checklist";
 import ClientProjectPanel from "@/components/client-panel/ClientProjectPanel";
 
 export const dynamic = "force-dynamic";
@@ -18,10 +18,12 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
         select: { id: true, title: true, description: true, stage: true, projectServiceId: true, checklist: true, comments: true, done: true, startDate: true, dueDate: true, updatedAt: true, awaitingClient: true },
       },
       serviceSteps: {
+        where: { visibleToClient: true },
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
         select: { id: true, name: true, order: true, service: { select: { name: true } } },
       },
       materials: {
+        where: { visibleToClient: true },
         orderBy: [{ order: "asc" }, { createdAt: "asc" }],
         select: { id: true, kind: true, taskId: true, title: true, docHtml: true, url: true, ata: true, stage: true, featured: true },
       },
@@ -38,7 +40,7 @@ export default async function ClientePage({ params }: { params: Promise<{ token:
 
   const tasks = project.internalTasks.map((t) => ({
     id: t.id, title: t.title, description: t.description, stage: t.stage, projectServiceId: t.projectServiceId,
-    checklist: readChecklist(t.checklist), comments: readComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
+    checklist: readChecklist(t.checklist), comments: clientComments(t.comments), done: t.done, startDate: t.startDate, dueDate: t.dueDate, updatedAt: t.updatedAt, awaitingClient: t.awaitingClient,
   }));
   const serviceSteps = project.serviceSteps.map((s) => ({ id: s.id, name: s.name || s.service?.name || "Serviço", order: s.order }));
 

@@ -1331,6 +1331,7 @@ model ProjectService {
   service   Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
   name      String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
   order     Int              @default(0)
+  visibleToClient Boolean    @default(true) // false = serviço inteiro some do painel do cliente
   createdAt DateTime         @default(now())
 
   tasks ProjectTask[]
@@ -1445,6 +1446,7 @@ model ProjectMaterial {
   mediaBase64 String?        @db.Text
   mediaType   String? // MIME: "image/png", "image/jpeg"…
   featured  Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
+  visibleToClient Boolean    @default(true) // false = material some do painel do cliente (fica só interno)
   order     Int              @default(0)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt

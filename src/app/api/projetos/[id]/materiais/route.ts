@@ -85,7 +85,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       mediaBase64: cleanBase64,
       mediaType:   cleanMime,
     },
-    select: { id: true, kind: true, title: true, url: true, mediaType: true },
+    select: { id: true, kind: true, title: true, url: true, mediaType: true, taskId: true, stage: true, docHtml: true, ata: true, featured: true, visibleToClient: true },
   });
   return NextResponse.json(material, { status: 201 });
 }
