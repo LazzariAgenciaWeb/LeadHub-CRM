@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MeuEspacoInteracoes from "./MeuEspacoInteracoes";
+import ProjetosServicos from "./ProjetosServicos";
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +45,16 @@ export default async function MeuEspacoPage() {
     select: {
       id: true, name: true, description: true, status: true,
       service: { select: { name: true } },
-      internalTasks: { where: { visibleToClient: true }, select: { done: true, dueDate: true, awaitingClient: true } },
+      internalTasks: {
+        where: { visibleToClient: true },
+        orderBy: [{ createdAt: "asc" }],
+        select: { id: true, title: true, done: true, startDate: true, dueDate: true, projectServiceId: true, awaitingClient: true },
+      },
+      serviceSteps: {
+        where: { visibleToClient: true },
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        select: { id: true, name: true, order: true, service: { select: { name: true } } },
+      },
     },
   });
 
@@ -105,6 +115,26 @@ export default async function MeuEspacoPage() {
   const attention = cards.filter((c) => c.status === "AGUARDANDO_CLIENTE" || c.overdue > 0 || c.awaiting > 0);
   const attentionCount = attention.length;
 
+  // Estrutura projeto → serviço → tarefas visíveis (pra seção "Serviços em execução").
+  const PROJECT_TINT = ["#8B6DFF", "#4B9BFF", "#2DD4BF", "#F59E0B", "#EC4899"];
+  const projectsData = projects
+    .map((p, i) => {
+      const services = p.serviceSteps.map((s) => ({
+        id: s.id,
+        name: s.name || s.service?.name || "Serviço",
+        tasks: p.internalTasks
+          .filter((t) => t.projectServiceId === s.id)
+          .map((t) => ({ id: t.id, title: t.title, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient })),
+      }));
+      const svcIds = new Set(p.serviceSteps.map((s) => s.id));
+      const loose = p.internalTasks
+        .filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId))
+        .map((t) => ({ id: t.id, title: t.title, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient }));
+      if (loose.length) services.push({ id: `loose:${p.id}`, name: "Outras tarefas", tasks: loose });
+      return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
+    })
+    .filter((p) => p.services.length > 0);
+
   function Poster({ c }: { c: (typeof cards)[number] }) {
     const st = STATUS[c.status] ?? { label: c.status, tone: "muted" };
     return (
@@ -159,15 +189,19 @@ export default async function MeuEspacoPage() {
         </section>
       )}
 
-      {/* SEUS SERVIÇOS */}
-      <section className="row">
-        <div className="rowhead"><h2>Seus serviços</h2><span className="sub">tudo que estamos fazendo com você</span></div>
-        {cards.length === 0 ? (
-          <div className="empty">Nenhum serviço ativo no momento. Assim que algo começar, aparece aqui.</div>
-        ) : (
-          <div className="rail">{cards.map((c) => <Poster key={c.id} c={c} />)}</div>
-        )}
-      </section>
+      {/* SEUS PROJETOS + SERVIÇOS EM EXECUÇÃO (com as tarefas) */}
+      {projectsData.length > 0 ? (
+        <ProjetosServicos projects={projectsData} />
+      ) : (
+        <section className="row">
+          <div className="rowhead"><h2>Seus serviços</h2><span className="sub">tudo que estamos fazendo com você</span></div>
+          {cards.length === 0 ? (
+            <div className="empty">Nenhum serviço ativo no momento. Assim que algo começar, aparece aqui.</div>
+          ) : (
+            <div className="rail">{cards.map((c) => <Poster key={c.id} c={c} />)}</div>
+          )}
+        </section>
+      )}
 
       {/* SEUS PRODUTOS CONTRATADOS — LeadHub (sistema) + serviços contratados do cliente */}
       <section className="row">
