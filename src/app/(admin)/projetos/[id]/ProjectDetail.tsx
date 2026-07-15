@@ -1020,7 +1020,7 @@ function ChecklistEditor({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number }[] }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number }[]; hasClickup: boolean }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1037,6 +1037,14 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
   const [commentInternal, setCommentInternal] = useState(false);
   const [awaiting, setAwaiting] = useState(task.awaitingClient);
   const [visible, setVisible] = useState(task.visibleToClient);
+  const [pushing, setPushing] = useState(false);
+
+  async function pushToClickup() {
+    setPushing(true);
+    await fetch(`/api/projetos/${projectId}/tasks/${task.id}/push-clickup`, { method: "POST" }).catch(() => {});
+    setPushing(false);
+    router.refresh();
+  }
 
   async function toggleAwaiting() {
     const v = !awaiting;
@@ -1185,6 +1193,29 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
           <p className="text-xs text-slate-500">Quando ligado, a tarefa aparece no painel do cliente. Desligue para deixá-la só interna.</p>
         </div>
       </button>
+
+      {/* Vínculo com o ClickUp */}
+      {hasClickup && (
+        task.clickupTaskId ? (
+          <div className="w-full flex items-center gap-3 p-3 rounded-lg border border-[#1e2d45] bg-[#0a0f1a]">
+            <span className="text-[#7b68ee] text-sm font-medium">↻ Vinculada ao ClickUp — sincroniza nos dois sentidos</span>
+            <a href={`https://app.clickup.com/t/${task.clickupTaskId}`} target="_blank" rel="noreferrer" className="ml-auto text-xs text-slate-400 hover:text-white">Abrir no ClickUp ↗</a>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={pushToClickup}
+            disabled={pushing}
+            className="w-full flex items-center gap-3 p-3 rounded-lg border border-[#7b68ee]/40 bg-[#7b68ee]/10 hover:bg-[#7b68ee]/20 text-left transition-colors disabled:opacity-50"
+          >
+            <span className="text-[#7b68ee] text-lg shrink-0">↻</span>
+            <div>
+              <p className="text-sm font-medium text-white">{pushing ? "Enviando pro ClickUp…" : "Sincronizar com o ClickUp"}</p>
+              <p className="text-xs text-slate-500">Cria esta tarefa no ClickUp e passa a sincronizar nos dois sentidos.</p>
+            </div>
+          </button>
+        )
+      )}
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
@@ -1617,54 +1648,93 @@ function ProjectTasksCard({
         </div>
       )}
 
-      {internalTasks.length === 0 ? (
-        <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa interna ainda.</div>
-      ) : (
-        <div className="divide-y divide-[#1e2d45]">
-          {internalTasks.map((t) => {
-            const start = t.startDate ? new Date(t.startDate) : null;
-            const due = t.dueDate ? new Date(t.dueDate) : null;
-            const overdue = due && due < new Date() && !t.done;
-            const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
-            return (
-              <div key={t.id} className={`flex items-center gap-2 px-5 py-2.5 group ${selectMode && selected.has(t.id) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}>
-                <input
-                  type="checkbox"
-                  checked={selectMode ? selected.has(t.id) : t.done}
-                  onChange={() => (selectMode ? toggleSelect(t.id) : toggleDone(t))}
-                  className={`w-4 h-4 rounded cursor-pointer flex-shrink-0 ${selectMode ? "accent-indigo-500" : "accent-emerald-500"}`}
-                  title={selectMode ? "Selecionar" : "Concluir"}
-                />
-                <button onClick={() => (selectMode ? toggleSelect(t.id) : setEditingId(t.id))} className="min-w-0 flex-1 text-left cursor-pointer">
-                  <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
-                    {t.title}
-                  </span>
-                  <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
-                    {!t.visibleToClient && <span className="px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 font-medium" title="Não aparece pro cliente">🔒 interna</span>}
-                    {t.stage && <span className="px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-medium">{t.stage}</span>}
-                    <span className={prio.cls}>{prio.label}</span>
-                    {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
-                    {(start || due) && (
-                      <span className={overdue ? "text-red-300" : "text-slate-600"}>
-                        · {start ? formatBrazilDate(start) : "?"}{due ? ` → ${formatBrazilDate(due)}` : ""}
-                      </span>
-                    )}
-                    {t.checklist.length > 0 && <span className="text-slate-600">· {t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span>}
-                    {t.comments.length > 0 && <span className="text-slate-600">· 💬 {t.comments.length}</span>}
-                  </div>
-                </button>
-                <button
-                  onClick={() => remove(t)}
-                  className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                  title="Excluir"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+      {(() => {
+        const rowOf = (t: InternalTask) => {
+          const start = t.startDate ? new Date(t.startDate) : null;
+          const due = t.dueDate ? new Date(t.dueDate) : null;
+          const overdue = due && due < new Date() && !t.done;
+          const prio = PRIORITY_PILL[t.priority] ?? PRIORITY_PILL.MEDIUM;
+          return (
+            <div key={t.id} className={`flex items-center gap-2 px-5 py-2.5 group ${selectMode && selected.has(t.id) ? "bg-indigo-500/10" : "hover:bg-[#080b12]"}`}>
+              <input
+                type="checkbox"
+                checked={selectMode ? selected.has(t.id) : t.done}
+                onChange={() => (selectMode ? toggleSelect(t.id) : toggleDone(t))}
+                className={`w-4 h-4 rounded cursor-pointer flex-shrink-0 ${selectMode ? "accent-indigo-500" : "accent-emerald-500"}`}
+                title={selectMode ? "Selecionar" : "Concluir"}
+              />
+              <button onClick={() => (selectMode ? toggleSelect(t.id) : setEditingId(t.id))} className="min-w-0 flex-1 text-left cursor-pointer">
+                <span className={`text-xs ${t.done ? "text-slate-500 line-through" : "text-slate-200"}`}>
+                  {t.title}
+                </span>
+                <div className="text-[10px] mt-0.5 flex items-center gap-2 flex-wrap">
+                  {!t.visibleToClient && <span className="px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 font-medium" title="Não aparece pro cliente">🔒 interna</span>}
+                  {!t.projectServiceId && t.stage && <span className="px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-300 font-medium">{t.stage}</span>}
+                  {t.clickupTaskId && <span className="px-1.5 py-0.5 rounded bg-[#7B68EE]/15 text-[#b9aefb] font-medium" title="Vinculada ao ClickUp">↻ ClickUp</span>}
+                  <span className={prio.cls}>{prio.label}</span>
+                  {t.assigneeName && <span className="text-slate-600">· {t.assigneeName}</span>}
+                  {(start || due) && (
+                    <span className={overdue ? "text-red-300" : "text-slate-600"}>
+                      · {start ? formatBrazilDate(start) : "?"}{due ? ` → ${formatBrazilDate(due)}` : ""}
+                    </span>
+                  )}
+                  {t.checklist.length > 0 && <span className="text-slate-600">· {t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span>}
+                  {t.comments.length > 0 && <span className="text-slate-600">· 💬 {t.comments.length}</span>}
+                </div>
+              </button>
+              <button
+                onClick={() => remove(t)}
+                className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                title="Excluir"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          );
+        };
+
+        if (internalTasks.length === 0) {
+          return <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa interna ainda.</div>;
+        }
+        // Sem serviços na sequência → lista plana (comportamento antigo).
+        if (serviceSteps.length === 0) {
+          return <div className="divide-y divide-[#1e2d45]">{internalTasks.map(rowOf)}</div>;
+        }
+        // Com serviços → agrupa as tarefas por serviço (igual o cliente vê).
+        const svcIds = new Set(serviceSteps.map((s) => s.id));
+        const groups = serviceSteps.map((s, i) => ({
+          id: s.id,
+          label: `${String(i + 1).padStart(2, "0")} · ${s.name}`,
+          tasks: internalTasks.filter((t) => t.projectServiceId === s.id),
+        }));
+        const noSvc = internalTasks.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
+
+        const GroupHead = ({ label, tasks, muted }: { label: string; tasks: InternalTask[]; muted?: boolean }) => (
+          <div className={`px-5 py-2 bg-[#0b111c] border-t border-b border-[#1e2d45] text-[11px] font-bold flex items-center justify-between ${muted ? "text-slate-400" : "text-indigo-300"}`}>
+            <span>{label}</span>
+            <span className="text-slate-600 font-medium tabular-nums">{tasks.filter((t) => t.done).length}/{tasks.length}</span>
+          </div>
+        );
+
+        return (
+          <div>
+            {groups.map((g) => (
+              <div key={g.id}>
+                <GroupHead label={g.label} tasks={g.tasks} />
+                {g.tasks.length === 0
+                  ? <div className="px-5 py-2.5 text-[11px] text-slate-600 italic">nenhuma tarefa neste serviço</div>
+                  : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
               </div>
-            );
-          })}
-        </div>
-      )}
+            ))}
+            {noSvc.length > 0 && (
+              <div>
+                <GroupHead label="Sem serviço — a organizar" tasks={noSvc} muted />
+                <div className="divide-y divide-[#1e2d45]">{noSvc.map(rowOf)}</div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Modal de edição da tarefa (85% da tela) */}
       {editingId && (() => {
@@ -1681,7 +1751,7 @@ function ProjectTasksCard({
                 <button onClick={() => setEditingId(null)} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-6 py-5">
-                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} />
+                <TaskEditor projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} />
               </div>
             </div>
           </div>
