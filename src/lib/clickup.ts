@@ -586,6 +586,36 @@ export async function fetchClickupTasks(
   }
 }
 
+/**
+ * Busca UMA tarefa do ClickUp em formato enxuto + o id da lista dela. Usado pelo
+ * webhook pra espelhar em tempo real: precisa saber a qual lista/projeto a tarefa
+ * pertence. Retorna null em erro.
+ */
+export async function fetchClickupTaskLite(
+  apiToken: string,
+  taskId: string,
+): Promise<{ listId: string | null; task: ClickupTaskLite } | null> {
+  if (!taskId) return null;
+  try {
+    const res = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!res.ok) return null;
+    const t = await res.json();
+    return {
+      listId: (t?.list?.id as string | undefined) ?? null,
+      task: {
+        id:            String(t.id),
+        name:          String(t.name ?? ""),
+        statusName:    t.status?.status ?? null,
+        isCompleted:   t.status?.type === "closed" || t.status?.type === "done",
+        hasNoAssignee: !Array.isArray(t.assignees) || t.assignees.length === 0,
+        dueDate:       t.due_date     ? Number(t.due_date)     : null,
+        startDate:     t.start_date   ? Number(t.start_date)   : null,
+        dateUpdated:   t.date_updated ? Number(t.date_updated) : null,
+      },
+    };
+  } catch { return null; }
+}
+
 export async function fetchClickupListStats(
   apiToken: string,
   listId: string,

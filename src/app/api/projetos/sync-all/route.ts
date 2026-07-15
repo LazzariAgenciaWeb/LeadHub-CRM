@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
 import { syncProjectTasks } from "@/lib/gamification";
+import { mirrorClickupTasks } from "@/lib/project-mirror";
 
 /**
  * POST /api/projetos/sync-all
@@ -36,7 +37,7 @@ export async function POST() {
   const settingsByCompany = new Map<string, Awaited<ReturnType<typeof getClickupSettings>>>();
   let synced = 0;
   let errors = 0;
-  let totalCreated = 0, totalUpdated = 0, totalCompleted = 0;
+  let totalCreated = 0, totalUpdated = 0, totalCompleted = 0, totalMirrored = 0;
 
   for (const proj of projects) {
     if (!proj.clickupListId) continue; // projetos internos ficam de fora do sync-all
@@ -57,6 +58,7 @@ export async function POST() {
     }
 
     const result = await syncProjectTasks(proj.id, tasks);
+    totalMirrored += await mirrorClickupTasks(proj.id, tasks).catch(() => 0);
     synced++;
     totalCreated   += result.created;
     totalUpdated   += result.updated;
@@ -68,6 +70,7 @@ export async function POST() {
     total:    projects.length,
     synced,
     errors,
+    mirrored: totalMirrored,
     activities: { created: totalCreated, updated: totalUpdated, completed: totalCompleted },
   });
 }

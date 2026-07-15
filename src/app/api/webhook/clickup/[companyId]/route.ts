@@ -39,8 +39,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { getClickupWebhookSecret, getClickupSettings, fetchClickupTaskDescription, fetchClickupTaskComments } from "@/lib/clickup";
+import { getClickupWebhookSecret, getClickupSettings, fetchClickupTaskDescription, fetchClickupTaskComments, fetchClickupTaskLite } from "@/lib/clickup";
 import { readComments, sanitizeComments } from "@/lib/checklist";
+import { mirrorClickupTasks } from "@/lib/project-mirror";
 
 // Webhook precisa do body cru pra validar a assinatura.
 export const runtime = "nodejs";
@@ -107,7 +108,32 @@ export async function POST(
     }),
   ]);
 
+  // Auto-espelho em tempo real: se a task não bate com nada MAS pertence a uma
+  // lista de PROJETO desta empresa (tarefa nova ainda não espelhada), cria a
+  // ProjectTask nativa (oculta + sem serviço → Caixa de entrada) e segue o fluxo
+  // pra aplicar descritivo/comentários do evento na recém-criada.
+  let projectTaskRow = projTask;
   if (!ticket && !lead && !projTask) {
+    const settings = await getClickupSettings(companyId);
+    if (settings?.apiToken) {
+      const info = await fetchClickupTaskLite(settings.apiToken, taskId);
+      if (info?.listId) {
+        const proj = await prisma.setorClickupList.findFirst({
+          where:  { clickupListId: info.listId, setor: { companyId } },
+          select: { id: true },
+        });
+        if (proj) {
+          await mirrorClickupTasks(proj.id, [info.task]).catch(() => {});
+          projectTaskRow = await prisma.projectTask.findFirst({
+            where:  { clickupTaskId: taskId, project: { setor: { companyId } } },
+            select: { id: true, comments: true },
+          });
+        }
+      }
+    }
+  }
+
+  if (!ticket && !lead && !projectTaskRow) {
     return NextResponse.json({ ok: true, skipped: "task-not-found" });
   }
 
@@ -115,7 +141,8 @@ export async function POST(
   // taskUpdated → puxa o descritivo atual; taskCommentPosted → traz os comentários
   // como atualizações do cliente (merge deduplicado por texto+data). Busca via API
   // pra pegar o conteúdo consolidado, evitando parsear history_items.
-  if (projTask) {
+  if (projectTaskRow) {
+    const projTask = projectTaskRow;
     const settings = await getClickupSettings(companyId);
     if (!settings) return NextResponse.json({ ok: true, skipped: "clickup-not-configured" });
     const data: any = {};

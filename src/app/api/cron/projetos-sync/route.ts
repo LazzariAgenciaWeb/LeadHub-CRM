@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, fetchClickupTasks } from "@/lib/clickup";
 import { syncProjectTasks } from "@/lib/gamification";
+import { mirrorClickupTasks } from "@/lib/project-mirror";
 
 /**
  * GET/POST /api/cron/projetos-sync
@@ -37,7 +38,7 @@ async function handle(req: NextRequest) {
   const settingsByCompany = new Map<string, Awaited<ReturnType<typeof getClickupSettings>>>();
   let synced = 0;
   let errors = 0;
-  let totalCreated = 0, totalUpdated = 0, totalCompleted = 0;
+  let totalCreated = 0, totalUpdated = 0, totalCompleted = 0, totalMirrored = 0;
 
   let skippedNoClickup = 0;
   for (const proj of projects) {
@@ -64,6 +65,7 @@ async function handle(req: NextRequest) {
     }
 
     const result = await syncProjectTasks(proj.id, tasks);
+    totalMirrored += await mirrorClickupTasks(proj.id, tasks).catch(() => 0);
     synced++;
     totalCreated   += result.created;
     totalUpdated   += result.updated;
@@ -75,6 +77,7 @@ async function handle(req: NextRequest) {
     total:    projects.length,
     synced,
     errors,
+    mirrored: totalMirrored,
     activities: { created: totalCreated, updated: totalUpdated, completed: totalCompleted },
     timestamp: new Date().toISOString(),
   });
