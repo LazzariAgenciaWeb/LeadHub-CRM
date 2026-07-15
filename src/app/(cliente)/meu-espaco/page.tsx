@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import MeuEspacoInteracoes from "./MeuEspacoInteracoes";
 import ProjetosServicos from "./ProjetosServicos";
+import { clientComments } from "@/lib/checklist";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +49,7 @@ export default async function MeuEspacoPage() {
       internalTasks: {
         where: { visibleToClient: true },
         orderBy: [{ createdAt: "asc" }],
-        select: { id: true, title: true, done: true, startDate: true, dueDate: true, projectServiceId: true, awaitingClient: true },
+        select: { id: true, title: true, description: true, comments: true, done: true, startDate: true, dueDate: true, projectServiceId: true, awaitingClient: true },
       },
       serviceSteps: {
         where: { visibleToClient: true },
@@ -121,12 +122,12 @@ export default async function MeuEspacoPage() {
         name: s.name || s.service?.name || "Serviço",
         tasks: p.internalTasks
           .filter((t) => t.projectServiceId === s.id)
-          .map((t) => ({ id: t.id, title: t.title, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient })),
+          .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) })),
       }));
       const svcIds = new Set(p.serviceSteps.map((s) => s.id));
       const loose = p.internalTasks
         .filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId))
-        .map((t) => ({ id: t.id, title: t.title, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient }));
+        .map((t) => ({ id: t.id, title: t.title, description: t.description ?? null, done: t.done, startDate: t.startDate?.toISOString() ?? null, dueDate: t.dueDate?.toISOString() ?? null, awaitingClient: t.awaitingClient, updates: clientComments(t.comments).map((c) => ({ text: c.text, at: c.at, client: c.by === "client" })) }));
       if (loose.length) services.push({ id: `loose:${p.id}`, name: "Outras tarefas", tasks: loose });
       return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
     })
