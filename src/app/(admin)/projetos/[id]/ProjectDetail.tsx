@@ -11,6 +11,7 @@ import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectInbox from "./ProjectInbox";
+import ProjectMateriais from "./ProjectMateriais";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 
 type Project = {
@@ -124,7 +125,7 @@ const TICKET_STATUS_LABEL: Record<string, string> = {
 
 export default function ProjectDetail({
   project, availableUsers, companyUsers, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
-  catalogServices, serviceSteps, currentServiceId,
+  catalogServices, serviceSteps, currentServiceId, materials, publicToken,
 }: {
   project: Project;
   availableUsers: { id: string; name: string }[];
@@ -138,6 +139,8 @@ export default function ProjectDetail({
   catalogServices: { id: string; name: string }[];
   serviceSteps: { id: string; name: string; order: number; taskCount: number; visibleToClient: boolean }[];
   currentServiceId: string | null;
+  materials: { id: string; kind: string; taskId: string | null; stage: string | null; title: string; docHtml: string | null; url: string | null; ata: string | null; featured: boolean; visibleToClient: boolean }[];
+  publicToken: string | null;
 }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -427,6 +430,17 @@ export default function ProjectDetail({
             hasClickup={!!project.clickupListId}
             serviceSteps={serviceSteps}
           />
+
+          {/* Materiais, anexos, links & link do cliente */}
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-4">
+            <h3 className="text-white font-semibold text-sm flex items-center gap-2">📎 Materiais, anexos &amp; link do cliente</h3>
+            <ProjectMateriais
+              projectId={project.id}
+              tasks={internalTasks.map((t) => ({ id: t.id, title: t.title }))}
+              materials={materials}
+              publicToken={publicToken}
+            />
+          </div>
 
           {/* Chamados agrupados no projeto */}
           {chamados.length > 0 && (

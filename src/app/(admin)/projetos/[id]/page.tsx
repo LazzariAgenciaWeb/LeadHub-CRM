@@ -194,10 +194,6 @@ export default async function ProjectDetailPage({
         dueDate:      c.dueDate ? c.dueDate.toISOString() : null,
         assigneeName: c.assignee?.name ?? null,
       }))}
-    />
-    <ProjectMateriais
-      projectId={id}
-      tasks={internalTasks.map((t) => ({ id: t.id, title: t.title }))}
       materials={materials}
       publicToken={project.publicToken ?? null}
     />
