@@ -155,7 +155,9 @@ export async function POST(
         const cmts = await fetchClickupTaskComments(settings.apiToken, taskId);
         const existing = readComments(projTask.comments);
         const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
-        const fresh = cmts.filter((c) => !seen.has(`${c.text}|${c.at}`));
+        const seenCid = new Set(existing.map((c) => c.cid).filter(Boolean));
+        // dedup por id do ClickUp (evita eco do que o LeadHub empurrou) + texto|data.
+        const fresh = cmts.filter((c) => !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
         if (fresh.length) {
           const merged = sanitizeComments(
             [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),

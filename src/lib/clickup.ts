@@ -264,8 +264,9 @@ export async function fetchClickupTaskDescription(apiToken: string, taskId: stri
   } catch { return ""; }
 }
 
-/** Busca os comentários de uma tarefa do ClickUp como [{text, at}] (ordem cronológica). */
-export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string }[]> {
+/** Busca os comentários de uma tarefa do ClickUp como [{text, at, cid}] (cronológico).
+ *  `cid` = id do comentário no ClickUp — usado pra dedup e evitar eco. */
+export async function fetchClickupTaskComments(apiToken: string, taskId: string): Promise<{ text: string; at: string; cid?: string }[]> {
   if (!taskId) return [];
   try {
     const res = await fetch(taskApiUrl(taskId, "/comment"), { headers: { Authorization: apiToken }, cache: "no-store" });
@@ -276,11 +277,39 @@ export async function fetchClickupTaskComments(apiToken: string, taskId: string)
       const text = String(c.comment_text ?? "").trim();
       const ms = c.date ? Number(c.date) : NaN;
       const at = Number.isFinite(ms) ? new Date(ms).toISOString() : new Date().toISOString();
-      return { text, at };
+      return { text, at, cid: c.id != null ? String(c.id) : undefined };
     }).filter((c) => c.text);
     // ClickUp devolve mais recente primeiro — invertemos pra ordem cronológica.
     return out.reverse();
   } catch { return []; }
+}
+
+/** Reabre uma tarefa no ClickUp: seta o primeiro status "aberto" da lista (auto-detect
+ *  igual o markDone, mas ao contrário). Best-effort — retorna false se não achou. */
+export async function reopenClickupTask(apiToken: string, taskId: string): Promise<boolean> {
+  if (!taskId) return false;
+  try {
+    const taskRes = await fetch(taskApiUrl(taskId, ""), { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!taskRes.ok) return false;
+    const task = await taskRes.json();
+    const listId = task?.list?.id as string | undefined;
+    if (!listId) return false;
+
+    const listRes = await fetch(`${BASE}/list/${listId}`, { headers: { Authorization: apiToken }, cache: "no-store" });
+    if (!listRes.ok) return false;
+    const list = await listRes.json();
+    const statuses: { status: string; type: string }[] = list?.statuses ?? [];
+    const open = statuses.find((s) => s.type === "open") ?? statuses.find((s) => s.type !== "closed" && s.type !== "done");
+    if (!open) return false;
+
+    const current = (task?.status?.status as string | undefined)?.toLowerCase();
+    if (current && current === open.status.toLowerCase()) return true;
+
+    return await updateClickupTask({ apiToken, taskId, status: open.status });
+  } catch (err) {
+    console.error("[ClickUp] reopen error", err);
+    return false;
+  }
 }
 
 /** Add a comment to a ClickUp task. Returns the new comment ID (string) or null on failure.

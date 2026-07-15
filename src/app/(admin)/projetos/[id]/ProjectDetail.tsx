@@ -1071,11 +1071,24 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps }
     }).catch(() => {});
     router.refresh();
   }
-  function addComment() {
-    if (!newComment.trim()) return;
-    persistComments([...comments, { text: newComment.trim(), at: new Date().toISOString(), ...(commentInternal ? { vis: false as const } : {}) }]);
+  async function addComment() {
+    const text = newComment.trim();
+    if (!text) return;
+    const internal = commentInternal;
     setNewComment("");
     setCommentInternal(false);
+    // Otimista + sobe pro ClickUp (se a tarefa for vinculada) via endpoint dedicado.
+    setComments((prev) => [...prev, internal ? { text, at: new Date().toISOString(), vis: false } : { text, at: new Date().toISOString() }]);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}/comment`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(internal ? { text, vis: false } : { text }),
+    }).catch(() => null);
+    if (res && res.ok) {
+      const data = await res.json().catch(() => null);
+      if (data?.comments) setComments(data.comments);
+    }
+    router.refresh();
   }
 
   async function save() {

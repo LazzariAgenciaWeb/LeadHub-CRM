@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { readComments, sanitizeComments } from "@/lib/checklist";
+import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
+import { getClickupSettings, addCommentToClickupTask } from "@/lib/clickup";
 
 // POST /api/meu-espaco/tarefas/[taskId]/responder
 // O CLIENTE logado responde/retorna numa tarefa marcada como "aguardando você".
@@ -23,13 +24,31 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tas
   // A tarefa precisa ser de um projeto do PRÓPRIO cliente.
   const task = await prisma.projectTask.findUnique({
     where: { id: taskId },
-    select: { id: true, comments: true, project: { select: { clientCompanyId: true } } },
+    select: {
+      id: true, comments: true, clickupTaskId: true,
+      project: { select: { clientCompanyId: true, setor: { select: { companyId: true } } } },
+    },
   });
   if (!task || task.project.clientCompanyId !== companyId) {
     return NextResponse.json({ error: "Tarefa não encontrada" }, { status: 404 });
   }
 
-  const next = [...readComments(task.comments), { text, at: new Date().toISOString(), by: "client" as const }];
+  // Se a tarefa é vinculada ao ClickUp, a resposta do cliente também vira
+  // comentário lá (prefixada). Guarda o cid pra dedup (não volta como eco).
+  let cid: string | undefined;
+  if (task.clickupTaskId) {
+    try {
+      const settings = await getClickupSettings(task.project.setor.companyId);
+      if (settings?.apiToken) {
+        const newId = await addCommentToClickupTask({ apiToken: settings.apiToken, taskId: task.clickupTaskId, comment: `[Cliente] ${text}` });
+        if (newId) cid = newId;
+      }
+    } catch { /* silencioso */ }
+  }
+
+  const c: TaskComment = { text, at: new Date().toISOString(), by: "client" };
+  if (cid) c.cid = cid;
+  const next = [...readComments(task.comments), c];
 
   await prisma.projectTask.update({
     where: { id: taskId },

@@ -89,7 +89,10 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
         const cmts = await fetchClickupTaskComments(settings.apiToken, lt.clickupTaskId!);
         const existing = readComments(lt.comments);
         const seen = new Set(existing.map((c) => `${c.text}|${c.at}`));
-        const fresh = cmts.filter((c) => !seen.has(`${c.text}|${c.at}`));
+        const seenCid = new Set(existing.map((c) => c.cid).filter(Boolean));
+        // pula os que já temos (por id do ClickUp — inclui os que o LeadHub empurrou,
+        // evitando eco) ou por texto+data (comentários antigos sem cid).
+        const fresh = cmts.filter((c) => !(c.cid && seenCid.has(c.cid)) && !seen.has(`${c.text}|${c.at}`));
         if (fresh.length) {
           mergedComments = sanitizeComments(
             [...existing, ...fresh].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()),

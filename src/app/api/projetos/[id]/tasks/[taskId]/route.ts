@@ -5,7 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist, sanitizeComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
-import { getClickupSettings, updateClickupTask, markClickupTaskDone } from "@/lib/clickup";
+import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -114,8 +114,9 @@ export async function PATCH(
     data.dueDate     !== undefined ||
     data.startDate   !== undefined ||
     data.description !== undefined;
-  const syncDone = data.done === true; // só concluir; reabrir fica com o ClickUp
-  if (res.task.clickupTaskId && (syncFields || syncDone)) {
+  const syncDone   = data.done === true;  // concluir → fecha no ClickUp
+  const syncReopen = data.done === false; // reabrir → volta pro status aberto no ClickUp
+  if (res.task.clickupTaskId && (syncFields || syncDone || syncReopen)) {
     try {
       const settings = await getClickupSettings(res.task.project.setor.companyId);
       if (settings) {
@@ -131,6 +132,9 @@ export async function PATCH(
         }
         if (syncDone) {
           await markClickupTaskDone(settings.apiToken, res.task.clickupTaskId, settings.statusChamadoConcluido);
+        }
+        if (syncReopen) {
+          await reopenClickupTask(settings.apiToken, res.task.clickupTaskId);
         }
       }
     } catch { /* silencioso */ }

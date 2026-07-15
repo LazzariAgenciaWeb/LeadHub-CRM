@@ -44,7 +44,9 @@ export function readChecklist(raw: unknown): ChecklistItem[] {
 // `vis: false` = comentário interno (a equipe vê no admin, o cliente NÃO vê).
 // Ausente = visível pro cliente (comportamento padrão). Resposta do cliente
 // (by:"client") é sempre visível pra ele.
-export type TaskComment = { text: string; at: string; by?: "client"; vis?: boolean };
+// `cid` = id do comentário no ClickUp (quando o comentário foi empurrado pra lá
+// ou veio de lá). Serve pra dedup e evitar eco no sync/webhook.
+export type TaskComment = { text: string; at: string; by?: "client"; vis?: boolean; cid?: string };
 
 const MAX_COMMENTS = 100;
 const MAX_COMMENT_TEXT = 2000;
@@ -62,6 +64,7 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     const c: TaskComment = { text, at };
     if ((it as any).by === "client") c.by = "client"; // resposta do cliente
     if ((it as any).vis === false) c.vis = false; // marcado como interno
+    if (typeof (it as any).cid === "string" && (it as any).cid) c.cid = (it as any).cid; // id no ClickUp
     out.push(c);
     if (out.length >= MAX_COMMENTS) break;
   }
