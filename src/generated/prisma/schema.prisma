@@ -189,6 +189,11 @@ model Company {
   // gerar o link público /c/[token] e liberar login no Meu Espaço pros clientes
   // dela (sub-empresas). Habilitado pelo SUPER_ADMIN por agência.
   moduleEspacoCliente  Boolean @default(false)
+  // Módulo "Vídeos" (biblioteca estilo Netflix): material de apoio em vídeo
+  // (YouTube embed) organizado em trilhas. SUPER_ADMIN mantém a biblioteca
+  // central e libera trilhas por empresa; agências com o módulo podem criar
+  // trilhas próprias pros clientes delas. Cliente assiste no /meu-espaco/videos.
+  moduleVideos         Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
@@ -277,6 +282,8 @@ model Company {
   assistants                Assistant[]
   aiUsageLogs               AiUsageLog[]
   services                  Service[]
+  videoCategories           VideoCategory[]          @relation("CompanyVideoCategories")
+  videoReleases             VideoCategoryRelease[]   @relation("CompanyVideoReleases")
   triggerOnly               Boolean                  @default(false)
   webhookToken              String?                  @unique // token público para receber leads via webhook
 
@@ -3145,4 +3152,82 @@ model ClientInvoice {
 
   @@index([clientCompanyId, status])
   @@index([clientServiceId])
+}
+
+// ─── Vídeos (módulo moduleVideos) ────────────────────────────────────────────
+// Biblioteca de vídeos estilo Netflix (material de apoio). Cada VideoCategory é
+// uma "trilha" (fileira). O escopo define quem é dono e como é liberada:
+//   GLOBAL  → biblioteca central do SUPER_ADMIN (Lazzari). companyId = null.
+//   COMPANY → trilha de uma agência (companyId = dona), pros clientes dela.
+// A visibilidade controla o "liberar":
+//   ALL      → aparece pra todo cliente elegível (do escopo).
+//   SELECTED → só pras empresas listadas em VideoCategoryRelease.
+// O cliente (sub-empresa) enxerga: trilhas GLOBAL liberadas + trilhas COMPANY
+// da sua agência-pai liberadas. Mesma lógica de Service.showInClientArea.
+
+enum VideoCategoryScope {
+  GLOBAL // biblioteca central do super admin
+  COMPANY // trilha própria de uma agência
+}
+
+enum VideoCategoryVisibility {
+  ALL // todo cliente elegível do escopo vê
+  SELECTED // só empresas liberadas em VideoCategoryRelease
+}
+
+model VideoCategory {
+  id          String                  @id @default(cuid())
+  title       String
+  description String?                 @db.Text
+  emoji       String? // ícone opcional exibido na fileira (ex.: "🎬")
+  accent      String? // cor de destaque opcional (hex, ex.: "#8B5CF6")
+  position    Int                     @default(0)
+  active      Boolean                 @default(true)
+  scope       VideoCategoryScope      @default(GLOBAL)
+  visibility  VideoCategoryVisibility @default(SELECTED)
+
+  // Dona da trilha quando scope=COMPANY (null quando GLOBAL/central).
+  companyId String?
+  company   Company? @relation("CompanyVideoCategories", fields: [companyId], references: [id], onDelete: Cascade)
+
+  videos   Video[]
+  releases VideoCategoryRelease[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([scope, active])
+}
+
+// Liberação de uma trilha pra uma empresa específica (quando visibility=SELECTED).
+model VideoCategoryRelease {
+  id         String        @id @default(cuid())
+  categoryId String
+  category   VideoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // Empresa que ganhou acesso (sub-empresa cliente).
+  companyId  String
+  company    Company       @relation("CompanyVideoReleases", fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now())
+
+  @@unique([categoryId, companyId])
+  @@index([companyId])
+}
+
+model Video {
+  id            String        @id @default(cuid())
+  categoryId    String
+  category      VideoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?       @db.Text
+  youtubeId     String // ID do vídeo no YouTube (extraído da URL no cadastro)
+  thumbnailUrl  String? // capa custom; se null, usa a thumb padrão do YouTube
+  durationLabel String? // ex.: "12:34" (opcional, só exibição)
+  position      Int           @default(0)
+  active        Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId, active])
 }

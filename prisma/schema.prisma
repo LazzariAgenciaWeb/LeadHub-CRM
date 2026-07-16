@@ -155,40 +155,45 @@ model Company {
   updatedAt DateTime      @updatedAt
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess   Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
-  fullSystemAccess  Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
-  moduleWhatsapp    Boolean @default(false)
-  moduleCrm         Boolean @default(true)
-  moduleTickets     Boolean @default(false)
-  moduleAI          Boolean @default(false)
-  moduleGamificacao Boolean @default(false)
-  moduleProjetos    Boolean @default(false)
-  moduleCalendario  Boolean @default(false)
+  hasSystemAccess      Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
+  fullSystemAccess     Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
+  moduleWhatsapp       Boolean @default(false)
+  moduleCrm            Boolean @default(true)
+  moduleTickets        Boolean @default(false)
+  moduleAI             Boolean @default(false)
+  moduleGamificacao    Boolean @default(false)
+  moduleProjetos       Boolean @default(false)
+  moduleCalendario     Boolean @default(false)
   // Disparo de email em massa (campanhas). Quando ligado, a empresa configura
   // o próprio SMTP em CompanyEmailConfig e dispara campanhas pros leads.
   moduleEmailMarketing Boolean @default(false)
   // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
   // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
-  moduleProspeccao  Boolean @default(false)
+  moduleProspeccao     Boolean @default(false)
   // API key SerpAPI da empresa (texto plano, mesmo padrão dos tokens de
   // integração atuais). Sem key, o botão "Buscar prospects" não aparece.
-  serpapiKey        String?
+  serpapiKey           String?
   // Habilita a integração com ClickUp pra esta empresa. Quando false, a UI
   // de configuração e a sincronização (push + webhook) ficam desligadas.
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
-  moduleClickup     Boolean @default(false)
+  moduleClickup        Boolean @default(false)
   // Módulo Campanhas (gerenciar campanhas + UTMs vinculadas a leads)
-  moduleCampanhas   Boolean @default(false)
+  moduleCampanhas      Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
-  moduleLinks       Boolean @default(false)
+  moduleLinks          Boolean @default(false)
   // Módulo Instagram (automação estilo ManyChat): conecta a conta IG
   // Profissional via "API com Login do Instagram" e dispara respostas a
   // comentários + DM (private reply). Cada empresa conecta a própria conta.
-  moduleInstagram   Boolean @default(false)
+  moduleInstagram      Boolean @default(false)
   // Módulo "Espaço do Cliente": permite a AGÊNCIA oferecer o painel do cliente —
   // gerar o link público /c/[token] e liberar login no Meu Espaço pros clientes
   // dela (sub-empresas). Habilitado pelo SUPER_ADMIN por agência.
-  moduleEspacoCliente Boolean @default(false)
+  moduleEspacoCliente  Boolean @default(false)
+  // Módulo "Vídeos" (biblioteca estilo Netflix): material de apoio em vídeo
+  // (YouTube embed) organizado em trilhas. SUPER_ADMIN mantém a biblioteca
+  // central e libera trilhas por empresa; agências com o módulo podem criar
+  // trilhas próprias pros clientes delas. Cliente assiste no /meu-espaco/videos.
+  moduleVideos         Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
@@ -277,6 +282,8 @@ model Company {
   assistants                Assistant[]
   aiUsageLogs               AiUsageLog[]
   services                  Service[]
+  videoCategories           VideoCategory[]          @relation("CompanyVideoCategories")
+  videoReleases             VideoCategoryRelease[]   @relation("CompanyVideoReleases")
   triggerOnly               Boolean                  @default(false)
   webhookToken              String?                  @unique // token público para receber leads via webhook
 
@@ -410,21 +417,21 @@ model Lead {
   externalId    String? // ID externo (ex: id do Supabase BDR para evitar duplicatas)
 
   // Dados de prospect (preenchidos pela busca SerpAPI + scraper inline em /crm/prospeccao)
-  website   String?
-  instagram String?
-  facebook  String?
-  address   String?
-  city      String?
-  segment   String? // categoria/segmento (ex: "Clínica Pediátrica", vem do `type` do Google Maps)
+  website            String?
+  instagram          String?
+  facebook           String?
+  address            String?
+  city               String?
+  segment            String? // categoria/segmento (ex: "Clínica Pediátrica", vem do `type` do Google Maps)
   // Validação Evolution: NULL = não validado, true/false = checado em /chat/whatsappNumbers
-  hasWhatsapp Boolean?
+  hasWhatsapp        Boolean?
   // Diagnóstico IA (Prospecta IA → /api/prospeccao/diagnose). JSON com summary,
   // positives[], opportunities[], criticals[], sourceData{}. Token público leva
   // pro /d/[token] que mostra a análise e auto-promove o prospect pra LEADS no clique.
   diagnosis          Json?
   diagnosisAt        DateTime?
-  diagnosisSource    String?  // "website" | "instagram" | "none"
-  diagnosisToken     String?  @unique
+  diagnosisSource    String? // "website" | "instagram" | "none"
+  diagnosisToken     String?   @unique
   diagnosisClickedAt DateTime?
 
   // Atendimento WhatsApp
@@ -451,10 +458,10 @@ model Lead {
   // ─── Rastreabilidade da promoção entre pipelines (atribuição) ─────────────
   // Setado pelos handlers de clique (shortlink e email) quando movem o lead
   // automático entre pipelines — alimenta relatórios de conversão.
-  promotedFromPipeline      String?   // "PROSPECCAO" | "LEADS"
-  promotedAt                DateTime?
-  promotedReason            String?   // "link_click" | "email_click" | "whatsapp_reply"
-  promotedViaEmailCampaign  EmailCampaign? @relation("CampaignPromotedLeads", fields: [promotedViaEmailCampaignId], references: [id], onDelete: SetNull)
+  promotedFromPipeline       String? // "PROSPECCAO" | "LEADS"
+  promotedAt                 DateTime?
+  promotedReason             String? // "link_click" | "email_click" | "whatsapp_reply"
+  promotedViaEmailCampaign   EmailCampaign? @relation("CampaignPromotedLeads", fields: [promotedViaEmailCampaignId], references: [id], onDelete: SetNull)
   promotedViaEmailCampaignId String?
 
   // ─── Sinais de atribuição do Meta (Conversions API) ──────────────────────
@@ -472,12 +479,12 @@ model Lead {
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
 
-  messages       Message[]
-  comments       LeadComment[]
-  activities     Activity[]
-  tasks          Task[]
-  tags           LeadTag[]
-  customValues   LeadCustomValue[]
+  messages        Message[]
+  comments        LeadComment[]
+  activities      Activity[]
+  tasks           Task[]
+  tags            LeadTag[]
+  customValues    LeadCustomValue[]
   emailRecipients EmailRecipient[]
 
   @@index([companyId])
@@ -708,12 +715,12 @@ model LeadComment {
 // ─── Etapas de Pipeline Configuráveis ────────────────────────────────────────
 
 model PipelineStageConfig {
-  id       String  @id @default(cuid())
+  id       String       @id @default(cuid())
   pipeline String // "PROSPECCAO" | "LEADS" | "OPORTUNIDADES"
   name     String
-  color    String  @default("#6366f1")
-  order    Int     @default(0)
-  isFinal  Boolean @default(false) // FECHADO / PERDIDO — etapas de encerramento
+  color    String       @default("#6366f1")
+  order    Int          @default(0)
+  isFinal  Boolean      @default(false) // FECHADO / PERDIDO — etapas de encerramento
   // Resultado comercial da etapa (independe do pipeline). GANHO = venda fechada:
   // dispara o evento de conversão pro Meta (Conversions API) e conta como venda
   // na gamificação — funciona em QUALQUER pipeline (inclusive clientes que só
@@ -792,8 +799,8 @@ model WhatsappInstance {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  messages Message[]
-  setores  SetorInstance[]
+  messages   Message[]
+  setores    SetorInstance[]
   assistants Assistant[]
 
   @@index([companyId])
@@ -1262,11 +1269,11 @@ model SetorClickupList {
   members       ProjectMember[]
   taskStates    ProjectTaskState[]
   activities    ProjectActivity[]
-  tickets       Ticket[]           @relation("TicketProjeto")
+  tickets       Ticket[]            @relation("TicketProjeto")
   internalTasks ProjectTask[]
   accessUsers   ProjectAccessUser[]
   materials     ProjectMaterial[]
-  serviceSteps  ProjectService[]   @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
+  serviceSteps  ProjectService[]    @relation("ProjectServicesList") // serviços entregues neste projeto, em sequência
 
   @@unique([setorId, clickupListId])
   @@index([setorId])
@@ -1280,28 +1287,28 @@ model SetorClickupList {
 // ir pro ClickUp NÃO usam este modelo: são criadas direto na lista do projeto
 // e aparecem via ProjectTaskState (snapshot do sync).
 model ProjectTask {
-  id          String           @id @default(cuid())
-  projectId   String
-  project     SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  title       String
-  description String?          @db.Text
-  stage       String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — fallback quando não há serviço vinculado
+  id               String           @id @default(cuid())
+  projectId        String
+  project          SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?          @db.Text
+  stage            String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — fallback quando não há serviço vinculado
   // Serviço (etapa da sequência) ao qual a tarefa pertence. Quando preenchido, o
   // Gantt do cliente agrupa a tarefa sob este serviço, na ordem definida no projeto.
-  projectService   ProjectService? @relation(fields: [projectServiceId], references: [id], onDelete: SetNull)
+  projectService   ProjectService?  @relation(fields: [projectServiceId], references: [id], onDelete: SetNull)
   projectServiceId String?
-  checklist   Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
-  comments    Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
-  clickupTaskId String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
-  awaitingClient Boolean         @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
+  checklist        Json? // sub-passos leves: [{ "text": string, "done": bool }] — micro-progresso dentro da tarefa
+  comments         Json? // atualizações/comentários datados: [{ "text": string, "at": ISO }] — o cliente vê o andamento
+  clickupTaskId    String? // vínculo com a tarefa do ClickUp (importada) — base pro sync futuro
+  awaitingClient   Boolean          @default(false) // aguardando resposta/retorno do cliente (aparece em "Precisa da sua atenção")
   // Controla se a tarefa aparece pro cliente no painel (/c/[token] e /meu-espaco).
   // default true = tarefa nativa criada no LeadHub aparece. Tarefas espelhadas do
   // ClickUp entram com false (ocultas) até você optar por "mostrar pro cliente".
-  visibleToClient Boolean        @default(true)
-  done        Boolean          @default(false)
-  priority    TicketPriority   @default(MEDIUM)
-  startDate   DateTime? // início — pro cliente acompanhar o cronograma
-  dueDate     DateTime? // fim / prazo
+  visibleToClient  Boolean          @default(true)
+  done             Boolean          @default(false)
+  priority         TicketPriority   @default(MEDIUM)
+  startDate        DateTime? // início — pro cliente acompanhar o cronograma
+  dueDate          DateTime? // fim / prazo
 
   assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
   assigneeId String?
@@ -1324,15 +1331,15 @@ model ProjectTask {
 // Um projeto pode empacotar vários (ex.: 01 Diagnóstico → 02 Planejamento → 03 Execução).
 // serviceId é opcional: permite uma etapa livre (só rótulo) sem serviço do catálogo.
 model ProjectService {
-  id        String           @id @default(cuid())
-  projectId String
-  project   SetorClickupList @relation("ProjectServicesList", fields: [projectId], references: [id], onDelete: Cascade)
-  serviceId String?
-  service   Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
-  name      String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
-  order     Int              @default(0)
-  visibleToClient Boolean    @default(true) // false = serviço inteiro some do painel do cliente
-  createdAt DateTime         @default(now())
+  id              String           @id @default(cuid())
+  projectId       String
+  project         SetorClickupList @relation("ProjectServicesList", fields: [projectId], references: [id], onDelete: Cascade)
+  serviceId       String?
+  service         Service?         @relation("ServiceProjectLinks", fields: [serviceId], references: [id], onDelete: SetNull)
+  name            String? // rótulo opcional — sobrescreve o nome do serviço, ou nomeia uma etapa livre
+  order           Int              @default(0)
+  visibleToClient Boolean          @default(true) // false = serviço inteiro some do painel do cliente
+  createdAt       DateTime         @default(now())
 
   tasks ProjectTask[]
 
@@ -1426,30 +1433,30 @@ model ProjectMember {
 // Reaproveita o Projeto (SetorClickupList) — sem subsistema à parte. Sem
 // storage de arquivo no LeadHub: doc em HTML @db.Text, vídeo por URL externa.
 model ProjectMaterial {
-  id        String           @id @default(cuid())
-  projectId String
-  project   SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id              String           @id @default(cuid())
+  projectId       String
+  project         SetorClickupList @relation(fields: [projectId], references: [id], onDelete: Cascade)
   // Opcional: material preso a uma TAREFA específica do projeto. null = material
   // solto no nível do projeto. Um projeto tem N tarefas, cada tarefa N materiais.
-  taskId    String?
-  task      ProjectTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
-  kind      String // "DOCUMENTO" | "REUNIAO" | "APOIO" | "LINK" | "ANEXO" | "INLINE"
-  stage     String? // rótulo opcional da etapa (ex.: "Diagnóstico")
-  title     String
-  docHtml   String?          @db.Text // DOCUMENTO: HTML inline
-  url       String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
-  ata       String?          @db.Text // resumo/ata (reuniões)
+  taskId          String?
+  task            ProjectTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  kind            String // "DOCUMENTO" | "REUNIAO" | "APOIO" | "LINK" | "ANEXO" | "INLINE"
+  stage           String? // rótulo opcional da etapa (ex.: "Diagnóstico")
+  title           String
+  docHtml         String?          @db.Text // DOCUMENTO: HTML inline
+  url             String? // link externo — vídeo, arquivo/anexo ou doc (YouTube/Vimeo/Drive)
+  ata             String?          @db.Text // resumo/ata (reuniões)
   // Imagem/print embutido (kind INLINE ou ANEXO): binário em base64 + MIME.
   // Mesmo padrão de TicketMessage.mediaBase64 — servido por endpoint dedicado
   // (/materiais/[id]/media), NUNCA carregado inline em listas (evita OOM).
   // No descritivo da tarefa a imagem é referenciada por um token [[img:<id>]].
-  mediaBase64 String?        @db.Text
-  mediaType   String? // MIME: "image/png", "image/jpeg"…
-  featured  Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
-  visibleToClient Boolean    @default(true) // false = material some do painel do cliente (fica só interno)
-  order     Int              @default(0)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+  mediaBase64     String?          @db.Text
+  mediaType       String? // MIME: "image/png", "image/jpeg"…
+  featured        Boolean          @default(false) // material principal — aparece em "Destaques" no topo do painel do cliente
+  visibleToClient Boolean          @default(true) // false = material some do painel do cliente (fica só interno)
+  order           Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@index([projectId])
   @@index([taskId])
@@ -1611,7 +1618,7 @@ model CompanySecureNote {
   companyId String
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  title String
+  title            String
   // Conteúdo criptografado (AES-256-GCM). Formato: base64(iv|authTag|ciphertext).
   // Nunca armazenado em texto claro; nunca enviado na listagem.
   contentEncrypted String @db.Text
@@ -1718,9 +1725,9 @@ enum IntegrationStatus {
 // Cada empresa-cliente conecta o próprio Pixel + token CAPI (System User).
 // O token fica em AES-256-GCM (mesmo padrão do cofre / crypto.ts).
 model MetaConversionConfig {
-  id             String  @id @default(cuid())
-  company        Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId      String  @unique
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @unique
 
   pixelId        String // ID do Pixel/Dataset no Events Manager
   accessTokenEnc String  @db.Text // token CAPI cifrado (nunca retornado ao cliente)
@@ -1962,8 +1969,8 @@ model IgConversation {
   lastMessageText String?         @db.Text
   lastDirection   IgMsgDirection?
   // último IN orgânico ainda sem resposta de agente → painel "sem resposta".
-  needsReply    Boolean @default(false)
-  hadAutomation Boolean @default(false)
+  needsReply      Boolean         @default(false)
+  hadAutomation   Boolean         @default(false)
 
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -2013,9 +2020,9 @@ model FacebookPage {
   companyId String
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  pageId             String  @unique // id da Página no Facebook (= connectionId das conversas)
+  pageId             String   @unique // id da Página no Facebook (= connectionId das conversas)
   name               String?
-  pageAccessTokenEnc String? @db.Text
+  pageAccessTokenEnc String?  @db.Text
   scopes             String[] @default([])
 
   status    IntegrationStatus @default(ACTIVE)
@@ -2116,11 +2123,11 @@ model AnalyticsEventDaily {
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   date      DateTime @db.Date
-  source    String   // "ga4"
+  source    String // "ga4"
 
   eventName  String
-  eventCount Int @default(0)
-  users      Int @default(0)
+  eventCount Int    @default(0)
+  users      Int    @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -2134,10 +2141,10 @@ model AnalyticsEventDaily {
 // e se devem ser ocultados da lista do dashboard. Independente do que o admin do GA4
 // marcou como "key event" — o cliente do LeadHub decide aqui.
 model MarketingEventConfig {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  source    String   // "ga4"
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  source    String // "ga4"
   eventName String
 
   isConversion Boolean @default(false)
@@ -2334,10 +2341,10 @@ model AdSearchTermDaily {
   provider IntegrationProvider
   date     DateTime            @db.Date
 
-  searchTerm     String
-  adGroupId      String  @default("") // chave de unicidade (mesmo termo em ad groups diferentes)
-  adGroupName    String?
-  campaignName   String?
+  searchTerm   String
+  adGroupId    String  @default("") // chave de unicidade (mesmo termo em ad groups diferentes)
+  adGroupName  String?
+  campaignName String?
 
   impressions     Int     @default(0)
   clicks          Int     @default(0)
@@ -2773,8 +2780,8 @@ model CompanyEmailConfig {
   user      String
   // Senha em AES-256-GCM (mesmo formato do cofre / crypto.ts).
   passEnc   String
-  fromEmail String  // remetente fixo das campanhas
-  fromName  String  // "Diego — AZZ Agência"
+  fromEmail String // remetente fixo das campanhas
+  fromName  String // "Diego — AZZ Agência"
   // Quando preenchido, vai no header Reply-To — cliente que responde
   // o email vai pra este endereço, não pro fromEmail. Útil quando o SMTP
   // exige que From == usuário autenticado mas você quer receber respostas
@@ -2782,27 +2789,27 @@ model CompanyEmailConfig {
   replyTo   String?
 
   // Status da última verificação de conexão
-  verified      Boolean   @default(false)
+  verified       Boolean   @default(false)
   lastVerifiedAt DateTime?
-  lastError     String?   @db.Text
+  lastError      String?   @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model EmailTemplate {
-  id        String   @id @default(cuid())
-  name      String              // "Proposta padrão", "Follow-up 7 dias"
-  subject   String              // pode usar {{nome}}
-  html      String   @db.Text   // corpo HTML com {{vars}}
-  text      String?  @db.Text   // fallback texto puro (auto-gerado se vazio)
+  id      String  @id @default(cuid())
+  name    String // "Proposta padrão", "Follow-up 7 dias"
+  subject String // pode usar {{nome}}
+  html    String  @db.Text // corpo HTML com {{vars}}
+  text    String? @db.Text // fallback texto puro (auto-gerado se vazio)
 
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
   campaigns EmailCampaign[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 
   @@index([companyId])
 }
@@ -2838,11 +2845,11 @@ model EmailCampaign {
   createdBy   User?   @relation("EmailCampaignCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
-  recipients      EmailRecipient[]
+  recipients    EmailRecipient[]
   // Leads que foram promovidos (Prospect→Lead etc.) por engajamento com esta campanha.
-  promotedLeads   Lead[]            @relation("CampaignPromotedLeads")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  promotedLeads Lead[]           @relation("CampaignPromotedLeads")
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@index([companyId, status])
   @@index([scheduledAt])
@@ -2858,35 +2865,35 @@ enum EmailCampaignStatus {
 }
 
 model EmailRecipient {
-  id         String   @id @default(cuid())
+  id         String        @id @default(cuid())
   campaign   EmailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   campaignId String
-  lead       Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  lead       Lead?         @relation(fields: [leadId], references: [id], onDelete: SetNull)
   leadId     String?
-  email      String   // snapshot no momento de criação
+  email      String // snapshot no momento de criação
   name       String?
-  vars       Json?    // variáveis renderizadas { nome, empresa, valor… }
+  vars       Json? // variáveis renderizadas { nome, empresa, valor… }
 
-  status        EmailRecipientStatus @default(PENDING)
-  sentAt        DateTime?
-  firstOpenedAt DateTime?
+  status         EmailRecipientStatus @default(PENDING)
+  sentAt         DateTime?
+  firstOpenedAt  DateTime?
   firstClickedAt DateTime?
-  bouncedAt     DateTime?
-  errorMessage  String?  @db.Text
+  bouncedAt      DateTime?
+  errorMessage   String?              @db.Text
 
   // token curto usado em pixel/click/unsubscribe
-  token     String   @unique @default(cuid())
+  token String @unique @default(cuid())
 
   events    EmailEvent[]
-  createdAt DateTime @default(now())
+  createdAt DateTime     @default(now())
   // @default(now()) garante que linhas existentes recebam um valor quando
   // a coluna for adicionada via `db push` (sem isso, Prisma não consegue
   // adicionar a coluna NOT NULL e pula silenciosamente).
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt DateTime     @default(now()) @updatedAt
 
   @@unique([campaignId, email])
   @@index([campaignId, status])
-  @@index([status, updatedAt])    // pra resetar SENDING travado
+  @@index([status, updatedAt]) // pra resetar SENDING travado
   @@index([token])
 }
 
@@ -2900,14 +2907,14 @@ enum EmailRecipientStatus {
 }
 
 model EmailEvent {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   recipient   EmailRecipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
   recipientId String
   type        EmailEventType
-  targetUrl   String?  @db.Text
+  targetUrl   String?        @db.Text
   ipAddress   String?
-  userAgent   String?  @db.Text
-  createdAt   DateTime @default(now())
+  userAgent   String?        @db.Text
+  createdAt   DateTime       @default(now())
 
   @@index([recipientId, type])
   @@index([type, createdAt])
@@ -2923,7 +2930,7 @@ enum EmailEventType {
 
 model EmailUnsubscribe {
   id        String   @id @default(cuid())
-  email     String   // normalizado (lowercase)
+  email     String // normalizado (lowercase)
   reason    String?
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
@@ -2990,7 +2997,7 @@ model Assistant {
   id        String        @id @default(cuid())
   company   Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
-  name      String        // nome amigável ("Closer de Vendas", "Suporte Financeiro")
+  name      String // nome amigável ("Closer de Vendas", "Suporte Financeiro")
   type      AssistantType
   // Manual de instruções = system prompt. Como agir, tom, objetivo, o que pode/
   // não pode dizer. É o coração do agente — editado pelo admin da empresa.
@@ -3007,11 +3014,11 @@ model Assistant {
   instanceId String?
 
   // Overrides opcionais do modelo (caem no default global quando nulos).
-  model       String?  // ex.: "gpt-4o-mini"
+  model       String? // ex.: "gpt-4o-mini"
   temperature Float?
 
-  usageLogs AiUsageLog[]
-  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  usageLogs   AiUsageLog[]
+  createdBy   User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
   createdAt DateTime @default(now())
@@ -3023,10 +3030,10 @@ model Assistant {
 
 enum AssistantType {
   PRE_ATENDENTE // triagem / 1º contato / roteamento
-  VENDAS        // negociação: conduz lead/oportunidade até comprar
-  SUPORTE       // atendimento a quem já é cliente
-  FINANCEIRO    // boletos, notas, cobranças (hospedagem/domínio)
-  GESTOR        // resumos e apoio à decisão do dono
+  VENDAS // negociação: conduz lead/oportunidade até comprar
+  SUPORTE // atendimento a quem já é cliente
+  FINANCEIRO // boletos, notas, cobranças (hospedagem/domínio)
+  GESTOR // resumos e apoio à decisão do dono
 }
 
 // Log de cada chamada de IA — base do controle de consumo e relatório de custo.
@@ -3040,8 +3047,8 @@ model AiUsageLog {
   assistant   Assistant? @relation(fields: [assistantId], references: [id], onDelete: SetNull)
   assistantId String?
 
-  endpoint         String  // "suggest-reply" | "summarize" | "atendimento" | etc.
-  model            String  // modelo efetivamente usado
+  endpoint         String // "suggest-reply" | "summarize" | "atendimento" | etc.
+  model            String // modelo efetivamente usado
   tokensPrompt     Int     @default(0)
   tokensCompletion Int     @default(0)
   tokensTotal      Int     @default(0)
@@ -3063,22 +3070,22 @@ model Service {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  name        String        // "Criação de Sites", "Gestão de Redes Sociais"
-  description String? @db.Text
+  name                String // "Criação de Sites", "Gestão de Redes Sociais"
+  description         String? @db.Text
   // Perguntas de qualificação (uma por linha) — o agente usa pra coletar.
   qualifyingQuestions String? @db.Text
   // Argumentos de venda / como apresentar (pro futuro agente de Vendas).
-  salesArguments String? @db.Text
+  salesArguments      String? @db.Text
   // Referências, cases, materiais, links.
-  references String? @db.Text
+  references          String? @db.Text
   // Faixa de preço — uso interno do gestor. NÃO entra no prompt do SDR.
-  priceRange String?
+  priceRange          String?
 
-  isActive Boolean @default(true)
+  isActive         Boolean @default(true)
   // Aparece na área do cliente ("Disponível para você"). Independente de isActive
   // (que controla o uso pela IA). Um serviço pode servir só à IA, só ao cliente, ambos.
   showInClientArea Boolean @default(false)
-  order    Int     @default(0)
+  order            Int     @default(0)
 
   clientInstances ClientService[] // contratações deste serviço por clientes
   projects        SetorClickupList[] @relation("ServiceProjects") // projetos que entregam este serviço (carro-chefe)
@@ -3121,8 +3128,8 @@ model ClientService {
 // manualmente hoje; estrutura pronta pra baixa automática via retorno CNAB
 // (externalId = nosso número) no futuro.
 model ClientInvoice {
-  id              String        @id @default(cuid())
-  clientCompany   Company       @relation("ClientInvoiceClient", fields: [clientCompanyId], references: [id], onDelete: Cascade)
+  id              String         @id @default(cuid())
+  clientCompany   Company        @relation("ClientInvoiceClient", fields: [clientCompanyId], references: [id], onDelete: Cascade)
   clientCompanyId String
   clientService   ClientService? @relation(fields: [clientServiceId], references: [id], onDelete: SetNull)
   clientServiceId String?
@@ -3145,4 +3152,82 @@ model ClientInvoice {
 
   @@index([clientCompanyId, status])
   @@index([clientServiceId])
+}
+
+// ─── Vídeos (módulo moduleVideos) ────────────────────────────────────────────
+// Biblioteca de vídeos estilo Netflix (material de apoio). Cada VideoCategory é
+// uma "trilha" (fileira). O escopo define quem é dono e como é liberada:
+//   GLOBAL  → biblioteca central do SUPER_ADMIN (Lazzari). companyId = null.
+//   COMPANY → trilha de uma agência (companyId = dona), pros clientes dela.
+// A visibilidade controla o "liberar":
+//   ALL      → aparece pra todo cliente elegível (do escopo).
+//   SELECTED → só pras empresas listadas em VideoCategoryRelease.
+// O cliente (sub-empresa) enxerga: trilhas GLOBAL liberadas + trilhas COMPANY
+// da sua agência-pai liberadas. Mesma lógica de Service.showInClientArea.
+
+enum VideoCategoryScope {
+  GLOBAL // biblioteca central do super admin
+  COMPANY // trilha própria de uma agência
+}
+
+enum VideoCategoryVisibility {
+  ALL // todo cliente elegível do escopo vê
+  SELECTED // só empresas liberadas em VideoCategoryRelease
+}
+
+model VideoCategory {
+  id          String                  @id @default(cuid())
+  title       String
+  description String?                 @db.Text
+  emoji       String? // ícone opcional exibido na fileira (ex.: "🎬")
+  accent      String? // cor de destaque opcional (hex, ex.: "#8B5CF6")
+  position    Int                     @default(0)
+  active      Boolean                 @default(true)
+  scope       VideoCategoryScope      @default(GLOBAL)
+  visibility  VideoCategoryVisibility @default(SELECTED)
+
+  // Dona da trilha quando scope=COMPANY (null quando GLOBAL/central).
+  companyId String?
+  company   Company? @relation("CompanyVideoCategories", fields: [companyId], references: [id], onDelete: Cascade)
+
+  videos   Video[]
+  releases VideoCategoryRelease[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([scope, active])
+}
+
+// Liberação de uma trilha pra uma empresa específica (quando visibility=SELECTED).
+model VideoCategoryRelease {
+  id         String        @id @default(cuid())
+  categoryId String
+  category   VideoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // Empresa que ganhou acesso (sub-empresa cliente).
+  companyId  String
+  company    Company       @relation("CompanyVideoReleases", fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now())
+
+  @@unique([categoryId, companyId])
+  @@index([companyId])
+}
+
+model Video {
+  id            String        @id @default(cuid())
+  categoryId    String
+  category      VideoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?       @db.Text
+  youtubeId     String // ID do vídeo no YouTube (extraído da URL no cadastro)
+  thumbnailUrl  String? // capa custom; se null, usa a thumb padrão do YouTube
+  durationLabel String? // ex.: "12:34" (opcional, só exibição)
+  position      Int           @default(0)
+  active        Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId, active])
 }
