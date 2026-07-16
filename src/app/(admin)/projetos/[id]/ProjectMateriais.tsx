@@ -195,36 +195,31 @@ export default function ProjectMateriais({
         )}
       </div>
 
-      {/* Lista de materiais */}
+      {/* Lista de materiais — SÓ os anexos que existem (sem listar todas as tarefas) */}
       <div>
         <div className="text-white text-sm font-medium mb-3">Materiais ({materials.length})</div>
 
-        {/* Do projeto */}
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="text-slate-500 text-[11px] uppercase tracking-wide">Do projeto</div>
-            <AddBtn preTask="" />
-          </div>
-          {loose.length > 0
-            ? <div className="space-y-2">{loose.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
-            : <p className="text-slate-600 text-xs italic">Nenhum material solto no projeto.</p>}
-        </div>
-
-        {/* Por tarefa — toda tarefa aparece, com botão de adicionar já vinculado */}
-        {tasks.map((t) => {
-          const items = materials.filter((m) => m.taskId === t.id);
-          return (
-            <div key={t.id} className="mb-4">
-              <div className="flex items-center justify-between mb-1.5 gap-2">
-                <div className="text-slate-500 text-[11px] uppercase tracking-wide truncate">Tarefa · {t.title}</div>
-                <AddBtn preTask={t.id} />
+        {materials.length === 0 ? (
+          <p className="text-slate-600 text-xs italic mb-1">Nenhum anexo ainda. Use o botão abaixo pra adicionar (você escolhe se é do projeto ou de uma tarefa).</p>
+        ) : (
+          <>
+            {loose.length > 0 && (
+              <div className="mb-4">
+                <div className="text-slate-500 text-[11px] uppercase tracking-wide mb-1.5">Do projeto</div>
+                <div className="space-y-2">{loose.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
               </div>
-              {items.length > 0
-                ? <div className="space-y-2">{items.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
-                : <p className="text-slate-600 text-xs italic">Sem materiais nesta tarefa.</p>}
-            </div>
-          );
-        })}
+            )}
+            {tasks.filter((t) => materials.some((m) => m.taskId === t.id)).map((t) => {
+              const items = materials.filter((m) => m.taskId === t.id);
+              return (
+                <div key={t.id} className="mb-4">
+                  <div className="text-slate-500 text-[11px] uppercase tracking-wide truncate mb-1.5">Tarefa · {t.title}</div>
+                  <div className="space-y-2">{items.map((m) => <MaterialRow key={m.id} m={m} />)}</div>
+                </div>
+              );
+            })}
+          </>
+        )}
 
         {/* Rodapé: entrada principal pra adicionar */}
         <button
