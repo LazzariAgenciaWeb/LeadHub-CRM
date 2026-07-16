@@ -5,8 +5,8 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 
 // PATCH /api/projetos/[id]/tasks/bulk
-// Atualização em massa de tarefas internas do projeto. Hoje: serviço/etapa.
-// Body: { taskIds: string[], projectServiceId?: string|null, stage?: string|null }
+// Atualização em massa de tarefas internas do projeto.
+// Body: { taskIds: string[], projectServiceId?, stage?, visibleToClient? }
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -47,8 +47,12 @@ export async function PATCH(
   const taskIds: string[] = Array.isArray(body.taskIds) ? body.taskIds.filter((x: unknown) => typeof x === "string") : [];
   if (taskIds.length === 0) return NextResponse.json({ error: "Nenhuma tarefa selecionada" }, { status: 400 });
 
-  const { projectServiceId, stage } = body;
+  const { projectServiceId, stage, visibleToClient } = body;
   const data: any = {};
+
+  if (typeof visibleToClient === "boolean") {
+    data.visibleToClient = visibleToClient;
+  }
 
   // Serviço/etapa da sequência — espelha o nome no `stage` (fallback), igual à
   // rota individual. Aplica o MESMO serviço/etapa a todas as tarefas escolhidas.
