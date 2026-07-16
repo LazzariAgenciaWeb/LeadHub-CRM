@@ -28,6 +28,7 @@ interface Company {
   moduleEmailMarketing: boolean;
   moduleInstagram: boolean;
   moduleEspacoCliente: boolean;
+  moduleVideos: boolean;
   parentCompanyId?: string | null;
   modoAtendimento: "VISAO" | "ATENDE";
 }
@@ -67,6 +68,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     moduleEmailMarketing: company.moduleEmailMarketing,
     moduleInstagram: company.moduleInstagram,
     moduleEspacoCliente: company.moduleEspacoCliente,
+    moduleVideos: company.moduleVideos,
     modoAtendimento: company.modoAtendimento,
   });
 
@@ -106,6 +108,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
         payload.moduleEmailMarketing = form.moduleEmailMarketing;
         payload.moduleInstagram = form.moduleInstagram;
         payload.moduleEspacoCliente = form.moduleEspacoCliente;
+        payload.moduleVideos = form.moduleVideos;
         payload.modoAtendimento = form.modoAtendimento;
       }
 
@@ -292,6 +295,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                             { key: "moduleEmailMarketing", label: "E-mail Marketing (campanhas)" },
                             { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
                             { key: "moduleEspacoCliente", label: "Espaço do Cliente (oferecer painel aos clientes)" },
+                            { key: "moduleVideos", label: "Vídeos (biblioteca de material de apoio)" },
                           ].map(({ key, label }) => (
                             <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
                               <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />

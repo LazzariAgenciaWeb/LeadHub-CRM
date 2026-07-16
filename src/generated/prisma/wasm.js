@@ -201,6 +201,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleLinks: 'moduleLinks',
   moduleInstagram: 'moduleInstagram',
   moduleEspacoCliente: 'moduleEspacoCliente',
+  moduleVideos: 'moduleVideos',
   modoAtendimento: 'modoAtendimento',
   aiMonthlyQuota: 'aiMonthlyQuota',
   aiUsedThisMonth: 'aiUsedThisMonth',
@@ -1498,6 +1499,42 @@ exports.Prisma.ClientInvoiceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VideoCategoryScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  emoji: 'emoji',
+  accent: 'accent',
+  position: 'position',
+  active: 'active',
+  scope: 'scope',
+  visibility: 'visibility',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VideoCategoryReleaseScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  title: 'title',
+  description: 'description',
+  youtubeId: 'youtubeId',
+  thumbnailUrl: 'thumbnailUrl',
+  durationLabel: 'durationLabel',
+  position: 'position',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1885,6 +1922,16 @@ exports.AssistantType = exports.$Enums.AssistantType = {
   GESTOR: 'GESTOR'
 };
 
+exports.VideoCategoryScope = exports.$Enums.VideoCategoryScope = {
+  GLOBAL: 'GLOBAL',
+  COMPANY: 'COMPANY'
+};
+
+exports.VideoCategoryVisibility = exports.$Enums.VideoCategoryVisibility = {
+  ALL: 'ALL',
+  SELECTED: 'SELECTED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   VaultEmailChallenge: 'VaultEmailChallenge',
@@ -1979,7 +2026,10 @@ exports.Prisma.ModelName = {
   AiUsageLog: 'AiUsageLog',
   Service: 'Service',
   ClientService: 'ClientService',
-  ClientInvoice: 'ClientInvoice'
+  ClientInvoice: 'ClientInvoice',
+  VideoCategory: 'VideoCategory',
+  VideoCategoryRelease: 'VideoCategoryRelease',
+  Video: 'Video'
 };
 
 /**

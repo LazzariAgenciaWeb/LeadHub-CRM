@@ -483,6 +483,21 @@ export type ClientService = $Result.DefaultSelection<Prisma.$ClientServicePayloa
  * 
  */
 export type ClientInvoice = $Result.DefaultSelection<Prisma.$ClientInvoicePayload>
+/**
+ * Model VideoCategory
+ * 
+ */
+export type VideoCategory = $Result.DefaultSelection<Prisma.$VideoCategoryPayload>
+/**
+ * Model VideoCategoryRelease
+ * 
+ */
+export type VideoCategoryRelease = $Result.DefaultSelection<Prisma.$VideoCategoryReleasePayload>
+/**
+ * Model Video
+ * 
+ */
+export type Video = $Result.DefaultSelection<Prisma.$VideoPayload>
 
 /**
  * Enums
@@ -965,6 +980,22 @@ export const AssistantType: {
 
 export type AssistantType = (typeof AssistantType)[keyof typeof AssistantType]
 
+
+export const VideoCategoryScope: {
+  GLOBAL: 'GLOBAL',
+  COMPANY: 'COMPANY'
+};
+
+export type VideoCategoryScope = (typeof VideoCategoryScope)[keyof typeof VideoCategoryScope]
+
+
+export const VideoCategoryVisibility: {
+  ALL: 'ALL',
+  SELECTED: 'SELECTED'
+};
+
+export type VideoCategoryVisibility = (typeof VideoCategoryVisibility)[keyof typeof VideoCategoryVisibility]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -1126,6 +1157,14 @@ export const EmailEventType: typeof $Enums.EmailEventType
 export type AssistantType = $Enums.AssistantType
 
 export const AssistantType: typeof $Enums.AssistantType
+
+export type VideoCategoryScope = $Enums.VideoCategoryScope
+
+export const VideoCategoryScope: typeof $Enums.VideoCategoryScope
+
+export type VideoCategoryVisibility = $Enums.VideoCategoryVisibility
+
+export const VideoCategoryVisibility: typeof $Enums.VideoCategoryVisibility
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2189,6 +2228,36 @@ export class PrismaClient<
     * ```
     */
   get clientInvoice(): Prisma.ClientInvoiceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.videoCategory`: Exposes CRUD operations for the **VideoCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VideoCategories
+    * const videoCategories = await prisma.videoCategory.findMany()
+    * ```
+    */
+  get videoCategory(): Prisma.VideoCategoryDelegate<ExtArgs>;
+
+  /**
+   * `prisma.videoCategoryRelease`: Exposes CRUD operations for the **VideoCategoryRelease** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VideoCategoryReleases
+    * const videoCategoryReleases = await prisma.videoCategoryRelease.findMany()
+    * ```
+    */
+  get videoCategoryRelease(): Prisma.VideoCategoryReleaseDelegate<ExtArgs>;
+
+  /**
+   * `prisma.video`: Exposes CRUD operations for the **Video** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Videos
+    * const videos = await prisma.video.findMany()
+    * ```
+    */
+  get video(): Prisma.VideoDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -2723,7 +2792,10 @@ export namespace Prisma {
     AiUsageLog: 'AiUsageLog',
     Service: 'Service',
     ClientService: 'ClientService',
-    ClientInvoice: 'ClientInvoice'
+    ClientInvoice: 'ClientInvoice',
+    VideoCategory: 'VideoCategory',
+    VideoCategoryRelease: 'VideoCategoryRelease',
+    Video: 'Video'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2739,7 +2811,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "billingEvent" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9323,6 +9395,216 @@ export namespace Prisma {
           }
         }
       }
+      VideoCategory: {
+        payload: Prisma.$VideoCategoryPayload<ExtArgs>
+        fields: Prisma.VideoCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VideoCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VideoCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.VideoCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VideoCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.VideoCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.VideoCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.VideoCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VideoCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.VideoCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          update: {
+            args: Prisma.VideoCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.VideoCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VideoCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VideoCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideoCategory>
+          }
+          groupBy: {
+            args: Prisma.VideoCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VideoCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      VideoCategoryRelease: {
+        payload: Prisma.$VideoCategoryReleasePayload<ExtArgs>
+        fields: Prisma.VideoCategoryReleaseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VideoCategoryReleaseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VideoCategoryReleaseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          findFirst: {
+            args: Prisma.VideoCategoryReleaseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VideoCategoryReleaseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          findMany: {
+            args: Prisma.VideoCategoryReleaseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>[]
+          }
+          create: {
+            args: Prisma.VideoCategoryReleaseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          createMany: {
+            args: Prisma.VideoCategoryReleaseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VideoCategoryReleaseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>[]
+          }
+          delete: {
+            args: Prisma.VideoCategoryReleaseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          update: {
+            args: Prisma.VideoCategoryReleaseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          deleteMany: {
+            args: Prisma.VideoCategoryReleaseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VideoCategoryReleaseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VideoCategoryReleaseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoCategoryReleasePayload>
+          }
+          aggregate: {
+            args: Prisma.VideoCategoryReleaseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideoCategoryRelease>
+          }
+          groupBy: {
+            args: Prisma.VideoCategoryReleaseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoCategoryReleaseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VideoCategoryReleaseCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoCategoryReleaseCountAggregateOutputType> | number
+          }
+        }
+      }
+      Video: {
+        payload: Prisma.$VideoPayload<ExtArgs>
+        fields: Prisma.VideoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VideoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VideoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          findFirst: {
+            args: Prisma.VideoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VideoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          findMany: {
+            args: Prisma.VideoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>[]
+          }
+          create: {
+            args: Prisma.VideoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          createMany: {
+            args: Prisma.VideoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VideoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>[]
+          }
+          delete: {
+            args: Prisma.VideoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          update: {
+            args: Prisma.VideoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          deleteMany: {
+            args: Prisma.VideoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VideoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VideoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideo>
+          }
+          groupBy: {
+            args: Prisma.VideoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VideoCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -9767,6 +10049,8 @@ export namespace Prisma {
     assistants: number
     aiUsageLogs: number
     services: number
+    videoCategories: number
+    videoReleases: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9833,6 +10117,8 @@ export namespace Prisma {
     assistants?: boolean | CompanyCountOutputTypeCountAssistantsArgs
     aiUsageLogs?: boolean | CompanyCountOutputTypeCountAiUsageLogsArgs
     services?: boolean | CompanyCountOutputTypeCountServicesArgs
+    videoCategories?: boolean | CompanyCountOutputTypeCountVideoCategoriesArgs
+    videoReleases?: boolean | CompanyCountOutputTypeCountVideoReleasesArgs
   }
 
   // Custom InputTypes
@@ -10285,6 +10571,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ServiceWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountVideoCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoCategoryWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountVideoReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoCategoryReleaseWhereInput
   }
 
 
@@ -11419,6 +11719,46 @@ export namespace Prisma {
    */
   export type ClientServiceCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClientInvoiceWhereInput
+  }
+
+
+  /**
+   * Count Type VideoCategoryCountOutputType
+   */
+
+  export type VideoCategoryCountOutputType = {
+    videos: number
+    releases: number
+  }
+
+  export type VideoCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    videos?: boolean | VideoCategoryCountOutputTypeCountVideosArgs
+    releases?: boolean | VideoCategoryCountOutputTypeCountReleasesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * VideoCategoryCountOutputType without action
+   */
+  export type VideoCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryCountOutputType
+     */
+    select?: VideoCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * VideoCategoryCountOutputType without action
+   */
+  export type VideoCategoryCountOutputTypeCountVideosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoWhereInput
+  }
+
+  /**
+   * VideoCategoryCountOutputType without action
+   */
+  export type VideoCategoryCountOutputTypeCountReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoCategoryReleaseWhereInput
   }
 
 
@@ -16038,6 +16378,7 @@ export namespace Prisma {
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
+    moduleVideos: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -16076,6 +16417,7 @@ export namespace Prisma {
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
+    moduleVideos: boolean | null
     modoAtendimento: $Enums.ModoAtendimento | null
     aiMonthlyQuota: number | null
     aiUsedThisMonth: number | null
@@ -16114,6 +16456,7 @@ export namespace Prisma {
     moduleLinks: number
     moduleInstagram: number
     moduleEspacoCliente: number
+    moduleVideos: number
     modoAtendimento: number
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -16164,6 +16507,7 @@ export namespace Prisma {
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
+    moduleVideos?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16202,6 +16546,7 @@ export namespace Prisma {
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
+    moduleVideos?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16240,6 +16585,7 @@ export namespace Prisma {
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
+    moduleVideos?: true
     modoAtendimento?: true
     aiMonthlyQuota?: true
     aiUsedThisMonth?: true
@@ -16365,6 +16711,7 @@ export namespace Prisma {
     moduleLinks: boolean
     moduleInstagram: boolean
     moduleEspacoCliente: boolean
+    moduleVideos: boolean
     modoAtendimento: $Enums.ModoAtendimento
     aiMonthlyQuota: number
     aiUsedThisMonth: number
@@ -16422,6 +16769,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16496,6 +16844,8 @@ export namespace Prisma {
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
     aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     services?: boolean | Company$servicesArgs<ExtArgs>
+    videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
+    videoReleases?: boolean | Company$videoReleasesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -16528,6 +16878,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16567,6 +16918,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: boolean
     aiMonthlyQuota?: boolean
     aiUsedThisMonth?: boolean
@@ -16644,6 +16996,8 @@ export namespace Prisma {
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
     aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     services?: boolean | Company$servicesArgs<ExtArgs>
+    videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
+    videoReleases?: boolean | Company$videoReleasesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16720,6 +17074,8 @@ export namespace Prisma {
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
       aiUsageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
       services: Prisma.$ServicePayload<ExtArgs>[]
+      videoCategories: Prisma.$VideoCategoryPayload<ExtArgs>[]
+      videoReleases: Prisma.$VideoCategoryReleasePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16750,6 +17106,7 @@ export namespace Prisma {
       moduleLinks: boolean
       moduleInstagram: boolean
       moduleEspacoCliente: boolean
+      moduleVideos: boolean
       modoAtendimento: $Enums.ModoAtendimento
       aiMonthlyQuota: number
       aiUsedThisMonth: number
@@ -17188,6 +17545,8 @@ export namespace Prisma {
     assistants<T extends Company$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     aiUsageLogs<T extends Company$aiUsageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$aiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
     services<T extends Company$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany"> | Null>
+    videoCategories<T extends Company$videoCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$videoCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findMany"> | Null>
+    videoReleases<T extends Company$videoReleasesArgs<ExtArgs> = {}>(args?: Subset<T, Company$videoReleasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17245,6 +17604,7 @@ export namespace Prisma {
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
     readonly moduleInstagram: FieldRef<"Company", 'Boolean'>
     readonly moduleEspacoCliente: FieldRef<"Company", 'Boolean'>
+    readonly moduleVideos: FieldRef<"Company", 'Boolean'>
     readonly modoAtendimento: FieldRef<"Company", 'ModoAtendimento'>
     readonly aiMonthlyQuota: FieldRef<"Company", 'Int'>
     readonly aiUsedThisMonth: FieldRef<"Company", 'Int'>
@@ -18887,6 +19247,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
+  }
+
+  /**
+   * Company.videoCategories
+   */
+  export type Company$videoCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    where?: VideoCategoryWhereInput
+    orderBy?: VideoCategoryOrderByWithRelationInput | VideoCategoryOrderByWithRelationInput[]
+    cursor?: VideoCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoCategoryScalarFieldEnum | VideoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Company.videoReleases
+   */
+  export type Company$videoReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    where?: VideoCategoryReleaseWhereInput
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
   }
 
   /**
@@ -112852,6 +113252,3088 @@ export namespace Prisma {
 
 
   /**
+   * Model VideoCategory
+   */
+
+  export type AggregateVideoCategory = {
+    _count: VideoCategoryCountAggregateOutputType | null
+    _avg: VideoCategoryAvgAggregateOutputType | null
+    _sum: VideoCategorySumAggregateOutputType | null
+    _min: VideoCategoryMinAggregateOutputType | null
+    _max: VideoCategoryMaxAggregateOutputType | null
+  }
+
+  export type VideoCategoryAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type VideoCategorySumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type VideoCategoryMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    emoji: string | null
+    accent: string | null
+    position: number | null
+    active: boolean | null
+    scope: $Enums.VideoCategoryScope | null
+    visibility: $Enums.VideoCategoryVisibility | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoCategoryMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    emoji: string | null
+    accent: string | null
+    position: number | null
+    active: boolean | null
+    scope: $Enums.VideoCategoryScope | null
+    visibility: $Enums.VideoCategoryVisibility | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoCategoryCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    emoji: number
+    accent: number
+    position: number
+    active: number
+    scope: number
+    visibility: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VideoCategoryAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type VideoCategorySumAggregateInputType = {
+    position?: true
+  }
+
+  export type VideoCategoryMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    emoji?: true
+    accent?: true
+    position?: true
+    active?: true
+    scope?: true
+    visibility?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoCategoryMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    emoji?: true
+    accent?: true
+    position?: true
+    active?: true
+    scope?: true
+    visibility?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoCategoryCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    emoji?: true
+    accent?: true
+    position?: true
+    active?: true
+    scope?: true
+    visibility?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VideoCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoCategory to aggregate.
+     */
+    where?: VideoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategories to fetch.
+     */
+    orderBy?: VideoCategoryOrderByWithRelationInput | VideoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VideoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VideoCategories
+    **/
+    _count?: true | VideoCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VideoCategoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VideoCategorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoCategoryMaxAggregateInputType
+  }
+
+  export type GetVideoCategoryAggregateType<T extends VideoCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideoCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideoCategory[P]>
+      : GetScalarType<T[P], AggregateVideoCategory[P]>
+  }
+
+
+
+
+  export type VideoCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoCategoryWhereInput
+    orderBy?: VideoCategoryOrderByWithAggregationInput | VideoCategoryOrderByWithAggregationInput[]
+    by: VideoCategoryScalarFieldEnum[] | VideoCategoryScalarFieldEnum
+    having?: VideoCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoCategoryCountAggregateInputType | true
+    _avg?: VideoCategoryAvgAggregateInputType
+    _sum?: VideoCategorySumAggregateInputType
+    _min?: VideoCategoryMinAggregateInputType
+    _max?: VideoCategoryMaxAggregateInputType
+  }
+
+  export type VideoCategoryGroupByOutputType = {
+    id: string
+    title: string
+    description: string | null
+    emoji: string | null
+    accent: string | null
+    position: number
+    active: boolean
+    scope: $Enums.VideoCategoryScope
+    visibility: $Enums.VideoCategoryVisibility
+    companyId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VideoCategoryCountAggregateOutputType | null
+    _avg: VideoCategoryAvgAggregateOutputType | null
+    _sum: VideoCategorySumAggregateOutputType | null
+    _min: VideoCategoryMinAggregateOutputType | null
+    _max: VideoCategoryMaxAggregateOutputType | null
+  }
+
+  type GetVideoCategoryGroupByPayload<T extends VideoCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VideoCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    emoji?: boolean
+    accent?: boolean
+    position?: boolean
+    active?: boolean
+    scope?: boolean
+    visibility?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | VideoCategory$companyArgs<ExtArgs>
+    videos?: boolean | VideoCategory$videosArgs<ExtArgs>
+    releases?: boolean | VideoCategory$releasesArgs<ExtArgs>
+    _count?: boolean | VideoCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoCategory"]>
+
+  export type VideoCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    emoji?: boolean
+    accent?: boolean
+    position?: boolean
+    active?: boolean
+    scope?: boolean
+    visibility?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | VideoCategory$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["videoCategory"]>
+
+  export type VideoCategorySelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    emoji?: boolean
+    accent?: boolean
+    position?: boolean
+    active?: boolean
+    scope?: boolean
+    visibility?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VideoCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | VideoCategory$companyArgs<ExtArgs>
+    videos?: boolean | VideoCategory$videosArgs<ExtArgs>
+    releases?: boolean | VideoCategory$releasesArgs<ExtArgs>
+    _count?: boolean | VideoCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type VideoCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | VideoCategory$companyArgs<ExtArgs>
+  }
+
+  export type $VideoCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VideoCategory"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      videos: Prisma.$VideoPayload<ExtArgs>[]
+      releases: Prisma.$VideoCategoryReleasePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string | null
+      emoji: string | null
+      accent: string | null
+      position: number
+      active: boolean
+      scope: $Enums.VideoCategoryScope
+      visibility: $Enums.VideoCategoryVisibility
+      companyId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["videoCategory"]>
+    composites: {}
+  }
+
+  type VideoCategoryGetPayload<S extends boolean | null | undefined | VideoCategoryDefaultArgs> = $Result.GetResult<Prisma.$VideoCategoryPayload, S>
+
+  type VideoCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VideoCategoryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VideoCategoryCountAggregateInputType | true
+    }
+
+  export interface VideoCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VideoCategory'], meta: { name: 'VideoCategory' } }
+    /**
+     * Find zero or one VideoCategory that matches the filter.
+     * @param {VideoCategoryFindUniqueArgs} args - Arguments to find a VideoCategory
+     * @example
+     * // Get one VideoCategory
+     * const videoCategory = await prisma.videoCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VideoCategoryFindUniqueArgs>(args: SelectSubset<T, VideoCategoryFindUniqueArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one VideoCategory that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VideoCategoryFindUniqueOrThrowArgs} args - Arguments to find a VideoCategory
+     * @example
+     * // Get one VideoCategory
+     * const videoCategory = await prisma.videoCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VideoCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, VideoCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first VideoCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryFindFirstArgs} args - Arguments to find a VideoCategory
+     * @example
+     * // Get one VideoCategory
+     * const videoCategory = await prisma.videoCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VideoCategoryFindFirstArgs>(args?: SelectSubset<T, VideoCategoryFindFirstArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first VideoCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryFindFirstOrThrowArgs} args - Arguments to find a VideoCategory
+     * @example
+     * // Get one VideoCategory
+     * const videoCategory = await prisma.videoCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VideoCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, VideoCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more VideoCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VideoCategories
+     * const videoCategories = await prisma.videoCategory.findMany()
+     * 
+     * // Get first 10 VideoCategories
+     * const videoCategories = await prisma.videoCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoCategoryWithIdOnly = await prisma.videoCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VideoCategoryFindManyArgs>(args?: SelectSubset<T, VideoCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a VideoCategory.
+     * @param {VideoCategoryCreateArgs} args - Arguments to create a VideoCategory.
+     * @example
+     * // Create one VideoCategory
+     * const VideoCategory = await prisma.videoCategory.create({
+     *   data: {
+     *     // ... data to create a VideoCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends VideoCategoryCreateArgs>(args: SelectSubset<T, VideoCategoryCreateArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many VideoCategories.
+     * @param {VideoCategoryCreateManyArgs} args - Arguments to create many VideoCategories.
+     * @example
+     * // Create many VideoCategories
+     * const videoCategory = await prisma.videoCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VideoCategoryCreateManyArgs>(args?: SelectSubset<T, VideoCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VideoCategories and returns the data saved in the database.
+     * @param {VideoCategoryCreateManyAndReturnArgs} args - Arguments to create many VideoCategories.
+     * @example
+     * // Create many VideoCategories
+     * const videoCategory = await prisma.videoCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VideoCategories and only return the `id`
+     * const videoCategoryWithIdOnly = await prisma.videoCategory.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VideoCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, VideoCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a VideoCategory.
+     * @param {VideoCategoryDeleteArgs} args - Arguments to delete one VideoCategory.
+     * @example
+     * // Delete one VideoCategory
+     * const VideoCategory = await prisma.videoCategory.delete({
+     *   where: {
+     *     // ... filter to delete one VideoCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VideoCategoryDeleteArgs>(args: SelectSubset<T, VideoCategoryDeleteArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one VideoCategory.
+     * @param {VideoCategoryUpdateArgs} args - Arguments to update one VideoCategory.
+     * @example
+     * // Update one VideoCategory
+     * const videoCategory = await prisma.videoCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VideoCategoryUpdateArgs>(args: SelectSubset<T, VideoCategoryUpdateArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more VideoCategories.
+     * @param {VideoCategoryDeleteManyArgs} args - Arguments to filter VideoCategories to delete.
+     * @example
+     * // Delete a few VideoCategories
+     * const { count } = await prisma.videoCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VideoCategoryDeleteManyArgs>(args?: SelectSubset<T, VideoCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VideoCategories
+     * const videoCategory = await prisma.videoCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VideoCategoryUpdateManyArgs>(args: SelectSubset<T, VideoCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one VideoCategory.
+     * @param {VideoCategoryUpsertArgs} args - Arguments to update or create a VideoCategory.
+     * @example
+     * // Update or create a VideoCategory
+     * const videoCategory = await prisma.videoCategory.upsert({
+     *   create: {
+     *     // ... data to create a VideoCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VideoCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VideoCategoryUpsertArgs>(args: SelectSubset<T, VideoCategoryUpsertArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of VideoCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryCountArgs} args - Arguments to filter VideoCategories to count.
+     * @example
+     * // Count the number of VideoCategories
+     * const count = await prisma.videoCategory.count({
+     *   where: {
+     *     // ... the filter for the VideoCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends VideoCategoryCountArgs>(
+      args?: Subset<T, VideoCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VideoCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoCategoryAggregateArgs>(args: Subset<T, VideoCategoryAggregateArgs>): Prisma.PrismaPromise<GetVideoCategoryAggregateType<T>>
+
+    /**
+     * Group by VideoCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VideoCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VideoCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: VideoCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VideoCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VideoCategory model
+   */
+  readonly fields: VideoCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VideoCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VideoCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends VideoCategory$companyArgs<ExtArgs> = {}>(args?: Subset<T, VideoCategory$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    videos<T extends VideoCategory$videosArgs<ExtArgs> = {}>(args?: Subset<T, VideoCategory$videosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany"> | Null>
+    releases<T extends VideoCategory$releasesArgs<ExtArgs> = {}>(args?: Subset<T, VideoCategory$releasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VideoCategory model
+   */ 
+  interface VideoCategoryFieldRefs {
+    readonly id: FieldRef<"VideoCategory", 'String'>
+    readonly title: FieldRef<"VideoCategory", 'String'>
+    readonly description: FieldRef<"VideoCategory", 'String'>
+    readonly emoji: FieldRef<"VideoCategory", 'String'>
+    readonly accent: FieldRef<"VideoCategory", 'String'>
+    readonly position: FieldRef<"VideoCategory", 'Int'>
+    readonly active: FieldRef<"VideoCategory", 'Boolean'>
+    readonly scope: FieldRef<"VideoCategory", 'VideoCategoryScope'>
+    readonly visibility: FieldRef<"VideoCategory", 'VideoCategoryVisibility'>
+    readonly companyId: FieldRef<"VideoCategory", 'String'>
+    readonly createdAt: FieldRef<"VideoCategory", 'DateTime'>
+    readonly updatedAt: FieldRef<"VideoCategory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VideoCategory findUnique
+   */
+  export type VideoCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategory to fetch.
+     */
+    where: VideoCategoryWhereUniqueInput
+  }
+
+  /**
+   * VideoCategory findUniqueOrThrow
+   */
+  export type VideoCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategory to fetch.
+     */
+    where: VideoCategoryWhereUniqueInput
+  }
+
+  /**
+   * VideoCategory findFirst
+   */
+  export type VideoCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategory to fetch.
+     */
+    where?: VideoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategories to fetch.
+     */
+    orderBy?: VideoCategoryOrderByWithRelationInput | VideoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoCategories.
+     */
+    cursor?: VideoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoCategories.
+     */
+    distinct?: VideoCategoryScalarFieldEnum | VideoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategory findFirstOrThrow
+   */
+  export type VideoCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategory to fetch.
+     */
+    where?: VideoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategories to fetch.
+     */
+    orderBy?: VideoCategoryOrderByWithRelationInput | VideoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoCategories.
+     */
+    cursor?: VideoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoCategories.
+     */
+    distinct?: VideoCategoryScalarFieldEnum | VideoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategory findMany
+   */
+  export type VideoCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategories to fetch.
+     */
+    where?: VideoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategories to fetch.
+     */
+    orderBy?: VideoCategoryOrderByWithRelationInput | VideoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VideoCategories.
+     */
+    cursor?: VideoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategories.
+     */
+    skip?: number
+    distinct?: VideoCategoryScalarFieldEnum | VideoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategory create
+   */
+  export type VideoCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VideoCategory.
+     */
+    data: XOR<VideoCategoryCreateInput, VideoCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * VideoCategory createMany
+   */
+  export type VideoCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VideoCategories.
+     */
+    data: VideoCategoryCreateManyInput | VideoCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VideoCategory createManyAndReturn
+   */
+  export type VideoCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many VideoCategories.
+     */
+    data: VideoCategoryCreateManyInput | VideoCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VideoCategory update
+   */
+  export type VideoCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VideoCategory.
+     */
+    data: XOR<VideoCategoryUpdateInput, VideoCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which VideoCategory to update.
+     */
+    where: VideoCategoryWhereUniqueInput
+  }
+
+  /**
+   * VideoCategory updateMany
+   */
+  export type VideoCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VideoCategories.
+     */
+    data: XOR<VideoCategoryUpdateManyMutationInput, VideoCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which VideoCategories to update
+     */
+    where?: VideoCategoryWhereInput
+  }
+
+  /**
+   * VideoCategory upsert
+   */
+  export type VideoCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VideoCategory to update in case it exists.
+     */
+    where: VideoCategoryWhereUniqueInput
+    /**
+     * In case the VideoCategory found by the `where` argument doesn't exist, create a new VideoCategory with this data.
+     */
+    create: XOR<VideoCategoryCreateInput, VideoCategoryUncheckedCreateInput>
+    /**
+     * In case the VideoCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VideoCategoryUpdateInput, VideoCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * VideoCategory delete
+   */
+  export type VideoCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which VideoCategory to delete.
+     */
+    where: VideoCategoryWhereUniqueInput
+  }
+
+  /**
+   * VideoCategory deleteMany
+   */
+  export type VideoCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoCategories to delete
+     */
+    where?: VideoCategoryWhereInput
+  }
+
+  /**
+   * VideoCategory.company
+   */
+  export type VideoCategory$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * VideoCategory.videos
+   */
+  export type VideoCategory$videosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    where?: VideoWhereInput
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    cursor?: VideoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategory.releases
+   */
+  export type VideoCategory$releasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    where?: VideoCategoryReleaseWhereInput
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategory without action
+   */
+  export type VideoCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategory
+     */
+    select?: VideoCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VideoCategoryRelease
+   */
+
+  export type AggregateVideoCategoryRelease = {
+    _count: VideoCategoryReleaseCountAggregateOutputType | null
+    _min: VideoCategoryReleaseMinAggregateOutputType | null
+    _max: VideoCategoryReleaseMaxAggregateOutputType | null
+  }
+
+  export type VideoCategoryReleaseMinAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    companyId: string | null
+    createdAt: Date | null
+  }
+
+  export type VideoCategoryReleaseMaxAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    companyId: string | null
+    createdAt: Date | null
+  }
+
+  export type VideoCategoryReleaseCountAggregateOutputType = {
+    id: number
+    categoryId: number
+    companyId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VideoCategoryReleaseMinAggregateInputType = {
+    id?: true
+    categoryId?: true
+    companyId?: true
+    createdAt?: true
+  }
+
+  export type VideoCategoryReleaseMaxAggregateInputType = {
+    id?: true
+    categoryId?: true
+    companyId?: true
+    createdAt?: true
+  }
+
+  export type VideoCategoryReleaseCountAggregateInputType = {
+    id?: true
+    categoryId?: true
+    companyId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VideoCategoryReleaseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoCategoryRelease to aggregate.
+     */
+    where?: VideoCategoryReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategoryReleases to fetch.
+     */
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategoryReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategoryReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VideoCategoryReleases
+    **/
+    _count?: true | VideoCategoryReleaseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoCategoryReleaseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoCategoryReleaseMaxAggregateInputType
+  }
+
+  export type GetVideoCategoryReleaseAggregateType<T extends VideoCategoryReleaseAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideoCategoryRelease]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideoCategoryRelease[P]>
+      : GetScalarType<T[P], AggregateVideoCategoryRelease[P]>
+  }
+
+
+
+
+  export type VideoCategoryReleaseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoCategoryReleaseWhereInput
+    orderBy?: VideoCategoryReleaseOrderByWithAggregationInput | VideoCategoryReleaseOrderByWithAggregationInput[]
+    by: VideoCategoryReleaseScalarFieldEnum[] | VideoCategoryReleaseScalarFieldEnum
+    having?: VideoCategoryReleaseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoCategoryReleaseCountAggregateInputType | true
+    _min?: VideoCategoryReleaseMinAggregateInputType
+    _max?: VideoCategoryReleaseMaxAggregateInputType
+  }
+
+  export type VideoCategoryReleaseGroupByOutputType = {
+    id: string
+    categoryId: string
+    companyId: string
+    createdAt: Date
+    _count: VideoCategoryReleaseCountAggregateOutputType | null
+    _min: VideoCategoryReleaseMinAggregateOutputType | null
+    _max: VideoCategoryReleaseMaxAggregateOutputType | null
+  }
+
+  type GetVideoCategoryReleaseGroupByPayload<T extends VideoCategoryReleaseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoCategoryReleaseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoCategoryReleaseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoCategoryReleaseGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoCategoryReleaseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VideoCategoryReleaseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoCategoryRelease"]>
+
+  export type VideoCategoryReleaseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoCategoryRelease"]>
+
+  export type VideoCategoryReleaseSelectScalar = {
+    id?: boolean
+    categoryId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+  }
+
+  export type VideoCategoryReleaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type VideoCategoryReleaseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $VideoCategoryReleasePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VideoCategoryRelease"
+    objects: {
+      category: Prisma.$VideoCategoryPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      categoryId: string
+      companyId: string
+      createdAt: Date
+    }, ExtArgs["result"]["videoCategoryRelease"]>
+    composites: {}
+  }
+
+  type VideoCategoryReleaseGetPayload<S extends boolean | null | undefined | VideoCategoryReleaseDefaultArgs> = $Result.GetResult<Prisma.$VideoCategoryReleasePayload, S>
+
+  type VideoCategoryReleaseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VideoCategoryReleaseFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VideoCategoryReleaseCountAggregateInputType | true
+    }
+
+  export interface VideoCategoryReleaseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VideoCategoryRelease'], meta: { name: 'VideoCategoryRelease' } }
+    /**
+     * Find zero or one VideoCategoryRelease that matches the filter.
+     * @param {VideoCategoryReleaseFindUniqueArgs} args - Arguments to find a VideoCategoryRelease
+     * @example
+     * // Get one VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VideoCategoryReleaseFindUniqueArgs>(args: SelectSubset<T, VideoCategoryReleaseFindUniqueArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one VideoCategoryRelease that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VideoCategoryReleaseFindUniqueOrThrowArgs} args - Arguments to find a VideoCategoryRelease
+     * @example
+     * // Get one VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VideoCategoryReleaseFindUniqueOrThrowArgs>(args: SelectSubset<T, VideoCategoryReleaseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first VideoCategoryRelease that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseFindFirstArgs} args - Arguments to find a VideoCategoryRelease
+     * @example
+     * // Get one VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VideoCategoryReleaseFindFirstArgs>(args?: SelectSubset<T, VideoCategoryReleaseFindFirstArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first VideoCategoryRelease that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseFindFirstOrThrowArgs} args - Arguments to find a VideoCategoryRelease
+     * @example
+     * // Get one VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VideoCategoryReleaseFindFirstOrThrowArgs>(args?: SelectSubset<T, VideoCategoryReleaseFindFirstOrThrowArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more VideoCategoryReleases that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VideoCategoryReleases
+     * const videoCategoryReleases = await prisma.videoCategoryRelease.findMany()
+     * 
+     * // Get first 10 VideoCategoryReleases
+     * const videoCategoryReleases = await prisma.videoCategoryRelease.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoCategoryReleaseWithIdOnly = await prisma.videoCategoryRelease.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VideoCategoryReleaseFindManyArgs>(args?: SelectSubset<T, VideoCategoryReleaseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a VideoCategoryRelease.
+     * @param {VideoCategoryReleaseCreateArgs} args - Arguments to create a VideoCategoryRelease.
+     * @example
+     * // Create one VideoCategoryRelease
+     * const VideoCategoryRelease = await prisma.videoCategoryRelease.create({
+     *   data: {
+     *     // ... data to create a VideoCategoryRelease
+     *   }
+     * })
+     * 
+     */
+    create<T extends VideoCategoryReleaseCreateArgs>(args: SelectSubset<T, VideoCategoryReleaseCreateArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many VideoCategoryReleases.
+     * @param {VideoCategoryReleaseCreateManyArgs} args - Arguments to create many VideoCategoryReleases.
+     * @example
+     * // Create many VideoCategoryReleases
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VideoCategoryReleaseCreateManyArgs>(args?: SelectSubset<T, VideoCategoryReleaseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VideoCategoryReleases and returns the data saved in the database.
+     * @param {VideoCategoryReleaseCreateManyAndReturnArgs} args - Arguments to create many VideoCategoryReleases.
+     * @example
+     * // Create many VideoCategoryReleases
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VideoCategoryReleases and only return the `id`
+     * const videoCategoryReleaseWithIdOnly = await prisma.videoCategoryRelease.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VideoCategoryReleaseCreateManyAndReturnArgs>(args?: SelectSubset<T, VideoCategoryReleaseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a VideoCategoryRelease.
+     * @param {VideoCategoryReleaseDeleteArgs} args - Arguments to delete one VideoCategoryRelease.
+     * @example
+     * // Delete one VideoCategoryRelease
+     * const VideoCategoryRelease = await prisma.videoCategoryRelease.delete({
+     *   where: {
+     *     // ... filter to delete one VideoCategoryRelease
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VideoCategoryReleaseDeleteArgs>(args: SelectSubset<T, VideoCategoryReleaseDeleteArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one VideoCategoryRelease.
+     * @param {VideoCategoryReleaseUpdateArgs} args - Arguments to update one VideoCategoryRelease.
+     * @example
+     * // Update one VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VideoCategoryReleaseUpdateArgs>(args: SelectSubset<T, VideoCategoryReleaseUpdateArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more VideoCategoryReleases.
+     * @param {VideoCategoryReleaseDeleteManyArgs} args - Arguments to filter VideoCategoryReleases to delete.
+     * @example
+     * // Delete a few VideoCategoryReleases
+     * const { count } = await prisma.videoCategoryRelease.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VideoCategoryReleaseDeleteManyArgs>(args?: SelectSubset<T, VideoCategoryReleaseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoCategoryReleases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VideoCategoryReleases
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VideoCategoryReleaseUpdateManyArgs>(args: SelectSubset<T, VideoCategoryReleaseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one VideoCategoryRelease.
+     * @param {VideoCategoryReleaseUpsertArgs} args - Arguments to update or create a VideoCategoryRelease.
+     * @example
+     * // Update or create a VideoCategoryRelease
+     * const videoCategoryRelease = await prisma.videoCategoryRelease.upsert({
+     *   create: {
+     *     // ... data to create a VideoCategoryRelease
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VideoCategoryRelease we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VideoCategoryReleaseUpsertArgs>(args: SelectSubset<T, VideoCategoryReleaseUpsertArgs<ExtArgs>>): Prisma__VideoCategoryReleaseClient<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of VideoCategoryReleases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseCountArgs} args - Arguments to filter VideoCategoryReleases to count.
+     * @example
+     * // Count the number of VideoCategoryReleases
+     * const count = await prisma.videoCategoryRelease.count({
+     *   where: {
+     *     // ... the filter for the VideoCategoryReleases we want to count
+     *   }
+     * })
+    **/
+    count<T extends VideoCategoryReleaseCountArgs>(
+      args?: Subset<T, VideoCategoryReleaseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoCategoryReleaseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VideoCategoryRelease.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoCategoryReleaseAggregateArgs>(args: Subset<T, VideoCategoryReleaseAggregateArgs>): Prisma.PrismaPromise<GetVideoCategoryReleaseAggregateType<T>>
+
+    /**
+     * Group by VideoCategoryRelease.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCategoryReleaseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VideoCategoryReleaseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VideoCategoryReleaseGroupByArgs['orderBy'] }
+        : { orderBy?: VideoCategoryReleaseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VideoCategoryReleaseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoCategoryReleaseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VideoCategoryRelease model
+   */
+  readonly fields: VideoCategoryReleaseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VideoCategoryRelease.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VideoCategoryReleaseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends VideoCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VideoCategoryDefaultArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VideoCategoryRelease model
+   */ 
+  interface VideoCategoryReleaseFieldRefs {
+    readonly id: FieldRef<"VideoCategoryRelease", 'String'>
+    readonly categoryId: FieldRef<"VideoCategoryRelease", 'String'>
+    readonly companyId: FieldRef<"VideoCategoryRelease", 'String'>
+    readonly createdAt: FieldRef<"VideoCategoryRelease", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VideoCategoryRelease findUnique
+   */
+  export type VideoCategoryReleaseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategoryRelease to fetch.
+     */
+    where: VideoCategoryReleaseWhereUniqueInput
+  }
+
+  /**
+   * VideoCategoryRelease findUniqueOrThrow
+   */
+  export type VideoCategoryReleaseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategoryRelease to fetch.
+     */
+    where: VideoCategoryReleaseWhereUniqueInput
+  }
+
+  /**
+   * VideoCategoryRelease findFirst
+   */
+  export type VideoCategoryReleaseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategoryRelease to fetch.
+     */
+    where?: VideoCategoryReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategoryReleases to fetch.
+     */
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoCategoryReleases.
+     */
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategoryReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategoryReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoCategoryReleases.
+     */
+    distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategoryRelease findFirstOrThrow
+   */
+  export type VideoCategoryReleaseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategoryRelease to fetch.
+     */
+    where?: VideoCategoryReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategoryReleases to fetch.
+     */
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoCategoryReleases.
+     */
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategoryReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategoryReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoCategoryReleases.
+     */
+    distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategoryRelease findMany
+   */
+  export type VideoCategoryReleaseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoCategoryReleases to fetch.
+     */
+    where?: VideoCategoryReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoCategoryReleases to fetch.
+     */
+    orderBy?: VideoCategoryReleaseOrderByWithRelationInput | VideoCategoryReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VideoCategoryReleases.
+     */
+    cursor?: VideoCategoryReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoCategoryReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoCategoryReleases.
+     */
+    skip?: number
+    distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * VideoCategoryRelease create
+   */
+  export type VideoCategoryReleaseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VideoCategoryRelease.
+     */
+    data: XOR<VideoCategoryReleaseCreateInput, VideoCategoryReleaseUncheckedCreateInput>
+  }
+
+  /**
+   * VideoCategoryRelease createMany
+   */
+  export type VideoCategoryReleaseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VideoCategoryReleases.
+     */
+    data: VideoCategoryReleaseCreateManyInput | VideoCategoryReleaseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VideoCategoryRelease createManyAndReturn
+   */
+  export type VideoCategoryReleaseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many VideoCategoryReleases.
+     */
+    data: VideoCategoryReleaseCreateManyInput | VideoCategoryReleaseCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VideoCategoryRelease update
+   */
+  export type VideoCategoryReleaseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VideoCategoryRelease.
+     */
+    data: XOR<VideoCategoryReleaseUpdateInput, VideoCategoryReleaseUncheckedUpdateInput>
+    /**
+     * Choose, which VideoCategoryRelease to update.
+     */
+    where: VideoCategoryReleaseWhereUniqueInput
+  }
+
+  /**
+   * VideoCategoryRelease updateMany
+   */
+  export type VideoCategoryReleaseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VideoCategoryReleases.
+     */
+    data: XOR<VideoCategoryReleaseUpdateManyMutationInput, VideoCategoryReleaseUncheckedUpdateManyInput>
+    /**
+     * Filter which VideoCategoryReleases to update
+     */
+    where?: VideoCategoryReleaseWhereInput
+  }
+
+  /**
+   * VideoCategoryRelease upsert
+   */
+  export type VideoCategoryReleaseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VideoCategoryRelease to update in case it exists.
+     */
+    where: VideoCategoryReleaseWhereUniqueInput
+    /**
+     * In case the VideoCategoryRelease found by the `where` argument doesn't exist, create a new VideoCategoryRelease with this data.
+     */
+    create: XOR<VideoCategoryReleaseCreateInput, VideoCategoryReleaseUncheckedCreateInput>
+    /**
+     * In case the VideoCategoryRelease was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VideoCategoryReleaseUpdateInput, VideoCategoryReleaseUncheckedUpdateInput>
+  }
+
+  /**
+   * VideoCategoryRelease delete
+   */
+  export type VideoCategoryReleaseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+    /**
+     * Filter which VideoCategoryRelease to delete.
+     */
+    where: VideoCategoryReleaseWhereUniqueInput
+  }
+
+  /**
+   * VideoCategoryRelease deleteMany
+   */
+  export type VideoCategoryReleaseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoCategoryReleases to delete
+     */
+    where?: VideoCategoryReleaseWhereInput
+  }
+
+  /**
+   * VideoCategoryRelease without action
+   */
+  export type VideoCategoryReleaseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoCategoryRelease
+     */
+    select?: VideoCategoryReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoCategoryReleaseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Video
+   */
+
+  export type AggregateVideo = {
+    _count: VideoCountAggregateOutputType | null
+    _avg: VideoAvgAggregateOutputType | null
+    _sum: VideoSumAggregateOutputType | null
+    _min: VideoMinAggregateOutputType | null
+    _max: VideoMaxAggregateOutputType | null
+  }
+
+  export type VideoAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type VideoSumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type VideoMinAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    title: string | null
+    description: string | null
+    youtubeId: string | null
+    thumbnailUrl: string | null
+    durationLabel: string | null
+    position: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoMaxAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    title: string | null
+    description: string | null
+    youtubeId: string | null
+    thumbnailUrl: string | null
+    durationLabel: string | null
+    position: number | null
+    active: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VideoCountAggregateOutputType = {
+    id: number
+    categoryId: number
+    title: number
+    description: number
+    youtubeId: number
+    thumbnailUrl: number
+    durationLabel: number
+    position: number
+    active: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VideoAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type VideoSumAggregateInputType = {
+    position?: true
+  }
+
+  export type VideoMinAggregateInputType = {
+    id?: true
+    categoryId?: true
+    title?: true
+    description?: true
+    youtubeId?: true
+    thumbnailUrl?: true
+    durationLabel?: true
+    position?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoMaxAggregateInputType = {
+    id?: true
+    categoryId?: true
+    title?: true
+    description?: true
+    youtubeId?: true
+    thumbnailUrl?: true
+    durationLabel?: true
+    position?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VideoCountAggregateInputType = {
+    id?: true
+    categoryId?: true
+    title?: true
+    description?: true
+    youtubeId?: true
+    thumbnailUrl?: true
+    durationLabel?: true
+    position?: true
+    active?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VideoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Video to aggregate.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Videos
+    **/
+    _count?: true | VideoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VideoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VideoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoMaxAggregateInputType
+  }
+
+  export type GetVideoAggregateType<T extends VideoAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideo[P]>
+      : GetScalarType<T[P], AggregateVideo[P]>
+  }
+
+
+
+
+  export type VideoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoWhereInput
+    orderBy?: VideoOrderByWithAggregationInput | VideoOrderByWithAggregationInput[]
+    by: VideoScalarFieldEnum[] | VideoScalarFieldEnum
+    having?: VideoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoCountAggregateInputType | true
+    _avg?: VideoAvgAggregateInputType
+    _sum?: VideoSumAggregateInputType
+    _min?: VideoMinAggregateInputType
+    _max?: VideoMaxAggregateInputType
+  }
+
+  export type VideoGroupByOutputType = {
+    id: string
+    categoryId: string
+    title: string
+    description: string | null
+    youtubeId: string
+    thumbnailUrl: string | null
+    durationLabel: string | null
+    position: number
+    active: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: VideoCountAggregateOutputType | null
+    _avg: VideoAvgAggregateOutputType | null
+    _sum: VideoSumAggregateOutputType | null
+    _min: VideoMinAggregateOutputType | null
+    _max: VideoMaxAggregateOutputType | null
+  }
+
+  type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VideoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    title?: boolean
+    description?: boolean
+    youtubeId?: boolean
+    thumbnailUrl?: boolean
+    durationLabel?: boolean
+    position?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["video"]>
+
+  export type VideoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    title?: boolean
+    description?: boolean
+    youtubeId?: boolean
+    thumbnailUrl?: boolean
+    durationLabel?: boolean
+    position?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["video"]>
+
+  export type VideoSelectScalar = {
+    id?: boolean
+    categoryId?: boolean
+    title?: boolean
+    description?: boolean
+    youtubeId?: boolean
+    thumbnailUrl?: boolean
+    durationLabel?: boolean
+    position?: boolean
+    active?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VideoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+  }
+  export type VideoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | VideoCategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $VideoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Video"
+    objects: {
+      category: Prisma.$VideoCategoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      categoryId: string
+      title: string
+      description: string | null
+      youtubeId: string
+      thumbnailUrl: string | null
+      durationLabel: string | null
+      position: number
+      active: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["video"]>
+    composites: {}
+  }
+
+  type VideoGetPayload<S extends boolean | null | undefined | VideoDefaultArgs> = $Result.GetResult<Prisma.$VideoPayload, S>
+
+  type VideoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VideoFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: VideoCountAggregateInputType | true
+    }
+
+  export interface VideoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Video'], meta: { name: 'Video' } }
+    /**
+     * Find zero or one Video that matches the filter.
+     * @param {VideoFindUniqueArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VideoFindUniqueArgs>(args: SelectSubset<T, VideoFindUniqueArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Video that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {VideoFindUniqueOrThrowArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VideoFindUniqueOrThrowArgs>(args: SelectSubset<T, VideoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Video that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindFirstArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VideoFindFirstArgs>(args?: SelectSubset<T, VideoFindFirstArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Video that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindFirstOrThrowArgs} args - Arguments to find a Video
+     * @example
+     * // Get one Video
+     * const video = await prisma.video.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VideoFindFirstOrThrowArgs>(args?: SelectSubset<T, VideoFindFirstOrThrowArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Videos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Videos
+     * const videos = await prisma.video.findMany()
+     * 
+     * // Get first 10 Videos
+     * const videos = await prisma.video.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoWithIdOnly = await prisma.video.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VideoFindManyArgs>(args?: SelectSubset<T, VideoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Video.
+     * @param {VideoCreateArgs} args - Arguments to create a Video.
+     * @example
+     * // Create one Video
+     * const Video = await prisma.video.create({
+     *   data: {
+     *     // ... data to create a Video
+     *   }
+     * })
+     * 
+     */
+    create<T extends VideoCreateArgs>(args: SelectSubset<T, VideoCreateArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Videos.
+     * @param {VideoCreateManyArgs} args - Arguments to create many Videos.
+     * @example
+     * // Create many Videos
+     * const video = await prisma.video.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VideoCreateManyArgs>(args?: SelectSubset<T, VideoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Videos and returns the data saved in the database.
+     * @param {VideoCreateManyAndReturnArgs} args - Arguments to create many Videos.
+     * @example
+     * // Create many Videos
+     * const video = await prisma.video.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Videos and only return the `id`
+     * const videoWithIdOnly = await prisma.video.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VideoCreateManyAndReturnArgs>(args?: SelectSubset<T, VideoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Video.
+     * @param {VideoDeleteArgs} args - Arguments to delete one Video.
+     * @example
+     * // Delete one Video
+     * const Video = await prisma.video.delete({
+     *   where: {
+     *     // ... filter to delete one Video
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VideoDeleteArgs>(args: SelectSubset<T, VideoDeleteArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Video.
+     * @param {VideoUpdateArgs} args - Arguments to update one Video.
+     * @example
+     * // Update one Video
+     * const video = await prisma.video.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VideoUpdateArgs>(args: SelectSubset<T, VideoUpdateArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Videos.
+     * @param {VideoDeleteManyArgs} args - Arguments to filter Videos to delete.
+     * @example
+     * // Delete a few Videos
+     * const { count } = await prisma.video.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VideoDeleteManyArgs>(args?: SelectSubset<T, VideoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Videos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Videos
+     * const video = await prisma.video.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VideoUpdateManyArgs>(args: SelectSubset<T, VideoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Video.
+     * @param {VideoUpsertArgs} args - Arguments to update or create a Video.
+     * @example
+     * // Update or create a Video
+     * const video = await prisma.video.upsert({
+     *   create: {
+     *     // ... data to create a Video
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Video we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VideoUpsertArgs>(args: SelectSubset<T, VideoUpsertArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Videos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoCountArgs} args - Arguments to filter Videos to count.
+     * @example
+     * // Count the number of Videos
+     * const count = await prisma.video.count({
+     *   where: {
+     *     // ... the filter for the Videos we want to count
+     *   }
+     * })
+    **/
+    count<T extends VideoCountArgs>(
+      args?: Subset<T, VideoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Video.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoAggregateArgs>(args: Subset<T, VideoAggregateArgs>): Prisma.PrismaPromise<GetVideoAggregateType<T>>
+
+    /**
+     * Group by Video.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VideoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VideoGroupByArgs['orderBy'] }
+        : { orderBy?: VideoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VideoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Video model
+   */
+  readonly fields: VideoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Video.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VideoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends VideoCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VideoCategoryDefaultArgs<ExtArgs>>): Prisma__VideoCategoryClient<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Video model
+   */ 
+  interface VideoFieldRefs {
+    readonly id: FieldRef<"Video", 'String'>
+    readonly categoryId: FieldRef<"Video", 'String'>
+    readonly title: FieldRef<"Video", 'String'>
+    readonly description: FieldRef<"Video", 'String'>
+    readonly youtubeId: FieldRef<"Video", 'String'>
+    readonly thumbnailUrl: FieldRef<"Video", 'String'>
+    readonly durationLabel: FieldRef<"Video", 'String'>
+    readonly position: FieldRef<"Video", 'Int'>
+    readonly active: FieldRef<"Video", 'Boolean'>
+    readonly createdAt: FieldRef<"Video", 'DateTime'>
+    readonly updatedAt: FieldRef<"Video", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Video findUnique
+   */
+  export type VideoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video findUniqueOrThrow
+   */
+  export type VideoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video findFirst
+   */
+  export type VideoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Videos.
+     */
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video findFirstOrThrow
+   */
+  export type VideoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Video to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Videos.
+     */
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video findMany
+   */
+  export type VideoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter, which Videos to fetch.
+     */
+    where?: VideoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Videos to fetch.
+     */
+    orderBy?: VideoOrderByWithRelationInput | VideoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Videos.
+     */
+    cursor?: VideoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Videos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Videos.
+     */
+    skip?: number
+    distinct?: VideoScalarFieldEnum | VideoScalarFieldEnum[]
+  }
+
+  /**
+   * Video create
+   */
+  export type VideoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Video.
+     */
+    data: XOR<VideoCreateInput, VideoUncheckedCreateInput>
+  }
+
+  /**
+   * Video createMany
+   */
+  export type VideoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Videos.
+     */
+    data: VideoCreateManyInput | VideoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Video createManyAndReturn
+   */
+  export type VideoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Videos.
+     */
+    data: VideoCreateManyInput | VideoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Video update
+   */
+  export type VideoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Video.
+     */
+    data: XOR<VideoUpdateInput, VideoUncheckedUpdateInput>
+    /**
+     * Choose, which Video to update.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video updateMany
+   */
+  export type VideoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Videos.
+     */
+    data: XOR<VideoUpdateManyMutationInput, VideoUncheckedUpdateManyInput>
+    /**
+     * Filter which Videos to update
+     */
+    where?: VideoWhereInput
+  }
+
+  /**
+   * Video upsert
+   */
+  export type VideoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Video to update in case it exists.
+     */
+    where: VideoWhereUniqueInput
+    /**
+     * In case the Video found by the `where` argument doesn't exist, create a new Video with this data.
+     */
+    create: XOR<VideoCreateInput, VideoUncheckedCreateInput>
+    /**
+     * In case the Video was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VideoUpdateInput, VideoUncheckedUpdateInput>
+  }
+
+  /**
+   * Video delete
+   */
+  export type VideoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+    /**
+     * Filter which Video to delete.
+     */
+    where: VideoWhereUniqueInput
+  }
+
+  /**
+   * Video deleteMany
+   */
+  export type VideoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Videos to delete
+     */
+    where?: VideoWhereInput
+  }
+
+  /**
+   * Video without action
+   */
+  export type VideoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Video
+     */
+    select?: VideoSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -112956,6 +116438,7 @@ export namespace Prisma {
     moduleLinks: 'moduleLinks',
     moduleInstagram: 'moduleInstagram',
     moduleEspacoCliente: 'moduleEspacoCliente',
+    moduleVideos: 'moduleVideos',
     modoAtendimento: 'modoAtendimento',
     aiMonthlyQuota: 'aiMonthlyQuota',
     aiUsedThisMonth: 'aiUsedThisMonth',
@@ -114523,6 +118006,51 @@ export namespace Prisma {
   export type ClientInvoiceScalarFieldEnum = (typeof ClientInvoiceScalarFieldEnum)[keyof typeof ClientInvoiceScalarFieldEnum]
 
 
+  export const VideoCategoryScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    emoji: 'emoji',
+    accent: 'accent',
+    position: 'position',
+    active: 'active',
+    scope: 'scope',
+    visibility: 'visibility',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VideoCategoryScalarFieldEnum = (typeof VideoCategoryScalarFieldEnum)[keyof typeof VideoCategoryScalarFieldEnum]
+
+
+  export const VideoCategoryReleaseScalarFieldEnum: {
+    id: 'id',
+    categoryId: 'categoryId',
+    companyId: 'companyId',
+    createdAt: 'createdAt'
+  };
+
+  export type VideoCategoryReleaseScalarFieldEnum = (typeof VideoCategoryReleaseScalarFieldEnum)[keyof typeof VideoCategoryReleaseScalarFieldEnum]
+
+
+  export const VideoScalarFieldEnum: {
+    id: 'id',
+    categoryId: 'categoryId',
+    title: 'title',
+    description: 'description',
+    youtubeId: 'youtubeId',
+    thumbnailUrl: 'thumbnailUrl',
+    durationLabel: 'durationLabel',
+    position: 'position',
+    active: 'active',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -115232,6 +118760,34 @@ export namespace Prisma {
    */
   export type ListEnumAssistantTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssistantType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'VideoCategoryScope'
+   */
+  export type EnumVideoCategoryScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoCategoryScope'>
+    
+
+
+  /**
+   * Reference to a field of type 'VideoCategoryScope[]'
+   */
+  export type ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoCategoryScope[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'VideoCategoryVisibility'
+   */
+  export type EnumVideoCategoryVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoCategoryVisibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'VideoCategoryVisibility[]'
+   */
+  export type ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoCategoryVisibility[]'>
+    
   /**
    * Deep Input Types
    */
@@ -115654,6 +119210,7 @@ export namespace Prisma {
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
+    moduleVideos?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -115728,6 +119285,8 @@ export namespace Prisma {
     assistants?: AssistantListRelationFilter
     aiUsageLogs?: AiUsageLogListRelationFilter
     services?: ServiceListRelationFilter
+    videoCategories?: VideoCategoryListRelationFilter
+    videoReleases?: VideoCategoryReleaseListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -115759,6 +119318,7 @@ export namespace Prisma {
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
+    moduleVideos?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -115833,6 +119393,8 @@ export namespace Prisma {
     assistants?: AssistantOrderByRelationAggregateInput
     aiUsageLogs?: AiUsageLogOrderByRelationAggregateInput
     services?: ServiceOrderByRelationAggregateInput
+    videoCategories?: VideoCategoryOrderByRelationAggregateInput
+    videoReleases?: VideoCategoryReleaseOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -115868,6 +119430,7 @@ export namespace Prisma {
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
+    moduleVideos?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -115941,6 +119504,8 @@ export namespace Prisma {
     assistants?: AssistantListRelationFilter
     aiUsageLogs?: AiUsageLogListRelationFilter
     services?: ServiceListRelationFilter
+    videoCategories?: VideoCategoryListRelationFilter
+    videoReleases?: VideoCategoryReleaseListRelationFilter
   }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -115972,6 +119537,7 @@ export namespace Prisma {
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
+    moduleVideos?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -116018,6 +119584,7 @@ export namespace Prisma {
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleInstagram?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleVideos?: BoolWithAggregatesFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoWithAggregatesFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntWithAggregatesFilter<"Company"> | number
     aiUsedThisMonth?: IntWithAggregatesFilter<"Company"> | number
@@ -124280,6 +127847,245 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ClientInvoice"> | Date | string
   }
 
+  export type VideoCategoryWhereInput = {
+    AND?: VideoCategoryWhereInput | VideoCategoryWhereInput[]
+    OR?: VideoCategoryWhereInput[]
+    NOT?: VideoCategoryWhereInput | VideoCategoryWhereInput[]
+    id?: StringFilter<"VideoCategory"> | string
+    title?: StringFilter<"VideoCategory"> | string
+    description?: StringNullableFilter<"VideoCategory"> | string | null
+    emoji?: StringNullableFilter<"VideoCategory"> | string | null
+    accent?: StringNullableFilter<"VideoCategory"> | string | null
+    position?: IntFilter<"VideoCategory"> | number
+    active?: BoolFilter<"VideoCategory"> | boolean
+    scope?: EnumVideoCategoryScopeFilter<"VideoCategory"> | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFilter<"VideoCategory"> | $Enums.VideoCategoryVisibility
+    companyId?: StringNullableFilter<"VideoCategory"> | string | null
+    createdAt?: DateTimeFilter<"VideoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"VideoCategory"> | Date | string
+    company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    videos?: VideoListRelationFilter
+    releases?: VideoCategoryReleaseListRelationFilter
+  }
+
+  export type VideoCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    emoji?: SortOrderInput | SortOrder
+    accent?: SortOrderInput | SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    scope?: SortOrder
+    visibility?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    videos?: VideoOrderByRelationAggregateInput
+    releases?: VideoCategoryReleaseOrderByRelationAggregateInput
+  }
+
+  export type VideoCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VideoCategoryWhereInput | VideoCategoryWhereInput[]
+    OR?: VideoCategoryWhereInput[]
+    NOT?: VideoCategoryWhereInput | VideoCategoryWhereInput[]
+    title?: StringFilter<"VideoCategory"> | string
+    description?: StringNullableFilter<"VideoCategory"> | string | null
+    emoji?: StringNullableFilter<"VideoCategory"> | string | null
+    accent?: StringNullableFilter<"VideoCategory"> | string | null
+    position?: IntFilter<"VideoCategory"> | number
+    active?: BoolFilter<"VideoCategory"> | boolean
+    scope?: EnumVideoCategoryScopeFilter<"VideoCategory"> | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFilter<"VideoCategory"> | $Enums.VideoCategoryVisibility
+    companyId?: StringNullableFilter<"VideoCategory"> | string | null
+    createdAt?: DateTimeFilter<"VideoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"VideoCategory"> | Date | string
+    company?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    videos?: VideoListRelationFilter
+    releases?: VideoCategoryReleaseListRelationFilter
+  }, "id">
+
+  export type VideoCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    emoji?: SortOrderInput | SortOrder
+    accent?: SortOrderInput | SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    scope?: SortOrder
+    visibility?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VideoCategoryCountOrderByAggregateInput
+    _avg?: VideoCategoryAvgOrderByAggregateInput
+    _max?: VideoCategoryMaxOrderByAggregateInput
+    _min?: VideoCategoryMinOrderByAggregateInput
+    _sum?: VideoCategorySumOrderByAggregateInput
+  }
+
+  export type VideoCategoryScalarWhereWithAggregatesInput = {
+    AND?: VideoCategoryScalarWhereWithAggregatesInput | VideoCategoryScalarWhereWithAggregatesInput[]
+    OR?: VideoCategoryScalarWhereWithAggregatesInput[]
+    NOT?: VideoCategoryScalarWhereWithAggregatesInput | VideoCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VideoCategory"> | string
+    title?: StringWithAggregatesFilter<"VideoCategory"> | string
+    description?: StringNullableWithAggregatesFilter<"VideoCategory"> | string | null
+    emoji?: StringNullableWithAggregatesFilter<"VideoCategory"> | string | null
+    accent?: StringNullableWithAggregatesFilter<"VideoCategory"> | string | null
+    position?: IntWithAggregatesFilter<"VideoCategory"> | number
+    active?: BoolWithAggregatesFilter<"VideoCategory"> | boolean
+    scope?: EnumVideoCategoryScopeWithAggregatesFilter<"VideoCategory"> | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityWithAggregatesFilter<"VideoCategory"> | $Enums.VideoCategoryVisibility
+    companyId?: StringNullableWithAggregatesFilter<"VideoCategory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VideoCategory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VideoCategory"> | Date | string
+  }
+
+  export type VideoCategoryReleaseWhereInput = {
+    AND?: VideoCategoryReleaseWhereInput | VideoCategoryReleaseWhereInput[]
+    OR?: VideoCategoryReleaseWhereInput[]
+    NOT?: VideoCategoryReleaseWhereInput | VideoCategoryReleaseWhereInput[]
+    id?: StringFilter<"VideoCategoryRelease"> | string
+    categoryId?: StringFilter<"VideoCategoryRelease"> | string
+    companyId?: StringFilter<"VideoCategoryRelease"> | string
+    createdAt?: DateTimeFilter<"VideoCategoryRelease"> | Date | string
+    category?: XOR<VideoCategoryRelationFilter, VideoCategoryWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type VideoCategoryReleaseOrderByWithRelationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    category?: VideoCategoryOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type VideoCategoryReleaseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    categoryId_companyId?: VideoCategoryReleaseCategoryIdCompanyIdCompoundUniqueInput
+    AND?: VideoCategoryReleaseWhereInput | VideoCategoryReleaseWhereInput[]
+    OR?: VideoCategoryReleaseWhereInput[]
+    NOT?: VideoCategoryReleaseWhereInput | VideoCategoryReleaseWhereInput[]
+    categoryId?: StringFilter<"VideoCategoryRelease"> | string
+    companyId?: StringFilter<"VideoCategoryRelease"> | string
+    createdAt?: DateTimeFilter<"VideoCategoryRelease"> | Date | string
+    category?: XOR<VideoCategoryRelationFilter, VideoCategoryWhereInput>
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "categoryId_companyId">
+
+  export type VideoCategoryReleaseOrderByWithAggregationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    _count?: VideoCategoryReleaseCountOrderByAggregateInput
+    _max?: VideoCategoryReleaseMaxOrderByAggregateInput
+    _min?: VideoCategoryReleaseMinOrderByAggregateInput
+  }
+
+  export type VideoCategoryReleaseScalarWhereWithAggregatesInput = {
+    AND?: VideoCategoryReleaseScalarWhereWithAggregatesInput | VideoCategoryReleaseScalarWhereWithAggregatesInput[]
+    OR?: VideoCategoryReleaseScalarWhereWithAggregatesInput[]
+    NOT?: VideoCategoryReleaseScalarWhereWithAggregatesInput | VideoCategoryReleaseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VideoCategoryRelease"> | string
+    categoryId?: StringWithAggregatesFilter<"VideoCategoryRelease"> | string
+    companyId?: StringWithAggregatesFilter<"VideoCategoryRelease"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"VideoCategoryRelease"> | Date | string
+  }
+
+  export type VideoWhereInput = {
+    AND?: VideoWhereInput | VideoWhereInput[]
+    OR?: VideoWhereInput[]
+    NOT?: VideoWhereInput | VideoWhereInput[]
+    id?: StringFilter<"Video"> | string
+    categoryId?: StringFilter<"Video"> | string
+    title?: StringFilter<"Video"> | string
+    description?: StringNullableFilter<"Video"> | string | null
+    youtubeId?: StringFilter<"Video"> | string
+    thumbnailUrl?: StringNullableFilter<"Video"> | string | null
+    durationLabel?: StringNullableFilter<"Video"> | string | null
+    position?: IntFilter<"Video"> | number
+    active?: BoolFilter<"Video"> | boolean
+    createdAt?: DateTimeFilter<"Video"> | Date | string
+    updatedAt?: DateTimeFilter<"Video"> | Date | string
+    category?: XOR<VideoCategoryRelationFilter, VideoCategoryWhereInput>
+  }
+
+  export type VideoOrderByWithRelationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    youtubeId?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    durationLabel?: SortOrderInput | SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    category?: VideoCategoryOrderByWithRelationInput
+  }
+
+  export type VideoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VideoWhereInput | VideoWhereInput[]
+    OR?: VideoWhereInput[]
+    NOT?: VideoWhereInput | VideoWhereInput[]
+    categoryId?: StringFilter<"Video"> | string
+    title?: StringFilter<"Video"> | string
+    description?: StringNullableFilter<"Video"> | string | null
+    youtubeId?: StringFilter<"Video"> | string
+    thumbnailUrl?: StringNullableFilter<"Video"> | string | null
+    durationLabel?: StringNullableFilter<"Video"> | string | null
+    position?: IntFilter<"Video"> | number
+    active?: BoolFilter<"Video"> | boolean
+    createdAt?: DateTimeFilter<"Video"> | Date | string
+    updatedAt?: DateTimeFilter<"Video"> | Date | string
+    category?: XOR<VideoCategoryRelationFilter, VideoCategoryWhereInput>
+  }, "id">
+
+  export type VideoOrderByWithAggregationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    youtubeId?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    durationLabel?: SortOrderInput | SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VideoCountOrderByAggregateInput
+    _avg?: VideoAvgOrderByAggregateInput
+    _max?: VideoMaxOrderByAggregateInput
+    _min?: VideoMinOrderByAggregateInput
+    _sum?: VideoSumOrderByAggregateInput
+  }
+
+  export type VideoScalarWhereWithAggregatesInput = {
+    AND?: VideoScalarWhereWithAggregatesInput | VideoScalarWhereWithAggregatesInput[]
+    OR?: VideoScalarWhereWithAggregatesInput[]
+    NOT?: VideoScalarWhereWithAggregatesInput | VideoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Video"> | string
+    categoryId?: StringWithAggregatesFilter<"Video"> | string
+    title?: StringWithAggregatesFilter<"Video"> | string
+    description?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    youtubeId?: StringWithAggregatesFilter<"Video"> | string
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    durationLabel?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    position?: IntWithAggregatesFilter<"Video"> | number
+    active?: BoolWithAggregatesFilter<"Video"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Video"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Video"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -124751,6 +128557,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -124824,6 +128631,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -124855,6 +128664,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -124928,6 +128738,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -124959,6 +128771,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125032,6 +128845,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -125063,6 +128878,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125136,6 +128952,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -125167,6 +128985,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -125205,6 +129024,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -125242,6 +129062,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -134366,6 +138187,262 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VideoCategoryCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutVideoCategoriesInput
+    videos?: VideoCreateNestedManyWithoutCategoryInput
+    releases?: VideoCategoryReleaseCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryUncheckedCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    videos?: VideoUncheckedCreateNestedManyWithoutCategoryInput
+    releases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutVideoCategoriesNestedInput
+    videos?: VideoUpdateManyWithoutCategoryNestedInput
+    releases?: VideoCategoryReleaseUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videos?: VideoUncheckedUpdateManyWithoutCategoryNestedInput
+    releases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryCreateManyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    category: VideoCategoryCreateNestedOneWithoutReleasesInput
+    company: CompanyCreateNestedOneWithoutVideoReleasesInput
+  }
+
+  export type VideoCategoryReleaseUncheckedCreateInput = {
+    id?: string
+    categoryId: string
+    companyId: string
+    createdAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: VideoCategoryUpdateOneRequiredWithoutReleasesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutVideoReleasesNestedInput
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseCreateManyInput = {
+    id?: string
+    categoryId: string
+    companyId: string
+    createdAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: VideoCategoryCreateNestedOneWithoutVideosInput
+  }
+
+  export type VideoUncheckedCreateInput = {
+    id?: string
+    categoryId: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: VideoCategoryUpdateOneRequiredWithoutVideosNestedInput
+  }
+
+  export type VideoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCreateManyInput = {
+    id?: string
+    categoryId: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -135281,6 +139358,18 @@ export namespace Prisma {
     none?: ServiceWhereInput
   }
 
+  export type VideoCategoryListRelationFilter = {
+    every?: VideoCategoryWhereInput
+    some?: VideoCategoryWhereInput
+    none?: VideoCategoryWhereInput
+  }
+
+  export type VideoCategoryReleaseListRelationFilter = {
+    every?: VideoCategoryReleaseWhereInput
+    some?: VideoCategoryReleaseWhereInput
+    none?: VideoCategoryReleaseWhereInput
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -135489,6 +139578,14 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type VideoCategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VideoCategoryReleaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -135518,6 +139615,7 @@ export namespace Prisma {
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
+    moduleVideos?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -135561,6 +139659,7 @@ export namespace Prisma {
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
+    moduleVideos?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -135599,6 +139698,7 @@ export namespace Prisma {
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
+    moduleVideos?: SortOrder
     modoAtendimento?: SortOrder
     aiMonthlyQuota?: SortOrder
     aiUsedThisMonth?: SortOrder
@@ -141418,6 +145518,184 @@ export namespace Prisma {
     amountCents?: SortOrder
   }
 
+  export type EnumVideoCategoryScopeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryScope | EnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryScopeFilter<$PrismaModel> | $Enums.VideoCategoryScope
+  }
+
+  export type EnumVideoCategoryVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryVisibility | EnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel> | $Enums.VideoCategoryVisibility
+  }
+
+  export type VideoListRelationFilter = {
+    every?: VideoWhereInput
+    some?: VideoWhereInput
+    none?: VideoWhereInput
+  }
+
+  export type VideoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VideoCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    emoji?: SortOrder
+    accent?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    scope?: SortOrder
+    visibility?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoCategoryAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type VideoCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    emoji?: SortOrder
+    accent?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    scope?: SortOrder
+    visibility?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    emoji?: SortOrder
+    accent?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    scope?: SortOrder
+    visibility?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoCategorySumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type EnumVideoCategoryScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryScope | EnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryScopeWithAggregatesFilter<$PrismaModel> | $Enums.VideoCategoryScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVideoCategoryScopeFilter<$PrismaModel>
+    _max?: NestedEnumVideoCategoryScopeFilter<$PrismaModel>
+  }
+
+  export type EnumVideoCategoryVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryVisibility | EnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.VideoCategoryVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel>
+  }
+
+  export type VideoCategoryRelationFilter = {
+    is?: VideoCategoryWhereInput
+    isNot?: VideoCategoryWhereInput
+  }
+
+  export type VideoCategoryReleaseCategoryIdCompanyIdCompoundUniqueInput = {
+    categoryId: string
+    companyId: string
+  }
+
+  export type VideoCategoryReleaseCountOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VideoCategoryReleaseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VideoCategoryReleaseMinOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VideoCountOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    youtubeId?: SortOrder
+    thumbnailUrl?: SortOrder
+    durationLabel?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type VideoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    youtubeId?: SortOrder
+    thumbnailUrl?: SortOrder
+    durationLabel?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoMinOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    youtubeId?: SortOrder
+    thumbnailUrl?: SortOrder
+    durationLabel?: SortOrder
+    position?: SortOrder
+    active?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VideoSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -142974,6 +147252,20 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
+  export type VideoCategoryCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput> | VideoCategoryCreateWithoutCompanyInput[] | VideoCategoryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutCompanyInput | VideoCategoryCreateOrConnectWithoutCompanyInput[]
+    createMany?: VideoCategoryCreateManyCompanyInputEnvelope
+    connect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+  }
+
+  export type VideoCategoryReleaseCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput> | VideoCategoryReleaseCreateWithoutCompanyInput[] | VideoCategoryReleaseUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCompanyInput | VideoCategoryReleaseCreateOrConnectWithoutCompanyInput[]
+    createMany?: VideoCategoryReleaseCreateManyCompanyInputEnvelope
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -143431,6 +147723,20 @@ export namespace Prisma {
     connectOrCreate?: ServiceCreateOrConnectWithoutCompanyInput | ServiceCreateOrConnectWithoutCompanyInput[]
     createMany?: ServiceCreateManyCompanyInputEnvelope
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  }
+
+  export type VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput> | VideoCategoryCreateWithoutCompanyInput[] | VideoCategoryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutCompanyInput | VideoCategoryCreateOrConnectWithoutCompanyInput[]
+    createMany?: VideoCategoryCreateManyCompanyInputEnvelope
+    connect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+  }
+
+  export type VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput> | VideoCategoryReleaseCreateWithoutCompanyInput[] | VideoCategoryReleaseUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCompanyInput | VideoCategoryReleaseCreateOrConnectWithoutCompanyInput[]
+    createMany?: VideoCategoryReleaseCreateManyCompanyInputEnvelope
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -144363,6 +148669,34 @@ export namespace Prisma {
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
+  export type VideoCategoryUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput> | VideoCategoryCreateWithoutCompanyInput[] | VideoCategoryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutCompanyInput | VideoCategoryCreateOrConnectWithoutCompanyInput[]
+    upsert?: VideoCategoryUpsertWithWhereUniqueWithoutCompanyInput | VideoCategoryUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VideoCategoryCreateManyCompanyInputEnvelope
+    set?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    disconnect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    delete?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    connect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    update?: VideoCategoryUpdateWithWhereUniqueWithoutCompanyInput | VideoCategoryUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VideoCategoryUpdateManyWithWhereWithoutCompanyInput | VideoCategoryUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VideoCategoryScalarWhereInput | VideoCategoryScalarWhereInput[]
+  }
+
+  export type VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput> | VideoCategoryReleaseCreateWithoutCompanyInput[] | VideoCategoryReleaseUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCompanyInput | VideoCategoryReleaseCreateOrConnectWithoutCompanyInput[]
+    upsert?: VideoCategoryReleaseUpsertWithWhereUniqueWithoutCompanyInput | VideoCategoryReleaseUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VideoCategoryReleaseCreateManyCompanyInputEnvelope
+    set?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    disconnect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    delete?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    update?: VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput | VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput | VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -145273,6 +149607,34 @@ export namespace Prisma {
     update?: ServiceUpdateWithWhereUniqueWithoutCompanyInput | ServiceUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ServiceUpdateManyWithWhereWithoutCompanyInput | ServiceUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  }
+
+  export type VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput> | VideoCategoryCreateWithoutCompanyInput[] | VideoCategoryUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutCompanyInput | VideoCategoryCreateOrConnectWithoutCompanyInput[]
+    upsert?: VideoCategoryUpsertWithWhereUniqueWithoutCompanyInput | VideoCategoryUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VideoCategoryCreateManyCompanyInputEnvelope
+    set?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    disconnect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    delete?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    connect?: VideoCategoryWhereUniqueInput | VideoCategoryWhereUniqueInput[]
+    update?: VideoCategoryUpdateWithWhereUniqueWithoutCompanyInput | VideoCategoryUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VideoCategoryUpdateManyWithWhereWithoutCompanyInput | VideoCategoryUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VideoCategoryScalarWhereInput | VideoCategoryScalarWhereInput[]
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput> | VideoCategoryReleaseCreateWithoutCompanyInput[] | VideoCategoryReleaseUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCompanyInput | VideoCategoryReleaseCreateOrConnectWithoutCompanyInput[]
+    upsert?: VideoCategoryReleaseUpsertWithWhereUniqueWithoutCompanyInput | VideoCategoryReleaseUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: VideoCategoryReleaseCreateManyCompanyInputEnvelope
+    set?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    disconnect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    delete?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    update?: VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput | VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput | VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -150163,6 +154525,156 @@ export namespace Prisma {
     update?: XOR<XOR<ClientServiceUpdateToOneWithWhereWithoutInvoicesInput, ClientServiceUpdateWithoutInvoicesInput>, ClientServiceUncheckedUpdateWithoutInvoicesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutVideoCategoriesInput = {
+    create?: XOR<CompanyCreateWithoutVideoCategoriesInput, CompanyUncheckedCreateWithoutVideoCategoriesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVideoCategoriesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type VideoCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput> | VideoCreateWithoutCategoryInput[] | VideoUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCreateOrConnectWithoutCategoryInput | VideoCreateOrConnectWithoutCategoryInput[]
+    createMany?: VideoCreateManyCategoryInputEnvelope
+    connect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+  }
+
+  export type VideoCategoryReleaseCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput> | VideoCategoryReleaseCreateWithoutCategoryInput[] | VideoCategoryReleaseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCategoryInput | VideoCategoryReleaseCreateOrConnectWithoutCategoryInput[]
+    createMany?: VideoCategoryReleaseCreateManyCategoryInputEnvelope
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+  }
+
+  export type VideoUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput> | VideoCreateWithoutCategoryInput[] | VideoUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCreateOrConnectWithoutCategoryInput | VideoCreateOrConnectWithoutCategoryInput[]
+    createMany?: VideoCreateManyCategoryInputEnvelope
+    connect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+  }
+
+  export type VideoCategoryReleaseUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput> | VideoCategoryReleaseCreateWithoutCategoryInput[] | VideoCategoryReleaseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCategoryInput | VideoCategoryReleaseCreateOrConnectWithoutCategoryInput[]
+    createMany?: VideoCategoryReleaseCreateManyCategoryInputEnvelope
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+  }
+
+  export type EnumVideoCategoryScopeFieldUpdateOperationsInput = {
+    set?: $Enums.VideoCategoryScope
+  }
+
+  export type EnumVideoCategoryVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.VideoCategoryVisibility
+  }
+
+  export type CompanyUpdateOneWithoutVideoCategoriesNestedInput = {
+    create?: XOR<CompanyCreateWithoutVideoCategoriesInput, CompanyUncheckedCreateWithoutVideoCategoriesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVideoCategoriesInput
+    upsert?: CompanyUpsertWithoutVideoCategoriesInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutVideoCategoriesInput, CompanyUpdateWithoutVideoCategoriesInput>, CompanyUncheckedUpdateWithoutVideoCategoriesInput>
+  }
+
+  export type VideoUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput> | VideoCreateWithoutCategoryInput[] | VideoUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCreateOrConnectWithoutCategoryInput | VideoCreateOrConnectWithoutCategoryInput[]
+    upsert?: VideoUpsertWithWhereUniqueWithoutCategoryInput | VideoUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: VideoCreateManyCategoryInputEnvelope
+    set?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    disconnect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    delete?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    connect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    update?: VideoUpdateWithWhereUniqueWithoutCategoryInput | VideoUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: VideoUpdateManyWithWhereWithoutCategoryInput | VideoUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: VideoScalarWhereInput | VideoScalarWhereInput[]
+  }
+
+  export type VideoCategoryReleaseUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput> | VideoCategoryReleaseCreateWithoutCategoryInput[] | VideoCategoryReleaseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCategoryInput | VideoCategoryReleaseCreateOrConnectWithoutCategoryInput[]
+    upsert?: VideoCategoryReleaseUpsertWithWhereUniqueWithoutCategoryInput | VideoCategoryReleaseUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: VideoCategoryReleaseCreateManyCategoryInputEnvelope
+    set?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    disconnect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    delete?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    update?: VideoCategoryReleaseUpdateWithWhereUniqueWithoutCategoryInput | VideoCategoryReleaseUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: VideoCategoryReleaseUpdateManyWithWhereWithoutCategoryInput | VideoCategoryReleaseUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+  }
+
+  export type VideoUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput> | VideoCreateWithoutCategoryInput[] | VideoUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCreateOrConnectWithoutCategoryInput | VideoCreateOrConnectWithoutCategoryInput[]
+    upsert?: VideoUpsertWithWhereUniqueWithoutCategoryInput | VideoUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: VideoCreateManyCategoryInputEnvelope
+    set?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    disconnect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    delete?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    connect?: VideoWhereUniqueInput | VideoWhereUniqueInput[]
+    update?: VideoUpdateWithWhereUniqueWithoutCategoryInput | VideoUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: VideoUpdateManyWithWhereWithoutCategoryInput | VideoUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: VideoScalarWhereInput | VideoScalarWhereInput[]
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput> | VideoCategoryReleaseCreateWithoutCategoryInput[] | VideoCategoryReleaseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCategoryInput | VideoCategoryReleaseCreateOrConnectWithoutCategoryInput[]
+    upsert?: VideoCategoryReleaseUpsertWithWhereUniqueWithoutCategoryInput | VideoCategoryReleaseUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: VideoCategoryReleaseCreateManyCategoryInputEnvelope
+    set?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    disconnect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    delete?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+    update?: VideoCategoryReleaseUpdateWithWhereUniqueWithoutCategoryInput | VideoCategoryReleaseUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: VideoCategoryReleaseUpdateManyWithWhereWithoutCategoryInput | VideoCategoryReleaseUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+  }
+
+  export type VideoCategoryCreateNestedOneWithoutReleasesInput = {
+    create?: XOR<VideoCategoryCreateWithoutReleasesInput, VideoCategoryUncheckedCreateWithoutReleasesInput>
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutReleasesInput
+    connect?: VideoCategoryWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutVideoReleasesInput = {
+    create?: XOR<CompanyCreateWithoutVideoReleasesInput, CompanyUncheckedCreateWithoutVideoReleasesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVideoReleasesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type VideoCategoryUpdateOneRequiredWithoutReleasesNestedInput = {
+    create?: XOR<VideoCategoryCreateWithoutReleasesInput, VideoCategoryUncheckedCreateWithoutReleasesInput>
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutReleasesInput
+    upsert?: VideoCategoryUpsertWithoutReleasesInput
+    connect?: VideoCategoryWhereUniqueInput
+    update?: XOR<XOR<VideoCategoryUpdateToOneWithWhereWithoutReleasesInput, VideoCategoryUpdateWithoutReleasesInput>, VideoCategoryUncheckedUpdateWithoutReleasesInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutVideoReleasesNestedInput = {
+    create?: XOR<CompanyCreateWithoutVideoReleasesInput, CompanyUncheckedCreateWithoutVideoReleasesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutVideoReleasesInput
+    upsert?: CompanyUpsertWithoutVideoReleasesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutVideoReleasesInput, CompanyUpdateWithoutVideoReleasesInput>, CompanyUncheckedUpdateWithoutVideoReleasesInput>
+  }
+
+  export type VideoCategoryCreateNestedOneWithoutVideosInput = {
+    create?: XOR<VideoCategoryCreateWithoutVideosInput, VideoCategoryUncheckedCreateWithoutVideosInput>
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutVideosInput
+    connect?: VideoCategoryWhereUniqueInput
+  }
+
+  export type VideoCategoryUpdateOneRequiredWithoutVideosNestedInput = {
+    create?: XOR<VideoCategoryCreateWithoutVideosInput, VideoCategoryUncheckedCreateWithoutVideosInput>
+    connectOrCreate?: VideoCategoryCreateOrConnectWithoutVideosInput
+    upsert?: VideoCategoryUpsertWithoutVideosInput
+    connect?: VideoCategoryWhereUniqueInput
+    update?: XOR<XOR<VideoCategoryUpdateToOneWithWhereWithoutVideosInput, VideoCategoryUpdateWithoutVideosInput>, VideoCategoryUncheckedUpdateWithoutVideosInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -151238,6 +155750,40 @@ export namespace Prisma {
     _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumVideoCategoryScopeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryScope | EnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryScopeFilter<$PrismaModel> | $Enums.VideoCategoryScope
+  }
+
+  export type NestedEnumVideoCategoryVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryVisibility | EnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel> | $Enums.VideoCategoryVisibility
+  }
+
+  export type NestedEnumVideoCategoryScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryScope | EnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryScope[] | ListEnumVideoCategoryScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryScopeWithAggregatesFilter<$PrismaModel> | $Enums.VideoCategoryScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVideoCategoryScopeFilter<$PrismaModel>
+    _max?: NestedEnumVideoCategoryScopeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVideoCategoryVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VideoCategoryVisibility | EnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VideoCategoryVisibility[] | ListEnumVideoCategoryVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVideoCategoryVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.VideoCategoryVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVideoCategoryVisibilityFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -151267,6 +155813,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151339,6 +155886,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -151370,6 +155919,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -151442,6 +155992,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -152409,6 +156961,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152481,6 +157034,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -152512,6 +157067,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -152584,6 +157140,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -153859,6 +158417,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -153931,6 +158490,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -153962,6 +158523,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -154034,6 +158596,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -154070,6 +158634,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -154142,6 +158707,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -154173,6 +158740,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -154245,6 +158813,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -157022,6 +161592,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VideoCategoryCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    videos?: VideoCreateNestedManyWithoutCategoryInput
+    releases?: VideoCategoryReleaseCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    videos?: VideoUncheckedCreateNestedManyWithoutCategoryInput
+    releases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryCreateOrConnectWithoutCompanyInput = {
+    where: VideoCategoryWhereUniqueInput
+    create: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryCreateManyCompanyInputEnvelope = {
+    data: VideoCategoryCreateManyCompanyInput | VideoCategoryCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VideoCategoryReleaseCreateWithoutCompanyInput = {
+    id?: string
+    createdAt?: Date | string
+    category: VideoCategoryCreateNestedOneWithoutReleasesInput
+  }
+
+  export type VideoCategoryReleaseUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    categoryId: string
+    createdAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseCreateOrConnectWithoutCompanyInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    create: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryReleaseCreateManyCompanyInputEnvelope = {
+    data: VideoCategoryReleaseCreateManyCompanyInput | VideoCategoryReleaseCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -157062,6 +161696,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -157134,6 +161769,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -157165,6 +161802,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -157237,6 +161875,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -157287,6 +161927,7 @@ export namespace Prisma {
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
+    moduleVideos?: BoolFilter<"Company"> | boolean
     modoAtendimento?: EnumModoAtendimentoFilter<"Company"> | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFilter<"Company"> | number
     aiUsedThisMonth?: IntFilter<"Company"> | number
@@ -159370,6 +164011,66 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Service"> | Date | string
   }
 
+  export type VideoCategoryUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: VideoCategoryWhereUniqueInput
+    update: XOR<VideoCategoryUpdateWithoutCompanyInput, VideoCategoryUncheckedUpdateWithoutCompanyInput>
+    create: XOR<VideoCategoryCreateWithoutCompanyInput, VideoCategoryUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: VideoCategoryWhereUniqueInput
+    data: XOR<VideoCategoryUpdateWithoutCompanyInput, VideoCategoryUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryUpdateManyWithWhereWithoutCompanyInput = {
+    where: VideoCategoryScalarWhereInput
+    data: XOR<VideoCategoryUpdateManyMutationInput, VideoCategoryUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type VideoCategoryScalarWhereInput = {
+    AND?: VideoCategoryScalarWhereInput | VideoCategoryScalarWhereInput[]
+    OR?: VideoCategoryScalarWhereInput[]
+    NOT?: VideoCategoryScalarWhereInput | VideoCategoryScalarWhereInput[]
+    id?: StringFilter<"VideoCategory"> | string
+    title?: StringFilter<"VideoCategory"> | string
+    description?: StringNullableFilter<"VideoCategory"> | string | null
+    emoji?: StringNullableFilter<"VideoCategory"> | string | null
+    accent?: StringNullableFilter<"VideoCategory"> | string | null
+    position?: IntFilter<"VideoCategory"> | number
+    active?: BoolFilter<"VideoCategory"> | boolean
+    scope?: EnumVideoCategoryScopeFilter<"VideoCategory"> | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFilter<"VideoCategory"> | $Enums.VideoCategoryVisibility
+    companyId?: StringNullableFilter<"VideoCategory"> | string | null
+    createdAt?: DateTimeFilter<"VideoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"VideoCategory"> | Date | string
+  }
+
+  export type VideoCategoryReleaseUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    update: XOR<VideoCategoryReleaseUpdateWithoutCompanyInput, VideoCategoryReleaseUncheckedUpdateWithoutCompanyInput>
+    create: XOR<VideoCategoryReleaseCreateWithoutCompanyInput, VideoCategoryReleaseUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    data: XOR<VideoCategoryReleaseUpdateWithoutCompanyInput, VideoCategoryReleaseUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput = {
+    where: VideoCategoryReleaseScalarWhereInput
+    data: XOR<VideoCategoryReleaseUpdateManyMutationInput, VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type VideoCategoryReleaseScalarWhereInput = {
+    AND?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+    OR?: VideoCategoryReleaseScalarWhereInput[]
+    NOT?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+    id?: StringFilter<"VideoCategoryRelease"> | string
+    categoryId?: StringFilter<"VideoCategoryRelease"> | string
+    companyId?: StringFilter<"VideoCategoryRelease"> | string
+    createdAt?: DateTimeFilter<"VideoCategoryRelease"> | Date | string
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -159399,6 +164100,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -159471,6 +164173,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -159502,6 +164206,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -159574,6 +164279,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -159865,6 +164572,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -159937,6 +164645,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -159968,6 +164678,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160040,6 +164751,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -160176,6 +164889,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160248,6 +164962,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -160279,6 +164995,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160351,6 +165068,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -160583,6 +165302,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160655,6 +165375,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -160686,6 +165408,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -160758,6 +165481,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -160917,6 +165642,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -160989,6 +165715,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -161020,6 +165748,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -161092,6 +165821,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -161585,6 +166316,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -161657,6 +166389,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -161688,6 +166422,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -161760,6 +166495,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -162174,6 +166911,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162246,6 +166984,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -162277,6 +167017,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162349,6 +167090,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -162416,6 +167159,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -162488,6 +167232,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -162519,6 +167265,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -162591,6 +167338,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -162914,6 +167663,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -162986,6 +167736,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -163017,6 +167769,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -163089,6 +167842,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -163162,6 +167917,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163234,6 +167990,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -163265,6 +168023,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163337,6 +168096,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -163672,6 +168433,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -163744,6 +168506,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -163775,6 +168539,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -163847,6 +168612,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -163920,6 +168687,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -163992,6 +168760,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -164023,6 +168793,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -164095,6 +168866,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -164142,6 +168915,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164214,6 +168988,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -164245,6 +169021,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164317,6 +169094,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -164393,6 +169172,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -164465,6 +169245,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -164496,6 +169278,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -164568,6 +169351,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -164741,6 +169526,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164813,6 +169599,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -164844,6 +169632,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -164916,6 +169705,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -165238,6 +170029,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -165310,6 +170102,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -165341,6 +170135,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -165413,6 +170208,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -165838,6 +170635,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -165910,6 +170708,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -165941,6 +170741,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166013,6 +170814,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -166060,6 +170863,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166132,6 +170936,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -166163,6 +170969,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166235,6 +171042,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -166266,6 +171075,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166338,6 +171148,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -166369,6 +171181,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166441,6 +171254,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -166569,6 +171384,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166641,6 +171457,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -166672,6 +171490,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -166744,6 +171563,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -166862,6 +171683,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -166934,6 +171756,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -166965,6 +171789,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -167037,6 +171862,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -167202,6 +172029,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -167274,6 +172102,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -167305,6 +172135,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -167377,6 +172208,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -167464,6 +172297,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -167536,6 +172370,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -167567,6 +172403,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -167639,6 +172476,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -168009,6 +172848,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168081,6 +172921,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -168112,6 +172954,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168184,6 +173027,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -168568,6 +173413,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -168640,6 +173486,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -168671,6 +173519,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -168743,6 +173592,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -168831,6 +173682,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -168903,6 +173755,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -168934,6 +173788,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -169006,6 +173861,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -169230,6 +174087,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -169302,6 +174160,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -169333,6 +174193,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -169405,6 +174266,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -169844,6 +174707,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -169916,6 +174780,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -169947,6 +174813,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -170019,6 +174886,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -170462,6 +175331,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -170534,6 +175404,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -170565,6 +175437,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -170637,6 +175510,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -170921,6 +175796,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -170993,6 +175869,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -171024,6 +175902,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -171096,6 +175975,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -171127,6 +176008,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171199,6 +176081,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -171230,6 +176114,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171302,6 +176187,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -171419,6 +176306,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171491,6 +176379,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -171522,6 +176412,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -171594,6 +176485,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -171950,6 +176843,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172022,6 +176916,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -172053,6 +176949,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172125,6 +177022,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -172254,6 +177153,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172326,6 +177226,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -172357,6 +177259,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -172429,6 +177332,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -172882,6 +177787,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -172954,6 +177860,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -172985,6 +177893,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -173057,6 +177966,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -173340,6 +178251,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -173412,6 +178324,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -173443,6 +178357,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -173515,6 +178430,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -173691,6 +178608,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -173763,6 +178681,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -173794,6 +178714,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -173866,6 +178787,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -174329,6 +179252,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -174401,6 +179325,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -174432,6 +179358,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -174504,6 +179431,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutProjectsInput = {
@@ -177712,6 +182641,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -177784,6 +182714,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -177815,6 +182747,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -177887,6 +182820,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -177984,6 +182919,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178056,6 +182992,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -178087,6 +183025,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178159,6 +183098,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -178412,6 +183353,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178484,6 +183426,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -178515,6 +183459,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178587,6 +183532,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -178685,6 +183632,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178757,6 +183705,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -178788,6 +183738,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -178860,6 +183811,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSecureNotesInput = {
@@ -178891,6 +183844,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -178963,6 +183917,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
@@ -178994,6 +183950,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179066,6 +184023,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNotesInput = {
@@ -179147,6 +184106,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179219,6 +184179,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
@@ -179250,6 +184212,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179322,6 +184285,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
@@ -179400,6 +184365,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179472,6 +184438,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
@@ -179503,6 +184471,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179575,6 +184544,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
@@ -179659,6 +184630,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179731,6 +184703,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
@@ -179762,6 +184736,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -179834,6 +184809,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -179865,6 +184842,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -179937,6 +184915,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -179968,6 +184948,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180040,6 +185021,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -180087,6 +185070,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180159,6 +185143,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -180190,6 +185176,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180262,6 +185249,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionConfigInput = {
@@ -180293,6 +185282,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180365,6 +185355,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
@@ -180396,6 +185388,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180468,6 +185461,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
@@ -180515,6 +185510,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180587,6 +185583,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
@@ -180618,6 +185616,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -180690,6 +185689,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionLogsInput = {
@@ -180721,6 +185722,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180793,6 +185795,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
@@ -180824,6 +185828,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -180896,6 +185901,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
@@ -180943,6 +185950,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181015,6 +186023,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
@@ -181046,6 +186056,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181118,6 +186129,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutInstagramAccountsInput = {
@@ -181149,6 +186162,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181221,6 +186235,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
@@ -181252,6 +186268,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181324,6 +186341,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
@@ -181515,6 +186534,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181587,6 +186607,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
@@ -181618,6 +186640,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -181690,6 +186713,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -181769,6 +186794,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181841,6 +186867,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
@@ -181872,6 +186900,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -181944,6 +186973,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
@@ -182080,6 +187111,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182152,6 +187184,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
@@ -182183,6 +187217,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182255,6 +187290,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutAutomationsInput = {
@@ -182353,6 +187390,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182425,6 +187463,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
@@ -182456,6 +187496,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -182528,6 +187569,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
@@ -182671,6 +187714,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182743,6 +187787,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
@@ -182774,6 +187820,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -182846,6 +187893,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutRunsInput = {
@@ -182985,6 +188034,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183057,6 +188107,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
@@ -183088,6 +188140,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183160,6 +188213,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgConversationsInput = {
@@ -183282,6 +188337,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183354,6 +188410,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
@@ -183385,6 +188443,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183457,6 +188516,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutConversationsInput = {
@@ -183653,6 +188714,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183725,6 +188787,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
@@ -183756,6 +188820,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -183828,6 +188893,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutFacebookPagesInput = {
@@ -183875,6 +188942,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -183947,6 +189015,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
@@ -183978,6 +189048,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184050,6 +189121,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -184081,6 +189154,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184153,6 +189227,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -184184,6 +189260,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184256,6 +189333,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -184303,6 +189382,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184375,6 +189455,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -184406,6 +189488,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184478,6 +189561,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -184509,6 +189594,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184581,6 +189667,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -184612,6 +189700,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -184684,6 +189773,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -184731,6 +189822,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184803,6 +189895,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -184834,6 +189928,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -184906,6 +190001,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -184937,6 +190034,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185009,6 +190107,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -185040,6 +190140,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185112,6 +190213,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -185159,6 +190262,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185231,6 +190335,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -185262,6 +190368,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185334,6 +190441,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -185365,6 +190474,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185437,6 +190547,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -185468,6 +190580,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185540,6 +190653,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -185587,6 +190702,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185659,6 +190775,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -185690,6 +190808,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -185762,6 +190881,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
@@ -185793,6 +190914,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185865,6 +190987,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
@@ -185896,6 +191020,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -185968,6 +191093,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventDailyInput = {
@@ -186015,6 +191142,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186087,6 +191215,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
@@ -186118,6 +191248,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186190,6 +191321,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingEventConfigInput = {
@@ -186221,6 +191354,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186293,6 +191427,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
@@ -186324,6 +191460,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186396,6 +191533,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingEventConfigInput = {
@@ -186443,6 +191582,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186515,6 +191655,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
@@ -186546,6 +191688,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186618,6 +191761,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -186649,6 +191794,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186721,6 +191867,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -186752,6 +191900,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -186824,6 +191973,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -186871,6 +192022,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -186943,6 +192095,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -186974,6 +192128,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187046,6 +192201,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -187077,6 +192234,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187149,6 +192307,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -187180,6 +192340,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187252,6 +192413,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -187299,6 +192462,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187371,6 +192535,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -187402,6 +192568,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187474,6 +192641,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -187505,6 +192674,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187577,6 +192747,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -187608,6 +192780,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -187680,6 +192853,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -187727,6 +192902,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187799,6 +192975,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -187830,6 +193008,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -187902,6 +193081,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -187933,6 +193114,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188005,6 +193187,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -188036,6 +193220,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188108,6 +193293,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -188155,6 +193342,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188227,6 +193415,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -188258,6 +193448,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188330,6 +193521,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -188361,6 +193554,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188433,6 +193627,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -188464,6 +193660,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188536,6 +193733,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -188583,6 +193782,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188655,6 +193855,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -188686,6 +193888,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -188758,6 +193961,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
@@ -188789,6 +193994,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188861,6 +194067,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
@@ -188892,6 +194100,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -188964,6 +194173,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
@@ -189011,6 +194222,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189083,6 +194295,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
@@ -189114,6 +194328,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189186,6 +194401,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
@@ -189217,6 +194434,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189289,6 +194507,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
@@ -189320,6 +194540,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189392,6 +194613,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdSearchTermDailiesInput = {
@@ -189439,6 +194662,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189511,6 +194735,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
@@ -189542,6 +194768,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189614,6 +194841,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativesInput = {
@@ -189645,6 +194874,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189717,6 +194947,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
@@ -189748,6 +194980,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -189820,6 +195053,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativesInput = {
@@ -189867,6 +195102,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -189939,6 +195175,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
@@ -189970,6 +195208,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190042,6 +195281,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
@@ -190073,6 +195314,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190145,6 +195387,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
@@ -190176,6 +195420,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190248,6 +195493,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativeDailiesInput = {
@@ -190295,6 +195542,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190367,6 +195615,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
@@ -190398,6 +195648,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190470,6 +195721,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -190501,6 +195754,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190573,6 +195827,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -190604,6 +195860,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -190676,6 +195933,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -190723,6 +195982,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190795,6 +196055,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -190826,6 +196088,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -190898,6 +196161,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -190929,6 +196194,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191001,6 +196267,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -191032,6 +196300,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191104,6 +196373,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -191175,6 +196446,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191247,6 +196519,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -191278,6 +196552,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191350,6 +196625,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -191468,6 +196745,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191540,6 +196818,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -191571,6 +196851,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -191643,6 +196924,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -191726,6 +197009,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191798,6 +197082,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -191829,6 +197115,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -191901,6 +197188,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -192029,6 +197318,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192101,6 +197391,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -192132,6 +197424,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192204,6 +197497,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -192369,6 +197664,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192441,6 +197737,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -192472,6 +197770,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -192544,6 +197843,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -192693,6 +197994,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192765,6 +198067,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -192796,6 +198100,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -192868,6 +198173,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -193002,6 +198309,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193074,6 +198382,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -193105,6 +198415,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193177,6 +198488,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -193289,6 +198602,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193361,6 +198675,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -193392,6 +198708,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193464,6 +198781,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -193598,6 +198917,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193670,6 +198990,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -193701,6 +199023,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -193773,6 +199096,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -193885,6 +199210,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -193957,6 +199283,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -193988,6 +199316,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194060,6 +199389,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -194194,6 +199525,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194266,6 +199598,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -194297,6 +199631,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194369,6 +199704,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -194400,6 +199737,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194472,6 +199810,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -194503,6 +199843,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -194575,6 +199916,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -194622,6 +199965,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194694,6 +200038,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -194725,6 +200071,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -194797,6 +200144,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -195164,6 +200513,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195236,6 +200586,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -195267,6 +200619,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195339,6 +200692,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -195386,6 +200741,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195458,6 +200814,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -195489,6 +200847,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195561,6 +200920,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -195592,6 +200953,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195664,6 +201026,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -195695,6 +201059,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -195767,6 +201132,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -195876,6 +201243,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -195948,6 +201316,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -195979,6 +201349,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -196051,6 +201422,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -196125,6 +201498,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -196197,6 +201571,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -196228,6 +201604,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -196300,6 +201677,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -196619,6 +201998,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -196691,6 +202071,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -196722,6 +202104,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -196794,6 +202177,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -197429,6 +202814,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197501,6 +202887,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -197532,6 +202920,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197604,6 +202993,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -197651,6 +203042,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197723,6 +203115,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -197754,6 +203148,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -197826,6 +203221,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBillingEventsInput = {
@@ -197857,6 +203254,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -197929,6 +203327,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -197960,6 +203360,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198032,6 +203433,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -198079,6 +203482,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198151,6 +203555,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -198182,6 +203588,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198254,6 +203661,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAssistantsInput = {
@@ -198285,6 +203694,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198357,6 +203767,8 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
@@ -198388,6 +203800,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -198460,6 +203873,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
@@ -198661,6 +204076,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198733,6 +204149,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
@@ -198764,6 +204182,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -198836,6 +204255,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -199015,6 +204436,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199087,6 +204509,8 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
@@ -199118,6 +204542,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199190,6 +204615,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
@@ -199274,6 +204701,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199346,6 +204774,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
@@ -199377,6 +204807,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199449,6 +204880,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AssistantUpsertWithoutUsageLogsInput = {
@@ -199523,6 +204956,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199595,6 +205029,8 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
@@ -199626,6 +205062,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -199698,6 +205135,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -199893,6 +205332,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -199965,6 +205405,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
@@ -199996,6 +205438,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200068,6 +205511,8 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -200147,6 +205592,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200219,6 +205665,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
@@ -200250,6 +205698,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200322,6 +205771,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientServicesInput = {
@@ -200456,6 +205907,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200528,6 +205980,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
@@ -200559,6 +206013,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -200631,6 +206086,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutClientInstancesInput = {
@@ -200725,6 +206182,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200797,6 +206255,8 @@ export namespace Prisma {
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
@@ -200828,6 +206288,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -200900,6 +206361,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
@@ -200982,6 +206445,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -201054,6 +206518,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
@@ -201085,6 +206551,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -201157,6 +206624,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithoutInvoicesInput = {
@@ -201198,6 +206667,1153 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompanyCreateWithoutVideoCategoriesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutVideoCategoriesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutVideoCategoriesInput, CompanyUncheckedCreateWithoutVideoCategoriesInput>
+  }
+
+  export type VideoCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoCreateOrConnectWithoutCategoryInput = {
+    where: VideoWhereUniqueInput
+    create: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type VideoCreateManyCategoryInputEnvelope = {
+    data: VideoCreateManyCategoryInput | VideoCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VideoCategoryReleaseCreateWithoutCategoryInput = {
+    id?: string
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutVideoReleasesInput
+  }
+
+  export type VideoCategoryReleaseUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    companyId: string
+    createdAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseCreateOrConnectWithoutCategoryInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    create: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type VideoCategoryReleaseCreateManyCategoryInputEnvelope = {
+    data: VideoCategoryReleaseCreateManyCategoryInput | VideoCategoryReleaseCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutVideoCategoriesInput = {
+    update: XOR<CompanyUpdateWithoutVideoCategoriesInput, CompanyUncheckedUpdateWithoutVideoCategoriesInput>
+    create: XOR<CompanyCreateWithoutVideoCategoriesInput, CompanyUncheckedCreateWithoutVideoCategoriesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutVideoCategoriesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutVideoCategoriesInput, CompanyUncheckedUpdateWithoutVideoCategoriesInput>
+  }
+
+  export type CompanyUpdateWithoutVideoCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type VideoUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: VideoWhereUniqueInput
+    update: XOR<VideoUpdateWithoutCategoryInput, VideoUncheckedUpdateWithoutCategoryInput>
+    create: XOR<VideoCreateWithoutCategoryInput, VideoUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type VideoUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: VideoWhereUniqueInput
+    data: XOR<VideoUpdateWithoutCategoryInput, VideoUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type VideoUpdateManyWithWhereWithoutCategoryInput = {
+    where: VideoScalarWhereInput
+    data: XOR<VideoUpdateManyMutationInput, VideoUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type VideoScalarWhereInput = {
+    AND?: VideoScalarWhereInput | VideoScalarWhereInput[]
+    OR?: VideoScalarWhereInput[]
+    NOT?: VideoScalarWhereInput | VideoScalarWhereInput[]
+    id?: StringFilter<"Video"> | string
+    categoryId?: StringFilter<"Video"> | string
+    title?: StringFilter<"Video"> | string
+    description?: StringNullableFilter<"Video"> | string | null
+    youtubeId?: StringFilter<"Video"> | string
+    thumbnailUrl?: StringNullableFilter<"Video"> | string | null
+    durationLabel?: StringNullableFilter<"Video"> | string | null
+    position?: IntFilter<"Video"> | number
+    active?: BoolFilter<"Video"> | boolean
+    createdAt?: DateTimeFilter<"Video"> | Date | string
+    updatedAt?: DateTimeFilter<"Video"> | Date | string
+  }
+
+  export type VideoCategoryReleaseUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    update: XOR<VideoCategoryReleaseUpdateWithoutCategoryInput, VideoCategoryReleaseUncheckedUpdateWithoutCategoryInput>
+    create: XOR<VideoCategoryReleaseCreateWithoutCategoryInput, VideoCategoryReleaseUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type VideoCategoryReleaseUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: VideoCategoryReleaseWhereUniqueInput
+    data: XOR<VideoCategoryReleaseUpdateWithoutCategoryInput, VideoCategoryReleaseUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type VideoCategoryReleaseUpdateManyWithWhereWithoutCategoryInput = {
+    where: VideoCategoryReleaseScalarWhereInput
+    data: XOR<VideoCategoryReleaseUpdateManyMutationInput, VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type VideoCategoryCreateWithoutReleasesInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutVideoCategoriesInput
+    videos?: VideoCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryUncheckedCreateWithoutReleasesInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    videos?: VideoUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryCreateOrConnectWithoutReleasesInput = {
+    where: VideoCategoryWhereUniqueInput
+    create: XOR<VideoCategoryCreateWithoutReleasesInput, VideoCategoryUncheckedCreateWithoutReleasesInput>
+  }
+
+  export type CompanyCreateWithoutVideoReleasesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutVideoReleasesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutVideoReleasesInput, CompanyUncheckedCreateWithoutVideoReleasesInput>
+  }
+
+  export type VideoCategoryUpsertWithoutReleasesInput = {
+    update: XOR<VideoCategoryUpdateWithoutReleasesInput, VideoCategoryUncheckedUpdateWithoutReleasesInput>
+    create: XOR<VideoCategoryCreateWithoutReleasesInput, VideoCategoryUncheckedCreateWithoutReleasesInput>
+    where?: VideoCategoryWhereInput
+  }
+
+  export type VideoCategoryUpdateToOneWithWhereWithoutReleasesInput = {
+    where?: VideoCategoryWhereInput
+    data: XOR<VideoCategoryUpdateWithoutReleasesInput, VideoCategoryUncheckedUpdateWithoutReleasesInput>
+  }
+
+  export type VideoCategoryUpdateWithoutReleasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutVideoCategoriesNestedInput
+    videos?: VideoUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryUncheckedUpdateWithoutReleasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videos?: VideoUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CompanyUpsertWithoutVideoReleasesInput = {
+    update: XOR<CompanyUpdateWithoutVideoReleasesInput, CompanyUncheckedUpdateWithoutVideoReleasesInput>
+    create: XOR<CompanyCreateWithoutVideoReleasesInput, CompanyUncheckedCreateWithoutVideoReleasesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutVideoReleasesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutVideoReleasesInput, CompanyUncheckedUpdateWithoutVideoReleasesInput>
+  }
+
+  export type CompanyUpdateWithoutVideoReleasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type VideoCategoryCreateWithoutVideosInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutVideoCategoriesInput
+    releases?: VideoCategoryReleaseCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryUncheckedCreateWithoutVideosInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    releases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type VideoCategoryCreateOrConnectWithoutVideosInput = {
+    where: VideoCategoryWhereUniqueInput
+    create: XOR<VideoCategoryCreateWithoutVideosInput, VideoCategoryUncheckedCreateWithoutVideosInput>
+  }
+
+  export type VideoCategoryUpsertWithoutVideosInput = {
+    update: XOR<VideoCategoryUpdateWithoutVideosInput, VideoCategoryUncheckedUpdateWithoutVideosInput>
+    create: XOR<VideoCategoryCreateWithoutVideosInput, VideoCategoryUncheckedCreateWithoutVideosInput>
+    where?: VideoCategoryWhereInput
+  }
+
+  export type VideoCategoryUpdateToOneWithWhereWithoutVideosInput = {
+    where?: VideoCategoryWhereInput
+    data: XOR<VideoCategoryUpdateWithoutVideosInput, VideoCategoryUncheckedUpdateWithoutVideosInput>
+  }
+
+  export type VideoCategoryUpdateWithoutVideosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutVideoCategoriesNestedInput
+    releases?: VideoCategoryReleaseUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryUncheckedUpdateWithoutVideosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    releases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -202499,6 +209115,7 @@ export namespace Prisma {
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
     modoAtendimento?: $Enums.ModoAtendimento
     aiMonthlyQuota?: number
     aiUsedThisMonth?: number
@@ -203436,6 +210053,26 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type VideoCategoryCreateManyCompanyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    emoji?: string | null
+    accent?: string | null
+    position?: number
+    active?: boolean
+    scope?: $Enums.VideoCategoryScope
+    visibility?: $Enums.VideoCategoryVisibility
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseCreateManyCompanyInput = {
+    id?: string
+    categoryId: string
+    createdAt?: Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -203465,6 +210102,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -203537,6 +210175,8 @@ export namespace Prisma {
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -203568,6 +210208,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -203640,6 +210281,8 @@ export namespace Prisma {
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -203671,6 +210314,7 @@ export namespace Prisma {
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
     modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
     aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
     aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
@@ -206630,6 +213274,70 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videos?: VideoUpdateManyWithoutCategoryNestedInput
+    releases?: VideoCategoryReleaseUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videos?: VideoUncheckedUpdateManyWithoutCategoryNestedInput
+    releases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type VideoCategoryUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    accent?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    scope?: EnumVideoCategoryScopeFieldUpdateOperationsInput | $Enums.VideoCategoryScope
+    visibility?: EnumVideoCategoryVisibilityFieldUpdateOperationsInput | $Enums.VideoCategoryVisibility
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: VideoCategoryUpdateOneRequiredWithoutReleasesNestedInput
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -210622,6 +217330,82 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VideoCreateManyCategoryInput = {
+    id?: string
+    title: string
+    description?: string | null
+    youtubeId: string
+    thumbnailUrl?: string | null
+    durationLabel?: string | null
+    position?: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VideoCategoryReleaseCreateManyCategoryInput = {
+    id?: string
+    companyId: string
+    createdAt?: Date | string
+  }
+
+  export type VideoUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeId?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    durationLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutVideoReleasesNestedInput
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoCategoryReleaseUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -210743,6 +217527,10 @@ export namespace Prisma {
      * @deprecated Use ClientServiceCountOutputTypeDefaultArgs instead
      */
     export type ClientServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VideoCategoryCountOutputTypeDefaultArgs instead
+     */
+    export type VideoCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoCategoryCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -211119,6 +217907,18 @@ export namespace Prisma {
      * @deprecated Use ClientInvoiceDefaultArgs instead
      */
     export type ClientInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientInvoiceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VideoCategoryDefaultArgs instead
+     */
+    export type VideoCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoCategoryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VideoCategoryReleaseDefaultArgs instead
+     */
+    export type VideoCategoryReleaseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoCategoryReleaseDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VideoDefaultArgs instead
+     */
+    export type VideoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

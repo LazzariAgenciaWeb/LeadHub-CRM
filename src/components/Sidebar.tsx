@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -177,6 +177,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
     { href: "/instagram",     Icon: Camera,       label: "Instagram",     grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
     { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
+    { href: "/videos",        Icon: MonitorPlay,  label: "Vídeos",        grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "videos") && _isAdmin) },
     { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
     { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
     { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
