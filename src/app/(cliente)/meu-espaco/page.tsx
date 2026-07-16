@@ -143,6 +143,18 @@ export default async function MeuEspacoPage() {
       return { id: p.id, name: p.name, color: PROJECT_TINT[i % PROJECT_TINT.length], services: services.filter((s) => s.tasks.length > 0) };
     });
 
+  // Serviços inclusos nos projetos → cards em "Seus produtos contratados" (após os
+  // 3 principais). Cada um leva ao painel do projeto. Exclui o grupo "Outras tarefas".
+  const projServiceCards = projectsData.flatMap((p) =>
+    p.services
+      .filter((s) => !s.id.startsWith("loose:"))
+      .map((s) => {
+        const total = s.tasks.length;
+        const done = s.tasks.filter((t) => t.done).length;
+        return { key: `${p.id}:${s.id}`, projectId: p.id, projectName: p.name, color: p.color, name: s.name, allDone: total > 0 && done === total };
+      }),
+  );
+
   // Itens que dependem de uma AÇÃO do cliente (tarefas "aguardando você") — vão no topo.
   const awaitingItems = projects.flatMap((p) =>
     p.internalTasks
@@ -236,7 +248,7 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
-          {invoicesRaw.length > 0 && (() => {
+          {(() => {
             const openTotal = invoicesRaw.filter((v) => v.status === "ABERTO").reduce((s, v) => s + v.amountCents, 0);
             return (
               <Link href="/meu-espaco/financeiro" className="prod">
@@ -250,6 +262,17 @@ export default async function MeuEspacoPage() {
               </Link>
             );
           })()}
+          {projServiceCards.map((s) => (
+            <Link key={s.key} href={`/meu-espaco/${s.projectId}`} className="prod">
+              <span className="pic" style={{ background: s.color }}>{s.name.charAt(0).toUpperCase()}</span>
+              <div className="pb">
+                <b>{s.name}</b>
+                <span className="psb">{s.projectName}</span>
+                <span className={`st ${s.allDone ? "ok" : "info"}`}>{s.allDone ? "Concluído" : "Em andamento"}</span>
+                <span className="pr">Ver projeto →</span>
+              </div>
+            </Link>
+          ))}
           {contractedRaw.map((c, i) => {
             const st = c.status === "ATIVO" ? { l: "Ativo", t: "ok" } : c.status === "PAUSADO" ? { l: "Pausado", t: "warn" } : { l: "Em implantação", t: "info" };
             const Inner = (
