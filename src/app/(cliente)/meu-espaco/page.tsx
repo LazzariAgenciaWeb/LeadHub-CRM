@@ -6,6 +6,7 @@ import MeuEspacoInteracoes from "./MeuEspacoInteracoes";
 import ProjetosServicos from "./ProjetosServicos";
 import { clientComments } from "@/lib/checklist";
 import { hasModule } from "@/lib/permissions";
+import { assertModule } from "@/lib/billing";
 import { visibleCategoriesWhere } from "@/lib/videos";
 
 export const dynamic = "force-dynamic";
@@ -50,6 +51,9 @@ export default async function MeuEspacoPage() {
         where: { active: true, category: visibleCategoriesWhere(companyId, company.parentCompanyId) },
       })
     : 0;
+  // Relatórios de Marketing: link direto quando o cliente tem a Dashboard de
+  // Marketing liberada (feature do plano — mesmo gate do /relatorios).
+  const showMarketing = (await assertModule(session, "marketing")).ok;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -237,6 +241,17 @@ export default async function MeuEspacoPage() {
               <span className="pr">Acessar o sistema →</span>
             </div>
           </Link>
+          {showMarketing && (
+            <Link href="/relatorios?secao=marketing" className="prod">
+              <span className="pic" style={{ background: "linear-gradient(135deg,#38BDF8,#6366F1)" }}>📊</span>
+              <div className="pb">
+                <b>Relatórios de Marketing</b>
+                <span className="psb">acessos, conversões e canais</span>
+                <span className="st ok">Ativo</span>
+                <span className="pr">Ver relatórios →</span>
+              </div>
+            </Link>
+          )}
           {showVideos && videoCount > 0 && (
             <Link href="/meu-espaco/videos" className="prod vidcard">
               <span className="pic" style={{ background: "linear-gradient(135deg,#EC4899,#8B5CF6)" }}>🎬</span>
