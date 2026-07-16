@@ -236,6 +236,20 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
+          {invoicesRaw.length > 0 && (() => {
+            const openTotal = invoicesRaw.filter((v) => v.status === "ABERTO").reduce((s, v) => s + v.amountCents, 0);
+            return (
+              <Link href="/meu-espaco/financeiro" className="prod">
+                <span className="pic" style={{ background: "linear-gradient(135deg,#10B981,#0D9488)" }}>$</span>
+                <div className="pb">
+                  <b>Financeiro</b>
+                  <span className="psb">notas e cobranças</span>
+                  <span className={`st ${openTotal > 0 ? "warn" : "ok"}`}>{openTotal > 0 ? `Em aberto: ${brl(openTotal)}` : "Em dia"}</span>
+                  <span className="pr">Ver financeiro →</span>
+                </div>
+              </Link>
+            );
+          })()}
           {contractedRaw.map((c, i) => {
             const st = c.status === "ATIVO" ? { l: "Ativo", t: "ok" } : c.status === "PAUSADO" ? { l: "Pausado", t: "warn" } : { l: "Em implantação", t: "info" };
             const Inner = (
@@ -270,45 +284,6 @@ export default async function MeuEspacoPage() {
           )}
         </section>
       )}
-
-      {/* FINANCEIRO (resumo — detalhe em /meu-espaco/financeiro) */}
-      {invoicesRaw.length > 0 && (() => {
-        const abertas = invoicesRaw.filter((v) => v.status === "ABERTO");
-        const openTotal = abertas.reduce((s, v) => s + v.amountCents, 0);
-        return (
-          <section className="row">
-            <div className="rowhead">
-              <h2>Financeiro</h2>
-              {openTotal > 0 && <span className="finopen">Em aberto: {brl(openTotal)}</span>}
-              <Link href="/meu-espaco/financeiro" className="finmore">Ver tudo →</Link>
-            </div>
-            {abertas.length === 0 ? (
-              <div className="finok">Tudo em dia por aqui. 👌</div>
-            ) : (
-              <div className="finlist">
-                {abertas.slice(0, 4).map((v) => {
-                  const overdue = new Date(v.dueDate) < now;
-                  const pill = overdue ? { l: "Atrasado", t: "late" } : { l: "Em aberto", t: "open" };
-                  return (
-                    <div key={v.id} className="finrow">
-                      <div className="finval">{brl(v.amountCents)}</div>
-                      <div className="finmid">
-                        <div className="findesc">{v.description}</div>
-                        <div className="finmeta">Vence {fmtD(new Date(v.dueDate))}</div>
-                      </div>
-                      <span className={`finpill ${pill.t}`}>{pill.l}</span>
-                      <div className="finact">
-                        {v.boletoUrl && <a href={v.boletoUrl} target="_blank" rel="noreferrer" className="finbtn">Pagar boleto</a>}
-                        {v.invoiceUrl && <a href={v.invoiceUrl} target="_blank" rel="noreferrer" className="finlk">Nota fiscal</a>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-        );
-      })()}
 
       <MeuEspacoInteracoes tickets={tickets} services={servicesRaw} stats={ticketStats} />
     </div>

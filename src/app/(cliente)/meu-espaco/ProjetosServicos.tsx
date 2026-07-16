@@ -61,6 +61,18 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
             const done = s.tasks.filter((t) => t.done).length;
             const pct = total ? Math.round((done / total) * 100) : 0;
             const allDone = total > 0 && done === total;
+            // Mostra no máximo 5: não concluídas primeiro (prazo mais próximo),
+            // depois as atualizadas mais recentemente. O card leva ao painel completo.
+            const lastAt = (t: Task) => (t.updates.length ? Math.max(...t.updates.map((u) => new Date(u.at).getTime())) : 0);
+            const sorted = [...s.tasks].sort((a, b) => {
+              if (a.done !== b.done) return a.done ? 1 : -1;
+              const ad = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+              const bd = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+              if (ad !== bd) return ad - bd;
+              return lastAt(b) - lastAt(a);
+            });
+            const visibleTasks = sorted.slice(0, 5);
+            const moreCount = total - visibleTasks.length;
             return (
               <div key={`${p.id}-${s.id}`} className="ps-card">
                 <div className="ps-tags">
@@ -74,7 +86,7 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
                 </div>
                 <div className="ps-hint">👆 toque numa etapa pra ver o descritivo e os anexos</div>
                 <div className="ps-tasks">
-                  {s.tasks.map((t) => {
+                  {visibleTasks.map((t) => {
                     const st = stOf(t);
                     return (
                       <button key={t.id} type="button" className="ps-row" onClick={() => setOpen({ t, p })}>
@@ -86,6 +98,9 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
                     );
                   })}
                 </div>
+                {moreCount > 0 && (
+                  <Link href={`/meu-espaco/${p.id}`} className="ps-mtasks">+{moreCount} etapa{moreCount > 1 ? "s" : ""} — ver todas</Link>
+                )}
                 <Link href={`/meu-espaco/${p.id}`} className="ps-more">Ver detalhes e cronograma →</Link>
               </div>
             );
@@ -167,6 +182,8 @@ const PS_CSS = `
 .ps-badge{font-size:11px;font-weight:700;flex:none}
 .ps-chev{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--ink3);font-size:15px;font-weight:800;flex:none;background:rgba(255,255,255,.06);transition:background .13s,color .13s}
 .ps-row:hover .ps-chev{background:rgba(110,134,255,.28);color:#C9D4FF}
+.ps-mtasks{display:block;margin-top:8px;font-size:12px;font-weight:600;color:var(--ink3);text-decoration:none;text-align:center;padding:6px;border-radius:9px;border:1px dashed var(--line2);transition:color .15s,border-color .15s}
+.ps-mtasks:hover{color:#C9D4FF;border-color:rgba(110,134,255,.4)}
 .ps-more{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:13px;font-weight:700;color:#C9D4FF;background:rgba(110,134,255,.14);border:1px solid rgba(110,134,255,.34);padding:9px 15px;border-radius:11px;text-decoration:none;transition:background .15s,border-color .15s}
 .ps-more:hover{background:rgba(110,134,255,.24);border-color:rgba(110,134,255,.6)}
 .ps-drawer{position:fixed;inset:0;background:rgba(6,7,12,.6);backdrop-filter:blur(3px);z-index:80;display:flex;justify-content:flex-end}
