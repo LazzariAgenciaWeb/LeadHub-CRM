@@ -50,7 +50,7 @@ interface SubscriptionData {
   currentModules?: Partial<CompanyModuleSync>;
 }
 
-const PUBLIC_PLANS: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
+const PUBLIC_PLANS: PlanTier[] = ["FREE", "RELATORIOS", "ESSENCIAL", "MARKETING", "PREMIUM"];
 const INTERNAL_PLANS: PlanTier[] = ["ENTERPRISE"];
 const LEGACY_PLANS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
 const STATUSES: Status[] = ["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "UNPAID", "INCOMPLETE"];
@@ -100,6 +100,7 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "calendario",               label: "Calendário" },
       { key: "gamificacao",              label: "Gamificação" },
       { key: "assistenteIA",             label: "Assistente IA" },
+      { key: "videos",                   label: "Biblioteca de vídeos" },
     ],
   },
   {

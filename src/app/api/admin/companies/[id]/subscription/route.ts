@@ -61,7 +61,7 @@ export async function GET(
         moduleWhatsapp: true, moduleCrm: true, moduleTickets: true,
         moduleAI: true, moduleClickup: true, moduleGamificacao: true,
         moduleProjetos: true, moduleCalendario: true, moduleProspeccao: true,
-        moduleCampanhas: true, moduleLinks: true,
+        moduleCampanhas: true, moduleLinks: true, moduleVideos: true,
         modoAtendimento: true,
       },
     }),
@@ -179,6 +179,7 @@ export async function PATCH(
     moduleProspeccao:  ctx.effectiveFeatures.prospectaIa,
     moduleCampanhas:   ctx.effectiveFeatures.campanhas,
     moduleLinks:       ctx.effectiveFeatures.links,
+    moduleVideos:      ctx.effectiveFeatures.videos,
   };
   if (modoAtendimentoToApply !== undefined) {
     modulesUpdate.modoAtendimento = modoAtendimentoToApply;

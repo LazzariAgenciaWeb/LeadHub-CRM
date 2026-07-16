@@ -347,6 +347,7 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "Calendário", key: "calendario", isFeature: true },
     { label: "Gamificação", key: "gamificacao", isFeature: true },
     { label: "Assistente IA", key: "assistenteIA", isFeature: true },
+    { label: "Biblioteca de vídeos", key: "videos", isFeature: true },
     // 📊 Marketing & Análise
     { label: "Dashboard Marketing", key: "marketingDashboard", isFeature: true },
     { label: "Google Analytics", key: "googleAnalytics", isFeature: true },

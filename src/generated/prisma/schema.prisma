@@ -2473,6 +2473,7 @@ model Subscription {
 enum PlanTier {
   FREE
   TRIAL
+  RELATORIOS
   ESSENCIAL
   MARKETING
   CRESCIMENTO

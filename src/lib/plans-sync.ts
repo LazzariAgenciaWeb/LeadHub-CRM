@@ -37,6 +37,7 @@ export interface CompanyModuleSync {
   moduleProjetos: boolean;
   moduleCalendario: boolean;
   moduleProspeccao: boolean;
+  moduleVideos: boolean;
   modoAtendimento: "VISAO" | "ATENDE";
 }
 
@@ -58,6 +59,7 @@ export function featuresToModules(
     moduleProjetos:    features.projetos,
     moduleCalendario:  features.calendario,
     moduleProspeccao:  features.prospectaIa,
+    moduleVideos:      features.videos,
     modoAtendimento,
   };
 }
@@ -92,7 +94,7 @@ export function diffModuleSync(
   const moduleKeys: (keyof CompanyModuleSync)[] = [
     "moduleWhatsapp", "moduleCrm", "moduleTickets", "moduleAI",
     "moduleClickup", "moduleGamificacao", "moduleProjetos",
-    "moduleCalendario", "moduleProspeccao",
+    "moduleCalendario", "moduleProspeccao", "moduleVideos",
   ];
 
   for (const k of moduleKeys) {
@@ -121,5 +123,6 @@ export const MODULE_LABELS: Record<keyof CompanyModuleSync, string> = {
   moduleProjetos:    "Projetos",
   moduleCalendario:  "Calendário",
   moduleProspeccao:  "Prospecta IA",
+  moduleVideos:      "Biblioteca de vídeos",
   modoAtendimento:   "Modo de atendimento",
 };

@@ -22,6 +22,7 @@
 export type PlanTier =
   | "FREE"
   | "TRIAL"
+  | "RELATORIOS"
   | "ESSENCIAL"
   | "MARKETING"
   | "CRESCIMENTO"
@@ -72,6 +73,8 @@ export interface PlanFeatures {
   campanhas: boolean;
   /** Módulo Links de rastreio (gera tracking links com pixel). */
   links: boolean;
+  /** Biblioteca de vídeos estilo Netflix (material de apoio do cliente). */
+  videos: boolean;
 
   // ── 📊 Marketing & Análise ──
   marketingDashboard: boolean;
@@ -148,6 +151,7 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     assistenteIA: false,
     campanhas: false,
     links: false,
+    videos: false,
     marketingDashboard: false,
     googleAnalytics: false,
     googleSearchConsole: false,
@@ -200,6 +204,51 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       "Modo Visão: equipe responde pelo celular",
       "CRM Leads + Inbox + Calendário",
       "Sem prazo pra acabar",
+    ],
+  },
+
+  // ── RELATORIOS: observabilidade + material de apoio ──
+  // Plano de entrada paga pra quem quer acompanhar o marketing e ter
+  // material do cliente organizado, mas ainda NÃO precisa do atendimento
+  // completo pelo painel. Herda tudo do FREE (WhatsApp Visão + CRM Leads
+  // + Calendário) e adiciona Dashboard Marketing + GBP + Cofre + Vídeos.
+  RELATORIOS: {
+    tier: "RELATORIOS",
+    label: "Relatórios",
+    tagline: "Acompanhe seu marketing sem precisar operar",
+    description: "Dashboard Marketing + Google Meu Negócio + Cofre de senhas + Biblioteca de vídeos. Ideal pra dono do negócio que quer visibilidade.",
+    priceMonthly: 49.90,
+    priceAnnualPerMonth: 39.90,
+    priceAnnualTotal: 478.80,
+    cta: "Assinar Relatórios",
+    limits: {
+      whatsappInstances: 1,
+      atendentes: 2,
+      unidades: 1,
+      leadsPerMonth: 500,
+    },
+    features: feat({
+      // Herda o essencial do FREE
+      whatsapp: true,
+      inboxAvancado: true,
+      crmPipelineLeads: true,
+      calendario: true,
+      // Diferencial: observabilidade Google + material de apoio + segurança
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+      cofreCredenciais: true,
+      videos: true,
+    }),
+    modoAtendimentoDefault: "VISAO",
+    highlights: [
+      "Tudo do plano Free +",
+      "Dashboard Marketing (Analytics + Search Console)",
+      "Google Meu Negócio (avaliações + insights)",
+      "Cofre de credenciais (senhas + 2FA)",
+      "Biblioteca de vídeos (material de apoio)",
+      "Modo Visão: equipe responde pelo celular",
     ],
   },
 
@@ -481,7 +530,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
  * Lançamento: só FREE e ESSENCIAL. Pra publicar MARKETING/PREMIUM, adicione-os
  * de volta aqui — as definições já estão prontas em PLANS.
  */
-export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL"];
+export const PLAN_ORDER: PlanTier[] = ["FREE", "RELATORIOS", "ESSENCIAL"];
 
 /** Planos legados/internos — não aparecem na pricing page. */
 export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
@@ -669,11 +718,12 @@ export function findAddonForFeature(feature: keyof PlanFeatures): AddonDefinitio
 const TIER_RANK: Record<PlanTier, number> = {
   FREE: 0,
   TRIAL: 0,
-  ESSENCIAL: 1,
-  MARKETING: 2,
-  CRESCIMENTO: 2,
-  PREMIUM: 3,
-  ENTERPRISE: 4,
+  RELATORIOS: 1,   // acima do FREE, abaixo do ESSENCIAL
+  ESSENCIAL: 2,
+  MARKETING: 3,
+  CRESCIMENTO: 3,
+  PREMIUM: 4,
+  ENTERPRISE: 5,
 };
 
 export function tierAtLeast(tier: PlanTier, minTier: PlanTier): boolean {

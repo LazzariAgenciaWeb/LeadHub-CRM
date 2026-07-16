@@ -822,6 +822,7 @@ export type IgMsgSource = (typeof IgMsgSource)[keyof typeof IgMsgSource]
 export const PlanTier: {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
+  RELATORIOS: 'RELATORIOS',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',
   CRESCIMENTO: 'CRESCIMENTO',
