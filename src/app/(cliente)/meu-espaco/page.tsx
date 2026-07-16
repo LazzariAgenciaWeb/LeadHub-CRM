@@ -5,6 +5,8 @@ import Link from "next/link";
 import MeuEspacoInteracoes from "./MeuEspacoInteracoes";
 import ProjetosServicos from "./ProjetosServicos";
 import { clientComments } from "@/lib/checklist";
+import { hasModule } from "@/lib/permissions";
+import { visibleCategoriesWhere } from "@/lib/videos";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +41,15 @@ export default async function MeuEspacoPage() {
     select: { name: true, parentCompanyId: true },
   });
   if (!company?.parentCompanyId) redirect("/dashboard");
+
+  // Central de vídeos: só destaca o card quando o módulo está ligado E há
+  // vídeo liberado pra este cliente (evita mandar pra uma tela vazia).
+  const showVideos = hasModule(session, "videos");
+  const videoCount = showVideos
+    ? await prisma.video.count({
+        where: { active: true, category: visibleCategoriesWhere(companyId, company.parentCompanyId) },
+      })
+    : 0;
 
   const projects = await prisma.setorClickupList.findMany({
     where:   { clientCompanyId: companyId, status: { not: "CANCELADO" } },
@@ -214,6 +225,17 @@ export default async function MeuEspacoPage() {
               <span className="pr">Acessar o sistema →</span>
             </div>
           </Link>
+          {showVideos && videoCount > 0 && (
+            <Link href="/meu-espaco/videos" className="prod vidcard">
+              <span className="pic" style={{ background: "linear-gradient(135deg,#EC4899,#8B5CF6)" }}>🎬</span>
+              <div className="pb">
+                <b>Central de vídeos</b>
+                <span className="psb">seus materiais em vídeo</span>
+                <span className="st vid">{videoCount} vídeo{videoCount === 1 ? "" : "s"}</span>
+                <span className="pr">Assistir →</span>
+              </div>
+            </Link>
+          )}
           {contractedRaw.map((c, i) => {
             const st = c.status === "ATIVO" ? { l: "Ativo", t: "ok" } : c.status === "PAUSADO" ? { l: "Pausado", t: "warn" } : { l: "Em implantação", t: "info" };
             const Inner = (
@@ -365,6 +387,12 @@ const CSS = `
 .prod .pb .st.info{color:#B6C4FF;background:rgba(110,134,255,.12);border:1px solid rgba(110,134,255,.28)}
 .prod .pb .st.warn{color:var(--warn);background:rgba(245,181,100,.12);border:1px solid rgba(245,181,100,.30)}
 .prod .pb .pr{font-size:12.5px;font-weight:660;color:#AFC0FF;margin-top:8px}
+/* Card de destaque da Central de vídeos */
+.prod.vidcard{border-color:rgba(236,72,153,.4);background:linear-gradient(180deg,rgba(236,72,153,.12),rgba(139,92,246,.05))}
+.prod.vidcard:hover{border-color:rgba(236,72,153,.6);box-shadow:0 32px 56px -30px rgba(236,72,153,.55)}
+.prod.vidcard .pic{box-shadow:0 8px 20px -8px rgba(236,72,153,.7)}
+.prod.vidcard .pr{color:#F3A9D2}
+.prod .pb .st.vid{color:#F5B7DB;background:rgba(236,72,153,.14);border:1px solid rgba(236,72,153,.34)}
 
 /* Financeiro */
 .finopen{font-size:13px;font-weight:700;color:var(--warn)}

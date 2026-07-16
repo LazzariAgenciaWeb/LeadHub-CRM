@@ -9,14 +9,13 @@ import { LogOut, LayoutGrid } from "lucide-react";
  * cliente (sub-company). Sem o menu da agência: só o espaço dele.
  */
 export default function ClientShell({
-  children, clientName, agencyName, banner, fullSystemAccess = false, showVideos = false,
+  children, clientName, agencyName, banner, fullSystemAccess = false,
 }: {
   children: React.ReactNode;
   clientName: string;
   agencyName: string;
   banner?: React.ReactNode;
   fullSystemAccess?: boolean;
-  showVideos?: boolean;
 }) {
   return (
     <div className="csh">
@@ -29,7 +28,6 @@ export default function ClientShell({
         </Link>
         <nav className="cshnav">
           <Link href="/meu-espaco" className="cshlink">Meu espaço</Link>
-          {showVideos && <Link href="/meu-espaco/videos" className="cshlink">Vídeos</Link>}
           <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
         </nav>
         <div className="cshright">

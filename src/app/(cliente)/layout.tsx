@@ -3,7 +3,6 @@ import ClientShell from "@/components/ClientShell";
 import ImpersonationBanner from "@/components/ImpersonationBanner";
 import IconGradients from "@/components/IconGradients";
 import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
-import { hasModule } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 
 // Área do cliente logado — casca limpa (sem menu da agência). Só empresas
@@ -32,7 +31,7 @@ export default async function ClienteLayout({ children }: { children: React.Reac
   return (
     <>
       <IconGradients />
-      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess} showVideos={hasModule(session, "videos")}>
+      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess}>
         {children}
       </ClientShell>
     </>
