@@ -27,7 +27,9 @@ export default function LoginPage() {
     if (result?.error) {
       setError("Email ou senha incorretos.");
     } else {
-      router.push("/dashboard");
+      // Vai pra "/" e deixa o roteamento central decidir: empresa-cliente
+      // (sub-company) cai no "Meu espaço"; agência/super-admin no dashboard.
+      router.push("/");
     }
   }
 

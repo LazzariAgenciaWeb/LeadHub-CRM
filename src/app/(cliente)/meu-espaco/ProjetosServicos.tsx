@@ -159,7 +159,7 @@ const PS_CSS = `
 .ps-proj .ps-nm{display:block;font-weight:700;font-size:14px;letter-spacing:-.01em}
 .ps-proj .ps-mt{display:block;color:var(--ink3);font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums}
 .ps-clear{align-self:center;border:0;background:transparent;color:var(--info);font-weight:700;font-size:13px;cursor:pointer;padding:0 8px}
-.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px}
 .ps-empty{border:1px dashed var(--line2);border-radius:14px;padding:22px;color:var(--ink3);font-size:13.5px;text-align:center}
 .ps-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));border-radius:16px;padding:16px;box-shadow:0 24px 46px -34px rgba(0,0,0,.9)}
 .ps-tags{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
@@ -204,4 +204,13 @@ const PS_CSS = `
 .ps-uat{color:var(--ink3);font-weight:500;font-variant-numeric:tabular-nums;margin-left:auto}
 .ps-utx{font-size:13.5px;color:var(--ink2);margin-top:3px;line-height:1.5;white-space:pre-wrap}
 .ps-daction{display:inline-block;margin-top:18px;background:#6E86FF;color:#fff;font-weight:700;font-size:13px;padding:10px 16px;border-radius:10px;text-decoration:none}
+/* --- Responsivo mobile (só a home) --- */
+@media (max-width:640px){
+  .ps-projs{gap:8px}
+  .ps-proj{min-width:0;flex:1 1 100%;padding:11px 14px 11px 16px}
+  .ps-card{padding:14px}
+  .ps-badge{font-size:10.5px}
+  .ps-panel{padding:20px 16px}
+  .ps-dtitle{font-size:18px}
+}
 `;

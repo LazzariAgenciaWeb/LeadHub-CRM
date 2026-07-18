@@ -507,4 +507,30 @@ const CSS = `
 .mksend{background:linear-gradient(135deg,#6E86FF,#9B7BFF);color:#fff;border:none;border-radius:10px;font-weight:660;font-size:13.5px;padding:9px 18px;cursor:pointer}
 .mksend:disabled{opacity:.55}
 svg{display:block}
+
+/* ===== Responsivo mobile — só a home; desktop permanece igual ===== */
+@media (max-width:640px){
+  .hero{padding:24px 18px;border-radius:20px}
+  .hero::after{width:220px;height:220px;right:-70px;top:-110px}
+  .hero h1{font-size:23px;max-width:none}
+  .hero p{font-size:13.5px}
+  .awaitbox{padding:12px}
+  .row{margin-top:26px}
+  .rowhead{flex-wrap:wrap;gap:2px 10px;margin-bottom:12px}
+  .rowhead h2{font-size:16px}
+  .rowhead .sub{font-size:12px}
+  .rail{gap:12px}
+  .poster{width:210px}
+  .prod{width:230px}
+  .actcard{padding:14px}
+  .actcard .acic{width:42px;height:42px;font-size:20px}
+  .drow{padding:12px 13px;gap:11px}
+  .finrow{padding:13px 14px}
+  .mkov{padding:12px}
+}
+@media (max-width:400px){
+  .hero h1{font-size:21px}
+  .poster{width:78vw}
+  .prod{width:84vw}
+}
 `;

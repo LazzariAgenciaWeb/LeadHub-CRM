@@ -76,4 +76,17 @@ const CSS = `
 .cshout:hover{color:#fff;border-color:rgba(255,255,255,.22)}
 @media (max-width:520px){.cshoutt{display:none}}
 .cshmain{max-width:1200px;margin:0 auto;padding:24px 22px 70px}
+/* --- Responsivo mobile (só telas pequenas; desktop intacto) --- */
+@media (max-width:680px){
+  .cshbar{gap:10px;padding:10px 14px}
+  .cshnav{gap:2px}
+  .cshlink{padding:6px 10px;font-size:13px}
+  .cshright{gap:8px}
+  .cshsys{padding:7px 9px}
+  .cshmain{padding:18px 14px 60px}
+}
+@media (max-width:520px){
+  .cshbn{display:none}
+  .cshclient{display:none}
+}
 `;
