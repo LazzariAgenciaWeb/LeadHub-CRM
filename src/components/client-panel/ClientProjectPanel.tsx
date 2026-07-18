@@ -70,6 +70,18 @@ const STYLE = `
 .sec .sh{display:flex;align-items:baseline;justify-content:space-between;margin:0 2px 18px}
 .sec h2{margin:0;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
 .sec .sc{font-size:12px;color:var(--ink3)}
+/* Switcher de serviços do projeto (área logada) */
+.svcsw{display:flex;gap:9px;flex-wrap:wrap}
+.svcchip{display:inline-flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink2);
+  padding:9px 14px;border-radius:13px;border:1px solid var(--line);background:var(--card);
+  transition:border-color .15s,background .15s,color .15s;min-width:0}
+.svcchip:hover{border-color:var(--line2);color:var(--ink)}
+.svcchip.on{border-color:var(--accent);background:rgba(110,134,255,.14);color:var(--ink)}
+.svcchip .nm{font-size:13.5px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px}
+.svcchip .pr{font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.svcchip.on .pr{color:#B6C4FF}
+.svcchip.all{justify-content:center;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.svcchip.all.on{color:var(--ink)}
 .journey{position:relative}
 .ch{position:relative;margin-bottom:14px;border-radius:20px;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
@@ -323,7 +335,7 @@ const IconStar  = <svg width="12" height="12" viewBox="0 0 24 24" fill="currentC
 
 export default function ClientProjectPanel({
   name, description, clientName, tasks, materials, serviceSteps = [], embedded = false,
-  projectId = "", token = "",
+  projectId = "", token = "", selectedServiceId,
 }: {
   name: string;
   description: string | null;
@@ -334,9 +346,19 @@ export default function ClientProjectPanel({
   embedded?: boolean;
   projectId?: string;
   token?: string;
+  selectedServiceId?: string;
 }) {
-  const doneCount = tasks.filter((t) => t.done).length;
-  const pct = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
+  // Serviço selecionado (via ?servico= na área logada): mostra só as etapas dele.
+  // Só filtra quando o id casa com um serviceStep real; senão, visão completa.
+  const sel = selectedServiceId && serviceSteps.some((s) => s.id === selectedServiceId) ? selectedServiceId : null;
+  const selName = sel ? (serviceSteps.find((s) => s.id === sel)?.name ?? "Serviço") : null;
+  const viewTasks = sel ? tasks.filter((t) => t.projectServiceId === sel) : tasks;
+  const viewSteps = sel ? serviceSteps.filter((s) => s.id === sel) : serviceSteps;
+  // Switcher só na área logada (tem projectId) e quando há mais de um serviço.
+  const showSwitcher = !!projectId && serviceSteps.length > 1;
+
+  const doneCount = viewTasks.filter((t) => t.done).length;
+  const pct = viewTasks.length ? Math.round((doneCount / viewTasks.length) * 100) : 0;
   const featured = materials.filter((m) => m.featured);
   const looseMats = materials.filter((m) => !m.taskId && !m.featured);
   const ganttMats = materials.filter((m) => !m.featured); // destaques saem do rail/modal (ficam no topo)
@@ -434,13 +456,32 @@ export default function ClientProjectPanel({
           </section>
         )}
 
-        {tasks.length > 0 && (
+        {showSwitcher && (
+          <section className="sec">
+            <div className="sh"><h2>Serviços deste projeto</h2><span className="sc">toque pra trocar</span></div>
+            <div className="svcsw">
+              <a href={`/meu-espaco/${projectId}`} className={`svcchip all${!sel ? " on" : ""}`}>Ver todos</a>
+              {serviceSteps.map((s) => {
+                const st = tasks.filter((t) => t.projectServiceId === s.id);
+                const dn = st.filter((t) => t.done).length;
+                return (
+                  <a key={s.id} href={`/meu-espaco/${projectId}?servico=${s.id}`} className={`svcchip${sel === s.id ? " on" : ""}`}>
+                    <span className="nm">{s.name}</span>
+                    <span className="pr">{st.length ? `${dn}/${st.length} etapas` : "sem etapas"}</span>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {viewTasks.length > 0 && (
           <section className="sec">
             <div className="sh">
-              <h2>Andamento</h2>
-              <span className="sc">{doneCount} de {tasks.length} entregas</span>
+              <h2>{selName ?? "Andamento"}</h2>
+              <span className="sc">{doneCount} de {viewTasks.length} entregas</span>
             </div>
-            <ServiceGantt tasks={tasks} materials={ganttMats} serviceSteps={serviceSteps} projectId={projectId} token={token} />
+            <ServiceGantt tasks={viewTasks} materials={ganttMats} serviceSteps={viewSteps} projectId={projectId} token={token} />
           </section>
         )}
 

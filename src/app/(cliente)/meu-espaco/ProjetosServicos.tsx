@@ -73,6 +73,9 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
             });
             const visibleTasks = sorted.slice(0, 5);
             const moreCount = total - visibleTasks.length;
+            // Abre o painel do projeto já filtrado neste serviço (grupos "Outras
+            // tarefas" não têm serviceStep real, então abrem a visão completa).
+            const svcHref = s.id.startsWith("loose:") ? `/meu-espaco/${p.id}` : `/meu-espaco/${p.id}?servico=${s.id}`;
             return (
               <div key={`${p.id}-${s.id}`} className="ps-card">
                 <div className="ps-tags">
@@ -99,9 +102,9 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
                   })}
                 </div>
                 {moreCount > 0 && (
-                  <Link href={`/meu-espaco/${p.id}`} className="ps-mtasks">+{moreCount} etapa{moreCount > 1 ? "s" : ""} — ver todas</Link>
+                  <Link href={svcHref} className="ps-mtasks">+{moreCount} etapa{moreCount > 1 ? "s" : ""} — ver todas</Link>
                 )}
-                <Link href={`/meu-espaco/${p.id}`} className="ps-more">Ver detalhes e cronograma →</Link>
+                <Link href={svcHref} className="ps-more">Ver detalhes e cronograma →</Link>
               </div>
             );
           }))}

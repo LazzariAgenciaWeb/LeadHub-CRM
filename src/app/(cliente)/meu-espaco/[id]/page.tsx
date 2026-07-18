@@ -7,8 +7,9 @@ import ClientProjectPanel from "@/components/client-panel/ClientProjectPanel";
 
 export const dynamic = "force-dynamic";
 
-export default async function MeuEspacoProjetoPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function MeuEspacoProjetoPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ servico?: string }> }) {
   const { id } = await params;
+  const { servico } = await searchParams;
   const session = await getEffectiveSession();
   const companyId = (session?.user as any)?.companyId as string | undefined;
   const role = (session?.user as any)?.role as string | undefined;
@@ -60,6 +61,7 @@ export default async function MeuEspacoProjetoPage({ params }: { params: Promise
         materials={project.materials}
         serviceSteps={serviceSteps}
         projectId={id}
+        selectedServiceId={servico}
         embedded
       />
     </div>
