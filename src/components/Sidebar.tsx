@@ -187,7 +187,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     {
       key: "gestao", title: "Gestão", Icon: FolderKanban, grad: "pipeline",
       items: [
-        { href: "/empresas",   Icon: Building2,    label: "Empresas",   grad: "empresas",   perm: _isAdmin || can(session, "canViewCompanies") },
+        { href: "/empresas",   Icon: Building2,    label: _isSuperAdmin ? "Empresas" : "Clientes", grad: "empresas", perm: _isAdmin || can(session, "canViewCompanies") },
         { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
         { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
         { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      lockModule: "cofre",      perm: _isAdmin || can(session, "canViewCofre") },
