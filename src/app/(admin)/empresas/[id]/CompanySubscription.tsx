@@ -217,6 +217,25 @@ export default function CompanySubscription({
     }
   }
 
+  // Trocar de plano: recarrega os toggles/limites com os defaults do novo
+  // plano (limpa overrides). Se havia overrides personalizados, confirma antes
+  // pra não apagar sem querer.
+  function handleChangePlan(newPlan: PlanTier) {
+    if (newPlan === plan) return;
+    const hadOverrides =
+      Object.keys(customFeatures).length > 0 ||
+      Object.values(customLimits).some((v) => v !== "" && v != null);
+    if (hadOverrides) {
+      const ok = window.confirm(
+        "Trocar de plano vai recarregar os limites e as features com os padrões do novo plano, descartando os overrides atuais. Continuar?"
+      );
+      if (!ok) return;
+    }
+    setPlan(newPlan);
+    setCustomFeatures({});
+    setCustomLimits({});
+  }
+
   async function handleSave() {
     setSaving(true);
     setFlash(null);
@@ -407,7 +426,7 @@ export default function CompanySubscription({
             <label className="block text-slate-400 text-[11px] font-semibold mb-1">Plano</label>
             <select
               value={plan}
-              onChange={(e) => setPlan(e.target.value as PlanTier)}
+              onChange={(e) => handleChangePlan(e.target.value as PlanTier)}
               className="w-full bg-[#070b14] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white"
             >
               <optgroup label="Públicos">
