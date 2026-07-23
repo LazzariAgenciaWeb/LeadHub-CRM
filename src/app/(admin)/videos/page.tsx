@@ -4,6 +4,7 @@ import { hasModule } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import { videoActorScope } from "@/lib/videos";
 import VideosManager from "./VideosManager";
+import OnboardingVideoCard from "./OnboardingVideoCard";
 
 export const dynamic = "force-dynamic";
 
@@ -65,5 +66,16 @@ export default async function VideosAdminPage() {
     })),
   }));
 
-  return <VideosManager scope={actor.scope} categories={categories} companies={companies} />;
+  // Vídeo de onboarding (global) — card fixo no topo da biblioteca central (super admin).
+  const onboardingUrl =
+    actor.scope === "GLOBAL"
+      ? (await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } }))?.value ?? ""
+      : "";
+
+  return (
+    <>
+      {actor.scope === "GLOBAL" && <OnboardingVideoCard initialUrl={onboardingUrl} />}
+      <VideosManager scope={actor.scope} categories={categories} companies={companies} />
+    </>
+  );
 }
