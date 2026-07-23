@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, Ticket, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -27,9 +27,6 @@ interface Company {
   hasSystemAccess?: boolean;
 }
 
-const CRM_ROUTES = ["/crm/prospeccao", "/crm/leads", "/crm/oportunidades", "/crm"];
-const DASH_ROUTES = ["/dashboard", "/relatorios", "/calendario"];
-
 export default function Sidebar({ session, onClose, isClient = false }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -39,11 +36,13 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   const role = (session.user as any)?.role;
   const _impersonating = (session as any)._impersonating as { companyId: string; companyName: string } | undefined;
 
-  const isCrmActive = CRM_ROUTES.some((r) => pathname.startsWith(r));
-  const [crmOpen, setCrmOpen] = useState(isCrmActive);
-
-  const isDashActive = DASH_ROUTES.some((r) => pathname.startsWith(r));
-  const [dashOpen, setDashOpen] = useState(true); // sempre aberto por padrão
+  // Estado de abertura dos grupos-accordion do menu (Atrair, Atender, Vender…).
+  // Chave = key do grupo. `undefined` => usa o default (grupo abre sozinho se
+  // contém a rota ativa). Toggle do usuário grava explicit true/false.
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  function toggleGroup(key: string, activeDefault: boolean) {
+    setOpenGroups((prev) => ({ ...prev, [key]: !(prev[key] ?? activeDefault) }));
+  }
 
   // Dropdown de troca de empresa / logout
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -129,60 +128,80 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     "Agente";
 
   type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
-  // IMPORTANTE: gates de modulo respeitam o plano da empresa. SUPER_ADMIN bypassa
-  // tudo (admin do sistema); ADMIN da empresa-cliente VE apenas o que o plano libera.
-  // Antes era _isAdmin || X (qualquer admin via tudo) — bug que vazava menu inteiro.
-  const topLinks: SidebarLink[] = ([
-    { href: "/whatsapp",   Icon: MessageSquare, label: "Mensagens",     grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
-    { href: "/instagram/inbox", Icon: Camera,   label: "Inbox Social",   grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
-    { href: "/assistente", Icon: Sparkles,      label: "Assistente IA", grad: "ai",        show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
-    { href: "/empresas",   Icon: Building2,     label: "Empresas",      grad: "empresas",  show: _isAdmin || can(session, "canViewCompanies") },
-  ] satisfies SidebarLink[]).filter((l) => l.show);
-
-  // Links renderizados ACIMA do grupo Dashboard. Planos é atalho comercial
-  // do super admin e fica no topo do menu.
-  const preDashLinks: SidebarLink[] = ([
-    { href: "/planos",     Icon: CreditCard,    label: "Planos",        grad: "planos",    show: _isSuperAdmin },
-  ] satisfies SidebarLink[]).filter((l) => l.show);
-
-  // Sub-itens do grupo Dashboard
-  type DashSubItem = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
-  const dashSubItems: DashSubItem[] = ([
-    { href: "/dashboard",                       Icon: Home,         label: "Visão Geral", grad: "dashboard",  show: true },
-    { href: "/relatorios?secao=marketing",      Icon: BarChart3,    label: "Marketing",   grad: "marketing",  show: _isSuperAdmin || (_isAdmin || can(session, "canViewMarketing")) },
-    { href: "/calendario",                      Icon: CalendarDays, label: "Calendário",  grad: "calendario", show: _isSuperAdmin || (hasModule(session, "calendario") && (_isAdmin || can(session, "canViewCalendario"))) },
-  ] satisfies DashSubItem[]).filter((i) => i.show);
-
-  const showCrm = _isSuperAdmin || (hasModule(session, "crm") && can(session, "canViewLeads"));
-
-  // CRM sub-itens gateados por pipeline individual (super_admin vê tudo).
-  // crmPipeline* vem das features efetivas do plano (plan + customFeatures).
-  const crmSubItems: { href: string; Icon: LucideIcon; label: string; grad: GradientKey }[] = ([
-    { href: "/crm",               Icon: BarChart3, label: "Painel",        grad: "crm" as GradientKey,           show: showCrm },
-    { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao" as GradientKey,    show: _isSuperAdmin || hasModule(session, "crmPipelineProspeccao") },
-    { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads" as GradientKey,         show: _isSuperAdmin || hasModule(session, "crmPipelineLeads") },
-    { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades" as GradientKey, show: _isSuperAdmin || hasModule(session, "crmPipelineOportunidades") },
-  ] as Array<{ href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean }>)
-    .filter((i) => i.show)
-    .map(({ show: _show, ...rest }) => rest);
+  type NavGroup = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: SidebarLink[] };
 
   // Configurações é visível para ADMIN/SUPER_ADMIN ou para CLIENT cujo setor
   // tem canViewConfig OU canManageUsers (sector admin que precisa gerenciar
   // usuários/setores também precisa abrir a tela de configurações).
   const showConfig = _isAdmin || can(session, "canViewConfig") || can(session, "canManageUsers");
 
-  const bottomLinks: SidebarLink[] = ([
-    { href: "/campanhas",     Icon: Megaphone,    label: "Campanhas",     grad: "campanhas",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
-    { href: "/campanhas/email", Icon: Mail,       label: "E-mail Marketing", grad: "email",      show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
-    { href: "/links",         Icon: Link2,        label: "Links",         grad: "links",         show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
-    { href: "/instagram",     Icon: Camera,       label: "Instagram",     grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
-    { href: "/projetos",      Icon: FolderKanban, label: "Projetos",      grad: "pipeline",      show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
-    { href: "/videos",        Icon: MonitorPlay,  label: "Vídeos",        grad: "marketing",     show: _isSuperAdmin || (hasModule(session, "videos") && _isAdmin) },
-    { href: "/chamados",      Icon: LifeBuoy,     label: "Chamados",      grad: "chamados",      show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
-    { href: "/gamificacao",   Icon: Trophy,       label: "Ranking",       grad: "gamificacao",   show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
-    { href: "/cofre",         Icon: Shield,       label: "Cofre",         grad: "cofre",         show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
-    { href: "/configuracoes", Icon: Settings,     label: "Configurações", grad: "configuracoes", show: showConfig },
-  ] satisfies SidebarLink[]).filter((l) => l.show);
+  // "Visão Geral" (home do dashboard) é link fixo no topo — não entra em grupo.
+  const overviewShow = true;
+
+  // IMPORTANTE: gates de modulo respeitam o plano da empresa. SUPER_ADMIN bypassa
+  // tudo (admin do sistema); ADMIN da empresa-cliente VE apenas o que o plano libera.
+  // Antes era _isAdmin || X (qualquer admin via tudo) — bug que vazava menu inteiro.
+  //
+  // Menu organizado por ETAPA da jornada do cliente (padrão RD Station), espelhando
+  // a taxonomia de features do plans.ts: Atrair → Atender → Vender → Analisar,
+  // depois Gestão (operação interna) e Sistema (admin da plataforma). Cada grupo é
+  // um accordion; só renderiza se tiver ≥1 item liberado pelo plano/permissão.
+  const navGroups: NavGroup[] = ([
+    {
+      key: "atrair", title: "Atrair", Icon: Megaphone, grad: "campanhas",
+      items: [
+        { href: "/campanhas",       Icon: Megaphone,   label: "Campanhas",        grad: "campanhas", show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
+        { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
+        { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
+        { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
+        { href: "/videos",          Icon: MonitorPlay, label: "Vídeos",           grad: "marketing", show: _isSuperAdmin || (hasModule(session, "videos") && _isAdmin) },
+      ],
+    },
+    {
+      key: "atender", title: "Atender", Icon: MessageSquare, grad: "whatsapp",
+      items: [
+        { href: "/whatsapp",        Icon: MessageSquare, label: "Mensagens",    grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
+        { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
+        { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
+        { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
+      ],
+    },
+    {
+      key: "vender", title: "Vender", Icon: Briefcase, grad: "crm",
+      items: [
+        { href: "/crm",               Icon: BarChart3, label: "Painel",        grad: "crm",           show: _isSuperAdmin || (hasModule(session, "crm") && can(session, "canViewLeads")) },
+        { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao",    show: _isSuperAdmin || hasModule(session, "crmPipelineProspeccao") },
+        { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads",         show: _isSuperAdmin || hasModule(session, "crmPipelineLeads") },
+        { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades", show: _isSuperAdmin || hasModule(session, "crmPipelineOportunidades") },
+      ],
+    },
+    {
+      key: "analisar", title: "Analisar", Icon: BarChart3, grad: "marketing",
+      items: [
+        { href: "/relatorios?secao=marketing", Icon: BarChart3, label: "Marketing", grad: "marketing",   show: _isSuperAdmin || (_isAdmin || can(session, "canViewMarketing")) },
+        { href: "/gamificacao",                Icon: Trophy,    label: "Ranking",   grad: "gamificacao", show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
+      ],
+    },
+    {
+      key: "gestao", title: "Gestão", Icon: FolderKanban, grad: "pipeline",
+      items: [
+        { href: "/empresas",   Icon: Building2,    label: "Empresas",   grad: "empresas",   show: _isAdmin || can(session, "canViewCompanies") },
+        { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
+        { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", show: _isSuperAdmin || (hasModule(session, "calendario") && (_isAdmin || can(session, "canViewCalendario"))) },
+        { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
+      ],
+    },
+    {
+      key: "sistema", title: "Sistema", Icon: Settings, grad: "configuracoes",
+      items: [
+        { href: "/planos",        Icon: CreditCard, label: "Planos",        grad: "planos",        show: _isSuperAdmin },
+        { href: "/cupons",        Icon: Ticket,     label: "Cupons",        grad: "campanhas",     show: _isSuperAdmin },
+        { href: "/configuracoes", Icon: Settings,   label: "Configurações", grad: "configuracoes", show: showConfig },
+      ],
+    },
+  ] satisfies NavGroup[])
+    .map((g) => ({ ...g, items: g.items.filter((i) => i.show) }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <aside className="w-[220px] min-w-[220px] h-screen bg-[#0f1623] border-r border-[#1e2d45] flex flex-col">
@@ -229,132 +248,62 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
           </Link>
         )}
 
-        {/* Links acima do Dashboard (Planos) */}
-        {preDashLinks.map((link) => (
+        {/* Visão Geral — link fixo no topo (home do dashboard, não é grupo) */}
+        {overviewShow && (
           <Link
-            key={link.href}
-            href={link.href}
+            href="/dashboard"
             className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
-              isActive(link.href)
+              isActive("/dashboard")
                 ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
                 : "text-slate-400 hover:bg-[#161f30] hover:text-white"
             }`}
           >
-            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
-            {link.label}
+            <Home className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("dashboard")} />
+            Visão Geral
           </Link>
-        ))}
-
-        {/* Dashboard — grupo expansível */}
-        {dashSubItems.length > 0 && (
-          <div className="mb-0.5">
-            <button
-              onClick={() => setDashOpen(!dashOpen)}
-              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
-                isDashActive
-                  ? "bg-indigo-500/15 text-white"
-                  : "text-slate-400 hover:bg-[#161f30] hover:text-white"
-              }`}
-            >
-              <Home className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("dashboard")} />
-              <span className="flex-1 text-left">Dashboard</span>
-              <ChevronRight className={`w-3 h-3 transition-transform ${dashOpen ? "rotate-90" : ""}`} />
-            </button>
-
-            {dashOpen && (
-              <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
-                {dashSubItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
-                      // Ativo se path bate (ignora query string)
-                      pathname === item.href.split("?")[0] && (
-                        item.href.includes("?")
-                          ? typeof window !== "undefined" && window.location.search.includes(item.href.split("?")[1])
-                          : true
-                      )
-                        ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
-                        : "text-slate-500 hover:bg-[#161f30] hover:text-white"
-                    }`}
-                  >
-                    <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
         )}
 
-        {/* Links do topo */}
-        {topLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
-              isActive(link.href)
-                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
-                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
-            }`}
-          >
-            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
-            {link.label}
-          </Link>
-        ))}
+        {/* Grupos por etapa da jornada — cada um é um accordion. Abre sozinho
+            quando contém a rota ativa; toggle do usuário sobrescreve. */}
+        {navGroups.map((group) => {
+          const groupActive = group.items.some((i) => isActive(i.href));
+          const isOpen = openGroups[group.key] ?? groupActive;
+          return (
+            <div key={group.key} className="mb-0.5">
+              <button
+                onClick={() => toggleGroup(group.key, groupActive)}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
+                  groupActive
+                    ? "bg-indigo-500/15 text-white"
+                    : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+                }`}
+              >
+                <group.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(group.grad)} />
+                <span className="flex-1 text-left">{group.title}</span>
+                <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? "rotate-90" : ""}`} />
+              </button>
 
-        {/* CRM — grupo expansível */}
-        {showCrm && (
-          <div className="mb-0.5">
-            <button
-              onClick={() => setCrmOpen(!crmOpen)}
-              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium transition-all ${
-                isCrmActive
-                  ? "bg-indigo-500/15 text-white"
-                  : "text-slate-400 hover:bg-[#161f30] hover:text-white"
-              }`}
-            >
-              <Briefcase className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("crm")} />
-              <span className="flex-1 text-left">CRM</span>
-              <ChevronRight className={`w-3 h-3 transition-transform ${crmOpen ? "rotate-90" : ""}`} />
-            </button>
-
-            {crmOpen && (
-              <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
-                {crmSubItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
-                      isActive(item.href)
-                        ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
-                        : "text-slate-500 hover:bg-[#161f30] hover:text-white"
-                    }`}
-                  >
-                    <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Links do fundo */}
-        {bottomLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
-              isActive(link.href)
-                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
-                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
-            }`}
-          >
-            <link.Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(link.grad)} />
-            {link.label}
-          </Link>
-        ))}
+              {isOpen && (
+                <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
+                  {group.items.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+                        isActive(item.href)
+                          ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
+                          : "text-slate-500 hover:bg-[#161f30] hover:text-white"
+                      }`}
+                    >
+                      <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       {/* Footer */}
