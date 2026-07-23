@@ -329,8 +329,22 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Minhas tarefas de hoje — primeira ação do dia do vendedor */}
-      <MyTasksToday />
+      {/* Topo: o que precisa de retorno agora (negociação + atendimento) */}
+      <AtendimentoStats />
+
+      {/* Abaixo, 2 colunas: conversas de WhatsApp aguardando resposta | tarefas de hoje */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        {unansweredConvs.length > 0 ? (
+          <UnansweredWidget initialConvs={unansweredConvs} />
+        ) : (
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
+            <div className="text-3xl mb-2">✅</div>
+            <div className="text-slate-400 text-sm font-medium">Nenhuma conversa aguardando resposta</div>
+            <div className="text-slate-600 text-xs mt-1">Tudo respondido por aqui.</div>
+          </div>
+        )}
+        <MyTasksToday />
+      </div>
 
       {/* Conquistas (medalhões) + ranking lateral — primeira coisa que se vê */}
       <DashboardGamificacaoTop />
@@ -368,14 +382,6 @@ export default async function DashboardPage() {
       {/* Marketing — só se empresa tem o módulo */}
       {marketingEnabled && companyId && (
         <MarketingDashboardWidget companyId={companyId} />
-      )}
-
-      {/* KPIs de Atendimento (Sprint 4) */}
-      <AtendimentoStats />
-
-      {/* Conversas aguardando resposta */}
-      {unansweredConvs.length > 0 && (
-        <UnansweredWidget initialConvs={unansweredConvs} />
       )}
 
       {/* Funil + Gráfico */}
