@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { can } from "@/lib/permissions";
-import { sendMail } from "@/lib/email";
+import { sendAccessEmail } from "@/lib/email";
 
 /** Verifica acesso à empresa alvo (sub-empresa ou própria). */
 async function canAccessCompany(session: any, targetCompanyId: string): Promise<boolean> {
@@ -122,26 +122,11 @@ export async function PATCH(
       userId = newUser.id;
       generatedPassword = tempPassword; // retorna só uma vez
 
-      // Email de boas-vindas com a senha temporária — se SMTP falhar,
-      // admin ainda recebe a senha no response pra repassar manualmente.
-      const portalUrl = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "";
-      const loginLink = portalUrl ? `${portalUrl.replace(/\/$/, "")}/login` : "/login";
+      // Email de boas-vindas com a senha temporária (+ vídeo de introdução, se
+      // configurado). Se SMTP falhar, admin ainda recebe a senha no response
+      // pra repassar manualmente.
       const userDisplay = userName ?? contact.name ?? userEmail.split("@")[0];
-      void sendMail({
-        to: userEmail,
-        subject: "Seu acesso ao LeadHub está pronto",
-        html: `
-          <p>Olá ${userDisplay},</p>
-          <p>Seu acesso ao portal foi liberado. Use as credenciais abaixo para entrar:</p>
-          <ul>
-            <li><strong>Email:</strong> ${userEmail}</li>
-            <li><strong>Senha temporária:</strong> <code>${tempPassword}</code></li>
-          </ul>
-          <p><a href="${loginLink}">Entrar no LeadHub</a></p>
-          <p>Após o primeiro login, troque a senha em Configurações → Minha Empresa.</p>
-        `,
-        text: `Olá ${userDisplay}, seu acesso ao LeadHub está pronto.\nEmail: ${userEmail}\nSenha temporária: ${tempPassword}\nLogin: ${loginLink}`,
-      }).catch((err) => {
+      void sendAccessEmail({ to: userEmail, name: userDisplay, tempPassword }).catch((err) => {
         console.warn("[Contacts] Falha ao enviar email de boas-vindas:", err);
       });
     }

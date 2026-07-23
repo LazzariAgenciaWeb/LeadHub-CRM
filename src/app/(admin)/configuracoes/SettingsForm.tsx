@@ -33,6 +33,11 @@ export default function SettingsForm({
   const [savingEvolution, setSavingEvolution] = useState(false);
   const [savedEvolution, setSavedEvolution] = useState(false);
 
+  // Vídeo de introdução (YouTube) enviado no email de acesso de novos usuários.
+  const [videoUrl, setVideoUrl] = useState(settings.onboarding_video_url ?? "");
+  const [savingVideo, setSavingVideo] = useState(false);
+  const [savedVideo, setSavedVideo] = useState(false);
+
   const [companyForm, setCompanyForm] = useState({
     name: company?.name ?? "",
     phone: company?.phone ?? "",
@@ -58,6 +63,20 @@ export default function SettingsForm({
     setSavingEvolution(false);
     setSavedEvolution(true);
     setTimeout(() => setSavedEvolution(false), 2500);
+    router.refresh();
+  }
+
+  async function saveVideo(e: React.FormEvent) {
+    e.preventDefault();
+    setSavingVideo(true);
+    await fetch("/api/settings", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify([{ key: "onboarding_video_url", value: videoUrl.trim() }]),
+    });
+    setSavingVideo(false);
+    setSavedVideo(true);
+    setTimeout(() => setSavedVideo(false), 2500);
     router.refresh();
   }
 
@@ -121,6 +140,39 @@ export default function SettingsForm({
               className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
             >
               {savedEvolution ? "✓ Salvo!" : savingEvolution ? "Salvando..." : "Salvar integração"}
+            </button>
+          </form>
+        </section>
+      )}
+
+      {/* ── Vídeo de introdução (email de acesso) — só super admin ── */}
+      {isSuperAdmin && showInteg && (
+        <section className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-[#1e2d45]">
+            <h2 className="text-white font-bold text-sm">🎬 Vídeo de introdução (email de acesso)</h2>
+            <p className="text-slate-500 text-xs mt-0.5">
+              Link do YouTube com a introdução ao LeadHub. Enviado no email de boas-vindas quando um novo usuário ganha acesso. Deixe vazio para não incluir vídeo.
+            </p>
+          </div>
+          <form onSubmit={saveVideo} className="p-5 space-y-4">
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                URL do vídeo (YouTube)
+              </label>
+              <input
+                type="url"
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                placeholder="https://youtu.be/xxxxxxxxxxx"
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={savingVideo}
+              className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
+            >
+              {savedVideo ? "✓ Salvo!" : savingVideo ? "Salvando..." : "Salvar vídeo"}
             </button>
           </form>
         </section>

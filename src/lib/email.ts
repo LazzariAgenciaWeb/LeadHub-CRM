@@ -146,6 +146,67 @@ export function resetSmtpCache(): void {
   cached = null;
 }
 
+/**
+ * Email de acesso (boas-vindas) com credenciais + vídeo de introdução opcional.
+ * O vídeo vem do Setting `onboarding_video_url` (Configurações → Vídeo de
+ * introdução, só super admin). Centralizado aqui pra criação de usuário (aba
+ * "Acessos & usuários") e concessão de acesso em Contatos reusarem a mesma peça.
+ */
+export async function sendAccessEmail(opts: {
+  to: string;
+  name: string;
+  tempPassword: string;
+}): Promise<void> {
+  const portalUrl = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXTAUTH_URL ?? "";
+  const loginLink = portalUrl ? `${portalUrl.replace(/\/$/, "")}/login` : "/login";
+
+  const videoRow = await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } });
+  const videoUrl = videoRow?.value?.trim();
+  const videoHtml = videoUrl
+    ? `<tr><td style="padding:4px 28px 20px">
+         <a href="${videoUrl}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">▶ Assista: como usar o LeadHub</a>
+         <p style="margin:8px 0 0;color:#64748b;font-size:12px">Um vídeo rápido de introdução pra você começar.</p>
+       </td></tr>`
+    : "";
+  const videoText = videoUrl ? `\n\nComo usar o LeadHub (vídeo de introdução): ${videoUrl}` : "";
+
+  const html = `<!doctype html>
+<html lang="pt-BR"><body style="margin:0;padding:32px 16px;background:#0a0e16;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="max-width:480px;width:100%;background:#0f1623;border:1px solid #1e2d45;border-radius:16px;overflow:hidden">
+    <tr><td style="padding:24px 28px 8px">
+      <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#a855f7);width:32px;height:32px;border-radius:9px;text-align:center;line-height:32px;color:#fff;font-weight:700">⚡</div>
+      <span style="margin-left:10px;color:#fff;font-weight:700;font-size:16px;vertical-align:middle">LeadHub</span>
+    </td></tr>
+    <tr><td style="padding:8px 28px 0">
+      <h1 style="margin:8px 0 4px;color:#fff;font-size:20px;font-weight:700">Olá, ${opts.name}</h1>
+      <p style="margin:0;color:#94a3b8;font-size:14px;line-height:1.5">Seu acesso ao portal foi liberado. Use as credenciais abaixo para entrar:</p>
+    </td></tr>
+    <tr><td style="padding:20px 28px 8px">
+      <div style="background:#080b12;border:1px solid #1e2d45;border-radius:12px;padding:16px 20px">
+        <p style="margin:0 0 6px;color:#94a3b8;font-size:13px">Email: <strong style="color:#e2e8f0">${opts.to}</strong></p>
+        <p style="margin:0;color:#94a3b8;font-size:13px">Senha temporária: <code style="color:#fff;font-size:14px">${opts.tempPassword}</code></p>
+      </div>
+    </td></tr>
+    <tr><td style="padding:16px 28px 8px">
+      <a href="${loginLink}" style="display:inline-block;background:#fff;color:#0f1623;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px">Entrar no LeadHub</a>
+    </td></tr>
+    ${videoHtml}
+    <tr><td style="padding:0 28px 28px">
+      <p style="margin:0;color:#64748b;font-size:12px;line-height:1.6">Após o primeiro login, troque a senha em Configurações → Meu Perfil.</p>
+    </td></tr>
+  </table>
+</body></html>`;
+
+  const text = `Olá, ${opts.name}, seu acesso ao LeadHub está pronto.
+Email: ${opts.to}
+Senha temporária: ${opts.tempPassword}
+Login: ${loginLink}${videoText}
+
+Após o primeiro login, troque a senha em Configurações → Meu Perfil.`;
+
+  await sendMail({ to: opts.to, subject: "Seu acesso ao LeadHub está pronto", html, text });
+}
+
 /** Template HTML para o código de verificação do cofre. */
 export function vaultChallengeEmail(opts: {
   recipientName: string;

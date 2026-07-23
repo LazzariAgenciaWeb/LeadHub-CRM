@@ -34,6 +34,7 @@ export async function PUT(req: NextRequest) {
     "evolution_api_key",
     "openai_api_key",
     "openai_model",
+    "onboarding_video_url",
   ];
 
   // Chaves per-empresa: clickup_*:<companyId> — liberadas pro ADMIN daquela
