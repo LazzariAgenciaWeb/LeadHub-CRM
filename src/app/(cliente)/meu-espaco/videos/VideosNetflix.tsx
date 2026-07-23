@@ -24,7 +24,7 @@ type Category = {
 const thumb = (v: Video) => v.thumbnailUrl || `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`;
 const embed = (id: string) => `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&autoplay=1`;
 
-export default function VideosNetflix({ categories, clientName }: { categories: Category[]; clientName: string }) {
+export default function VideosNetflix({ categories, clientName, introVideo = null }: { categories: Category[]; clientName: string; introVideo?: Video | null }) {
   const [active, setActive] = useState<Video | null>(null);
 
   // Fecha no ESC + trava o scroll do fundo quando o player está aberto.
@@ -36,7 +36,9 @@ export default function VideosNetflix({ categories, clientName }: { categories: 
     return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
   }, [active]);
 
-  const featured = categories[0]?.videos[0] ?? null;
+  // Vídeo intro (config global) tem prioridade no hero — destaque fixo "Comece por aqui".
+  const featured = introVideo ?? categories[0]?.videos[0] ?? null;
+  const isIntro = !!introVideo && featured?.id === introVideo.id;
 
   return (
     <div className="vid">
@@ -47,7 +49,7 @@ export default function VideosNetflix({ categories, clientName }: { categories: 
       {/* HERO */}
       <section className="hero" style={featured ? { backgroundImage: `linear-gradient(90deg,rgba(6,7,12,.94),rgba(6,7,12,.55) 55%,rgba(6,7,12,.2)),url(${thumb(featured)})` } : undefined}>
         <div className="heroin">
-          <div className="eyebrow">Central de vídeos · {clientName}</div>
+          <div className="eyebrow">{isIntro ? "🚀 Comece por aqui" : `Central de vídeos · ${clientName}`}</div>
           {featured ? (
             <>
               <h1>{featured.title}</h1>
@@ -65,7 +67,7 @@ export default function VideosNetflix({ categories, clientName }: { categories: 
 
       {/* FILEIRAS */}
       {categories.length === 0 ? (
-        <div className="empty">Nenhum vídeo disponível ainda. 🎬</div>
+        !introVideo && <div className="empty">Nenhum vídeo disponível ainda. 🎬</div>
       ) : (
         categories.map((cat) => (
           <section className="row" key={cat.id}>

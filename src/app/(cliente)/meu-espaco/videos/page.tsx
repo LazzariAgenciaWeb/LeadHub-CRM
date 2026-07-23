@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { hasModule } from "@/lib/permissions";
-import { visibleCategoriesWhere } from "@/lib/videos";
+import { visibleCategoriesWhere, parseYouTubeId } from "@/lib/videos";
 import { redirect } from "next/navigation";
 import VideosNetflix from "./VideosNetflix";
 
@@ -50,5 +50,12 @@ export default async function MeuEspacoVideosPage() {
     }))
     .filter((c) => c.videos.length > 0);
 
-  return <VideosNetflix categories={categories} clientName={company.name} />;
+  // Vídeo intro fixo (mesmo setting do email de acesso) — destaque "Comece por aqui".
+  const introRow = await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } });
+  const introId = introRow?.value ? parseYouTubeId(introRow.value) : null;
+  const introVideo = introId
+    ? { id: "intro", title: "Como usar o LeadHub", description: "Vídeo de introdução — comece por aqui.", youtubeId: introId, thumbnailUrl: null, durationLabel: null }
+    : null;
+
+  return <VideosNetflix categories={categories} clientName={company.name} introVideo={introVideo} />;
 }

@@ -51,6 +51,11 @@ export default async function MeuEspacoPage() {
         where: { active: true, category: visibleCategoriesWhere(companyId, company.parentCompanyId) },
       })
     : 0;
+  // Vídeo intro fixo (setting onboarding_video_url) também conta como conteúdo —
+  // o card aparece mesmo sem trilhas, levando ao destaque "Comece por aqui".
+  const hasIntroVideo = showVideos
+    ? !!(await prisma.setting.findUnique({ where: { key: "onboarding_video_url" } }))?.value?.trim()
+    : false;
   // Relatórios de Marketing: link direto quando o cliente tem a Dashboard de
   // Marketing liberada (feature do plano — mesmo gate do /relatorios).
   const showMarketing = (await assertModule(session, "marketing")).ok;
@@ -252,13 +257,13 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
-          {showVideos && videoCount > 0 && (
+          {showVideos && (videoCount > 0 || hasIntroVideo) && (
             <Link href="/meu-espaco/videos" className="prod vidcard">
               <span className="pic" style={{ background: "linear-gradient(135deg,#EC4899,#8B5CF6)" }}>🎬</span>
               <div className="pb">
                 <b>Central de vídeos</b>
                 <span className="psb">seus materiais em vídeo</span>
-                <span className="st vid">{videoCount} vídeo{videoCount === 1 ? "" : "s"}</span>
+                <span className="st vid">{videoCount > 0 ? `${videoCount} vídeo${videoCount === 1 ? "" : "s"}` : "Comece por aqui"}</span>
                 <span className="pr">Assistir →</span>
               </div>
             </Link>
