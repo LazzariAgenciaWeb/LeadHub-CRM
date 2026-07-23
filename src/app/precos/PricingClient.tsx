@@ -327,6 +327,8 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "Atendentes", key: "atendentes", isLimit: true, format: limitFmt },
     { label: "Unidades/Filiais", key: "unidades", isLimit: true, format: limitFmt },
     { label: "Leads/mês", key: "leadsPerMonth", isLimit: true, format: limitFmt },
+    // 🏠 Espaço
+    { label: "Meu Espaço", key: "meuEspaco", isFeature: true },
     // 🟢 Atendimento
     { label: "WhatsApp (Inbox)", key: "whatsapp", isFeature: true },
     // Linha dedicada que mostra se o painel responde (ATENDE) ou só
@@ -336,7 +338,9 @@ function ComparisonTable({ plans }: { plans: PlanDefinition[] }) {
     { label: "Modo de atendimento", key: "modoAtendimentoDefault", isMode: true },
     { label: "Inbox avançado (SLA, transferência)", key: "inboxAvancado", isFeature: true },
     { label: "Ver grupos no inbox", key: "whatsappGrupos", isFeature: true },
+    { label: "Instagram + Facebook na inbox", key: "socialInbox", isFeature: true },
     { label: "Tickets/Chamados", key: "tickets", isFeature: true },
+    { label: "Tarefas internas", key: "tarefasInternas", isFeature: true },
     // 🎯 Vendas & Produtividade
     { label: "CRM — Pipeline Leads", key: "crmPipelineLeads", isFeature: true },
     { label: "CRM — Pipeline Oportunidades", key: "crmPipelineOportunidades", isFeature: true },

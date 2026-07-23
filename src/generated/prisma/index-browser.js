@@ -1790,7 +1790,7 @@ exports.IgMsgSource = exports.$Enums.IgMsgSource = {
 exports.PlanTier = exports.$Enums.PlanTier = {
   FREE: 'FREE',
   TRIAL: 'TRIAL',
-  RELATORIOS: 'RELATORIOS',
+  ORGANIZATION: 'ORGANIZATION',
   ESSENCIAL: 'ESSENCIAL',
   MARKETING: 'MARKETING',
   CRESCIMENTO: 'CRESCIMENTO',

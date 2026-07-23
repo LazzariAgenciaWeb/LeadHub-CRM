@@ -62,6 +62,7 @@ export async function GET(
         moduleAI: true, moduleClickup: true, moduleGamificacao: true,
         moduleProjetos: true, moduleCalendario: true, moduleProspeccao: true,
         moduleCampanhas: true, moduleLinks: true, moduleVideos: true,
+        moduleEmailMarketing: true, moduleInstagram: true, moduleEspacoCliente: true,
         modoAtendimento: true,
       },
     }),
@@ -180,6 +181,9 @@ export async function PATCH(
     moduleCampanhas:   ctx.effectiveFeatures.campanhas,
     moduleLinks:       ctx.effectiveFeatures.links,
     moduleVideos:      ctx.effectiveFeatures.videos,
+    moduleEmailMarketing: ctx.effectiveFeatures.emailMassa,
+    moduleInstagram:      ctx.effectiveFeatures.socialInbox,
+    moduleEspacoCliente:  ctx.effectiveFeatures.meuEspaco,
   };
   if (modoAtendimentoToApply !== undefined) {
     modulesUpdate.modoAtendimento = modoAtendimentoToApply;

@@ -50,7 +50,7 @@ interface SubscriptionData {
   currentModules?: Partial<CompanyModuleSync>;
 }
 
-const PUBLIC_PLANS: PlanTier[] = ["FREE", "RELATORIOS", "ESSENCIAL", "MARKETING", "PREMIUM"];
+const PUBLIC_PLANS: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
 const INTERNAL_PLANS: PlanTier[] = ["ENTERPRISE"];
 const LEGACY_PLANS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
 const STATUSES: Status[] = ["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "UNPAID", "INCOMPLETE"];
@@ -76,6 +76,14 @@ interface FeatureGroup {
 
 const FEATURE_GROUPS: FeatureGroup[] = [
   {
+    id: "espaco",
+    title: "Espaço do Cliente",
+    icon: "🏠",
+    features: [
+      { key: "meuEspaco",        label: "Meu Espaço (home do cliente)" },
+    ],
+  },
+  {
     id: "atendimento",
     title: "Atendimento",
     icon: "🟢",
@@ -83,7 +91,9 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "whatsapp",         label: "WhatsApp (Inbox)" },
       { key: "whatsappGrupos",   label: "Ver grupos no inbox" },
       { key: "inboxAvancado",    label: "Inbox avançado (SLA, transferência)" },
+      { key: "socialInbox",      label: "Instagram + Facebook na inbox" },
       { key: "tickets",          label: "Tickets / Chamados" },
+      { key: "tarefasInternas",  label: "Tarefas internas" },
     ],
   },
   {

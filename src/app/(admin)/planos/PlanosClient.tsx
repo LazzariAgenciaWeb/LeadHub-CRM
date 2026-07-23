@@ -33,7 +33,7 @@ interface Row {
 const PLAN_BADGE: Record<PlanTier, string> = {
   FREE:        "bg-slate-500/15 text-slate-300 border-slate-500/25",
   TRIAL:       "bg-slate-500/15 text-slate-300 border-slate-500/25",
-  RELATORIOS:  "bg-cyan-500/15 text-cyan-300 border-cyan-500/25",
+  ORGANIZATION: "bg-cyan-500/15 text-cyan-300 border-cyan-500/25",
   ESSENCIAL:   "bg-indigo-500/15 text-indigo-300 border-indigo-500/25",
   MARKETING:   "bg-purple-500/15 text-purple-300 border-purple-500/25",
   CRESCIMENTO: "bg-purple-500/15 text-purple-300 border-purple-500/25",
@@ -59,10 +59,13 @@ const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
 
 // Labels legíveis de cada feature (pro catálogo). Espelha PlanFeatures.
 const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
+  meuEspaco: "Meu Espaço",
   whatsapp: "WhatsApp (Inbox)",
   whatsappGrupos: "Ver grupos no inbox",
   inboxAvancado: "Inbox avançado (SLA, transferência)",
+  socialInbox: "Instagram + Facebook na inbox",
   tickets: "Tickets / Chamados",
+  tarefasInternas: "Tarefas internas",
   crmPipelineProspeccao: "CRM — Prospecção",
   crmPipelineLeads: "CRM — Leads",
   crmPipelineOportunidades: "CRM — Oportunidades",

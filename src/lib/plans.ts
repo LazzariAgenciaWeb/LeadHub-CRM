@@ -22,7 +22,7 @@
 export type PlanTier =
   | "FREE"
   | "TRIAL"
-  | "RELATORIOS"
+  | "ORGANIZATION"
   | "ESSENCIAL"
   | "MARKETING"
   | "CRESCIMENTO"
@@ -38,6 +38,10 @@ export interface PlanLimits {
 }
 
 export interface PlanFeatures {
+  // ── 🏠 Espaço do cliente ──
+  /** Home simplificada do cliente: acessos rápidos, chamados, serviços contratados. */
+  meuEspaco: boolean;
+
   // ── 🟢 Atendimento ──
   /** Acesso ao módulo WhatsApp (inbox). Base do produto. */
   whatsapp: boolean;
@@ -45,8 +49,12 @@ export interface PlanFeatures {
   whatsappGrupos: boolean;
   /** SLA, transferência, status avançado, retorno agendado. */
   inboxAvancado: boolean;
+  /** Caixa de entrada unificada de Instagram + Facebook (DMs viram conversa). */
+  socialInbox: boolean;
   /** Módulo de tickets/chamados. */
   tickets: boolean;
+  /** Tarefas internas da equipe (checklist operacional, não é chamado do cliente). */
+  tarefasInternas: boolean;
 
   // ── 🎯 Vendas & Produtividade ──
   /** Pipeline CRM "Prospecção" — base de busca ativa. */
@@ -136,10 +144,13 @@ export interface PlanDefinition {
 // ─── Helper pra construir features com defaults ──────────────────────────────
 function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
   return {
+    meuEspaco: false,
     whatsapp: false,
     whatsappGrupos: false,
     inboxAvancado: false,
+    socialInbox: false,
     tickets: false,
+    tarefasInternas: false,
     crmPipelineProspeccao: false,
     crmPipelineLeads: false,
     crmPipelineOportunidades: false,
@@ -175,92 +186,86 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
 // ─── Catálogo de planos ──────────────────────────────────────────────────────
 
 export const PLANS: Record<PlanTier, PlanDefinition> = {
-  // ── FREE: trial 14 dias (porta de entrada pública) ──
+  // ── FREE: porta de entrada (observabilidade + material) ──
+  // Sem WhatsApp. Cliente entra pra ver o Espaço dele + relatórios de
+  // marketing (ferramentas Google gratuitas) + vídeos de apoio.
   FREE: {
     tier: "FREE",
     label: "Free",
-    tagline: "Grátis pra sempre",
-    description: "Organize seu WhatsApp em modo Visão (somente leitura), sem risco de bloqueio — de graça, sem prazo pra acabar.",
+    tagline: "Seu espaço + relatórios de marketing",
+    description: "Meu Espaço, Dashboard de Marketing (Google Analytics + Search Console) e biblioteca de vídeos — grátis pra sempre, sem cartão.",
     priceMonthly: 0,
     priceAnnualPerMonth: 0,
     priceAnnualTotal: 0,
     cta: "Começar grátis",
     limits: {
-      whatsappInstances: 1,
-      atendentes: 2,
+      whatsappInstances: 0,
+      atendentes: 1,
       unidades: 1,
-      leadsPerMonth: 200,
+      leadsPerMonth: 100,
     },
     features: feat({
-      whatsapp: true,
-      inboxAvancado: true,
-      crmPipelineLeads: true,
-      calendario: true,
-    }),
-    modoAtendimentoDefault: "VISAO",
-    highlights: [
-      "Grátis pra sempre, sem cartão",
-      "1 WhatsApp · 2 atendentes",
-      "Modo Visão: equipe responde pelo celular",
-      "CRM Leads + Inbox + Calendário",
-      "Sem prazo pra acabar",
-    ],
-  },
-
-  // ── RELATORIOS: observabilidade + material de apoio ──
-  // Plano de entrada paga pra quem quer acompanhar o marketing e ter
-  // material do cliente organizado, mas ainda NÃO precisa do atendimento
-  // completo pelo painel. Herda tudo do FREE (WhatsApp Visão + CRM Leads
-  // + Calendário) e adiciona Dashboard Marketing + GBP + Cofre + Vídeos.
-  RELATORIOS: {
-    tier: "RELATORIOS",
-    label: "Relatórios",
-    tagline: "Acompanhe seu marketing sem precisar operar",
-    description: "Dashboard Marketing + Google Meu Negócio + Cofre de senhas + Biblioteca de vídeos. Ideal pra dono do negócio que quer visibilidade.",
-    priceMonthly: 49.90,
-    priceAnnualPerMonth: 39.90,
-    priceAnnualTotal: 478.80,
-    cta: "Assinar Relatórios",
-    limits: {
-      whatsappInstances: 1,
-      atendentes: 2,
-      unidades: 1,
-      leadsPerMonth: 500,
-    },
-    features: feat({
-      // Herda o essencial do FREE
-      whatsapp: true,
-      inboxAvancado: true,
-      crmPipelineLeads: true,
-      calendario: true,
-      // Diferencial: observabilidade Google + material de apoio + segurança
+      meuEspaco: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
-      googleBusinessProfile: true,
-      cofreCredenciais: true,
       videos: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "Tudo do plano Free +",
+      "Grátis pra sempre, sem cartão",
+      "Meu Espaço (acessos + serviços)",
       "Dashboard Marketing (Analytics + Search Console)",
-      "Google Meu Negócio (avaliações + insights)",
-      "Cofre de credenciais (senhas + 2FA)",
-      "Biblioteca de vídeos (material de apoio)",
-      "Modo Visão: equipe responde pelo celular",
+      "Biblioteca de vídeos",
     ],
   },
 
-  // ── ESSENCIAL: entrada paga ──
+  // ── ORGANIZATION: Free + agenda, cofre e Meu Negócio ──
+  ORGANIZATION: {
+    tier: "ORGANIZATION",
+    label: "Organization",
+    tagline: "Organize acessos, agenda e reputação",
+    description: "Tudo do Free + Calendário, Cofre de senhas e Google Meu Negócio (avaliações e insights).",
+    priceMonthly: 49.90,
+    priceAnnualPerMonth: 39.90,
+    priceAnnualTotal: 478.80,
+    cta: "Assinar Organization",
+    limits: {
+      whatsappInstances: 0,
+      atendentes: 2,
+      unidades: 1,
+      leadsPerMonth: 300,
+    },
+    features: feat({
+      // herda Free
+      meuEspaco: true,
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      videos: true,
+      // + diferenciais
+      calendario: true,
+      cofreCredenciais: true,
+      googleBusinessProfile: true,
+    }),
+    modoAtendimentoDefault: "VISAO",
+    highlights: [
+      "Tudo do Free +",
+      "Calendário",
+      "Cofre de credenciais (senhas + 2FA)",
+      "Google Meu Negócio (avaliações + insights)",
+    ],
+  },
+
+  // ── ESSENCIAL: Organization + WhatsApp em leitura + CRM Leads ──
   ESSENCIAL: {
     tier: "ESSENCIAL",
     label: "Essencial",
-    tagline: "Meu WhatsApp organizado",
-    description: "Atendimento ativo pelo painel + CRM com leads e oportunidades.",
-    priceMonthly: 147,
-    priceAnnualPerMonth: 117,
-    priceAnnualTotal: 1404,
+    tagline: "Acompanhe seu WhatsApp e seus leads",
+    description: "Tudo do Organization + WhatsApp em modo leitura (Visão) e CRM com pipeline de Leads.",
+    priceMonthly: 97,
+    priceAnnualPerMonth: 77,
+    priceAnnualTotal: 924,
     cta: "Assinar Essencial",
     limits: {
       whatsappInstances: 1,
@@ -269,128 +274,135 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 1000,
     },
     features: feat({
-      whatsapp: true,
-      whatsappGrupos: true,
-      inboxAvancado: true,
-      tickets: true,
-      crmPipelineLeads: true,
-      links: true,
-      // Ferramentas gratuitas do Google: dashboard + Analytics + Search
-      // Console. GBP (depende de aprovação) e Ads (pago) ficam no
-      // Marketing/Premium. Cliente conecta a própria conta Google via OAuth.
-      // Calendário sai do Essencial pra abrir espaço pro Marketing entrar.
+      // herda Organization
+      meuEspaco: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
+      videos: true,
+      calendario: true,
+      cofreCredenciais: true,
+      googleBusinessProfile: true,
+      // + diferenciais
+      whatsapp: true,
+      inboxAvancado: true,
+      crmPipelineLeads: true,
     }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
-      "1 WhatsApp · 2 atendentes",
-      "WhatsApp em modo Visão (equipe responde pelo celular)",
+      "Tudo do Organization +",
+      "WhatsApp em modo leitura (equipe responde pelo celular)",
       "CRM com pipeline de Leads",
-      "Tickets/Chamados",
-      "Dashboard Marketing + Google Analytics + Search Console",
-      "Links de rastreio",
-      "Suporte por e-mail",
+      "1 WhatsApp · 2 atendentes",
     ],
   },
 
-  // ── MARKETING: meio (mais escolhido) ──
+  // ── MARKETING: Essencial + operação de captação ──
   MARKETING: {
     tier: "MARKETING",
     label: "Marketing",
-    tagline: "Marketing intel sem precisar de agência",
-    description: "Veja seu marketing em tempo real — para o ⭐ plano mais escolhido.",
+    tagline: "Opere seu marketing e feche negócios",
+    description: "Tudo do Essencial + CRM completo, gestão de clientes, links rastreáveis, campanhas e Caixa de Entrada do WhatsApp.",
     priceMonthly: 397,
     priceAnnualPerMonth: 317,
     priceAnnualTotal: 3804,
     popular: true,
     cta: "Assinar Marketing",
     limits: {
-      whatsappInstances: 2,
+      whatsappInstances: 1,
       atendentes: 5,
       unidades: 1,
       leadsPerMonth: 5000,
     },
     features: feat({
-      whatsapp: true,
-      whatsappGrupos: true,
-      inboxAvancado: true,
-      tickets: true,
-      crmPipelineProspeccao: true,
-      crmPipelineLeads: true,
-      crmPipelineOportunidades: true,
-      projetos: true,
-      calendario: true,
-      campanhas: true,
-      links: true,
+      // herda Essencial
+      meuEspaco: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
+      videos: true,
+      calendario: true,
+      cofreCredenciais: true,
+      googleBusinessProfile: true,
+      whatsapp: true,
+      inboxAvancado: true,
+      crmPipelineLeads: true,
+      // + diferenciais
+      whatsappGrupos: true,
+      crmPipelineProspeccao: true,
+      crmPipelineOportunidades: true,
+      multiUnidade: true,   // "Empresas" — cadastro dos clientes do cliente
+      links: true,
+      campanhas: true,
       magicLink: true,
       suportePrioritario: true,
     }),
-    modoAtendimentoDefault: "ATENDE",
+    modoAtendimentoDefault: "ATENDE",   // Caixa de Entrada completa
     highlights: [
-      "2 WhatsApp · 5 atendentes",
+      "Tudo do Essencial +",
+      "WhatsApp com Caixa de Entrada (responde pelo painel)",
       "CRM completo (Prospecção + Leads + Oportunidades)",
-      "Campanhas + Links de rastreio",
-      "Dashboard Marketing + Analytics + Search Console",
-      "Projetos + Tickets",
-      "Magic Link de acesso",
-      "Suporte prioritário (chat)",
+      "Empresas (gerencie seus clientes)",
+      "Campanhas + Links rastreáveis",
+      "1 WhatsApp · 5 atendentes",
+      "Suporte prioritário",
     ],
   },
 
-  // ── PREMIUM: tudo + ilimitado ──
+  // ── PREMIUM: operação completa + equipe ──
   PREMIUM: {
     tier: "PREMIUM",
     label: "Premium",
-    tagline: "Operação completa, ROAS no controle",
-    description: "Tudo do Marketing + Google Ads, Meta Ads, multi-unidade, API.",
-    priceMonthly: 1197,
-    priceAnnualPerMonth: 957,
-    priceAnnualTotal: 11484,
+    tagline: "Operação completa com equipe",
+    description: "Tudo do Marketing + E-mail marketing, Instagram/Facebook na inbox, Projetos, Chamados, Tarefas internas e Gamificação.",
+    priceMonthly: 997,
+    priceAnnualPerMonth: 797,
+    priceAnnualTotal: 9564,
     cta: "Assinar Premium",
     limits: {
-      whatsappInstances: -1,
-      atendentes: -1,
+      whatsappInstances: 2,
+      atendentes: 10,
       unidades: -1,
       leadsPerMonth: -1,
     },
     features: feat({
-      whatsapp: true,
-      whatsappGrupos: true,
-      inboxAvancado: true,
-      tickets: true,
-      crmPipelineProspeccao: true,
-      crmPipelineLeads: true,
-      crmPipelineOportunidades: true,
-      projetos: true,
-      calendario: true,
-      campanhas: true,
-      links: true,
+      // herda Marketing
+      meuEspaco: true,
       marketingDashboard: true,
       googleAnalytics: true,
       googleSearchConsole: true,
+      videos: true,
+      calendario: true,
+      cofreCredenciais: true,
       googleBusinessProfile: true,
-      googleAds: true,
-      metaAds: true,
-      magicLink: true,
-      bannerLgpd: true,
+      whatsapp: true,
+      whatsappGrupos: true,
+      inboxAvancado: true,
+      crmPipelineProspeccao: true,
+      crmPipelineLeads: true,
+      crmPipelineOportunidades: true,
       multiUnidade: true,
-      apiAccess: true,
+      links: true,
+      campanhas: true,
+      magicLink: true,
       suportePrioritario: true,
+      // + diferenciais
+      emailMassa: true,        // e-mail marketing
+      socialInbox: true,       // Instagram + Facebook na inbox
+      projetos: true,
+      tickets: true,           // chamados
+      tarefasInternas: true,
+      gamificacao: true,
+      clickupSync: true,       // integrações
     }),
     modoAtendimentoDefault: "ATENDE",
     highlights: [
-      "WhatsApp e atendentes ilimitados",
-      "Multi-unidade / filiais",
-      "Google Ads + Meta Ads (ROAS cruzado)",
-      "Google Meu Negócio",
-      "API completa",
-      "Banner LGPD pronto",
-      "Onboarding 1:1",
+      "Tudo do Marketing +",
+      "E-mail marketing",
+      "Instagram + Facebook na Caixa de Entrada",
+      "Projetos + Chamados + Tarefas internas",
+      "Gamificação da equipe",
+      "2 WhatsApp · 10 usuários",
     ],
   },
 
@@ -411,10 +423,13 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: -1,
     },
     features: feat({
+      meuEspaco: true,
       whatsapp: true,
       whatsappGrupos: true,
       inboxAvancado: true,
+      socialInbox: true,
       tickets: true,
+      tarefasInternas: true,
       crmPipelineProspeccao: true,
       crmPipelineLeads: true,
       crmPipelineOportunidades: true,
@@ -530,7 +545,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
  * Lançamento: só FREE e ESSENCIAL. Pra publicar MARKETING/PREMIUM, adicione-os
  * de volta aqui — as definições já estão prontas em PLANS.
  */
-export const PLAN_ORDER: PlanTier[] = ["FREE", "RELATORIOS", "ESSENCIAL"];
+export const PLAN_ORDER: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
 
 /** Planos legados/internos — não aparecem na pricing page. */
 export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
@@ -718,7 +733,7 @@ export function findAddonForFeature(feature: keyof PlanFeatures): AddonDefinitio
 const TIER_RANK: Record<PlanTier, number> = {
   FREE: 0,
   TRIAL: 0,
-  RELATORIOS: 1,   // acima do FREE, abaixo do ESSENCIAL
+  ORGANIZATION: 1,   // acima do FREE, abaixo do ESSENCIAL
   ESSENCIAL: 2,
   MARKETING: 3,
   CRESCIMENTO: 3,
