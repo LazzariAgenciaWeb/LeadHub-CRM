@@ -156,7 +156,6 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     lockModule: "links",     perm: _isAdmin || can(session, "canViewLinks") },
         { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", lockModule: "instagram", perm: _isAdmin },
         { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
-        { href: "/videos",          Icon: MonitorPlay, label: "Vídeos",           grad: "marketing", lockModule: "videos",    perm: _isAdmin },
       ],
     },
     {
@@ -190,6 +189,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         { href: "/empresas",   Icon: Building2,    label: _isSuperAdmin ? "Empresas" : "Clientes", grad: "empresas", perm: _isAdmin || can(session, "canViewCompanies") },
         { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
         { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
+        { href: "/videos",     Icon: MonitorPlay,  label: "Vídeos",     grad: "marketing",  lockModule: "videos",     perm: _isAdmin },
         { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      lockModule: "cofre",      perm: _isAdmin || can(session, "canViewCofre") },
       ],
     },
