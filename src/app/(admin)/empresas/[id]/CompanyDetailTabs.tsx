@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import CompanyContacts from "./CompanyContacts";
+import AddSystemUser from "./AddSystemUser";
 import CompanyVault from "./CompanyVault";
 import CompanyIntegrations from "./CompanyIntegrations";
 import CompanyMarketing from "./CompanyMarketing";
@@ -407,9 +408,12 @@ export default function CompanyDetailTabs({
           </div>
         )}
 
-        {/* ── Contatos WhatsApp ── */}
+        {/* ── Acessos & usuários (criar login + Contatos WhatsApp) ── */}
         {activeTab === "contatos" && (
-          <CompanyContacts companyId={companyId} initialContacts={contacts as any} />
+          <div className="p-5">
+            <AddSystemUser companyId={companyId} />
+            <CompanyContacts companyId={companyId} initialContacts={contacts as any} />
+          </div>
         )}
 
         {/* ── Cofre ── */}

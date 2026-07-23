@@ -185,6 +185,28 @@ export default async function EmpresaDetailPage({
     { label: "Vendas",        value: vendas,             color: "text-green-400"  },
   ];
 
+  // Usuários da empresa sem Contato vinculado (órfãos) → viram linhas "virtual:"
+  // na aba Acessos & usuários, pra logins criados direto também aparecerem.
+  const linkedUserIds = new Set(contacts.map((c) => c.userId).filter(Boolean) as string[]);
+  const companyUsers = await prisma.user.findMany({
+    where: { companyId: id, role: { not: "SUPER_ADMIN" } },
+    select: { id: true, name: true, email: true, role: true, createdAt: true },
+  });
+  const orphanUserRows = companyUsers
+    .filter((u) => !linkedUserIds.has(u.id))
+    .map((u) => ({
+      id: `virtual:${u.id}`,
+      name: u.name,
+      phone: "",
+      isGroup: false,
+      role: "CONTACT",
+      hasAccess: true,
+      notes: null,
+      createdAt: u.createdAt.toISOString(),
+      user: { id: u.id, name: u.name, email: u.email, role: u.role },
+    }));
+  const contactsWithUsers = [...contacts, ...orphanUserRows];
+
   return (
     <div className="p-6">
       {/* Breadcrumb */}
@@ -403,7 +425,7 @@ export default async function EmpresaDetailPage({
           recentOportunidades={recentOportunidades as any}
           oportunidadesCount={oportunidadesCount}
           recentChamados={recentChamados as any}
-          contacts={contacts as any}
+          contacts={contactsWithUsers as any}
           isSuperAdmin={isSuperAdmin}
         />
       </div>
