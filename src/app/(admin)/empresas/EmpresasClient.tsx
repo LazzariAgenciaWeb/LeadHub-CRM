@@ -11,6 +11,7 @@ interface Company {
   segment: string | null;
   status: string;
   hasSystemAccess: boolean;
+  fullSystemAccess: boolean;
   moduleWhatsapp: boolean;
   moduleCrm: boolean;
   moduleTickets: boolean;
@@ -37,8 +38,11 @@ function setPinned(ids: string[]) {
 export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyName }: Props) {
   const router = useRouter();
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
-  const [filter, setFilter] = useState<"all" | "access" | "crm" | "root" | "sub">("all");
+  // Filtros por NÍVEL DE ACESSO (o que a empresa tem) + HIERARQUIA (quem gerencia).
+  const [filter, setFilter] = useState<"all" | "sistema" | "espaco" | "crm" | "diretas" | "agencias">("all");
   const [search, setSearch] = useState("");
+  // Menu "⋯" por cartão (Transferir / Excluir ficam aqui em vez de soltos).
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
 
   // Modal de transferência: mover empresa para outra empresa-mãe (parentCompanyId)
   const [transferTarget, setTransferTarget] = useState<Company | null>(null);
@@ -92,11 +96,13 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
   }
 
   const filtered = companies.filter(c => {
-    // Filtro de tipo
-    if (filter === "access") { if (!c.hasSystemAccess) return false; }
-    else if (filter === "crm") { if (c.hasSystemAccess) return false; }
-    else if (filter === "root") { if (c.parentCompanyId !== null) return false; }
-    else if (filter === "sub")  { if (c.parentCompanyId === null) return false; }
+    // Nível de acesso: sistema completo | só Meu Espaço (login sem sistema) | só CRM.
+    if (filter === "sistema")       { if (!(c.hasSystemAccess && c.fullSystemAccess)) return false; }
+    else if (filter === "espaco")   { if (!(c.hasSystemAccess && !c.fullSystemAccess)) return false; }
+    else if (filter === "crm")      { if (c.hasSystemAccess) return false; }
+    // Hierarquia: diretas (sem mãe, geridas por você) | de agências (sub-empresas).
+    else if (filter === "diretas")  { if (c.parentCompanyId !== null) return false; }
+    else if (filter === "agencias") { if (c.parentCompanyId === null) return false; }
 
     // Busca por nome ou empresa-mãe
     if (search.trim()) {
@@ -116,10 +122,11 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
     return ap - bp;
   });
 
-  const countAccess = companies.filter(c => c.hasSystemAccess).length;
-  const countCrm    = companies.filter(c => !c.hasSystemAccess).length;
-  const countRoot   = companies.filter(c => c.parentCompanyId === null).length;
-  const countSub    = companies.filter(c => c.parentCompanyId !== null).length;
+  const countSistema  = companies.filter(c => c.hasSystemAccess && c.fullSystemAccess).length;
+  const countEspaco   = companies.filter(c => c.hasSystemAccess && !c.fullSystemAccess).length;
+  const countCrm      = companies.filter(c => !c.hasSystemAccess).length;
+  const countDiretas  = companies.filter(c => c.parentCompanyId === null).length;
+  const countAgencias = companies.filter(c => c.parentCompanyId !== null).length;
 
   return (
     <div className="p-6">
@@ -159,17 +166,41 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
         />
 
         {isSuperAdmin && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Eixo 1: por nível de acesso (o que a empresa tem) */}
             {([
-              ["all",    `Todas (${companies.length})`],
-              ["root",   `🏢 Raiz (${countRoot})`],
-              ["sub",    `↳ Sub-empresas (${countSub})`],
-              ["access", `🔐 Com acesso (${countAccess})`],
-              ["crm",    `📋 Só CRM (${countCrm})`],
+              ["all",     `Todas (${companies.length})`],
+              ["sistema", `💻 Com sistema (${countSistema})`],
+              ["espaco",  `🏠 Só Meu Espaço (${countEspaco})`],
+              ["crm",     `📋 Só CRM (${countCrm})`],
             ] as const).map(([f, label]) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                  filter === f
+                    ? "bg-indigo-500/20 border-indigo-500/50 text-indigo-300"
+                    : "border-[#1e2d45] text-slate-500 hover:text-slate-300 hover:border-slate-600"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+
+            {/* Divisor entre os eixos */}
+            <span className="w-px h-5 bg-[#1e2d45] mx-1" aria-hidden="true" />
+
+            {/* Eixo 2: por hierarquia (quem gerencia) */}
+            {([
+              ["diretas",  `🏢 Diretas (${countDiretas})`],
+              ["agencias", `↳ De agências (${countAgencias})`],
+            ] as const).map(([f, label]) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                title={f === "diretas"
+                  ? "Empresas sem empresa-mãe — geridas direto por você"
+                  : "Clientes cadastrados por uma agência-cliente (sub-empresas)"}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                   filter === f
                     ? "bg-indigo-500/20 border-indigo-500/50 text-indigo-300"
@@ -312,41 +343,58 @@ export default function EmpresasClient({ companies, isSuperAdmin, parentCompanyN
                   </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2 pt-3 border-t border-[#1e2d45]">
-                  <Link
-                    href={`/empresas/${company.id}`}
-                    className="flex-1 text-center text-indigo-400 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-xs font-semibold py-1.5 rounded-lg transition-colors"
-                  >
-                    Ver Detalhes
-                  </Link>
-                  {isSuperAdmin && (
-                    <button
-                      onClick={() => { setTransferTarget(company); setNewParentId(company.parentCompanyId ?? ""); setTransferError(null); }}
-                      title="Transferir para outra empresa-mãe (admin)"
-                      className="text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
-                    >
-                      ↗ Transferir
-                    </button>
-                  )}
-                  {/* ADMIN também pode deletar/mesclar — a lista só traz subs dele, então é seguro */}
-                  <button
-                    onClick={() => setDeleteTarget(company)}
-                    title="Deletar ou mesclar esta empresa em outra"
-                    className="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors"
-                  >
-                    🗑️
-                  </button>
+                {/* Actions — principal + Detalhes + menu "⋯" (Transferir/Excluir) */}
+                <div className="flex gap-2 pt-3 border-t border-[#1e2d45] items-stretch">
                   {isSuperAdmin && company.hasSystemAccess && (
                     /* <a> em vez de <Link>: navegação real para a API setar o cookie */
                     <a
                       href={`/api/admin/impersonate/${company.id}`}
                       title="Logar e usar o sistema como esta empresa"
-                      className="flex-1 text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 text-xs font-semibold py-1.5 rounded-lg hover:opacity-90 transition-opacity"
+                      className="flex-1 flex items-center justify-center gap-1 text-white bg-gradient-to-r from-indigo-500 to-purple-600 text-xs font-semibold py-1.5 rounded-lg hover:opacity-90 transition-opacity"
                     >
-                      👁 Visualizar como cliente
+                      👁 Ver como cliente
                     </a>
                   )}
+                  <Link
+                    href={`/empresas/${company.id}`}
+                    className="flex-1 flex items-center justify-center text-indigo-400 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-xs font-semibold py-1.5 rounded-lg transition-colors"
+                  >
+                    Detalhes
+                  </Link>
+
+                  {/* Menu ⋯ — ações secundárias ficam aqui, não soltas */}
+                  <div className="relative">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setMenuOpenId(menuOpenId === company.id ? null : company.id); }}
+                      title="Mais ações"
+                      aria-label="Mais ações"
+                      className="h-full px-2.5 flex items-center text-slate-400 bg-white/[0.03] hover:bg-white/[0.08] border border-[#1e2d45] rounded-lg transition-colors"
+                    >
+                      ⋯
+                    </button>
+                    {menuOpenId === company.id && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setMenuOpenId(null)} />
+                        <div className="absolute right-0 bottom-full mb-1 z-20 w-44 bg-[#0c1220] border border-[#1e2d45] rounded-xl shadow-xl overflow-hidden py-1">
+                          {isSuperAdmin && (
+                            <button
+                              onClick={() => { setMenuOpenId(null); setTransferTarget(company); setNewParentId(company.parentCompanyId ?? ""); setTransferError(null); }}
+                              className="w-full text-left px-3 py-2 text-xs text-amber-400 hover:bg-amber-500/10 transition-colors"
+                            >
+                              ↗ Transferir empresa
+                            </button>
+                          )}
+                          {/* ADMIN também pode deletar/mesclar — a lista só traz subs dele, então é seguro */}
+                          <button
+                            onClick={() => { setMenuOpenId(null); setDeleteTarget(company); }}
+                            className="w-full text-left px-3 py-2 text-xs text-red-400 hover:bg-red-500/10 transition-colors"
+                          >
+                            🗑️ Excluir / mesclar
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             );
