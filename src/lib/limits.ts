@@ -156,6 +156,19 @@ export async function getCompanyPlan(companyId: string): Promise<CompanyPlanCont
   let effectiveLimits = mergeLimits(planDef.limits, subNN.customLimits);
   let effectiveFeatures = mergeFeatures(planDef.features, subNN.customFeatures);
 
+  // Add-ons quantitativos: somam ao limite base (não em planos ilimitados).
+  const addons = await prisma.subscriptionAddon.findMany({
+    where: { companyId: effectiveCompanyId },
+    select: { type: true, quantity: true },
+  });
+  for (const a of addons) {
+    if (a.type === "EXTRA_ATENDENTE" && effectiveLimits.atendentes !== -1) {
+      effectiveLimits = { ...effectiveLimits, atendentes: effectiveLimits.atendentes + a.quantity };
+    } else if (a.type === "EXTRA_WHATSAPP" && effectiveLimits.whatsappInstances !== -1) {
+      effectiveLimits = { ...effectiveLimits, whatsappInstances: effectiveLimits.whatsappInstances + a.quantity };
+    }
+  }
+
   // Aplica TETO do pai (se houver). Sub nunca tem mais que o pai —
   // protege a comercialização (cliente da agência não consegue overrider
   // pra cima do plano da agência).

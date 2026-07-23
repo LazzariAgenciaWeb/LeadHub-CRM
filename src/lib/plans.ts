@@ -664,17 +664,17 @@ export interface UnitAddon {
 export const UNIT_ADDONS: Record<UnitAddon["key"], UnitAddon> = {
   whatsappExtra: {
     key: "whatsappExtra",
-    label: "Instância WhatsApp extra",
+    label: "Número WhatsApp extra",
     description: "Um número adicional conectado no painel.",
-    priceMonthly: 79,
+    priceMonthly: 99,
     minTier: "ESSENCIAL",
     resource: "whatsappInstances",
   },
   atendenteExtra: {
     key: "atendenteExtra",
     label: "Atendente extra",
-    description: "Um usuário CLIENT adicional na equipe.",
-    priceMonthly: 29,
+    description: "Um usuário adicional na equipe.",
+    priceMonthly: 19.90,
     minTier: "ESSENCIAL",
     resource: "atendentes",
   },

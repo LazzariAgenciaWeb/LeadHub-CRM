@@ -1406,6 +1406,44 @@ exports.Prisma.BillingEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SubscriptionAddonScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  type: 'type',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  stripeItemId: 'stripeItemId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  label: 'label',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  recurring: 'recurring',
+  validFrom: 'validFrom',
+  validUntil: 'validUntil',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  appliesToPlans: 'appliesToPlans',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.CouponRedemptionScalarFieldEnum = {
+  id: 'id',
+  couponId: 'couponId',
+  companyId: 'companyId',
+  appliedAt: 'appliedAt',
+  planAtApply: 'planAtApply',
+  amountOff: 'amountOff'
+};
+
 exports.Prisma.AdminAuditLogScalarFieldEnum = {
   id: 'id',
   adminUserId: 'adminUserId',
@@ -1915,6 +1953,16 @@ exports.EmailEventType = exports.$Enums.EmailEventType = {
   UNSUBSCRIBE: 'UNSUBSCRIBE'
 };
 
+exports.AddonType = exports.$Enums.AddonType = {
+  EXTRA_ATENDENTE: 'EXTRA_ATENDENTE',
+  EXTRA_WHATSAPP: 'EXTRA_WHATSAPP'
+};
+
+exports.CouponDiscountType = exports.$Enums.CouponDiscountType = {
+  PERCENT: 'PERCENT',
+  FIXED: 'FIXED'
+};
+
 exports.AssistantType = exports.$Enums.AssistantType = {
   PRE_ATENDENTE: 'PRE_ATENDENTE',
   VENDAS: 'VENDAS',
@@ -2022,6 +2070,9 @@ exports.Prisma.ModelName = {
   EmailEvent: 'EmailEvent',
   EmailUnsubscribe: 'EmailUnsubscribe',
   BillingEvent: 'BillingEvent',
+  SubscriptionAddon: 'SubscriptionAddon',
+  Coupon: 'Coupon',
+  CouponRedemption: 'CouponRedemption',
   AdminAuditLog: 'AdminAuditLog',
   Assistant: 'Assistant',
   AiUsageLog: 'AiUsageLog',

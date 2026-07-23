@@ -279,6 +279,8 @@ model Company {
   adCreativeDailies         AdCreativeDaily[]
   subscription              Subscription?
   billingEvents             BillingEvent[]
+  addons                    SubscriptionAddon[]
+  couponRedemptions         CouponRedemption[]
   assistants                Assistant[]
   aiUsageLogs               AiUsageLog[]
   services                  Service[]
@@ -2956,6 +2958,88 @@ model BillingEvent {
   createdAt DateTime @default(now())
 
   @@index([companyId, createdAt])
+}
+
+// ─── Add-ons de assinatura ────────────────────────────────────────────────────
+// Recursos extras cobrados por unidade além do plano base:
+//  - EXTRA_ATENDENTE  → +1 atendente (R$ 19,90/un)
+//  - EXTRA_WHATSAPP   → +1 número WhatsApp (R$ 99/un)
+// checkLimit() soma a quantidade contratada ao limite base do plano.
+model SubscriptionAddon {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  type      AddonType
+  quantity  Int       @default(1)
+  unitPrice Float // BRL — snapshot do preço na contratação (não muda se a tabela mudar)
+
+  // Stripe (quando integrado) — subscription item que representa este add-on
+  stripeItemId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, type])
+  @@index([companyId])
+}
+
+enum AddonType {
+  EXTRA_ATENDENTE
+  EXTRA_WHATSAPP
+}
+
+// ─── Cupons promocionais ──────────────────────────────────────────────────────
+// Criados pelo SUPER_ADMIN. Aplicados no checkout pra descontar % ou valor fixo.
+model Coupon {
+  id    String  @id @default(cuid())
+  code  String  @unique // ex: "LANCAMENTO50" (case-insensitive na aplicação)
+  label String? // descrição interna
+
+  discountType  CouponDiscountType
+  discountValue Float // percent (0-100) OU valor fixo em BRL, conforme discountType
+
+  // Recorrência do desconto:
+  //  false (padrão) → desconto só no 1º pagamento
+  //  true           → desconto em todas as cobranças enquanto a assinatura viver
+  recurring Boolean @default(false)
+
+  // Restrições opcionais
+  validFrom      DateTime?
+  validUntil     DateTime?
+  maxUses        Int? // null = ilimitado
+  usedCount      Int       @default(0)
+  // Restringe a planos específicos (vazio = qualquer plano)
+  appliesToPlans String[]  @default([])
+
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+
+  redemptions CouponRedemption[]
+
+  @@index([active])
+}
+
+enum CouponDiscountType {
+  PERCENT
+  FIXED
+}
+
+model CouponRedemption {
+  id        String  @id @default(cuid())
+  couponId  String
+  coupon    Coupon  @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  appliedAt   DateTime @default(now())
+  planAtApply String? // snapshot do plano no momento da aplicação
+  amountOff   Float? // quanto foi descontado (BRL) — auditoria
+
+  @@unique([couponId, companyId])
+  @@index([companyId])
 }
 
 // ─── Auditoria administrativa ─────────────────────────────────────────────────
