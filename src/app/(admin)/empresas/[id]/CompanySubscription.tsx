@@ -74,19 +74,26 @@ interface FeatureGroup {
   features: FeatureRow[];
 }
 
+// Grupos alinhados à MESMA jornada do menu (Sidebar) e dos toggles de módulo:
+// Atrair → Atender → Vender → Analisar → Gestão → Sistema. Um vocabulário só
+// no sistema inteiro. As back-office (segurança/integrações/enterprise) que não
+// são etapa de jornada vão em "Sistema", igual ao grupo Sistema do menu.
 const FEATURE_GROUPS: FeatureGroup[] = [
   {
-    id: "espaco",
-    title: "Espaço do Cliente",
-    icon: "🏠",
+    id: "atrair",
+    title: "Atrair",
+    icon: "📣",
     features: [
-      { key: "meuEspaco",        label: "Meu Espaço (home do cliente)" },
+      { key: "campanhas",  label: "Campanhas" },
+      { key: "links",      label: "Links de rastreio (pixel)" },
+      { key: "emailMassa", label: "E-mail Marketing (massa)" },
+      { key: "videos",     label: "Biblioteca de vídeos" },
     ],
   },
   {
-    id: "atendimento",
-    title: "Atendimento",
-    icon: "🟢",
+    id: "atender",
+    title: "Atender",
+    icon: "💬",
     features: [
       { key: "whatsapp",         label: "WhatsApp (Inbox)" },
       { key: "whatsappGrupos",   label: "Ver grupos no inbox" },
@@ -94,37 +101,23 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "socialInbox",      label: "Instagram + Facebook na inbox" },
       { key: "tickets",          label: "Tickets / Chamados" },
       { key: "tarefasInternas",  label: "Tarefas internas" },
+      { key: "assistenteIA",     label: "Assistente IA" },
     ],
   },
   {
-    id: "vendas",
-    title: "Vendas & Produtividade",
+    id: "vender",
+    title: "Vender",
     icon: "🎯",
     features: [
       { key: "crmPipelineLeads",         label: "CRM — Pipeline Leads" },
       { key: "crmPipelineOportunidades", label: "CRM — Pipeline Oportunidades" },
       { key: "crmPipelineProspeccao",    label: "CRM — Pipeline Prospecção" },
       { key: "prospectaIa",              label: "LeadHub Prospecta" },
-      { key: "emailMassa",               label: "Email em massa" },
-      { key: "projetos",                 label: "Projetos" },
-      { key: "calendario",               label: "Calendário" },
-      { key: "gamificacao",              label: "Gamificação" },
-      { key: "assistenteIA",             label: "Assistente IA" },
-      { key: "videos",                   label: "Biblioteca de vídeos" },
     ],
   },
   {
-    id: "marketing-captacao",
-    title: "Marketing & Captação",
-    icon: "📣",
-    features: [
-      { key: "campanhas", label: "Campanhas" },
-      { key: "links",     label: "Links de rastreio (pixel)" },
-    ],
-  },
-  {
-    id: "marketing",
-    title: "Marketing & Análise",
+    id: "analisar",
+    title: "Analisar",
     icon: "📊",
     features: [
       { key: "marketingDashboard",   label: "Dashboard Marketing" },
@@ -133,32 +126,29 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "googleBusinessProfile", label: "Google Meu Negócio" },
       { key: "googleAds",            label: "Google Ads" },
       { key: "metaAds",              label: "Meta Ads" },
+      { key: "gamificacao",          label: "Gamificação (ranking)" },
     ],
   },
   {
-    id: "seguranca",
-    title: "Segurança & Acesso",
-    icon: "🔐",
+    id: "gestao",
+    title: "Gestão",
+    icon: "🗂️",
     features: [
+      { key: "meuEspaco",        label: "Espaço do Cliente (home do cliente)" },
+      { key: "projetos",         label: "Projetos" },
+      { key: "calendario",       label: "Calendário" },
       { key: "cofreCredenciais", label: "Cofre de credenciais" },
-      { key: "magicLink",        label: "Magic Link (login sem senha)" },
-      { key: "bannerLgpd",       label: "Banner LGPD" },
       { key: "multiUnidade",     label: "Multi-unidade / filiais" },
     ],
   },
   {
-    id: "integracoes",
-    title: "Integrações",
-    icon: "🔌",
+    id: "sistema",
+    title: "Sistema & Acesso",
+    icon: "⚙️",
     features: [
-      { key: "clickupSync", label: "ClickUp Sync" },
-    ],
-  },
-  {
-    id: "enterprise",
-    title: "Enterprise",
-    icon: "🏢",
-    features: [
+      { key: "magicLink",          label: "Magic Link (login sem senha)" },
+      { key: "bannerLgpd",         label: "Banner LGPD" },
+      { key: "clickupSync",        label: "ClickUp Sync" },
       { key: "apiAccess",          label: "API completa" },
       { key: "customDomain",       label: "Domínio próprio" },
       { key: "suportePrioritario", label: "Suporte prioritário" },

@@ -194,9 +194,8 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     {
       key: "sistema", title: "Sistema", Icon: Settings, grad: "configuracoes",
       items: [
-        { href: "/planos",        Icon: CreditCard, label: "Planos",        grad: "planos",        show: _isSuperAdmin },
-        { href: "/cupons",        Icon: Ticket,     label: "Cupons",        grad: "campanhas",     show: _isSuperAdmin },
-        { href: "/configuracoes", Icon: Settings,   label: "Configurações", grad: "configuracoes", show: showConfig },
+        { href: "/cupons",        Icon: Ticket,   label: "Cupons",        grad: "campanhas",     show: _isSuperAdmin },
+        { href: "/configuracoes", Icon: Settings, label: "Configurações", grad: "configuracoes", show: showConfig },
       ],
     },
   ] satisfies NavGroup[])
@@ -245,6 +244,22 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
           >
             <LayoutGrid className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} />
             Meu espaço
+          </Link>
+        )}
+
+        {/* Planos — atalho fixo do super admin no topo (tem bastante coisa
+            importante: tiers, add-ons, cupons, limites). Fora dos grupos. */}
+        {_isSuperAdmin && (
+          <Link
+            href="/planos"
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium mb-0.5 transition-all ${
+              isActive("/planos")
+                ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
+                : "text-slate-400 hover:bg-[#161f30] hover:text-white"
+            }`}
+          >
+            <CreditCard className="w-4 h-4 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke("planos")} />
+            Planos
           </Link>
         )}
 

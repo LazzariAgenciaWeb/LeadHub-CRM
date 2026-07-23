@@ -280,27 +280,49 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
 
                     {form.hasSystemAccess && form.fullSystemAccess && (
                       <div>
-                        <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">Módulos</p>
-                        <div className="flex flex-col gap-2">
+                        <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">Módulos por etapa</p>
+                        {/* Agrupados pela mesma jornada do menu (Sidebar): Atrair →
+                            Atender → Vender → Analisar → Gestão → Integrações.
+                            Mantém 1 vocabulário só entre menu, toggles e plano. */}
+                        <div className="flex flex-col gap-3">
                           {[
-                            { key: "moduleWhatsapp", label: "WhatsApp" },
-                            { key: "moduleCrm", label: "CRM" },
-                            { key: "moduleTickets", label: "Chamados" },
-                            { key: "moduleAI", label: "Assistente IA" },
-                            { key: "moduleClickup", label: "ClickUp (integração)" },
-                            { key: "moduleGamificacao", label: "Gamificação (ranking + badges + cron)" },
-                            { key: "moduleProjetos", label: "Projetos" },
-                            { key: "moduleCalendario", label: "Calendário" },
-                            { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
-                            { key: "moduleEmailMarketing", label: "E-mail Marketing (campanhas)" },
-                            { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
-                            { key: "moduleEspacoCliente", label: "Espaço do Cliente (oferecer painel aos clientes)" },
-                            { key: "moduleVideos", label: "Vídeos (biblioteca de material de apoio)" },
-                          ].map(({ key, label }) => (
-                            <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
-                              <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />
-                              <span className="text-sm text-white">{label}</span>
-                            </label>
+                            { title: "Atrair", items: [
+                              { key: "moduleEmailMarketing", label: "E-mail Marketing" },
+                              { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
+                              { key: "moduleVideos", label: "Vídeos (material de apoio)" },
+                            ] },
+                            { title: "Atender", items: [
+                              { key: "moduleWhatsapp", label: "WhatsApp" },
+                              { key: "moduleTickets", label: "Chamados" },
+                              { key: "moduleAI", label: "Assistente IA" },
+                            ] },
+                            { title: "Vender", items: [
+                              { key: "moduleCrm", label: "CRM" },
+                              { key: "moduleProspeccao", label: "Prospecção via SerpAPI" },
+                            ] },
+                            { title: "Analisar", items: [
+                              { key: "moduleGamificacao", label: "Gamificação (ranking + badges + cron)" },
+                            ] },
+                            { title: "Gestão", items: [
+                              { key: "moduleProjetos", label: "Projetos" },
+                              { key: "moduleCalendario", label: "Calendário" },
+                              { key: "moduleEspacoCliente", label: "Espaço do Cliente (oferecer painel aos clientes)" },
+                            ] },
+                            { title: "Integrações", items: [
+                              { key: "moduleClickup", label: "ClickUp" },
+                            ] },
+                          ].map((group) => (
+                            <div key={group.title}>
+                              <p className="text-[10px] text-slate-600 font-semibold uppercase tracking-wide mb-1">{group.title}</p>
+                              <div className="flex flex-col gap-0.5">
+                                {group.items.map(({ key, label }) => (
+                                  <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
+                                    <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />
+                                    <span className="text-sm text-white">{label}</span>
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
                           ))}
                         </div>
 
