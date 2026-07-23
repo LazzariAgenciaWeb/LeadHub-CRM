@@ -10,7 +10,7 @@ import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, Ticket, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, Ticket, Lock, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -127,8 +127,14 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     role === "ADMIN" ? "Admin" :
     "Agente";
 
-  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; show: boolean };
-  type NavGroup = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: SidebarLink[] };
+  // Item do menu. Separa DOIS gates distintos:
+  //  - `lockModule`: módulo do PLANO (hasModule). Se a empresa não contratou,
+  //    o item aparece BLOQUEADO (esmaecido + cadeado) em vez de sumir.
+  //  - `perm`: permissão de PAPEL/SETOR (independe de plano). Sem ela, some.
+  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; lockModule?: Parameters<typeof hasModule>[1]; perm: boolean };
+  type NavGroupDef = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: SidebarLink[] };
+  type NavItem = SidebarLink & { locked: boolean };
+  type NavGroup = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: NavItem[] };
 
   // Configurações é visível para ADMIN/SUPER_ADMIN ou para CLIENT cujo setor
   // tem canViewConfig OU canManageUsers (sector admin que precisa gerenciar
@@ -138,68 +144,75 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   // "Visão Geral" (home do dashboard) é link fixo no topo — não entra em grupo.
   const overviewShow = true;
 
-  // IMPORTANTE: gates de modulo respeitam o plano da empresa. SUPER_ADMIN bypassa
-  // tudo (admin do sistema); ADMIN da empresa-cliente VE apenas o que o plano libera.
-  // Antes era _isAdmin || X (qualquer admin via tudo) — bug que vazava menu inteiro.
-  //
-  // Menu organizado por ETAPA da jornada do cliente (padrão RD Station), espelhando
-  // a taxonomia de features do plans.ts: Atrair → Atender → Vender → Analisar,
-  // depois Gestão (operação interna) e Sistema (admin da plataforma). Cada grupo é
-  // um accordion; só renderiza se tiver ≥1 item liberado pelo plano/permissão.
+  // Menu organizado por ETAPA da jornada (padrão RD Station), espelhando a
+  // taxonomia do plans.ts: Atrair → Atender → Vender → Analisar → Gestão → Sistema.
+  // Módulo não contratado = item BLOQUEADO (só pro ADMIN, que decide contratar);
+  // pro CLIENT/agente sem o módulo continua escondido. SUPER_ADMIN vê tudo liberado.
   const navGroups: NavGroup[] = ([
     {
       key: "atrair", title: "Atrair", Icon: Megaphone, grad: "campanhas",
       items: [
-        { href: "/campanhas",       Icon: Megaphone,   label: "Campanhas",        grad: "campanhas", show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
-        { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     show: _isSuperAdmin || (hasModule(session, "links") && (_isAdmin || can(session, "canViewLinks"))) },
-        { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
-        { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     show: _isSuperAdmin || (hasModule(session, "campanhas") && (_isAdmin || can(session, "canViewCampanhas"))) },
-        { href: "/videos",          Icon: MonitorPlay, label: "Vídeos",           grad: "marketing", show: _isSuperAdmin || (hasModule(session, "videos") && _isAdmin) },
+        { href: "/campanhas",       Icon: Megaphone,   label: "Campanhas",        grad: "campanhas", lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
+        { href: "/links",           Icon: Link2,       label: "Links",            grad: "links",     lockModule: "links",     perm: _isAdmin || can(session, "canViewLinks") },
+        { href: "/instagram",       Icon: Camera,      label: "Instagram",        grad: "marketing", lockModule: "instagram", perm: _isAdmin },
+        { href: "/campanhas/email", Icon: Mail,        label: "E-mail Marketing", grad: "email",     lockModule: "campanhas", perm: _isAdmin || can(session, "canViewCampanhas") },
+        { href: "/videos",          Icon: MonitorPlay, label: "Vídeos",           grad: "marketing", lockModule: "videos",    perm: _isAdmin },
       ],
     },
     {
       key: "atender", title: "Atender", Icon: MessageSquare, grad: "whatsapp",
       items: [
-        { href: "/whatsapp",        Icon: MessageSquare, label: "Mensagens",    grad: "whatsapp",  show: _isSuperAdmin || (hasModule(session, "whatsapp") && can(session, "canViewInbox")) },
-        { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", show: _isSuperAdmin || (hasModule(session, "instagram") && _isAdmin) },
-        { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  show: _isSuperAdmin || (hasModule(session, "tickets") && can(session, "canViewTickets")) },
-        { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       show: _isSuperAdmin || (hasModule(session, "ai") && can(session, "canUseAI")) },
+        { href: "/whatsapp",        Icon: MessageSquare, label: "Mensagens",    grad: "whatsapp",  lockModule: "whatsapp",  perm: can(session, "canViewInbox") },
+        { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", lockModule: "instagram", perm: _isAdmin },
+        { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  lockModule: "tickets",   perm: can(session, "canViewTickets") },
+        { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       lockModule: "ai",        perm: can(session, "canUseAI") },
       ],
     },
     {
       key: "vender", title: "Vender", Icon: Briefcase, grad: "crm",
       items: [
-        { href: "/crm",               Icon: BarChart3, label: "Painel",        grad: "crm",           show: _isSuperAdmin || (hasModule(session, "crm") && can(session, "canViewLeads")) },
-        { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao",    show: _isSuperAdmin || hasModule(session, "crmPipelineProspeccao") },
-        { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads",         show: _isSuperAdmin || hasModule(session, "crmPipelineLeads") },
-        { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades", show: _isSuperAdmin || hasModule(session, "crmPipelineOportunidades") },
+        { href: "/crm",               Icon: BarChart3, label: "Painel",        grad: "crm",           lockModule: "crm",                    perm: can(session, "canViewLeads") },
+        { href: "/crm/prospeccao",    Icon: Search,    label: "Prospecção",    grad: "prospeccao",    lockModule: "crmPipelineProspeccao",  perm: true },
+        { href: "/crm/leads",         Icon: Target,    label: "Leads",         grad: "leads",         lockModule: "crmPipelineLeads",       perm: true },
+        { href: "/crm/oportunidades", Icon: Lightbulb, label: "Oportunidades", grad: "oportunidades", lockModule: "crmPipelineOportunidades", perm: true },
       ],
     },
     {
       key: "analisar", title: "Analisar", Icon: BarChart3, grad: "marketing",
       items: [
-        { href: "/relatorios?secao=marketing", Icon: BarChart3, label: "Marketing", grad: "marketing",   show: _isSuperAdmin || (_isAdmin || can(session, "canViewMarketing")) },
-        { href: "/gamificacao",                Icon: Trophy,    label: "Ranking",   grad: "gamificacao", show: _isSuperAdmin || (hasModule(session, "gamificacao") && (_isAdmin || can(session, "canViewRanking"))) },
+        { href: "/relatorios?secao=marketing", Icon: BarChart3, label: "Marketing", grad: "marketing",   perm: _isAdmin || can(session, "canViewMarketing") },
+        { href: "/gamificacao",                Icon: Trophy,    label: "Ranking",   grad: "gamificacao", lockModule: "gamificacao", perm: _isAdmin || can(session, "canViewRanking") },
       ],
     },
     {
       key: "gestao", title: "Gestão", Icon: FolderKanban, grad: "pipeline",
       items: [
-        { href: "/empresas",   Icon: Building2,    label: "Empresas",   grad: "empresas",   show: _isAdmin || can(session, "canViewCompanies") },
-        { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   show: _isSuperAdmin || (hasModule(session, "projetos") && (_isAdmin || can(session, "canViewProjetos"))) },
-        { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", show: _isSuperAdmin || (hasModule(session, "calendario") && (_isAdmin || can(session, "canViewCalendario"))) },
-        { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      show: _isSuperAdmin || (hasModule(session, "cofre") && (_isAdmin || can(session, "canViewCofre"))) },
+        { href: "/empresas",   Icon: Building2,    label: "Empresas",   grad: "empresas",   perm: _isAdmin || can(session, "canViewCompanies") },
+        { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
+        { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
+        { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      lockModule: "cofre",      perm: _isAdmin || can(session, "canViewCofre") },
       ],
     },
     {
       key: "sistema", title: "Sistema", Icon: Settings, grad: "configuracoes",
       items: [
-        { href: "/cupons",        Icon: Ticket,   label: "Cupons",        grad: "campanhas",     show: _isSuperAdmin },
-        { href: "/configuracoes", Icon: Settings, label: "Configurações", grad: "configuracoes", show: showConfig },
+        { href: "/cupons",        Icon: Ticket,   label: "Cupons",        grad: "campanhas",     perm: _isSuperAdmin },
+        { href: "/configuracoes", Icon: Settings, label: "Configurações", grad: "configuracoes", perm: showConfig },
       ],
     },
-  ] satisfies NavGroup[])
-    .map((g) => ({ ...g, items: g.items.filter((i) => i.show) }))
+  ] as NavGroupDef[])
+    .map((g) => {
+      const items: NavItem[] = [];
+      for (const i of g.items) {
+        // Liberado se: super admin, sem gate de módulo, ou módulo contratado.
+        const unlocked = _isSuperAdmin || !i.lockModule || hasModule(session, i.lockModule);
+        // Aparece se: super admin; se liberado e tem a permissão; ou se bloqueado
+        // mas é ADMIN (quem decide contratar vê o cadeado). Agente sem módulo: some.
+        const present = _isSuperAdmin ? true : unlocked ? i.perm : _isAdmin;
+        if (present) items.push({ ...i, locked: !unlocked });
+      }
+      return { ...g, items };
+    })
     .filter((g) => g.items.length > 0);
 
   return (
@@ -300,20 +313,34 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
 
               {isOpen && (
                 <div className="ml-3 mt-0.5 pl-3 border-l border-[#1e2d45] space-y-0.5">
-                  {group.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
-                        isActive(item.href)
-                          ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
-                          : "text-slate-500 hover:bg-[#161f30] hover:text-white"
-                      }`}
-                    >
-                      <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
-                      {item.label}
-                    </Link>
-                  ))}
+                  {group.items.map((item) =>
+                    item.locked ? (
+                      // Módulo não contratado — esmaecido + cadeado, leva ao upsell.
+                      <Link
+                        key={item.href}
+                        href={`/upgrade/${item.lockModule}`}
+                        title="Não disponível no seu plano — clique para contratar"
+                        className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium text-slate-600 opacity-60 hover:opacity-100 hover:bg-[#161f30] hover:text-slate-400 transition-all"
+                      >
+                        <item.Icon className="w-3.5 h-3.5 flex-shrink-0 grayscale" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
+                        <span className="flex-1 truncate">{item.label}</span>
+                        <Lock className="w-3 h-3 flex-shrink-0 text-slate-600" strokeWidth={2.5} />
+                      </Link>
+                    ) : (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+                          isActive(item.href)
+                            ? "bg-indigo-500/15 text-white border-l-2 border-indigo-500"
+                            : "text-slate-500 hover:bg-[#161f30] hover:text-white"
+                        }`}
+                      >
+                        <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
+                        {item.label}
+                      </Link>
+                    ),
+                  )}
                 </div>
               )}
             </div>
