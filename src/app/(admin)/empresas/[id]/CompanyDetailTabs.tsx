@@ -91,6 +91,17 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean }
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
   { id: "plano",        label: "Plano",        icon: "💳", superAdminOnly: true },
 ];
+const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId, (typeof TABS)[number]>;
+
+// Grupos de 1º nível — condensam as 10 abas em 5. Grupo com >1 aba mostra
+// uma barra de sub-abas embaixo; grupo com 1 aba abre direto.
+const GROUPS: { id: string; label: string; icon: string; tabIds: TabId[] }[] = [
+  { id: "crm",         label: "CRM",                icon: "📊", tabIds: ["marketing", "campanhas", "leads", "oportunidades", "chamados", "conquistas"] },
+  { id: "acessos",     label: "Acessos & usuários", icon: "👥", tabIds: ["contatos"] },
+  { id: "integracoes", label: "Integrações",        icon: "🔌", tabIds: ["integracoes"] },
+  { id: "cofre",       label: "Cofre",              icon: "🔐", tabIds: ["cofre"] },
+  { id: "plano",       label: "Plano & cobrança",   icon: "💳", tabIds: ["plano"] },
+];
 
 export default function CompanyDetailTabs({
   companyId,
@@ -104,8 +115,6 @@ export default function CompanyDetailTabs({
   contacts,
   isSuperAdmin,
 }: Props) {
-  const [activeTab, setActiveTab] = useState<TabId>("campanhas");
-
   // Counts for tab labels
   const counts: Record<TabId, number> = {
     campanhas:     campaigns.length,
@@ -120,40 +129,79 @@ export default function CompanyDetailTabs({
     conquistas:    0, // count carregado dinamicamente dentro do componente
   };
 
-  // Filtra abas restritas (super admin only)
-  const visibleTabs = TABS.filter((t) => !t.superAdminOnly || isSuperAdmin);
+  // Abas visíveis (respeita superAdminOnly), agrupadas em 5 grupos de 1º nível.
+  const isTabVisible = (id: TabId) => !TAB_BY_ID[id].superAdminOnly || isSuperAdmin;
+  const visibleGroups = GROUPS
+    .map((g) => ({ ...g, tabs: g.tabIds.filter(isTabVisible) }))
+    .filter((g) => g.tabs.length > 0);
+
+  const [activeTab, setActiveTab] = useState<TabId>(visibleGroups[0]?.tabs[0] ?? "campanhas");
+  const activeGroup = visibleGroups.find((g) => g.tabs.includes(activeTab)) ?? visibleGroups[0];
 
   return (
     <div className="mt-6">
-      {/* Tab bar */}
+      {/* Barra de grupos (1º nível) — 5 grupos condensam as 10 abas */}
       <div className="flex gap-1 border-b border-[#1e2d45] mb-0 overflow-x-auto">
-        {visibleTabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all border-b-2 -mb-px ${
-              activeTab === tab.id
-                ? "border-indigo-500 text-white"
-                : "border-transparent text-slate-500 hover:text-slate-300"
-            }`}
-          >
-            <span>{tab.icon}</span>
-            {tab.label}
-            {counts[tab.id] > 0 && (
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-                activeTab === tab.id
-                  ? "bg-indigo-500/20 text-indigo-300"
-                  : "bg-white/5 text-slate-500"
-              }`}>
-                {counts[tab.id]}
-              </span>
-            )}
-          </button>
-        ))}
+        {visibleGroups.map((g) => {
+          const isActive = g.tabs.includes(activeTab);
+          const single = g.tabs.length === 1;
+          return (
+            <button
+              key={g.id}
+              onClick={() => setActiveTab(g.tabs[0])}
+              className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all border-b-2 -mb-px ${
+                isActive
+                  ? "border-indigo-500 text-white"
+                  : "border-transparent text-slate-500 hover:text-slate-300"
+              }`}
+            >
+              <span>{g.icon}</span>
+              {g.label}
+              {single && counts[g.tabs[0]] > 0 && (
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                  isActive ? "bg-indigo-500/20 text-indigo-300" : "bg-white/5 text-slate-500"
+                }`}>
+                  {counts[g.tabs[0]]}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab content */}
       <div className="bg-[#0f1623] border border-[#1e2d45] rounded-b-xl rounded-tr-xl">
+
+        {/* Sub-abas (2º nível) — só quando o grupo ativo tem mais de uma aba */}
+        {activeGroup && activeGroup.tabs.length > 1 && (
+          <div className="flex flex-wrap gap-1.5 px-3 py-2.5 border-b border-[#1e2d45]">
+            {activeGroup.tabs.map((id) => {
+              const t = TAB_BY_ID[id];
+              const on = activeTab === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-all ${
+                    on
+                      ? "bg-indigo-500/20 text-indigo-200 border border-indigo-500/40"
+                      : "text-slate-500 hover:text-slate-300 border border-transparent hover:bg-white/5"
+                  }`}
+                >
+                  <span>{t.icon}</span>
+                  {t.label}
+                  {counts[id] > 0 && (
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                      on ? "bg-indigo-500/30 text-indigo-100" : "bg-white/5 text-slate-500"
+                    }`}>
+                      {counts[id]}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* ── Campanhas ── */}
         {activeTab === "campanhas" && (
