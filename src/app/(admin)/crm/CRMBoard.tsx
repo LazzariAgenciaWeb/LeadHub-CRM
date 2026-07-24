@@ -6,6 +6,8 @@ import {
   Search, Target, Lightbulb,
   Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
   Activity as ActivityIcon, Inbox, Filter,
+  Globe, Hourglass, Eye, MousePointerClick, Flame, User, DollarSign, Milestone,
+  ArrowDownLeft, ArrowUpRight, Check, X, Trash2,
   type LucideIcon,
 } from "lucide-react";
 import ImportLeads from "./ImportLeads";
@@ -132,24 +134,24 @@ export interface LeadComment {
   createdAt: string;
 }
 
-const TIMELINE_META: Record<string, { icon: string; titleColor: string; bg: string }> = {
-  lead_created:      { icon: "🆕", titleColor: "#a5b4fc", bg: "bg-indigo-500/5 border-indigo-500/15" },
-  comment:           { icon: "💬", titleColor: "#a5b4fc", bg: "bg-[#0a0f1a] border-[#1e2d45]" },
-  message_in:        { icon: "📥", titleColor: "#6ee7b7", bg: "bg-emerald-500/5 border-emerald-500/15" },
-  message_out:       { icon: "📤", titleColor: "#86efac", bg: "bg-green-500/5 border-green-500/15" },
-  link_open:         { icon: "👁️", titleColor: "#fbbf24", bg: "bg-amber-500/5 border-amber-500/20" },
-  link_click:        { icon: "🖱️", titleColor: "#67e8f9", bg: "bg-cyan-500/5 border-cyan-500/15" },
-  tracking_link_set: { icon: "🔗", titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
+const TIMELINE_META: Record<string, { Icon: LucideIcon; titleColor: string; bg: string }> = {
+  lead_created:      { Icon: Sparkles,          titleColor: "#a5b4fc", bg: "bg-indigo-500/5 border-indigo-500/15" },
+  comment:           { Icon: MessageSquare,     titleColor: "#a5b4fc", bg: "bg-[#0a0f1a] border-[#1e2d45]" },
+  message_in:        { Icon: ArrowDownLeft,     titleColor: "#6ee7b7", bg: "bg-emerald-500/5 border-emerald-500/15" },
+  message_out:       { Icon: ArrowUpRight,      titleColor: "#86efac", bg: "bg-green-500/5 border-green-500/15" },
+  link_open:         { Icon: Eye,               titleColor: "#fbbf24", bg: "bg-amber-500/5 border-amber-500/20" },
+  link_click:        { Icon: MousePointerClick, titleColor: "#67e8f9", bg: "bg-cyan-500/5 border-cyan-500/15" },
+  tracking_link_set: { Icon: Link2,             titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
   // Sinal quente: fundo vermelho mais forte pra puxar o olho — é a linha mais
   // acionável da timeline (cliente abriu agora, tem que ligar).
-  hot_signal:        { icon: "🔥", titleColor: "#fca5a5", bg: "bg-red-500/10 border-red-500/30" },
+  hot_signal:        { Icon: Flame,             titleColor: "#fca5a5", bg: "bg-red-500/10 border-red-500/30" },
   // Mudanças estruturais do lead (Activity table). Pipeline merece destaque
   // — "Virou Oportunidade" é marco do funil. Os outros mais discretos.
-  pipeline_changed:  { icon: "🎯", titleColor: "#86efac", bg: "bg-green-500/8 border-green-500/25" },
-  stage_changed:     { icon: "🪜", titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
-  assignee_changed:  { icon: "👤", titleColor: "#94a3b8", bg: "bg-slate-500/5 border-slate-500/15" },
-  value_changed:     { icon: "💰", titleColor: "#86efac", bg: "bg-emerald-500/5 border-emerald-500/15" },
-  clickup_linked:    { icon: "✅", titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
+  pipeline_changed:  { Icon: Target,            titleColor: "#86efac", bg: "bg-green-500/8 border-green-500/25" },
+  stage_changed:     { Icon: Milestone,         titleColor: "#c4b5fd", bg: "bg-violet-500/5 border-violet-500/15" },
+  assignee_changed:  { Icon: User,              titleColor: "#94a3b8", bg: "bg-slate-500/5 border-slate-500/15" },
+  value_changed:     { Icon: DollarSign,        titleColor: "#86efac", bg: "bg-emerald-500/5 border-emerald-500/15" },
+  clickup_linked:    { Icon: CheckSquare,       titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
 };
 
 type TimelineFilter = "all" | "messages" | "links" | "system" | "notes";
@@ -1904,18 +1906,18 @@ export default function CRMBoard({
                   <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                     <span className="text-slate-500 text-xs font-mono">{selected.phone}</span>
                     {selected.hasWhatsapp === true && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium">
-                        ✓ Tem WhatsApp
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-medium inline-flex items-center gap-1">
+                        <Check className="w-3 h-3" strokeWidth={2.5} /> Tem WhatsApp
                       </span>
                     )}
                     {selected.hasWhatsapp === false && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium">
-                        ✗ Sem WhatsApp
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/15 text-slate-400 border border-slate-500/25 font-medium inline-flex items-center gap-1">
+                        <X className="w-3 h-3" strokeWidth={2.5} /> Sem WhatsApp
                       </span>
                     )}
                     {selected.hasWhatsapp === null && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/80 border border-amber-500/20 font-medium" title="Número ainda não foi validado via Evolution. Use 🔄 Atualizar dados pra validar.">
-                        ⏳ Não validado
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/80 border border-amber-500/20 font-medium inline-flex items-center gap-1" title="Número ainda não foi validado via Evolution. Use Atualizar dados pra validar.">
+                        <Hourglass className="w-3 h-3" strokeWidth={2.25} /> Não validado
                       </span>
                     )}
                   </div>
@@ -1930,7 +1932,7 @@ export default function CRMBoard({
                     title="Pipeline"
                   >
                     {Object.entries(PIPELINE_LABELS).map(([key, info]) => (
-                      <option key={key} value={key}>{info.emoji} {info.label}</option>
+                      <option key={key} value={key}>{info.label}</option>
                     ))}
                   </select>
 
@@ -1968,7 +1970,7 @@ export default function CRMBoard({
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
                           title="Abrir a conversa na Caixa de entrada do LeadHub"
                         >
-                          💬 Abrir no LeadHub
+                          <MessageSquare className="w-3.5 h-3.5" strokeWidth={2.25} /> Abrir no LeadHub
                         </a>
                       )}
                       <a
@@ -1982,7 +1984,7 @@ export default function CRMBoard({
                         }`}
                         title="Abrir no WhatsApp Web"
                       >
-                        🌐 WhatsApp Web
+                        <Globe className="w-3.5 h-3.5" strokeWidth={2.25} /> WhatsApp Web
                       </a>
                     </div>
                   )}
@@ -2020,14 +2022,14 @@ export default function CRMBoard({
                               onClick={() => { setActionsOpen(false); handleRemoveFromPipeline(); }}
                               className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-slate-300 hover:bg-amber-500/10 hover:text-amber-400 transition-colors text-left"
                             >
-                              📥 Mover para Caixa de Entrada
+                              <Inbox className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} /> Mover para Caixa de Entrada
                             </button>
                             <div className="border-t border-[#1e2d45]" />
                             <button
                               onClick={() => setConfirmDelete(true)}
                               className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors text-left"
                             >
-                              🗑️ Deletar este lead
+                              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} /> Deletar este lead
                             </button>
                           </>
                         )}
@@ -3119,9 +3121,10 @@ export default function CRMBoard({
                   <button
                     type="submit"
                     disabled={savingComment || !newComment.trim()}
-                    className="w-full py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors"
+                    className="w-full py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium hover:bg-indigo-500 disabled:opacity-40 transition-colors inline-flex items-center justify-center gap-1.5"
                   >
-                    {savingComment ? "Salvando..." : "💬 Adicionar anotação"}
+                    <MessageSquare className="w-3.5 h-3.5" strokeWidth={2.25} />
+                    {savingComment ? "Salvando..." : "Adicionar anotação"}
                   </button>
                 </form>
 
@@ -3182,7 +3185,7 @@ export default function CRMBoard({
                         <div key={evt.id} className={`rounded-lg px-3 py-2.5 border ${meta.bg}`}>
                           <div className="flex items-center justify-between gap-2 mb-1">
                             <span className="text-[11px] font-semibold flex items-center gap-1.5" style={{ color: meta.titleColor }}>
-                              <span>{meta.icon}</span>
+                              <meta.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} />
                               <span className="truncate">{evt.title}</span>
                             </span>
                             <span className="text-slate-500 text-[10px] flex-shrink-0">

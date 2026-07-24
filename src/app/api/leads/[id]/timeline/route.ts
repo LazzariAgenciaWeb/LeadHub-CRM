@@ -151,9 +151,10 @@ export async function GET(
       const isIn = m.direction === "INBOUND";
       const preview = m.body?.trim()
         ? (m.body.length > 140 ? m.body.slice(0, 140) + "…" : m.body)
-        : (m.mediaType?.startsWith("image") ? "📷 Imagem"
-          : m.mediaType?.startsWith("audio") ? "🎤 Áudio"
-          : "(mídia)");
+        : (m.mediaType?.startsWith("image") ? "Imagem"
+          : m.mediaType?.startsWith("audio") ? "Áudio"
+          : m.mediaType?.startsWith("video") ? "Vídeo"
+          : "Mídia");
       events.push({
         id: `msg-${m.id}`,
         type: isIn ? "message_in" : "message_out",
