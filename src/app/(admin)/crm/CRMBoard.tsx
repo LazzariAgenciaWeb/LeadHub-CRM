@@ -2029,7 +2029,7 @@ export default function CRMBoard({
                               onClick={() => setConfirmDelete(true)}
                               className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors text-left"
                             >
-                              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} /> Deletar este lead
+                              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} /> Deletar {(selected.pipeline ?? pipeline) === "OPORTUNIDADES" ? "esta oportunidade" : (selected.pipeline ?? pipeline) === "PROSPECCAO" ? "este prospect" : "este lead"}
                             </button>
                           </>
                         )}
