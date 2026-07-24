@@ -1957,36 +1957,36 @@ export default function CRMBoard({
                       ))}
                     </select>
                   )}
-                </div>
 
-                {/* Atalhos mais usados — fixos no topo (antes ficavam escondidos
-                    dentro do acordeão "Conexões externas", lá embaixo). */}
-                {selected.hasWhatsapp !== false && (
-                  <div className="flex items-center gap-2 mt-2.5 flex-wrap">
-                    {whatsappEnabled && (
+                  {/* Atalhos mais usados — na MESMA linha dos seletores, alinhados à direita
+                      (antes ficavam escondidos no acordeão "Conexões externas"). */}
+                  {selected.hasWhatsapp !== false && (
+                    <div className="flex items-center gap-2 ml-auto flex-wrap">
+                      {whatsappEnabled && (
+                        <a
+                          href={leadhubInboxUrl(selected.phone)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
+                          title="Abrir a conversa na Caixa de entrada do LeadHub"
+                        >
+                          💬 Abrir no LeadHub
+                        </a>
+                      )}
                       <a
-                        href={leadhubInboxUrl(selected.phone)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
-                        title="Abrir a conversa na Caixa de entrada do LeadHub"
+                        href={waMeUrl(selected.phone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                          whatsappEnabled
+                            ? "bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white"
+                            : "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25"
+                        }`}
+                        title="Abrir no WhatsApp Web"
                       >
-                        💬 Abrir no LeadHub
+                        🌐 WhatsApp Web
                       </a>
-                    )}
-                    <a
-                      href={waMeUrl(selected.phone)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                        whatsappEnabled
-                          ? "bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white"
-                          : "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25"
-                      }`}
-                      title="Abrir no WhatsApp Web"
-                    >
-                      🌐 WhatsApp Web
-                    </a>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex items-center gap-1.5 flex-shrink-0">
