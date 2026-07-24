@@ -1989,9 +1989,57 @@ export default function CRMBoard({
                 )}
               </div>
 
-              <button onClick={() => setSelected(null)} className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-[#1e2d45] transition-colors text-lg flex-shrink-0">
-                ×
-              </button>
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                {/* Menu de ações do lead — sobe pro header (antes ficava no rodapé da coluna de infos) */}
+                <div className="relative">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setActionsOpen((v) => !v); setConfirmDelete(false); }}
+                    title="Ações do lead"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white hover:bg-[#1a2540] text-xs font-medium transition-colors"
+                  >
+                    <Settings className="w-3.5 h-3.5" stroke={gradStroke("configuracoes")} strokeWidth={2.5} />
+                    Ações <span className={`text-[10px] transition-transform ${actionsOpen ? "rotate-180" : ""}`}>▾</span>
+                  </button>
+                  {actionsOpen && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => { setActionsOpen(false); setConfirmDelete(false); }} />
+                      <div className="absolute right-0 top-full mt-1 z-20 w-60 bg-[#0f1623] border border-[#1e2d45] rounded-lg shadow-xl overflow-hidden">
+                        {confirmDelete ? (
+                          <div className="p-3 space-y-2">
+                            <p className="text-red-400 text-xs text-center">Tem certeza? Esta ação não pode ser desfeita.</p>
+                            <div className="flex gap-2">
+                              <button onClick={handleDeleteLead} disabled={deletingLead} className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold disabled:opacity-50">
+                                {deletingLead ? "Deletando..." : "Confirmar exclusão"}
+                              </button>
+                              <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white">Cancelar</button>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => { setActionsOpen(false); handleRemoveFromPipeline(); }}
+                              className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-slate-300 hover:bg-amber-500/10 hover:text-amber-400 transition-colors text-left"
+                            >
+                              📥 Mover para Caixa de Entrada
+                            </button>
+                            <div className="border-t border-[#1e2d45]" />
+                            <button
+                              onClick={() => setConfirmDelete(true)}
+                              className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors text-left"
+                            >
+                              🗑️ Deletar este lead
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <button onClick={() => setSelected(null)} className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-[#1e2d45] transition-colors text-lg">
+                  ×
+                </button>
+              </div>
             </div>
 
             {/* ── Corpo: 2 colunas ──
@@ -2982,47 +3030,6 @@ export default function CRMBoard({
                   </div>
                 )}
 
-                {/* ── Botão Ações (rodapé da coluna esquerda) ── */}
-                <div className="border-t border-[#1e2d45] pt-4 relative">
-                  {confirmDelete ? (
-                    <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 space-y-2">
-                      <p className="text-red-400 text-xs text-center">Tem certeza? Esta ação não pode ser desfeita.</p>
-                      <div className="flex gap-2">
-                        <button onClick={handleDeleteLead} disabled={deletingLead} className="flex-1 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold disabled:opacity-50">
-                          {deletingLead ? "Deletando..." : "Confirmar exclusão"}
-                        </button>
-                        <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-400 text-xs hover:text-white">Cancelar</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => setActionsOpen(!actionsOpen)}
-                        className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white hover:bg-[#1a2540] text-xs font-medium transition-colors"
-                      >
-                        <Settings className="w-3.5 h-3.5" stroke={gradStroke("configuracoes")} strokeWidth={2.5} />
-                        Ações <span className={`text-[10px] transition-transform ${actionsOpen ? "rotate-180" : ""}`}>▾</span>
-                      </button>
-                      {actionsOpen && (
-                        <div className="absolute bottom-full left-0 right-0 mb-1 bg-[#0f1623] border border-[#1e2d45] rounded-lg shadow-xl overflow-hidden z-10">
-                          <button
-                            onClick={() => { setActionsOpen(false); handleRemoveFromPipeline(); }}
-                            className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-slate-300 hover:bg-amber-500/10 hover:text-amber-400 transition-colors text-left"
-                          >
-                            📥 Mover para Caixa de Entrada
-                          </button>
-                          <div className="border-t border-[#1e2d45]" />
-                          <button
-                            onClick={() => { setActionsOpen(false); setConfirmDelete(true); }}
-                            className="w-full flex items-center gap-2 px-3 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors text-left"
-                          >
-                            🗑️ Deletar este lead
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
               </div>
 
               {/* ── Atividade / conversas (renderiza à ESQUERDA e larga por causa do row-reverse) ── */}
