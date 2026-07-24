@@ -37,7 +37,7 @@ EVOLUTION_API_KEY="sua-api-key"
 # Criar as tabelas no banco
 npm run db:push
 
-# Criar o super admin (email: admin@leadhub.com / senha: leadhub123)
+# Criar o super admin (email: adm@azzagencia.com.br / senha: leadhub123)
 npm run db:seed
 ```
 
