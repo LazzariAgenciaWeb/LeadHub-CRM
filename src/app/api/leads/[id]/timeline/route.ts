@@ -51,7 +51,7 @@ export interface TimelineEvent {
 // GET /api/leads/[id]/timeline
 // Agrega eventos do lead (criação, comentários, mensagens WhatsApp, cliques no link rastreado).
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getEffectiveSession();
@@ -119,9 +119,23 @@ export async function GET(
   }
 
   // 3. Mensagens WhatsApp (mesmo telefone + empresa)
+  //
+  // Por padrão traz só o CONTEXTO ao redor da abertura do lead: de N dias ANTES
+  // da criação em diante (default 7). Evita carregar a conversa inteira e deixa
+  // claro o que estava sendo tratado quando o lead entrou. `?msgDays=all` traz tudo.
+  const msgDaysParam = req.nextUrl.searchParams.get("msgDays");
+  const msgDays =
+    msgDaysParam === "all" ? null : Math.max(0, Number(msgDaysParam ?? 7) || 0);
+  const msgSince =
+    msgDays === null ? null : new Date(lead.createdAt.getTime() - msgDays * 86_400_000);
+
   try {
     const messages = await prisma.message.findMany({
-      where: { phone: lead.phone, companyId: lead.companyId },
+      where: {
+        phone: lead.phone,
+        companyId: lead.companyId,
+        ...(msgSince ? { receivedAt: { gte: msgSince } } : {}),
+      },
       orderBy: { receivedAt: "desc" },
       take: 50,
       select: {

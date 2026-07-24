@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   Search, Target, Lightbulb,
   Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
-  Activity as ActivityIcon, Inbox,
+  Activity as ActivityIcon, Inbox, Filter,
   type LucideIcon,
 } from "lucide-react";
 import ImportLeads from "./ImportLeads";
@@ -359,6 +359,18 @@ export default function CRMBoard({
   const [filterHasEmail, setFilterHasEmail] = useState(false);
   const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
   const [filterHasDiagnosis, setFilterHasDiagnosis] = useState(false);
+  // Filtros rápidos agora vivem dentro de um botão de filtro (ícone) no header.
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  // Janela do histórico de conversa no drawer: quantos dias ANTES da abertura do
+  // lead trazer de mensagens (pra ter contexto sem carregar a conversa inteira).
+  // "all" = tudo. Persistido no localStorage.
+  const [msgDays, setMsgDays] = useState<number | "all">(7);
+  const [histOpen, setHistOpen] = useState(false);
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("crm_msg_days") : null;
+    if (saved) setMsgDays(saved === "all" ? "all" : Number(saved) || 7);
+  }, []);
 
   // Seleção em massa (multi-select de cards)
   const [selectMode, setSelectMode] = useState(false);
@@ -780,7 +792,7 @@ export default function CRMBoard({
     setCustomValues({});
     const [commentsRes, timelineRes] = await Promise.all([
       fetch(`/api/leads/${lead.id}/comments`),
-      fetch(`/api/leads/${lead.id}/timeline`),
+      fetch(`/api/leads/${lead.id}/timeline?msgDays=${msgDays}`),
       loadTasks(lead.id),
       loadCustomFieldsAndValues(lead.id, lead.company?.id ?? defaultCompanyId),
     ]);
@@ -792,8 +804,19 @@ export default function CRMBoard({
 
   async function reloadTimeline() {
     if (!selected) return;
-    const res = await fetch(`/api/leads/${selected.id}/timeline`);
+    const res = await fetch(`/api/leads/${selected.id}/timeline?msgDays=${msgDays}`);
     if (res.ok) setTimeline(await res.json());
+  }
+
+  /** Troca a janela de histórico, persiste e recarrega a timeline. */
+  function changeMsgDays(v: number | "all") {
+    setMsgDays(v);
+    try { localStorage.setItem("crm_msg_days", String(v)); } catch { /* storage bloqueado */ }
+    if (!selected) return;
+    fetch(`/api/leads/${selected.id}/timeline?msgDays=${v}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) setTimeline(d); })
+      .catch(() => null);
   }
 
   async function loadTasks(leadId: string) {
@@ -1290,40 +1313,74 @@ export default function CRMBoard({
               ))}
             </select>
           )}
-          {/* Filtros rápidos de contato */}
-          <button
-            onClick={() => setFilterHasEmail((v) => !v)}
-            title="Mostrar só leads com e-mail"
-            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
-              filterHasEmail
-                ? "bg-orange-500/20 border-orange-500/40 text-orange-200"
-                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
-            }`}
-          >
-            📧 Com email
-          </button>
-          <button
-            onClick={() => setFilterHasWhatsapp((v) => !v)}
-            title="Mostrar só leads com WhatsApp validado"
-            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
-              filterHasWhatsapp
-                ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-200"
-                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
-            }`}
-          >
-            💬 Com WhatsApp
-          </button>
-          <button
-            onClick={() => setFilterHasDiagnosis((v) => !v)}
-            title="Mostrar só leads que já têm diagnóstico gerado"
-            className={`px-2.5 py-1.5 rounded-lg text-sm border transition-colors ${
-              filterHasDiagnosis
-                ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
-                : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
-            }`}
-          >
-            🔍 Com diagnóstico
-          </button>
+          {/* Filtros rápidos de contato — agrupados num botão de filtro */}
+          {(() => {
+            const quick = [
+              { on: filterHasEmail,     toggle: () => setFilterHasEmail((v) => !v),     label: "📧 Com email",       hint: "Só leads com e-mail" },
+              { on: filterHasWhatsapp,  toggle: () => setFilterHasWhatsapp((v) => !v),  label: "💬 Com WhatsApp",    hint: "Só leads com WhatsApp validado" },
+              { on: filterHasDiagnosis, toggle: () => setFilterHasDiagnosis((v) => !v), label: "🔍 Com diagnóstico", hint: "Só leads que já têm diagnóstico" },
+            ];
+            const activeCount = quick.filter((q) => q.on).length;
+            return (
+              <div className="relative">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setFiltersOpen((v) => !v); }}
+                  title={activeCount > 0 ? `${activeCount} filtro${activeCount > 1 ? "s" : ""} ativo${activeCount > 1 ? "s" : ""}` : "Filtros"}
+                  aria-label="Filtros"
+                  className={`relative flex items-center justify-center px-2.5 py-1.5 rounded-lg border transition-colors ${
+                    activeCount > 0
+                      ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                      : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-slate-600"
+                  }`}
+                >
+                  <Filter className="w-4 h-4" strokeWidth={2.25} />
+                  {activeCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center">
+                      {activeCount}
+                    </span>
+                  )}
+                </button>
+
+                {filtersOpen && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setFiltersOpen(false)} />
+                    <div className="absolute right-0 top-full mt-1.5 z-20 w-60 bg-[#0c1220] border border-[#1e2d45] rounded-xl shadow-xl p-1.5">
+                      <div className="px-2 py-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                        Filtros rápidos
+                      </div>
+                      {quick.map((q) => (
+                        <button
+                          key={q.label}
+                          onClick={q.toggle}
+                          title={q.hint}
+                          className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] transition-colors ${
+                            q.on ? "bg-indigo-500/15 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"
+                          }`}
+                        >
+                          <span
+                            className={`w-4 h-4 rounded flex items-center justify-center text-[10px] flex-shrink-0 border ${
+                              q.on ? "bg-indigo-500 border-indigo-500 text-white" : "border-[#2a3d56] text-transparent"
+                            }`}
+                          >
+                            ✓
+                          </span>
+                          <span className="flex-1 text-left">{q.label}</span>
+                        </button>
+                      ))}
+                      {activeCount > 0 && (
+                        <button
+                          onClick={() => { setFilterHasEmail(false); setFilterHasWhatsapp(false); setFilterHasDiagnosis(false); }}
+                          className="w-full mt-1 px-2 py-1.5 rounded-lg text-[12px] text-slate-500 hover:text-white hover:bg-white/5 transition-colors border-t border-[#1e2d45]"
+                        >
+                          Limpar filtros
+                        </button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })()}
           {pipeline === "PROSPECCAO" && (prospeccaoEnabled || isSuperAdmin) && (
             <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-2">
@@ -1901,6 +1958,35 @@ export default function CRMBoard({
                     </select>
                   )}
                 </div>
+
+                {/* Atalhos mais usados — fixos no topo (antes ficavam escondidos
+                    dentro do acordeão "Conexões externas", lá embaixo). */}
+                {selected.hasWhatsapp !== false && (
+                  <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+                    {whatsappEnabled && (
+                      <a
+                        href={leadhubInboxUrl(selected.phone)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
+                        title="Abrir a conversa na Caixa de entrada do LeadHub"
+                      >
+                        💬 Abrir no LeadHub
+                      </a>
+                    )}
+                    <a
+                      href={waMeUrl(selected.phone)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        whatsappEnabled
+                          ? "bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white"
+                          : "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25"
+                      }`}
+                      title="Abrir no WhatsApp Web"
+                    >
+                      🌐 WhatsApp Web
+                    </a>
+                  </div>
+                )}
               </div>
 
               <button onClick={() => setSelected(null)} className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-[#1e2d45] transition-colors text-lg flex-shrink-0">
@@ -1908,11 +1994,14 @@ export default function CRMBoard({
               </button>
             </div>
 
-            {/* ── Corpo: 2 colunas ── */}
-            <div className="flex-1 overflow-hidden flex flex-col md:flex-row min-h-0">
+            {/* ── Corpo: 2 colunas ──
+                 row-reverse: a ATIVIDADE (conversas/interações) fica à ESQUERDA e larga,
+                 as INFORMAÇÕES do lead à DIREITA e estreitas. Invertido via CSS pra não
+                 precisar mover os blocos de JSX de lugar. */}
+            <div className="flex-1 overflow-hidden flex flex-col md:flex-row-reverse min-h-0">
 
-              {/* ── Coluna esquerda: informações ── */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-4 md:border-r border-[#1e2d45]">
+              {/* ── Informações do lead (renderiza à DIREITA por causa do row-reverse) ── */}
+              <div className="md:w-[340px] lg:w-[380px] flex-shrink-0 overflow-y-auto p-5 space-y-4 md:border-l border-[#1e2d45]">
 
                 {/* ─── Grupo 1: STATUS DO LEAD ─── */}
                 <div className="text-[9px] uppercase tracking-[0.15em] text-slate-600 font-bold pt-1">
@@ -2691,26 +2780,7 @@ export default function CRMBoard({
                             </div>
                           ) : (
                           <div className="flex flex-wrap gap-2">
-                            {whatsappEnabled && (
-                              <a
-                                href={leadhubInboxUrl(selected.phone)}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25 text-xs font-medium transition-colors"
-                              >
-                                💬 Abrir no LeadHub
-                              </a>
-                            )}
-                            <a
-                              href={waMeUrl(selected.phone)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                                whatsappEnabled
-                                  ? "bg-[#161f30] border border-[#1e2d45] text-slate-300 hover:text-white"
-                                  : "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 hover:bg-emerald-500/25"
-                              }`}
-                            >
-                              🌐 WhatsApp Web
-                            </a>
+                            {/* "Abrir no LeadHub" e "WhatsApp Web" subiram pro header do drawer. */}
                             {whatsappEnabled && (
                               <button
                                 onClick={() => { setShowLinkConv(!showLinkConv); setLinkResult(null); setLinkPhone(""); }}
@@ -2955,8 +3025,8 @@ export default function CRMBoard({
                 </div>
               </div>
 
-              {/* ── Coluna direita: timeline ── */}
-              <div className="md:w-80 lg:w-96 flex flex-col flex-shrink-0 border-t md:border-t-0 border-[#1e2d45] min-h-0">
+              {/* ── Atividade / conversas (renderiza à ESQUERDA e larga por causa do row-reverse) ── */}
+              <div className="flex-1 flex flex-col border-t md:border-t-0 border-[#1e2d45] min-h-0">
                 {/* Header */}
                 <div className="px-4 py-3 border-b border-[#1e2d45] flex-shrink-0 flex items-center gap-2 bg-[#0f1825]">
                   <span className="text-sm font-semibold text-white flex items-center gap-1.5">
@@ -2968,6 +3038,63 @@ export default function CRMBoard({
                       {timeline.length}
                     </span>
                   )}
+
+                  {/* Configuração da janela de histórico das conversas */}
+                  <div className="relative ml-auto">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setHistOpen((v) => !v); }}
+                      title="Configurar período do histórico de conversa"
+                      aria-label="Configurações da atividade"
+                      className="flex items-center gap-1 px-2 py-1 rounded-lg border border-[#1e2d45] bg-[#0a0f1a] text-slate-400 hover:text-white hover:border-slate-600 transition-colors text-[11px]"
+                    >
+                      <Settings className="w-3.5 h-3.5" strokeWidth={2.25} />
+                      {msgDays === "all" ? "tudo" : `${msgDays}d`}
+                    </button>
+
+                    {histOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setHistOpen(false)} />
+                        <div className="absolute right-0 top-full mt-1.5 z-20 w-64 bg-[#0c1220] border border-[#1e2d45] rounded-xl shadow-xl p-3 space-y-2">
+                          <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                            Histórico de conversa
+                          </div>
+                          <p className="text-slate-500 text-[11px] leading-relaxed">
+                            Quantos dias <strong className="text-slate-300">antes da abertura do lead</strong> carregar
+                            de mensagens, pra ter o contexto sem puxar a conversa inteira.
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {([1, 3, 7, 15, 30, "all"] as const).map((v) => (
+                              <button
+                                key={String(v)}
+                                onClick={() => changeMsgDays(v as number | "all")}
+                                className={`px-2 py-1 rounded-md text-[11px] border transition-colors ${
+                                  msgDays === v
+                                    ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
+                                    : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
+                                }`}
+                              >
+                                {v === "all" ? "Tudo" : `${v} dia${v > 1 ? "s" : ""}`}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="flex items-center gap-2 pt-1">
+                            <input
+                              type="number"
+                              min={0}
+                              value={msgDays === "all" ? "" : msgDays}
+                              onChange={(e) => {
+                                const n = Number(e.target.value);
+                                if (!Number.isNaN(n) && e.target.value !== "") changeMsgDays(Math.max(0, n));
+                              }}
+                              placeholder="outro"
+                              className="w-20 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                            />
+                            <span className="text-slate-600 text-[11px]">dias antes</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 {/* Novo comentário */}
