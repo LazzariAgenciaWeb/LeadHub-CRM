@@ -18,6 +18,10 @@ model User {
   email     String   @unique
   password  String
   role      UserRole @default(CLIENT)
+  // Recuperação de senha por email: guarda o HASH (sha256) do token enviado no
+  // link + validade. Limpados após o uso. Nunca guardamos o token em texto puro.
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

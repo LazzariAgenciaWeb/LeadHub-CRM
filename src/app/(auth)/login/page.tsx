@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -95,6 +96,12 @@ export default function LoginPage() {
               {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
+
+          <div className="text-center mt-5">
+            <Link href="/esqueci-senha" className="text-slate-500 hover:text-indigo-400 text-sm transition-colors">
+              Esqueci minha senha
+            </Link>
+          </div>
         </div>
       </div>
     </div>
