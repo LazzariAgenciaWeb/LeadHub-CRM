@@ -257,13 +257,13 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
-          {showVideos && (videoCount > 0 || hasIntroVideo) && (
+          {showVideos && (
             <Link href="/meu-espaco/videos" className="prod vidcard">
               <span className="pic" style={{ background: "linear-gradient(135deg,#EC4899,#8B5CF6)" }}>🎬</span>
               <div className="pb">
                 <b>Central de vídeos</b>
                 <span className="psb">seus materiais em vídeo</span>
-                <span className="st vid">{videoCount > 0 ? `${videoCount} vídeo${videoCount === 1 ? "" : "s"}` : "Comece por aqui"}</span>
+                <span className="st vid">{videoCount > 0 ? `${videoCount} vídeo${videoCount === 1 ? "" : "s"}` : hasIntroVideo ? "Comece por aqui" : "materiais em vídeo"}</span>
                 <span className="pr">Assistir →</span>
               </div>
             </Link>
