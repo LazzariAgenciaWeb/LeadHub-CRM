@@ -51,6 +51,25 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   const [companySearch, setCompanySearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Contador de conversas "sem resposta" (status OPEN/PENDING) — alimenta o
+  // badge no item WhatsApp. Poll a cada 45s + refetch ao trocar de rota
+  // (usuário volta da inbox tendo respondido → badge some).
+  const [whatsappUnread, setWhatsappUnread] = useState(0);
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch("/api/conversations/unread-count");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setWhatsappUnread(Number(data.count) || 0);
+      } catch { /* silencioso — badge é só indicador */ }
+    }
+    load();
+    const timer = setInterval(load, 45_000);
+    return () => { cancelled = true; clearInterval(timer); };
+  }, [pathname]);
+
   // Fechar dropdown ao clicar fora
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -131,7 +150,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
   //  - `lockModule`: módulo do PLANO (hasModule). Se a empresa não contratou,
   //    o item aparece BLOQUEADO (esmaecido + cadeado) em vez de sumir.
   //  - `perm`: permissão de PAPEL/SETOR (independe de plano). Sem ela, some.
-  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; lockModule?: Parameters<typeof hasModule>[1]; perm: boolean };
+  type SidebarLink = { href: string; Icon: LucideIcon; label: string; grad: GradientKey; lockModule?: Parameters<typeof hasModule>[1]; perm: boolean; badgeKey?: "whatsappUnread" };
   type NavGroupDef = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: SidebarLink[] };
   type NavItem = SidebarLink & { locked: boolean };
   type NavGroup = { key: string; title: string; Icon: LucideIcon; grad: GradientKey; items: NavItem[] };
@@ -161,7 +180,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     {
       key: "atender", title: "Atender", Icon: MessageSquare, grad: "whatsapp",
       items: [
-        { href: "/whatsapp",        Icon: MessageSquare, label: "Mensagens",    grad: "whatsapp",  lockModule: "whatsapp",  perm: can(session, "canViewInbox") },
+        { href: "/whatsapp",        Icon: MessageSquare, label: "WhatsApp",     grad: "whatsapp",  lockModule: "whatsapp",  perm: can(session, "canViewInbox"), badgeKey: "whatsappUnread" },
         { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", lockModule: "instagram", perm: _isAdmin },
         { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  lockModule: "tickets",   perm: can(session, "canViewTickets") },
         { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       lockModule: "ai",        perm: can(session, "canUseAI") },
@@ -337,7 +356,16 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
                         }`}
                       >
                         <item.Icon className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.25} stroke={gradStroke(item.grad)} />
-                        {item.label}
+                        <span className="flex-1 truncate">{item.label}</span>
+                        {/* Badge de conversas sem resposta (só no item WhatsApp) */}
+                        {item.badgeKey === "whatsappUnread" && whatsappUnread > 0 && (
+                          <span
+                            className="flex-shrink-0 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm shadow-rose-500/40"
+                            title={`${whatsappUnread} conversa${whatsappUnread !== 1 ? "s" : ""} sem resposta`}
+                          >
+                            {whatsappUnread > 99 ? "99+" : whatsappUnread}
+                          </span>
+                        )}
                       </Link>
                     ),
                   )}
