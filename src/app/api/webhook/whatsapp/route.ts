@@ -23,10 +23,16 @@ const recentPayloads: { ts: string; event: string; instance: string; skipped?: s
 const recentAckPayloads: { ts: string; instance: string; debug: any }[] = [];
 
 export async function POST(request: NextRequest) {
-  // fix 7d — token + rate limit antes de qualquer processamento
+  // fix 7d — token + rate limit antes de qualquer processamento.
+  // O limite roda DEPOIS da validação de token, ou seja só afeta tráfego já
+  // autenticado (a nossa Evolution). Com 200/min o limite estrangulava
+  // mensagens reais durante tempestades de reconexão (evento connection.update
+  // em loop de conflito de sessão dispara centenas de webhooks/min de um único
+  // IP). 6000/min (=100/s) absorve rajadas legítimas e ainda barra um runaway
+  // absoluto caso o token vaze.
   const guarded = guardWebhook(request, {
     secretEnv: "WHATSAPP_WEBHOOK_SECRET",
-    rateLimit: 200,
+    rateLimit: 6000,
   });
   if (!guarded.ok) return guarded.response;
 
