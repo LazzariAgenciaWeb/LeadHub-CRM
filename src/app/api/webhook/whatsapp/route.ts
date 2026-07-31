@@ -22,6 +22,14 @@ import { guardWebhook } from "@/lib/webhook-auth";
 const recentPayloads: { ts: string; event: string; instance: string; skipped?: string; debug?: any }[] = [];
 const recentAckPayloads: { ts: string; instance: string; debug: any }[] = [];
 
+// Throttle de reconfiguração de webhook por instância. Sem isso, cada evento
+// connection.update(open) disparava um POST /webhook/set de volta pra Evolution
+// — durante tempestade de reconexão (5 instâncias piscando) isso martelava a
+// Evolution justamente quando ela está frágil (pre-key timeout), realimentando
+// o loop. O webhook precisa ser setado 1x, não a cada reconexão.
+const lastWebhookReconfig = new Map<string, number>();
+const WEBHOOK_RECONFIG_INTERVAL_MS = 30 * 60_000; // 30 min por instância
+
 export async function POST(request: NextRequest) {
   // fix 7d — token + rate limit antes de qualquer processamento.
   // O limite roda DEPOIS da validação de token, ou seja só afeta tráfego já
@@ -99,23 +107,32 @@ export async function POST(request: NextRequest) {
         }
 
         // Configurar webhook automaticamente para garantir que eventos sejam enviados
-        // (cobre casos de nova instância ou reconexão após troca de servidor)
-        try {
-          const { buildWhatsappWebhookUrl } = await import("@/lib/webhook-auth");
-          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "";
-          if (baseUrl) {
-            const webhookUrl = buildWhatsappWebhookUrl(baseUrl);
-            // Buscar token da instância no banco
-            const inst = await prisma.whatsappInstance.findFirst({
-              where: { instanceName: instance },
-              select: { instanceToken: true },
-            });
-            await evolutionSetWebhookEvents(instance, webhookUrl, (inst as any)?.instanceToken ?? null);
-            console.log(`[Webhook WA] Webhook reconfigurado para ${instance} → ${webhookUrl}`);
+        // (cobre casos de nova instância ou reconexão após troca de servidor).
+        // Throttled por instância (30 min) — antes rodava a CADA connection.update,
+        // martelando a Evolution durante loops de reconexão.
+        const nowReconfig = Date.now();
+        const lastReconfig = lastWebhookReconfig.get(instance) ?? 0;
+        if (nowReconfig - lastReconfig >= WEBHOOK_RECONFIG_INTERVAL_MS) {
+          lastWebhookReconfig.set(instance, nowReconfig);
+          try {
+            const { buildWhatsappWebhookUrl } = await import("@/lib/webhook-auth");
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "";
+            if (baseUrl) {
+              const webhookUrl = buildWhatsappWebhookUrl(baseUrl);
+              // Buscar token da instância no banco
+              const inst = await prisma.whatsappInstance.findFirst({
+                where: { instanceName: instance },
+                select: { instanceToken: true },
+              });
+              await evolutionSetWebhookEvents(instance, webhookUrl, (inst as any)?.instanceToken ?? null);
+              console.log(`[Webhook WA] Webhook reconfigurado para ${instance} → ${webhookUrl}`);
+            }
+          } catch (webhookErr) {
+            // Não bloqueia o fluxo — apenas loga. Libera o throttle pra tentar
+            // de novo no próximo evento (não fica travado 30 min após falha).
+            lastWebhookReconfig.delete(instance);
+            console.warn(`[Webhook WA] Falha ao reconfigurar webhook de ${instance}:`, webhookErr);
           }
-        } catch (webhookErr) {
-          // Não bloqueia o fluxo — apenas loga
-          console.warn(`[Webhook WA] Falha ao reconfigurar webhook de ${instance}:`, webhookErr);
         }
       }
 
