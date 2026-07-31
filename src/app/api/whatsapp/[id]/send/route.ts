@@ -50,6 +50,8 @@ export async function POST(
     quotedExternalId,
     quotedBody,
     quotedFromMe,
+    // Menções em grupo — números (só dígitos) dos participantes marcados.
+    mentioned,
     // Mídia opcional. Quando presente, `text` vira caption.
     media,            // base64 puro (sem prefixo data:...) — ou com prefixo, o helper limpa
     mediaMimeType,    // ex: "image/jpeg"
@@ -100,7 +102,10 @@ export async function POST(
           instanceToken,
           quoted
         )
-      : await evolutionSendText(instance.instanceName, phone, text, instanceToken, quoted);
+      : await evolutionSendText(
+          instance.instanceName, phone, text, instanceToken, quoted,
+          Array.isArray(mentioned) ? mentioned : null,
+        );
 
     // Extrair externalId do retorno da Evolution (múltiplos paths por segurança)
     const externalId: string =

@@ -403,7 +403,27 @@ export default function WhatsappManager({
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState<string | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  // Menções (@) em grupo: participantes marcados (só dígitos) + popover.
+  const [pendingMentions, setPendingMentions] = useState<string[]>([]);
+  const [showMentionPicker, setShowMentionPicker] = useState(false);
   const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Insere o token @<numero> no cursor e registra o participante pra menção.
+  function addMention(p: { digits: string; label: string }) {
+    const token = `@${p.digits} `;
+    const ta = replyTextareaRef.current;
+    if (!ta) {
+      setReplyText((t) => t + token);
+    } else {
+      const start = ta.selectionStart ?? replyText.length;
+      const end = ta.selectionEnd ?? replyText.length;
+      const next = replyText.slice(0, start) + token + replyText.slice(end);
+      setReplyText(next);
+      setTimeout(() => { ta.selectionStart = ta.selectionEnd = start + token.length; ta.focus(); }, 0);
+    }
+    setPendingMentions((prev) => prev.includes(p.digits) ? prev : [...prev, p.digits]);
+    setShowMentionPicker(false);
+  }
   // Citação (responder mensagem específica)
   const [replyingTo, setReplyingTo] = useState<WaMessage | null>(null);
 
@@ -1256,6 +1276,28 @@ export default function WhatsappManager({
     return { isOurs: false, label: display, rawNorm: norm };
   }
 
+  // Participantes de grupo que podem ser mencionados (@). Exclui nossas
+  // instâncias e contatos @lid (WhatsApp Business anonimizado — não dá pra
+  // mencionar de forma confiável). `digits` = número completo com DDI, do
+  // jeito que a Evolution/WhatsApp espera no JID.
+  const groupMentionables = useMemo(() => {
+    if (!selectedConv?.phone.includes("@g.us")) return [] as { digits: string; label: string }[];
+    const seen = new Set<string>();
+    const out: { digits: string; label: string }[] = [];
+    for (const m of convMessages) {
+      const pp = m.participantPhone;
+      if (!pp || pp.includes("@lid")) continue;
+      const digits = pp.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+      if (!digits || seen.has(digits)) continue;
+      const resolved = resolveParticipant(pp, m.participantName);
+      if (!resolved || resolved.isOurs) continue;
+      seen.add(digits);
+      out.push({ digits, label: resolved.label });
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedConv?.phone, convMessages]);
+
   // Cor estável por participante (hash do telefone → paleta)
   function getParticipantColor(phone: string): string {
     const palette = [
@@ -1705,6 +1747,8 @@ export default function WhatsappManager({
     setConvMessages([]);
     // O texto começa vazio — a assinatura agora é anexada no envio se o toggle estiver ligado
     setReplyText("");
+    setPendingMentions([]);
+    setShowMentionPicker(false);
     setReplyError(null);
     setEditingName(false);
     setLeadName(conv.lead?.name ?? "");
@@ -2021,6 +2065,12 @@ export default function WhatsappManager({
       payload.quotedBody = replyingTo.body;
       payload.quotedFromMe = replyingTo.direction === "OUTBOUND";
     }
+    // Menções: só inclui os participantes cujo token @<numero> ainda está no
+    // texto final (usuário pode ter apagado). Evita marcar quem não aparece.
+    if (pendingMentions.length > 0) {
+      const active = pendingMentions.filter((d) => finalText.includes(`@${d}`));
+      if (active.length > 0) payload.mentioned = active;
+    }
 
     const res = await fetch(`/api/whatsapp/${inst.id}/send`, {
       method: "POST",
@@ -2054,9 +2104,10 @@ export default function WhatsappManager({
           mediaType: pendingMedia?.mimeType ?? null,
         },
       ]);
-      // Após enviar, limpa citação, textarea e anexo de mídia
+      // Após enviar, limpa citação, textarea, menções e anexo de mídia
       setReplyingTo(null);
       setReplyText("");
+      setPendingMentions([]);
       setPendingMedia(null);
       setMediaError(null);
       if (mediaInputRef.current) mediaInputRef.current.value = "";
@@ -5117,9 +5168,20 @@ export default function WhatsappManager({
                       }
                       disabled={sendingReply}
                       rows={1}
-                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden"
+                      className={`w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden ${groupMentionables.length > 0 ? "pr-16" : "pr-10"}`}
                       style={{ minHeight: "42px", maxHeight: "160px" }}
                     />
+                    {/* Botão @ menção — só em grupo com participantes marcáveis */}
+                    {groupMentionables.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => { setShowMentionPicker((v) => !v); setShowEmojiPicker(false); }}
+                        className={`absolute right-9 bottom-2.5 text-base font-bold transition-colors ${showMentionPicker ? "text-indigo-400" : "text-slate-600 hover:text-slate-300"}`}
+                        title="Mencionar alguém do grupo"
+                      >
+                        @
+                      </button>
+                    )}
                     {/* Botão emoji dentro do campo */}
                     <button
                       type="button"
@@ -5129,6 +5191,27 @@ export default function WhatsappManager({
                     >
                       😊
                     </button>
+                    {/* Popover de menção — lista participantes do grupo */}
+                    {showMentionPicker && groupMentionables.length > 0 && (
+                      <div className="absolute right-0 bottom-full mb-2 w-64 max-h-56 overflow-y-auto bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 py-1">
+                        <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-slate-600 border-b border-[#1e2d45]">
+                          Mencionar
+                        </div>
+                        {groupMentionables.map((p) => (
+                          <button
+                            key={p.digits}
+                            type="button"
+                            onClick={() => addMention(p)}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-300 hover:bg-indigo-500/10 hover:text-white transition-colors text-left"
+                          >
+                            <span className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-[10px] font-bold text-indigo-300 flex-shrink-0">
+                              {p.label.charAt(0).toUpperCase()}
+                            </span>
+                            <span className="truncate">{p.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <button
                     type="submit"

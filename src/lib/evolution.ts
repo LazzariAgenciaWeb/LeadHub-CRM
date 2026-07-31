@@ -270,7 +270,11 @@ export async function evolutionSendText(
   phone: string,
   text: string,
   instanceToken?: string | null,
-  quoted?: { externalId: string; body: string; fromMe: boolean } | null
+  quoted?: { externalId: string; body: string; fromMe: boolean } | null,
+  // Menções em grupo — array de números (só dígitos, ex: "5544999998888").
+  // O texto deve conter o token `@<numero>` pra o WhatsApp renderizar o
+  // destaque; aqui montamos o array de JIDs que a Evolution v2 espera.
+  mentioned?: string[] | null
 ) {
   const { baseUrl, apiKey } = await getConfig();
 
@@ -281,6 +285,15 @@ export async function evolutionSendText(
   const number = phone.includes("@g.us") ? phone : phone.replace(/\D/g, "");
 
   const body: Record<string, unknown> = { number, text };
+
+  // Menções (só fazem sentido em grupo). Evolution v2 aceita `mentioned` como
+  // lista de NÚMEROS (só dígitos) no corpo do sendText — ela monta o JID
+  // internamente. O texto deve conter o token `@<numero>` pra renderizar.
+  // OBS: nome/formato do campo pode variar por versão da Evolution — validar
+  // com um envio real num grupo.
+  if (mentioned && mentioned.length > 0) {
+    body.mentioned = mentioned.map((n) => n.replace(/\D/g, "")).filter(Boolean);
+  }
 
   // Adicionar citação se fornecida
   if (quoted) {
