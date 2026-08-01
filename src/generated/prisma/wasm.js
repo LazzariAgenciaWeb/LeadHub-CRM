@@ -1417,6 +1417,8 @@ exports.Prisma.EmailAccountScalarFieldEnum = {
   lastUid: 'lastUid',
   uidValidity: 'uidValidity',
   lastSyncedAt: 'lastSyncedAt',
+  sentLastUid: 'sentLastUid',
+  sentUidValidity: 'sentUidValidity',
   smtpVerified: 'smtpVerified',
   imapVerified: 'imapVerified',
   lastVerifiedAt: 'lastVerifiedAt',
@@ -1447,6 +1449,14 @@ exports.Prisma.InboxEmailScalarFieldEnum = {
   sentAt: 'sentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InboxSenderRuleScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  fromEmail: 'fromEmail',
+  type: 'type',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.BillingEventScalarFieldEnum = {
@@ -2016,8 +2026,14 @@ exports.InboxEmailFolder = exports.$Enums.InboxEmailFolder = {
   INBOX: 'INBOX',
   IMPORTANT: 'IMPORTANT',
   SENT: 'SENT',
+  ARCHIVE: 'ARCHIVE',
   SPAM: 'SPAM',
   TRASH: 'TRASH'
+};
+
+exports.InboxSenderRuleType = exports.$Enums.InboxSenderRuleType = {
+  BLOCK: 'BLOCK',
+  ALLOW: 'ALLOW'
 };
 
 exports.AddonType = exports.$Enums.AddonType = {
@@ -2138,6 +2154,7 @@ exports.Prisma.ModelName = {
   EmailUnsubscribe: 'EmailUnsubscribe',
   EmailAccount: 'EmailAccount',
   InboxEmail: 'InboxEmail',
+  InboxSenderRule: 'InboxSenderRule',
   BillingEvent: 'BillingEvent',
   SubscriptionAddon: 'SubscriptionAddon',
   Coupon: 'Coupon',

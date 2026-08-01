@@ -5,10 +5,12 @@ import Link from "next/link";
 import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
-  Pencil, CheckCircle2, XCircle, AtSign,
+  Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan,
 } from "lucide-react";
 
-type Folder = "INBOX" | "IMPORTANT" | "SENT" | "SPAM" | "TRASH";
+type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
+
+type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; createdAt: string };
 
 type AccountRef = { id: string; label: string | null; fromEmail: string } | null;
 
@@ -60,6 +62,7 @@ const FOLDER_META: { key: Folder; label: string; Icon: typeof Inbox }[] = [
   { key: "INBOX",     label: "Entrada",     Icon: Inbox },
   { key: "IMPORTANT", label: "Importantes", Icon: Star },
   { key: "SENT",      label: "Enviados",    Icon: Send },
+  { key: "ARCHIVE",   label: "Resolvidos",  Icon: CheckCircle2 },
   { key: "SPAM",      label: "Spam",        Icon: AlertOctagon },
   { key: "TRASH",     label: "Lixeira",     Icon: Trash2 },
 ];
@@ -110,6 +113,13 @@ export default function EmailInbox() {
   const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
+
+  // Regras de remetente (blacklist/whitelist)
+  const [rulesOpen, setRulesOpen] = useState(false);
+  const [rules, setRules] = useState<SenderRule[]>([]);
+  const [ruleForm, setRuleForm] = useState({ fromEmail: "", type: "BLOCK" as "BLOCK" | "ALLOW" });
+  const [ruleSaving, setRuleSaving] = useState(false);
+  const [ruleMsg, setRuleMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   // Gerenciar contas
   const [accountsOpen, setAccountsOpen] = useState(false);
@@ -175,6 +185,14 @@ export default function EmailInbox() {
       body: JSON.stringify({ folder: target }),
     });
     if (res.ok) {
+      const j = await res.json().catch(() => ({}));
+      if (j.ruleCreated) {
+        setNotice(`${j.ruleCreated} entrou na blacklist — próximos emails vão direto pro Spam${j.movedToSpam ? ` (${j.movedToSpam} movido(s) junto)` : ""}`);
+        setTimeout(() => setNotice(""), 8000);
+      } else if (j.ruleRemoved) {
+        setNotice(`${j.ruleRemoved} saiu da blacklist`);
+        setTimeout(() => setNotice(""), 6000);
+      }
       setEmails((prev) => prev.filter((e) => e.id !== id));
       setSelected((s) => (s?.id === id ? null : s));
       load({ silent: true });
@@ -235,6 +253,50 @@ export default function EmailInbox() {
     } finally {
       setSending(false);
     }
+  }
+
+  // ── Regras de remetente ───────────────────────────────────────────────────
+
+  async function loadRules() {
+    const res = await fetch(`/api/email/inbox/rules`).then((r) => r.json()).catch(() => null);
+    setRules(res?.rules || []);
+  }
+
+  function openRules() {
+    setRulesOpen(true);
+    setRuleMsg(null);
+    setRuleForm({ fromEmail: "", type: "BLOCK" });
+    loadRules();
+  }
+
+  async function addRule() {
+    setRuleSaving(true);
+    setRuleMsg(null);
+    try {
+      const res = await fetch(`/api/email/inbox/rules`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ruleForm),
+      });
+      const j = await res.json();
+      if (!res.ok) { setRuleMsg({ ok: false, text: j.error || "Erro ao salvar" }); return; }
+      setRuleMsg({
+        ok: true,
+        text: ruleForm.type === "BLOCK"
+          ? `Bloqueado${j.moved ? ` — ${j.moved} email(s) movido(s) pro Spam` : ""}`
+          : `Liberado${j.moved ? ` — ${j.moved} email(s) resgatado(s) do Spam` : ""}`,
+      });
+      setRuleForm({ fromEmail: "", type: ruleForm.type });
+      loadRules();
+      load({ silent: true });
+    } finally {
+      setRuleSaving(false);
+    }
+  }
+
+  async function deleteRule(id: string) {
+    const res = await fetch(`/api/email/inbox/rules?id=${id}`, { method: "DELETE" });
+    if (res.ok) loadRules();
   }
 
   // ── Gerenciar contas ──────────────────────────────────────────────────────
@@ -364,6 +426,10 @@ export default function EmailInbox() {
           <button onClick={syncNow} disabled={syncing || noAccounts}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5 disabled:opacity-40">
             <RefreshCw size={13} className={syncing ? "animate-spin" : ""} /> Sincronizar
+          </button>
+          <button onClick={openRules}
+            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
+            <ShieldBan size={13} /> Regras
           </button>
           <button onClick={openAccounts}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
@@ -506,15 +572,19 @@ export default function EmailInbox() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button onClick={() => startReply(selected)} title="Responder"
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
+                    {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
+                      <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquivar)"
+                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Check size={14} /></button>
+                    )}
                     {selected.folder !== "IMPORTANT" && selected.folder !== "SENT" && (
                       <button onClick={() => moveTo(selected.id, "IMPORTANT")} title="Marcar como importante"
                         className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5"><Star size={14} /></button>
                     )}
-                    {selected.folder !== "SPAM" && selected.folder !== "SENT" && (
-                      <button onClick={() => moveTo(selected.id, "SPAM")} title="Marcar como spam"
+                    {selected.folder !== "SPAM" && selected.folder !== "SENT" && selected.direction === "IN" && (
+                      <button onClick={() => moveTo(selected.id, "SPAM")} title="Spam (bloqueia o remetente)"
                         className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5"><AlertOctagon size={14} /></button>
                     )}
-                    {(selected.folder === "SPAM" || selected.folder === "TRASH") && (
+                    {(selected.folder === "SPAM" || selected.folder === "TRASH" || selected.folder === "ARCHIVE") && (
                       <button onClick={() => moveTo(selected.id, "INBOX")} title="Restaurar pra Entrada"
                         className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><ArchiveRestore size={14} /></button>
                     )}
@@ -577,6 +647,53 @@ export default function EmailInbox() {
                 className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
                 {sending ? "Enviando…" : "Enviar"}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: regras de remetente (blacklist/whitelist) */}
+      {rulesOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setRulesOpen(false)}>
+          <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-white text-sm font-semibold">Regras de remetente</h3>
+              <button onClick={() => setRulesOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            <p className="text-[11px] text-slate-500 mb-3">
+              <b>Blacklist</b>: emails do remetente caem direto no Spam (marcar um email como spam também cria a regra).
+              <b> Whitelist</b>: remetente confiável, nunca vai pro Spam automático.
+            </p>
+
+            <div className="flex gap-2 mb-3">
+              <input value={ruleForm.fromEmail} onChange={(e) => setRuleForm((f) => ({ ...f, fromEmail: e.target.value }))}
+                placeholder="email@dominio.com" type="email"
+                onKeyDown={(e) => { if (e.key === "Enter" && ruleForm.fromEmail.trim()) addRule(); }}
+                className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <select value={ruleForm.type} onChange={(e) => setRuleForm((f) => ({ ...f, type: e.target.value as "BLOCK" | "ALLOW" }))}
+                className="rounded-lg bg-white/5 border border-white/10 px-2 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <option value="BLOCK" className="bg-[#0f1623]">Bloquear</option>
+                <option value="ALLOW" className="bg-[#0f1623]">Liberar</option>
+              </select>
+              <button onClick={addRule} disabled={ruleSaving || !ruleForm.fromEmail.trim()}
+                className="rounded-lg bg-indigo-500 px-3 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
+                {ruleSaving ? "…" : "Adicionar"}
+              </button>
+            </div>
+            {ruleMsg && <p className={`text-xs mb-2 ${ruleMsg.ok ? "text-emerald-400" : "text-red-400"}`}>{ruleMsg.text}</p>}
+
+            <div className="space-y-1.5">
+              {rules.length === 0 && <p className="text-slate-500 text-sm">Nenhuma regra ainda.</p>}
+              {rules.map((r) => (
+                <div key={r.id} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  {r.type === "BLOCK"
+                    ? <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 flex-shrink-0"><ShieldBan size={10} /> bloqueado</span>
+                    : <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0"><ShieldCheck size={10} /> liberado</span>}
+                  <span className="text-sm text-white truncate flex-1">{r.fromEmail}</span>
+                  <button onClick={() => deleteRule(r.id)} title="Remover regra"
+                    className="rounded-lg border border-white/10 p-1 text-slate-400 hover:bg-white/5 hover:text-red-300 flex-shrink-0"><X size={12} /></button>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
-const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "SPAM", "TRASH"];
+const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
 
 async function requireCtx() {
   const session = await getEffectiveSession();
@@ -44,7 +44,11 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 }
 
 // PATCH /api/email/inbox/[id]  { folder?, seen?, leadId?, ticketId? }
-// Move entre pastas (importante/spam/lixeira/restaurar) e ajusta vínculos.
+// Move entre pastas (importante/resolvido/spam/lixeira/restaurar) e ajusta
+// vínculos. Efeitos colaterais de spam:
+//   → SPAM (email recebido): cria regra BLOCK do remetente e move os demais
+//     emails dele que estão na Entrada pro Spam.
+//   SPAM → INBOX: remove a regra BLOCK (deixa de ser blacklist).
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const ctx = await requireCtx();
   if (!ctx.ok) return ctx.res;
@@ -53,7 +57,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const existing = await prisma.inboxEmail.findFirst({
     where: { id, companyId: ctx.companyId },
-    select: { id: true },
+    select: { id: true, folder: true, direction: true, fromEmail: true },
   });
   if (!existing) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
 
@@ -77,5 +81,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data,
     select: { id: true, folder: true, seen: true, leadId: true, ticketId: true },
   });
-  return NextResponse.json({ ok: true, email: updated });
+
+  // ── Regras de remetente (blacklist automática) ──────────────────────────
+  let ruleCreated: string | null = null;
+  let ruleRemoved: string | null = null;
+  let movedToSpam = 0;
+  const sender = existing.fromEmail?.toLowerCase();
+  const newFolder = data.folder as InboxEmailFolder | undefined;
+
+  if (newFolder === "SPAM" && existing.direction === "IN" && sender) {
+    await prisma.inboxSenderRule.upsert({
+      where: { companyId_fromEmail: { companyId: ctx.companyId, fromEmail: sender } },
+      create: { companyId: ctx.companyId, fromEmail: sender, type: "BLOCK" },
+      update: { type: "BLOCK" },
+    });
+    ruleCreated = sender;
+    const moved = await prisma.inboxEmail.updateMany({
+      where: { companyId: ctx.companyId, fromEmail: sender, folder: "INBOX", direction: "IN" },
+      data: { folder: "SPAM" },
+    });
+    movedToSpam = moved.count;
+  } else if (existing.folder === "SPAM" && newFolder === "INBOX" && sender) {
+    const del = await prisma.inboxSenderRule.deleteMany({
+      where: { companyId: ctx.companyId, fromEmail: sender, type: "BLOCK" },
+    });
+    if (del.count > 0) ruleRemoved = sender;
+  }
+
+  return NextResponse.json({ ok: true, email: updated, ruleCreated, ruleRemoved, movedToSpam });
 }

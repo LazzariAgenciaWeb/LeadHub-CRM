@@ -239,6 +239,7 @@ model Company {
   emailUnsubscribes         EmailUnsubscribe[]
   emailAccounts             EmailAccount[]
   inboxEmails               InboxEmail[]
+  inboxSenderRules          InboxSenderRule[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
   companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
@@ -2990,6 +2991,11 @@ model EmailAccount {
   uidValidity  BigInt?
   lastSyncedAt DateTime?
 
+  // Cursor separado da pasta de Enviados do servidor (\Sent) — pega emails
+  // mandados por fora da plataforma (webmail, celular).
+  sentLastUid     Int?
+  sentUidValidity BigInt?
+
   // Status da última verificação/sync
   smtpVerified   Boolean   @default(false)
   imapVerified   Boolean   @default(false)
@@ -3057,6 +3063,30 @@ model InboxEmail {
   @@index([ticketId])
 }
 
+// Regra por remetente (blacklist/whitelist):
+//   BLOCK — próximos emails do remetente caem direto na pasta SPAM. Criada
+//           automaticamente ao marcar um email como spam (removida ao restaurar)
+//           ou manualmente na tela de regras.
+//   ALLOW — remetente confiável: nunca cai no spam automático.
+// Uma regra por remetente (o tipo define o comportamento).
+model InboxSenderRule {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  fromEmail String // normalizado (lowercase)
+  type      InboxSenderRuleType @default(BLOCK)
+
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, fromEmail])
+}
+
+enum InboxSenderRuleType {
+  BLOCK
+  ALLOW
+}
+
 enum InboxEmailDirection {
   IN
   OUT
@@ -3066,6 +3096,7 @@ enum InboxEmailFolder {
   INBOX
   IMPORTANT
   SENT
+  ARCHIVE // "Resolvidos" — tratado/ok, arquivado sem descartar
   SPAM
   TRASH
 }

@@ -218,7 +218,45 @@ async function resolveIncomingLink(
   return { leadId: null, ticketId: null };
 }
 
-async function storeIncoming(companyId: string, accountId: string, uid: number, parsed: ParsedMail) {
+/** Primeiro endereço de destinatário do email parseado (lowercase). */
+function firstToAddress(parsed: ParsedMail): string {
+  const to = Array.isArray(parsed.to) ? parsed.to[0] : parsed.to;
+  return (to?.value?.[0]?.address ?? "").toLowerCase();
+}
+
+/** Vínculo de email ENVIADO (importado da pasta \Sent): thread → destinatário. */
+async function resolveOutgoingLink(
+  companyId: string,
+  inReplyTo: string | null,
+  toEmail: string
+): Promise<{ leadId: string | null; ticketId: string | null }> {
+  if (inReplyTo) {
+    const original = await prisma.inboxEmail.findFirst({
+      where: { companyId, messageId: inReplyTo },
+      select: { leadId: true, ticketId: true },
+    });
+    if (original && (original.leadId || original.ticketId)) {
+      return { leadId: original.leadId, ticketId: original.ticketId };
+    }
+  }
+  if (toEmail) {
+    const lead = await prisma.lead.findFirst({
+      where: { companyId, email: { equals: toEmail, mode: "insensitive" } },
+      orderBy: { updatedAt: "desc" },
+      select: { id: true },
+    });
+    if (lead) return { leadId: lead.id, ticketId: null };
+  }
+  return { leadId: null, ticketId: null };
+}
+
+async function storeMessage(
+  companyId: string,
+  accountId: string,
+  uid: number,
+  parsed: ParsedMail,
+  direction: "IN" | "OUT"
+) {
   const fromAddr = parsed.from?.value?.[0];
   const fromEmail = (fromAddr?.address ?? "").toLowerCase();
   const toText = Array.isArray(parsed.to)
@@ -227,7 +265,8 @@ async function storeIncoming(companyId: string, accountId: string, uid: number, 
   const messageId = parsed.messageId ?? null;
   const inReplyTo = parsed.inReplyTo ?? null;
 
-  // Dedup por Message-ID dentro da conta (re-sync após reset de uidValidity).
+  // Dedup por Message-ID dentro da conta (re-sync após reset de uidValidity;
+  // email enviado pela plataforma que também aparece na pasta \Sent).
   if (messageId) {
     const dup = await prisma.inboxEmail.findUnique({
       where: { accountId_messageId: { accountId, messageId } },
@@ -236,14 +275,29 @@ async function storeIncoming(companyId: string, accountId: string, uid: number, 
     if (dup) return false;
   }
 
-  const link = await resolveIncomingLink(companyId, inReplyTo, fromEmail);
+  let folder: InboxEmailFolder;
+  let link: { leadId: string | null; ticketId: string | null };
+  if (direction === "IN") {
+    link = await resolveIncomingLink(companyId, inReplyTo, fromEmail);
+    // Blacklist/whitelist: BLOCK → direto pro SPAM; ALLOW/nenhuma → Entrada.
+    const rule = fromEmail
+      ? await prisma.inboxSenderRule.findUnique({
+          where: { companyId_fromEmail: { companyId, fromEmail } },
+          select: { type: true },
+        })
+      : null;
+    folder = rule?.type === "BLOCK" ? "SPAM" : "INBOX";
+  } else {
+    link = await resolveOutgoingLink(companyId, inReplyTo, firstToAddress(parsed));
+    folder = "SENT";
+  }
 
   await prisma.inboxEmail.create({
     data: {
       companyId,
       accountId,
-      direction: "IN",
-      folder: "INBOX",
+      direction,
+      folder,
       messageId,
       imapUid: uid,
       fromEmail: fromEmail || "desconhecido",
@@ -256,6 +310,7 @@ async function storeIncoming(companyId: string, accountId: string, uid: number, 
       inReplyTo,
       leadId: link.leadId,
       ticketId: link.ticketId,
+      seen: direction === "OUT",
       sentAt: parsed.date ?? new Date(),
     },
   });
@@ -263,7 +318,76 @@ async function storeIncoming(companyId: string, accountId: string, uid: number, 
 }
 
 /**
- * Sincroniza a INBOX de uma conta (incremental por UID).
+ * Sincroniza UMA mailbox (incremental por UID) já com o client conectado.
+ * Retorna o cursor novo + quantos emails foram importados.
+ */
+async function syncMailbox(
+  client: ImapFlow,
+  companyId: string,
+  accountId: string,
+  path: string,
+  direction: "IN" | "OUT",
+  cursor: { lastUid: number | null; uidValidity: bigint | null }
+): Promise<{ imported: number; lastUid: number | null; uidValidity: bigint }> {
+  const lock = await client.getMailboxLock(path);
+  let imported = 0;
+  try {
+    const mailbox = client.mailbox;
+    if (!mailbox || typeof mailbox === "boolean") throw new Error(`Mailbox ${path} indisponível`);
+
+    const currentValidity = mailbox.uidValidity ?? BigInt(0);
+    // uidValidity mudou → UIDs antigos não valem mais; recomeça do fim.
+    const validCursor =
+      cursor.lastUid != null && cursor.uidValidity != null && cursor.uidValidity === currentValidity;
+
+    // Coleta os UIDs alvo. Primeira sync (ou reset): últimos FIRST_SYNC_COUNT
+    // por sequência. Incremental: UID > lastUid.
+    const uids: number[] = [];
+    if (validCursor) {
+      const found = await client.search({ uid: `${cursor.lastUid! + 1}:*` }, { uid: true });
+      for (const uid of found || []) {
+        // `N:*` sempre inclui a última mensagem mesmo se UID < N — filtra.
+        if (uid > cursor.lastUid!) uids.push(uid);
+      }
+    } else if (mailbox.exists > 0) {
+      const startSeq = Math.max(1, mailbox.exists - FIRST_SYNC_COUNT + 1);
+      const found = await client.search({ seq: `${startSeq}:*` }, { uid: true });
+      for (const uid of found || []) uids.push(uid);
+    }
+    uids.sort((a, b) => a - b);
+    const batch = uids.slice(0, MAX_PER_SYNC);
+
+    let maxUid = validCursor ? cursor.lastUid! : 0;
+    for (const uid of batch) {
+      const msg = await client.fetchOne(String(uid), { source: true }, { uid: true });
+      if (!msg || !msg.source) continue;
+      const parsed = await simpleParser(msg.source);
+      const created = await storeMessage(companyId, accountId, uid, parsed, direction);
+      if (created) imported++;
+      if (uid > maxUid) maxUid = uid;
+    }
+    return { imported, lastUid: maxUid || cursor.lastUid || null, uidValidity: currentValidity };
+  } finally {
+    lock.release();
+  }
+}
+
+/** Acha a pasta de Enviados do servidor: special-use \Sent ou nome comum. */
+async function findSentMailboxPath(client: ImapFlow): Promise<string | null> {
+  try {
+    const boxes = await client.list();
+    const bySpecial = boxes.find((b: any) => b.specialUse === "\\Sent");
+    if (bySpecial) return bySpecial.path;
+    const byName = boxes.find((b: any) => /(^|[./])(sent( items| messages)?|enviad[oa]s?)$/i.test(b.path));
+    return byName?.path ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Sincroniza a conta: INBOX (recebidos) + pasta \Sent do servidor (enviados
+ * por fora da plataforma — webmail, celular). Cursores independentes.
  * Retorna quantos emails novos foram importados.
  */
 export async function syncAccountInbox(companyId: string, accountId: string): Promise<{ imported: number }> {
@@ -276,57 +400,40 @@ export async function syncAccountInbox(companyId: string, accountId: string): Pr
   let imported = 0;
   try {
     await client.connect();
-    const lock = await client.getMailboxLock("INBOX");
-    try {
-      const mailbox = client.mailbox;
-      if (!mailbox || typeof mailbox === "boolean") throw new Error("INBOX indisponível");
 
-      const currentValidity = mailbox.uidValidity ?? BigInt(0);
-      // uidValidity mudou → UIDs antigos não valem mais; recomeça do fim.
-      const validCursor =
-        acc.lastUid != null && acc.uidValidity != null && acc.uidValidity === currentValidity;
+    const inboxResult = await syncMailbox(client, companyId, acc.id, "INBOX", "IN", {
+      lastUid: acc.lastUid,
+      uidValidity: acc.uidValidity,
+    });
+    imported += inboxResult.imported;
 
-      // Coleta os UIDs alvo. Primeira sync (ou reset): últimos FIRST_SYNC_COUNT
-      // por sequência. Incremental: UID > lastUid.
-      const uids: number[] = [];
-      if (validCursor) {
-        const found = await client.search({ uid: `${acc.lastUid! + 1}:*` }, { uid: true });
-        for (const uid of found || []) {
-          // `N:*` sempre inclui a última mensagem mesmo se UID < N — filtra.
-          if (uid > acc.lastUid!) uids.push(uid);
-        }
-      } else if (mailbox.exists > 0) {
-        const startSeq = Math.max(1, mailbox.exists - FIRST_SYNC_COUNT + 1);
-        const found = await client.search({ seq: `${startSeq}:*` }, { uid: true });
-        for (const uid of found || []) uids.push(uid);
+    // Pasta de Enviados do servidor (best-effort: nem todo servidor expõe).
+    let sentResult: { imported: number; lastUid: number | null; uidValidity: bigint } | null = null;
+    const sentPath = await findSentMailboxPath(client);
+    if (sentPath) {
+      try {
+        sentResult = await syncMailbox(client, companyId, acc.id, sentPath, "OUT", {
+          lastUid: acc.sentLastUid,
+          uidValidity: acc.sentUidValidity,
+        });
+        imported += sentResult.imported;
+      } catch (e) {
+        console.warn(`[imap-inbox] sync da pasta ${sentPath} falhou (conta ${acc.fromEmail})`, e);
       }
-      uids.sort((a, b) => a - b);
-      const batch = uids.slice(0, MAX_PER_SYNC);
-
-      let maxUid = validCursor ? acc.lastUid! : 0;
-      for (const uid of batch) {
-        const msg = await client.fetchOne(String(uid), { source: true }, { uid: true });
-        if (!msg || !msg.source) continue;
-        const parsed = await simpleParser(msg.source);
-        const created = await storeIncoming(companyId, acc.id, uid, parsed);
-        if (created) imported++;
-        if (uid > maxUid) maxUid = uid;
-      }
-
-      await prisma.emailAccount.update({
-        where: { id: acc.id },
-        data: {
-          lastUid: maxUid || acc.lastUid || null,
-          uidValidity: currentValidity,
-          lastSyncedAt: new Date(),
-          imapVerified: true,
-          lastVerifiedAt: new Date(),
-          lastError: null,
-        },
-      });
-    } finally {
-      lock.release();
     }
+
+    await prisma.emailAccount.update({
+      where: { id: acc.id },
+      data: {
+        lastUid: inboxResult.lastUid,
+        uidValidity: inboxResult.uidValidity,
+        ...(sentResult ? { sentLastUid: sentResult.lastUid, sentUidValidity: sentResult.uidValidity } : {}),
+        lastSyncedAt: new Date(),
+        imapVerified: true,
+        lastVerifiedAt: new Date(),
+        lastError: null,
+      },
+    });
     await client.logout();
   } catch (e: any) {
     try {

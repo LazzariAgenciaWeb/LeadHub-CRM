@@ -4,7 +4,7 @@ import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 import type { InboxEmailFolder, Prisma } from "@/generated/prisma";
 
-const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "SPAM", "TRASH"];
+const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "SPAM", "TRASH"];
 
 // GET /api/email/inbox?folder=INBOX&q=&skip=&take=&leadId=&ticketId=&accountId=
 // Lista emails da caixa da empresa + contadores por pasta + contas cadastradas.
