@@ -45,17 +45,26 @@ async function run(req: NextRequest) {
     }
   }
 
-  // Triagem IA automática: empresas que importaram email novo neste tick.
-  // Analisa só os não-triados (1 interação da cota por empresa). Falha de
-  // cota/config não interrompe o poller — a triagem manual continua disponível.
+  // Triagem IA automática: SÓ pra empresas com o toggle emailAiTriageAuto
+  // ligado (consome cota de interações de IA) que importaram email novo neste
+  // tick. Analisa só os não-triados. Falha de cota/config não interrompe o
+  // poller — a triagem manual continua disponível.
   let triaged = 0;
-  for (const [companyId, imported] of importedByCompany) {
-    if (imported <= 0) continue;
-    try {
-      const r = await runEmailTriage(companyId, "untriaged");
-      if (r.ok) triaged += r.analyzed;
-    } catch (e: any) {
-      console.warn(`[imap-sync] triagem IA falhou companyId=${companyId}:`, e?.message ?? e);
+  const companiesWithNew = [...importedByCompany.entries()]
+    .filter(([, n]) => n > 0)
+    .map(([companyId]) => companyId);
+  if (companiesWithNew.length) {
+    const enabled = await prisma.company.findMany({
+      where: { id: { in: companiesWithNew }, emailAiTriageAuto: true },
+      select: { id: true },
+    });
+    for (const { id: companyId } of enabled) {
+      try {
+        const r = await runEmailTriage(companyId, "untriaged");
+        if (r.ok) triaged += r.analyzed;
+      } catch (e: any) {
+        console.warn(`[imap-sync] triagem IA falhou companyId=${companyId}:`, e?.message ?? e);
+      }
     }
   }
 

@@ -224,7 +224,7 @@ model Company {
   userBadges                UserBadge[]
   scoreEvents               ScoreEvent[]
   scoreRuleConfigs          ScoreRuleConfig[]
-  setorClickupListsAsClient SetorClickupList[]       @relation("SetorClickupListClient")
+  setorClickupListsAsClient SetorClickupList[]    @relation("SetorClickupListClient")
   rewards                   Reward[]
   rewardRedemptions         RewardRedemption[]
   businessHours             BusinessHoursConfig[]
@@ -237,65 +237,70 @@ model Company {
   emailTemplates            EmailTemplate[]
   emailCampaigns            EmailCampaign[]
   emailUnsubscribes         EmailUnsubscribe[]
-  emailAccounts             EmailAccount[]
-  inboxEmails               InboxEmail[]
-  inboxSenderRules          InboxSenderRule[]
-  inboxEmailTags            InboxEmailTag[]
+  // Triagem IA automática da caixa de email no poller (consome cota de IA a
+  // cada rodada com email novo). Default OFF — o botão "Resumo IA" manual
+  // sempre funciona; este flag só controla o disparo automático.
+  emailAiTriageAuto         Boolean               @default(false)
+
+  emailAccounts           EmailAccount[]
+  inboxEmails             InboxEmail[]
+  inboxSenderRules        InboxSenderRule[]
+  inboxEmailTags          InboxEmailTag[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
-  companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
-  companyCustomValues       CompanyCustomValue[]
-  whatsappInstances         WhatsappInstance[]
-  messages                  Message[]
-  keywordRules              KeywordRule[]
-  tickets                   Ticket[]
-  ticketsAsClient           Ticket[]                 @relation("TicketClientCompany")
-  clientServices            ClientService[]          @relation("ClientServiceClient")
-  clientInvoices            ClientInvoice[]          @relation("ClientInvoiceClient")
-  trackingLinks             TrackingLink[]
-  pipelineStages            PipelineStageConfig[]
-  contacts                  CompanyContact[]
-  setores                   Setor[]
-  conversations             Conversation[]
-  activities                Activity[]
-  assets                    CompanyAsset[]
-  credentialAccessLogs      CredentialAccessLog[]
-  secureNotes               CompanySecureNote[]
-  secureNoteAccessLogs      SecureNoteAccessLog[]
-  marketingIntegrations     MarketingIntegration[]
-  metaConversionConfig      MetaConversionConfig?
-  metaConversionLogs        MetaConversionLog[]
-  instagramAccounts         InstagramAccount[]
-  igAutomations             IgAutomation[]
-  igAutomationRuns          IgAutomationRun[]
-  igConversations           IgConversation[]
-  facebookPages             FacebookPage[]
-  analyticsSnapshots        AnalyticsSnapshot[]
-  analyticsTopPages         AnalyticsTopPage[]
-  analyticsTrafficSources   AnalyticsTrafficSource[]
-  analyticsGeoData          AnalyticsGeoData[]
-  analyticsEventDaily       AnalyticsEventDaily[]
-  marketingEventConfig      MarketingEventConfig[]
-  searchConsoleQueries      SearchConsoleQuery[]
-  gbpInsights               GbpInsight[]
-  gbpReviews                GbpReview[]
-  gbpSearchKeywords         GbpSearchKeyword[]
-  gbpProfileSnapshots       GbpProfileSnapshot[]
-  adCampaignDailies         AdCampaignDaily[]
-  adSearchTermDailies       AdSearchTermDaily[]
-  adCreatives               AdCreative[]
-  adCreativeDailies         AdCreativeDaily[]
-  subscription              Subscription?
-  billingEvents             BillingEvent[]
-  addons                    SubscriptionAddon[]
-  couponRedemptions         CouponRedemption[]
-  assistants                Assistant[]
-  aiUsageLogs               AiUsageLog[]
-  services                  Service[]
-  videoCategories           VideoCategory[]          @relation("CompanyVideoCategories")
-  videoReleases             VideoCategoryRelease[]   @relation("CompanyVideoReleases")
-  triggerOnly               Boolean                  @default(false)
-  webhookToken              String?                  @unique // token público para receber leads via webhook
+  companyFieldDefs        CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
+  companyCustomValues     CompanyCustomValue[]
+  whatsappInstances       WhatsappInstance[]
+  messages                Message[]
+  keywordRules            KeywordRule[]
+  tickets                 Ticket[]
+  ticketsAsClient         Ticket[]                 @relation("TicketClientCompany")
+  clientServices          ClientService[]          @relation("ClientServiceClient")
+  clientInvoices          ClientInvoice[]          @relation("ClientInvoiceClient")
+  trackingLinks           TrackingLink[]
+  pipelineStages          PipelineStageConfig[]
+  contacts                CompanyContact[]
+  setores                 Setor[]
+  conversations           Conversation[]
+  activities              Activity[]
+  assets                  CompanyAsset[]
+  credentialAccessLogs    CredentialAccessLog[]
+  secureNotes             CompanySecureNote[]
+  secureNoteAccessLogs    SecureNoteAccessLog[]
+  marketingIntegrations   MarketingIntegration[]
+  metaConversionConfig    MetaConversionConfig?
+  metaConversionLogs      MetaConversionLog[]
+  instagramAccounts       InstagramAccount[]
+  igAutomations           IgAutomation[]
+  igAutomationRuns        IgAutomationRun[]
+  igConversations         IgConversation[]
+  facebookPages           FacebookPage[]
+  analyticsSnapshots      AnalyticsSnapshot[]
+  analyticsTopPages       AnalyticsTopPage[]
+  analyticsTrafficSources AnalyticsTrafficSource[]
+  analyticsGeoData        AnalyticsGeoData[]
+  analyticsEventDaily     AnalyticsEventDaily[]
+  marketingEventConfig    MarketingEventConfig[]
+  searchConsoleQueries    SearchConsoleQuery[]
+  gbpInsights             GbpInsight[]
+  gbpReviews              GbpReview[]
+  gbpSearchKeywords       GbpSearchKeyword[]
+  gbpProfileSnapshots     GbpProfileSnapshot[]
+  adCampaignDailies       AdCampaignDaily[]
+  adSearchTermDailies     AdSearchTermDaily[]
+  adCreatives             AdCreative[]
+  adCreativeDailies       AdCreativeDaily[]
+  subscription            Subscription?
+  billingEvents           BillingEvent[]
+  addons                  SubscriptionAddon[]
+  couponRedemptions       CouponRedemption[]
+  assistants              Assistant[]
+  aiUsageLogs             AiUsageLog[]
+  services                Service[]
+  videoCategories         VideoCategory[]          @relation("CompanyVideoCategories")
+  videoReleases           VideoCategoryRelease[]   @relation("CompanyVideoReleases")
+  triggerOnly             Boolean                  @default(false)
+  webhookToken            String?                  @unique // token público para receber leads via webhook
 
   @@index([parentCompanyId])
 }
@@ -3329,7 +3334,7 @@ model AiUsageLog {
   @@index([assistantId])
 }
 
-// ─── Catálogo de Serviços ─────────────────────────────────────────────────────
+// ─── Catálogo de Serviços ��────────────────────────────────────────────────────
 // Serviço = CONHECIMENTO que os agentes consultam (não é um agente). O agente de
 // Vendas/Pré-atendente usa o catálogo pra reconhecer o que o contato quer e fazer
 // as perguntas de qualificação certas. priceRange é de USO INTERNO — NÃO é

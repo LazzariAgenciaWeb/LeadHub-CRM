@@ -132,6 +132,7 @@ export default function EmailInbox() {
   const [sendErr, setSendErr] = useState("");
 
   // Triagem IA
+  const [aiAuto, setAiAuto] = useState<boolean | null>(null); // null = carregando
   const [aiOpen, setAiOpen] = useState(false);
   const [aiDigest, setAiDigest] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
@@ -406,6 +407,31 @@ export default function EmailInbox() {
 
   // ── Triagem IA ────────────────────────────────────────────────────────────
 
+  useEffect(() => {
+    fetch(`/api/email/inbox/settings`)
+      .then((r) => r.json())
+      .then((j) => setAiAuto(!!j.aiTriageAuto))
+      .catch(() => setAiAuto(false));
+  }, []);
+
+  async function toggleAiAuto() {
+    if (aiAuto === null) return;
+    const next = !aiAuto;
+    setAiAuto(next);
+    const res = await fetch(`/api/email/inbox/settings`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ aiTriageAuto: next }),
+    });
+    if (!res.ok) setAiAuto(!next); // reverte se falhou
+    else {
+      setNotice(next
+        ? "Triagem automática LIGADA — email novo será analisado pela IA (consome cota)"
+        : "Triagem automática desligada — use o botão Resumo IA quando quiser");
+      setTimeout(() => setNotice(""), 7000);
+    }
+  }
+
   async function runAiTriage() {
     setAiOpen(true);
     setAiLoading(true);
@@ -656,6 +682,15 @@ export default function EmailInbox() {
             dica: selecione todos e mande pra Lixeira ou Spam de uma vez
           </span>
         )}
+        <button onClick={toggleAiAuto} disabled={aiAuto === null}
+          title={aiAuto
+            ? "A IA analisa automaticamente cada email novo que chega (consome cota de IA). Clique pra desligar."
+            : "Desligada: a IA só roda quando você clica em Resumo IA. Clique pra ligar a análise automática (consome cota a cada email novo)."}
+          className={`ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[11px] border ${
+            aiAuto ? "border-indigo-500/40 bg-indigo-500/15 text-indigo-200" : "border-white/10 text-slate-500 hover:bg-white/5"}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${aiAuto ? "bg-emerald-400" : "bg-slate-600"}`} />
+          Triagem automática: {aiAuto === null ? "…" : aiAuto ? "ligada" : "desligada"}
+        </button>
       </div>
 
       {/* Tags — filtro */}

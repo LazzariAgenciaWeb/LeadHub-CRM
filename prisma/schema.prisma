@@ -237,6 +237,11 @@ model Company {
   emailTemplates            EmailTemplate[]
   emailCampaigns            EmailCampaign[]
   emailUnsubscribes         EmailUnsubscribe[]
+  // Triagem IA automática da caixa de email no poller (consome cota de IA a
+  // cada rodada com email novo). Default OFF — o botão "Resumo IA" manual
+  // sempre funciona; este flag só controla o disparo automático.
+  emailAiTriageAuto Boolean @default(false)
+
   emailAccounts             EmailAccount[]
   inboxEmails               InboxEmail[]
   inboxSenderRules          InboxSenderRule[]

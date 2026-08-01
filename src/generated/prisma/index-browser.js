@@ -209,6 +209,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   aiUsedThisMonth: 'aiUsedThisMonth',
   aiQuotaResetAt: 'aiQuotaResetAt',
   parentCompanyId: 'parentCompanyId',
+  emailAiTriageAuto: 'emailAiTriageAuto',
   triggerOnly: 'triggerOnly',
   webhookToken: 'webhookToken'
 };
