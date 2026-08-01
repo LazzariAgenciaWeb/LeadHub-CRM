@@ -26,6 +26,12 @@ export async function GET(req: NextRequest) {
   const leadId = sp.get("leadId");
   const ticketId = sp.get("ticketId");
   const accountId = sp.get("accountId");
+  const tagId = sp.get("tagId");
+  // Filtro pela triagem IA: ALTA | NORMAL | BAIXA | NONE (ainda sem análise)
+  const importanceParam = sp.get("importance")?.toUpperCase() ?? null;
+  const importance = ["ALTA", "NORMAL", "BAIXA", "NONE"].includes(importanceParam ?? "")
+    ? importanceParam
+    : null;
   const q = sp.get("q")?.trim();
   const skip = Math.max(0, parseInt(sp.get("skip") ?? "0", 10) || 0);
   const take = Math.min(100, Math.max(1, parseInt(sp.get("take") ?? "50", 10) || 50));
@@ -42,6 +48,8 @@ export async function GET(req: NextRequest) {
     where.folder = folder;
   }
   if (accountId) where.accountId = accountId;
+  if (tagId) where.tags = { some: { id: tagId } };
+  if (importance) where.aiImportance = importance === "NONE" ? null : importance;
   if (q) {
     where.OR = [
       { subject: { contains: q, mode: "insensitive" } },
@@ -67,6 +75,7 @@ export async function GET(req: NextRequest) {
         subject: true, snippet: true, seen: true, sentAt: true,
         aiImportance: true, aiSummary: true,
         leadId: true, ticketId: true, accountId: true,
+        tags: { select: { id: true, name: true, color: true } },
         account: { select: { id: true, label: true, fromEmail: true } },
         lead: { select: { id: true, name: true } },
         ticket: { select: { id: true, title: true } },

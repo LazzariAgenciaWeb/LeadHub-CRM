@@ -240,6 +240,7 @@ model Company {
   emailAccounts             EmailAccount[]
   inboxEmails               InboxEmail[]
   inboxSenderRules          InboxSenderRule[]
+  inboxEmailTags            InboxEmailTag[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
   companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
@@ -3053,6 +3054,9 @@ model InboxEmail {
   aiImportance String?
   aiSummary    String? @db.Text
 
+  // Tags livres da empresa (classificação manual, m2m implícito).
+  tags InboxEmailTag[] @relation("InboxEmailTags")
+
   seen   Boolean  @default(false)
   sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
 
@@ -3090,6 +3094,23 @@ model InboxSenderRule {
 enum InboxSenderRuleType {
   BLOCK
   ALLOW
+}
+
+// Tag de email da empresa — classificação manual da caixa ("Financeiro",
+// "Fornecedor", "Urgente"...). Aplicada por email (m2m) e usada como filtro.
+model InboxEmailTag {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  name  String
+  color String @default("#6366f1") // hex da etiqueta na UI
+
+  emails InboxEmail[] @relation("InboxEmailTags")
+
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, name])
 }
 
 enum InboxEmailDirection {

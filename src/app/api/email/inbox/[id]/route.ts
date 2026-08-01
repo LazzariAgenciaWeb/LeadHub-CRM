@@ -31,6 +31,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       inReplyTo: true, seen: true, sentAt: true,
       aiImportance: true, aiSummary: true,
       leadId: true, ticketId: true, accountId: true,
+      tags: { select: { id: true, name: true, color: true } },
       account: { select: { id: true, label: true, fromEmail: true } },
       lead: { select: { id: true, name: true, email: true, pipeline: true } },
       ticket: { select: { id: true, title: true } },
@@ -73,6 +74,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (body.seen !== undefined) data.seen = !!body.seen;
   if (body.leadId !== undefined) data.leadId = body.leadId || null;
   if (body.ticketId !== undefined) data.ticketId = body.ticketId || null;
+  // Tags: adiciona/remove uma tag da empresa (valida o dono antes).
+  if (body.addTagId || body.removeTagId) {
+    const tagId = String(body.addTagId || body.removeTagId);
+    const tag = await prisma.inboxEmailTag.findFirst({
+      where: { id: tagId, companyId: ctx.companyId },
+      select: { id: true },
+    });
+    if (!tag) return NextResponse.json({ error: "Tag não encontrada" }, { status: 404 });
+    data.tags = body.addTagId ? { connect: { id: tag.id } } : { disconnect: { id: tag.id } };
+  }
   if (!Object.keys(data).length) {
     return NextResponse.json({ error: "Nada pra atualizar" }, { status: 400 });
   }

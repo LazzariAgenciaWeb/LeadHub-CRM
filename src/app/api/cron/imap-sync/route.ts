@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { syncAccountInbox } from "@/lib/imap-inbox";
+import { runEmailTriage } from "@/lib/email-triage";
 
 export const dynamic = "force-dynamic";
 
@@ -31,10 +32,12 @@ async function run(req: NextRequest) {
   });
 
   const summary: { account: string; imported?: number; error?: string }[] = [];
+  const importedByCompany = new Map<string, number>();
   for (const acc of accounts) {
     try {
       const { imported } = await syncAccountInbox(acc.companyId, acc.id);
       summary.push({ account: acc.fromEmail, imported });
+      importedByCompany.set(acc.companyId, (importedByCompany.get(acc.companyId) ?? 0) + imported);
     } catch (e: any) {
       // Uma conta com IMAP fora do ar não pode travar as demais.
       console.error(`[imap-sync] falha conta=${acc.fromEmail}:`, e?.message ?? e);
@@ -42,7 +45,22 @@ async function run(req: NextRequest) {
     }
   }
 
+  // Triagem IA automática: empresas que importaram email novo neste tick.
+  // Analisa só os não-triados (1 interação da cota por empresa). Falha de
+  // cota/config não interrompe o poller — a triagem manual continua disponível.
+  let triaged = 0;
+  for (const [companyId, imported] of importedByCompany) {
+    if (imported <= 0) continue;
+    try {
+      const r = await runEmailTriage(companyId, "untriaged");
+      if (r.ok) triaged += r.analyzed;
+    } catch (e: any) {
+      console.warn(`[imap-sync] triagem IA falhou companyId=${companyId}:`, e?.message ?? e);
+    }
+  }
+
   return NextResponse.json({
+    triaged,
     ok: true,
     accounts: accounts.length,
     imported: summary.reduce((acc, s) => acc + (s.imported ?? 0), 0),

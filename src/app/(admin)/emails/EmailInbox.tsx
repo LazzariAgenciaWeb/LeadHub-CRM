@@ -6,11 +6,14 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
+  Tag as TagIcon,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
 
 type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; createdAt: string };
+
+type EmailTag = { id: string; name: string; color: string; count?: number };
 
 type AccountRef = { id: string; label: string | null; fromEmail: string } | null;
 
@@ -27,6 +30,7 @@ type EmailRow = {
   sentAt: string;
   aiImportance: "ALTA" | "NORMAL" | "BAIXA" | null;
   aiSummary: string | null;
+  tags: EmailTag[];
   leadId: string | null;
   ticketId: string | null;
   accountId: string | null;
@@ -105,6 +109,11 @@ const EMPTY_ACC_FORM = {
 export default function EmailInbox() {
   const [folder, setFolder] = useState<Folder>("INBOX");
   const [accountFilter, setAccountFilter] = useState<string | null>(null);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [aiFilter, setAiFilter] = useState<"ALTA" | "NORMAL" | "BAIXA" | null>(null);
+  const [tags, setTags] = useState<EmailTag[]>([]);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [unseen, setUnseen] = useState(0);
@@ -159,6 +168,8 @@ export default function EmailInbox() {
       const params = new URLSearchParams({ folder });
       if (q.trim()) params.set("q", q.trim());
       if (accountFilter) params.set("accountId", accountFilter);
+      if (tagFilter) params.set("tagId", tagFilter);
+      if (aiFilter) params.set("importance", aiFilter);
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
       setEmails(res.emails || []);
       setCounts(res.counts || {});
@@ -167,9 +178,18 @@ export default function EmailInbox() {
     } finally {
       if (!opts?.silent) setLoading(false);
     }
-  }, [folder, q, accountFilter]);
+  }, [folder, q, accountFilter, tagFilter, aiFilter]);
 
   useEffect(() => { load(); }, [load]);
+
+  // Seleção zera ao trocar pasta/filtros.
+  useEffect(() => { setSelectedIds(new Set()); }, [folder, accountFilter, tagFilter, aiFilter, q]);
+
+  const loadTags = useCallback(async () => {
+    const res = await fetch(`/api/email/inbox/tags`).then((r) => r.json()).catch(() => null);
+    setTags(res?.tags || []);
+  }, []);
+  useEffect(() => { loadTags(); }, [loadTags]);
 
   // Atualização leve a cada 60s (o poller do servidor importa; aqui só relemos).
   useEffect(() => {
@@ -266,6 +286,121 @@ export default function EmailInbox() {
       load({ silent: true });
     } finally {
       setSending(false);
+    }
+  }
+
+  // ── Seleção múltipla / ações em lote ─────────────────────────────────────
+
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    setSelectedIds((prev) =>
+      prev.size === emails.length ? new Set() : new Set(emails.map((e) => e.id))
+    );
+  }
+
+  async function bulkAction(action: string, tagId?: string) {
+    if (!selectedIds.size || bulkBusy) return;
+    if (action === "DELETE_SERVER" &&
+        !window.confirm(`Excluir DEFINITIVAMENTE ${selectedIds.size} email(s)? Serão removidos também do servidor de email. Não dá pra desfazer.`)) {
+      return;
+    }
+    setBulkBusy(true);
+    try {
+      const res = await fetch(`/api/email/inbox/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [...selectedIds], action, tagId }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setNotice(j.error || "Falha na ação"); }
+      else {
+        const msgs: Record<string, string> = {
+          SPAM: `${j.affected} email(s) pro Spam${j.rulesCreated ? ` · ${j.rulesCreated} remetente(s) na blacklist` : ""}`,
+          TRASH: `${j.affected} email(s) pra Lixeira`,
+          IMPORTANT: `${j.affected} email(s) marcados como importantes`,
+          ARCHIVE: `${j.affected} email(s) resolvidos`,
+          INBOX: `${j.affected} email(s) restaurados`,
+          DELETE_SERVER: `${j.affected} excluído(s) — ${j.serverDeleted} removido(s) do servidor`,
+          ADD_TAG: `Tag aplicada em ${j.affected} email(s)`,
+          REMOVE_TAG: `Tag removida de ${j.affected} email(s)`,
+        };
+        setNotice(msgs[action] ?? "Feito");
+        setSelectedIds(new Set());
+        setSelected(null);
+        load({ silent: true });
+        if (action.includes("TAG")) loadTags();
+      }
+      setTimeout(() => setNotice(""), 7000);
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  async function createTag(name: string): Promise<EmailTag | null> {
+    const res = await fetch(`/api/email/inbox/tags`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    const j = await res.json();
+    if (!res.ok) { setNotice(j.error || "Erro ao criar tag"); setTimeout(() => setNotice(""), 5000); return null; }
+    await loadTags();
+    return j.tag;
+  }
+
+  // Select de tag reutilizado (barra em lote e painel de leitura). Valor
+  // "__new" abre um prompt pra criar a tag na hora.
+  async function resolveTagChoice(value: string): Promise<string | null> {
+    if (value === "__new") {
+      const name = window.prompt("Nome da nova tag:");
+      if (!name?.trim()) return null;
+      const tag = await createTag(name.trim());
+      return tag?.id ?? null;
+    }
+    return value || null;
+  }
+
+  async function tagSelected(value: string) {
+    const tagId = await resolveTagChoice(value);
+    if (tagId) bulkAction("ADD_TAG", tagId);
+  }
+
+  async function tagCurrent(value: string) {
+    if (!selected) return;
+    const tagId = await resolveTagChoice(value);
+    if (!tagId) return;
+    const res = await fetch(`/api/email/inbox/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ addTagId: tagId }),
+    });
+    if (res.ok) {
+      const tag = tags.find((t) => t.id === tagId);
+      if (tag) setSelected((s) => (s ? { ...s, tags: [...s.tags.filter((t) => t.id !== tagId), tag] } : s));
+      load({ silent: true });
+      loadTags();
+    }
+  }
+
+  async function untagCurrent(tagId: string) {
+    if (!selected) return;
+    const res = await fetch(`/api/email/inbox/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ removeTagId: tagId }),
+    });
+    if (res.ok) {
+      setSelected((s) => (s ? { ...s, tags: s.tags.filter((t) => t.id !== tagId) } : s));
+      load({ silent: true });
+      loadTags();
     }
   }
 
@@ -503,6 +638,45 @@ export default function EmailInbox() {
         </div>
       )}
 
+      {/* Filtro pela triagem IA */}
+      <div className="flex flex-wrap items-center gap-1.5 mb-3">
+        <Sparkles size={12} className="text-indigo-400" />
+        {(["ALTA", "NORMAL", "BAIXA"] as const).map((imp) => (
+          <button key={imp} onClick={() => setAiFilter(aiFilter === imp ? null : imp)}
+            className={`px-2 py-0.5 rounded-lg text-[11px] border ${
+              aiFilter === imp ? "border-indigo-500/50 " + IMPORTANCE_BADGE[imp].cls : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+            {IMPORTANCE_BADGE[imp].label}
+          </button>
+        ))}
+        {aiFilter && (
+          <button onClick={() => setAiFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
+        )}
+        {aiFilter === "BAIXA" && (
+          <span className="text-[10px] text-slate-500">
+            dica: selecione todos e mande pra Lixeira ou Spam de uma vez
+          </span>
+        )}
+      </div>
+
+      {/* Tags — filtro */}
+      {tags.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+          <TagIcon size={12} className="text-slate-500" />
+          {tags.map((t) => (
+            <button key={t.id} onClick={() => setTagFilter(tagFilter === t.id ? null : t.id)}
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
+                tagFilter === t.id ? "border-indigo-500/50" : "border-white/10 hover:bg-white/5"}`}>
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+              <span className="text-slate-300">{t.name}</span>
+              {typeof t.count === "number" && t.count > 0 && <span className="text-[9px] text-slate-500">{t.count}</span>}
+            </button>
+          ))}
+          {tagFilter && (
+            <button onClick={() => setTagFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
+          )}
+        </div>
+      )}
+
       {noAccounts && (
         <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
           Nenhuma conta de email cadastrada. Clique em <b>Contas</b> pra adicionar seus emails
@@ -531,12 +705,57 @@ export default function EmailInbox() {
 
         {/* Lista */}
         <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0">
-          <div className="p-2 border-b border-white/10">
-            <div className="relative">
-              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por assunto, remetente…"
-                className="w-full rounded-lg bg-white/5 border border-white/10 pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <div className="p-2 border-b border-white/10 space-y-2">
+            <div className="flex items-center gap-2">
+              <input type="checkbox" title="Selecionar todos"
+                checked={emails.length > 0 && selectedIds.size === emails.length}
+                onChange={toggleSelectAll}
+                className="accent-indigo-500 flex-shrink-0" />
+              <div className="relative flex-1">
+                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por assunto, remetente…"
+                  className="w-full rounded-lg bg-white/5 border border-white/10 pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              </div>
             </div>
+            {selectedIds.size > 0 && (
+              <div className="flex flex-wrap items-center gap-1">
+                <span className="text-[10px] text-slate-400 mr-1">{selectedIds.size} sel.</span>
+                {folder !== "IMPORTANT" && (
+                  <button onClick={() => bulkAction("IMPORTANT")} disabled={bulkBusy} title="Marcar importantes"
+                    className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5 disabled:opacity-40"><Star size={13} /></button>
+                )}
+                {(folder === "INBOX" || folder === "IMPORTANT") && (
+                  <button onClick={() => bulkAction("ARCHIVE")} disabled={bulkBusy} title="Resolvidos (arquivar)"
+                    className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5 disabled:opacity-40"><Check size={13} /></button>
+                )}
+                {folder !== "SPAM" && folder !== "SENT" && (
+                  <button onClick={() => bulkAction("SPAM")} disabled={bulkBusy} title="Spam (bloqueia remetentes)"
+                    className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5 disabled:opacity-40"><AlertOctagon size={13} /></button>
+                )}
+                {(folder === "SPAM" || folder === "TRASH" || folder === "ARCHIVE") && (
+                  <button onClick={() => bulkAction("INBOX")} disabled={bulkBusy} title="Restaurar pra Entrada"
+                    className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5 disabled:opacity-40"><ArchiveRestore size={13} /></button>
+                )}
+                {folder !== "TRASH" ? (
+                  <button onClick={() => bulkAction("TRASH")} disabled={bulkBusy} title="Lixeira"
+                    className="rounded-lg border border-white/10 p-1.5 text-red-300 hover:bg-white/5 disabled:opacity-40"><Trash2 size={13} /></button>
+                ) : (
+                  <button onClick={() => bulkAction("DELETE_SERVER")} disabled={bulkBusy}
+                    title="Excluir definitivamente (remove também do servidor de email)"
+                    className="rounded-lg border border-red-500/40 bg-red-500/10 px-2 py-1 text-[10px] text-red-300 hover:bg-red-500/20 disabled:opacity-40">
+                    Excluir do servidor
+                  </button>
+                )}
+                <select value="" onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) tagSelected(v); }}
+                  disabled={bulkBusy}
+                  title="Aplicar tag aos selecionados"
+                  className="rounded-lg bg-white/5 border border-white/10 px-1.5 py-1 text-[10px] text-slate-300 focus:outline-none max-w-[110px]">
+                  <option value="" className="bg-[#0f1623]">+ tag…</option>
+                  {tags.map((t) => <option key={t.id} value={t.id} className="bg-[#0f1623]">{t.name}</option>)}
+                  <option value="__new" className="bg-[#0f1623]">＋ criar nova tag</option>
+                </select>
+              </div>
+            )}
           </div>
           <div className="flex-1 overflow-y-auto">
             {loading && <p className="p-3 text-slate-500 text-sm">Carregando…</p>}
@@ -544,32 +763,44 @@ export default function EmailInbox() {
               <p className="p-3 text-slate-500 text-sm">Nenhum email nesta pasta.</p>
             )}
             {emails.map((e) => (
-              <button key={e.id} onClick={() => openEmail(e)}
-                className={`w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/5 ${selected?.id === e.id ? "bg-white/10" : ""}`}>
-                <div className="flex items-center gap-2">
-                  {!e.seen && e.direction === "IN" && <span className="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0" />}
-                  <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
-                    {e.direction === "OUT" ? `Para: ${e.toEmail}` : (e.fromName || e.fromEmail)}
-                  </span>
-                  <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
-                </div>
-                <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
-                <div className="flex items-center gap-1.5">
-                  <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
-                  {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${IMPORTANCE_BADGE[e.aiImportance].cls}`}>
-                      {IMPORTANCE_BADGE[e.aiImportance].label}
+              <div key={e.id} onClick={() => openEmail(e)} role="button" tabIndex={0}
+                onKeyDown={(ev) => { if (ev.key === "Enter") openEmail(e); }}
+                className={`flex gap-2 w-full text-left px-3 py-2.5 border-b border-white/5 hover:bg-white/5 cursor-pointer ${selected?.id === e.id ? "bg-white/10" : ""}`}>
+                <input type="checkbox" checked={selectedIds.has(e.id)}
+                  onChange={() => toggleSelect(e.id)}
+                  onClick={(ev) => ev.stopPropagation()}
+                  className="accent-indigo-500 flex-shrink-0 mt-1" />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    {!e.seen && e.direction === "IN" && <span className="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0" />}
+                    <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
+                      {e.direction === "OUT" ? `Para: ${e.toEmail}` : (e.fromName || e.fromEmail)}
                     </span>
-                  )}
-                  {e.account && (
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(e.accountId)}`}>
-                      {accountName(e.account)}
-                    </span>
-                  )}
-                  {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
-                  {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
+                    <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
+                  </div>
+                  <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
+                    {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (
+                      <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${IMPORTANCE_BADGE[e.aiImportance].cls}`}>
+                        {IMPORTANCE_BADGE[e.aiImportance].label}
+                      </span>
+                    )}
+                    {e.tags?.map((t) => (
+                      <span key={t.id} className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300 flex-shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: t.color }} />{t.name}
+                      </span>
+                    ))}
+                    {e.account && (
+                      <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(e.accountId)}`}>
+                        {accountName(e.account)}
+                      </span>
+                    )}
+                    {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
+                    {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
+                  </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>
@@ -621,6 +852,22 @@ export default function EmailInbox() {
                           <LifeBuoy size={10} /> {selected.ticket.title}
                         </Link>
                       )}
+                      {selected.tags?.map((t) => (
+                        <span key={t.id} className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300">
+                          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+                          {t.name}
+                          <button onClick={() => untagCurrent(t.id)} title="Remover tag" className="text-slate-500 hover:text-red-300 ml-0.5">×</button>
+                        </span>
+                      ))}
+                      <select value="" onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) tagCurrent(v); }}
+                        title="Adicionar tag"
+                        className="rounded bg-white/5 border border-white/10 px-1 py-0.5 text-[10px] text-slate-400 focus:outline-none max-w-[90px]">
+                        <option value="" className="bg-[#0f1623]">+ tag</option>
+                        {tags.filter((t) => !selected.tags?.some((st) => st.id === t.id)).map((t) => (
+                          <option key={t.id} value={t.id} className="bg-[#0f1623]">{t.name}</option>
+                        ))}
+                        <option value="__new" className="bg-[#0f1623]">＋ criar nova</option>
+                      </select>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">

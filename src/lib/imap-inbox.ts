@@ -467,6 +467,55 @@ export async function syncCompanyAccounts(companyId: string): Promise<{ imported
   return { imported, errors };
 }
 
+/**
+ * Apaga um email TAMBÉM no servidor IMAP (exclusão definitiva da Lixeira).
+ * Segurança: antes de deletar, confere o Message-ID do UID no servidor contra
+ * o registrado — se a mailbox foi renumerada (uidValidity reset), o UID pode
+ * apontar pra outro email e aí NÃO deletamos.
+ * Retorna true se deletou no servidor; false se não foi possível (sem conta,
+ * sem UID, Message-ID divergente…) — o registro local é apagado mesmo assim
+ * pelo chamador.
+ */
+export async function deleteEmailFromServer(companyId: string, inboxEmailId: string): Promise<boolean> {
+  const email = await prisma.inboxEmail.findFirst({
+    where: { id: inboxEmailId, companyId },
+    select: { imapUid: true, messageId: true, direction: true, accountId: true },
+  });
+  if (!email?.accountId || !email.imapUid) return false;
+  const acc = await prisma.emailAccount.findFirst({ where: { id: email.accountId, companyId } });
+  if (!acc?.imapHost) return false;
+  const imapCfg = decryptedImap(acc);
+  if (!imapCfg) return false;
+
+  const client = buildImapClient(imapCfg);
+  try {
+    await client.connect();
+    const path = email.direction === "IN" ? "INBOX" : (await findSentMailboxPath(client)) ?? "INBOX";
+    const lock = await client.getMailboxLock(path);
+    try {
+      // Confere identidade do UID antes de deletar.
+      if (email.messageId) {
+        const msg = await client.fetchOne(String(email.imapUid), { envelope: true }, { uid: true });
+        const serverMsgId = msg && typeof msg !== "boolean" ? msg.envelope?.messageId : null;
+        if (!serverMsgId || serverMsgId !== email.messageId) return false;
+      }
+      await client.messageDelete(String(email.imapUid), { uid: true });
+      return true;
+    } finally {
+      lock.release();
+    }
+  } catch (e) {
+    console.warn(`[imap-inbox] exclusão no servidor falhou (email ${inboxEmailId})`, e);
+    return false;
+  } finally {
+    try {
+      await client.logout();
+    } catch {
+      try { client.close(); } catch {}
+    }
+  }
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
