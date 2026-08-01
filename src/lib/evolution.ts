@@ -286,13 +286,19 @@ export async function evolutionSendText(
 
   const body: Record<string, unknown> = { number, text };
 
-  // Menções (só fazem sentido em grupo). Evolution v2 aceita `mentioned` como
-  // lista de NÚMEROS (só dígitos) no corpo do sendText — ela monta o JID
-  // internamente. O texto deve conter o token `@<numero>` pra renderizar.
-  // OBS: nome/formato do campo pode variar por versão da Evolution — validar
-  // com um envio real num grupo.
+  // Menções (só em grupo). Recebe JIDs completos — mantém @lid (identidade
+  // anonimizada do WhatsApp Business, hoje o identificador válido) e normaliza
+  // número puro pra @s.whatsapp.net. O texto deve conter o token @<numero>.
+  // OBS: formato pode variar por versão da Evolution — validar com envio real.
   if (mentioned && mentioned.length > 0) {
-    body.mentioned = mentioned.map((n) => n.replace(/\D/g, "")).filter(Boolean);
+    body.mentioned = mentioned
+      .map((n) => {
+        if (!n) return "";
+        if (n.includes("@")) return n;                 // já é JID (@lid / @s.whatsapp.net)
+        const digits = n.replace(/\D/g, "");
+        return digits ? `${digits}@s.whatsapp.net` : "";
+      })
+      .filter(Boolean);
   }
 
   // Adicionar citação se fornecida

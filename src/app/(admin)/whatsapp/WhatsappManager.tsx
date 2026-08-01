@@ -403,26 +403,25 @@ export default function WhatsappManager({
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState<string | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  // Menções (@) em grupo: participantes marcados (só dígitos) + popover.
-  const [pendingMentions, setPendingMentions] = useState<string[]>([]);
-  const [showMentionPicker, setShowMentionPicker] = useState(false);
+  // Menções (@) em grupo: pares { token no texto, jid pra Evolution }.
+  // A seleção é feita clicando no participante na lista do topo.
+  const [pendingMentions, setPendingMentions] = useState<{ token: string; jid: string }[]>([]);
   const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Insere o token @<numero> no cursor e registra o participante pra menção.
-  function addMention(p: { digits: string; label: string }) {
-    const token = `@${p.digits} `;
+  function addMention(p: { jid: string; token: string; label: string }) {
+    const inserted = `@${p.token} `;
     const ta = replyTextareaRef.current;
     if (!ta) {
-      setReplyText((t) => t + token);
+      setReplyText((t) => t + inserted);
     } else {
       const start = ta.selectionStart ?? replyText.length;
       const end = ta.selectionEnd ?? replyText.length;
-      const next = replyText.slice(0, start) + token + replyText.slice(end);
+      const next = replyText.slice(0, start) + inserted + replyText.slice(end);
       setReplyText(next);
-      setTimeout(() => { ta.selectionStart = ta.selectionEnd = start + token.length; ta.focus(); }, 0);
+      setTimeout(() => { ta.selectionStart = ta.selectionEnd = start + inserted.length; ta.focus(); }, 0);
     }
-    setPendingMentions((prev) => prev.includes(p.digits) ? prev : [...prev, p.digits]);
-    setShowMentionPicker(false);
+    setPendingMentions((prev) => prev.some((m) => m.jid === p.jid) ? prev : [...prev, { token: p.token, jid: p.jid }]);
   }
   // Citação (responder mensagem específica)
   const [replyingTo, setReplyingTo] = useState<WaMessage | null>(null);
@@ -1276,27 +1275,8 @@ export default function WhatsappManager({
     return { isOurs: false, label: display, rawNorm: norm };
   }
 
-  // Participantes de grupo que podem ser mencionados (@). Exclui nossas
-  // instâncias e contatos @lid (WhatsApp Business anonimizado — não dá pra
-  // mencionar de forma confiável). `digits` = número completo com DDI, do
-  // jeito que a Evolution/WhatsApp espera no JID.
-  const groupMentionables = useMemo(() => {
-    if (!selectedConv?.phone.includes("@g.us")) return [] as { digits: string; label: string }[];
-    const seen = new Set<string>();
-    const out: { digits: string; label: string }[] = [];
-    for (const m of convMessages) {
-      const pp = m.participantPhone;
-      if (!pp || pp.includes("@lid")) continue;
-      const digits = pp.replace("@s.whatsapp.net", "").replace(/\D/g, "");
-      if (!digits || seen.has(digits)) continue;
-      const resolved = resolveParticipant(pp, m.participantName);
-      if (!resolved || resolved.isOurs) continue;
-      seen.add(digits);
-      out.push({ digits, label: resolved.label });
-    }
-    return out;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedConv?.phone, convMessages]);
+  // (menção @ agora é feita clicando no participante na lista do topo — ver
+  //  o bloco de "participantes do grupo" no header, que usa addMention)
 
   // Cor estável por participante (hash do telefone → paleta)
   function getParticipantColor(phone: string): string {
@@ -1748,7 +1728,6 @@ export default function WhatsappManager({
     // O texto começa vazio — a assinatura agora é anexada no envio se o toggle estiver ligado
     setReplyText("");
     setPendingMentions([]);
-    setShowMentionPicker(false);
     setReplyError(null);
     setEditingName(false);
     setLeadName(conv.lead?.name ?? "");
@@ -2065,11 +2044,11 @@ export default function WhatsappManager({
       payload.quotedBody = replyingTo.body;
       payload.quotedFromMe = replyingTo.direction === "OUTBOUND";
     }
-    // Menções: só inclui os participantes cujo token @<numero> ainda está no
-    // texto final (usuário pode ter apagado). Evita marcar quem não aparece.
+    // Menções: só inclui os que ainda têm o token @<numero> no texto final
+    // (usuário pode ter apagado). Manda os JIDs (com @lid quando for o caso).
     if (pendingMentions.length > 0) {
-      const active = pendingMentions.filter((d) => finalText.includes(`@${d}`));
-      if (active.length > 0) payload.mentioned = active;
+      const active = pendingMentions.filter((m) => finalText.includes(`@${m.token}`));
+      if (active.length > 0) payload.mentioned = active.map((m) => m.jid);
     }
 
     const res = await fetch(`/api/whatsapp/${inst.id}/send`, {
@@ -3410,19 +3389,37 @@ export default function WhatsappManager({
                         );
                       })()}
 
-                      {/* Toggle de participantes do grupo — colapsado por padrão */}
+                      {/* Toggle de participantes do grupo — colapsado por padrão.
+                          Clicar num participante MENCIONA ele no compositor (@);
+                          o lápis (✏️) ao lado nomeia o contato. */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
-                        const unique = new Map<string, ReturnType<typeof resolveParticipant>>();
+                        // Mantém o participantPhone original (JID) junto do resolvido,
+                        // pra construir a menção (token + jid, incl. @lid).
+                        const unique = new Map<string, NonNullable<ReturnType<typeof resolveParticipant>>>();
                         for (const m of convMessages) {
                           if (m.participantPhone && !unique.has(m.participantPhone)) {
-                            unique.set(m.participantPhone, resolveParticipant(m.participantPhone, m.participantName));
+                            const r = resolveParticipant(m.participantPhone, m.participantName);
+                            if (r) unique.set(m.participantPhone, r);
                           }
                         }
-                        const list = [...unique.values()].filter(Boolean) as NonNullable<ReturnType<typeof resolveParticipant>>[];
-                        const ours = list.filter(p => p.isOurs);
-                        const clients = list.filter(p => !p.isOurs);
-                        const total = list.length;
+                        const entries = [...unique.entries()];
+                        const ours = entries.filter(([, r]) => r.isOurs);
+                        const clients = entries.filter(([, r]) => !r.isOurs);
+                        const total = entries.length;
                         if (total === 0) return null;
+
+                        const mentionFromPp = (pp: string, label: string) => {
+                          let token: string; let jid: string;
+                          if (pp.includes("@lid")) {
+                            token = pp.replace("@lid", "").replace(/\D/g, "");
+                            jid = `${token}@lid`;
+                          } else {
+                            token = pp.replace("@s.whatsapp.net", "").replace(/\D/g, "");
+                            jid = `${token}@s.whatsapp.net`;
+                          }
+                          if (token) addMention({ jid, token, label });
+                        };
+
                         return (
                           <div className="mt-1">
                             <button
@@ -3434,26 +3431,42 @@ export default function WhatsappManager({
                               <ChevronUp className={`w-3 h-3 transition-transform ${showParticipants ? "" : "rotate-180"}`} />
                             </button>
                             {showParticipants && (
-                              <div className="mt-1.5 flex flex-wrap gap-1 max-w-[600px]">
-                                {ours.map(p => (
-                                  <span key={p.rawNorm} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
-                                    📤 {p.label}
-                                  </span>
-                                ))}
-                                {clients.map(p => (
-                                  <button
-                                    key={p.rawNorm}
-                                    onClick={() => handleOpenParticipantEdit(p.rawNorm)}
-                                    className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
-                                    title={`${p.label} · clique para nomear · ${p.rawNorm}`}
-                                  >
-                                    👤 {p.label}
-                                    {p.rawNorm && !p.rawNorm.includes("@lid") && (
-                                      <span className="opacity-60 ml-1 font-mono">{formatPhone(p.rawNorm)}</span>
-                                    )}
-                                  </button>
-                                ))}
-                              </div>
+                              <>
+                                <p className="text-[10px] text-slate-600 mt-1.5">Clique num participante para <strong className="text-slate-400">mencionar</strong> · ✏️ nomeia</p>
+                                <div className="mt-1 flex flex-wrap gap-1 max-w-[600px]">
+                                  {ours.map(([pp, p]) => (
+                                    <span key={pp} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
+                                      📤 {p.label}
+                                    </span>
+                                  ))}
+                                  {clients.map(([pp, p]) => (
+                                    <span
+                                      key={pp}
+                                      className={`inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() => mentionFromPp(pp, p.label)}
+                                        title={`Mencionar ${p.label}`}
+                                        className="flex items-center gap-1"
+                                      >
+                                        👤 {p.label}
+                                        {p.rawNorm && !p.rawNorm.includes("@lid") && (
+                                          <span className="opacity-60 ml-0.5 font-mono">{formatPhone(p.rawNorm)}</span>
+                                        )}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => { e.stopPropagation(); handleOpenParticipantEdit(p.rawNorm); }}
+                                        title="Nomear contato"
+                                        className="opacity-50 hover:opacity-100 transition-opacity"
+                                      >
+                                        ✏️
+                                      </button>
+                                    </span>
+                                  ))}
+                                </div>
+                              </>
                             )}
                           </div>
                         );
@@ -5168,20 +5181,11 @@ export default function WhatsappManager({
                       }
                       disabled={sendingReply}
                       rows={1}
-                      className={`w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden ${groupMentionables.length > 0 ? "pr-16" : "pr-10"}`}
+                      className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-none overflow-hidden"
                       style={{ minHeight: "42px", maxHeight: "160px" }}
                     />
-                    {/* Botão @ menção — só em grupo com participantes marcáveis */}
-                    {groupMentionables.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => { setShowMentionPicker((v) => !v); setShowEmojiPicker(false); }}
-                        className={`absolute right-9 bottom-2.5 text-base font-bold transition-colors ${showMentionPicker ? "text-indigo-400" : "text-slate-600 hover:text-slate-300"}`}
-                        title="Mencionar alguém do grupo"
-                      >
-                        @
-                      </button>
-                    )}
+                    {/* Menção (@) é feita clicando no participante na lista do topo
+                        (evita poluir o compositor com mais um botão). */}
                     {/* Botão emoji dentro do campo */}
                     <button
                       type="button"
@@ -5191,27 +5195,6 @@ export default function WhatsappManager({
                     >
                       😊
                     </button>
-                    {/* Popover de menção — lista participantes do grupo */}
-                    {showMentionPicker && groupMentionables.length > 0 && (
-                      <div className="absolute right-0 bottom-full mb-2 w-64 max-h-56 overflow-y-auto bg-[#0d1525] border border-[#1e2d45] rounded-xl shadow-2xl z-50 py-1">
-                        <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-slate-600 border-b border-[#1e2d45]">
-                          Mencionar
-                        </div>
-                        {groupMentionables.map((p) => (
-                          <button
-                            key={p.digits}
-                            type="button"
-                            onClick={() => addMention(p)}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-300 hover:bg-indigo-500/10 hover:text-white transition-colors text-left"
-                          >
-                            <span className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-[10px] font-bold text-indigo-300 flex-shrink-0">
-                              {p.label.charAt(0).toUpperCase()}
-                            </span>
-                            <span className="truncate">{p.label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
                   </div>
                   <button
                     type="submit"
