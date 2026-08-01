@@ -3048,6 +3048,11 @@ model InboxEmail {
   ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: SetNull)
   ticketId String?
 
+  // Triagem IA (endpoint /api/email/inbox/ai-triage, cota do Assistente IA):
+  // importância "ALTA" | "NORMAL" | "BAIXA" + resumo de 1 linha.
+  aiImportance String?
+  aiSummary    String? @db.Text
+
   seen   Boolean  @default(false)
   sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
 

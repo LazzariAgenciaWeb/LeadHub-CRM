@@ -1445,6 +1445,8 @@ exports.Prisma.InboxEmailScalarFieldEnum = {
   inReplyTo: 'inReplyTo',
   leadId: 'leadId',
   ticketId: 'ticketId',
+  aiImportance: 'aiImportance',
+  aiSummary: 'aiSummary',
   seen: 'seen',
   sentAt: 'sentAt',
   createdAt: 'createdAt',

@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
-  Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan,
+  Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -25,6 +25,8 @@ type EmailRow = {
   snippet: string;
   seen: boolean;
   sentAt: string;
+  aiImportance: "ALTA" | "NORMAL" | "BAIXA" | null;
+  aiSummary: string | null;
   leadId: string | null;
   ticketId: string | null;
   accountId: string | null;
@@ -77,6 +79,12 @@ const ACCOUNT_COLORS = [
   "bg-fuchsia-500/20 text-fuchsia-300",
 ];
 
+const IMPORTANCE_BADGE: Record<string, { label: string; cls: string }> = {
+  ALTA:   { label: "🔥 alta",  cls: "bg-red-500/20 text-red-300" },
+  NORMAL: { label: "normal",   cls: "bg-slate-500/20 text-slate-400" },
+  BAIXA:  { label: "baixa",    cls: "bg-slate-600/20 text-slate-500" },
+};
+
 function fmtDate(iso: string): string {
   const d = new Date(iso);
   const now = new Date();
@@ -113,6 +121,12 @@ export default function EmailInbox() {
   const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
+
+  // Triagem IA
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiDigest, setAiDigest] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
 
   // Regras de remetente (blacklist/whitelist)
   const [rulesOpen, setRulesOpen] = useState(false);
@@ -252,6 +266,26 @@ export default function EmailInbox() {
       load({ silent: true });
     } finally {
       setSending(false);
+    }
+  }
+
+  // ── Triagem IA ────────────────────────────────────────────────────────────
+
+  async function runAiTriage() {
+    setAiOpen(true);
+    setAiLoading(true);
+    setAiError("");
+    setAiDigest("");
+    try {
+      const res = await fetch(`/api/email/inbox/ai-triage`, { method: "POST" });
+      const j = await res.json();
+      if (!res.ok) { setAiError(j.error || "Falha na análise"); return; }
+      setAiDigest(j.digest || "Análise concluída.");
+      load({ silent: true });
+    } catch {
+      setAiError("Falha na análise. Tente de novo.");
+    } finally {
+      setAiLoading(false);
     }
   }
 
@@ -427,6 +461,10 @@ export default function EmailInbox() {
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5 disabled:opacity-40">
             <RefreshCw size={13} className={syncing ? "animate-spin" : ""} /> Sincronizar
           </button>
+          <button onClick={runAiTriage} disabled={aiLoading || noAccounts}
+            className="flex items-center gap-1.5 rounded-lg border border-indigo-400/30 bg-indigo-500/10 px-3 py-1.5 text-xs text-indigo-200 hover:bg-indigo-500/20 disabled:opacity-40">
+            <Sparkles size={13} className={aiLoading ? "animate-pulse" : ""} /> Resumo IA
+          </button>
           <button onClick={openRules}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
             <ShieldBan size={13} /> Regras
@@ -517,7 +555,12 @@ export default function EmailInbox() {
                 </div>
                 <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
                 <div className="flex items-center gap-1.5">
-                  <p className="text-[11px] text-slate-500 truncate flex-1">{e.snippet || "—"}</p>
+                  <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
+                  {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${IMPORTANCE_BADGE[e.aiImportance].cls}`}>
+                      {IMPORTANCE_BADGE[e.aiImportance].label}
+                    </span>
+                  )}
                   {e.account && (
                     <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(e.accountId)}`}>
                       {accountName(e.account)}
@@ -549,7 +592,18 @@ export default function EmailInbox() {
                         : <>Para: <span className="text-slate-300">{selected.toEmail}</span></>}
                       <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
                     </p>
+                    {selected.aiSummary && (
+                      <p className="text-[11px] text-indigo-200/80 mt-1 flex items-start gap-1">
+                        <Sparkles size={11} className="mt-0.5 flex-shrink-0 text-indigo-400" />
+                        <span>{selected.aiSummary}</span>
+                      </p>
+                    )}
                     <div className="flex flex-wrap gap-2 mt-1.5">
+                      {selected.aiImportance && selected.direction === "IN" && IMPORTANCE_BADGE[selected.aiImportance] && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${IMPORTANCE_BADGE[selected.aiImportance].cls}`}>
+                          {IMPORTANCE_BADGE[selected.aiImportance].label}
+                        </span>
+                      )}
                       {selected.account && (
                         <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${accountColor(selected.accountId)}`}>
                           <AtSign size={10} /> {selected.direction === "IN" ? "recebido em" : "enviado por"} {accountName(selected.account)}
@@ -647,6 +701,36 @@ export default function EmailInbox() {
                 className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
                 {sending ? "Enviando…" : "Enviar"}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: resumo IA */}
+      {aiOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setAiOpen(false)}>
+          <div className="w-full max-w-lg rounded-xl border border-indigo-400/20 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white text-sm font-semibold flex items-center gap-2">
+                <Sparkles size={15} className="text-indigo-400" /> Resumo da caixa de entrada
+              </h3>
+              <button onClick={() => setAiOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            {aiLoading && (
+              <p className="text-slate-400 text-sm py-4 text-center">Analisando seus emails… <span className="animate-pulse">✨</span></p>
+            )}
+            {aiError && <p className="text-red-400 text-sm">{aiError}</p>}
+            {!aiLoading && aiDigest && (
+              <>
+                <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{aiDigest}</p>
+                <p className="text-[10px] text-slate-500 mt-3">
+                  Cada email da Entrada ganhou etiqueta de importância (🔥 alta / normal / baixa) e um resumo de 1 linha.
+                  A análise consome 1 interação da cota de IA da empresa.
+                </p>
+              </>
+            )}
+            <div className="flex justify-end mt-3">
+              <button onClick={() => setAiOpen(false)} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5">Fechar</button>
             </div>
           </div>
         </div>

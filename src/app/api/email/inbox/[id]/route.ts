@@ -29,6 +29,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       fromEmail: true, fromName: true, toEmail: true,
       subject: true, textBody: true, htmlBody: true,
       inReplyTo: true, seen: true, sentAt: true,
+      aiImportance: true, aiSummary: true,
       leadId: true, ticketId: true, accountId: true,
       account: { select: { id: true, label: true, fromEmail: true } },
       lead: { select: { id: true, name: true, email: true, pipeline: true } },
