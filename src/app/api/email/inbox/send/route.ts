@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
       to,
       subject,
       text,
+      accountId: body?.accountId ?? null,
       replyToId: body?.replyToId ?? null,
       leadId,
       ticketId,

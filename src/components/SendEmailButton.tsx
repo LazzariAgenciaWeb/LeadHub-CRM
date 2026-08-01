@@ -9,6 +9,8 @@
 import { useState } from "react";
 import { Mail, X } from "lucide-react";
 
+type AccountOption = { id: string; label: string | null; fromEmail: string; active: boolean };
+
 interface Props {
   to: string;
   leadId?: string;
@@ -22,6 +24,8 @@ interface Props {
 export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, onSent, compact }: Props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ to, subject: defaultSubject ?? "", text: "" });
+  const [accounts, setAccounts] = useState<AccountOption[]>([]);
+  const [accountId, setAccountId] = useState("");
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState("");
   const [okMsg, setOkMsg] = useState("");
@@ -31,6 +35,15 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
     setErr("");
     setOkMsg("");
     setOpen(true);
+    // Contas da empresa pro seletor "De" (1ª ativa como default).
+    fetch("/api/email/inbox/accounts")
+      .then((r) => r.json())
+      .then((j) => {
+        const list: AccountOption[] = (j?.accounts || []).filter((a: AccountOption) => a.active);
+        setAccounts(list);
+        setAccountId((prev) => prev || list[0]?.id || "");
+      })
+      .catch(() => setAccounts([]));
   }
 
   async function send() {
@@ -40,7 +53,7 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
       const res = await fetch("/api/email/inbox/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, leadId: leadId ?? null, ticketId: ticketId ?? null }),
+        body: JSON.stringify({ ...form, accountId: accountId || null, leadId: leadId ?? null, ticketId: ticketId ?? null }),
       });
       const j = await res.json();
       if (!res.ok) { setErr(j.error || "Falha ao enviar"); return; }
@@ -73,6 +86,19 @@ export default function SendEmailButton({ to, leadId, ticketId, defaultSubject, 
               <button onClick={() => setOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
             </div>
             <div className="space-y-2">
+              {accounts.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-500 w-8">De:</span>
+                  <select value={accountId} onChange={(e) => setAccountId(e.target.value)}
+                    className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                    {accounts.map((a) => (
+                      <option key={a.id} value={a.id} className="bg-[#0f1623]">
+                        {a.label ? `${a.label} — ${a.fromEmail}` : a.fromEmail}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <input value={form.to} onChange={(e) => setForm((f) => ({ ...f, to: e.target.value }))}
                 placeholder="Para (email)" type="email"
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />

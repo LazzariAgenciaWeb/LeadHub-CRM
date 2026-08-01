@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
-import { syncCompanyInbox } from "@/lib/imap-inbox";
+import { syncCompanyAccounts } from "@/lib/imap-inbox";
 
-// POST /api/email/inbox/sync → "Sincronizar agora" da empresa da sessão.
+// POST /api/email/inbox/sync → "Sincronizar agora": todas as contas da empresa.
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -17,10 +17,9 @@ export async function POST(req: NextRequest) {
     : (session.user as any).companyId;
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });
 
-  try {
-    const { imported } = await syncCompanyInbox(companyId);
-    return NextResponse.json({ ok: true, imported });
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? "Falha na sincronização" }, { status: 400 });
+  const { imported, errors } = await syncCompanyAccounts(companyId);
+  if (errors.length && !imported) {
+    return NextResponse.json({ error: errors.join(" · ") }, { status: 400 });
   }
+  return NextResponse.json({ ok: true, imported, errors });
 }

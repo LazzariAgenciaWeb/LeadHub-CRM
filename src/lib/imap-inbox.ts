@@ -1,25 +1,38 @@
 /**
- * Caixa de Email IMAP por empresa — grupo Atender.
+ * Caixa de Email por empresa — grupo Atender.
  *
- * Par do `src/lib/company-email.ts` (que cuida só do ENVIO via SMTP):
- * aqui fica o RECEBIMENTO. O poller (/api/cron/imap-sync) chama
- * `syncCompanyInbox()` pra cada empresa com config ativa; a triagem
- * (importante/spam/lixeira) é local no LeadHub — não escrevemos flags
- * de volta no servidor IMAP.
+ * Cada empresa cadastra N contas (EmailAccount): SMTP (envio) + IMAP
+ * (recebimento) juntos. O poller (/api/cron/imap-sync) chama
+ * `syncAccountInbox()` pra cada conta ativa com IMAP; o envio sai pelo SMTP
+ * da conta escolhida. A triagem (importante/spam/lixeira) é local no
+ * LeadHub — não escrevemos flags de volta no servidor IMAP.
+ *
+ * Fallback de envio: empresa sem conta cadastrada mas com CompanyEmailConfig
+ * (SMTP do Email Marketing) envia por lá — mantém o botão de email do
+ * lead/chamado funcionando.
  */
+import nodemailer from "nodemailer";
 import { ImapFlow } from "imapflow";
 import { simpleParser, type ParsedMail } from "mailparser";
 import { prisma } from "./prisma";
 import { encryptSecret, tryDecryptSecret } from "./crypto";
 import { sendCompanyMail } from "./company-email";
-import type { InboxEmailFolder } from "@/generated/prisma";
+import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
-export interface CompanyImapConfigInput {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  pass?: string; // opcional no update (mantém a antiga se vazio)
+export interface EmailAccountInput {
+  label?: string | null;
+  fromName: string;
+  fromEmail: string;
+  smtpHost: string;
+  smtpPort: number;
+  smtpSecure: boolean;
+  smtpUser: string;
+  smtpPass?: string; // opcional no update (mantém a antiga se vazio)
+  imapHost?: string | null;
+  imapPort?: number;
+  imapSecure?: boolean;
+  imapUser?: string | null;
+  imapPass?: string; // idem
   active?: boolean;
 }
 
@@ -28,56 +41,76 @@ const FIRST_SYNC_COUNT = 50;
 /** Máximo de emails importados por tick (não travar o handler do cron). */
 const MAX_PER_SYNC = 100;
 
-/** Salva/atualiza a config IMAP da empresa. Senha em AES-256-GCM. */
-export async function upsertCompanyImapConfig(companyId: string, input: CompanyImapConfigInput) {
-  const existing = await prisma.companyImapConfig.findUnique({ where: { companyId } });
+/** Cria/atualiza uma conta. Senhas em AES-256-GCM. */
+export async function upsertEmailAccount(
+  companyId: string,
+  input: EmailAccountInput,
+  accountId?: string | null
+) {
+  const existing = accountId
+    ? await prisma.emailAccount.findFirst({ where: { id: accountId, companyId } })
+    : null;
+  if (accountId && !existing) throw new Error("Conta não encontrada");
 
-  let passEnc = existing?.passEnc ?? "";
-  if (input.pass && input.pass.trim()) {
-    passEnc = encryptSecret(input.pass.trim());
-  }
-  if (!passEnc) throw new Error("Senha IMAP obrigatória na primeira configuração");
+  let smtpPassEnc = existing?.smtpPassEnc ?? "";
+  if (input.smtpPass && input.smtpPass.trim()) smtpPassEnc = encryptSecret(input.smtpPass.trim());
+  if (!smtpPassEnc) throw new Error("Senha SMTP obrigatória na primeira configuração");
+
+  let imapPassEnc = existing?.imapPassEnc ?? null;
+  if (input.imapPass && input.imapPass.trim()) imapPassEnc = encryptSecret(input.imapPass.trim());
+  const imapHost = input.imapHost?.trim() || null;
+  if (imapHost && !imapPassEnc) throw new Error("Senha IMAP obrigatória quando o servidor IMAP é informado");
 
   const data = {
-    host: input.host.trim(),
-    port: input.port,
-    secure: input.secure,
-    user: input.user.trim(),
-    passEnc,
+    label: input.label?.trim() || null,
+    fromName: input.fromName.trim(),
+    fromEmail: input.fromEmail.trim().toLowerCase(),
+    smtpHost: input.smtpHost.trim(),
+    smtpPort: input.smtpPort,
+    smtpSecure: input.smtpSecure,
+    smtpUser: input.smtpUser.trim(),
+    smtpPassEnc,
+    imapHost,
+    imapPort: input.imapPort ?? 993,
+    imapSecure: input.imapSecure ?? true,
+    imapUser: input.imapUser?.trim() || null,
+    imapPassEnc,
     active: input.active ?? true,
   };
-  return prisma.companyImapConfig.upsert({
-    where: { companyId },
-    create: { companyId, ...data },
-    // Mudou config → precisa verificar de novo; zera o cursor só se trocou de conta.
-    update: {
-      ...data,
-      verified: false,
-      lastError: null,
-      ...(existing && (existing.host !== data.host || existing.user !== data.user)
-        ? { lastUid: null, uidValidity: null }
-        : {}),
-    },
-  });
+
+  if (existing) {
+    return prisma.emailAccount.update({
+      where: { id: existing.id },
+      // Mudou config → precisa verificar de novo; zera o cursor se trocou a caixa IMAP.
+      data: {
+        ...data,
+        smtpVerified: false,
+        imapVerified: false,
+        lastError: null,
+        ...(existing.imapHost !== data.imapHost || existing.imapUser !== data.imapUser
+          ? { lastUid: null, uidValidity: null }
+          : {}),
+      },
+    });
+  }
+  return prisma.emailAccount.create({ data: { companyId, ...data } });
 }
 
-interface ResolvedImap {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  pass: string;
+function decryptedSmtp(acc: EmailAccount) {
+  const pass = tryDecryptSecret(acc.smtpPassEnc) ?? "";
+  if (!acc.smtpHost || !acc.smtpUser || !pass) return null;
+  return { host: acc.smtpHost, port: acc.smtpPort, secure: acc.smtpSecure, user: acc.smtpUser, pass };
 }
 
-async function getResolvedImapConfig(companyId: string): Promise<ResolvedImap | null> {
-  const cfg = await prisma.companyImapConfig.findUnique({ where: { companyId } });
-  if (!cfg) return null;
-  const pass = tryDecryptSecret(cfg.passEnc) ?? "";
-  if (!cfg.host || !cfg.user || !pass) return null;
-  return { host: cfg.host, port: cfg.port, secure: cfg.secure, user: cfg.user, pass };
+function decryptedImap(acc: EmailAccount) {
+  if (!acc.imapHost || !acc.imapPassEnc) return null;
+  const pass = tryDecryptSecret(acc.imapPassEnc) ?? "";
+  const user = acc.imapUser || acc.smtpUser;
+  if (!pass || !user) return null;
+  return { host: acc.imapHost, port: acc.imapPort, secure: acc.imapSecure, user, pass };
 }
 
-function buildClient(cfg: ResolvedImap): ImapFlow {
+function buildImapClient(cfg: { host: string; port: number; secure: boolean; user: string; pass: string }): ImapFlow {
   return new ImapFlow({
     host: cfg.host,
     port: cfg.port,
@@ -87,28 +120,66 @@ function buildClient(cfg: ResolvedImap): ImapFlow {
   });
 }
 
-/** Testa conexão IMAP da empresa. Atualiza verified/lastError. */
-export async function verifyCompanyImap(companyId: string): Promise<{ ok: true } | { ok: false; error: string }> {
-  const cfg = await getResolvedImapConfig(companyId);
-  if (!cfg) return { ok: false, error: "IMAP não configurado" };
-  try {
-    const client = buildClient(cfg);
-    await client.connect();
-    const lock = await client.getMailboxLock("INBOX");
-    lock.release();
-    await client.logout();
-    await prisma.companyImapConfig.update({
-      where: { companyId },
-      data: { verified: true, lastVerifiedAt: new Date(), lastError: null },
-    });
-    return { ok: true };
-  } catch (e: any) {
-    const error = e?.responseText ?? e?.message ?? "Falha ao conectar";
-    await prisma.companyImapConfig
-      .update({ where: { companyId }, data: { verified: false, lastError: error } })
-      .catch(() => null);
-    return { ok: false, error };
+/** Testa SMTP e IMAP da conta. Atualiza smtpVerified/imapVerified/lastError. */
+export async function verifyEmailAccount(
+  companyId: string,
+  accountId: string
+): Promise<{ smtp: { ok: boolean; error?: string }; imap: { ok: boolean; error?: string } | null }> {
+  const acc = await prisma.emailAccount.findFirst({ where: { id: accountId, companyId } });
+  if (!acc) throw new Error("Conta não encontrada");
+
+  // SMTP
+  let smtp: { ok: boolean; error?: string };
+  const smtpCfg = decryptedSmtp(acc);
+  if (!smtpCfg) {
+    smtp = { ok: false, error: "SMTP incompleto (senha ilegível?)" };
+  } else {
+    try {
+      const t = nodemailer.createTransport({
+        host: smtpCfg.host, port: smtpCfg.port, secure: smtpCfg.secure,
+        auth: { user: smtpCfg.user, pass: smtpCfg.pass },
+      });
+      await t.verify();
+      smtp = { ok: true };
+    } catch (e: any) {
+      smtp = { ok: false, error: e?.message ?? "Falha ao conectar no SMTP" };
+    }
   }
+
+  // IMAP (se configurado)
+  let imap: { ok: boolean; error?: string } | null = null;
+  const imapCfg = decryptedImap(acc);
+  if (acc.imapHost) {
+    if (!imapCfg) {
+      imap = { ok: false, error: "IMAP incompleto (senha ilegível?)" };
+    } else {
+      try {
+        const client = buildImapClient(imapCfg);
+        await client.connect();
+        const lock = await client.getMailboxLock("INBOX");
+        lock.release();
+        await client.logout();
+        imap = { ok: true };
+      } catch (e: any) {
+        imap = { ok: false, error: e?.responseText ?? e?.message ?? "Falha ao conectar no IMAP" };
+      }
+    }
+  }
+
+  const errors = [
+    smtp.ok ? null : `SMTP: ${smtp.error}`,
+    imap && !imap.ok ? `IMAP: ${imap.error}` : null,
+  ].filter(Boolean);
+  await prisma.emailAccount.update({
+    where: { id: acc.id },
+    data: {
+      smtpVerified: smtp.ok,
+      imapVerified: imap?.ok ?? false,
+      lastVerifiedAt: new Date(),
+      lastError: errors.length ? errors.join(" · ") : null,
+    },
+  });
+  return { smtp, imap };
 }
 
 function makeSnippet(text: string | null | undefined): string {
@@ -128,8 +199,8 @@ async function resolveIncomingLink(
   fromEmail: string
 ): Promise<{ leadId: string | null; ticketId: string | null }> {
   if (inReplyTo) {
-    const original = await prisma.inboxEmail.findUnique({
-      where: { companyId_messageId: { companyId, messageId: inReplyTo } },
+    const original = await prisma.inboxEmail.findFirst({
+      where: { companyId, messageId: inReplyTo },
       select: { leadId: true, ticketId: true },
     });
     if (original && (original.leadId || original.ticketId)) {
@@ -147,7 +218,7 @@ async function resolveIncomingLink(
   return { leadId: null, ticketId: null };
 }
 
-async function storeIncoming(companyId: string, uid: number, parsed: ParsedMail) {
+async function storeIncoming(companyId: string, accountId: string, uid: number, parsed: ParsedMail) {
   const fromAddr = parsed.from?.value?.[0];
   const fromEmail = (fromAddr?.address ?? "").toLowerCase();
   const toText = Array.isArray(parsed.to)
@@ -156,10 +227,10 @@ async function storeIncoming(companyId: string, uid: number, parsed: ParsedMail)
   const messageId = parsed.messageId ?? null;
   const inReplyTo = parsed.inReplyTo ?? null;
 
-  // Dedup por Message-ID (re-sync após reset de uidValidity, por exemplo).
+  // Dedup por Message-ID dentro da conta (re-sync após reset de uidValidity).
   if (messageId) {
     const dup = await prisma.inboxEmail.findUnique({
-      where: { companyId_messageId: { companyId, messageId } },
+      where: { accountId_messageId: { accountId, messageId } },
       select: { id: true },
     });
     if (dup) return false;
@@ -170,6 +241,7 @@ async function storeIncoming(companyId: string, uid: number, parsed: ParsedMail)
   await prisma.inboxEmail.create({
     data: {
       companyId,
+      accountId,
       direction: "IN",
       folder: "INBOX",
       messageId,
@@ -191,16 +263,16 @@ async function storeIncoming(companyId: string, uid: number, parsed: ParsedMail)
 }
 
 /**
- * Sincroniza a INBOX da empresa (incremental por UID).
+ * Sincroniza a INBOX de uma conta (incremental por UID).
  * Retorna quantos emails novos foram importados.
  */
-export async function syncCompanyInbox(companyId: string): Promise<{ imported: number }> {
-  const stored = await prisma.companyImapConfig.findUnique({ where: { companyId } });
-  if (!stored || !stored.active) return { imported: 0 };
-  const cfg = await getResolvedImapConfig(companyId);
-  if (!cfg) throw new Error("IMAP não configurado (senha ilegível ou incompleta)");
+export async function syncAccountInbox(companyId: string, accountId: string): Promise<{ imported: number }> {
+  const acc = await prisma.emailAccount.findFirst({ where: { id: accountId, companyId } });
+  if (!acc || !acc.active || !acc.imapHost) return { imported: 0 };
+  const imapCfg = decryptedImap(acc);
+  if (!imapCfg) throw new Error("IMAP não configurado (senha ilegível ou incompleta)");
 
-  const client = buildClient(cfg);
+  const client = buildImapClient(imapCfg);
   let imported = 0;
   try {
     await client.connect();
@@ -212,16 +284,16 @@ export async function syncCompanyInbox(companyId: string): Promise<{ imported: n
       const currentValidity = mailbox.uidValidity ?? BigInt(0);
       // uidValidity mudou → UIDs antigos não valem mais; recomeça do fim.
       const validCursor =
-        stored.lastUid != null && stored.uidValidity != null && stored.uidValidity === currentValidity;
+        acc.lastUid != null && acc.uidValidity != null && acc.uidValidity === currentValidity;
 
       // Coleta os UIDs alvo. Primeira sync (ou reset): últimos FIRST_SYNC_COUNT
       // por sequência. Incremental: UID > lastUid.
       const uids: number[] = [];
       if (validCursor) {
-        const found = await client.search({ uid: `${stored.lastUid! + 1}:*` }, { uid: true });
+        const found = await client.search({ uid: `${acc.lastUid! + 1}:*` }, { uid: true });
         for (const uid of found || []) {
           // `N:*` sempre inclui a última mensagem mesmo se UID < N — filtra.
-          if (uid > stored.lastUid!) uids.push(uid);
+          if (uid > acc.lastUid!) uids.push(uid);
         }
       } else if (mailbox.exists > 0) {
         const startSeq = Math.max(1, mailbox.exists - FIRST_SYNC_COUNT + 1);
@@ -231,23 +303,23 @@ export async function syncCompanyInbox(companyId: string): Promise<{ imported: n
       uids.sort((a, b) => a - b);
       const batch = uids.slice(0, MAX_PER_SYNC);
 
-      let maxUid = validCursor ? stored.lastUid! : 0;
+      let maxUid = validCursor ? acc.lastUid! : 0;
       for (const uid of batch) {
         const msg = await client.fetchOne(String(uid), { source: true }, { uid: true });
         if (!msg || !msg.source) continue;
         const parsed = await simpleParser(msg.source);
-        const created = await storeIncoming(companyId, uid, parsed);
+        const created = await storeIncoming(companyId, acc.id, uid, parsed);
         if (created) imported++;
         if (uid > maxUid) maxUid = uid;
       }
 
-      await prisma.companyImapConfig.update({
-        where: { companyId },
+      await prisma.emailAccount.update({
+        where: { id: acc.id },
         data: {
-          lastUid: maxUid || stored.lastUid || null,
+          lastUid: maxUid || acc.lastUid || null,
           uidValidity: currentValidity,
           lastSyncedAt: new Date(),
-          verified: true,
+          imapVerified: true,
           lastVerifiedAt: new Date(),
           lastError: null,
         },
@@ -261,12 +333,31 @@ export async function syncCompanyInbox(companyId: string): Promise<{ imported: n
       client.close();
     } catch {}
     const error = e?.responseText ?? e?.message ?? "Falha na sincronização";
-    await prisma.companyImapConfig
-      .update({ where: { companyId }, data: { lastError: error } })
+    await prisma.emailAccount
+      .update({ where: { id: acc.id }, data: { lastError: error } })
       .catch(() => null);
     throw e;
   }
   return { imported };
+}
+
+/** Sincroniza todas as contas ativas com IMAP da empresa. */
+export async function syncCompanyAccounts(companyId: string): Promise<{ imported: number; errors: string[] }> {
+  const accounts = await prisma.emailAccount.findMany({
+    where: { companyId, active: true, imapHost: { not: null } },
+    select: { id: true, fromEmail: true },
+  });
+  let imported = 0;
+  const errors: string[] = [];
+  for (const acc of accounts) {
+    try {
+      const r = await syncAccountInbox(companyId, acc.id);
+      imported += r.imported;
+    } catch (e: any) {
+      errors.push(`${acc.fromEmail}: ${e?.message ?? "erro"}`);
+    }
+  }
+  return { imported, errors };
 }
 
 function escapeHtml(s: string): string {
@@ -282,6 +373,8 @@ export interface SendInboxEmailInput {
   subject: string;
   /** Corpo em texto puro (a UI manda texto; viramos HTML simples). */
   text: string;
+  /** Conta pela qual enviar. Sem ela: conta da thread (resposta) → 1ª ativa → fallback CompanyEmailConfig. */
+  accountId?: string | null;
   /** Responder a um InboxEmail existente → In-Reply-To/References + herda vínculo. */
   replyToId?: string | null;
   leadId?: string | null;
@@ -289,7 +382,7 @@ export interface SendInboxEmailInput {
 }
 
 /**
- * Envia um email pela conta SMTP da empresa e registra na pasta ENVIADOS,
+ * Envia um email por uma conta da empresa e registra na pasta ENVIADOS,
  * com vínculo opcional a lead/chamado (usado pelas telas de CRM e chamados).
  */
 export async function sendInboxEmail(companyId: string, input: SendInboxEmailInput) {
@@ -297,11 +390,12 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
   let leadId = input.leadId ?? null;
   let ticketId = input.ticketId ?? null;
   let inReplyTo: string | null = null;
+  let accountId = input.accountId ?? null;
 
   if (input.replyToId) {
     const original = await prisma.inboxEmail.findFirst({
       where: { id: input.replyToId, companyId },
-      select: { messageId: true, leadId: true, ticketId: true },
+      select: { messageId: true, leadId: true, ticketId: true, accountId: true },
     });
     if (original?.messageId) {
       inReplyTo = original.messageId;
@@ -310,27 +404,69 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
     }
     leadId = leadId ?? original?.leadId ?? null;
     ticketId = ticketId ?? original?.ticketId ?? null;
+    // Resposta sai pela mesma conta que recebeu, salvo escolha explícita.
+    accountId = accountId ?? original?.accountId ?? null;
+  }
+
+  // Resolve a conta: explícita e válida → usa; senão 1ª ativa da empresa.
+  let account = accountId
+    ? await prisma.emailAccount.findFirst({ where: { id: accountId, companyId, active: true } })
+    : null;
+  if (!account) {
+    account = await prisma.emailAccount.findFirst({
+      where: { companyId, active: true },
+      orderBy: { createdAt: "asc" },
+    });
   }
 
   const text = input.text.trim();
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111">${escapeHtml(text).replace(/\n/g, "<br/>")}</div>`;
 
-  const sent = await sendCompanyMail(companyId, {
-    to: input.to.trim(),
-    subject: input.subject.trim(),
-    html,
-    text,
-    headers: Object.keys(headers).length ? headers : undefined,
-  });
+  let messageId: string | null = null;
+  let fromEmail: string;
+  let fromName: string;
+
+  if (account) {
+    const smtpCfg = decryptedSmtp(account);
+    if (!smtpCfg) throw new Error(`Conta ${account.fromEmail}: SMTP incompleto (senha ilegível?)`);
+    const t = nodemailer.createTransport({
+      host: smtpCfg.host, port: smtpCfg.port, secure: smtpCfg.secure,
+      auth: { user: smtpCfg.user, pass: smtpCfg.pass },
+    });
+    const info = await t.sendMail({
+      from: `${account.fromName} <${account.fromEmail}>`,
+      to: input.to.trim(),
+      subject: input.subject.trim(),
+      html,
+      text,
+      headers: Object.keys(headers).length ? headers : undefined,
+    });
+    messageId = info?.messageId ?? null;
+    fromEmail = account.fromEmail;
+    fromName = account.fromName;
+  } else {
+    // Fallback: SMTP do Email Marketing (CompanyEmailConfig).
+    const sent = await sendCompanyMail(companyId, {
+      to: input.to.trim(),
+      subject: input.subject.trim(),
+      html,
+      text,
+      headers: Object.keys(headers).length ? headers : undefined,
+    });
+    messageId = sent.messageId;
+    fromEmail = sent.fromEmail;
+    fromName = sent.fromName;
+  }
 
   const record = await prisma.inboxEmail.create({
     data: {
       companyId,
+      accountId: account?.id ?? null,
       direction: "OUT",
       folder: "SENT" as InboxEmailFolder,
-      messageId: sent.messageId,
-      fromEmail: sent.fromEmail,
-      fromName: sent.fromName,
+      messageId,
+      fromEmail,
+      fromName,
       toEmail: input.to.trim(),
       subject: input.subject.trim(),
       snippet: makeSnippet(text),

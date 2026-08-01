@@ -237,7 +237,7 @@ model Company {
   emailTemplates            EmailTemplate[]
   emailCampaigns            EmailCampaign[]
   emailUnsubscribes         EmailUnsubscribe[]
-  imapConfig                CompanyImapConfig?
+  emailAccounts             EmailAccount[]
   inboxEmails               InboxEmail[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
@@ -2951,25 +2951,37 @@ model EmailUnsubscribe {
   @@index([email])
 }
 
-// ─── Caixa de Email IMAP (grupo Atender · usa moduleEmailMarketing) ──────────
-// Caixa de entrada/saída de email operacional da empresa: recebe via IMAP
-// (poller em /api/cron/imap-sync), envia pelo SMTP já configurado em
-// CompanyEmailConfig. Triagem manual: importante / spam / lixeira.
+// ─── Caixa de Email (grupo Atender · usa moduleEmailMarketing) ───────────────
+// Caixa de entrada/saída de email operacional da empresa. Cada empresa pode
+// cadastrar VÁRIAS contas (comercial@, suporte@…), cada uma com as próprias
+// credenciais de envio (SMTP) e recebimento (IMAP). Poller em
+// /api/cron/imap-sync. Triagem manual: importante / spam / lixeira.
 
-// Config IMAP da empresa (par do CompanyEmailConfig, que é só SMTP/saída).
-model CompanyImapConfig {
+// Conta de email da empresa — SMTP (envio) + IMAP (recebimento) juntos.
+model EmailAccount {
   id        String  @id @default(cuid())
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String  @unique
+  companyId String
 
-  host    String
-  port    Int     @default(993)
-  secure  Boolean @default(true)
-  user    String
-  // Senha em AES-256-GCM (mesmo formato do cofre / crypto.ts). NUNCA sai pela API.
-  passEnc String
+  label     String? // apelido na UI: "Comercial", "Suporte"
+  fromName  String // "Diego — AZZ Agência"
+  fromEmail String // remetente exibido nos envios
 
-  // Liga/desliga o poller sem apagar a config.
+  // Envio (SMTP). Senhas em AES-256-GCM (crypto.ts). NUNCA saem pela API.
+  smtpHost    String
+  smtpPort    Int     @default(465)
+  smtpSecure  Boolean @default(true)
+  smtpUser    String
+  smtpPassEnc String
+
+  // Recebimento (IMAP). Opcional — conta pode ser só de envio.
+  imapHost    String?
+  imapPort    Int     @default(993)
+  imapSecure  Boolean @default(true)
+  imapUser    String?
+  imapPassEnc String?
+
+  // Liga/desliga o poller/envio sem apagar a conta.
   active Boolean @default(true)
 
   // Estado da sincronização incremental: último UID importado da INBOX +
@@ -2979,12 +2991,17 @@ model CompanyImapConfig {
   lastSyncedAt DateTime?
 
   // Status da última verificação/sync
-  verified       Boolean   @default(false)
+  smtpVerified   Boolean   @default(false)
+  imapVerified   Boolean   @default(false)
   lastVerifiedAt DateTime?
   lastError      String?   @db.Text
 
+  emails InboxEmail[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 // Um email da caixa (recebido via IMAP ou enviado pela plataforma).
@@ -2992,6 +3009,11 @@ model InboxEmail {
   id        String  @id @default(cuid())
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
+
+  // Conta pela qual o email entrou/saiu. SetNull: apagar a conta não apaga
+  // o histórico de emails.
+  account   EmailAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  accountId String?
 
   direction InboxEmailDirection
   folder    InboxEmailFolder    @default(INBOX)
@@ -3026,7 +3048,9 @@ model InboxEmail {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([companyId, messageId])
+  // Dedup por conta: o mesmo Message-ID pode chegar em duas contas da empresa
+  // (email enviado pra comercial@ e suporte@ ao mesmo tempo).
+  @@unique([accountId, messageId])
   @@index([companyId, folder, sentAt])
   @@index([companyId, seen])
   @@index([leadId])

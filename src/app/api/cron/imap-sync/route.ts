@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { syncCompanyInbox } from "@/lib/imap-inbox";
+import { syncAccountInbox } from "@/lib/imap-inbox";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Poller IMAP — importa emails novos de todas as empresas com config ativa.
- * Chamado pelo loop do start.sh (IMAP_SYNC_INTERVAL_SECONDS, default 180s)
- * ou manualmente por um admin logado.
+ * Poller IMAP — importa emails novos de todas as contas ativas (EmailAccount
+ * com imapHost). Chamado pelo loop do start.sh (IMAP_SYNC_INTERVAL_SECONDS,
+ * default 180s) ou manualmente por um admin logado.
  */
 async function run(req: NextRequest) {
   // Auth: Bearer CRON_SECRET (start.sh) OU sessão SUPER_ADMIN/ADMIN (manual).
@@ -24,27 +24,27 @@ async function run(req: NextRequest) {
     }
   }
 
-  const configs = await prisma.companyImapConfig.findMany({
-    where: { active: true },
-    select: { companyId: true },
+  const accounts = await prisma.emailAccount.findMany({
+    where: { active: true, imapHost: { not: null } },
+    select: { id: true, companyId: true, fromEmail: true },
     orderBy: { lastSyncedAt: "asc" },
   });
 
-  const summary: { companyId: string; imported?: number; error?: string }[] = [];
-  for (const cfg of configs) {
+  const summary: { account: string; imported?: number; error?: string }[] = [];
+  for (const acc of accounts) {
     try {
-      const { imported } = await syncCompanyInbox(cfg.companyId);
-      summary.push({ companyId: cfg.companyId, imported });
+      const { imported } = await syncAccountInbox(acc.companyId, acc.id);
+      summary.push({ account: acc.fromEmail, imported });
     } catch (e: any) {
-      // Uma empresa com IMAP fora do ar não pode travar as demais.
-      console.error(`[imap-sync] falha companyId=${cfg.companyId}:`, e?.message ?? e);
-      summary.push({ companyId: cfg.companyId, error: e?.message ?? "erro" });
+      // Uma conta com IMAP fora do ar não pode travar as demais.
+      console.error(`[imap-sync] falha conta=${acc.fromEmail}:`, e?.message ?? e);
+      summary.push({ account: acc.fromEmail, error: e?.message ?? "erro" });
     }
   }
 
   return NextResponse.json({
     ok: true,
-    companies: configs.length,
+    accounts: accounts.length,
     imported: summary.reduce((acc, s) => acc + (s.imported ?? 0), 0),
     summary,
   });

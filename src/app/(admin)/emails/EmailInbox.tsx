@@ -1,13 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
-  PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target,
+  PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
+  Pencil, CheckCircle2, XCircle, AtSign,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "SPAM" | "TRASH";
+
+type AccountRef = { id: string; label: string | null; fromEmail: string } | null;
 
 type EmailRow = {
   id: string;
@@ -22,6 +25,8 @@ type EmailRow = {
   sentAt: string;
   leadId: string | null;
   ticketId: string | null;
+  accountId: string | null;
+  account: AccountRef;
   lead: { id: string; name: string | null } | null;
   ticket: { id: string; title: string } | null;
 };
@@ -32,17 +37,24 @@ type EmailFull = EmailRow & {
   lead: { id: string; name: string | null; email: string | null; pipeline: string | null } | null;
 };
 
-type ImapConfig = {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
+type AccountSummary = {
+  id: string;
+  label: string | null;
+  fromEmail: string;
   active: boolean;
-  verified: boolean;
-  lastError: string | null;
+  imapHost: string | null;
+  smtpVerified: boolean;
+  imapVerified: boolean;
   lastSyncedAt: string | null;
-  hasPassword: boolean;
-} | null;
+  lastError: string | null;
+};
+
+type AccountFull = AccountSummary & {
+  fromName: string;
+  smtpHost: string; smtpPort: number; smtpSecure: boolean; smtpUser: string;
+  imapPort: number; imapSecure: boolean; imapUser: string | null;
+  hasSmtpPassword: boolean;
+};
 
 const FOLDER_META: { key: Folder; label: string; Icon: typeof Inbox }[] = [
   { key: "INBOX",     label: "Entrada",     Icon: Inbox },
@@ -50,6 +62,16 @@ const FOLDER_META: { key: Folder; label: string; Icon: typeof Inbox }[] = [
   { key: "SENT",      label: "Enviados",    Icon: Send },
   { key: "SPAM",      label: "Spam",        Icon: AlertOctagon },
   { key: "TRASH",     label: "Lixeira",     Icon: Trash2 },
+];
+
+// Cores das etiquetas de conta — atribuídas por ordem de cadastro.
+const ACCOUNT_COLORS = [
+  "bg-violet-500/20 text-violet-300",
+  "bg-cyan-500/20 text-cyan-300",
+  "bg-rose-500/20 text-rose-300",
+  "bg-amber-500/20 text-amber-300",
+  "bg-lime-500/20 text-lime-300",
+  "bg-fuchsia-500/20 text-fuchsia-300",
 ];
 
 function fmtDate(iso: string): string {
@@ -61,12 +83,21 @@ function fmtDate(iso: string): string {
     d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 }
 
+const EMPTY_ACC_FORM = {
+  label: "", fromName: "", fromEmail: "",
+  user: "", pass: "",
+  smtpHost: "", smtpPort: "465", smtpSecure: true,
+  imapHost: "", imapPort: "993", imapSecure: true,
+  active: true,
+};
+
 export default function EmailInbox() {
   const [folder, setFolder] = useState<Folder>("INBOX");
+  const [accountFilter, setAccountFilter] = useState<string | null>(null);
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [unseen, setUnseen] = useState(0);
-  const [imapStatus, setImapStatus] = useState<{ active: boolean; verified: boolean; lastSyncedAt: string | null; lastError: string | null } | null>(null);
+  const [accounts, setAccounts] = useState<AccountSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<EmailFull | null>(null);
@@ -76,33 +107,43 @@ export default function EmailInbox() {
 
   // Compor / responder
   const [composeOpen, setComposeOpen] = useState(false);
-  const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null });
+  const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
 
-  // Config IMAP
-  const [configOpen, setConfigOpen] = useState(false);
-  const [config, setConfig] = useState<ImapConfig>(null);
-  const [cfgForm, setCfgForm] = useState({ host: "", port: "993", secure: true, user: "", pass: "", active: true });
-  const [cfgSaving, setCfgSaving] = useState(false);
-  const [cfgTesting, setCfgTesting] = useState(false);
-  const [cfgMsg, setCfgMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const configLoaded = useRef(false);
+  // Gerenciar contas
+  const [accountsOpen, setAccountsOpen] = useState(false);
+  const [accountsFull, setAccountsFull] = useState<AccountFull[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null); // null = lista; "new" = criando
+  const [accForm, setAccForm] = useState({ ...EMPTY_ACC_FORM });
+  const [accSaving, setAccSaving] = useState(false);
+  const [accTestingId, setAccTestingId] = useState<string | null>(null);
+  const [accMsg, setAccMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const accountColor = useCallback((accountId: string | null): string => {
+    if (!accountId) return "bg-slate-500/20 text-slate-400";
+    const idx = accounts.findIndex((a) => a.id === accountId);
+    return ACCOUNT_COLORS[(idx >= 0 ? idx : 0) % ACCOUNT_COLORS.length];
+  }, [accounts]);
+
+  const accountName = (a: AccountRef | AccountSummary | null): string =>
+    a ? (("label" in a && a.label) ? a.label : a.fromEmail) : "";
 
   const load = useCallback(async (opts?: { silent?: boolean }) => {
     if (!opts?.silent) setLoading(true);
     try {
       const params = new URLSearchParams({ folder });
       if (q.trim()) params.set("q", q.trim());
+      if (accountFilter) params.set("accountId", accountFilter);
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
       setEmails(res.emails || []);
       setCounts(res.counts || {});
       setUnseen(res.unseen || 0);
-      setImapStatus(res.config || null);
+      setAccounts(res.accounts || []);
     } finally {
       if (!opts?.silent) setLoading(false);
     }
-  }, [folder, q]);
+  }, [folder, q, accountFilter]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -147,16 +188,21 @@ export default function EmailInbox() {
       const res = await fetch(`/api/email/inbox/sync`, { method: "POST" });
       const j = await res.json();
       if (!res.ok) setNotice(j.error || "Falha na sincronização");
-      else setNotice(j.imported ? `${j.imported} email(s) novo(s)` : "Nenhum email novo");
+      else {
+        let msg = j.imported ? `${j.imported} email(s) novo(s)` : "Nenhum email novo";
+        if (j.errors?.length) msg += ` · ${j.errors.length} conta(s) com erro`;
+        setNotice(msg);
+      }
       load({ silent: true });
     } finally {
       setSyncing(false);
-      setTimeout(() => setNotice(""), 5000);
+      setTimeout(() => setNotice(""), 6000);
     }
   }
 
   function startCompose() {
-    setCompose({ to: "", subject: "", text: "", replyToId: null });
+    const firstActive = accounts.find((a) => a.active);
+    setCompose({ to: "", subject: "", text: "", replyToId: null, accountId: firstActive?.id ?? "" });
     setSendErr("");
     setComposeOpen(true);
   }
@@ -164,7 +210,9 @@ export default function EmailInbox() {
   function startReply(email: EmailFull) {
     const to = email.direction === "IN" ? email.fromEmail : email.toEmail;
     const subject = email.subject.toLowerCase().startsWith("re:") ? email.subject : `Re: ${email.subject}`;
-    setCompose({ to, subject, text: "", replyToId: email.id });
+    // Resposta sai pela conta que recebeu o email original.
+    const accountId = email.accountId ?? accounts.find((a) => a.active)?.id ?? "";
+    setCompose({ to, subject, text: "", replyToId: email.id, accountId });
     setSendErr("");
     setComposeOpen(true);
   }
@@ -176,7 +224,7 @@ export default function EmailInbox() {
       const res = await fetch(`/api/email/inbox/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(compose),
+        body: JSON.stringify({ ...compose, accountId: compose.accountId || null }),
       });
       const j = await res.json();
       if (!res.ok) { setSendErr(j.error || "Falha ao enviar"); return; }
@@ -189,96 +237,176 @@ export default function EmailInbox() {
     }
   }
 
-  async function openConfig() {
-    setConfigOpen(true);
-    setCfgMsg(null);
-    if (!configLoaded.current) {
-      const cfg: ImapConfig = await fetch(`/api/email/inbox/config`).then((r) => r.json()).catch(() => null);
-      setConfig(cfg);
-      if (cfg) {
-        setCfgForm({ host: cfg.host, port: String(cfg.port), secure: cfg.secure, user: cfg.user, pass: "", active: cfg.active });
-      }
-      configLoaded.current = true;
-    }
+  // ── Gerenciar contas ──────────────────────────────────────────────────────
+
+  async function loadAccountsFull() {
+    const res = await fetch(`/api/email/inbox/accounts`).then((r) => r.json()).catch(() => null);
+    setAccountsFull(res?.accounts || []);
   }
 
-  async function saveConfig(test: boolean) {
-    setCfgSaving(true);
-    setCfgMsg(null);
+  function openAccounts() {
+    setAccountsOpen(true);
+    setEditingId(null);
+    setAccMsg(null);
+    loadAccountsFull();
+  }
+
+  function startNewAccount() {
+    setAccForm({ ...EMPTY_ACC_FORM });
+    setAccMsg(null);
+    setEditingId("new");
+  }
+
+  function startEditAccount(a: AccountFull) {
+    setAccForm({
+      label: a.label ?? "",
+      fromName: a.fromName,
+      fromEmail: a.fromEmail,
+      user: a.smtpUser,
+      pass: "",
+      smtpHost: a.smtpHost,
+      smtpPort: String(a.smtpPort),
+      smtpSecure: a.smtpSecure,
+      imapHost: a.imapHost ?? "",
+      imapPort: String(a.imapPort),
+      imapSecure: a.imapSecure,
+      active: a.active,
+    });
+    setAccMsg(null);
+    setEditingId(a.id);
+  }
+
+  async function saveAccount(test: boolean) {
+    setAccSaving(true);
+    setAccMsg(null);
     try {
-      const res = await fetch(`/api/email/inbox/config`, {
-        method: "PUT",
+      const payload = {
+        label: accForm.label || null,
+        fromName: accForm.fromName,
+        fromEmail: accForm.fromEmail,
+        smtpHost: accForm.smtpHost,
+        smtpPort: parseInt(accForm.smtpPort, 10) || 465,
+        smtpSecure: accForm.smtpSecure,
+        smtpUser: accForm.user,
+        smtpPass: accForm.pass || undefined,
+        imapHost: accForm.imapHost || null,
+        imapPort: parseInt(accForm.imapPort, 10) || 993,
+        imapSecure: accForm.imapSecure,
+        imapUser: accForm.user || null,
+        imapPass: accForm.pass || undefined,
+        active: accForm.active,
+      };
+      const isNew = editingId === "new";
+      const res = await fetch(isNew ? `/api/email/inbox/accounts` : `/api/email/inbox/accounts/${editingId}`, {
+        method: isNew ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          host: cfgForm.host,
-          port: parseInt(cfgForm.port, 10) || 993,
-          secure: cfgForm.secure,
-          user: cfgForm.user,
-          pass: cfgForm.pass || undefined,
-          active: cfgForm.active,
-        }),
+        body: JSON.stringify(payload),
       });
       const j = await res.json();
-      if (!res.ok) { setCfgMsg({ ok: false, text: j.error || "Erro ao salvar" }); return; }
-      if (!test) { setCfgMsg({ ok: true, text: "Configuração salva" }); return; }
+      if (!res.ok) { setAccMsg({ ok: false, text: j.error || "Erro ao salvar" }); return; }
 
-      setCfgTesting(true);
-      const tRes = await fetch(`/api/email/inbox/config/test`, { method: "POST" });
-      const tj = await tRes.json();
-      if (!tRes.ok) setCfgMsg({ ok: false, text: tj.error || "Falha na conexão IMAP" });
-      else setCfgMsg({ ok: true, text: `Conexão OK${typeof tj.imported === "number" ? ` — ${tj.imported} email(s) importado(s)` : ""}` });
-      configLoaded.current = false;
+      const savedId = isNew ? j.id : editingId;
+      await loadAccountsFull();
       load({ silent: true });
+
+      if (test && savedId) {
+        await testAccount(savedId);
+      } else {
+        setAccMsg({ ok: true, text: "Conta salva" });
+      }
+      setEditingId(null);
     } finally {
-      setCfgSaving(false);
-      setCfgTesting(false);
+      setAccSaving(false);
     }
   }
 
-  const noConfig = imapStatus === null;
+  async function testAccount(id: string) {
+    setAccTestingId(id);
+    setAccMsg(null);
+    try {
+      const res = await fetch(`/api/email/inbox/accounts/${id}/test`, { method: "POST" });
+      const j = await res.json();
+      if (!res.ok) { setAccMsg({ ok: false, text: j.error || "Falha no teste" }); return; }
+      const parts = [
+        j.smtp?.ok ? "SMTP OK" : `SMTP: ${j.smtp?.error ?? "falhou"}`,
+        j.imap ? (j.imap.ok ? `IMAP OK — ${j.imported ?? 0} email(s) importado(s)` : `IMAP: ${j.imap.error ?? "falhou"}`) : "IMAP não configurado",
+      ];
+      setAccMsg({ ok: !!j.smtp?.ok && (!j.imap || j.imap.ok), text: parts.join(" · ") });
+      await loadAccountsFull();
+      load({ silent: true });
+    } finally {
+      setAccTestingId(null);
+    }
+  }
+
+  async function deleteAccount(id: string, fromEmail: string) {
+    if (!window.confirm(`Remover a conta ${fromEmail}? Os emails já importados continuam na caixa.`)) return;
+    const res = await fetch(`/api/email/inbox/accounts/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      await loadAccountsFull();
+      if (accountFilter === id) setAccountFilter(null);
+      load({ silent: true });
+    }
+  }
+
+  const noAccounts = !loading && accounts.length === 0;
+  const activeAccounts = accounts.filter((a) => a.active);
 
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center gap-3 mb-4">
+      <div className="flex flex-wrap items-center gap-3 mb-3">
         <h1 className="text-xl font-semibold text-white flex items-center gap-2">
           <Mail size={20} className="text-indigo-400" /> E-mail
         </h1>
-        {imapStatus?.lastSyncedAt && (
-          <span className="text-[11px] text-slate-500">
-            Última sync: {fmtDate(imapStatus.lastSyncedAt)}
-          </span>
-        )}
-        {imapStatus?.lastError && (
-          <span className="text-[11px] text-red-400 truncate max-w-[280px]" title={imapStatus.lastError}>
-            Erro IMAP: {imapStatus.lastError}
-          </span>
-        )}
         {notice && <span className="text-[11px] text-emerald-400">{notice}</span>}
         <div className="ml-auto flex items-center gap-2">
-          <button onClick={syncNow} disabled={syncing || noConfig}
+          <button onClick={syncNow} disabled={syncing || noAccounts}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5 disabled:opacity-40">
             <RefreshCw size={13} className={syncing ? "animate-spin" : ""} /> Sincronizar
           </button>
-          <button onClick={openConfig}
+          <button onClick={openAccounts}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
-            <Settings size={13} /> Configurar IMAP
+            <Settings size={13} /> Contas
           </button>
-          <button onClick={startCompose}
-            className="flex items-center gap-1.5 rounded-lg bg-indigo-500 px-3 py-1.5 text-xs text-white hover:bg-indigo-400">
+          <button onClick={startCompose} disabled={noAccounts}
+            className="flex items-center gap-1.5 rounded-lg bg-indigo-500 px-3 py-1.5 text-xs text-white hover:bg-indigo-400 disabled:opacity-40">
             <PenSquare size={13} /> Escrever
           </button>
         </div>
       </div>
 
-      {noConfig && !loading && (
-        <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-          Caixa de entrada ainda não conectada. Clique em <b>Configurar IMAP</b> pra conectar a caixa
-          de email da empresa (o envio usa o SMTP já configurado no E-mail Marketing).
+      {/* Etiquetas de conta — filtro + status */}
+      {accounts.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+          <button onClick={() => setAccountFilter(null)}
+            className={`px-2.5 py-1 rounded-lg text-[11px] border ${!accountFilter ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200" : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+            Todas as contas
+          </button>
+          {accounts.map((a) => (
+            <button key={a.id} onClick={() => setAccountFilter(accountFilter === a.id ? null : a.id)}
+              title={`${a.fromEmail}${a.lastError ? ` · Erro: ${a.lastError}` : ""}${a.lastSyncedAt ? ` · sync ${fmtDate(a.lastSyncedAt)}` : ""}`}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] border ${
+                accountFilter === a.id ? "border-indigo-500/40" : "border-white/10 hover:bg-white/5"}`}>
+              <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded ${accountColor(a.id)}`}>
+                <AtSign size={10} /> {accountName(a)}
+              </span>
+              {a.lastError && <XCircle size={11} className="text-red-400" />}
+              {!a.lastError && (a.imapVerified || a.smtpVerified) && <CheckCircle2 size={11} className="text-emerald-400" />}
+              {!a.active && <span className="text-[9px] text-slate-500">pausada</span>}
+            </button>
+          ))}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-[170px_320px_1fr] gap-4 h-[74vh]">
+      {noAccounts && (
+        <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+          Nenhuma conta de email cadastrada. Clique em <b>Contas</b> pra adicionar seus emails
+          (ex: comercial@, suporte@) — cada conta envia (SMTP) e recebe (IMAP).
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-[170px_320px_1fr] gap-4 h-[72vh]">
         {/* Pastas */}
         <div className="rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto">
           {FOLDER_META.map(({ key, label, Icon }) => (
@@ -324,6 +452,11 @@ export default function EmailInbox() {
                 <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
                 <div className="flex items-center gap-1.5">
                   <p className="text-[11px] text-slate-500 truncate flex-1">{e.snippet || "—"}</p>
+                  {e.account && (
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(e.accountId)}`}>
+                      {accountName(e.account)}
+                    </span>
+                  )}
                   {e.lead && <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0">lead</span>}
                   {e.ticket && <span className="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 flex-shrink-0">chamado</span>}
                 </div>
@@ -350,7 +483,12 @@ export default function EmailInbox() {
                         : <>Para: <span className="text-slate-300">{selected.toEmail}</span></>}
                       <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
                     </p>
-                    <div className="flex gap-2 mt-1.5">
+                    <div className="flex flex-wrap gap-2 mt-1.5">
+                      {selected.account && (
+                        <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${accountColor(selected.accountId)}`}>
+                          <AtSign size={10} /> {selected.direction === "IN" ? "recebido em" : "enviado por"} {accountName(selected.account)}
+                        </span>
+                      )}
                       {selected.lead && (
                         <Link href={`/crm/leads?lead=${selected.lead.id}`}
                           className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30">
@@ -409,6 +547,19 @@ export default function EmailInbox() {
               <button onClick={() => setComposeOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
             </div>
             <div className="space-y-2">
+              {activeAccounts.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-500 w-8">De:</span>
+                  <select value={compose.accountId} onChange={(e) => setCompose((c) => ({ ...c, accountId: e.target.value }))}
+                    className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                    {activeAccounts.map((a) => (
+                      <option key={a.id} value={a.id} className="bg-[#0f1623]">
+                        {a.label ? `${a.label} — ${a.fromEmail}` : a.fromEmail}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <input value={compose.to} onChange={(e) => setCompose((c) => ({ ...c, to: e.target.value }))}
                 placeholder="Para (email)" type="email"
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
@@ -431,56 +582,127 @@ export default function EmailInbox() {
         </div>
       )}
 
-      {/* Modal: config IMAP */}
-      {configOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setConfigOpen(false)}>
-          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="text-white text-sm font-semibold">Conexão IMAP (recebimento)</h3>
-              <button onClick={() => setConfigOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+      {/* Modal: gerenciar contas */}
+      {accountsOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setAccountsOpen(false)}>
+          <div className="w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white text-sm font-semibold">Contas de email</h3>
+              <button onClick={() => setAccountsOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
             </div>
-            <p className="text-[11px] text-slate-500 mb-3">
-              O envio usa o SMTP configurado em E-mail Marketing. Aqui você conecta a caixa de <b>entrada</b> (IMAP).
-            </p>
-            <div className="space-y-2">
-              <div className="grid grid-cols-[1fr_90px] gap-2">
-                <input value={cfgForm.host} onChange={(e) => setCfgForm((f) => ({ ...f, host: e.target.value }))}
-                  placeholder="Servidor IMAP (ex: imap.hostinger.com)"
-                  className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-                <input value={cfgForm.port} onChange={(e) => setCfgForm((f) => ({ ...f, port: e.target.value }))}
-                  placeholder="Porta" inputMode="numeric"
-                  className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              </div>
-              <input value={cfgForm.user} onChange={(e) => setCfgForm((f) => ({ ...f, user: e.target.value }))}
-                placeholder="Usuário (email completo)"
-                className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              <input value={cfgForm.pass} onChange={(e) => setCfgForm((f) => ({ ...f, pass: e.target.value }))}
-                placeholder={config?.hasPassword ? "Senha (deixe vazio pra manter a atual)" : "Senha"} type="password"
-                className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-2 text-xs text-slate-400">
-                  <input type="checkbox" checked={cfgForm.secure} onChange={(e) => setCfgForm((f) => ({ ...f, secure: e.target.checked }))} />
-                  SSL/TLS (porta 993)
-                </label>
-                <label className="flex items-center gap-2 text-xs text-slate-400">
-                  <input type="checkbox" checked={cfgForm.active} onChange={(e) => setCfgForm((f) => ({ ...f, active: e.target.checked }))} />
-                  Sincronização automática
-                </label>
-              </div>
-            </div>
-            {cfgMsg && (
-              <p className={`text-xs mt-2 ${cfgMsg.ok ? "text-emerald-400" : "text-red-400"}`}>{cfgMsg.text}</p>
+
+            {editingId === null && (
+              <>
+                <div className="space-y-2 mb-3">
+                  {accountsFull.length === 0 && (
+                    <p className="text-slate-500 text-sm">Nenhuma conta cadastrada ainda.</p>
+                  )}
+                  {accountsFull.map((a) => (
+                    <div key={a.id} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 flex items-center gap-3">
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded flex-shrink-0 ${accountColor(a.id)}`}>
+                        <AtSign size={10} className="inline mr-0.5" />{accountName(a)}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-white text-sm truncate">{a.fromEmail}</p>
+                        <p className="text-[10px] text-slate-500 truncate">
+                          SMTP {a.smtpVerified ? "✓" : "não testado"} · {a.imapHost ? `IMAP ${a.imapVerified ? "✓" : "não testado"}` : "sem IMAP"}
+                          {!a.active && " · pausada"}
+                          {a.lastError && <span className="text-red-400"> · {a.lastError}</span>}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        <button onClick={() => testAccount(a.id)} disabled={accTestingId === a.id}
+                          className="rounded-lg border border-white/10 px-2 py-1 text-[11px] text-slate-300 hover:bg-white/5 disabled:opacity-50">
+                          {accTestingId === a.id ? "Testando…" : "Testar"}
+                        </button>
+                        <button onClick={() => startEditAccount(a)} title="Editar"
+                          className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Pencil size={13} /></button>
+                        <button onClick={() => deleteAccount(a.id, a.fromEmail)} title="Remover"
+                          className="rounded-lg border border-white/10 p-1.5 text-red-300 hover:bg-white/5"><Trash2 size={13} /></button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {accMsg && <p className={`text-xs mb-2 ${accMsg.ok ? "text-emerald-400" : "text-red-400"}`}>{accMsg.text}</p>}
+                <button onClick={startNewAccount}
+                  className="flex items-center gap-1.5 rounded-lg bg-indigo-500 px-3 py-2 text-sm text-white hover:bg-indigo-400">
+                  <Plus size={14} /> Adicionar conta
+                </button>
+              </>
             )}
-            <div className="flex justify-end gap-2 mt-3">
-              <button onClick={() => saveConfig(false)} disabled={cfgSaving}
-                className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5 disabled:opacity-50">
-                Salvar
-              </button>
-              <button onClick={() => saveConfig(true)} disabled={cfgSaving || cfgTesting}
-                className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
-                {cfgTesting ? "Testando…" : "Salvar e testar"}
-              </button>
-            </div>
+
+            {editingId !== null && (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <input value={accForm.label} onChange={(e) => setAccForm((f) => ({ ...f, label: e.target.value }))}
+                    placeholder="Etiqueta (ex: Comercial)"
+                    className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                  <input value={accForm.fromName} onChange={(e) => setAccForm((f) => ({ ...f, fromName: e.target.value }))}
+                    placeholder="Nome do remetente"
+                    className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                </div>
+                <input value={accForm.fromEmail} onChange={(e) => setAccForm((f) => ({ ...f, fromEmail: e.target.value }))}
+                  placeholder="Endereço de email (ex: comercial@suaempresa.com.br)" type="email"
+                  className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                <div className="grid grid-cols-2 gap-2">
+                  <input value={accForm.user} onChange={(e) => setAccForm((f) => ({ ...f, user: e.target.value }))}
+                    placeholder="Usuário (geralmente o email)"
+                    className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                  <input value={accForm.pass} onChange={(e) => setAccForm((f) => ({ ...f, pass: e.target.value }))}
+                    placeholder={editingId !== "new" ? "Senha (vazio = manter)" : "Senha"} type="password"
+                    className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-wide text-slate-500 mb-1.5">Envio (SMTP)</p>
+                  <div className="grid grid-cols-[1fr_80px_auto] gap-2 items-center">
+                    <input value={accForm.smtpHost} onChange={(e) => setAccForm((f) => ({ ...f, smtpHost: e.target.value }))}
+                      placeholder="smtp.seudominio.com"
+                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                    <input value={accForm.smtpPort} onChange={(e) => setAccForm((f) => ({ ...f, smtpPort: e.target.value }))}
+                      placeholder="465" inputMode="numeric"
+                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                    <label className="flex items-center gap-1.5 text-xs text-slate-400">
+                      <input type="checkbox" checked={accForm.smtpSecure} onChange={(e) => setAccForm((f) => ({ ...f, smtpSecure: e.target.checked }))} />
+                      SSL
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-wide text-slate-500 mb-1.5">Recebimento (IMAP) — opcional</p>
+                  <div className="grid grid-cols-[1fr_80px_auto] gap-2 items-center">
+                    <input value={accForm.imapHost} onChange={(e) => setAccForm((f) => ({ ...f, imapHost: e.target.value }))}
+                      placeholder="imap.seudominio.com (vazio = só envio)"
+                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                    <input value={accForm.imapPort} onChange={(e) => setAccForm((f) => ({ ...f, imapPort: e.target.value }))}
+                      placeholder="993" inputMode="numeric"
+                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                    <label className="flex items-center gap-1.5 text-xs text-slate-400">
+                      <input type="checkbox" checked={accForm.imapSecure} onChange={(e) => setAccForm((f) => ({ ...f, imapSecure: e.target.checked }))} />
+                      SSL
+                    </label>
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-2 text-xs text-slate-400">
+                  <input type="checkbox" checked={accForm.active} onChange={(e) => setAccForm((f) => ({ ...f, active: e.target.checked }))} />
+                  Conta ativa (envia e sincroniza)
+                </label>
+
+                {accMsg && <p className={`text-xs ${accMsg.ok ? "text-emerald-400" : "text-red-400"}`}>{accMsg.text}</p>}
+                <div className="flex justify-end gap-2">
+                  <button onClick={() => { setEditingId(null); setAccMsg(null); }}
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5">Voltar</button>
+                  <button onClick={() => saveAccount(false)} disabled={accSaving}
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5 disabled:opacity-50">Salvar</button>
+                  <button onClick={() => saveAccount(true)} disabled={accSaving}
+                    className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
+                    {accSaving ? "Salvando…" : "Salvar e testar"}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
