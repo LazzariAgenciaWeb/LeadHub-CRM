@@ -15,17 +15,21 @@ export type TimelineEventType =
   | "stage_changed"    // mudança de etapa dentro do mesmo pipeline
   | "assignee_changed" // mudou de responsável
   | "value_changed"    // valor da oportunidade alterado
-  | "clickup_linked";
+  | "clickup_linked"
+  | "email_in"   // email recebido vinculado ao lead (caixa IMAP)
+  | "email_out"; // email enviado ao lead pela plataforma
 
 /**
  * Categorias de filtro usadas pela UI. Cada evento pertence a uma categoria.
  * Mantido aqui (server) e replicado no client pra evitar drift.
  */
-export type TimelineGroup = "messages" | "links" | "system" | "notes";
+export type TimelineGroup = "messages" | "links" | "system" | "notes" | "emails";
 
 export const EVENT_GROUP: Record<TimelineEventType, TimelineGroup> = {
   message_in:        "messages",
   message_out:       "messages",
+  email_in:          "emails",
+  email_out:         "emails",
   link_open:         "links",
   link_click:        "links",
   tracking_link_set: "links",
@@ -294,7 +298,35 @@ export async function GET(
     console.warn("[timeline] activities bucket falhou", e);
   }
 
-  // 7. ClickUp vinculado (sem histórico real — usa updatedAt)
+  // 7. Emails vinculados ao lead (caixa IMAP / enviados pela plataforma).
+  try {
+    const inboxEmails = await prisma.inboxEmail.findMany({
+      where: { leadId: lead.id, folder: { not: "TRASH" } },
+      orderBy: { sentAt: "desc" },
+      take: 50,
+      select: {
+        id: true, direction: true, subject: true, snippet: true,
+        fromEmail: true, fromName: true, toEmail: true, sentAt: true,
+      },
+    });
+    for (const m of inboxEmails) {
+      const isIn = m.direction === "IN";
+      events.push({
+        id: `email-${m.id}`,
+        type: isIn ? "email_in" : "email_out",
+        timestamp: m.sentAt.toISOString(),
+        title: isIn
+          ? `📧 Email recebido de ${m.fromName || m.fromEmail}`
+          : `📧 Email enviado pra ${m.toEmail}`,
+        body: m.subject ? `${m.subject}${m.snippet ? ` — ${m.snippet}` : ""}` : m.snippet,
+        meta: { inboxEmailId: m.id },
+      });
+    }
+  } catch (e) {
+    console.warn("[timeline] emails bucket falhou", e);
+  }
+
+  // 8. ClickUp vinculado (sem histórico real — usa updatedAt)
   if (lead.clickupTaskId) {
     events.push({
       id: `clickup-${lead.clickupTaskId}`,

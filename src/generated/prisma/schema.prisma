@@ -237,6 +237,8 @@ model Company {
   emailTemplates            EmailTemplate[]
   emailCampaigns            EmailCampaign[]
   emailUnsubscribes         EmailUnsubscribe[]
+  imapConfig                CompanyImapConfig?
+  inboxEmails               InboxEmail[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
   companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
@@ -492,6 +494,7 @@ model Lead {
   tags            LeadTag[]
   customValues    LeadCustomValue[]
   emailRecipients EmailRecipient[]
+  inboxEmails     InboxEmail[]
 
   @@index([companyId])
   @@index([campaignId])
@@ -1123,6 +1126,7 @@ model Ticket {
   messages    TicketMessage[]
   activities  Activity[]
   accessUsers TicketAccessUser[]
+  inboxEmails InboxEmail[]
 
   @@index([companyId])
   @@index([status])
@@ -2945,6 +2949,101 @@ model EmailUnsubscribe {
 
   @@unique([email, companyId])
   @@index([email])
+}
+
+// ─── Caixa de Email IMAP (grupo Atender · usa moduleEmailMarketing) ──────────
+// Caixa de entrada/saída de email operacional da empresa: recebe via IMAP
+// (poller em /api/cron/imap-sync), envia pelo SMTP já configurado em
+// CompanyEmailConfig. Triagem manual: importante / spam / lixeira.
+
+// Config IMAP da empresa (par do CompanyEmailConfig, que é só SMTP/saída).
+model CompanyImapConfig {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @unique
+
+  host    String
+  port    Int     @default(993)
+  secure  Boolean @default(true)
+  user    String
+  // Senha em AES-256-GCM (mesmo formato do cofre / crypto.ts). NUNCA sai pela API.
+  passEnc String
+
+  // Liga/desliga o poller sem apagar a config.
+  active Boolean @default(true)
+
+  // Estado da sincronização incremental: último UID importado da INBOX +
+  // uidValidity da mailbox (se o servidor resetar a validade, recomeça).
+  lastUid      Int?
+  uidValidity  BigInt?
+  lastSyncedAt DateTime?
+
+  // Status da última verificação/sync
+  verified       Boolean   @default(false)
+  lastVerifiedAt DateTime?
+  lastError      String?   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Um email da caixa (recebido via IMAP ou enviado pela plataforma).
+model InboxEmail {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  direction InboxEmailDirection
+  folder    InboxEmailFolder    @default(INBOX)
+
+  // Message-ID do header (dedup no re-sync). Nulo em servidores que não enviam.
+  messageId String?
+  // UID IMAP de origem (só em recebidos).
+  imapUid   Int?
+
+  fromEmail String
+  fromName  String?
+  toEmail   String // destinatários To separados por vírgula
+  subject   String  @default("")
+  snippet   String  @default("") // primeiros ~180 chars do texto, pra lista
+  textBody  String? @db.Text
+  htmlBody  String? @db.Text
+
+  // In-Reply-To do header — encadeia resposta enviada ao email original.
+  inReplyTo String?
+
+  // Vínculo com CRM/atendimento: email enviado de dentro de um lead
+  // (Prospecção/Leads/Oportunidades) ou chamado sai com o vínculo; resposta
+  // recebida herda o vínculo via In-Reply-To ou pelo email do remetente.
+  lead     Lead?   @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  leadId   String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: SetNull)
+  ticketId String?
+
+  seen   Boolean  @default(false)
+  sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([companyId, messageId])
+  @@index([companyId, folder, sentAt])
+  @@index([companyId, seen])
+  @@index([leadId])
+  @@index([ticketId])
+}
+
+enum InboxEmailDirection {
+  IN
+  OUT
+}
+
+enum InboxEmailFolder {
+  INBOX
+  IMPORTANT
+  SENT
+  SPAM
+  TRASH
 }
 
 // Trilha de auditoria de eventos de cobrança — útil pra suporte e debug.

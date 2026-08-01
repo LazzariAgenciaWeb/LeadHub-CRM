@@ -131,11 +131,11 @@ export async function verifyCompanyEmail(companyId: string): Promise<{ ok: true 
 export async function sendCompanyMail(
   companyId: string,
   opts: { to: string; subject: string; html: string; text?: string; headers?: Record<string, string> }
-): Promise<void> {
+): Promise<{ messageId: string | null; fromEmail: string; fromName: string }> {
   const cfg = await getCompanyEmailConfig(companyId);
   if (!cfg) throw new Error("SMTP da empresa não configurado");
   const t = buildTransporter(cfg);
-  await t.sendMail({
+  const info = await t.sendMail({
     from: `${cfg.fromName} <${cfg.fromEmail}>`,
     ...(cfg.replyTo ? { replyTo: cfg.replyTo } : {}),
     to: opts.to,
@@ -144,4 +144,5 @@ export async function sendCompanyMail(
     text: opts.text,
     headers: opts.headers,
   });
+  return { messageId: info?.messageId ?? null, fromEmail: cfg.fromEmail, fromName: cfg.fromName };
 }

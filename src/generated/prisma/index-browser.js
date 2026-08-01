@@ -1397,6 +1397,48 @@ exports.Prisma.EmailUnsubscribeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CompanyImapConfigScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  host: 'host',
+  port: 'port',
+  secure: 'secure',
+  user: 'user',
+  passEnc: 'passEnc',
+  active: 'active',
+  lastUid: 'lastUid',
+  uidValidity: 'uidValidity',
+  lastSyncedAt: 'lastSyncedAt',
+  verified: 'verified',
+  lastVerifiedAt: 'lastVerifiedAt',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InboxEmailScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  direction: 'direction',
+  folder: 'folder',
+  messageId: 'messageId',
+  imapUid: 'imapUid',
+  fromEmail: 'fromEmail',
+  fromName: 'fromName',
+  toEmail: 'toEmail',
+  subject: 'subject',
+  snippet: 'snippet',
+  textBody: 'textBody',
+  htmlBody: 'htmlBody',
+  inReplyTo: 'inReplyTo',
+  leadId: 'leadId',
+  ticketId: 'ticketId',
+  seen: 'seen',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BillingEventScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -1955,6 +1997,19 @@ exports.EmailEventType = exports.$Enums.EmailEventType = {
   UNSUBSCRIBE: 'UNSUBSCRIBE'
 };
 
+exports.InboxEmailDirection = exports.$Enums.InboxEmailDirection = {
+  IN: 'IN',
+  OUT: 'OUT'
+};
+
+exports.InboxEmailFolder = exports.$Enums.InboxEmailFolder = {
+  INBOX: 'INBOX',
+  IMPORTANT: 'IMPORTANT',
+  SENT: 'SENT',
+  SPAM: 'SPAM',
+  TRASH: 'TRASH'
+};
+
 exports.AddonType = exports.$Enums.AddonType = {
   EXTRA_ATENDENTE: 'EXTRA_ATENDENTE',
   EXTRA_WHATSAPP: 'EXTRA_WHATSAPP'
@@ -2071,6 +2126,8 @@ exports.Prisma.ModelName = {
   EmailRecipient: 'EmailRecipient',
   EmailEvent: 'EmailEvent',
   EmailUnsubscribe: 'EmailUnsubscribe',
+  CompanyImapConfig: 'CompanyImapConfig',
+  InboxEmail: 'InboxEmail',
   BillingEvent: 'BillingEvent',
   SubscriptionAddon: 'SubscriptionAddon',
   Coupon: 'Coupon',

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { diffCalendarDays } from "@/lib/datetime";
 import VisibilityControl from "@/components/VisibilityControl";
+import SendEmailButton from "@/components/SendEmailButton";
 
 interface TicketMessage {
   id: string;
@@ -38,6 +39,18 @@ interface WaMessage {
   participantName: string | null;
   hasMedia?: boolean;
   mediaType?: string | null;
+}
+
+// Email vinculado ao chamado (InboxEmail). Carregado sob demanda na aba "E-mail".
+interface TicketEmail {
+  id: string;
+  direction: "IN" | "OUT";
+  fromEmail: string;
+  fromName: string | null;
+  toEmail: string;
+  subject: string;
+  snippet: string;
+  sentAt: string;
 }
 
 interface TicketStageOption {
@@ -120,7 +133,7 @@ export default function TicketDetail({
   // mostra só a descrição. As demais são filtros do feed (Todas / Mensagens /
   // Notas internas / Sistema) ou view dedicada (WhatsApp). Replica o padrão
   // das filter pills do CRM.
-  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp">("all");
+  const [feedTab, setFeedTab] = useState<"info" | "all" | "messages" | "internal" | "system" | "whatsapp" | "email">("all");
 
   // Conversa WhatsApp — carregada sob demanda quando user clica na aba.
   // Evita SSR de conversas longas (50+ mensagens) só pra abrir o chamado.
@@ -158,6 +171,37 @@ export default function TicketDetail({
       .catch((err) => setWhatsappError(err.message ?? "Erro ao carregar conversa"))
       .finally(() => setLoadingWhatsapp(false));
   }, [feedTab, whatsappMessages, loadingWhatsapp, ticket.phone, ticket.company.id, whatsappWindow?.openedAt, whatsappWindow?.closedAt]);
+
+  // Emails vinculados ao chamado (InboxEmail.ticketId) — carregados sob demanda
+  // na aba "E-mail", mesmo padrão da aba WhatsApp. Aba só pra gestores.
+  const [ticketEmails, setTicketEmails] = useState<TicketEmail[] | null>(null);
+  const [loadingEmails, setLoadingEmails] = useState(false);
+  const [emailsError, setEmailsError] = useState<string | null>(null);
+  const showEmailTab = canManage;
+
+  const loadTicketEmails = (force = false) => {
+    if (loadingEmails) return;
+    if (ticketEmails !== null && !force) return;
+    setLoadingEmails(true);
+    setEmailsError(null);
+    fetch(`/api/email/inbox?ticketId=${ticket.id}`)
+      .then(async (res) => {
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error ?? `Erro ${res.status}`);
+        }
+        const data = await res.json();
+        setTicketEmails(data.emails ?? []);
+      })
+      .catch((err) => setEmailsError(err.message ?? "Erro ao carregar emails"))
+      .finally(() => setLoadingEmails(false));
+  };
+
+  useEffect(() => {
+    if (feedTab !== "email") return;
+    loadTicketEmails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feedTab]);
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);
@@ -509,6 +553,9 @@ export default function TicketDetail({
     ...(showWhatsappTab
       ? [{ id: "whatsapp" as const, icon: "📱", label: "WhatsApp", count: whatsappMessages?.length ?? null }]
       : []),
+    ...(showEmailTab
+      ? [{ id: "email" as const, icon: "📧", label: "E-mail", count: ticketEmails?.length ?? null }]
+      : []),
   ];
 
   return (
@@ -657,7 +704,7 @@ export default function TicketDetail({
                 Filtrado pela aba ativa. Na aba "Informações" o feed é omitido — só a
                 descrição é mostrada acima pra um overview limpo. A aba "WhatsApp" tem
                 view dedicada (logo abaixo) então também não renderiza o feed. */}
-            {feedTab !== "info" && feedTab !== "whatsapp" && (() => {
+            {feedTab !== "info" && feedTab !== "whatsapp" && feedTab !== "email" && (() => {
               type FeedItem =
                 | { kind: "msg"; createdAt: string; data: TicketMessage }
                 | { kind: "act"; createdAt: string; data: TicketActivity };
@@ -826,6 +873,75 @@ export default function TicketDetail({
                                 </a>
                               )}
                               {msg.body}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* E-mail tab — emails vinculados ao chamado (caixa IMAP + enviados
+                pela plataforma). Envio pelo SendEmailButton sai com ticketId; a
+                resposta do cliente volta vinculada via In-Reply-To. */}
+            {feedTab === "email" && (
+              <div>
+                <div className="flex items-center justify-between mb-3 gap-2">
+                  <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
+                    E-mails do chamado {ticketEmails && `(${ticketEmails.length})`}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <SendEmailButton
+                      to={ticket.clientCompany?.email ?? ""}
+                      ticketId={ticket.id}
+                      defaultSubject={`[Chamado] ${title}`}
+                      onSent={() => loadTicketEmails(true)}
+                    />
+                    <Link href="/emails" className="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors">
+                      Abrir caixa ↗
+                    </Link>
+                  </div>
+                </div>
+                {loadingEmails && (
+                  <div className="text-slate-600 text-xs text-center py-6">Carregando emails...</div>
+                )}
+                {emailsError && !loadingEmails && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-xs">
+                    {emailsError}
+                  </div>
+                )}
+                {ticketEmails && ticketEmails.length === 0 && !loadingEmails && (
+                  <div className="text-slate-600 text-xs text-center py-6 italic">
+                    Nenhum email vinculado a este chamado ainda. Use &quot;Enviar email&quot; — a resposta do cliente volta pra cá automaticamente.
+                  </div>
+                )}
+                {ticketEmails && ticketEmails.length > 0 && (
+                  <div className="space-y-2">
+                    {ticketEmails.map((em) => {
+                      const isOut = em.direction === "OUT";
+                      return (
+                        <div key={em.id} className={`flex gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+                            isOut ? "bg-indigo-500/20 text-indigo-300" : "bg-[#1e2d45] text-slate-400"
+                          }`}>
+                            {isOut ? "→" : "@"}
+                          </div>
+                          <div className={`flex-1 min-w-0 ${isOut ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
+                            <div className={`flex items-center gap-2 ${isOut ? "flex-row-reverse" : ""}`}>
+                              <span className={`text-[10px] font-medium ${isOut ? "text-indigo-400" : "text-slate-500"}`}>
+                                {isOut ? `Você → ${em.toEmail}` : (em.fromName || em.fromEmail)}
+                              </span>
+                              <span className="text-slate-700 text-[10px] font-mono">
+                                {new Date(em.sentAt).toLocaleString("pt-BR")}
+                              </span>
+                            </div>
+                            <div className={`rounded-xl px-3 py-2 text-sm max-w-[85%] ${
+                              isOut ? "bg-indigo-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
+                            }`}>
+                              <div className="font-semibold text-[12px] mb-0.5">{em.subject || "(sem assunto)"}</div>
+                              <div className={`text-[12px] ${isOut ? "text-indigo-100" : "text-slate-400"}`}>{em.snippet || "—"}</div>
                             </div>
                           </div>
                         </div>

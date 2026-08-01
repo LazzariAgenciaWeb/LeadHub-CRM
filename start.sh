@@ -128,5 +128,25 @@ echo "📊 Cron Meta CAPI Retry habilitado — rodará a cada ${META_CAPI_RETRY_
   done
 ) &
 
+# Cron: IMAP Sync — importa emails novos da caixa de entrada de cada empresa
+# com CompanyImapConfig ativa (Atender → E-mail).
+# Frequência: a cada 3 minutos (config: IMAP_SYNC_INTERVAL_SECONDS).
+IMAP_SYNC_INTERVAL_SECONDS="${IMAP_SYNC_INTERVAL_SECONDS:-180}"
+echo "📥 Cron IMAP Sync habilitado — rodará a cada ${IMAP_SYNC_INTERVAL_SECONDS}s (1ª execução em ~90s)"
+(
+  sleep 90
+  while true; do
+    RES=$(cron_curl -X POST "http://localhost:3000/api/cron/imap-sync" --max-time 240 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    BODY=$(echo "$RES" | sed '$d')
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "[Cron IMAP Sync] $(date) — OK · $BODY"
+    else
+      echo "[Cron IMAP Sync] $(date) — falha HTTP $HTTP_CODE · $BODY"
+    fi
+    sleep "$IMAP_SYNC_INTERVAL_SECONDS"
+  done
+) &
+
 echo "🚀 Starting LeadHub..."
 exec node server.js

@@ -7,9 +7,10 @@ import {
   Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
   Activity as ActivityIcon, Inbox, Filter,
   Globe, Hourglass, Eye, MousePointerClick, Flame, User, DollarSign, Milestone,
-  ArrowDownLeft, ArrowUpRight, Check, X, Trash2,
+  ArrowDownLeft, ArrowUpRight, Check, X, Trash2, Mail,
   type LucideIcon,
 } from "lucide-react";
+import SendEmailButton from "@/components/SendEmailButton";
 import ImportLeads from "./ImportLeads";
 import BuscarProspectsModal from "./BuscarProspectsModal";
 import SourceBadge from "@/components/SourceBadge";
@@ -152,13 +153,16 @@ const TIMELINE_META: Record<string, { Icon: LucideIcon; titleColor: string; bg: 
   assignee_changed:  { Icon: User,              titleColor: "#94a3b8", bg: "bg-slate-500/5 border-slate-500/15" },
   value_changed:     { Icon: DollarSign,        titleColor: "#86efac", bg: "bg-emerald-500/5 border-emerald-500/15" },
   clickup_linked:    { Icon: CheckSquare,       titleColor: "#fcd34d", bg: "bg-amber-500/5 border-amber-500/15" },
+  email_in:          { Icon: Mail,              titleColor: "#93c5fd", bg: "bg-blue-500/5 border-blue-500/15" },
+  email_out:         { Icon: Mail,              titleColor: "#a5b4fc", bg: "bg-indigo-500/5 border-indigo-500/15" },
 };
 
-type TimelineFilter = "all" | "messages" | "links" | "system" | "notes";
+type TimelineFilter = "all" | "messages" | "emails" | "links" | "system" | "notes";
 
 const TIMELINE_FILTERS: { id: TimelineFilter; Icon: LucideIcon; grad: GradientKey; label: string }[] = [
   { id: "all",      Icon: Inbox,          grad: "dashboard",   label: "Tudo" },
   { id: "messages", Icon: MessageSquare,  grad: "whatsapp",    label: "Mensagens" },
+  { id: "emails",   Icon: Mail,           grad: "email",       label: "E-mails" },
   { id: "links",    Icon: Link2,          grad: "links",       label: "Links" },
   { id: "notes",    Icon: FileText,       grad: "pipeline",    label: "Anotações" },
   { id: "system",   Icon: Settings,       grad: "configuracoes", label: "Sistema" },
@@ -167,6 +171,8 @@ const TIMELINE_FILTERS: { id: TimelineFilter; Icon: LucideIcon; grad: GradientKe
 const EVENT_GROUP: Record<string, Exclude<TimelineFilter, "all">> = {
   message_in:        "messages",
   message_out:       "messages",
+  email_in:          "emails",
+  email_out:         "emails",
   link_open:         "links",
   link_click:        "links",
   tracking_link_set: "links",
@@ -2488,7 +2494,10 @@ export default function CRMBoard({
 
                   {selected.email && (
                     <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
-                      <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-1">E-mail</div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-slate-500 text-[10px] uppercase tracking-wide">E-mail</div>
+                        <SendEmailButton to={selected.email} leadId={selected.id} onSent={reloadTimeline} />
+                      </div>
                       <div className="text-white text-sm">
                         <a
                           href={`mailto:${selected.email}`}
