@@ -1,6 +1,9 @@
 FROM node:20-alpine AS base
-RUN apk update && apk add --no-cache libc6-compat openssl openssl-dev || \
-    apk add --no-cache libc6-compat
+# curl é usado pelos crons do start.sh (SLA, sync de instâncias, marketing,
+# BDR). A imagem alpine não vem com curl → sem ele os crons quebram
+# ("curl: not found") e o status das instâncias/SLA param de atualizar.
+RUN apk update && apk add --no-cache libc6-compat openssl openssl-dev curl || \
+    apk add --no-cache libc6-compat curl
 
 # ─── Instalar dependências ─────────────────────────────────────────────────────
 FROM base AS deps
