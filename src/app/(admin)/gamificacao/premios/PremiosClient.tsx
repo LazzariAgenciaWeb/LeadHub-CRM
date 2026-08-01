@@ -33,15 +33,18 @@ const STATUS_LABEL: Record<string, { text: string; color: string }> = {
 };
 
 export default function PremiosClient({
-  rewards: initialRewards, myRedemptions, adminPending, myBalance, isAdmin,
+  rewards: initialRewards, myRedemptions, adminRedemptions, myBalance, isAdmin,
 }: {
-  rewards:       Reward[];
-  myRedemptions: Redemption[];
-  adminPending:  Redemption[];
-  myBalance:     number;
-  isAdmin:       boolean;
+  rewards:          Reward[];
+  myRedemptions:    Redemption[];
+  adminRedemptions: Redemption[];
+  myBalance:        number;
+  isAdmin:          boolean;
 }) {
   const router = useRouter();
+  // lista vem do server ordenada desc; pendentes ficam asc (mais antigo primeiro na fila)
+  const adminPending  = adminRedemptions.filter((r) => r.status === "PENDING").reverse();
+  const adminResolved = adminRedemptions.filter((r) => r.status !== "PENDING");
   const [rewards, setRewards] = useState(initialRewards);
   const [creating, setCreating] = useState(false);
   const [editing, setEditing]   = useState<string | null>(null);
@@ -166,6 +169,42 @@ export default function PremiosClient({
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* Histórico de resgates da empresa (admin) */}
+      {isAdmin && adminResolved.length > 0 && (
+        <section>
+          <h2 className="text-white font-semibold text-sm mb-3">🗂️ Histórico de resgates da equipe</h2>
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl divide-y divide-[#1e2d45]">
+            {adminResolved.map((red) => {
+              const meta = STATUS_LABEL[red.status];
+              return (
+                <div key={red.id} className="p-4 flex items-center gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-sm font-medium">{red.rewardName}</div>
+                    <div className="text-slate-500 text-xs mt-0.5">
+                      {red.user?.name} · {formatBrazilDateTime(red.createdAt)} · <span className="text-amber-300">{red.cost} pts</span>
+                    </div>
+                    {red.notes && (
+                      <div className="text-slate-400 text-xs mt-1 italic">"{red.notes}"</div>
+                    )}
+                  </div>
+                  {red.status === "APPROVED" && (
+                    <button
+                      onClick={() => approve(red.id, "DELIVERED")}
+                      className="px-2.5 py-1 rounded bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-[11px] border border-emerald-500/30"
+                    >
+                      Entregue
+                    </button>
+                  )}
+                  <span className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded font-bold ${meta.color}`}>
+                    {meta.text}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}

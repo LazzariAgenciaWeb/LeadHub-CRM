@@ -23,7 +23,7 @@ export default async function PremiosPage() {
     );
   }
 
-  const [rewards, myRedemptions, allRedemptionsPending, scoreAggregate] = await Promise.all([
+  const [rewards, myRedemptions, adminRedemptions, scoreAggregate] = await Promise.all([
     prisma.reward.findMany({
       where:   { companyId },
       orderBy: [{ available: "desc" }, { cost: "asc" }],
@@ -35,8 +35,9 @@ export default async function PremiosPage() {
     }),
     isAdmin
       ? prisma.rewardRedemption.findMany({
-          where:    { companyId, status: "PENDING" },
-          orderBy:  { createdAt: "asc" },
+          where:    { companyId },
+          orderBy:  { createdAt: "desc" },
+          take:     100,
           include:  { user: { select: { name: true } } },
         })
       : [],
@@ -68,7 +69,7 @@ export default async function PremiosPage() {
       <PremiosClient
         rewards={rewards}
         myRedemptions={myRedemptions}
-        adminPending={allRedemptionsPending as any}
+        adminRedemptions={adminRedemptions as any}
         myBalance={myBalance}
         isAdmin={isAdmin}
       />
