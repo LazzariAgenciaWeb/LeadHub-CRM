@@ -442,7 +442,8 @@ export default function WhatsappManager({
   const [showScrollBtn, setShowScrollBtn] = useState(false);
 
   // Participante de grupo: editar nome / mover empresa / marcar como meu
-  const [editingParticipant, setEditingParticipant] = useState<string | null>(null); // phone
+  const [editingParticipant, setEditingParticipant] = useState<string | null>(null); // phone (só dígitos)
+  const [editingParticipantJid, setEditingParticipantJid] = useState<string | null>(null); // JID original (mantém @lid, p/ menção)
   const [participantMarkMode, setParticipantMarkMode] = useState<"contact" | "mine" | null>(null);
   const [participantNames, setParticipantNames] = useState<Record<string, string>>({}); // phone → name
   const [participantCompanies, setParticipantCompanies] = useState<Record<string, { id: string; name: string }>>({});
@@ -1514,9 +1515,11 @@ export default function WhatsappManager({
     setParticipantCompanies((prev) => ({ ...prev, ...companies }));
   }
 
-  async function handleOpenParticipantEdit(phone: string) {
+  async function handleOpenParticipantEdit(phone: string, originalJid?: string) {
     const norm = phone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
     setEditingParticipant(norm);
+    // Guarda o JID original (com @lid quando for o caso) pra opção de menção.
+    setEditingParticipantJid(originalJid ?? phone);
     setParticipantMarkMode(null); // começa na tela de escolha
     setParticipantNameInput(participantNames[norm] ?? "");
     setParticipantCompanySearch("");
@@ -3390,11 +3393,10 @@ export default function WhatsappManager({
                       })()}
 
                       {/* Toggle de participantes do grupo — colapsado por padrão.
-                          Clicar num participante MENCIONA ele no compositor (@);
-                          o lápis (✏️) ao lado nomeia o contato. */}
+                          Clicar num participante abre o modal (nomear / marcar /
+                          MENCIONAR). Mantém o participantPhone original (JID) pra
+                          a menção funcionar com @lid. */}
                       {selectedConv.phone.includes("@g.us") && convMessages.length > 0 && (() => {
-                        // Mantém o participantPhone original (JID) junto do resolvido,
-                        // pra construir a menção (token + jid, incl. @lid).
                         const unique = new Map<string, NonNullable<ReturnType<typeof resolveParticipant>>>();
                         for (const m of convMessages) {
                           if (m.participantPhone && !unique.has(m.participantPhone)) {
@@ -3407,19 +3409,6 @@ export default function WhatsappManager({
                         const clients = entries.filter(([, r]) => !r.isOurs);
                         const total = entries.length;
                         if (total === 0) return null;
-
-                        const mentionFromPp = (pp: string, label: string) => {
-                          let token: string; let jid: string;
-                          if (pp.includes("@lid")) {
-                            token = pp.replace("@lid", "").replace(/\D/g, "");
-                            jid = `${token}@lid`;
-                          } else {
-                            token = pp.replace("@s.whatsapp.net", "").replace(/\D/g, "");
-                            jid = `${token}@s.whatsapp.net`;
-                          }
-                          if (token) addMention({ jid, token, label });
-                        };
-
                         return (
                           <div className="mt-1">
                             <button
@@ -3431,42 +3420,26 @@ export default function WhatsappManager({
                               <ChevronUp className={`w-3 h-3 transition-transform ${showParticipants ? "" : "rotate-180"}`} />
                             </button>
                             {showParticipants && (
-                              <>
-                                <p className="text-[10px] text-slate-600 mt-1.5">Clique num participante para <strong className="text-slate-400">mencionar</strong> · ✏️ nomeia</p>
-                                <div className="mt-1 flex flex-wrap gap-1 max-w-[600px]">
-                                  {ours.map(([pp, p]) => (
-                                    <span key={pp} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
-                                      📤 {p.label}
-                                    </span>
-                                  ))}
-                                  {clients.map(([pp, p]) => (
-                                    <span
-                                      key={pp}
-                                      className={`inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
-                                    >
-                                      <button
-                                        type="button"
-                                        onClick={() => mentionFromPp(pp, p.label)}
-                                        title={`Mencionar ${p.label}`}
-                                        className="flex items-center gap-1"
-                                      >
-                                        👤 {p.label}
-                                        {p.rawNorm && !p.rawNorm.includes("@lid") && (
-                                          <span className="opacity-60 ml-0.5 font-mono">{formatPhone(p.rawNorm)}</span>
-                                        )}
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={(e) => { e.stopPropagation(); handleOpenParticipantEdit(p.rawNorm); }}
-                                        title="Nomear contato"
-                                        className="opacity-50 hover:opacity-100 transition-opacity"
-                                      >
-                                        ✏️
-                                      </button>
-                                    </span>
-                                  ))}
-                                </div>
-                              </>
+                              <div className="mt-1.5 flex flex-wrap gap-1 max-w-[600px]">
+                                {ours.map(([pp, p]) => (
+                                  <span key={pp} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 ${getInstanceBadgeColor(p.label).split(" ").filter(c => c.startsWith("text-")).join(" ")}`} title={p.rawNorm}>
+                                    📤 {p.label}
+                                  </span>
+                                ))}
+                                {clients.map(([pp, p]) => (
+                                  <button
+                                    key={pp}
+                                    onClick={() => handleOpenParticipantEdit(p.rawNorm, pp)}
+                                    className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-colors ${getParticipantColor(p.rawNorm)}`}
+                                    title={`${p.label} · clique para opções (nomear / mencionar)`}
+                                  >
+                                    👤 {p.label}
+                                    {p.rawNorm && !p.rawNorm.includes("@lid") && (
+                                      <span className="opacity-60 ml-1 font-mono">{formatPhone(p.rawNorm)}</span>
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
                             )}
                           </div>
                         );
@@ -4354,12 +4327,12 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            {/* Grupo: participante é cliente — cor estável + clicável para nomear */}
+                            {/* Grupo: participante é cliente — cor estável + clicável (nomear/mencionar) */}
                             {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
                               <button
-                                onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm)}
+                                onClick={() => handleOpenParticipantEdit(groupParticipant.rawNorm, msg.participantPhone ?? undefined)}
                                 className={`text-[10px] font-bold mb-1 truncate text-left max-w-full flex items-center gap-1 group/participant hover:opacity-80 ${getParticipantColor(groupParticipant.rawNorm)}`}
-                                title="Clique para nomear este contato"
+                                title="Clique para opções (nomear / mencionar)"
                               >
                                 👤 {groupParticipant.label}
                                 <span className="opacity-0 group-hover/participant:opacity-60 text-[9px]">✏️</span>
@@ -4469,6 +4442,32 @@ export default function WhatsappManager({
                             <p className="text-slate-600 text-[10px]">Associar este número a uma das minhas instâncias WhatsApp</p>
                           </div>
                         </button>
+                        {/* Mencionar — só em grupo. Insere @ desta pessoa no campo. */}
+                        {selectedConv?.phone.includes("@g.us") && (
+                          <button
+                            onClick={() => {
+                              const src = editingParticipantJid ?? editingParticipant ?? "";
+                              let token: string; let jid: string;
+                              if (src.includes("@lid")) {
+                                token = src.replace("@lid", "").replace(/\D/g, "");
+                                jid = `${token}@lid`;
+                              } else {
+                                token = src.replace(/\D/g, "");
+                                jid = `${token}@s.whatsapp.net`;
+                              }
+                              const label = (editingParticipant && participantNames[editingParticipant]) || editingParticipant || token;
+                              if (token) addMention({ jid, token, label });
+                              setEditingParticipant(null);
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-violet-500/50 text-left transition-colors group"
+                          >
+                            <span className="text-xl">✍️</span>
+                            <div>
+                              <p className="text-white text-xs font-medium group-hover:text-violet-300 transition-colors">Mencionar no grupo</p>
+                              <p className="text-slate-600 text-[10px]">Insere o @ desta pessoa na mensagem que você vai enviar</p>
+                            </div>
+                          </button>
+                        )}
                       </div>
                     )}
 
