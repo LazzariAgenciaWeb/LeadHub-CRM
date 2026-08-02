@@ -83,6 +83,8 @@ export async function POST(req: NextRequest) {
     }
   }
   const meetingDurationMin = Math.min(180, Math.max(15, parseInt(body.meetingDurationMin, 10) || 30));
+  const cdRaw = parseInt(body.courtesyDelayMin, 10);
+  const courtesyDelayMin = Number.isNaN(cdRaw) ? 5 : Math.min(120, Math.max(0, cdRaw));
 
   const created = await prisma.assistant.create({
     data: {
@@ -98,6 +100,8 @@ export async function POST(req: NextRequest) {
       schedulingLink: (body.schedulingLink ?? "").trim() || null,
       calendarUserId,
       meetingDurationMin,
+      courtesyDelayMin,
+      courtesyText: (body.courtesyText ?? "").trim() || null,
       model: (body.model ?? "").trim() || null,
       temperature: typeof body.temperature === "number" ? body.temperature : null,
       createdById: (session.user as any).id ?? null,

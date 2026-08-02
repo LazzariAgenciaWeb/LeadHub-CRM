@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v8-resgate-texto";
+export const AUTO_AGENT_REV = "v9-gatilhos-retorno";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -50,6 +50,17 @@ const HISTORY_LIMIT = 30;
 const MAX_REPLY_TOKENS = 500;
 const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
 
+// Palavra-gatilho: contato digita SÓ isso numa conversa pausada (humano
+// assumiu) → bot reativa e volta a atender. OFF manual continua respeitado.
+const REACTIVATION_WORD = "atendimento";
+
+// Sentinela de cortesia: conversa pausada + INBOUND sem resposta humana em
+// N minutos → aviso educado (sem marcar a conversa como respondida).
+// Delay e texto são CONFIGURÁVEIS por agente (courtesyDelayMin/courtesyText;
+// 0 = desligada). Cooldown é fixo.
+const COURTESY_COOLDOWN_MS = 60 * 60_000; // máx 1 aviso por conversa por hora
+const COURTESY_DEFAULT_TEXT = "Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui.";
+
 // Debounce por conversa. Vive em globalThis pra sobreviver ao HMR do dev.
 // Servidor único (standalone) — suficiente pra Fase 1; se um dia houver
 // réplicas, trocar por fila (pg-boss).
@@ -57,9 +68,14 @@ const timers: Map<string, ReturnType<typeof setTimeout>> =
   (globalThis as any).__autoAgentTimers ?? new Map();
 (globalThis as any).__autoAgentTimers = timers;
 
+const courtesyTimers: Map<string, ReturnType<typeof setTimeout>> =
+  (globalThis as any).__autoAgentCourtesyTimers ?? new Map();
+(globalThis as any).__autoAgentCourtesyTimers = courtesyTimers;
+
 /**
- * Agenda o processamento da conversa com debounce. Chamar a cada INBOUND
- * (o webhook chama; é barato — os guards pesados rodam só quando dispara).
+ * Agenda o processamento da conversa com debounce + a sentinela de cortesia.
+ * Chamar a cada INBOUND (o webhook chama; é barato — os guards pesados rodam
+ * só quando dispara).
  */
 export function scheduleAutoAgent(conversationId: string): void {
   const existing = timers.get(conversationId);
@@ -73,6 +89,118 @@ export function scheduleAutoAgent(conversationId: string): void {
       );
     }, DEBOUNCE_MS)
   );
+
+  // Sentinela de cortesia — reinicia a contagem a cada mensagem nova. O delay
+  // e o texto vêm da config do agente (lookup assíncrono); os guards (alguém
+  // respondeu? cooldown?) rodam de novo na hora de disparar.
+  const c = courtesyTimers.get(conversationId);
+  if (c) clearTimeout(c);
+  void (async () => {
+    try {
+      const cfg = await getCourtesyConfig(conversationId);
+      if (!cfg) return;
+      const prev = courtesyTimers.get(conversationId);
+      if (prev) clearTimeout(prev);
+      courtesyTimers.set(
+        conversationId,
+        setTimeout(() => {
+          courtesyTimers.delete(conversationId);
+          runCourtesyCheck(conversationId, cfg.text).catch((err) =>
+            console.error(`[AutoAgent] erro cortesia conv=${conversationId}:`, err)
+          );
+        }, cfg.delayMs)
+      );
+    } catch { /* sentinela é acessório — nunca propaga */ }
+  })();
+}
+
+/** Config da sentinela a partir do agente autônomo da instância (null = desligada). */
+async function getCourtesyConfig(conversationId: string): Promise<{ delayMs: number; text: string } | null> {
+  const conv = await prisma.conversation.findUnique({
+    where: { id: conversationId },
+    select: { isGroup: true, companyId: true },
+  });
+  if (!conv || conv.isGroup) return null;
+  const last = await prisma.message.findFirst({
+    where: { conversationId },
+    orderBy: { receivedAt: "desc" },
+    select: { instanceId: true },
+  });
+  if (!last?.instanceId) return null;
+  const assistant = await getAssistantForInstance(conv.companyId, last.instanceId);
+  if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) return null;
+  const delayMin = ((assistant as any).courtesyDelayMin as number) ?? 5;
+  if (delayMin <= 0) return null;
+  return {
+    delayMs: delayMin * 60_000,
+    text: ((assistant as any).courtesyText as string | null)?.trim() || COURTESY_DEFAULT_TEXT,
+  };
+}
+
+/**
+ * Aviso de cortesia: ninguém (humano nem bot) respondeu o INBOUND em N min
+ * numa conversa de instância com agente autônomo → "recebemos sua mensagem".
+ * NÃO altera status/unread da conversa — ela continua pendente pro time.
+ */
+async function runCourtesyCheck(conversationId: string, text: string = COURTESY_DEFAULT_TEXT): Promise<void> {
+  const conv = await prisma.conversation.findUnique({
+    where: { id: conversationId },
+    select: { id: true, phone: true, isGroup: true, status: true, companyId: true, lastMessageDirection: true },
+  });
+  if (!conv || conv.isGroup || conv.status === "CLOSED") return;
+  if (conv.lastMessageDirection !== "INBOUND") return; // alguém já respondeu
+
+  const last = await prisma.message.findFirst({
+    where: { conversationId },
+    orderBy: { receivedAt: "desc" },
+    select: { instanceId: true },
+  });
+  if (!last?.instanceId) return;
+
+  // Só em instâncias com agente autônomo (não vira comportamento global).
+  const assistant = await getAssistantForInstance(conv.companyId, last.instanceId);
+  if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) return;
+
+  // Anti-spam: no máximo 1 cortesia por conversa por hora.
+  const recentCourtesy = await prisma.message.findFirst({
+    where: {
+      conversationId,
+      direction: "OUTBOUND",
+      receivedAt: { gte: new Date(Date.now() - COURTESY_COOLDOWN_MS) },
+      rawPayload: { path: ["courtesy"], equals: true },
+    },
+    select: { id: true },
+  });
+  if (recentCourtesy) return;
+
+  const instance = await prisma.whatsappInstance.findUnique({
+    where: { id: last.instanceId },
+    select: { id: true, instanceName: true, instanceToken: true },
+  });
+  if (!instance) return;
+
+  try {
+    const res = await evolutionSendText(instance.instanceName, conv.phone, text, instance.instanceToken ?? null);
+    const externalId: string = res?.key?.id ?? res?.id ?? `out-${Date.now()}-c`;
+    // De propósito SEM upsertConversation: o status continua OPEN e o unread
+    // continua contando — o time ainda precisa responder de verdade.
+    await prisma.message.create({
+      data: {
+        externalId,
+        body: text,
+        direction: "OUTBOUND",
+        phone: conv.phone,
+        instanceId: instance.id,
+        companyId: conv.companyId,
+        conversationId,
+        ack: 1,
+        rawPayload: { autoAgent: true, courtesy: true } as any,
+      },
+    });
+    recordRun({ conv: conversationId, courtesy: "enviada_apos_5min_sem_resposta" });
+  } catch (err) {
+    console.error(`[AutoAgent] falha ao enviar cortesia conv=${conversationId}:`, err);
+  }
 }
 
 /**
@@ -327,7 +455,6 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
 
   if (!conv) return { ok: false, skipped: "conv_not_found" };
   if (conv.isGroup) return { ok: false, skipped: "group" };
-  if (conv.aiMode !== "ACTIVE") return { ok: false, skipped: `aiMode_${conv.aiMode}` };
   if (conv.status === "CLOSED") return { ok: false, skipped: "closed" };
 
   // Última mensagem precisa ser INBOUND — se humano (ou o próprio bot) já
@@ -335,10 +462,30 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   const last = await prisma.message.findFirst({
     where: { conversationId: conv.id },
     orderBy: { receivedAt: "desc" },
-    select: { id: true, direction: true, instanceId: true, receivedAt: true },
+    select: { id: true, direction: true, instanceId: true, receivedAt: true, body: true },
   });
   if (!last || last.direction !== "INBOUND") return { ok: false, skipped: "last_not_inbound" };
   if (!last.instanceId) return { ok: false, skipped: "no_instance" };
+
+  // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho
+  // ("atendimento") pro contato reativar o atendimento automático sozinho.
+  if (conv.aiMode === "OFF") return { ok: false, skipped: "aiMode_OFF" };
+  if (conv.aiMode === "PAUSED_HUMAN") {
+    const normalized = (last.body ?? "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z]/g, " ")
+      .trim();
+    if (normalized !== REACTIVATION_WORD) {
+      return { ok: false, skipped: "aiMode_PAUSED_HUMAN" };
+    }
+    await prisma.conversation.update({
+      where: { id: conv.id },
+      data: { aiMode: "ACTIVE", aiPausedAt: null },
+    });
+    diag.reativado = "palavra_gatilho";
+  }
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },

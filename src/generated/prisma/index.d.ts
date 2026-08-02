@@ -117817,11 +117817,13 @@ export namespace Prisma {
 
   export type AssistantAvgAggregateOutputType = {
     meetingDurationMin: number | null
+    courtesyDelayMin: number | null
     temperature: number | null
   }
 
   export type AssistantSumAggregateOutputType = {
     meetingDurationMin: number | null
+    courtesyDelayMin: number | null
     temperature: number | null
   }
 
@@ -117838,6 +117840,8 @@ export namespace Prisma {
     schedulingLink: string | null
     calendarUserId: string | null
     meetingDurationMin: number | null
+    courtesyDelayMin: number | null
+    courtesyText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117859,6 +117863,8 @@ export namespace Prisma {
     schedulingLink: string | null
     calendarUserId: string | null
     meetingDurationMin: number | null
+    courtesyDelayMin: number | null
+    courtesyText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117880,6 +117886,8 @@ export namespace Prisma {
     schedulingLink: number
     calendarUserId: number
     meetingDurationMin: number
+    courtesyDelayMin: number
+    courtesyText: number
     instanceId: number
     model: number
     temperature: number
@@ -117892,11 +117900,13 @@ export namespace Prisma {
 
   export type AssistantAvgAggregateInputType = {
     meetingDurationMin?: true
+    courtesyDelayMin?: true
     temperature?: true
   }
 
   export type AssistantSumAggregateInputType = {
     meetingDurationMin?: true
+    courtesyDelayMin?: true
     temperature?: true
   }
 
@@ -117913,6 +117923,8 @@ export namespace Prisma {
     schedulingLink?: true
     calendarUserId?: true
     meetingDurationMin?: true
+    courtesyDelayMin?: true
+    courtesyText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117934,6 +117946,8 @@ export namespace Prisma {
     schedulingLink?: true
     calendarUserId?: true
     meetingDurationMin?: true
+    courtesyDelayMin?: true
+    courtesyText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117955,6 +117969,8 @@ export namespace Prisma {
     schedulingLink?: true
     calendarUserId?: true
     meetingDurationMin?: true
+    courtesyDelayMin?: true
+    courtesyText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -118063,6 +118079,8 @@ export namespace Prisma {
     schedulingLink: string | null
     calendarUserId: string | null
     meetingDurationMin: number
+    courtesyDelayMin: number
+    courtesyText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -118103,6 +118121,8 @@ export namespace Prisma {
     schedulingLink?: boolean
     calendarUserId?: boolean
     meetingDurationMin?: boolean
+    courtesyDelayMin?: boolean
+    courtesyText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118131,6 +118151,8 @@ export namespace Prisma {
     schedulingLink?: boolean
     calendarUserId?: boolean
     meetingDurationMin?: boolean
+    courtesyDelayMin?: boolean
+    courtesyText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118156,6 +118178,8 @@ export namespace Prisma {
     schedulingLink?: boolean
     calendarUserId?: boolean
     meetingDurationMin?: boolean
+    courtesyDelayMin?: boolean
+    courtesyText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118203,6 +118227,8 @@ export namespace Prisma {
       schedulingLink: string | null
       calendarUserId: string | null
       meetingDurationMin: number
+      courtesyDelayMin: number
+      courtesyText: string | null
       instanceId: string | null
       model: string | null
       temperature: number | null
@@ -118620,6 +118646,8 @@ export namespace Prisma {
     readonly schedulingLink: FieldRef<"Assistant", 'String'>
     readonly calendarUserId: FieldRef<"Assistant", 'String'>
     readonly meetingDurationMin: FieldRef<"Assistant", 'Int'>
+    readonly courtesyDelayMin: FieldRef<"Assistant", 'Int'>
+    readonly courtesyText: FieldRef<"Assistant", 'String'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
     readonly temperature: FieldRef<"Assistant", 'Float'>
@@ -130282,6 +130310,8 @@ export namespace Prisma {
     schedulingLink: 'schedulingLink',
     calendarUserId: 'calendarUserId',
     meetingDurationMin: 'meetingDurationMin',
+    courtesyDelayMin: 'courtesyDelayMin',
+    courtesyText: 'courtesyText',
     instanceId: 'instanceId',
     model: 'model',
     temperature: 'temperature',
@@ -140653,6 +140683,8 @@ export namespace Prisma {
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     calendarUserId?: StringNullableFilter<"Assistant"> | string | null
     meetingDurationMin?: IntFilter<"Assistant"> | number
+    courtesyDelayMin?: IntFilter<"Assistant"> | number
+    courtesyText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -140680,6 +140712,8 @@ export namespace Prisma {
     schedulingLink?: SortOrderInput | SortOrder
     calendarUserId?: SortOrderInput | SortOrder
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
+    courtesyText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -140710,6 +140744,8 @@ export namespace Prisma {
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     calendarUserId?: StringNullableFilter<"Assistant"> | string | null
     meetingDurationMin?: IntFilter<"Assistant"> | number
+    courtesyDelayMin?: IntFilter<"Assistant"> | number
+    courtesyText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -140737,6 +140773,8 @@ export namespace Prisma {
     schedulingLink?: SortOrderInput | SortOrder
     calendarUserId?: SortOrderInput | SortOrder
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
+    courtesyText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -140766,6 +140804,8 @@ export namespace Prisma {
     schedulingLink?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     calendarUserId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     meetingDurationMin?: IntWithAggregatesFilter<"Assistant"> | number
+    courtesyDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
+    courtesyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
@@ -152065,6 +152105,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -152090,6 +152132,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -152111,6 +152155,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152136,6 +152182,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -152159,6 +152207,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -152178,6 +152228,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152197,6 +152249,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -160547,6 +160601,8 @@ export namespace Prisma {
     schedulingLink?: SortOrder
     calendarUserId?: SortOrder
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
+    courtesyText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -160557,6 +160613,7 @@ export namespace Prisma {
 
   export type AssistantAvgOrderByAggregateInput = {
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -160573,6 +160630,8 @@ export namespace Prisma {
     schedulingLink?: SortOrder
     calendarUserId?: SortOrder
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
+    courtesyText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -160594,6 +160653,8 @@ export namespace Prisma {
     schedulingLink?: SortOrder
     calendarUserId?: SortOrder
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
+    courtesyText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -160604,6 +160665,7 @@ export namespace Prisma {
 
   export type AssistantSumOrderByAggregateInput = {
     meetingDurationMin?: SortOrder
+    courtesyDelayMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -173449,6 +173511,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -173473,6 +173537,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -173503,6 +173569,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -173526,6 +173594,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -174524,6 +174594,8 @@ export namespace Prisma {
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     calendarUserId?: StringNullableFilter<"Assistant"> | string | null
     meetingDurationMin?: IntFilter<"Assistant"> | number
+    courtesyDelayMin?: IntFilter<"Assistant"> | number
+    courtesyText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -178473,6 +178545,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -178496,6 +178570,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -189739,6 +189815,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -189763,6 +189841,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -228902,6 +228982,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -228926,6 +229008,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -229029,6 +229113,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -229053,6 +229139,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -229379,6 +229467,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -229403,6 +229493,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -229678,6 +229770,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -229702,6 +229796,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -233070,6 +233166,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -233089,6 +233187,8 @@ export namespace Prisma {
     qualificationChecklist?: string | null
     schedulingLink?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -234031,6 +234131,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234055,6 +234157,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234077,6 +234181,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234095,6 +234201,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234118,6 +234226,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234140,6 +234250,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -235176,6 +235288,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -238632,6 +238746,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238655,6 +238771,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -238677,6 +238795,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -240089,6 +240209,8 @@ export namespace Prisma {
     schedulingLink?: string | null
     calendarUserId?: string | null
     meetingDurationMin?: number
+    courtesyDelayMin?: number
+    courtesyText?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -240205,6 +240327,8 @@ export namespace Prisma {
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -240229,6 +240353,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240251,6 +240377,8 @@ export namespace Prisma {
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    courtesyDelayMin?: IntFieldUpdateOperationsInput | number
+    courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null

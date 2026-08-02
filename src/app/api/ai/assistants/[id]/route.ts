@@ -72,6 +72,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if ("meetingDurationMin" in body) {
     data.meetingDurationMin = Math.min(180, Math.max(15, parseInt(body.meetingDurationMin, 10) || 30));
   }
+  if ("courtesyDelayMin" in body) {
+    const cdRaw = parseInt(body.courtesyDelayMin, 10);
+    data.courtesyDelayMin = Number.isNaN(cdRaw) ? 5 : Math.min(120, Math.max(0, cdRaw));
+  }
+  if ("courtesyText" in body) data.courtesyText = (body.courtesyText ?? "").trim() || null;
 
   if ("instanceId" in body) {
     let instanceId: string | null = body.instanceId ?? null;

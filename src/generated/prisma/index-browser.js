@@ -1558,6 +1558,8 @@ exports.Prisma.AssistantScalarFieldEnum = {
   schedulingLink: 'schedulingLink',
   calendarUserId: 'calendarUserId',
   meetingDurationMin: 'meetingDurationMin',
+  courtesyDelayMin: 'courtesyDelayMin',
+  courtesyText: 'courtesyText',
   instanceId: 'instanceId',
   model: 'model',
   temperature: 'temperature',

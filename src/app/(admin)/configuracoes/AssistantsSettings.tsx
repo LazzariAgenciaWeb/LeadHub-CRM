@@ -58,6 +58,8 @@ interface Assistant {
   schedulingLink: string | null;
   calendarUserId: string | null;
   meetingDurationMin: number;
+  courtesyDelayMin: number;
+  courtesyText: string | null;
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
@@ -119,6 +121,8 @@ export default function AssistantsSettings({
   const [fRoutes, setFRoutes] = useState<Route[]>([]);
   const [fCalendarUser, setFCalendarUser] = useState<string>("");
   const [fDuration, setFDuration] = useState(30);
+  const [fCourtesyDelay, setFCourtesyDelay] = useState(5);
+  const [fCourtesyText, setFCourtesyText] = useState("");
   const [agendaTest, setAgendaTest] = useState<string | null>(null);
   const [testingAgenda, setTestingAgenda] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -141,6 +145,7 @@ export default function AssistantsSettings({
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
     setFAutoRespond(false); setFChecklist(""); setFLearnings("");
     setFCalendarUser(""); setFDuration(30);
+    setFCourtesyDelay(5); setFCourtesyText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
       { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true },
@@ -157,6 +162,8 @@ export default function AssistantsSettings({
     setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead })));
     setFCalendarUser(a.calendarUserId ?? "");
     setFDuration(a.meetingDurationMin ?? 30);
+    setFCourtesyDelay(a.courtesyDelayMin ?? 5);
+    setFCourtesyText(a.courtesyText ?? "");
   }
   function closeForm() { setEditing(null); setErr(null); }
 
@@ -203,6 +210,8 @@ export default function AssistantsSettings({
       learnings: fLearnings,
       calendarUserId: fCalendarUser || null,
       meetingDurationMin: fDuration,
+      courtesyDelayMin: fCourtesyDelay,
+      courtesyText: fCourtesyText,
       // Rotas: só linhas com setor escolhido (linhas vazias são descartadas)
       routes: fRoutes.filter((r) => r.intent.trim() && r.setorId),
     };
@@ -505,6 +514,34 @@ export default function AssistantsSettings({
                     )}
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       Respeita os horários de atendimento da empresa. Sugere 1 horário de manhã + 1 de tarde nos próximos 3 dias úteis (nunca hoje), não confirma horário ocupado, envia o link do Meet no WhatsApp e manda lembrete 1h antes.
+                    </p>
+                  </div>
+
+                  {/* Sentinela de espera */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      ⏱️ Sentinela de espera <span className="text-slate-600 normal-case">— quando um humano assumiu e ninguém responde o contato</span>
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                        Avisar após
+                        <input
+                          type="number" min={0} max={120} step={1}
+                          value={fCourtesyDelay}
+                          onChange={(e) => setFCourtesyDelay(parseInt(e.target.value || "0", 10))}
+                          className="w-16 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        />
+                        min sem resposta <span className="text-slate-600">(0 = desligada)</span>
+                      </label>
+                    </div>
+                    <input
+                      value={fCourtesyText}
+                      onChange={(e) => setFCourtesyText(e.target.value)}
+                      placeholder="Recebemos sua mensagem! 😊 Já já alguém do nosso time te responde por aqui."
+                      className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                    />
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time. Dica: o contato pode digitar &quot;atendimento&quot; pra reativar o robô numa conversa pausada.
                     </p>
                   </div>
 
