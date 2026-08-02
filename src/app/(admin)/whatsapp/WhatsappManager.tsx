@@ -7,7 +7,7 @@ import {
   Check, CheckCheck, Clock, AlertCircle,
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
-  Send, StickyNote, Target, DollarSign, Search, Bot, Building2, Link2,
+  Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
   ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle,
   type LucideIcon,
 } from "lucide-react";
@@ -3552,10 +3552,21 @@ export default function WhatsappManager({
                           className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1 ${
                             conv.aiMode === "ACTIVE"
                               ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
-                              : "border-slate-600 bg-slate-700/30 text-slate-400 hover:bg-slate-700/50"
+                              : conv.aiMode === "PAUSED_HUMAN"
+                                ? "border-amber-500/30 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+                                : "border-slate-600 bg-slate-700/30 text-slate-400 hover:bg-slate-700/50"
                           }`}
                         >
-                          🤖{conv.aiMode === "ACTIVE" ? "" : conv.aiMode === "PAUSED_HUMAN" ? " ⏸" : " ✕"}
+                          {conv.aiMode === "ACTIVE" ? (
+                            <Bot className="w-4 h-4 animate-pulse" strokeWidth={2.5} />
+                          ) : conv.aiMode === "PAUSED_HUMAN" ? (
+                            <span className="flex items-center gap-0.5">
+                              <Bot className="w-4 h-4" strokeWidth={2.5} />
+                              <Pause className="w-3 h-3" strokeWidth={2.5} />
+                            </span>
+                          ) : (
+                            <BotOff className="w-4 h-4" strokeWidth={2.5} />
+                          )}
                         </button>
                       )}
 
