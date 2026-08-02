@@ -6,7 +6,7 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
-  Tag as TagIcon, Flame, Activity, ChevronsDown, type LucideIcon,
+  Tag as TagIcon, Flame, Activity, ChevronsDown, Globe, type LucideIcon,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -86,6 +86,19 @@ const ACCOUNT_COLORS = [
   "bg-lime-500/20 text-lime-300",
   "bg-fuchsia-500/20 text-fuchsia-300",
 ];
+
+// Sufixos de 2 níveis comuns (com.br etc.) — o domínio "raiz" precisa de 3 labels.
+const SECOND_LEVEL_SUFFIXES = new Set(["com.br", "net.br", "org.br", "gov.br", "edu.br", "adv.br", "eng.br", "co.uk"]);
+
+/** Domínio raiz de um email: x@e.ultrasul1.com → ultrasul1.com; x@y.com.br → y.com.br. */
+function rootDomainOf(email: string): string | null {
+  const dom = email.split("@")[1];
+  if (!dom) return null;
+  const parts = dom.split(".");
+  if (parts.length <= 2) return dom;
+  const lastTwo = parts.slice(-2).join(".");
+  return SECOND_LEVEL_SUFFIXES.has(lastTwo) ? parts.slice(-3).join(".") : lastTwo;
+}
 
 /** Default de prazo: amanhã 09:00, no formato do input datetime-local. */
 function defaultDueAtLocal(): string {
@@ -556,24 +569,25 @@ export default function EmailInbox() {
     loadRules();
   }
 
-  async function addRule() {
+  async function addRule(overrideEmail?: string, overrideType?: "BLOCK" | "ALLOW") {
     setRuleSaving(true);
     setRuleMsg(null);
+    const payload = { fromEmail: overrideEmail ?? ruleForm.fromEmail, type: overrideType ?? ruleForm.type };
     try {
       const res = await fetch(`/api/email/inbox/rules`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(ruleForm),
+        body: JSON.stringify(payload),
       });
       const j = await res.json();
       if (!res.ok) { setRuleMsg({ ok: false, text: j.error || "Erro ao salvar" }); return; }
       setRuleMsg({
         ok: true,
-        text: ruleForm.type === "BLOCK"
-          ? `Bloqueado${j.moved ? ` — ${j.moved} email(s) movido(s) pro Spam` : ""}`
-          : `Liberado${j.moved ? ` — ${j.moved} email(s) resgatado(s) do Spam` : ""}`,
+        text: payload.type === "BLOCK"
+          ? `${j.rule} bloqueado${j.moved ? ` — ${j.moved} email(s) movido(s) pro Spam` : ""}`
+          : `${j.rule} liberado${j.moved ? ` — ${j.moved} email(s) resgatado(s) do Spam` : ""}`,
       });
-      setRuleForm({ fromEmail: "", type: ruleForm.type });
+      if (!overrideEmail) setRuleForm({ fromEmail: "", type: ruleForm.type });
       loadRules();
       load({ silent: true });
     } finally {
@@ -1246,11 +1260,12 @@ export default function EmailInbox() {
             <p className="text-[11px] text-slate-500 mb-3">
               <b>Blacklist</b>: emails do remetente caem direto no Spam (marcar um email como spam também cria a regra).
               <b> Whitelist</b>: remetente confiável, nunca vai pro Spam automático.
+              Aceita <b>domínio inteiro</b> (@dominio.com) — pega subdomínios também (a.dominio.com, e.dominio.com…).
             </p>
 
             <div className="flex gap-2 mb-3">
               <input value={ruleForm.fromEmail} onChange={(e) => setRuleForm((f) => ({ ...f, fromEmail: e.target.value }))}
-                placeholder="email@dominio.com" type="email"
+                placeholder="email@dominio.com ou @dominio.com"
                 onKeyDown={(e) => { if (e.key === "Enter" && ruleForm.fromEmail.trim()) addRule(); }}
                 className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
               <select value={ruleForm.type} onChange={(e) => setRuleForm((f) => ({ ...f, type: e.target.value as "BLOCK" | "ALLOW" }))}
@@ -1267,16 +1282,33 @@ export default function EmailInbox() {
 
             <div className="space-y-1.5">
               {rules.length === 0 && <p className="text-slate-500 text-sm">Nenhuma regra ainda.</p>}
-              {rules.map((r) => (
-                <div key={r.id} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
-                  {r.type === "BLOCK"
-                    ? <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 flex-shrink-0"><ShieldBan size={10} /> bloqueado</span>
-                    : <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0"><ShieldCheck size={10} /> liberado</span>}
-                  <span className="text-sm text-white truncate flex-1">{r.fromEmail}</span>
-                  <button onClick={() => deleteRule(r.id)} title="Remover regra"
-                    className="rounded-lg border border-white/10 p-1 text-slate-400 hover:bg-white/5 hover:text-red-300 flex-shrink-0"><X size={12} /></button>
-                </div>
-              ))}
+              {rules.map((r) => {
+                const isDomainRule = r.fromEmail.startsWith("@");
+                const root = !isDomainRule ? rootDomainOf(r.fromEmail) : null;
+                const domainAlreadyRuled = root ? rules.some((x) => x.fromEmail === `@${root}`) : false;
+                return (
+                  <div key={r.id} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                    {r.type === "BLOCK"
+                      ? <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 flex-shrink-0"><ShieldBan size={10} /> bloqueado</span>
+                      : <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 flex-shrink-0"><ShieldCheck size={10} /> liberado</span>}
+                    {isDomainRule && (
+                      <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300 flex-shrink-0" title="Domínio inteiro, incluindo subdomínios">
+                        <Globe size={10} /> domínio
+                      </span>
+                    )}
+                    <span className="text-sm text-white truncate flex-1">{r.fromEmail}</span>
+                    {r.type === "BLOCK" && !isDomainRule && root && !domainAlreadyRuled && (
+                      <button onClick={() => addRule(`@${root}`, "BLOCK")} disabled={ruleSaving}
+                        title={`Bloquear @${root} inteiro (todos os remetentes e subdomínios)`}
+                        className="flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-[10px] text-violet-300 hover:bg-white/5 disabled:opacity-50 flex-shrink-0">
+                        <Globe size={10} /> bloquear domínio
+                      </button>
+                    )}
+                    <button onClick={() => deleteRule(r.id)} title="Remover regra"
+                      className="rounded-lg border border-white/10 p-1 text-slate-400 hover:bg-white/5 hover:text-red-300 flex-shrink-0"><X size={12} /></button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

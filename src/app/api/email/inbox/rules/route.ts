@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@/generated/prisma";
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const DOMAIN_RE = /^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/;
+
+// Provedores públicos: bloquear o domínio inteiro mataria remetentes legítimos
+// (clientes com gmail etc.) — regra de domínio recusada; bloqueie o email exato.
+const PUBLIC_DOMAINS = new Set([
+  "gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "outlook.com.br",
+  "live.com", "msn.com", "yahoo.com", "yahoo.com.br", "icloud.com", "me.com",
+  "uol.com.br", "bol.com.br", "terra.com.br", "protonmail.com", "proton.me",
+]);
 
 async function requireCtx() {
   const session = await getEffectiveSession();
@@ -29,40 +39,64 @@ export async function GET() {
 }
 
 // POST /api/email/inbox/rules  { fromEmail, type: "BLOCK" | "ALLOW" }
-// BLOCK: move os emails do remetente que estão na Entrada pro Spam.
-// ALLOW: resgata os emails do remetente que estão no Spam pra Entrada.
+// Aceita email exato ("x@dom.com") OU domínio inteiro ("@dom.com" / "dom.com").
+// BLOCK: move os emails correspondentes da Entrada pro Spam.
+// ALLOW: resgata os correspondentes do Spam pra Entrada.
 export async function POST(req: NextRequest) {
   const ctx = await requireCtx();
   if (!ctx.ok) return ctx.res;
   const body = await req.json().catch(() => ({}));
 
-  const fromEmail = String(body?.fromEmail ?? "").trim().toLowerCase();
+  const input = String(body?.fromEmail ?? "").trim().toLowerCase();
   const type = body?.type === "ALLOW" ? "ALLOW" : "BLOCK";
-  if (!EMAIL_RE.test(fromEmail)) {
-    return NextResponse.json({ error: "Email inválido" }, { status: 400 });
+
+  let ruleKey: string;
+  let isDomain = false;
+  if (EMAIL_RE.test(input)) {
+    ruleKey = input;
+  } else {
+    const domain = input.replace(/^@/, "");
+    if (!DOMAIN_RE.test(domain)) {
+      return NextResponse.json({ error: "Informe um email (x@dominio.com) ou domínio (@dominio.com)" }, { status: 400 });
+    }
+    if (PUBLIC_DOMAINS.has(domain)) {
+      return NextResponse.json(
+        { error: `@${domain} é provedor público (clientes legítimos usam) — bloqueie o email exato em vez do domínio` },
+        { status: 400 }
+      );
+    }
+    ruleKey = `@${domain}`;
+    isDomain = true;
   }
 
   await prisma.inboxSenderRule.upsert({
-    where: { companyId_fromEmail: { companyId: ctx.companyId, fromEmail } },
-    create: { companyId: ctx.companyId, fromEmail, type },
+    where: { companyId_fromEmail: { companyId: ctx.companyId, fromEmail: ruleKey } },
+    create: { companyId: ctx.companyId, fromEmail: ruleKey, type },
     update: { type },
   });
+
+  // Filtro dos emails afetados: exato, ou o domínio INCLUINDO subdomínios
+  // ("@dom.com" pega x@dom.com e x@sub.dom.com).
+  const domainBare = ruleKey.slice(1); // sem o @
+  const senderMatch: Prisma.InboxEmailWhereInput = isDomain
+    ? { OR: [{ fromEmail: { endsWith: `@${domainBare}` } }, { fromEmail: { endsWith: `.${domainBare}` } }] }
+    : { fromEmail: ruleKey };
 
   let moved = 0;
   if (type === "BLOCK") {
     const r = await prisma.inboxEmail.updateMany({
-      where: { companyId: ctx.companyId, fromEmail, folder: "INBOX", direction: "IN" },
+      where: { companyId: ctx.companyId, ...senderMatch, folder: "INBOX", direction: "IN" },
       data: { folder: "SPAM" },
     });
     moved = r.count;
   } else {
     const r = await prisma.inboxEmail.updateMany({
-      where: { companyId: ctx.companyId, fromEmail, folder: "SPAM", direction: "IN" },
+      where: { companyId: ctx.companyId, ...senderMatch, folder: "SPAM", direction: "IN" },
       data: { folder: "INBOX" },
     });
     moved = r.count;
   }
-  return NextResponse.json({ ok: true, moved });
+  return NextResponse.json({ ok: true, moved, rule: ruleKey });
 }
 
 // DELETE /api/email/inbox/rules?id=  → remove a regra
