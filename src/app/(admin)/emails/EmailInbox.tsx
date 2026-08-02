@@ -745,6 +745,23 @@ export default function EmailInbox() {
         <h1 className="text-xl font-semibold text-white flex items-center gap-2">
           <Mail size={20} className="text-indigo-400" /> E-mail
         </h1>
+        {(() => {
+          // Última sincronização entre todas as contas (quando o servidor foi
+          // consultado por último — poller ou botão Sincronizar).
+          const syncs = accounts.filter((a) => a.lastSyncedAt).map((a) => new Date(a.lastSyncedAt!).getTime());
+          if (!syncs.length) return null;
+          const last = new Date(Math.max(...syncs));
+          return (
+            <span
+              className="text-[11px] text-slate-500 flex items-center gap-1"
+              title={accounts
+                .map((a) => `${accountName(a)}: ${a.lastSyncedAt ? fmtDate(a.lastSyncedAt) : "nunca sincronizada"}`)
+                .join("\n")}
+            >
+              <RefreshCw size={10} /> Atualizado {fmtDate(last.toISOString())}
+            </span>
+          );
+        })()}
         {notice && <span className="text-[11px] text-emerald-400">{notice}</span>}
         <div className="ml-auto flex items-center gap-2">
           <button onClick={syncNow} disabled={syncing || noAccounts}

@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v6-slot-tolerante";
+export const AUTO_AGENT_REV = "v7-slot-codigo";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -177,9 +177,13 @@ interface SchedulingContext {
 }
 
 function schedulingPromptBlock(ctx: SchedulingContext): string {
-  const manha = ctx.slots.filter((s) => s.period === "manha").slice(0, 8);
-  const tarde = ctx.slots.filter((s) => s.period === "tarde").slice(0, 8);
-  const fmt = (list: Slot[]) => (list.length ? list.map((s) => `${s.startISO} = ${s.label}`).join(" | ") : "(nenhum)");
+  // Cada slot ganha um código curto (S1, S2...) — o modelo devolve o código
+  // no agendarInicio, muito mais confiável que copiar ISO/rótulo sem errar.
+  const indexed = ctx.slots.map((s, i) => ({ s, code: `S${i + 1}` }));
+  const manha = indexed.filter((x) => x.s.period === "manha").slice(0, 8);
+  const tarde = indexed.filter((x) => x.s.period === "tarde").slice(0, 8);
+  const fmt = (list: { s: Slot; code: string }[]) =>
+    list.length ? list.map((x) => `[${x.code}] ${x.s.label}`).join(" | ") : "(nenhum)";
 
   return `# AGENDAMENTO DIRETO (você mesmo marca a reunião — NÃO envie link de agenda)
 ⚠️ ESTA SEÇÃO SOBRESCREVE qualquer instrução do manual sobre agendamento (link de agenda, "pedir pro gestor verificar", "enviar o link"). VOCÊ tem acesso direto à agenda: os horários LIVRES estão listados abaixo. Se o contato pedir pra "verificar a disponibilidade", NÃO diga que um gestor vai verificar — VOCÊ verifica: ofereça 2 opções da lista imediatamente.
@@ -195,7 +199,7 @@ Regras do agendamento:
 - Se nenhum servir pro contato, pergunte a preferência dele (dia/período) e ofereça outras 2 opções das listas.
 - Antes de confirmar, peça o E-MAIL do contato ("pra te enviar o convite da reunião 😊").
 - Quando o contato ESCOLHER um horário e informar o e-mail, use action "AGENDAR" com:
-  "agendarInicio" = o valor ISO EXATO da lista (ex.: "${ctx.slots[0]?.startISO ?? "2026-01-01T09:00:00-03:00"}")
+  "agendarInicio" = o CÓDIGO do horário escolhido (ex.: "S1")
   "agendarEmail" = o e-mail informado
   e deixe "reply" vazio ([]) — o sistema confirma e envia o link do Meet automaticamente.
 - Se as listas estiverem vazias (sem horário livre), avise que o time vai retornar pra combinar o melhor horário e use action "HANDOFF". NUNCA confirme reunião sem horário livre.`;
@@ -440,6 +444,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   }
   diag.modelAction = decision.action;
   diag.bolhas = decision.replies.length;
+  if (decision.agendarInicio) diag.agendarInicio = decision.agendarInicio;
 
   // Race check: se durante a chamada de IA chegou resposta de humano (ou o bot
   // foi pausado), descarta a resposta gerada.
@@ -595,20 +600,47 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
 const REMINDER_BEFORE_MIN = 60; // lembrete 1h antes da reunião
 
 /**
- * Resolve o slot escolhido pelo modelo comparando o INSTANTE (epoch), não a
- * string. Tolera ISO sem segundos e sem offset (assume o offset dos slots).
+ * Resolve o slot escolhido pelo modelo. Aceita, nesta ordem:
+ *  1. Código "S<n>" (formato pedido no prompt — o mais confiável)
+ *  2. Rótulo do slot ("seg 03/08 09:00"), com normalização de espaços/caixa
+ *  3. dd/mm + hora em qualquer texto ("03/08 às 9h", "3/8 09:00")
+ *  4. ISO em variações (sem segundos, sem offset, com espaço)
+ * Sempre valida contra a lista oferecida — horário inventado continua barrado.
  */
 function resolveSlot(slots: Slot[], agendarInicio: string | null): Slot | null {
   if (!agendarInicio) return null;
-  const raw = agendarInicio.trim().replace(" ", "T");
-  const candidates = [raw];
-  // Sem offset/Z no final → anexa o offset usado nos próprios slots (ex.: -03:00)
-  if (!/(?:[+-]\d{2}:?\d{2}|Z)$/i.test(raw)) {
-    const offset = slots[0]?.startISO.match(/([+-]\d{2}:\d{2})$/)?.[1];
-    if (offset) {
-      candidates.push(`${raw}${offset}`);
-      if (/T\d{2}:\d{2}$/.test(raw)) candidates.push(`${raw}:00${offset}`);
+  const rawInput = agendarInicio.trim();
+
+  // 1) Código S<n>
+  const tok = rawInput.match(/^\[?S(\d{1,2})\]?$/i);
+  if (tok) return slots[parseInt(tok[1], 10) - 1] ?? null;
+
+  // 2) Rótulo
+  const norm = (x: string) => x.toLowerCase().replace(/\s+/g, " ").trim();
+  const rn = norm(rawInput);
+  const byLabel = slots.find((s) => norm(s.label) === rn || (rn.length >= 8 && rn.includes(norm(s.label))));
+  if (byLabel) return byLabel;
+
+  // 3) dd/mm + hora (ano e offset herdados dos próprios slots)
+  const offset = slots[0]?.startISO.match(/([+-]\d{2}:\d{2})$/)?.[1];
+  const year = slots[0]?.startISO.slice(0, 4);
+  const dm = rn.match(/(\d{1,2})\/(\d{1,2})\D*?(\d{1,2})(?::(\d{2})|h)?/);
+  if (dm && offset && year) {
+    const [, dd, mm, hh, min] = dm;
+    const iso = `${year}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}T${hh.padStart(2, "0")}:${(min ?? "00").padStart(2, "0")}:00${offset}`;
+    const t = Date.parse(iso);
+    if (!Number.isNaN(t)) {
+      const match = slots.find((s) => Date.parse(s.startISO) === t);
+      if (match) return match;
     }
+  }
+
+  // 4) ISO com variações
+  const raw = rawInput.replace(" ", "T");
+  const candidates = [raw];
+  if (!/(?:[+-]\d{2}:?\d{2}|Z)$/i.test(raw) && offset) {
+    candidates.push(`${raw}${offset}`);
+    if (/T\d{2}:\d{2}$/.test(raw)) candidates.push(`${raw}:00${offset}`);
   }
   for (const c of candidates) {
     const t = Date.parse(c);
