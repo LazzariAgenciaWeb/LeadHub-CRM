@@ -30,7 +30,20 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v4-variacao-dias-uteis";
+export const AUTO_AGENT_REV = "v5-diagnostico-runtime";
+
+// Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
+// action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
+// zera no restart. Sem conteúdo de mensagem (só metadados).
+const recentRuns: Record<string, unknown>[] = (globalThis as any).__autoAgentRuns ?? [];
+(globalThis as any).__autoAgentRuns = recentRuns;
+export function getRecentAutoAgentRuns() {
+  return recentRuns;
+}
+function recordRun(entry: Record<string, unknown>) {
+  recentRuns.unshift({ ts: new Date().toISOString(), ...entry });
+  if (recentRuns.length > 12) recentRuns.pop();
+}
 
 const DEBOUNCE_MS = 10_000;
 const HISTORY_LIMIT = 30;
@@ -169,6 +182,7 @@ function schedulingPromptBlock(ctx: SchedulingContext): string {
   const fmt = (list: Slot[]) => (list.length ? list.map((s) => `${s.startISO} = ${s.label}`).join(" | ") : "(nenhum)");
 
   return `# AGENDAMENTO DIRETO (você mesmo marca a reunião — NÃO envie link de agenda)
+⚠️ ESTA SEÇÃO SOBRESCREVE qualquer instrução do manual sobre agendamento (link de agenda, "pedir pro gestor verificar", "enviar o link"). VOCÊ tem acesso direto à agenda: os horários LIVRES estão listados abaixo. Se o contato pedir pra "verificar a disponibilidade", NÃO diga que um gestor vai verificar — VOCÊ verifica: ofereça 2 opções da lista imediatamente.
 Agora: ${nowLabel()} (horário de Brasília). Reunião de ${ctx.durationMin} minutos no Google Meet.
 Horários LIVRES na agenda:
 MANHÃ: ${fmt(manha)}
@@ -275,14 +289,28 @@ Responda SOMENTE com um JSON válido, sem texto fora dele, neste formato:
   return parts.join("\n\n");
 }
 
+type AgentRunResult =
+  | { ok: true; action: string; replied: boolean }
+  | { ok: false; skipped: string };
+
 /**
  * Processa a conversa AGORA (chamado pelo debounce; exportado também pra
- * testes/diagnóstico). Todos os guards vivem aqui.
+ * testes/diagnóstico). Registra cada execução em recentRuns.
  */
-export async function runAutoAgentNow(conversationId: string): Promise<
-  | { ok: true; action: string; replied: boolean }
-  | { ok: false; skipped: string }
-> {
+export async function runAutoAgentNow(conversationId: string): Promise<AgentRunResult> {
+  const diag: Record<string, unknown> = {};
+  try {
+    const res = await runAutoAgentCore(conversationId, diag);
+    recordRun({ conv: conversationId, ...diag, ...res });
+    return res;
+  } catch (err) {
+    recordRun({ conv: conversationId, ...diag, error: String(err) });
+    throw err;
+  }
+}
+
+/** Núcleo do processamento — todos os guards vivem aqui. */
+async function runAutoAgentCore(conversationId: string, diag: Record<string, unknown>): Promise<AgentRunResult> {
   const conv = await prisma.conversation.findUnique({
     where: { id: conversationId },
     select: {
@@ -338,10 +366,17 @@ export async function runAutoAgentNow(conversationId: string): Promise<
   // (agenda ∩ horários de atendimento). Qualquer falha → fallback pro link.
   let scheduling: SchedulingContext | null = null;
   const calendarUserId = (assistant as any).calendarUserId as string | null;
-  if (calendarUserId) {
+  if (!calendarUserId) {
+    diag.agenda = "agente_sem_agenda_salva";
+  } else {
     try {
       const connCal = await getAgentCalendarConnection(calendarUserId);
-      if (connCal && connectionCanWrite(connCal)) {
+      if (!connCal) {
+        diag.agenda = "sem_conexao_ativa";
+      } else if (!connectionCanWrite(connCal)) {
+        diag.agenda = "sem_escopo_escrita";
+        console.warn(`[AutoAgent] conexão calendar sem escopo de escrita (user=${calendarUserId}) — reconectar a conta; usando fallback de link`);
+      } else {
         const durationMin = ((assistant as any).meetingDurationMin as number) || 30;
         const slots = await computeAvailableSlots({
           companyId: conv.companyId,
@@ -349,10 +384,10 @@ export async function runAutoAgentNow(conversationId: string): Promise<
           durationMin,
         });
         scheduling = { connectionId: connCal.id, durationMin, slots };
-      } else if (connCal) {
-        console.warn(`[AutoAgent] conexão calendar sem escopo de escrita (user=${calendarUserId}) — reconectar a conta; usando fallback de link`);
+        diag.agenda = `ok_${slots.length}_slots`;
       }
-    } catch (err) {
+    } catch (err: any) {
+      diag.agenda = `erro: ${err?.message ?? String(err)}`;
       console.error(`[AutoAgent] falha ao montar agenda conv=${conv.id} (fallback pro link):`, err);
     }
   }
@@ -378,7 +413,7 @@ export async function runAutoAgentNow(conversationId: string): Promise<
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? " ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda." : ""}`,
     },
   ];
 
@@ -403,6 +438,8 @@ export async function runAutoAgentNow(conversationId: string): Promise<
     console.warn(`[AutoAgent] resposta sem JSON utilizável conv=${conv.id}: "${result.text.slice(0, 200)}"`);
     return { ok: false, skipped: "bad_json" };
   }
+  diag.modelAction = decision.action;
+  diag.bolhas = decision.replies.length;
 
   // Race check: se durante a chamada de IA chegou resposta de humano (ou o bot
   // foi pausado), descarta a resposta gerada.
