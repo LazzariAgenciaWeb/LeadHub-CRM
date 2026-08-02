@@ -13,9 +13,14 @@ import { loadCompanyHours, SYSTEM_TIMEZONE, type CompanyHoursConfig } from "./bu
  */
 
 const CALENDAR_API = "https://www.googleapis.com/calendar/v3";
-const DAYS_AHEAD = 7; // janela de busca
+const DAYS_AHEAD = 10; // janela de varredura (dias corridos)
 const MIN_LEAD_MINUTES = 90; // antecedência mínima pra oferecer um slot
 const SLOT_STEP_MIN = 30; // granularidade dos inícios de slot
+// Regra de negócio (Diego 2026-08-02): NUNCA agendar pro mesmo dia, mesmo com
+// horário livre — oferecer só os próximos N dias ÚTEIS (dias abertos no
+// horário de atendimento da empresa) depois de hoje.
+const BOOKING_SKIP_TODAY = true;
+const BOOKING_MAX_BUSINESS_DAYS = 3;
 
 export interface Slot {
   startISO: string; // ISO com offset — identificador exato do slot
@@ -146,6 +151,7 @@ export async function computeAvailableSlots(args: {
   const minStartMs = now.getTime() + MIN_LEAD_MINUTES * 60_000;
   const slots: Slot[] = [];
   const today = localDateParts(now, tz);
+  let businessDaysUsed = 0;
 
   for (let dayOffset = 0; dayOffset <= DAYS_AHEAD && slots.length < maxSlots; dayOffset++) {
     // Data local do dia-alvo: meia-noite local de hoje + offset em dias
@@ -153,6 +159,11 @@ export async function computeAvailableSlots(args: {
     const dp = localDateParts(dayRef, tz);
     const dayCfg = hours.find((h) => h.dayOfWeek === dp.dayOfWeek);
     if (!dayCfg?.isOpen) continue;
+
+    // Nunca hoje; e só os próximos N dias úteis depois de hoje.
+    if (BOOKING_SKIP_TODAY && dayOffset === 0) continue;
+    businessDaysUsed++;
+    if (businessDaysUsed > BOOKING_MAX_BUSINESS_DAYS) break;
 
     const [openH, openM] = dayCfg.openTime.split(":").map(Number);
     const [closeH, closeM] = dayCfg.closeTime.split(":").map(Number);

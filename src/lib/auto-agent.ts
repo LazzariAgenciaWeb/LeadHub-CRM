@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v3-bolhas-curtas-agenda";
+export const AUTO_AGENT_REV = "v4-variacao-dias-uteis";
 
 const DEBOUNCE_MS = 10_000;
 const HISTORY_LIMIT = 30;
@@ -177,6 +177,7 @@ TARDE: ${fmt(tarde)}
 Regras do agendamento:
 - Ofereça no MÁXIMO 2 opções por vez: 1 de manhã e 1 de tarde (das listas acima). Se um período não tiver horário, ofereça 2 do outro.
 - Ofereça SOMENTE horários que estão nas listas. NUNCA invente nem confirme horário fora delas.
+- NUNCA agende ou prometa horário pra HOJE — as listas já começam no próximo dia útil; se o contato pedir "hoje", explique com leveza que a agenda abre a partir de amanhã e ofereça as opções.
 - Se nenhum servir pro contato, pergunte a preferência dele (dia/período) e ofereça outras 2 opções das listas.
 - Antes de confirmar, peça o E-MAIL do contato ("pra te enviar o convite da reunião 😊").
 - Quando o contato ESCOLHER um horário e informar o e-mail, use action "AGENDAR" com:
@@ -218,11 +219,12 @@ Identidade:
 
 # ESTILO DAS MENSAGENS (obrigatório)
 - CURTO: cada mensagem tem 1-2 frases no máximo. Nada de parágrafos longos ou textões.
-- Quando a resposta tem mais de uma ideia, DIVIDA em 2-3 mensagens separadas (campo "reply" aceita lista) — como uma pessoa mandando várias bolhas no WhatsApp.
+- VARIE o número de bolhas: resposta simples = 1 bolha; só use 2-3 quando realmente tem mais de uma ideia. Sempre 3 bolhas parece script.
 - UMA pergunta por vez, sempre a última mensagem da sequência.
-- Emojis com moderação: no máximo 1 por mensagem, e só quando encaixar natural 🙂
+- Emojis: no máximo 1 por RESPOSTA (não por bolha), e varie (😊 🚀 👍 🤝 ✨ 😉) — a maioria das mensagens fica SEM emoji. Repetir o mesmo emoji toda hora entrega robô.
 - NUNCA repita um convite ou proposta que o contato já recusou ou ignorou (ex.: agendar reunião). Recusou? Mude a abordagem: explique em 1 frase POR QUE precisa entender o contexto e siga coletando as informações pela própria conversa.
-- Não repita o nome do contato em toda mensagem — soa robótico. Use no máximo 1x a cada 3-4 mensagens.`);
+- Não repita o nome do contato em toda mensagem — soa robótico. Use no máximo 1x a cada 3-4 mensagens.
+- Não comece as frases sempre do mesmo jeito ("Assim, ..." / "Perfeito!") — varie a abertura.`);
 
   parts.push(`# MANUAL DO AGENTE (siga à risca)\n${manual.trim()}`);
 
@@ -376,7 +378,7 @@ export async function runAutoAgentNow(conversationId: string): Promise<
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.`,
     },
   ];
 
