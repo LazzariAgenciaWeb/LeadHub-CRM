@@ -59,6 +59,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if ("model" in body) data.model = (body.model ?? "").trim() || null;
   if ("temperature" in body) data.temperature = typeof body.temperature === "number" ? body.temperature : null;
   if ("schedulingLink" in body) data.schedulingLink = (body.schedulingLink ?? "").trim() || null;
+  if ("calendarUserId" in body) {
+    const calendarUserId: string | null = body.calendarUserId || null;
+    if (calendarUserId) {
+      const u = await prisma.user.findUnique({ where: { id: calendarUserId }, select: { companyId: true, role: true } });
+      if (!u || (u.companyId !== owned.assistant!.companyId && u.role !== "SUPER_ADMIN")) {
+        return NextResponse.json({ error: "Usuário da agenda inválido" }, { status: 400 });
+      }
+    }
+    data.calendarUserId = calendarUserId;
+  }
+  if ("meetingDurationMin" in body) {
+    data.meetingDurationMin = Math.min(180, Math.max(15, parseInt(body.meetingDurationMin, 10) || 30));
+  }
 
   if ("instanceId" in body) {
     let instanceId: string | null = body.instanceId ?? null;

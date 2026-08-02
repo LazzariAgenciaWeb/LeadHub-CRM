@@ -4,6 +4,10 @@ import { runAssistant, getAssistantForInstance, getServicesCatalogBlock, type Ch
 import { evolutionSendText } from "./evolution";
 import { upsertConversation } from "./whatsapp";
 import { sendPushToUser } from "./push";
+import {
+  getAgentCalendarConnection, connectionCanWrite, computeAvailableSlots,
+  isSlotStillFree, createMeetEvent, nowLabel, type Slot,
+} from "./scheduling";
 
 /**
  * Agente autônomo de atendimento (triagem).
@@ -88,8 +92,10 @@ export async function resumeBot(conversationId: string): Promise<void> {
 
 interface AgentDecision {
   replies: string[]; // 0-3 mensagens curtas, enviadas em sequência
-  action: string; // "NONE" | "HANDOFF" | intent de AssistantRoute
+  action: string; // "NONE" | "HANDOFF" | "AGENDAR" | intent de AssistantRoute
   resumo: string | null;
+  agendarInicio: string | null; // ISO do slot escolhido (action AGENDAR)
+  agendarEmail: string | null; // e-mail do contato pro convite (action AGENDAR)
 }
 
 /**
@@ -111,10 +117,41 @@ function parseDecision(raw: string): AgentDecision | null {
       .slice(0, 3);
     const action = typeof obj.action === "string" && obj.action.trim() ? obj.action.trim().toUpperCase() : "NONE";
     const resumo = typeof obj.resumo === "string" && obj.resumo.trim() ? obj.resumo.trim() : null;
-    return { replies, action, resumo };
+    const agendarInicio = typeof obj.agendarInicio === "string" && obj.agendarInicio.trim() ? obj.agendarInicio.trim() : null;
+    const agendarEmail = typeof obj.agendarEmail === "string" && obj.agendarEmail.includes("@") ? obj.agendarEmail.trim() : null;
+    return { replies, action, resumo, agendarInicio, agendarEmail };
   } catch {
     return null;
   }
+}
+
+interface SchedulingContext {
+  connectionId: string;
+  durationMin: number;
+  slots: Slot[];
+}
+
+function schedulingPromptBlock(ctx: SchedulingContext): string {
+  const manha = ctx.slots.filter((s) => s.period === "manha").slice(0, 8);
+  const tarde = ctx.slots.filter((s) => s.period === "tarde").slice(0, 8);
+  const fmt = (list: Slot[]) => (list.length ? list.map((s) => `${s.startISO} = ${s.label}`).join(" | ") : "(nenhum)");
+
+  return `# AGENDAMENTO DIRETO (você mesmo marca a reunião — NÃO envie link de agenda)
+Agora: ${nowLabel()} (horário de Brasília). Reunião de ${ctx.durationMin} minutos no Google Meet.
+Horários LIVRES na agenda:
+MANHÃ: ${fmt(manha)}
+TARDE: ${fmt(tarde)}
+
+Regras do agendamento:
+- Ofereça no MÁXIMO 2 opções por vez: 1 de manhã e 1 de tarde (das listas acima). Se um período não tiver horário, ofereça 2 do outro.
+- Ofereça SOMENTE horários que estão nas listas. NUNCA invente nem confirme horário fora delas.
+- Se nenhum servir pro contato, pergunte a preferência dele (dia/período) e ofereça outras 2 opções das listas.
+- Antes de confirmar, peça o E-MAIL do contato ("pra te enviar o convite da reunião 😊").
+- Quando o contato ESCOLHER um horário e informar o e-mail, use action "AGENDAR" com:
+  "agendarInicio" = o valor ISO EXATO da lista (ex.: "${ctx.slots[0]?.startISO ?? "2026-01-01T09:00:00-03:00"}")
+  "agendarEmail" = o e-mail informado
+  e deixe "reply" vazio ([]) — o sistema confirma e envia o link do Meet automaticamente.
+- Se as listas estiverem vazias (sem horário livre), avise que o time vai retornar pra combinar o melhor horário e use action "HANDOFF". NUNCA confirme reunião sem horário livre.`;
 }
 
 function buildSystemPrompt(args: {
@@ -124,8 +161,9 @@ function buildSystemPrompt(args: {
   qualificationChecklist: string | null;
   servicesBlock: string;
   routes: { intent: string; label: string | null; setorName: string }[];
+  scheduling: SchedulingContext | null;
 }): string {
-  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes } = args;
+  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling } = args;
 
   const routeLines = routes
     .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}. Use quando o contato foi identificado/qualificado como esse caso.`)
@@ -171,7 +209,10 @@ Regras de coleta:
 - Inclua todas as respostas coletadas no campo "resumo" ao encaminhar.`);
   }
 
-  if (schedulingLink?.trim()) {
+  if (scheduling) {
+    // Agendamento direto na agenda conectada — substitui o link estático.
+    parts.push(schedulingPromptBlock(scheduling));
+  } else if (schedulingLink?.trim()) {
     parts.push(`# LINK DE AGENDAMENTO\nQuando for agendar, envie EXATAMENTE esta URL: ${schedulingLink.trim()}`);
   }
 
@@ -185,7 +226,7 @@ Regras de coleta:
 # ACTIONS DISPONÍVEIS
 - "NONE" → continuar conversando (ainda entendendo/qualificando).
 ${routeLines}
-- "HANDOFF" → o contato pediu pra falar com uma pessoa, está irritado, ou você NÃO sabe responder com segurança. Nunca insista em segurar alguém que pediu humano.
+${scheduling ? `- "AGENDAR" → confirmar a reunião escolhida (siga as regras da seção AGENDAMENTO DIRETO).\n` : ""}- "HANDOFF" → o contato pediu pra falar com uma pessoa, está irritado, ou você NÃO sabe responder com segurança. Nunca insista em segurar alguém que pediu humano.
 
 # REGRAS DE ENCAMINHAMENTO
 - Ao encaminhar (qualquer action ≠ NONE), o "reply" deve avisar o contato de forma simpática que o time certo vai assumir a conversa. Depois disso você para de responder.
@@ -259,6 +300,29 @@ export async function runAutoAgentNow(conversationId: string): Promise<
 
   const servicesBlock = await getServicesCatalogBlock(conv.companyId);
 
+  // Agendamento direto: agenda Google do usuário vinculado + slots livres
+  // (agenda ∩ horários de atendimento). Qualquer falha → fallback pro link.
+  let scheduling: SchedulingContext | null = null;
+  const calendarUserId = (assistant as any).calendarUserId as string | null;
+  if (calendarUserId) {
+    try {
+      const connCal = await getAgentCalendarConnection(calendarUserId);
+      if (connCal && connectionCanWrite(connCal)) {
+        const durationMin = ((assistant as any).meetingDurationMin as number) || 30;
+        const slots = await computeAvailableSlots({
+          companyId: conv.companyId,
+          connectionId: connCal.id,
+          durationMin,
+        });
+        scheduling = { connectionId: connCal.id, durationMin, slots };
+      } else if (connCal) {
+        console.warn(`[AutoAgent] conexão calendar sem escopo de escrita (user=${calendarUserId}) — reconectar a conta; usando fallback de link`);
+      }
+    } catch (err) {
+      console.error(`[AutoAgent] falha ao montar agenda conv=${conv.id} (fallback pro link):`, err);
+    }
+  }
+
   const system = buildSystemPrompt({
     manual: assistant.manual,
     learnings: (assistant as any).learnings ?? null,
@@ -266,6 +330,7 @@ export async function runAutoAgentNow(conversationId: string): Promise<
     qualificationChecklist: (assistant as any).qualificationChecklist ?? null,
     servicesBlock,
     routes: routes.map((r) => ({ intent: r.intent, label: r.label, setorName: r.setor.name })),
+    scheduling,
   });
 
   const messages: ChatMessage[] = [
@@ -311,53 +376,32 @@ export async function runAutoAgentNow(conversationId: string): Promise<
   });
   if (newer) return { ok: false, skipped: "human_replied_during_ai" };
 
+  const botSender: BotSender = {
+    instanceName: instance.instanceName,
+    instanceId: instance.id,
+    instanceToken: instance.instanceToken ?? null,
+    companyId: conv.companyId,
+    phone: conv.phone,
+    assistantId: assistant.id,
+  };
+
   // 1) Enviar a(s) resposta(s) ao contato — em sequência, com pausa curta
   //    entre bolhas pra soar como pessoa digitando (não metralhadora).
+  //    Na action AGENDAR o motor manda a própria confirmação (pós-booking),
+  //    então as replies do modelo são ignoradas.
   let replied = false;
-  for (let i = 0; i < decision.replies.length; i++) {
-    const part = decision.replies[i];
+  const repliesToSend = decision.action === "AGENDAR" ? [] : decision.replies;
+  for (let i = 0; i < repliesToSend.length; i++) {
+    const part = repliesToSend[i];
     if (i > 0) {
       // Pausa proporcional ao tamanho da próxima mensagem (1.5s a 4s).
       const pause = Math.min(4000, 1500 + part.length * 25);
       await new Promise((r) => setTimeout(r, pause));
     }
-    try {
-      const sendResult = await evolutionSendText(
-        instance.instanceName,
-        conv.phone,
-        part,
-        instance.instanceToken ?? null
-      );
-      // Prefixo "out-" no fallback: o webhook fromMe (eco do envio) reconhece
-      // esse padrão e ATUALIZA o registro em vez de duplicar/pausar o bot.
-      const externalId: string = sendResult?.key?.id ?? sendResult?.id ?? `out-${Date.now()}-${i}`;
-
-      const updatedConv = await upsertConversation({
-        companyId: conv.companyId,
-        phone: conv.phone,
-        direction: "OUTBOUND",
-        body: part,
-        instanceId: instance.id,
-      });
-
-      await prisma.message.create({
-        data: {
-          externalId,
-          body: part,
-          direction: "OUTBOUND",
-          phone: conv.phone,
-          instanceId: instance.id,
-          companyId: conv.companyId,
-          conversationId: updatedConv.id,
-          ack: 1,
-          // Marca de origem: mensagem gerada pelo agente autônomo (a UI pode
-          // usar pra exibir o badge 🤖 sem precisar de campo novo).
-          rawPayload: { autoAgent: true, assistantId: assistant.id } as any,
-        },
-      });
+    const ok = await sendBotText(botSender, part);
+    if (ok) {
       replied = true;
-    } catch (err) {
-      console.error(`[AutoAgent] falha ao enviar resposta conv=${conv.id} (parte ${i + 1}):`, err);
+    } else {
       // Nada enviado → não roteia "às cegas"; tenta de novo na próxima msg.
       // Se já enviou parte da sequência, segue pro roteamento normalmente.
       if (!replied) return { ok: false, skipped: "send_failed" };
@@ -367,6 +411,19 @@ export async function runAutoAgentNow(conversationId: string): Promise<
 
   // 2) Executar a action
   const action = decision.action;
+  if (action === "AGENDAR") {
+    await handleBooking({
+      conversationId: conv.id,
+      companyId: conv.companyId,
+      phone: conv.phone,
+      setorId: conv.setorId,
+      sender: botSender,
+      scheduling,
+      decision,
+      routes: routes.map((r) => ({ intent: r.intent, setorId: r.setorId, setorName: r.setor.name, createLead: r.createLead })),
+    });
+    return { ok: true, action, replied: true };
+  }
   if (action !== "NONE") {
     const route = routes.find((r) => r.intent.toUpperCase() === action) ?? null;
 
@@ -401,6 +458,202 @@ export async function runAutoAgentNow(conversationId: string): Promise<
   }
 
   return { ok: true, action, replied };
+}
+
+// ── Envio ─────────────────────────────────────────────────────────────────────
+
+interface BotSender {
+  instanceName: string;
+  instanceId: string;
+  instanceToken: string | null;
+  companyId: string;
+  phone: string;
+  assistantId: string;
+}
+
+/**
+ * Envia UMA mensagem de texto do bot e persiste (Conversation + Message).
+ * Retorna false em falha (nunca lança).
+ */
+async function sendBotText(s: BotSender, text: string): Promise<boolean> {
+  try {
+    const sendResult = await evolutionSendText(s.instanceName, s.phone, text, s.instanceToken);
+    // Prefixo "out-" no fallback: o webhook fromMe (eco do envio) reconhece
+    // esse padrão e ATUALIZA o registro em vez de duplicar/pausar o bot.
+    const externalId: string = sendResult?.key?.id ?? sendResult?.id ?? `out-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+
+    const updatedConv = await upsertConversation({
+      companyId: s.companyId,
+      phone: s.phone,
+      direction: "OUTBOUND",
+      body: text,
+      instanceId: s.instanceId,
+    });
+
+    await prisma.message.create({
+      data: {
+        externalId,
+        body: text,
+        direction: "OUTBOUND",
+        phone: s.phone,
+        instanceId: s.instanceId,
+        companyId: s.companyId,
+        conversationId: updatedConv.id,
+        ack: 1,
+        // Marca de origem: mensagem gerada pelo agente autônomo (a UI pode
+        // usar pra exibir o badge 🤖 sem precisar de campo novo).
+        rawPayload: { autoAgent: true, assistantId: s.assistantId } as any,
+      },
+    });
+    return true;
+  } catch (err) {
+    console.error(`[AutoAgent] falha ao enviar texto phone=${s.phone}:`, err);
+    return false;
+  }
+}
+
+// ── Agendamento (action AGENDAR) ─────────────────────────────────────────────
+
+const REMINDER_BEFORE_MIN = 60; // lembrete 1h antes da reunião
+
+/**
+ * Confirma a reunião escolhida: revalida o slot (NUNCA confirma horário
+ * ocupado), cria o evento com Google Meet, manda a confirmação + link no
+ * WhatsApp, agenda o lembrete e encaminha pro time comercial (rota createLead).
+ */
+async function handleBooking(args: {
+  conversationId: string;
+  companyId: string;
+  phone: string;
+  setorId: string | null;
+  sender: BotSender;
+  scheduling: SchedulingContext | null;
+  decision: AgentDecision;
+  routes: { intent: string; setorId: string; setorName: string; createLead: boolean }[];
+}): Promise<void> {
+  const { conversationId, companyId, phone, setorId, sender, scheduling, decision, routes } = args;
+
+  // Sem contexto de agenda o modelo não deveria emitir AGENDAR — handoff defensivo.
+  if (!scheduling) {
+    console.warn(`[AutoAgent] AGENDAR sem scheduling ctx conv=${conversationId} — handoff`);
+    await handoffConversation({ conversationId, setorId, resumo: decision.resumo, phone });
+    return;
+  }
+
+  // O horário TEM que ser um dos oferecidos (anti-alucinação de slot).
+  const slot = decision.agendarInicio
+    ? scheduling.slots.find((sl) => sl.startISO === decision.agendarInicio) ?? null
+    : null;
+  if (!slot) {
+    await sendBotText(sender, "Só me confirma qual dos horários que te passei fica melhor pra você? 😊");
+    return;
+  }
+
+  // Revalidação de última hora — alguém pode ter ocupado a agenda no meio tempo.
+  let free = false;
+  try {
+    free = await isSlotStillFree(scheduling.connectionId, slot.startISO, scheduling.durationMin);
+  } catch (err) {
+    console.error(`[AutoAgent] falha ao revalidar slot conv=${conversationId}:`, err);
+  }
+  if (!free) {
+    let alt = "";
+    try {
+      const fresh = await computeAvailableSlots({
+        companyId,
+        connectionId: scheduling.connectionId,
+        durationMin: scheduling.durationMin,
+        maxSlots: 8,
+      });
+      const manha = fresh.find((sl) => sl.period === "manha");
+      const tarde = fresh.find((sl) => sl.period === "tarde");
+      const opts = [manha, tarde].filter(Boolean).map((sl) => sl!.label);
+      if (opts.length) alt = ` Consigo ${opts.join(" ou ")} — algum desses te atende?`;
+    } catch { /* sem alternativas, segue só o aviso */ }
+    await sendBotText(sender, `Poxa, esse horário acabou de ser preenchido aqui 😅${alt}`);
+    return;
+  }
+
+  // Nome do lead (se existir) pro título do evento.
+  const lead = await prisma.lead.findFirst({
+    where: { phone, companyId },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, name: true },
+  });
+
+  let booked;
+  try {
+    booked = await createMeetEvent({
+      connectionId: scheduling.connectionId,
+      startISO: slot.startISO,
+      durationMin: scheduling.durationMin,
+      summary: `Reunião — ${lead?.name ?? phone}`,
+      description: [
+        decision.resumo ? `Resumo da qualificação: ${decision.resumo}` : null,
+        `Contato: ${phone}${decision.agendarEmail ? ` · ${decision.agendarEmail}` : ""}`,
+        "Agendado pelo agente de IA (LeadHub).",
+      ].filter(Boolean).join("\n"),
+      attendeeEmail: decision.agendarEmail,
+    });
+  } catch (err) {
+    console.error(`[AutoAgent] falha ao criar evento conv=${conversationId}:`, err);
+    await sendBotText(sender, "Tive um probleminha pra confirmar aqui 😅 Vou pedir pro nosso time garantir seu horário, tá bom?");
+    await handoffConversation({ conversationId, setorId, resumo: decision.resumo, phone });
+    return;
+  }
+
+  // Confirmação no WhatsApp (2 bolhas) + lembrete agendado.
+  await sendBotText(sender, `Prontinho! Reunião confirmada pra ${booked.label} 🎉`);
+  await new Promise((r) => setTimeout(r, 1800));
+  await sendBotText(
+    sender,
+    booked.meetLink
+      ? `Aqui o link da nossa reunião no Google Meet: ${booked.meetLink}${decision.agendarEmail ? " — o convite também foi pro seu e-mail 😉" : ""}`
+      : `O convite com o link da reunião foi pro seu e-mail 😉`
+  );
+
+  const reminderAt = new Date(booked.start.getTime() - REMINDER_BEFORE_MIN * 60_000);
+  if (reminderAt.getTime() > Date.now() + 5 * 60_000) {
+    const timePart = booked.label.slice(-5); // "HH:MM"
+    await prisma.scheduledMessage.create({
+      data: {
+        companyId,
+        instanceId: sender.instanceId,
+        phone,
+        sendAt: reminderAt,
+        kind: "meeting_reminder",
+        body: `Oi! Passando pra lembrar da nossa reunião daqui a pouco, às ${timePart} 🙌${booked.meetLink ? ` Link: ${booked.meetLink}` : ""}`,
+        meta: { eventId: booked.eventId, conversationId, meetLink: booked.meetLink } as any,
+      },
+    }).catch((err) => console.error(`[AutoAgent] falha ao agendar lembrete conv=${conversationId}:`, err));
+  }
+
+  await prisma.conversationNote.create({
+    data: {
+      conversationId,
+      authorName: "🤖 Agente IA",
+      type: "SYSTEM",
+      body: `Reunião agendada: ${booked.label}${decision.agendarEmail ? ` · convite pra ${decision.agendarEmail}` : ""}${booked.meetLink ? `\nMeet: ${booked.meetLink}` : ""}${decision.resumo ? `\nResumo: ${decision.resumo}` : ""}`,
+    },
+  }).catch(() => {/* acessório */});
+
+  // Reunião marcada = lead quente → encaminha pro time comercial (rota com
+  // createLead). Sem rota, só silencia o bot — humano assume dali.
+  const commercialRoute = routes.find((r) => r.createLead) ?? null;
+  const resumoComReuniao = `${decision.resumo ?? "Reunião agendada pelo agente."} | Reunião: ${booked.label}`;
+  if (commercialRoute) {
+    await routeConversation({
+      conversationId,
+      companyId,
+      phone,
+      setorId: commercialRoute.setorId,
+      setorName: commercialRoute.setorName,
+      createLead: true,
+      resumo: resumoComReuniao,
+    });
+  } else {
+    await pauseBot(conversationId);
+  }
 }
 
 // ── Ações ─────────────────────────────────────────────────────────────────────

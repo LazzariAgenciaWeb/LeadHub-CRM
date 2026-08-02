@@ -44,6 +44,7 @@ function fmtBrl(v: number) {
 interface Instance { id: string; label: string | null; instanceName: string; phone: string | null; status?: string }
 interface Setor { id: string; name: string }
 interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; setor?: Setor | null }
+interface CalendarUser { id: string; name: string; googleEmail: string | null; canWrite: boolean }
 interface Assistant {
   id: string;
   name: string;
@@ -55,6 +56,8 @@ interface Assistant {
   qualificationChecklist: string | null;
   instanceId: string | null;
   schedulingLink: string | null;
+  calendarUserId: string | null;
+  meetingDurationMin: number;
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
@@ -88,6 +91,7 @@ export default function AssistantsSettings({
   initialAssistants,
   instances,
   setores,
+  calendarUsers,
   quota,
 }: {
   companyId: string;
@@ -95,6 +99,7 @@ export default function AssistantsSettings({
   initialAssistants: Assistant[];
   instances: Instance[];
   setores: Setor[];
+  calendarUsers: CalendarUser[];
   quota: Quota;
 }) {
   const router = useRouter();
@@ -112,6 +117,8 @@ export default function AssistantsSettings({
   const [fChecklist, setFChecklist] = useState("");
   const [fLearnings, setFLearnings] = useState("");
   const [fRoutes, setFRoutes] = useState<Route[]>([]);
+  const [fCalendarUser, setFCalendarUser] = useState<string>("");
+  const [fDuration, setFDuration] = useState(30);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -131,6 +138,7 @@ export default function AssistantsSettings({
     setEditing("new");
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
     setFAutoRespond(false); setFChecklist(""); setFLearnings("");
+    setFCalendarUser(""); setFDuration(30);
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
       { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true },
@@ -145,6 +153,8 @@ export default function AssistantsSettings({
     setFChecklist(a.qualificationChecklist ?? "");
     setFLearnings(a.learnings ?? "");
     setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead })));
+    setFCalendarUser(a.calendarUserId ?? "");
+    setFDuration(a.meetingDurationMin ?? 30);
   }
   function closeForm() { setEditing(null); setErr(null); }
 
@@ -161,6 +171,8 @@ export default function AssistantsSettings({
       autoRespond: fAutoRespond,
       qualificationChecklist: fChecklist,
       learnings: fLearnings,
+      calendarUserId: fCalendarUser || null,
+      meetingDurationMin: fDuration,
       // Rotas: só linhas com setor escolhido (linhas vazias são descartadas)
       routes: fRoutes.filter((r) => r.intent.trim() && r.setorId),
     };
@@ -408,6 +420,45 @@ export default function AssistantsSettings({
                     {setores.length === 0 && (
                       <p className="text-amber-400 text-[11px] mt-1.5">⚠️ Nenhum setor cadastrado nesta empresa — crie os setores primeiro (Configurações → Setores).</p>
                     )}
+                  </div>
+
+                  {/* Agendamento direto na agenda */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      📅 Agendamento direto <span className="text-slate-600 normal-case">— o agente consulta a agenda, oferece horários e marca com Google Meet</span>
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={fCalendarUser}
+                        onChange={(e) => setFCalendarUser(e.target.value)}
+                        className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                      >
+                        <option value="">— usar só o link de agendamento (padrão) —</option>
+                        {calendarUsers.map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.name}{u.googleEmail ? ` (${u.googleEmail})` : ""}{u.canWrite ? "" : " — precisa reconectar"}
+                          </option>
+                        ))}
+                      </select>
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                        Reunião de
+                        <input
+                          type="number" min={15} max={180} step={15}
+                          value={fDuration}
+                          onChange={(e) => setFDuration(parseInt(e.target.value || "30", 10))}
+                          className="w-16 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        />
+                        min
+                      </label>
+                    </div>
+                    {fCalendarUser && !calendarUsers.find((u) => u.id === fCalendarUser)?.canWrite && (
+                      <p className="text-amber-400 text-[11px] mt-1.5">
+                        ⚠️ Esta conta Google foi conectada antes da permissão de criar eventos — reconecte em Configurações → Integrações → Google (módulo Calendário) pra ativar o agendamento direto. Até lá o agente usa o link.
+                      </p>
+                    )}
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      Respeita os horários de atendimento da empresa. Sugere 1 horário de manhã + 1 de tarde, nunca confirma horário ocupado, envia o link do Meet no WhatsApp e manda lembrete 1h antes.
+                    </p>
                   </div>
 
                   {/* Checklist ICP */}

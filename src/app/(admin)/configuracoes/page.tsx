@@ -427,6 +427,31 @@ export default async function ConfiguracoesPage({
         }),
       ]);
 
+      // Usuários com Google Calendar conectado — candidatos a "agenda do agente"
+      // (agendamento direto). Inclui SUPER_ADMINs (agência atende pela própria agenda).
+      const calendarUsersRaw = await prisma.user.findMany({
+        where: {
+          googleConnections: { some: { service: "calendar", status: "ACTIVE" } },
+          OR: [{ companyId: targetCompanyId }, { role: "SUPER_ADMIN" }],
+        },
+        select: {
+          id: true, name: true,
+          googleConnections: {
+            where: { service: "calendar", status: "ACTIVE" },
+            select: { googleEmail: true, scopes: true },
+          },
+        },
+        orderBy: { name: "asc" },
+      });
+      const calendarUsers = calendarUsersRaw.map((u) => ({
+        id: u.id,
+        name: u.name,
+        googleEmail: u.googleConnections[0]?.googleEmail ?? null,
+        canWrite: (u.googleConnections[0]?.scopes ?? []).some(
+          (s) => s.includes("auth/calendar.events") || s === "https://www.googleapis.com/auth/calendar"
+        ),
+      }));
+
       content = (
         <div className="space-y-8 pb-6">
           <AssistantsSettings
@@ -439,6 +464,7 @@ export default async function ConfiguracoesPage({
             })) as any}
             instances={instances as any}
             setores={setores}
+            calendarUsers={calendarUsers}
             quota={{
               aiMonthlyQuota:  company?.aiMonthlyQuota ?? 0,
               aiUsedThisMonth: company?.aiUsedThisMonth ?? 0,

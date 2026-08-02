@@ -52,6 +52,22 @@ echo "⏱️  Cron SLA habilitado — rodará a cada ${SLA_INTERVAL_SECONDS}s"
   done
 ) &
 
+# Cron: Mensagens agendadas (lembretes de reunião do agente IA)
+# Frequência: a cada 2 minutos (config: SCHEDULED_MSGS_INTERVAL_SECONDS)
+SCHEDULED_MSGS_INTERVAL_SECONDS="${SCHEDULED_MSGS_INTERVAL_SECONDS:-120}"
+echo "📅 Cron Mensagens Agendadas habilitado — rodará a cada ${SCHEDULED_MSGS_INTERVAL_SECONDS}s"
+(
+  sleep 40
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/scheduled-messages" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Msgs Agendadas] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$SCHEDULED_MSGS_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Sync de instâncias — busca status real na Evolution e atualiza no banco
 # Frequência: a cada 5 minutos (config: SYNC_INSTANCES_INTERVAL_SECONDS)
 SYNC_INSTANCES_INTERVAL_SECONDS="${SYNC_INSTANCES_INTERVAL_SECONDS:-300}"

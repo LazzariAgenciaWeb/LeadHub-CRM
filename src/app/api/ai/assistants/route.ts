@@ -74,6 +74,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Rota inválida: intent e setor são obrigatórios (sem intents repetidos)" }, { status: 400 });
   }
 
+  // Agenda p/ agendamento direto — usuário da empresa (ou super admin) com Google conectado
+  const calendarUserId: string | null = body.calendarUserId || null;
+  if (calendarUserId) {
+    const u = await prisma.user.findUnique({ where: { id: calendarUserId }, select: { companyId: true, role: true } });
+    if (!u || (u.companyId !== companyId && u.role !== "SUPER_ADMIN")) {
+      return NextResponse.json({ error: "Usuário da agenda inválido" }, { status: 400 });
+    }
+  }
+  const meetingDurationMin = Math.min(180, Math.max(15, parseInt(body.meetingDurationMin, 10) || 30));
+
   const created = await prisma.assistant.create({
     data: {
       companyId,
@@ -86,6 +96,8 @@ export async function POST(req: NextRequest) {
       learnings: (body.learnings ?? "").trim() || null,
       qualificationChecklist: (body.qualificationChecklist ?? "").trim() || null,
       schedulingLink: (body.schedulingLink ?? "").trim() || null,
+      calendarUserId,
+      meetingDurationMin,
       model: (body.model ?? "").trim() || null,
       temperature: typeof body.temperature === "number" ? body.temperature : null,
       createdById: (session.user as any).id ?? null,

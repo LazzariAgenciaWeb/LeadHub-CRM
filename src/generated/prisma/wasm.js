@@ -1556,12 +1556,29 @@ exports.Prisma.AssistantScalarFieldEnum = {
   learnings: 'learnings',
   qualificationChecklist: 'qualificationChecklist',
   schedulingLink: 'schedulingLink',
+  calendarUserId: 'calendarUserId',
+  meetingDurationMin: 'meetingDurationMin',
   instanceId: 'instanceId',
   model: 'model',
   temperature: 'temperature',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ScheduledMessageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  instanceId: 'instanceId',
+  phone: 'phone',
+  body: 'body',
+  sendAt: 'sendAt',
+  status: 'status',
+  kind: 'kind',
+  meta: 'meta',
+  sentAt: 'sentAt',
+  lastError: 'lastError',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AssistantRouteScalarFieldEnum = {
@@ -2206,6 +2223,7 @@ exports.Prisma.ModelName = {
   CouponRedemption: 'CouponRedemption',
   AdminAuditLog: 'AdminAuditLog',
   Assistant: 'Assistant',
+  ScheduledMessage: 'ScheduledMessage',
   AssistantRoute: 'AssistantRoute',
   AiUsageLog: 'AiUsageLog',
   Service: 'Service',

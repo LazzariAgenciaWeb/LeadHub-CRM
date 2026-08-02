@@ -504,6 +504,11 @@ export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayloa
  */
 export type Assistant = $Result.DefaultSelection<Prisma.$AssistantPayload>
 /**
+ * Model ScheduledMessage
+ * 
+ */
+export type ScheduledMessage = $Result.DefaultSelection<Prisma.$ScheduledMessagePayload>
+/**
  * Model AssistantRoute
  * 
  */
@@ -2393,6 +2398,16 @@ export class PrismaClient<
   get assistant(): Prisma.AssistantDelegate<ExtArgs>;
 
   /**
+   * `prisma.scheduledMessage`: Exposes CRUD operations for the **ScheduledMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScheduledMessages
+    * const scheduledMessages = await prisma.scheduledMessage.findMany()
+    * ```
+    */
+  get scheduledMessage(): Prisma.ScheduledMessageDelegate<ExtArgs>;
+
+  /**
    * `prisma.assistantRoute`: Exposes CRUD operations for the **AssistantRoute** model.
     * Example usage:
     * ```ts
@@ -3010,6 +3025,7 @@ export namespace Prisma {
     CouponRedemption: 'CouponRedemption',
     AdminAuditLog: 'AdminAuditLog',
     Assistant: 'Assistant',
+    ScheduledMessage: 'ScheduledMessage',
     AssistantRoute: 'AssistantRoute',
     AiUsageLog: 'AiUsageLog',
     Service: 'Service',
@@ -3033,7 +3049,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9897,6 +9913,76 @@ export namespace Prisma {
           }
         }
       }
+      ScheduledMessage: {
+        payload: Prisma.$ScheduledMessagePayload<ExtArgs>
+        fields: Prisma.ScheduledMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduledMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduledMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduledMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduledMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          findMany: {
+            args: Prisma.ScheduledMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>[]
+          }
+          create: {
+            args: Prisma.ScheduledMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          createMany: {
+            args: Prisma.ScheduledMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduledMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduledMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          update: {
+            args: Prisma.ScheduledMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduledMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduledMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ScheduledMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduledMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScheduledMessage>
+          }
+          groupBy: {
+            args: Prisma.ScheduledMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduledMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledMessageCountAggregateOutputType> | number
+          }
+        }
+      }
       AssistantRoute: {
         payload: Prisma.$AssistantRoutePayload<ExtArgs>
         fields: Prisma.AssistantRouteFieldRefs
@@ -10640,6 +10726,7 @@ export namespace Prisma {
     pushSubscriptions: number
     emailCampaignsCreated: number
     assistantsCreated: number
+    assistantCalendars: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10665,6 +10752,7 @@ export namespace Prisma {
     pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
     emailCampaignsCreated?: boolean | UserCountOutputTypeCountEmailCampaignsCreatedArgs
     assistantsCreated?: boolean | UserCountOutputTypeCountAssistantsCreatedArgs
+    assistantCalendars?: boolean | UserCountOutputTypeCountAssistantCalendarsArgs
   }
 
   // Custom InputTypes
@@ -10832,6 +10920,13 @@ export namespace Prisma {
     where?: AssistantWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssistantCalendarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -10905,6 +11000,7 @@ export namespace Prisma {
     addons: number
     couponRedemptions: number
     assistants: number
+    scheduledMessages: number
     aiUsageLogs: number
     services: number
     videoCategories: number
@@ -10979,6 +11075,7 @@ export namespace Prisma {
     addons?: boolean | CompanyCountOutputTypeCountAddonsArgs
     couponRedemptions?: boolean | CompanyCountOutputTypeCountCouponRedemptionsArgs
     assistants?: boolean | CompanyCountOutputTypeCountAssistantsArgs
+    scheduledMessages?: boolean | CompanyCountOutputTypeCountScheduledMessagesArgs
     aiUsageLogs?: boolean | CompanyCountOutputTypeCountAiUsageLogsArgs
     services?: boolean | CompanyCountOutputTypeCountServicesArgs
     videoCategories?: boolean | CompanyCountOutputTypeCountVideoCategoriesArgs
@@ -11468,6 +11565,13 @@ export namespace Prisma {
   /**
    * CompanyCountOutputType without action
    */
+  export type CompanyCountOutputTypeCountScheduledMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledMessageWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
   export type CompanyCountOutputTypeCountAiUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AiUsageLogWhereInput
   }
@@ -11787,12 +11891,14 @@ export namespace Prisma {
     messages: number
     setores: number
     assistants: number
+    scheduledMessages: number
   }
 
   export type WhatsappInstanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | WhatsappInstanceCountOutputTypeCountMessagesArgs
     setores?: boolean | WhatsappInstanceCountOutputTypeCountSetoresArgs
     assistants?: boolean | WhatsappInstanceCountOutputTypeCountAssistantsArgs
+    scheduledMessages?: boolean | WhatsappInstanceCountOutputTypeCountScheduledMessagesArgs
   }
 
   // Custom InputTypes
@@ -11825,6 +11931,13 @@ export namespace Prisma {
    */
   export type WhatsappInstanceCountOutputTypeCountAssistantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssistantWhereInput
+  }
+
+  /**
+   * WhatsappInstanceCountOutputType without action
+   */
+  export type WhatsappInstanceCountOutputTypeCountScheduledMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledMessageWhereInput
   }
 
 
@@ -13102,6 +13215,7 @@ export namespace Prisma {
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
     assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
+    assistantCalendars?: boolean | User$assistantCalendarsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -13166,6 +13280,7 @@ export namespace Prisma {
     notifPreferences?: boolean | User$notifPreferencesArgs<ExtArgs>
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
     assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
+    assistantCalendars?: boolean | User$assistantCalendarsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13200,6 +13315,7 @@ export namespace Prisma {
       notifPreferences: Prisma.$UserNotifPreferencesPayload<ExtArgs> | null
       emailCampaignsCreated: Prisma.$EmailCampaignPayload<ExtArgs>[]
       assistantsCreated: Prisma.$AssistantPayload<ExtArgs>[]
+      assistantCalendars: Prisma.$AssistantPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13605,6 +13721,7 @@ export namespace Prisma {
     notifPreferences<T extends User$notifPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$notifPreferencesArgs<ExtArgs>>): Prisma__UserNotifPreferencesClient<$Result.GetResult<Prisma.$UserNotifPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     emailCampaignsCreated<T extends User$emailCampaignsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$emailCampaignsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findMany"> | Null>
     assistantsCreated<T extends User$assistantsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantCalendars<T extends User$assistantCalendarsArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantCalendarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14434,6 +14551,26 @@ export namespace Prisma {
    * User.assistantsCreated
    */
   export type User$assistantsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assistant
+     */
+    select?: AssistantSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantInclude<ExtArgs> | null
+    where?: AssistantWhereInput
+    orderBy?: AssistantOrderByWithRelationInput | AssistantOrderByWithRelationInput[]
+    cursor?: AssistantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * User.assistantCalendars
+   */
+  export type User$assistantCalendarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Assistant
      */
@@ -17955,6 +18092,7 @@ export namespace Prisma {
     addons?: boolean | Company$addonsArgs<ExtArgs>
     couponRedemptions?: boolean | Company$couponRedemptionsArgs<ExtArgs>
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
+    scheduledMessages?: boolean | Company$scheduledMessagesArgs<ExtArgs>
     aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     services?: boolean | Company$servicesArgs<ExtArgs>
     videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
@@ -18115,6 +18253,7 @@ export namespace Prisma {
     addons?: boolean | Company$addonsArgs<ExtArgs>
     couponRedemptions?: boolean | Company$couponRedemptionsArgs<ExtArgs>
     assistants?: boolean | Company$assistantsArgs<ExtArgs>
+    scheduledMessages?: boolean | Company$scheduledMessagesArgs<ExtArgs>
     aiUsageLogs?: boolean | Company$aiUsageLogsArgs<ExtArgs>
     services?: boolean | Company$servicesArgs<ExtArgs>
     videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
@@ -18199,6 +18338,7 @@ export namespace Prisma {
       addons: Prisma.$SubscriptionAddonPayload<ExtArgs>[]
       couponRedemptions: Prisma.$CouponRedemptionPayload<ExtArgs>[]
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
+      scheduledMessages: Prisma.$ScheduledMessagePayload<ExtArgs>[]
       aiUsageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
       services: Prisma.$ServicePayload<ExtArgs>[]
       videoCategories: Prisma.$VideoCategoryPayload<ExtArgs>[]
@@ -18677,6 +18817,7 @@ export namespace Prisma {
     addons<T extends Company$addonsArgs<ExtArgs> = {}>(args?: Subset<T, Company$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionAddonPayload<ExtArgs>, T, "findMany"> | Null>
     couponRedemptions<T extends Company$couponRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$couponRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
     assistants<T extends Company$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
+    scheduledMessages<T extends Company$scheduledMessagesArgs<ExtArgs> = {}>(args?: Subset<T, Company$scheduledMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findMany"> | Null>
     aiUsageLogs<T extends Company$aiUsageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$aiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
     services<T extends Company$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany"> | Null>
     videoCategories<T extends Company$videoCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$videoCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findMany"> | Null>
@@ -20462,6 +20603,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * Company.scheduledMessages
+   */
+  export type Company$scheduledMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    where?: ScheduledMessageWhereInput
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    cursor?: ScheduledMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledMessageScalarFieldEnum | ScheduledMessageScalarFieldEnum[]
   }
 
   /**
@@ -35682,6 +35843,7 @@ export namespace Prisma {
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
+    scheduledMessages?: boolean | WhatsappInstance$scheduledMessagesArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whatsappInstance"]>
 
@@ -35721,6 +35883,7 @@ export namespace Prisma {
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
+    scheduledMessages?: boolean | WhatsappInstance$scheduledMessagesArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WhatsappInstanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -35734,6 +35897,7 @@ export namespace Prisma {
       messages: Prisma.$MessagePayload<ExtArgs>[]
       setores: Prisma.$SetorInstancePayload<ExtArgs>[]
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
+      scheduledMessages: Prisma.$ScheduledMessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -36116,6 +36280,7 @@ export namespace Prisma {
     messages<T extends WhatsappInstance$messagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     setores<T extends WhatsappInstance$setoresArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
     assistants<T extends WhatsappInstance$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
+    scheduledMessages<T extends WhatsappInstance$scheduledMessagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$scheduledMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -36532,6 +36697,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssistantScalarFieldEnum | AssistantScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappInstance.scheduledMessages
+   */
+  export type WhatsappInstance$scheduledMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    where?: ScheduledMessageWhereInput
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    cursor?: ScheduledMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledMessageScalarFieldEnum | ScheduledMessageScalarFieldEnum[]
   }
 
   /**
@@ -117631,10 +117816,12 @@ export namespace Prisma {
   }
 
   export type AssistantAvgAggregateOutputType = {
+    meetingDurationMin: number | null
     temperature: number | null
   }
 
   export type AssistantSumAggregateOutputType = {
+    meetingDurationMin: number | null
     temperature: number | null
   }
 
@@ -117649,6 +117836,8 @@ export namespace Prisma {
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
+    calendarUserId: string | null
+    meetingDurationMin: number | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117668,6 +117857,8 @@ export namespace Prisma {
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
+    calendarUserId: string | null
+    meetingDurationMin: number | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117687,6 +117878,8 @@ export namespace Prisma {
     learnings: number
     qualificationChecklist: number
     schedulingLink: number
+    calendarUserId: number
+    meetingDurationMin: number
     instanceId: number
     model: number
     temperature: number
@@ -117698,10 +117891,12 @@ export namespace Prisma {
 
 
   export type AssistantAvgAggregateInputType = {
+    meetingDurationMin?: true
     temperature?: true
   }
 
   export type AssistantSumAggregateInputType = {
+    meetingDurationMin?: true
     temperature?: true
   }
 
@@ -117716,6 +117911,8 @@ export namespace Prisma {
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
+    calendarUserId?: true
+    meetingDurationMin?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117735,6 +117932,8 @@ export namespace Prisma {
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
+    calendarUserId?: true
+    meetingDurationMin?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117754,6 +117953,8 @@ export namespace Prisma {
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
+    calendarUserId?: true
+    meetingDurationMin?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117860,6 +118061,8 @@ export namespace Prisma {
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
+    calendarUserId: string | null
+    meetingDurationMin: number
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117898,6 +118101,8 @@ export namespace Prisma {
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
+    calendarUserId?: boolean
+    meetingDurationMin?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -117905,6 +118110,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
     routes?: boolean | Assistant$routesArgs<ExtArgs>
@@ -117923,6 +118129,8 @@ export namespace Prisma {
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
+    calendarUserId?: boolean
+    meetingDurationMin?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -117930,6 +118138,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
   }, ExtArgs["result"]["assistant"]>
@@ -117945,6 +118154,8 @@ export namespace Prisma {
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
+    calendarUserId?: boolean
+    meetingDurationMin?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -117955,6 +118166,7 @@ export namespace Prisma {
 
   export type AssistantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
     routes?: boolean | Assistant$routesArgs<ExtArgs>
@@ -117963,6 +118175,7 @@ export namespace Prisma {
   }
   export type AssistantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    calendarUser?: boolean | Assistant$calendarUserArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
   }
@@ -117971,6 +118184,7 @@ export namespace Prisma {
     name: "Assistant"
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
+      calendarUser: Prisma.$UserPayload<ExtArgs> | null
       instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
       usageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
       routes: Prisma.$AssistantRoutePayload<ExtArgs>[]
@@ -117987,6 +118201,8 @@ export namespace Prisma {
       learnings: string | null
       qualificationChecklist: string | null
       schedulingLink: string | null
+      calendarUserId: string | null
+      meetingDurationMin: number
       instanceId: string | null
       model: string | null
       temperature: number | null
@@ -118358,6 +118574,7 @@ export namespace Prisma {
   export interface Prisma__AssistantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    calendarUser<T extends Assistant$calendarUserArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$calendarUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     instance<T extends Assistant$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     usageLogs<T extends Assistant$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
     routes<T extends Assistant$routesArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$routesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findMany"> | Null>
@@ -118401,6 +118618,8 @@ export namespace Prisma {
     readonly learnings: FieldRef<"Assistant", 'String'>
     readonly qualificationChecklist: FieldRef<"Assistant", 'String'>
     readonly schedulingLink: FieldRef<"Assistant", 'String'>
+    readonly calendarUserId: FieldRef<"Assistant", 'String'>
+    readonly meetingDurationMin: FieldRef<"Assistant", 'Int'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
     readonly temperature: FieldRef<"Assistant", 'Float'>
@@ -118725,6 +118944,21 @@ export namespace Prisma {
   }
 
   /**
+   * Assistant.calendarUser
+   */
+  export type Assistant$calendarUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Assistant.instance
    */
   export type Assistant$instanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -118806,6 +119040,1040 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssistantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ScheduledMessage
+   */
+
+  export type AggregateScheduledMessage = {
+    _count: ScheduledMessageCountAggregateOutputType | null
+    _min: ScheduledMessageMinAggregateOutputType | null
+    _max: ScheduledMessageMaxAggregateOutputType | null
+  }
+
+  export type ScheduledMessageMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    instanceId: string | null
+    phone: string | null
+    body: string | null
+    sendAt: Date | null
+    status: string | null
+    kind: string | null
+    sentAt: Date | null
+    lastError: string | null
+    createdAt: Date | null
+  }
+
+  export type ScheduledMessageMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    instanceId: string | null
+    phone: string | null
+    body: string | null
+    sendAt: Date | null
+    status: string | null
+    kind: string | null
+    sentAt: Date | null
+    lastError: string | null
+    createdAt: Date | null
+  }
+
+  export type ScheduledMessageCountAggregateOutputType = {
+    id: number
+    companyId: number
+    instanceId: number
+    phone: number
+    body: number
+    sendAt: number
+    status: number
+    kind: number
+    meta: number
+    sentAt: number
+    lastError: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ScheduledMessageMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    instanceId?: true
+    phone?: true
+    body?: true
+    sendAt?: true
+    status?: true
+    kind?: true
+    sentAt?: true
+    lastError?: true
+    createdAt?: true
+  }
+
+  export type ScheduledMessageMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    instanceId?: true
+    phone?: true
+    body?: true
+    sendAt?: true
+    status?: true
+    kind?: true
+    sentAt?: true
+    lastError?: true
+    createdAt?: true
+  }
+
+  export type ScheduledMessageCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    instanceId?: true
+    phone?: true
+    body?: true
+    sendAt?: true
+    status?: true
+    kind?: true
+    meta?: true
+    sentAt?: true
+    lastError?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ScheduledMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledMessage to aggregate.
+     */
+    where?: ScheduledMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledMessages to fetch.
+     */
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduledMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScheduledMessages
+    **/
+    _count?: true | ScheduledMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduledMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduledMessageMaxAggregateInputType
+  }
+
+  export type GetScheduledMessageAggregateType<T extends ScheduledMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateScheduledMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScheduledMessage[P]>
+      : GetScalarType<T[P], AggregateScheduledMessage[P]>
+  }
+
+
+
+
+  export type ScheduledMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledMessageWhereInput
+    orderBy?: ScheduledMessageOrderByWithAggregationInput | ScheduledMessageOrderByWithAggregationInput[]
+    by: ScheduledMessageScalarFieldEnum[] | ScheduledMessageScalarFieldEnum
+    having?: ScheduledMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduledMessageCountAggregateInputType | true
+    _min?: ScheduledMessageMinAggregateInputType
+    _max?: ScheduledMessageMaxAggregateInputType
+  }
+
+  export type ScheduledMessageGroupByOutputType = {
+    id: string
+    companyId: string
+    instanceId: string | null
+    phone: string
+    body: string
+    sendAt: Date
+    status: string
+    kind: string | null
+    meta: JsonValue | null
+    sentAt: Date | null
+    lastError: string | null
+    createdAt: Date
+    _count: ScheduledMessageCountAggregateOutputType | null
+    _min: ScheduledMessageMinAggregateOutputType | null
+    _max: ScheduledMessageMaxAggregateOutputType | null
+  }
+
+  type GetScheduledMessageGroupByPayload<T extends ScheduledMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduledMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduledMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduledMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduledMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduledMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    instanceId?: boolean
+    phone?: boolean
+    body?: boolean
+    sendAt?: boolean
+    status?: boolean
+    kind?: boolean
+    meta?: boolean
+    sentAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | ScheduledMessage$instanceArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledMessage"]>
+
+  export type ScheduledMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    instanceId?: boolean
+    phone?: boolean
+    body?: boolean
+    sendAt?: boolean
+    status?: boolean
+    kind?: boolean
+    meta?: boolean
+    sentAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | ScheduledMessage$instanceArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledMessage"]>
+
+  export type ScheduledMessageSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    instanceId?: boolean
+    phone?: boolean
+    body?: boolean
+    sendAt?: boolean
+    status?: boolean
+    kind?: boolean
+    meta?: boolean
+    sentAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+  }
+
+  export type ScheduledMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | ScheduledMessage$instanceArgs<ExtArgs>
+  }
+  export type ScheduledMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    instance?: boolean | ScheduledMessage$instanceArgs<ExtArgs>
+  }
+
+  export type $ScheduledMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScheduledMessage"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      instanceId: string | null
+      phone: string
+      body: string
+      sendAt: Date
+      status: string
+      kind: string | null
+      meta: Prisma.JsonValue | null
+      sentAt: Date | null
+      lastError: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["scheduledMessage"]>
+    composites: {}
+  }
+
+  type ScheduledMessageGetPayload<S extends boolean | null | undefined | ScheduledMessageDefaultArgs> = $Result.GetResult<Prisma.$ScheduledMessagePayload, S>
+
+  type ScheduledMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ScheduledMessageFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ScheduledMessageCountAggregateInputType | true
+    }
+
+  export interface ScheduledMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScheduledMessage'], meta: { name: 'ScheduledMessage' } }
+    /**
+     * Find zero or one ScheduledMessage that matches the filter.
+     * @param {ScheduledMessageFindUniqueArgs} args - Arguments to find a ScheduledMessage
+     * @example
+     * // Get one ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduledMessageFindUniqueArgs>(args: SelectSubset<T, ScheduledMessageFindUniqueArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ScheduledMessage that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ScheduledMessageFindUniqueOrThrowArgs} args - Arguments to find a ScheduledMessage
+     * @example
+     * // Get one ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduledMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduledMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ScheduledMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageFindFirstArgs} args - Arguments to find a ScheduledMessage
+     * @example
+     * // Get one ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduledMessageFindFirstArgs>(args?: SelectSubset<T, ScheduledMessageFindFirstArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ScheduledMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageFindFirstOrThrowArgs} args - Arguments to find a ScheduledMessage
+     * @example
+     * // Get one ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduledMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduledMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ScheduledMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScheduledMessages
+     * const scheduledMessages = await prisma.scheduledMessage.findMany()
+     * 
+     * // Get first 10 ScheduledMessages
+     * const scheduledMessages = await prisma.scheduledMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduledMessageWithIdOnly = await prisma.scheduledMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduledMessageFindManyArgs>(args?: SelectSubset<T, ScheduledMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ScheduledMessage.
+     * @param {ScheduledMessageCreateArgs} args - Arguments to create a ScheduledMessage.
+     * @example
+     * // Create one ScheduledMessage
+     * const ScheduledMessage = await prisma.scheduledMessage.create({
+     *   data: {
+     *     // ... data to create a ScheduledMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduledMessageCreateArgs>(args: SelectSubset<T, ScheduledMessageCreateArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ScheduledMessages.
+     * @param {ScheduledMessageCreateManyArgs} args - Arguments to create many ScheduledMessages.
+     * @example
+     * // Create many ScheduledMessages
+     * const scheduledMessage = await prisma.scheduledMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduledMessageCreateManyArgs>(args?: SelectSubset<T, ScheduledMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScheduledMessages and returns the data saved in the database.
+     * @param {ScheduledMessageCreateManyAndReturnArgs} args - Arguments to create many ScheduledMessages.
+     * @example
+     * // Create many ScheduledMessages
+     * const scheduledMessage = await prisma.scheduledMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScheduledMessages and only return the `id`
+     * const scheduledMessageWithIdOnly = await prisma.scheduledMessage.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduledMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduledMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ScheduledMessage.
+     * @param {ScheduledMessageDeleteArgs} args - Arguments to delete one ScheduledMessage.
+     * @example
+     * // Delete one ScheduledMessage
+     * const ScheduledMessage = await prisma.scheduledMessage.delete({
+     *   where: {
+     *     // ... filter to delete one ScheduledMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduledMessageDeleteArgs>(args: SelectSubset<T, ScheduledMessageDeleteArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ScheduledMessage.
+     * @param {ScheduledMessageUpdateArgs} args - Arguments to update one ScheduledMessage.
+     * @example
+     * // Update one ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduledMessageUpdateArgs>(args: SelectSubset<T, ScheduledMessageUpdateArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ScheduledMessages.
+     * @param {ScheduledMessageDeleteManyArgs} args - Arguments to filter ScheduledMessages to delete.
+     * @example
+     * // Delete a few ScheduledMessages
+     * const { count } = await prisma.scheduledMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduledMessageDeleteManyArgs>(args?: SelectSubset<T, ScheduledMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduledMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScheduledMessages
+     * const scheduledMessage = await prisma.scheduledMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduledMessageUpdateManyArgs>(args: SelectSubset<T, ScheduledMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ScheduledMessage.
+     * @param {ScheduledMessageUpsertArgs} args - Arguments to update or create a ScheduledMessage.
+     * @example
+     * // Update or create a ScheduledMessage
+     * const scheduledMessage = await prisma.scheduledMessage.upsert({
+     *   create: {
+     *     // ... data to create a ScheduledMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScheduledMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduledMessageUpsertArgs>(args: SelectSubset<T, ScheduledMessageUpsertArgs<ExtArgs>>): Prisma__ScheduledMessageClient<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ScheduledMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageCountArgs} args - Arguments to filter ScheduledMessages to count.
+     * @example
+     * // Count the number of ScheduledMessages
+     * const count = await prisma.scheduledMessage.count({
+     *   where: {
+     *     // ... the filter for the ScheduledMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduledMessageCountArgs>(
+      args?: Subset<T, ScheduledMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduledMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScheduledMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduledMessageAggregateArgs>(args: Subset<T, ScheduledMessageAggregateArgs>): Prisma.PrismaPromise<GetScheduledMessageAggregateType<T>>
+
+    /**
+     * Group by ScheduledMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduledMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduledMessageGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduledMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduledMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduledMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScheduledMessage model
+   */
+  readonly fields: ScheduledMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScheduledMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduledMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    instance<T extends ScheduledMessage$instanceArgs<ExtArgs> = {}>(args?: Subset<T, ScheduledMessage$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScheduledMessage model
+   */ 
+  interface ScheduledMessageFieldRefs {
+    readonly id: FieldRef<"ScheduledMessage", 'String'>
+    readonly companyId: FieldRef<"ScheduledMessage", 'String'>
+    readonly instanceId: FieldRef<"ScheduledMessage", 'String'>
+    readonly phone: FieldRef<"ScheduledMessage", 'String'>
+    readonly body: FieldRef<"ScheduledMessage", 'String'>
+    readonly sendAt: FieldRef<"ScheduledMessage", 'DateTime'>
+    readonly status: FieldRef<"ScheduledMessage", 'String'>
+    readonly kind: FieldRef<"ScheduledMessage", 'String'>
+    readonly meta: FieldRef<"ScheduledMessage", 'Json'>
+    readonly sentAt: FieldRef<"ScheduledMessage", 'DateTime'>
+    readonly lastError: FieldRef<"ScheduledMessage", 'String'>
+    readonly createdAt: FieldRef<"ScheduledMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScheduledMessage findUnique
+   */
+  export type ScheduledMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledMessage to fetch.
+     */
+    where: ScheduledMessageWhereUniqueInput
+  }
+
+  /**
+   * ScheduledMessage findUniqueOrThrow
+   */
+  export type ScheduledMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledMessage to fetch.
+     */
+    where: ScheduledMessageWhereUniqueInput
+  }
+
+  /**
+   * ScheduledMessage findFirst
+   */
+  export type ScheduledMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledMessage to fetch.
+     */
+    where?: ScheduledMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledMessages to fetch.
+     */
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledMessages.
+     */
+    cursor?: ScheduledMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledMessages.
+     */
+    distinct?: ScheduledMessageScalarFieldEnum | ScheduledMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledMessage findFirstOrThrow
+   */
+  export type ScheduledMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledMessage to fetch.
+     */
+    where?: ScheduledMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledMessages to fetch.
+     */
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledMessages.
+     */
+    cursor?: ScheduledMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledMessages.
+     */
+    distinct?: ScheduledMessageScalarFieldEnum | ScheduledMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledMessage findMany
+   */
+  export type ScheduledMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledMessages to fetch.
+     */
+    where?: ScheduledMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledMessages to fetch.
+     */
+    orderBy?: ScheduledMessageOrderByWithRelationInput | ScheduledMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScheduledMessages.
+     */
+    cursor?: ScheduledMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledMessages.
+     */
+    skip?: number
+    distinct?: ScheduledMessageScalarFieldEnum | ScheduledMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledMessage create
+   */
+  export type ScheduledMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScheduledMessage.
+     */
+    data: XOR<ScheduledMessageCreateInput, ScheduledMessageUncheckedCreateInput>
+  }
+
+  /**
+   * ScheduledMessage createMany
+   */
+  export type ScheduledMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScheduledMessages.
+     */
+    data: ScheduledMessageCreateManyInput | ScheduledMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScheduledMessage createManyAndReturn
+   */
+  export type ScheduledMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ScheduledMessages.
+     */
+    data: ScheduledMessageCreateManyInput | ScheduledMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScheduledMessage update
+   */
+  export type ScheduledMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScheduledMessage.
+     */
+    data: XOR<ScheduledMessageUpdateInput, ScheduledMessageUncheckedUpdateInput>
+    /**
+     * Choose, which ScheduledMessage to update.
+     */
+    where: ScheduledMessageWhereUniqueInput
+  }
+
+  /**
+   * ScheduledMessage updateMany
+   */
+  export type ScheduledMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScheduledMessages.
+     */
+    data: XOR<ScheduledMessageUpdateManyMutationInput, ScheduledMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduledMessages to update
+     */
+    where?: ScheduledMessageWhereInput
+  }
+
+  /**
+   * ScheduledMessage upsert
+   */
+  export type ScheduledMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScheduledMessage to update in case it exists.
+     */
+    where: ScheduledMessageWhereUniqueInput
+    /**
+     * In case the ScheduledMessage found by the `where` argument doesn't exist, create a new ScheduledMessage with this data.
+     */
+    create: XOR<ScheduledMessageCreateInput, ScheduledMessageUncheckedCreateInput>
+    /**
+     * In case the ScheduledMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduledMessageUpdateInput, ScheduledMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * ScheduledMessage delete
+   */
+  export type ScheduledMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
+    /**
+     * Filter which ScheduledMessage to delete.
+     */
+    where: ScheduledMessageWhereUniqueInput
+  }
+
+  /**
+   * ScheduledMessage deleteMany
+   */
+  export type ScheduledMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledMessages to delete
+     */
+    where?: ScheduledMessageWhereInput
+  }
+
+  /**
+   * ScheduledMessage.instance
+   */
+  export type ScheduledMessage$instanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappInstance
+     */
+    select?: WhatsappInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhatsappInstanceInclude<ExtArgs> | null
+    where?: WhatsappInstanceWhereInput
+  }
+
+  /**
+   * ScheduledMessage without action
+   */
+  export type ScheduledMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledMessage
+     */
+    select?: ScheduledMessageSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledMessageInclude<ExtArgs> | null
   }
 
 
@@ -129012,6 +130280,8 @@ export namespace Prisma {
     learnings: 'learnings',
     qualificationChecklist: 'qualificationChecklist',
     schedulingLink: 'schedulingLink',
+    calendarUserId: 'calendarUserId',
+    meetingDurationMin: 'meetingDurationMin',
     instanceId: 'instanceId',
     model: 'model',
     temperature: 'temperature',
@@ -129021,6 +130291,24 @@ export namespace Prisma {
   };
 
   export type AssistantScalarFieldEnum = (typeof AssistantScalarFieldEnum)[keyof typeof AssistantScalarFieldEnum]
+
+
+  export const ScheduledMessageScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    instanceId: 'instanceId',
+    phone: 'phone',
+    body: 'body',
+    sendAt: 'sendAt',
+    status: 'status',
+    kind: 'kind',
+    meta: 'meta',
+    sentAt: 'sentAt',
+    lastError: 'lastError',
+    createdAt: 'createdAt'
+  };
+
+  export type ScheduledMessageScalarFieldEnum = (typeof ScheduledMessageScalarFieldEnum)[keyof typeof ScheduledMessageScalarFieldEnum]
 
 
   export const AssistantRouteScalarFieldEnum: {
@@ -130026,6 +131314,7 @@ export namespace Prisma {
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
     emailCampaignsCreated?: EmailCampaignListRelationFilter
     assistantsCreated?: AssistantListRelationFilter
+    assistantCalendars?: AssistantListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -130068,6 +131357,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesOrderByWithRelationInput
     emailCampaignsCreated?: EmailCampaignOrderByRelationAggregateInput
     assistantsCreated?: AssistantOrderByRelationAggregateInput
+    assistantCalendars?: AssistantOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -130113,6 +131403,7 @@ export namespace Prisma {
     notifPreferences?: XOR<UserNotifPreferencesNullableRelationFilter, UserNotifPreferencesWhereInput> | null
     emailCampaignsCreated?: EmailCampaignListRelationFilter
     assistantsCreated?: AssistantListRelationFilter
+    assistantCalendars?: AssistantListRelationFilter
   }, "id" | "email" | "passwordResetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -130490,6 +131781,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonListRelationFilter
     couponRedemptions?: CouponRedemptionListRelationFilter
     assistants?: AssistantListRelationFilter
+    scheduledMessages?: ScheduledMessageListRelationFilter
     aiUsageLogs?: AiUsageLogListRelationFilter
     services?: ServiceListRelationFilter
     videoCategories?: VideoCategoryListRelationFilter
@@ -130605,6 +131897,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonOrderByRelationAggregateInput
     couponRedemptions?: CouponRedemptionOrderByRelationAggregateInput
     assistants?: AssistantOrderByRelationAggregateInput
+    scheduledMessages?: ScheduledMessageOrderByRelationAggregateInput
     aiUsageLogs?: AiUsageLogOrderByRelationAggregateInput
     services?: ServiceOrderByRelationAggregateInput
     videoCategories?: VideoCategoryOrderByRelationAggregateInput
@@ -130723,6 +132016,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonListRelationFilter
     couponRedemptions?: CouponRedemptionListRelationFilter
     assistants?: AssistantListRelationFilter
+    scheduledMessages?: ScheduledMessageListRelationFilter
     aiUsageLogs?: AiUsageLogListRelationFilter
     services?: ServiceListRelationFilter
     videoCategories?: VideoCategoryListRelationFilter
@@ -132126,6 +133420,7 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     setores?: SetorInstanceListRelationFilter
     assistants?: AssistantListRelationFilter
+    scheduledMessages?: ScheduledMessageListRelationFilter
   }
 
   export type WhatsappInstanceOrderByWithRelationInput = {
@@ -132145,6 +133440,7 @@ export namespace Prisma {
     messages?: MessageOrderByRelationAggregateInput
     setores?: SetorInstanceOrderByRelationAggregateInput
     assistants?: AssistantOrderByRelationAggregateInput
+    scheduledMessages?: ScheduledMessageOrderByRelationAggregateInput
   }
 
   export type WhatsappInstanceWhereUniqueInput = Prisma.AtLeast<{
@@ -132167,6 +133463,7 @@ export namespace Prisma {
     messages?: MessageListRelationFilter
     setores?: SetorInstanceListRelationFilter
     assistants?: AssistantListRelationFilter
+    scheduledMessages?: ScheduledMessageListRelationFilter
   }, "id">
 
   export type WhatsappInstanceOrderByWithAggregationInput = {
@@ -139354,6 +140651,8 @@ export namespace Prisma {
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
+    calendarUserId?: StringNullableFilter<"Assistant"> | string | null
+    meetingDurationMin?: IntFilter<"Assistant"> | number
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -139361,6 +140660,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Assistant"> | Date | string
     updatedAt?: DateTimeFilter<"Assistant"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    calendarUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
     routes?: AssistantRouteListRelationFilter
@@ -139378,6 +140678,8 @@ export namespace Prisma {
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
+    calendarUserId?: SortOrderInput | SortOrder
+    meetingDurationMin?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -139385,6 +140687,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
+    calendarUser?: UserOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     usageLogs?: AiUsageLogOrderByRelationAggregateInput
     routes?: AssistantRouteOrderByRelationAggregateInput
@@ -139405,6 +140708,8 @@ export namespace Prisma {
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
+    calendarUserId?: StringNullableFilter<"Assistant"> | string | null
+    meetingDurationMin?: IntFilter<"Assistant"> | number
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -139412,6 +140717,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Assistant"> | Date | string
     updatedAt?: DateTimeFilter<"Assistant"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    calendarUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
     routes?: AssistantRouteListRelationFilter
@@ -139429,6 +140735,8 @@ export namespace Prisma {
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
+    calendarUserId?: SortOrderInput | SortOrder
+    meetingDurationMin?: SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -139456,12 +140764,107 @@ export namespace Prisma {
     learnings?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    calendarUserId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    meetingDurationMin?: IntWithAggregatesFilter<"Assistant"> | number
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
     createdById?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
+  }
+
+  export type ScheduledMessageWhereInput = {
+    AND?: ScheduledMessageWhereInput | ScheduledMessageWhereInput[]
+    OR?: ScheduledMessageWhereInput[]
+    NOT?: ScheduledMessageWhereInput | ScheduledMessageWhereInput[]
+    id?: StringFilter<"ScheduledMessage"> | string
+    companyId?: StringFilter<"ScheduledMessage"> | string
+    instanceId?: StringNullableFilter<"ScheduledMessage"> | string | null
+    phone?: StringFilter<"ScheduledMessage"> | string
+    body?: StringFilter<"ScheduledMessage"> | string
+    sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    status?: StringFilter<"ScheduledMessage"> | string
+    kind?: StringNullableFilter<"ScheduledMessage"> | string | null
+    meta?: JsonNullableFilter<"ScheduledMessage">
+    sentAt?: DateTimeNullableFilter<"ScheduledMessage"> | Date | string | null
+    lastError?: StringNullableFilter<"ScheduledMessage"> | string | null
+    createdAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+  }
+
+  export type ScheduledMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    body?: SortOrder
+    sendAt?: SortOrder
+    status?: SortOrder
+    kind?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    instance?: WhatsappInstanceOrderByWithRelationInput
+  }
+
+  export type ScheduledMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduledMessageWhereInput | ScheduledMessageWhereInput[]
+    OR?: ScheduledMessageWhereInput[]
+    NOT?: ScheduledMessageWhereInput | ScheduledMessageWhereInput[]
+    companyId?: StringFilter<"ScheduledMessage"> | string
+    instanceId?: StringNullableFilter<"ScheduledMessage"> | string | null
+    phone?: StringFilter<"ScheduledMessage"> | string
+    body?: StringFilter<"ScheduledMessage"> | string
+    sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    status?: StringFilter<"ScheduledMessage"> | string
+    kind?: StringNullableFilter<"ScheduledMessage"> | string | null
+    meta?: JsonNullableFilter<"ScheduledMessage">
+    sentAt?: DateTimeNullableFilter<"ScheduledMessage"> | Date | string | null
+    lastError?: StringNullableFilter<"ScheduledMessage"> | string | null
+    createdAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
+  }, "id">
+
+  export type ScheduledMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    phone?: SortOrder
+    body?: SortOrder
+    sendAt?: SortOrder
+    status?: SortOrder
+    kind?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ScheduledMessageCountOrderByAggregateInput
+    _max?: ScheduledMessageMaxOrderByAggregateInput
+    _min?: ScheduledMessageMinOrderByAggregateInput
+  }
+
+  export type ScheduledMessageScalarWhereWithAggregatesInput = {
+    AND?: ScheduledMessageScalarWhereWithAggregatesInput | ScheduledMessageScalarWhereWithAggregatesInput[]
+    OR?: ScheduledMessageScalarWhereWithAggregatesInput[]
+    NOT?: ScheduledMessageScalarWhereWithAggregatesInput | ScheduledMessageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScheduledMessage"> | string
+    companyId?: StringWithAggregatesFilter<"ScheduledMessage"> | string
+    instanceId?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
+    phone?: StringWithAggregatesFilter<"ScheduledMessage"> | string
+    body?: StringWithAggregatesFilter<"ScheduledMessage"> | string
+    sendAt?: DateTimeWithAggregatesFilter<"ScheduledMessage"> | Date | string
+    status?: StringWithAggregatesFilter<"ScheduledMessage"> | string
+    kind?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
+    meta?: JsonNullableWithAggregatesFilter<"ScheduledMessage">
+    sentAt?: DateTimeNullableWithAggregatesFilter<"ScheduledMessage"> | Date | string | null
+    lastError?: StringNullableWithAggregatesFilter<"ScheduledMessage"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ScheduledMessage"> | Date | string
   }
 
   export type AssistantRouteWhereInput = {
@@ -140220,6 +141623,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -140261,6 +141665,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUpdateInput = {
@@ -140302,6 +141707,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -140343,6 +141749,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -140745,6 +142152,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -140859,6 +142267,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -140973,6 +142382,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -141087,6 +142497,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -142628,6 +144039,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateInput = {
@@ -142646,6 +144058,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUpdateInput = {
@@ -142664,6 +144077,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateInput = {
@@ -142682,6 +144096,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceCreateManyInput = {
@@ -150649,11 +152064,13 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
@@ -150671,6 +152088,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -150691,11 +152110,13 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
@@ -150713,6 +152134,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -150734,6 +152157,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -150752,6 +152177,7 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -150769,12 +152195,117 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageCreateInput = {
+    id?: string
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutScheduledMessagesInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutScheduledMessagesInput
+  }
+
+  export type ScheduledMessageUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    instanceId?: string | null
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScheduledMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutScheduledMessagesNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutScheduledMessagesNestedInput
+  }
+
+  export type ScheduledMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageCreateManyInput = {
+    id?: string
+    companyId: string
+    instanceId?: string | null
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScheduledMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssistantRouteCreateInput = {
@@ -152503,6 +154034,12 @@ export namespace Prisma {
     none?: CouponRedemptionWhereInput
   }
 
+  export type ScheduledMessageListRelationFilter = {
+    every?: ScheduledMessageWhereInput
+    some?: ScheduledMessageWhereInput
+    none?: ScheduledMessageWhereInput
+  }
+
   export type AiUsageLogListRelationFilter = {
     every?: AiUsageLogWhereInput
     some?: AiUsageLogWhereInput
@@ -152748,6 +154285,10 @@ export namespace Prisma {
   }
 
   export type CouponRedemptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScheduledMessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -159004,6 +160545,8 @@ export namespace Prisma {
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
+    calendarUserId?: SortOrder
+    meetingDurationMin?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -159013,6 +160556,7 @@ export namespace Prisma {
   }
 
   export type AssistantAvgOrderByAggregateInput = {
+    meetingDurationMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -159027,6 +160571,8 @@ export namespace Prisma {
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
+    calendarUserId?: SortOrder
+    meetingDurationMin?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -159046,6 +160592,8 @@ export namespace Prisma {
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
+    calendarUserId?: SortOrder
+    meetingDurationMin?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -159055,6 +160603,7 @@ export namespace Prisma {
   }
 
   export type AssistantSumOrderByAggregateInput = {
+    meetingDurationMin?: SortOrder
     temperature?: SortOrder
   }
 
@@ -159066,6 +160615,49 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
     _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
+  export type ScheduledMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    instanceId?: SortOrder
+    phone?: SortOrder
+    body?: SortOrder
+    sendAt?: SortOrder
+    status?: SortOrder
+    kind?: SortOrder
+    meta?: SortOrder
+    sentAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScheduledMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    instanceId?: SortOrder
+    phone?: SortOrder
+    body?: SortOrder
+    sendAt?: SortOrder
+    status?: SortOrder
+    kind?: SortOrder
+    sentAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScheduledMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    instanceId?: SortOrder
+    phone?: SortOrder
+    body?: SortOrder
+    sendAt?: SortOrder
+    status?: SortOrder
+    kind?: SortOrder
+    sentAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AssistantRelationFilter = {
@@ -159694,6 +161286,13 @@ export namespace Prisma {
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
+  export type AssistantCreateNestedManyWithoutCalendarUserInput = {
+    create?: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput> | AssistantCreateWithoutCalendarUserInput[] | AssistantUncheckedCreateWithoutCalendarUserInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCalendarUserInput | AssistantCreateOrConnectWithoutCalendarUserInput[]
+    createMany?: AssistantCreateManyCalendarUserInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -159857,6 +161456,13 @@ export namespace Prisma {
     create?: XOR<AssistantCreateWithoutCreatedByInput, AssistantUncheckedCreateWithoutCreatedByInput> | AssistantCreateWithoutCreatedByInput[] | AssistantUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: AssistantCreateOrConnectWithoutCreatedByInput | AssistantCreateOrConnectWithoutCreatedByInput[]
     createMany?: AssistantCreateManyCreatedByInputEnvelope
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type AssistantUncheckedCreateNestedManyWithoutCalendarUserInput = {
+    create?: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput> | AssistantCreateWithoutCalendarUserInput[] | AssistantUncheckedCreateWithoutCalendarUserInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCalendarUserInput | AssistantCreateOrConnectWithoutCalendarUserInput[]
+    createMany?: AssistantCreateManyCalendarUserInputEnvelope
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
@@ -160226,6 +161832,20 @@ export namespace Prisma {
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
+  export type AssistantUpdateManyWithoutCalendarUserNestedInput = {
+    create?: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput> | AssistantCreateWithoutCalendarUserInput[] | AssistantUncheckedCreateWithoutCalendarUserInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCalendarUserInput | AssistantCreateOrConnectWithoutCalendarUserInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCalendarUserInput | AssistantUpsertWithWhereUniqueWithoutCalendarUserInput[]
+    createMany?: AssistantCreateManyCalendarUserInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCalendarUserInput | AssistantUpdateWithWhereUniqueWithoutCalendarUserInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCalendarUserInput | AssistantUpdateManyWithWhereWithoutCalendarUserInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -160551,6 +162171,20 @@ export namespace Prisma {
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
     update?: AssistantUpdateWithWhereUniqueWithoutCreatedByInput | AssistantUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: AssistantUpdateManyWithWhereWithoutCreatedByInput | AssistantUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput = {
+    create?: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput> | AssistantCreateWithoutCalendarUserInput[] | AssistantUncheckedCreateWithoutCalendarUserInput[]
+    connectOrCreate?: AssistantCreateOrConnectWithoutCalendarUserInput | AssistantCreateOrConnectWithoutCalendarUserInput[]
+    upsert?: AssistantUpsertWithWhereUniqueWithoutCalendarUserInput | AssistantUpsertWithWhereUniqueWithoutCalendarUserInput[]
+    createMany?: AssistantCreateManyCalendarUserInputEnvelope
+    set?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    disconnect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    delete?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+    update?: AssistantUpdateWithWhereUniqueWithoutCalendarUserInput | AssistantUpdateWithWhereUniqueWithoutCalendarUserInput[]
+    updateMany?: AssistantUpdateManyWithWhereWithoutCalendarUserInput | AssistantUpdateManyWithWhereWithoutCalendarUserInput[]
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
@@ -161106,6 +162740,13 @@ export namespace Prisma {
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
+  export type ScheduledMessageCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput> | ScheduledMessageCreateWithoutCompanyInput[] | ScheduledMessageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutCompanyInput | ScheduledMessageCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScheduledMessageCreateManyCompanyInputEnvelope
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+  }
+
   export type AiUsageLogCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AiUsageLogCreateWithoutCompanyInput, AiUsageLogUncheckedCreateWithoutCompanyInput> | AiUsageLogCreateWithoutCompanyInput[] | AiUsageLogUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AiUsageLogCreateOrConnectWithoutCompanyInput | AiUsageLogCreateOrConnectWithoutCompanyInput[]
@@ -161619,6 +163260,13 @@ export namespace Prisma {
     connectOrCreate?: AssistantCreateOrConnectWithoutCompanyInput | AssistantCreateOrConnectWithoutCompanyInput[]
     createMany?: AssistantCreateManyCompanyInputEnvelope
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput> | ScheduledMessageCreateWithoutCompanyInput[] | ScheduledMessageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutCompanyInput | ScheduledMessageCreateOrConnectWithoutCompanyInput[]
+    createMany?: ScheduledMessageCreateManyCompanyInputEnvelope
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
   }
 
   export type AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -162633,6 +164281,20 @@ export namespace Prisma {
     update?: AssistantUpdateWithWhereUniqueWithoutCompanyInput | AssistantUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AssistantUpdateManyWithWhereWithoutCompanyInput | AssistantUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type ScheduledMessageUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput> | ScheduledMessageCreateWithoutCompanyInput[] | ScheduledMessageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutCompanyInput | ScheduledMessageCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScheduledMessageUpsertWithWhereUniqueWithoutCompanyInput | ScheduledMessageUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScheduledMessageCreateManyCompanyInputEnvelope
+    set?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    disconnect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    delete?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    update?: ScheduledMessageUpdateWithWhereUniqueWithoutCompanyInput | ScheduledMessageUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScheduledMessageUpdateManyWithWhereWithoutCompanyInput | ScheduledMessageUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
   }
 
   export type AiUsageLogUpdateManyWithoutCompanyNestedInput = {
@@ -163657,6 +165319,20 @@ export namespace Prisma {
     update?: AssistantUpdateWithWhereUniqueWithoutCompanyInput | AssistantUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AssistantUpdateManyWithWhereWithoutCompanyInput | AssistantUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput> | ScheduledMessageCreateWithoutCompanyInput[] | ScheduledMessageUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutCompanyInput | ScheduledMessageCreateOrConnectWithoutCompanyInput[]
+    upsert?: ScheduledMessageUpsertWithWhereUniqueWithoutCompanyInput | ScheduledMessageUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ScheduledMessageCreateManyCompanyInputEnvelope
+    set?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    disconnect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    delete?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    update?: ScheduledMessageUpdateWithWhereUniqueWithoutCompanyInput | ScheduledMessageUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ScheduledMessageUpdateManyWithWhereWithoutCompanyInput | ScheduledMessageUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
   }
 
   export type AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -164878,6 +166554,13 @@ export namespace Prisma {
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
+  export type ScheduledMessageCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput> | ScheduledMessageCreateWithoutInstanceInput[] | ScheduledMessageUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutInstanceInput | ScheduledMessageCreateOrConnectWithoutInstanceInput[]
+    createMany?: ScheduledMessageCreateManyInstanceInputEnvelope
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutInstanceInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
@@ -164897,6 +166580,13 @@ export namespace Prisma {
     connectOrCreate?: AssistantCreateOrConnectWithoutInstanceInput | AssistantCreateOrConnectWithoutInstanceInput[]
     createMany?: AssistantCreateManyInstanceInputEnvelope
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput> | ScheduledMessageCreateWithoutInstanceInput[] | ScheduledMessageUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutInstanceInput | ScheduledMessageCreateOrConnectWithoutInstanceInput[]
+    createMany?: ScheduledMessageCreateManyInstanceInputEnvelope
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
   }
 
   export type EnumInstanceStatusFieldUpdateOperationsInput = {
@@ -164953,6 +166643,20 @@ export namespace Prisma {
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
+  export type ScheduledMessageUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput> | ScheduledMessageCreateWithoutInstanceInput[] | ScheduledMessageUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutInstanceInput | ScheduledMessageCreateOrConnectWithoutInstanceInput[]
+    upsert?: ScheduledMessageUpsertWithWhereUniqueWithoutInstanceInput | ScheduledMessageUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: ScheduledMessageCreateManyInstanceInputEnvelope
+    set?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    disconnect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    delete?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    update?: ScheduledMessageUpdateWithWhereUniqueWithoutInstanceInput | ScheduledMessageUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: ScheduledMessageUpdateManyWithWhereWithoutInstanceInput | ScheduledMessageUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutInstanceNestedInput = {
     create?: XOR<MessageCreateWithoutInstanceInput, MessageUncheckedCreateWithoutInstanceInput> | MessageCreateWithoutInstanceInput[] | MessageUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
@@ -164993,6 +166697,20 @@ export namespace Prisma {
     update?: AssistantUpdateWithWhereUniqueWithoutInstanceInput | AssistantUpdateWithWhereUniqueWithoutInstanceInput[]
     updateMany?: AssistantUpdateManyWithWhereWithoutInstanceInput | AssistantUpdateManyWithWhereWithoutInstanceInput[]
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
+  }
+
+  export type ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput> | ScheduledMessageCreateWithoutInstanceInput[] | ScheduledMessageUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ScheduledMessageCreateOrConnectWithoutInstanceInput | ScheduledMessageCreateOrConnectWithoutInstanceInput[]
+    upsert?: ScheduledMessageUpsertWithWhereUniqueWithoutInstanceInput | ScheduledMessageUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: ScheduledMessageCreateManyInstanceInputEnvelope
+    set?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    disconnect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    delete?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    connect?: ScheduledMessageWhereUniqueInput | ScheduledMessageWhereUniqueInput[]
+    update?: ScheduledMessageUpdateWithWhereUniqueWithoutInstanceInput | ScheduledMessageUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: ScheduledMessageUpdateManyWithWhereWithoutInstanceInput | ScheduledMessageUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutMessagesInput = {
@@ -168766,6 +170484,12 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutAssistantCalendarsInput = {
+    create?: XOR<UserCreateWithoutAssistantCalendarsInput, UserUncheckedCreateWithoutAssistantCalendarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantCalendarsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type WhatsappInstanceCreateNestedOneWithoutAssistantsInput = {
     create?: XOR<WhatsappInstanceCreateWithoutAssistantsInput, WhatsappInstanceUncheckedCreateWithoutAssistantsInput>
     connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutAssistantsInput
@@ -168816,6 +170540,16 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutAssistantsInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAssistantsInput, CompanyUpdateWithoutAssistantsInput>, CompanyUncheckedUpdateWithoutAssistantsInput>
+  }
+
+  export type UserUpdateOneWithoutAssistantCalendarsNestedInput = {
+    create?: XOR<UserCreateWithoutAssistantCalendarsInput, UserUncheckedCreateWithoutAssistantCalendarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssistantCalendarsInput
+    upsert?: UserUpsertWithoutAssistantCalendarsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssistantCalendarsInput, UserUpdateWithoutAssistantCalendarsInput>, UserUncheckedUpdateWithoutAssistantCalendarsInput>
   }
 
   export type WhatsappInstanceUpdateOneWithoutAssistantsNestedInput = {
@@ -168892,6 +170626,36 @@ export namespace Prisma {
     update?: AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput | AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput[]
     updateMany?: AssistantRouteUpdateManyWithWhereWithoutAssistantInput | AssistantRouteUpdateManyWithWhereWithoutAssistantInput[]
     deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutScheduledMessagesInput = {
+    create?: XOR<CompanyCreateWithoutScheduledMessagesInput, CompanyUncheckedCreateWithoutScheduledMessagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScheduledMessagesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type WhatsappInstanceCreateNestedOneWithoutScheduledMessagesInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedCreateWithoutScheduledMessagesInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutScheduledMessagesInput
+    connect?: WhatsappInstanceWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutScheduledMessagesNestedInput = {
+    create?: XOR<CompanyCreateWithoutScheduledMessagesInput, CompanyUncheckedCreateWithoutScheduledMessagesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutScheduledMessagesInput
+    upsert?: CompanyUpsertWithoutScheduledMessagesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutScheduledMessagesInput, CompanyUpdateWithoutScheduledMessagesInput>, CompanyUncheckedUpdateWithoutScheduledMessagesInput>
+  }
+
+  export type WhatsappInstanceUpdateOneWithoutScheduledMessagesNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedCreateWithoutScheduledMessagesInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutScheduledMessagesInput
+    upsert?: WhatsappInstanceUpsertWithoutScheduledMessagesInput
+    disconnect?: WhatsappInstanceWhereInput | boolean
+    delete?: WhatsappInstanceWhereInput | boolean
+    connect?: WhatsappInstanceWhereUniqueInput
+    update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutScheduledMessagesInput, WhatsappInstanceUpdateWithoutScheduledMessagesInput>, WhatsappInstanceUncheckedUpdateWithoutScheduledMessagesInput>
   }
 
   export type AssistantCreateNestedOneWithoutRoutesInput = {
@@ -170662,6 +172426,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -170775,6 +172540,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -171682,11 +173448,13 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
@@ -171703,6 +173471,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -171719,6 +173489,60 @@ export namespace Prisma {
 
   export type AssistantCreateManyCreatedByInputEnvelope = {
     data: AssistantCreateManyCreatedByInput | AssistantCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantCreateWithoutCalendarUserInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    meetingDurationMin?: number
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutCalendarUserInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    meetingDurationMin?: number
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutCalendarUserInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput>
+  }
+
+  export type AssistantCreateManyCalendarUserInputEnvelope = {
+    data: AssistantCreateManyCalendarUserInput | AssistantCreateManyCalendarUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -171840,6 +173664,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -171953,6 +173778,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -172696,12 +174522,30 @@ export namespace Prisma {
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
+    calendarUserId?: StringNullableFilter<"Assistant"> | string | null
+    meetingDurationMin?: IntFilter<"Assistant"> | number
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
     createdById?: StringNullableFilter<"Assistant"> | string | null
     createdAt?: DateTimeFilter<"Assistant"> | Date | string
     updatedAt?: DateTimeFilter<"Assistant"> | Date | string
+  }
+
+  export type AssistantUpsertWithWhereUniqueWithoutCalendarUserInput = {
+    where: AssistantWhereUniqueInput
+    update: XOR<AssistantUpdateWithoutCalendarUserInput, AssistantUncheckedUpdateWithoutCalendarUserInput>
+    create: XOR<AssistantCreateWithoutCalendarUserInput, AssistantUncheckedCreateWithoutCalendarUserInput>
+  }
+
+  export type AssistantUpdateWithWhereUniqueWithoutCalendarUserInput = {
+    where: AssistantWhereUniqueInput
+    data: XOR<AssistantUpdateWithoutCalendarUserInput, AssistantUncheckedUpdateWithoutCalendarUserInput>
+  }
+
+  export type AssistantUpdateManyWithWhereWithoutCalendarUserInput = {
+    where: AssistantScalarWhereInput
+    data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutCalendarUserInput>
   }
 
   export type UserCreateWithoutVaultChallengesInput = {
@@ -172742,6 +174586,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -172782,6 +174627,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -172838,6 +174684,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -172878,6 +174725,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -172918,6 +174766,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -172958,6 +174807,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -173014,6 +174864,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -173054,6 +174905,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -173094,6 +174946,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -173134,6 +174987,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -173190,6 +175044,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -173230,6 +175085,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -173339,6 +175195,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -173452,6 +175309,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -173570,6 +175428,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -173683,6 +175542,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -173737,6 +175597,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -173777,6 +175638,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -174775,6 +176637,7 @@ export namespace Prisma {
     messages?: MessageCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutCompanyInput = {
@@ -174792,6 +176655,7 @@ export namespace Prisma {
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutCompanyInput = {
@@ -176608,10 +178472,12 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
@@ -176628,6 +178494,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -176645,6 +178513,44 @@ export namespace Prisma {
 
   export type AssistantCreateManyCompanyInputEnvelope = {
     data: AssistantCreateManyCompanyInput | AssistantCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduledMessageCreateWithoutCompanyInput = {
+    id?: string
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    instance?: WhatsappInstanceCreateNestedOneWithoutScheduledMessagesInput
+  }
+
+  export type ScheduledMessageUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    instanceId?: string | null
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScheduledMessageCreateOrConnectWithoutCompanyInput = {
+    where: ScheduledMessageWhereUniqueInput
+    create: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScheduledMessageCreateManyCompanyInputEnvelope = {
+    data: ScheduledMessageCreateManyCompanyInput | ScheduledMessageCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -176910,6 +178816,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -177023,6 +178930,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -179303,6 +181211,40 @@ export namespace Prisma {
     data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type ScheduledMessageUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ScheduledMessageWhereUniqueInput
+    update: XOR<ScheduledMessageUpdateWithoutCompanyInput, ScheduledMessageUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ScheduledMessageCreateWithoutCompanyInput, ScheduledMessageUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ScheduledMessageUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ScheduledMessageWhereUniqueInput
+    data: XOR<ScheduledMessageUpdateWithoutCompanyInput, ScheduledMessageUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ScheduledMessageUpdateManyWithWhereWithoutCompanyInput = {
+    where: ScheduledMessageScalarWhereInput
+    data: XOR<ScheduledMessageUpdateManyMutationInput, ScheduledMessageUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ScheduledMessageScalarWhereInput = {
+    AND?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
+    OR?: ScheduledMessageScalarWhereInput[]
+    NOT?: ScheduledMessageScalarWhereInput | ScheduledMessageScalarWhereInput[]
+    id?: StringFilter<"ScheduledMessage"> | string
+    companyId?: StringFilter<"ScheduledMessage"> | string
+    instanceId?: StringNullableFilter<"ScheduledMessage"> | string | null
+    phone?: StringFilter<"ScheduledMessage"> | string
+    body?: StringFilter<"ScheduledMessage"> | string
+    sendAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+    status?: StringFilter<"ScheduledMessage"> | string
+    kind?: StringNullableFilter<"ScheduledMessage"> | string | null
+    meta?: JsonNullableFilter<"ScheduledMessage">
+    sentAt?: DateTimeNullableFilter<"ScheduledMessage"> | Date | string | null
+    lastError?: StringNullableFilter<"ScheduledMessage"> | string | null
+    createdAt?: DateTimeFilter<"ScheduledMessage"> | Date | string
+  }
+
   export type AiUsageLogUpsertWithWhereUniqueWithoutCompanyInput = {
     where: AiUsageLogWhereUniqueInput
     update: XOR<AiUsageLogUpdateWithoutCompanyInput, AiUsageLogUncheckedUpdateWithoutCompanyInput>
@@ -179537,6 +181479,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -179650,6 +181593,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -180025,6 +181969,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -180138,6 +182083,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -180356,6 +182302,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -180469,6 +182416,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -180785,6 +182733,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -180898,6 +182847,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -181139,6 +183089,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -181252,6 +183203,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -181895,6 +183847,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -182008,6 +183961,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -182524,6 +184478,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -182637,6 +184592,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -182786,6 +184742,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -182899,6 +184856,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -183308,6 +185266,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -183421,6 +185380,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -183576,6 +185536,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -183689,6 +185650,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184110,6 +186072,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -184223,6 +186186,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -184378,6 +186342,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -184491,6 +186456,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -184620,6 +186586,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -184733,6 +186700,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -184891,6 +186859,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -185004,6 +186973,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -185261,6 +187231,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -185374,6 +187345,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -185423,6 +187395,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -185463,6 +187436,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -185508,6 +187482,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -185548,6 +187523,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -185788,6 +187764,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -185901,6 +187878,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -185956,6 +187934,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -185996,6 +187975,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -186047,6 +188027,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -186087,6 +188068,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -186420,6 +188402,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -186533,6 +188516,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -186662,6 +188646,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -186775,6 +188760,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -186888,6 +188874,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -187001,6 +188988,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -187050,6 +189038,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -187090,6 +189079,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -187215,6 +189205,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -187328,6 +189319,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -187383,6 +189375,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -187423,6 +189416,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -187532,6 +189526,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -187645,6 +189640,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -187742,11 +189738,13 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -187763,6 +189761,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -187779,6 +189779,44 @@ export namespace Prisma {
 
   export type AssistantCreateManyInstanceInputEnvelope = {
     data: AssistantCreateManyInstanceInput | AssistantCreateManyInstanceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduledMessageCreateWithoutInstanceInput = {
+    id?: string
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    company: CompanyCreateNestedOneWithoutScheduledMessagesInput
+  }
+
+  export type ScheduledMessageUncheckedCreateWithoutInstanceInput = {
+    id?: string
+    companyId: string
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScheduledMessageCreateOrConnectWithoutInstanceInput = {
+    where: ScheduledMessageWhereUniqueInput
+    create: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type ScheduledMessageCreateManyInstanceInputEnvelope = {
+    data: ScheduledMessageCreateManyInstanceInput | ScheduledMessageCreateManyInstanceInput[]
     skipDuplicates?: boolean
   }
 
@@ -187900,6 +189938,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -188013,6 +190052,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -188073,6 +190113,22 @@ export namespace Prisma {
   export type AssistantUpdateManyWithWhereWithoutInstanceInput = {
     where: AssistantScalarWhereInput
     data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutInstanceInput>
+  }
+
+  export type ScheduledMessageUpsertWithWhereUniqueWithoutInstanceInput = {
+    where: ScheduledMessageWhereUniqueInput
+    update: XOR<ScheduledMessageUpdateWithoutInstanceInput, ScheduledMessageUncheckedUpdateWithoutInstanceInput>
+    create: XOR<ScheduledMessageCreateWithoutInstanceInput, ScheduledMessageUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type ScheduledMessageUpdateWithWhereUniqueWithoutInstanceInput = {
+    where: ScheduledMessageWhereUniqueInput
+    data: XOR<ScheduledMessageUpdateWithoutInstanceInput, ScheduledMessageUncheckedUpdateWithoutInstanceInput>
+  }
+
+  export type ScheduledMessageUpdateManyWithWhereWithoutInstanceInput = {
+    where: ScheduledMessageScalarWhereInput
+    data: XOR<ScheduledMessageUpdateManyMutationInput, ScheduledMessageUncheckedUpdateManyWithoutInstanceInput>
   }
 
   export type CompanyCreateWithoutMessagesInput = {
@@ -188182,6 +190238,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -188295,6 +190352,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -188321,6 +190379,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutMessagesInput = {
@@ -188338,6 +190397,7 @@ export namespace Prisma {
     companyId: string
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutMessagesInput = {
@@ -188592,6 +190652,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -188632,6 +190693,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -188757,6 +190819,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -188870,6 +190933,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -188902,6 +190966,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutMessagesInput = {
@@ -188919,6 +190984,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CampaignUpsertWithoutMessagesInput = {
@@ -189197,6 +191263,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -189237,6 +191304,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -189346,6 +191414,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -189459,6 +191528,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -189629,6 +191699,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -189742,6 +191813,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -189833,6 +191905,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -189873,6 +191946,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -190054,6 +192128,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -190167,6 +192242,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -190463,6 +192539,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -190503,6 +192580,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -190696,6 +192774,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -190809,6 +192888,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -191350,6 +193430,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -191463,6 +193544,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -191837,6 +193919,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -191950,6 +194033,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -192063,6 +194147,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -192176,6 +194261,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -192225,6 +194311,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -192265,6 +194352,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -192379,6 +194467,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -192492,6 +194581,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -192541,6 +194631,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -192581,6 +194672,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -193000,6 +195092,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -193113,6 +195206,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -193168,6 +195262,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -193208,6 +195303,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -193328,6 +195424,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -193441,6 +195538,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -193496,6 +195594,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -193536,6 +195635,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -194002,6 +196102,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -194115,6 +196216,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -194516,6 +196618,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -194629,6 +196732,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -194919,6 +197023,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -195032,6 +197137,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -195581,6 +197687,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -195694,6 +197801,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -196079,6 +198187,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -196119,6 +198228,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -196164,6 +198274,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -196204,6 +198315,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -196416,6 +198528,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -196456,6 +198569,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -196507,6 +198621,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -196547,6 +198662,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -196974,6 +199090,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -197014,6 +199131,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -197135,6 +199253,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -197175,6 +199294,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -197288,6 +199408,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -197328,6 +199449,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -197463,6 +199585,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -197503,6 +199626,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -197920,6 +200044,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -197960,6 +200085,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -198095,6 +200221,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -198135,6 +200262,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -198502,6 +200630,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -198542,6 +200671,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -198671,6 +200801,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -198711,6 +200842,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -198795,6 +200927,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutSetoresInput = {
@@ -198812,6 +200945,7 @@ export namespace Prisma {
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutSetoresInput = {
@@ -198918,6 +201052,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutSetoresInput = {
@@ -198935,6 +201070,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CompanyCreateWithoutAssetsInput = {
@@ -199044,6 +201180,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -199157,6 +201294,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -199336,6 +201474,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -199449,6 +201588,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -199784,6 +201924,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -199897,6 +202038,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -200077,6 +202219,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -200190,6 +202333,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -200303,6 +202447,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -200416,6 +202561,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -200579,6 +202725,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -200692,6 +202839,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -200852,6 +203000,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -200965,6 +203114,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -201131,6 +203281,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -201244,6 +203395,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -201357,6 +203509,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -201470,6 +203623,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -201599,6 +203753,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -201712,6 +203867,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -201825,6 +203981,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -201938,6 +204095,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -202067,6 +204225,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -202180,6 +204339,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -202293,6 +204453,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -202406,6 +204567,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -202535,6 +204697,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -202648,6 +204811,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -202761,6 +204925,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -202874,6 +205039,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -203147,6 +205313,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -203260,6 +205427,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -203421,6 +205589,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -203534,6 +205703,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -203752,6 +205922,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -203865,6 +206036,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -204045,6 +206217,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -204158,6 +206331,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -204383,6 +206557,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -204496,6 +206671,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -204717,6 +206893,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -204830,6 +207007,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -205034,6 +207212,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -205147,6 +207326,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -205425,6 +207605,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -205538,6 +207719,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -205667,6 +207849,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -205780,6 +207963,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -205893,6 +208077,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -206006,6 +208191,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -206135,6 +208321,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -206248,6 +208435,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -206361,6 +208549,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -206474,6 +208663,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -206603,6 +208793,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -206716,6 +208907,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -206829,6 +209021,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -206942,6 +209135,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -207071,6 +209265,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -207184,6 +209379,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -207297,6 +209493,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -207410,6 +209607,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -207539,6 +209737,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -207652,6 +209851,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -207765,6 +209965,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -207878,6 +210079,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -208007,6 +210209,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -208120,6 +210323,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -208233,6 +210437,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -208346,6 +210551,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -208475,6 +210681,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -208588,6 +210795,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -208701,6 +210909,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -208814,6 +211023,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -208943,6 +211153,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -209056,6 +211267,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -209169,6 +211381,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -209282,6 +211495,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -209411,6 +211625,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -209524,6 +211739,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -209637,6 +211853,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -209750,6 +211967,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -209879,6 +212097,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -209992,6 +212211,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -210105,6 +212325,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -210218,6 +212439,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -210347,6 +212569,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -210460,6 +212683,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -210573,6 +212797,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -210686,6 +212911,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -210815,6 +213041,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -210928,6 +213155,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -211041,6 +213269,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -211154,6 +213383,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -211283,6 +213513,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -211396,6 +213627,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -211509,6 +213741,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -211622,6 +213855,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -211751,6 +213985,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -211864,6 +214099,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -211977,6 +214213,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -212090,6 +214327,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -212219,6 +214457,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -212332,6 +214571,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -212445,6 +214685,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -212558,6 +214799,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -212687,6 +214929,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -212800,6 +215043,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -212913,6 +215157,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -213026,6 +215271,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -213155,6 +215401,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -213268,6 +215515,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -213381,6 +215629,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -213494,6 +215743,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -213647,6 +215897,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -213760,6 +216011,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -213960,6 +216212,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -214073,6 +216326,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -214238,6 +216492,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -214351,6 +216606,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -214411,6 +216667,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -214451,6 +216708,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -214565,6 +216823,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -214678,6 +216937,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -214769,6 +217029,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -214809,6 +217070,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -214929,6 +217191,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -215042,6 +217305,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -215123,6 +217387,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -215163,6 +217428,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -215277,6 +217543,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -215390,6 +217657,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -215450,6 +217718,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -215490,6 +217759,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -215610,6 +217880,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -215723,6 +217994,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -215767,6 +218039,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -215807,6 +218080,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -215921,6 +218195,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -216034,6 +218309,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -216094,6 +218370,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -216134,6 +218411,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -216254,6 +218532,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -216367,6 +218646,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -216411,6 +218691,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -216451,6 +218732,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -216565,6 +218847,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -216678,6 +218961,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -216738,6 +219022,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -216778,6 +219063,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -216898,6 +219184,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -217011,6 +219298,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -217124,6 +219412,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -217237,6 +219526,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -217366,6 +219656,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -217479,6 +219770,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -217523,6 +219815,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -217563,6 +219856,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -217619,6 +219913,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -217659,6 +219954,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -217699,6 +219995,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -217739,6 +220036,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -217795,6 +220093,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -217835,6 +220134,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -217944,6 +220244,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -218057,6 +220358,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -218186,6 +220488,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -218299,6 +220602,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -218412,6 +220716,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -218525,6 +220830,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -218716,6 +221022,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -218829,6 +221136,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -218985,6 +221293,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -219098,6 +221407,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -219147,6 +221457,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -219187,6 +221498,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -219505,6 +221817,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -219618,6 +221931,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -219673,6 +221987,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -219713,6 +222028,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -220343,6 +222659,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -220456,6 +222773,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -220585,6 +222903,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -220698,6 +223017,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -220811,6 +223131,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -220924,6 +223245,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -221117,6 +223439,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -221230,6 +223553,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -221359,6 +223683,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -221472,6 +223797,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -221883,6 +224209,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -221996,6 +224323,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -222405,6 +224733,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -222518,6 +224847,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -222647,6 +224977,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -222760,6 +225091,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -222997,6 +225329,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -223110,6 +225443,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -223298,6 +225632,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -223411,6 +225746,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -223540,6 +225876,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -223653,6 +225990,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -223782,6 +226120,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -223895,6 +226234,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -224008,6 +226348,7 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -224121,6 +226462,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -224250,6 +226592,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -224363,6 +226706,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -224559,6 +226903,7 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -224672,6 +227017,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -224848,6 +227194,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -224961,6 +227308,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -225074,6 +227422,7 @@ export namespace Prisma {
     billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -225187,6 +227536,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -225196,6 +227546,93 @@ export namespace Prisma {
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutAssistantsInput, CompanyUncheckedCreateWithoutAssistantsInput>
+  }
+
+  export type UserCreateWithoutAssistantCalendarsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssistantCalendarsInput, UserUncheckedCreateWithoutAssistantCalendarsInput>
   }
 
   export type WhatsappInstanceCreateWithoutAssistantsInput = {
@@ -225213,6 +227650,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceUncheckedCreateWithoutAssistantsInput = {
@@ -225230,6 +227668,7 @@ export namespace Prisma {
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
 
   export type WhatsappInstanceCreateOrConnectWithoutAssistantsInput = {
@@ -225339,6 +227778,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -225379,6 +227819,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -225504,6 +227945,7 @@ export namespace Prisma {
     billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -225617,10 +228059,104 @@ export namespace Prisma {
     billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutAssistantCalendarsInput = {
+    update: XOR<UserUpdateWithoutAssistantCalendarsInput, UserUncheckedUpdateWithoutAssistantCalendarsInput>
+    create: XOR<UserCreateWithoutAssistantCalendarsInput, UserUncheckedCreateWithoutAssistantCalendarsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssistantCalendarsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssistantCalendarsInput, UserUncheckedUpdateWithoutAssistantCalendarsInput>
+  }
+
+  export type UserUpdateWithoutAssistantCalendarsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -225649,6 +228185,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutAssistantsInput = {
@@ -225666,6 +228203,7 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type AiUsageLogUpsertWithWhereUniqueWithoutAssistantInput = {
@@ -225749,6 +228287,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -225789,6 +228328,567 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+  }
+
+  export type CompanyCreateWithoutScheduledMessagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutScheduledMessagesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutScheduledMessagesInput, CompanyUncheckedCreateWithoutScheduledMessagesInput>
+  }
+
+  export type WhatsappInstanceCreateWithoutScheduledMessagesInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    messages?: MessageCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceUncheckedCreateWithoutScheduledMessagesInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceCreateOrConnectWithoutScheduledMessagesInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    create: XOR<WhatsappInstanceCreateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedCreateWithoutScheduledMessagesInput>
+  }
+
+  export type CompanyUpsertWithoutScheduledMessagesInput = {
+    update: XOR<CompanyUpdateWithoutScheduledMessagesInput, CompanyUncheckedUpdateWithoutScheduledMessagesInput>
+    create: XOR<CompanyCreateWithoutScheduledMessagesInput, CompanyUncheckedCreateWithoutScheduledMessagesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutScheduledMessagesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutScheduledMessagesInput, CompanyUncheckedUpdateWithoutScheduledMessagesInput>
+  }
+
+  export type CompanyUpdateWithoutScheduledMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type WhatsappInstanceUpsertWithoutScheduledMessagesInput = {
+    update: XOR<WhatsappInstanceUpdateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedUpdateWithoutScheduledMessagesInput>
+    create: XOR<WhatsappInstanceCreateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedCreateWithoutScheduledMessagesInput>
+    where?: WhatsappInstanceWhereInput
+  }
+
+  export type WhatsappInstanceUpdateToOneWithWhereWithoutScheduledMessagesInput = {
+    where?: WhatsappInstanceWhereInput
+    data: XOR<WhatsappInstanceUpdateWithoutScheduledMessagesInput, WhatsappInstanceUncheckedUpdateWithoutScheduledMessagesInput>
+  }
+
+  export type WhatsappInstanceUpdateWithoutScheduledMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    messages?: MessageUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateWithoutScheduledMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type AssistantCreateWithoutRoutesInput = {
@@ -225801,11 +228901,13 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -225822,6 +228924,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -225924,11 +229028,13 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -225945,6 +229051,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -226135,6 +229243,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
@@ -226248,6 +229357,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
@@ -226268,11 +229378,13 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
+    calendarUser?: UserCreateNestedOneWithoutAssistantCalendarsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
@@ -226289,6 +229401,8 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -226422,6 +229536,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
@@ -226535,6 +229650,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
@@ -226561,11 +229677,13 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -226582,6 +229700,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -226699,6 +229819,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
@@ -226812,6 +229933,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
@@ -227089,6 +230211,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
@@ -227202,6 +230325,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227362,6 +230486,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -227475,6 +230600,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -227691,6 +230817,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -227804,6 +230931,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227980,6 +231108,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -228093,6 +231222,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -228257,6 +231387,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -228370,6 +231501,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -228525,6 +231657,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
@@ -228638,6 +231771,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
@@ -228825,6 +231959,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
@@ -228938,6 +232073,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229137,6 +232273,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
     assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
@@ -229250,6 +232387,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
     couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
@@ -229422,6 +232560,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -229535,6 +232674,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229928,9 +233068,31 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantCreateManyCalendarUserInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    meetingDurationMin?: number
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -230868,11 +234030,13 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
@@ -230889,6 +234053,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -230909,9 +234075,75 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantUpdateWithoutCalendarUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutCalendarUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type AssistantUncheckedUpdateManyWithoutCalendarUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -231942,12 +235174,28 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ScheduledMessageCreateManyCompanyInput = {
+    id?: string
+    instanceId?: string | null
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
   }
 
   export type AiUsageLogCreateManyCompanyInput = {
@@ -232104,6 +235352,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
@@ -232217,6 +235466,7 @@ export namespace Prisma {
     addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
     couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -232300,6 +235550,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -232340,6 +235591,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -233409,6 +236661,7 @@ export namespace Prisma {
     messages?: MessageUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateWithoutCompanyInput = {
@@ -233426,6 +236679,7 @@ export namespace Prisma {
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type WhatsappInstanceUncheckedUpdateManyWithoutCompanyInput = {
@@ -235377,10 +238631,12 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
@@ -235397,6 +238653,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -235417,12 +238675,56 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instance?: WhatsappInstanceUpdateOneWithoutScheduledMessagesNestedInput
+  }
+
+  export type ScheduledMessageUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AiUsageLogUpdateWithoutCompanyInput = {
@@ -236785,11 +240087,27 @@ export namespace Prisma {
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
+    calendarUserId?: string | null
+    meetingDurationMin?: number
     model?: string | null
     temperature?: number | null
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ScheduledMessageCreateManyInstanceInput = {
+    id?: string
+    companyId: string
+    phone: string
+    body: string
+    sendAt: Date | string
+    status?: string
+    kind?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
   }
 
   export type MessageUpdateWithoutInstanceInput = {
@@ -236886,11 +240204,13 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    calendarUser?: UserUpdateOneWithoutAssistantCalendarsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
     routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
@@ -236907,6 +240227,8 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -236927,11 +240249,55 @@ export namespace Prisma {
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    calendarUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    meetingDurationMin?: IntFieldUpdateOperationsInput | number
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutScheduledMessagesNestedInput
+  }
+
+  export type ScheduledMessageUncheckedUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledMessageUncheckedUpdateManyWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    sendAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    kind?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyConversationInput = {
@@ -240773,6 +244139,10 @@ export namespace Prisma {
      * @deprecated Use AssistantDefaultArgs instead
      */
     export type AssistantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ScheduledMessageDefaultArgs instead
+     */
+    export type ScheduledMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScheduledMessageDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssistantRouteDefaultArgs instead
      */

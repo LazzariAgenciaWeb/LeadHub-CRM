@@ -62,6 +62,7 @@ model User {
   notifPreferences      UserNotifPreferences?
   emailCampaignsCreated EmailCampaign[]        @relation("EmailCampaignCreatedBy")
   assistantsCreated     Assistant[]
+  assistantCalendars    Assistant[]            @relation("AssistantCalendarUser")
 
   @@index([companyId])
 }
@@ -295,6 +296,7 @@ model Company {
   addons                  SubscriptionAddon[]
   couponRedemptions       CouponRedemption[]
   assistants              Assistant[]
+  scheduledMessages       ScheduledMessage[]
   aiUsageLogs             AiUsageLog[]
   services                Service[]
   videoCategories         VideoCategory[]          @relation("CompanyVideoCategories")
@@ -815,9 +817,10 @@ model WhatsappInstance {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  messages   Message[]
-  setores    SetorInstance[]
-  assistants Assistant[]
+  messages          Message[]
+  setores           SetorInstance[]
+  assistants        Assistant[]
+  scheduledMessages ScheduledMessage[]
 
   @@index([companyId])
 }
@@ -3336,6 +3339,14 @@ model Assistant {
   // depender de lembrar o link do meio do manual.
   schedulingLink String?
 
+  // Agendamento DIRETO no chat: quando calendarUserId aponta pra um usuário com
+  // Google Calendar conectado (UserGoogleConnection service=calendar), o agente
+  // consulta a agenda + horários de atendimento, oferece slots livres e cria o
+  // evento com Google Meet sozinho. Sem vínculo → fallback pro schedulingLink.
+  calendarUser       User?   @relation("AssistantCalendarUser", fields: [calendarUserId], references: [id], onDelete: SetNull)
+  calendarUserId     String?
+  meetingDurationMin Int     @default(30) // duração da reunião oferecida
+
   // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
   instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
   instanceId String?
@@ -3354,6 +3365,32 @@ model Assistant {
 
   @@index([companyId, type, isActive])
   @@index([instanceId])
+}
+
+// Mensagem WhatsApp agendada pra envio futuro (lembrete de reunião, follow-up).
+// Processada pelo cron /api/cron/scheduled-messages (loop no start.sh).
+model ScheduledMessage {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
+  instanceId String?
+
+  phone  String
+  body   String   @db.Text
+  sendAt DateTime // quando enviar
+
+  status    String    @default("PENDING") // PENDING | SENT | FAILED | CANCELED
+  kind      String? // "meeting_reminder" | ...
+  meta      Json? // ex.: { eventId, meetLink, conversationId }
+  sentAt    DateTime?
+  lastError String?
+
+  createdAt DateTime @default(now())
+
+  @@index([status, sendAt])
+  @@index([companyId, phone])
 }
 
 // Rota de triagem do agente autônomo: mapeia a INTENÇÃO identificada pela IA

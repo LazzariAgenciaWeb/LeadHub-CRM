@@ -39,6 +39,9 @@ const SCOPES_BY_SERVICE: Record<GoogleService, string[]> = {
   ],
   calendar: [
     "https://www.googleapis.com/auth/calendar.readonly",
+    // Escrita de eventos — agendamento direto pelo agente de IA (cria reunião
+    // com Google Meet). Conexões antigas (só readonly) precisam reconectar.
+    "https://www.googleapis.com/auth/calendar.events",
   ],
 };
 
