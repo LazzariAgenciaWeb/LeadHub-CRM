@@ -954,8 +954,8 @@ export default function EmailInbox() {
                   <button onClick={() => bulkAction("SPAM")} disabled={bulkBusy} title="Spam (bloqueia remetentes)"
                     className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5 disabled:opacity-40"><AlertOctagon size={13} /></button>
                 )}
-                {(folder === "SPAM" || folder === "TRASH" || folder === "ARCHIVE") && (
-                  <button onClick={() => bulkAction("INBOX")} disabled={bulkBusy} title="Restaurar pra Entrada"
+                {folder !== "INBOX" && folder !== "SENT" && (
+                  <button onClick={() => bulkAction("INBOX")} disabled={bulkBusy} title="Voltar pra Entrada"
                     className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5 disabled:opacity-40"><ArchiveRestore size={13} /></button>
                 )}
                 {folder !== "TRASH" ? (
@@ -1143,8 +1143,8 @@ export default function EmailInbox() {
                       <button onClick={() => moveTo(selected.id, "SPAM")} title="Spam (bloqueia o remetente)"
                         className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5"><AlertOctagon size={14} /></button>
                     )}
-                    {(selected.folder === "SPAM" || selected.folder === "TRASH" || selected.folder === "ARCHIVE") && (
-                      <button onClick={() => moveTo(selected.id, "INBOX")} title="Restaurar pra Entrada"
+                    {selected.folder !== "INBOX" && selected.folder !== "SENT" && (
+                      <button onClick={() => moveTo(selected.id, "INBOX")} title="Voltar pra Entrada"
                         className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><ArchiveRestore size={14} /></button>
                     )}
                     {selected.folder !== "TRASH" && (
