@@ -119,6 +119,8 @@ export default function AssistantsSettings({
   const [fRoutes, setFRoutes] = useState<Route[]>([]);
   const [fCalendarUser, setFCalendarUser] = useState<string>("");
   const [fDuration, setFDuration] = useState(30);
+  const [agendaTest, setAgendaTest] = useState<string | null>(null);
+  const [testingAgenda, setTestingAgenda] = useState(false);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -160,6 +162,34 @@ export default function AssistantsSettings({
 
   function setRoute(idx: number, patch: Partial<Route>) {
     setFRoutes((prev) => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  }
+
+  // Diagnóstico do agendamento direto — percorre agenda → conexão → permissão
+  // → disponibilidade real e mostra exatamente onde parou.
+  async function testAgenda() {
+    if (editing === null || editing === "new") {
+      setAgendaTest("Salve o agente primeiro, depois clique em Testar agenda.");
+      return;
+    }
+    setTestingAgenda(true);
+    setAgendaTest(null);
+    try {
+      const params = new URLSearchParams({ calendarUserId: fCalendarUser, duration: String(fDuration) });
+      const res = await fetch(`/api/ai/assistants/${(editing as Assistant).id}/test-agenda?${params}`);
+      const d = await res.json();
+      if (d.ok) {
+        setAgendaTest(
+          `✅ ${d.googleEmail ?? "Conta Google"} conectada — ${d.slotsCount} horários livres nos próximos dias úteis` +
+          (d.sample?.length ? ` (ex.: ${d.sample.slice(0, 3).join(" · ")})` : "") +
+          (d.aviso ? ` — ⚠️ ${d.aviso}` : "")
+        );
+      } else {
+        setAgendaTest(`❌ ${d.error ?? "Falha no teste."}`);
+      }
+    } catch {
+      setAgendaTest("❌ Erro ao rodar o teste — tente de novo.");
+    }
+    setTestingAgenda(false);
   }
 
   async function save(e: React.FormEvent) {
@@ -456,8 +486,25 @@ export default function AssistantsSettings({
                         ⚠️ Esta conta Google foi conectada antes da permissão de criar eventos — reconecte em Configurações → Integrações → Google (módulo Calendário) pra ativar o agendamento direto. Até lá o agente usa o link.
                       </p>
                     )}
+                    {fCalendarUser && (
+                      <div className="mt-2">
+                        <button
+                          type="button"
+                          onClick={testAgenda}
+                          disabled={testingAgenda}
+                          className="px-2.5 py-1.5 rounded-lg bg-[#161f30] border border-emerald-500/30 text-emerald-300 text-xs hover:bg-emerald-500/10 disabled:opacity-50"
+                        >
+                          {testingAgenda ? "Testando..." : "🧪 Testar agenda"}
+                        </button>
+                        {agendaTest && (
+                          <p className={`text-[11px] mt-1.5 ${agendaTest.startsWith("✅") ? "text-emerald-400" : "text-amber-400"}`}>
+                            {agendaTest}
+                          </p>
+                        )}
+                      </div>
+                    )}
                     <p className="text-slate-600 text-[11px] mt-1.5">
-                      Respeita os horários de atendimento da empresa. Sugere 1 horário de manhã + 1 de tarde, nunca confirma horário ocupado, envia o link do Meet no WhatsApp e manda lembrete 1h antes.
+                      Respeita os horários de atendimento da empresa. Sugere 1 horário de manhã + 1 de tarde nos próximos 3 dias úteis (nunca hoje), não confirma horário ocupado, envia o link do Meet no WhatsApp e manda lembrete 1h antes.
                     </p>
                   </div>
 
