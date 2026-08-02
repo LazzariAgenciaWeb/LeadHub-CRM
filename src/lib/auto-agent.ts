@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v9-gatilhos-retorno";
+export const AUTO_AGENT_REV = "v10-despedida-config";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -50,9 +50,21 @@ const HISTORY_LIMIT = 30;
 const MAX_REPLY_TOKENS = 500;
 const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
 
-// Palavra-gatilho: contato digita SÓ isso numa conversa pausada (humano
-// assumiu) → bot reativa e volta a atender. OFF manual continua respeitado.
+// Palavra-gatilho default: contato digita SÓ isso numa conversa pausada
+// (humano assumiu) → bot reativa. Configurável por agente (reactivationWord);
+// OFF manual continua respeitado.
 const REACTIVATION_WORD = "atendimento";
+
+/** Normaliza pra comparar palavra-gatilho: minúsculas, sem acento/pontuação. */
+function normalizeWord(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 // Sentinela de cortesia: conversa pausada + INBOUND sem resposta humana em
 // N minutos → aviso educado (sem marcar a conversa como respondida).
@@ -467,26 +479,6 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   if (!last || last.direction !== "INBOUND") return { ok: false, skipped: "last_not_inbound" };
   if (!last.instanceId) return { ok: false, skipped: "no_instance" };
 
-  // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho
-  // ("atendimento") pro contato reativar o atendimento automático sozinho.
-  if (conv.aiMode === "OFF") return { ok: false, skipped: "aiMode_OFF" };
-  if (conv.aiMode === "PAUSED_HUMAN") {
-    const normalized = (last.body ?? "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "")
-      .replace(/[^a-z]/g, " ")
-      .trim();
-    if (normalized !== REACTIVATION_WORD) {
-      return { ok: false, skipped: "aiMode_PAUSED_HUMAN" };
-    }
-    await prisma.conversation.update({
-      where: { id: conv.id },
-      data: { aiMode: "ACTIVE", aiPausedAt: null },
-    });
-    diag.reativado = "palavra_gatilho";
-  }
-
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
     select: { id: true, instanceName: true, instanceToken: true, status: true },
@@ -497,6 +489,21 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   const assistant = await getAssistantForInstance(conv.companyId, instance.id);
   if (!assistant || !assistant.isActive || !(assistant as any).autoRespond) {
     return { ok: false, skipped: "no_auto_assistant" };
+  }
+
+  // Estado do bot: OFF manual é sagrado; PAUSED_HUMAN aceita a palavra-gatilho
+  // configurada no agente (default "atendimento") pro contato reativar sozinho.
+  if (conv.aiMode === "OFF") return { ok: false, skipped: "aiMode_OFF" };
+  if (conv.aiMode === "PAUSED_HUMAN") {
+    const word = normalizeWord(((assistant as any).reactivationWord as string | null) ?? "") || REACTIVATION_WORD;
+    if (normalizeWord(last.body ?? "") !== word) {
+      return { ok: false, skipped: "aiMode_PAUSED_HUMAN" };
+    }
+    await prisma.conversation.update({
+      where: { id: conv.id },
+      data: { aiMode: "ACTIVE", aiPausedAt: null },
+    });
+    diag.reativado = "palavra_gatilho";
   }
 
   const routes = await prisma.assistantRoute.findMany({
@@ -669,6 +676,18 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     return { ok: true, action, replied: true };
   }
   if (action !== "NONE") {
+    // Aviso de pausa (configurável) — a despedida do bot ensina o gatilho de
+    // reativação. Enviado ANTES de rotear: o roteamento seta a conversa como
+    // OPEN pro time, e um envio depois viraria WAITING_CUSTOMER (sumiria da
+    // fila de pendentes).
+    if ((assistant as any).sendPauseNotice !== false) {
+      const word = ((assistant as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
+      const notice = ((assistant as any).pauseNoticeText as string | null)?.trim()
+        || `Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${word}*.`;
+      await new Promise((r) => setTimeout(r, 1500));
+      await sendBotText(botSender, notice);
+    }
+
     const route = routes.find((r) => r.intent.toUpperCase() === action) ?? null;
 
     if (route) {

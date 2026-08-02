@@ -117842,6 +117842,9 @@ export namespace Prisma {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
     courtesyText: string | null
+    reactivationWord: string | null
+    sendPauseNotice: boolean | null
+    pauseNoticeText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117865,6 +117868,9 @@ export namespace Prisma {
     meetingDurationMin: number | null
     courtesyDelayMin: number | null
     courtesyText: string | null
+    reactivationWord: string | null
+    sendPauseNotice: boolean | null
+    pauseNoticeText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -117888,6 +117894,9 @@ export namespace Prisma {
     meetingDurationMin: number
     courtesyDelayMin: number
     courtesyText: number
+    reactivationWord: number
+    sendPauseNotice: number
+    pauseNoticeText: number
     instanceId: number
     model: number
     temperature: number
@@ -117925,6 +117934,9 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    reactivationWord?: true
+    sendPauseNotice?: true
+    pauseNoticeText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117948,6 +117960,9 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    reactivationWord?: true
+    sendPauseNotice?: true
+    pauseNoticeText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -117971,6 +117986,9 @@ export namespace Prisma {
     meetingDurationMin?: true
     courtesyDelayMin?: true
     courtesyText?: true
+    reactivationWord?: true
+    sendPauseNotice?: true
+    pauseNoticeText?: true
     instanceId?: true
     model?: true
     temperature?: true
@@ -118081,6 +118099,9 @@ export namespace Prisma {
     meetingDurationMin: number
     courtesyDelayMin: number
     courtesyText: string | null
+    reactivationWord: string | null
+    sendPauseNotice: boolean
+    pauseNoticeText: string | null
     instanceId: string | null
     model: string | null
     temperature: number | null
@@ -118123,6 +118144,9 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    reactivationWord?: boolean
+    sendPauseNotice?: boolean
+    pauseNoticeText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118153,6 +118177,9 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    reactivationWord?: boolean
+    sendPauseNotice?: boolean
+    pauseNoticeText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118180,6 +118207,9 @@ export namespace Prisma {
     meetingDurationMin?: boolean
     courtesyDelayMin?: boolean
     courtesyText?: boolean
+    reactivationWord?: boolean
+    sendPauseNotice?: boolean
+    pauseNoticeText?: boolean
     instanceId?: boolean
     model?: boolean
     temperature?: boolean
@@ -118229,6 +118259,9 @@ export namespace Prisma {
       meetingDurationMin: number
       courtesyDelayMin: number
       courtesyText: string | null
+      reactivationWord: string | null
+      sendPauseNotice: boolean
+      pauseNoticeText: string | null
       instanceId: string | null
       model: string | null
       temperature: number | null
@@ -118648,6 +118681,9 @@ export namespace Prisma {
     readonly meetingDurationMin: FieldRef<"Assistant", 'Int'>
     readonly courtesyDelayMin: FieldRef<"Assistant", 'Int'>
     readonly courtesyText: FieldRef<"Assistant", 'String'>
+    readonly reactivationWord: FieldRef<"Assistant", 'String'>
+    readonly sendPauseNotice: FieldRef<"Assistant", 'Boolean'>
+    readonly pauseNoticeText: FieldRef<"Assistant", 'String'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
     readonly temperature: FieldRef<"Assistant", 'Float'>
@@ -130312,6 +130348,9 @@ export namespace Prisma {
     meetingDurationMin: 'meetingDurationMin',
     courtesyDelayMin: 'courtesyDelayMin',
     courtesyText: 'courtesyText',
+    reactivationWord: 'reactivationWord',
+    sendPauseNotice: 'sendPauseNotice',
+    pauseNoticeText: 'pauseNoticeText',
     instanceId: 'instanceId',
     model: 'model',
     temperature: 'temperature',
@@ -140685,6 +140724,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    reactivationWord?: StringNullableFilter<"Assistant"> | string | null
+    sendPauseNotice?: BoolFilter<"Assistant"> | boolean
+    pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -140714,6 +140756,9 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrderInput | SortOrder
+    reactivationWord?: SortOrderInput | SortOrder
+    sendPauseNotice?: SortOrder
+    pauseNoticeText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -140746,6 +140791,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    reactivationWord?: StringNullableFilter<"Assistant"> | string | null
+    sendPauseNotice?: BoolFilter<"Assistant"> | boolean
+    pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -140775,6 +140823,9 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrderInput | SortOrder
+    reactivationWord?: SortOrderInput | SortOrder
+    sendPauseNotice?: SortOrder
+    pauseNoticeText?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
     temperature?: SortOrderInput | SortOrder
@@ -140806,6 +140857,9 @@ export namespace Prisma {
     meetingDurationMin?: IntWithAggregatesFilter<"Assistant"> | number
     courtesyDelayMin?: IntWithAggregatesFilter<"Assistant"> | number
     courtesyText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    reactivationWord?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    sendPauseNotice?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    pauseNoticeText?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     temperature?: FloatNullableWithAggregatesFilter<"Assistant"> | number | null
@@ -152107,6 +152161,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -152134,6 +152191,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -152157,6 +152217,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152184,6 +152247,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -152209,6 +152275,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -152230,6 +152299,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -152251,6 +152323,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -160603,6 +160678,9 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    reactivationWord?: SortOrder
+    sendPauseNotice?: SortOrder
+    pauseNoticeText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -160632,6 +160710,9 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    reactivationWord?: SortOrder
+    sendPauseNotice?: SortOrder
+    pauseNoticeText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -160655,6 +160736,9 @@ export namespace Prisma {
     meetingDurationMin?: SortOrder
     courtesyDelayMin?: SortOrder
     courtesyText?: SortOrder
+    reactivationWord?: SortOrder
+    sendPauseNotice?: SortOrder
+    pauseNoticeText?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
     temperature?: SortOrder
@@ -173513,6 +173597,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -173539,6 +173626,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -173571,6 +173661,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -173596,6 +173689,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -174596,6 +174692,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFilter<"Assistant"> | number
     courtesyDelayMin?: IntFilter<"Assistant"> | number
     courtesyText?: StringNullableFilter<"Assistant"> | string | null
+    reactivationWord?: StringNullableFilter<"Assistant"> | string | null
+    sendPauseNotice?: BoolFilter<"Assistant"> | boolean
+    pauseNoticeText?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
     temperature?: FloatNullableFilter<"Assistant"> | number | null
@@ -178547,6 +178646,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -178572,6 +178674,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -189817,6 +189922,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -189843,6 +189951,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -228984,6 +229095,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -229010,6 +229124,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -229115,6 +229232,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -229141,6 +229261,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -229469,6 +229592,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdAt?: Date | string
@@ -229495,6 +229621,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -229772,6 +229901,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -229798,6 +229930,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -233168,6 +233303,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -233189,6 +233327,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -234133,6 +234274,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234159,6 +234303,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234183,6 +234330,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234203,6 +234353,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -234228,6 +234381,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234252,6 +234408,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -235290,6 +235449,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     instanceId?: string | null
     model?: string | null
     temperature?: number | null
@@ -238748,6 +238910,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -238773,6 +238938,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -238797,6 +238965,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -240211,6 +240382,9 @@ export namespace Prisma {
     meetingDurationMin?: number
     courtesyDelayMin?: number
     courtesyText?: string | null
+    reactivationWord?: string | null
+    sendPauseNotice?: boolean
+    pauseNoticeText?: string | null
     model?: string | null
     temperature?: number | null
     createdById?: string | null
@@ -240329,6 +240503,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -240355,6 +240532,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -240379,6 +240559,9 @@ export namespace Prisma {
     meetingDurationMin?: IntFieldUpdateOperationsInput | number
     courtesyDelayMin?: IntFieldUpdateOperationsInput | number
     courtesyText?: NullableStringFieldUpdateOperationsInput | string | null
+    reactivationWord?: NullableStringFieldUpdateOperationsInput | string | null
+    sendPauseNotice?: BoolFieldUpdateOperationsInput | boolean
+    pauseNoticeText?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null

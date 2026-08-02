@@ -60,6 +60,9 @@ interface Assistant {
   meetingDurationMin: number;
   courtesyDelayMin: number;
   courtesyText: string | null;
+  reactivationWord: string | null;
+  sendPauseNotice: boolean;
+  pauseNoticeText: string | null;
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
@@ -123,6 +126,9 @@ export default function AssistantsSettings({
   const [fDuration, setFDuration] = useState(30);
   const [fCourtesyDelay, setFCourtesyDelay] = useState(5);
   const [fCourtesyText, setFCourtesyText] = useState("");
+  const [fReactivationWord, setFReactivationWord] = useState("");
+  const [fSendPauseNotice, setFSendPauseNotice] = useState(true);
+  const [fPauseNoticeText, setFPauseNoticeText] = useState("");
   const [agendaTest, setAgendaTest] = useState<string | null>(null);
   const [testingAgenda, setTestingAgenda] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -146,6 +152,7 @@ export default function AssistantsSettings({
     setFAutoRespond(false); setFChecklist(""); setFLearnings("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText("");
+    setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
       { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true },
@@ -164,6 +171,9 @@ export default function AssistantsSettings({
     setFDuration(a.meetingDurationMin ?? 30);
     setFCourtesyDelay(a.courtesyDelayMin ?? 5);
     setFCourtesyText(a.courtesyText ?? "");
+    setFReactivationWord(a.reactivationWord ?? "");
+    setFSendPauseNotice(a.sendPauseNotice !== false);
+    setFPauseNoticeText(a.pauseNoticeText ?? "");
   }
   function closeForm() { setEditing(null); setErr(null); }
 
@@ -212,6 +222,9 @@ export default function AssistantsSettings({
       meetingDurationMin: fDuration,
       courtesyDelayMin: fCourtesyDelay,
       courtesyText: fCourtesyText,
+      reactivationWord: fReactivationWord,
+      sendPauseNotice: fSendPauseNotice,
+      pauseNoticeText: fPauseNoticeText,
       // Rotas: só linhas com setor escolhido (linhas vazias são descartadas)
       routes: fRoutes.filter((r) => r.intent.trim() && r.setorId),
     };
@@ -541,7 +554,45 @@ export default function AssistantsSettings({
                       className="w-full mt-2 bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
                     />
                     <p className="text-slate-600 text-[11px] mt-1.5">
-                      Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time. Dica: o contato pode digitar &quot;atendimento&quot; pra reativar o robô numa conversa pausada.
+                      Máximo 1 aviso por conversa por hora; a conversa continua pendente pro time.
+                    </p>
+                  </div>
+
+                  {/* Reativação + aviso de pausa */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      🔁 Reativação e despedida <span className="text-slate-600 normal-case">— como o contato traz o robô de volta</span>
+                    </label>
+                    <div className="flex items-center gap-2 mb-2">
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap">
+                        Palavra-gatilho:
+                        <input
+                          value={fReactivationWord}
+                          onChange={(e) => setFReactivationWord(e.target.value)}
+                          placeholder="atendimento"
+                          className="w-40 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+                        />
+                      </label>
+                      <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={fSendPauseNotice}
+                          onChange={(e) => setFSendPauseNotice(e.target.checked)}
+                          className="accent-emerald-500"
+                        />
+                        Enviar despedida ao encaminhar (ensina o gatilho)
+                      </label>
+                    </div>
+                    {fSendPauseNotice && (
+                      <input
+                        value={fPauseNoticeText}
+                        onChange={(e) => setFPauseNoticeText(e.target.value)}
+                        placeholder={`Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${fReactivationWord.trim() || "atendimento"}*.`}
+                        className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                      />
+                    )}
+                    <p className="text-slate-600 text-[11px] mt-1.5">
+                      O contato manda uma mensagem SÓ com a palavra-gatilho numa conversa pausada e o robô volta a atender (não vale quando foi desligado manualmente na Inbox).
                     </p>
                   </div>
 

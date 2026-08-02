@@ -3353,6 +3353,14 @@ model Assistant {
   courtesyDelayMin Int     @default(5)
   courtesyText     String? @db.Text // null = texto padrão do sistema
 
+  // Palavra-gatilho que o CONTATO digita (mensagem só com ela) pra reativar
+  // o bot numa conversa pausada por humano. null = "atendimento".
+  reactivationWord String?
+  // Aviso enviado quando o bot encerra a parte dele (encaminhou/handoff),
+  // ensinando o gatilho de reativação. Desligável; null = texto padrão.
+  sendPauseNotice  Boolean @default(true)
+  pauseNoticeText  String? @db.Text
+
   // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
   instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
   instanceId String?

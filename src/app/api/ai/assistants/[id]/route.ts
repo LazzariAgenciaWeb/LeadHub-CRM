@@ -77,6 +77,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.courtesyDelayMin = Number.isNaN(cdRaw) ? 5 : Math.min(120, Math.max(0, cdRaw));
   }
   if ("courtesyText" in body) data.courtesyText = (body.courtesyText ?? "").trim() || null;
+  if ("reactivationWord" in body) data.reactivationWord = (body.reactivationWord ?? "").trim() || null;
+  if (typeof body.sendPauseNotice === "boolean") data.sendPauseNotice = body.sendPauseNotice;
+  if ("pauseNoticeText" in body) data.pauseNoticeText = (body.pauseNoticeText ?? "").trim() || null;
 
   if ("instanceId" in body) {
     let instanceId: string | null = body.instanceId ?? null;
