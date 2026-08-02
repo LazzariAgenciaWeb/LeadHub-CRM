@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v7-slot-codigo";
+export const AUTO_AGENT_REV = "v8-resgate-texto";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -287,7 +287,9 @@ ${scheduling ? `- "AGENDAR" → confirmar a reunião escolhida (siga as regras d
 # FORMATO DA RESPOSTA (obrigatório)
 Responda SOMENTE com um JSON válido, sem texto fora dele, neste formato:
 {"reply": ["primeira mensagem curta", "segunda mensagem curta (opcional)"], "action": "NONE", "resumo": "1 frase objetiva: quem é o contato e o que quer"}
-- "reply": lista de 1 a 3 mensagens curtas (enviadas em sequência, como bolhas separadas). Pode ser string única. null/[] se não deve responder nada.
+${scheduling ? `Ao CONFIRMAR reunião, o JSON tem MAIS DOIS CAMPOS OBRIGATÓRIOS (sem eles o agendamento não acontece):
+{"reply": [], "action": "AGENDAR", "agendarInicio": "S1", "agendarEmail": "cliente@email.com", "resumo": "..."}
+` : ""}- "reply": lista de 1 a 3 mensagens curtas (enviadas em sequência, como bolhas separadas). Pode ser string única. null/[] se não deve responder nada.
 - O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível.`);
 
   return parts.join("\n\n");
@@ -417,7 +419,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? " ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda." : ""}`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}`,
     },
   ];
 
@@ -495,6 +497,15 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   // 2) Executar a action
   const action = decision.action;
   if (action === "AGENDAR") {
+    // Resgate: se o modelo esquecer os campos do JSON, o motor resolve o slot
+    // pelo TEXTO da última mensagem do contato ("seg 03/08 09:00", "3/8 as 9")
+    // e o e-mail por regex no histórico recente.
+    const inboundDesc = [...history].reverse().filter((m) => m.direction === "INBOUND");
+    const fallbackText = inboundDesc[0]?.body ?? null;
+    const fallbackEmail = inboundDesc
+      .map((m) => m.body.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i)?.[0] ?? null)
+      .find(Boolean) ?? null;
+
     await handleBooking({
       conversationId: conv.id,
       companyId: conv.companyId,
@@ -503,6 +514,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
       sender: botSender,
       scheduling,
       decision,
+      fallbackText,
+      fallbackEmail,
+      diag,
       routes: routes.map((r) => ({ intent: r.intent, setorId: r.setorId, setorName: r.setor.name, createLead: r.createLead })),
     });
     return { ok: true, action, replied: true };
@@ -664,9 +678,12 @@ async function handleBooking(args: {
   sender: BotSender;
   scheduling: SchedulingContext | null;
   decision: AgentDecision;
+  fallbackText: string | null;
+  fallbackEmail: string | null;
+  diag: Record<string, unknown>;
   routes: { intent: string; setorId: string; setorName: string; createLead: boolean }[];
 }): Promise<void> {
-  const { conversationId, companyId, phone, setorId, sender, scheduling, decision, routes } = args;
+  const { conversationId, companyId, phone, setorId, sender, scheduling, decision, fallbackText, fallbackEmail, diag, routes } = args;
 
   // Sem contexto de agenda o modelo não deveria emitir AGENDAR — handoff defensivo.
   if (!scheduling) {
@@ -675,13 +692,15 @@ async function handleBooking(args: {
     return;
   }
 
-  // O horário TEM que ser um dos oferecidos (anti-alucinação de slot), mas o
-  // match é pelo INSTANTE, não pelo texto — o modelo devolve o ISO com
-  // variações (sem segundos, sem offset) e a comparação de string travava em
-  // loop de "qual horário?".
-  const slot = resolveSlot(scheduling.slots, decision.agendarInicio);
+  // O horário TEM que ser um dos oferecidos (anti-alucinação de slot). Ordem:
+  // o que o modelo devolveu no JSON; se ele esqueceu/errou o campo, o TEXTO
+  // da última mensagem do contato ("seg 03/08 09:00", "3/8 as 9").
+  const slot = resolveSlot(scheduling.slots, decision.agendarInicio) ?? resolveSlot(scheduling.slots, fallbackText);
+  diag.booking = slot
+    ? `slot_ok:${slot.label}`
+    : `slot_nao_resolvido(model=${JSON.stringify(decision.agendarInicio)}, texto=${JSON.stringify(fallbackText?.slice(0, 40) ?? null)})`;
   if (!slot) {
-    console.warn(`[AutoAgent] AGENDAR com horário não reconhecido conv=${conversationId}: "${decision.agendarInicio}"`);
+    console.warn(`[AutoAgent] AGENDAR com horário não reconhecido conv=${conversationId}: "${decision.agendarInicio}" / texto="${fallbackText}"`);
     const manha = scheduling.slots.find((sl) => sl.period === "manha");
     const tarde = scheduling.slots.find((sl) => sl.period === "tarde");
     const opts = [manha, tarde].filter(Boolean).map((sl) => sl!.label);
@@ -702,6 +721,7 @@ async function handleBooking(args: {
     console.error(`[AutoAgent] falha ao revalidar slot conv=${conversationId}:`, err);
   }
   if (!free) {
+    diag.booking = `ocupado:${slot.label}`;
     let alt = "";
     try {
       const fresh = await computeAvailableSlots({
@@ -719,6 +739,9 @@ async function handleBooking(args: {
     return;
   }
 
+  // E-mail: o que veio no JSON; senão, o que o contato digitou no histórico.
+  const attendeeEmail = decision.agendarEmail ?? fallbackEmail;
+
   // Nome do lead (se existir) pro título do evento.
   const lead = await prisma.lead.findFirst({
     where: { phone, companyId },
@@ -735,10 +758,10 @@ async function handleBooking(args: {
       summary: `Reunião — ${lead?.name ?? phone}`,
       description: [
         decision.resumo ? `Resumo da qualificação: ${decision.resumo}` : null,
-        `Contato: ${phone}${decision.agendarEmail ? ` · ${decision.agendarEmail}` : ""}`,
+        `Contato: ${phone}${attendeeEmail ? ` · ${attendeeEmail}` : ""}`,
         "Agendado pelo agente de IA (LeadHub).",
       ].filter(Boolean).join("\n"),
-      attendeeEmail: decision.agendarEmail,
+      attendeeEmail,
     });
   } catch (err) {
     console.error(`[AutoAgent] falha ao criar evento conv=${conversationId}:`, err);
@@ -753,7 +776,7 @@ async function handleBooking(args: {
   await sendBotText(
     sender,
     booked.meetLink
-      ? `Aqui o link da nossa reunião no Google Meet: ${booked.meetLink}${decision.agendarEmail ? " — o convite também foi pro seu e-mail 😉" : ""}`
+      ? `Aqui o link da nossa reunião no Google Meet: ${booked.meetLink}${attendeeEmail ? " — o convite também foi pro seu e-mail 😉" : ""}`
       : `O convite com o link da reunião foi pro seu e-mail 😉`
   );
 
@@ -778,7 +801,7 @@ async function handleBooking(args: {
       conversationId,
       authorName: "🤖 Agente IA",
       type: "SYSTEM",
-      body: `Reunião agendada: ${booked.label}${decision.agendarEmail ? ` · convite pra ${decision.agendarEmail}` : ""}${booked.meetLink ? `\nMeet: ${booked.meetLink}` : ""}${decision.resumo ? `\nResumo: ${decision.resumo}` : ""}`,
+      body: `Reunião agendada: ${booked.label}${attendeeEmail ? ` · convite pra ${attendeeEmail}` : ""}${booked.meetLink ? `\nMeet: ${booked.meetLink}` : ""}${decision.resumo ? `\nResumo: ${decision.resumo}` : ""}`,
     },
   }).catch(() => {/* acessório */});
 
