@@ -113,6 +113,21 @@ export async function PATCH(
     if ("returnNote" in body) {
       data.returnNote = body.returnNote ?? null;
     }
+    // Agente de IA autônomo — pausar/reativar o bot NESTA conversa.
+    // "OFF" = desligado manual (não reativa nem quando a conversa reabre);
+    // "ACTIVE" = volta a responder. PAUSED_HUMAN é estado interno (não setável).
+    if ("aiMode" in body) {
+      if (body.aiMode !== "ACTIVE" && body.aiMode !== "OFF") {
+        return NextResponse.json({ error: "aiMode inválido (use ACTIVE ou OFF)" }, { status: 400 });
+      }
+      data.aiMode = body.aiMode;
+      data.aiPausedAt = body.aiMode === "OFF" ? new Date() : null;
+      activities.push({
+        type: "STATUS_CHANGED",
+        body: body.aiMode === "OFF" ? `${userName} desligou o agente de IA nesta conversa` : `${userName} reativou o agente de IA nesta conversa`,
+        meta: { aiMode: body.aiMode },
+      });
+    }
     // Excluir/incluir conversa da gamificação — admin only.
     // Use case: grupos internos do time não devem gerar pontos.
     if ("excludeFromGamification" in body) {
@@ -140,6 +155,7 @@ export async function PATCH(
       assigneeId: true, assignee: { select: { id: true, name: true } },
       setorId: true,   setor:    { select: { id: true, name: true } },
       scheduledReturnAt: true, returnNote: true,
+      aiMode: true,
     },
   });
 

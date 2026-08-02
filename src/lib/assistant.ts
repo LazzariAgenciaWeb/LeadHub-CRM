@@ -73,6 +73,38 @@ export async function getAiUsage(companyId: string): Promise<AiUsageSummary> {
 }
 
 /**
+ * Valida e normaliza as rotas de triagem (AssistantRoute) vindas do form.
+ * Retorna null se alguma rota é inválida (intent vazio/duplicado ou setor de
+ * outra empresa) — o endpoint devolve 400 nesse caso.
+ */
+export async function sanitizeRoutes(
+  raw: unknown,
+  companyId: string
+): Promise<{ intent: string; label: string | null; setorId: string; createLead: boolean }[] | null> {
+  if (!Array.isArray(raw)) return [];
+  const routes = raw
+    .map((r: any) => ({
+      intent: String(r?.intent ?? "").trim().toUpperCase().replace(/\s+/g, "_"),
+      label: String(r?.label ?? "").trim() || null,
+      setorId: String(r?.setorId ?? "").trim(),
+      createLead: !!r?.createLead,
+    }))
+    .filter((r) => r.intent || r.setorId); // ignora linhas totalmente vazias
+  if (routes.some((r) => !r.intent || !r.setorId)) return null;
+  // Intents duplicados quebram o roteamento (e o unique do banco)
+  if (new Set(routes.map((r) => r.intent)).size !== routes.length) return null;
+  if (routes.length) {
+    const setores = await prisma.setor.findMany({
+      where: { id: { in: routes.map((r) => r.setorId) }, companyId },
+      select: { id: true },
+    });
+    const valid = new Set(setores.map((s) => s.id));
+    if (routes.some((r) => !valid.has(r.setorId))) return null;
+  }
+  return routes;
+}
+
+/**
  * Retorna o agente ATIVO de um tipo para a empresa. Se `instanceId` for passado,
  * prioriza um agente vinculado àquela instância; senão pega o agente sem vínculo
  * (genérico do tipo). Retorna null se não houver agente configurado.

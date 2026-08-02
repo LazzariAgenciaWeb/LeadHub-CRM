@@ -488,6 +488,8 @@ exports.Prisma.ConversationScalarFieldEnum = {
   scheduledReturnAt: 'scheduledReturnAt',
   returnNote: 'returnNote',
   excludeFromGamification: 'excludeFromGamification',
+  aiMode: 'aiMode',
+  aiPausedAt: 'aiPausedAt',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
   companyId: 'companyId',
@@ -1550,11 +1552,25 @@ exports.Prisma.AssistantScalarFieldEnum = {
   type: 'type',
   manual: 'manual',
   isActive: 'isActive',
+  autoRespond: 'autoRespond',
+  learnings: 'learnings',
+  qualificationChecklist: 'qualificationChecklist',
   schedulingLink: 'schedulingLink',
   instanceId: 'instanceId',
   model: 'model',
   temperature: 'temperature',
   createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssistantRouteScalarFieldEnum = {
+  id: 'id',
+  assistantId: 'assistantId',
+  intent: 'intent',
+  label: 'label',
+  setorId: 'setorId',
+  createLead: 'createLead',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1778,6 +1794,12 @@ exports.ConversationStatus = exports.$Enums.ConversationStatus = {
   WAITING_CUSTOMER: 'WAITING_CUSTOMER',
   SCHEDULED: 'SCHEDULED',
   CLOSED: 'CLOSED'
+};
+
+exports.AiMode = exports.$Enums.AiMode = {
+  ACTIVE: 'ACTIVE',
+  PAUSED_HUMAN: 'PAUSED_HUMAN',
+  OFF: 'OFF'
 };
 
 exports.ActivityType = exports.$Enums.ActivityType = {
@@ -2184,6 +2206,7 @@ exports.Prisma.ModelName = {
   CouponRedemption: 'CouponRedemption',
   AdminAuditLog: 'AdminAuditLog',
   Assistant: 'Assistant',
+  AssistantRoute: 'AssistantRoute',
   AiUsageLog: 'AiUsageLog',
   Service: 'Service',
   ClientService: 'ClientService',

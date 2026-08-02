@@ -75,6 +75,7 @@ export default async function WhatsappPage({
       setorId: true,
       setor: { select: { id: true, name: true } },
       excludeFromGamification: true,
+      aiMode: true,
     },
   });
 
@@ -156,6 +157,7 @@ export default async function WhatsappPage({
           setorId: conv.setorId,
           setor: conv.setor,
           excludeFromGamification: conv.excludeFromGamification,
+          aiMode: conv.aiMode,
         },
       };
     })

@@ -42,17 +42,23 @@ function fmtBrl(v: number) {
 }
 
 interface Instance { id: string; label: string | null; instanceName: string; phone: string | null; status?: string }
+interface Setor { id: string; name: string }
+interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; setor?: Setor | null }
 interface Assistant {
   id: string;
   name: string;
   type: AssistantType;
   manual: string;
   isActive: boolean;
+  autoRespond: boolean;
+  learnings: string | null;
+  qualificationChecklist: string | null;
   instanceId: string | null;
   schedulingLink: string | null;
   model: string | null;
   temperature: number | null;
   instance: Instance | null;
+  routes?: Route[];
 }
 interface Quota { aiMonthlyQuota: number; aiUsedThisMonth: number; aiQuotaResetAt: string | null }
 
@@ -61,6 +67,16 @@ const MANUAL_PLACEHOLDER = `Ex.: Você é o closer de vendas da AZZ Agência. Se
 - Sempre entenda a necessidade antes de oferecer.
 - Destaque resultados e prazos. Conduza para uma proposta.
 - Nunca prometa o que não está no escopo. Em dúvida, ofereça uma call.`;
+
+const CHECKLIST_PLACEHOLDER = `Uma informação por linha. Ex.:
+Nome
+Nome da empresa
+Ramo de atuação
+Já investe em anúncios online?`;
+
+const LEARNINGS_PLACEHOLDER = `Correções e orientações que o agente deve seguir (têm prioridade sobre o manual). Ex.:
+- Boleto e nota fiscal: sempre encaminhar pro Atendimento, nunca tentar resolver.
+- Não oferecer criação de sites pra quem já é cliente de hospedagem — encaminhar direto.`;
 
 function instLabel(i: Instance) {
   return i.label || i.instanceName || i.phone || i.id;
@@ -71,12 +87,14 @@ export default function AssistantsSettings({
   isSuperAdmin,
   initialAssistants,
   instances,
+  setores,
   quota,
 }: {
   companyId: string;
   isSuperAdmin: boolean;
   initialAssistants: Assistant[];
   instances: Instance[];
+  setores: Setor[];
   quota: Quota;
 }) {
   const router = useRouter();
@@ -90,6 +108,10 @@ export default function AssistantsSettings({
   const [fInstance, setFInstance] = useState<string>("");
   const [fSchedulingLink, setFSchedulingLink] = useState("");
   const [fActive, setFActive] = useState(true);
+  const [fAutoRespond, setFAutoRespond] = useState(false);
+  const [fChecklist, setFChecklist] = useState("");
+  const [fLearnings, setFLearnings] = useState("");
+  const [fRoutes, setFRoutes] = useState<Route[]>([]);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -108,13 +130,27 @@ export default function AssistantsSettings({
   function openNew() {
     setEditing("new");
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
+    setFAutoRespond(false); setFChecklist(""); setFLearnings("");
+    // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
+    setFRoutes([
+      { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true },
+      { intent: "ATENDIMENTO", label: "Atendimento a clientes", setorId: "", createLead: false },
+    ]);
   }
   function openEdit(a: Assistant) {
     setEditing(a);
     setFName(a.name); setFType(a.type); setFManual(a.manual);
     setFInstance(a.instanceId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
+    setFAutoRespond(a.autoRespond ?? false);
+    setFChecklist(a.qualificationChecklist ?? "");
+    setFLearnings(a.learnings ?? "");
+    setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead })));
   }
   function closeForm() { setEditing(null); setErr(null); }
+
+  function setRoute(idx: number, patch: Partial<Route>) {
+    setFRoutes((prev) => prev.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
+  }
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -122,6 +158,11 @@ export default function AssistantsSettings({
     const payload: any = {
       companyId, name: fName, type: fType, manual: fManual,
       instanceId: fInstance || null, schedulingLink: fSchedulingLink, isActive: fActive,
+      autoRespond: fAutoRespond,
+      qualificationChecklist: fChecklist,
+      learnings: fLearnings,
+      // Rotas: só linhas com setor escolhido (linhas vazias são descartadas)
+      routes: fRoutes.filter((r) => r.intent.trim() && r.setorId),
     };
     const isNew = editing === "new";
     const url = isNew ? "/api/ai/assistants" : `/api/ai/assistants/${(editing as Assistant).id}`;
@@ -292,6 +333,112 @@ export default function AssistantsSettings({
               />
             </div>
 
+            {/* ── Modo autônomo ── */}
+            <div className={`rounded-xl border p-4 space-y-4 ${fAutoRespond ? "border-emerald-500/30 bg-emerald-500/5" : "border-[#1e2d45] bg-[#161f30]/40"}`}>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={fAutoRespond}
+                  onChange={(e) => setFAutoRespond(e.target.checked)}
+                  className="accent-emerald-500 mt-0.5"
+                />
+                <span>
+                  <span className="text-white text-sm font-semibold">🤖 Responder sozinho (modo autônomo)</span>
+                  <span className="block text-slate-500 text-xs mt-0.5">
+                    O agente responde as mensagens que chegam na instância vinculada, qualifica e encaminha pro setor certo — sem atendente.
+                    Ele para de responder assim que um humano assume a conversa.
+                  </span>
+                </span>
+              </label>
+
+              {fAutoRespond && (
+                <>
+                  {/* Rotas de triagem */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      Rotas de encaminhamento <span className="text-slate-600 normal-case">(intenção → setor que assume)</span>
+                    </label>
+                    <div className="space-y-2">
+                      {fRoutes.map((r, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <input
+                            value={r.intent}
+                            onChange={(e) => setRoute(idx, { intent: e.target.value.toUpperCase() })}
+                            placeholder="COMERCIAL"
+                            className="w-36 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white font-mono placeholder-slate-600 focus:outline-none focus:border-emerald-500"
+                          />
+                          <span className="text-slate-600 text-xs">→</span>
+                          <select
+                            value={r.setorId}
+                            onChange={(e) => setRoute(idx, { setorId: e.target.value })}
+                            className="flex-1 bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                          >
+                            <option value="">— escolher setor —</option>
+                            {setores.map((s) => (
+                              <option key={s.id} value={s.id}>{s.name}</option>
+                            ))}
+                          </select>
+                          <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap cursor-pointer" title="Ao encaminhar, cria/atualiza o Lead no CRM com o resumo da qualificação">
+                            <input
+                              type="checkbox"
+                              checked={r.createLead}
+                              onChange={(e) => setRoute(idx, { createLead: e.target.checked })}
+                              className="accent-emerald-500"
+                            />
+                            cria lead
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => setFRoutes((prev) => prev.filter((_, i) => i !== idx))}
+                            className="text-slate-600 hover:text-red-400 text-sm px-1"
+                            title="Remover rota"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setFRoutes((prev) => [...prev, { intent: "", label: null, setorId: "", createLead: false }])}
+                      className="mt-2 text-emerald-400 text-xs hover:text-emerald-300"
+                    >
+                      + Adicionar rota
+                    </button>
+                    {setores.length === 0 && (
+                      <p className="text-amber-400 text-[11px] mt-1.5">⚠️ Nenhum setor cadastrado nesta empresa — crie os setores primeiro (Configurações → Setores).</p>
+                    )}
+                  </div>
+
+                  {/* Checklist ICP */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      Informações obrigatórias (ICP) <span className="text-slate-600 normal-case">— coletadas antes de agendar/encaminhar, uma por linha</span>
+                    </label>
+                    <textarea
+                      value={fChecklist} onChange={(e) => setFChecklist(e.target.value)}
+                      placeholder={CHECKLIST_PLACEHOLDER}
+                      rows={4}
+                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                  </div>
+
+                  {/* Aprendizados */}
+                  <div>
+                    <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                      📚 Aprendizados <span className="text-slate-600 normal-case">— correções acumuladas; têm prioridade sobre o manual</span>
+                    </label>
+                    <textarea
+                      value={fLearnings} onChange={(e) => setFLearnings(e.target.value)}
+                      placeholder={LEARNINGS_PLACEHOLDER}
+                      rows={4}
+                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 resize-y leading-relaxed"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+
             <div className="grid grid-cols-2 gap-4 items-end">
               <div>
                 <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
@@ -344,6 +491,7 @@ export default function AssistantsSettings({
                   <span className="text-white font-semibold text-sm">{a.name}</span>
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#161f30] text-slate-400">{meta.label}</span>
                   {!a.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400">inativo</span>}
+                  {a.autoRespond && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-medium">🤖 autônomo</span>}
                   {a.instance && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">📱 {instLabel(a.instance)}</span>}
                 </div>
                 <p className="text-slate-500 text-xs mt-1 line-clamp-2">{a.manual}</p>

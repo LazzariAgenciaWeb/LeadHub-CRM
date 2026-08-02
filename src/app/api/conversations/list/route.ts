@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
       setorId: true,
       setor: { select: { id: true, name: true } },
       excludeFromGamification: true,
+      aiMode: true,
     },
   });
 
@@ -131,6 +132,7 @@ export async function GET(req: NextRequest) {
           setorId: conv.setorId,
           setor: conv.setor,
           excludeFromGamification: conv.excludeFromGamification,
+          aiMode: conv.aiMode,
         },
       };
     })

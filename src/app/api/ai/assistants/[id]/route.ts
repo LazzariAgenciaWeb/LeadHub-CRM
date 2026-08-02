@@ -53,6 +53,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.type = body.type;
   }
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
+  if (typeof body.autoRespond === "boolean") data.autoRespond = body.autoRespond;
+  if ("learnings" in body) data.learnings = (body.learnings ?? "").trim() || null;
+  if ("qualificationChecklist" in body) data.qualificationChecklist = (body.qualificationChecklist ?? "").trim() || null;
   if ("model" in body) data.model = (body.model ?? "").trim() || null;
   if ("temperature" in body) data.temperature = typeof body.temperature === "number" ? body.temperature : null;
   if ("schedulingLink" in body) data.schedulingLink = (body.schedulingLink ?? "").trim() || null;
@@ -69,7 +72,21 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.instanceId = instanceId;
   }
 
-  const updated = await prisma.assistant.update({ where: { id }, data });
+  // Rotas de triagem — semântica replace-all quando `routes` vem no payload.
+  if ("routes" in body) {
+    const { sanitizeRoutes } = await import("@/lib/assistant");
+    const routes = await sanitizeRoutes(body.routes, owned.assistant!.companyId);
+    if (routes === null) {
+      return NextResponse.json({ error: "Rota inválida: intent e setor são obrigatórios (sem intents repetidos)" }, { status: 400 });
+    }
+    data.routes = { deleteMany: {}, ...(routes.length ? { create: routes } : {}) };
+  }
+
+  const updated = await prisma.assistant.update({
+    where: { id },
+    data,
+    include: { routes: { include: { setor: { select: { id: true, name: true } } } } },
+  });
   return NextResponse.json(updated);
 }
 

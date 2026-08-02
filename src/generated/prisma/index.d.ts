@@ -504,6 +504,11 @@ export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayloa
  */
 export type Assistant = $Result.DefaultSelection<Prisma.$AssistantPayload>
 /**
+ * Model AssistantRoute
+ * 
+ */
+export type AssistantRoute = $Result.DefaultSelection<Prisma.$AssistantRoutePayload>
+/**
  * Model AiUsageLog
  * 
  */
@@ -679,6 +684,15 @@ export const ConversationStatus: {
 };
 
 export type ConversationStatus = (typeof ConversationStatus)[keyof typeof ConversationStatus]
+
+
+export const AiMode: {
+  ACTIVE: 'ACTIVE',
+  PAUSED_HUMAN: 'PAUSED_HUMAN',
+  OFF: 'OFF'
+};
+
+export type AiMode = (typeof AiMode)[keyof typeof AiMode]
 
 
 export const ActivityType: {
@@ -1142,6 +1156,10 @@ export const KeywordMatchMode: typeof $Enums.KeywordMatchMode
 export type ConversationStatus = $Enums.ConversationStatus
 
 export const ConversationStatus: typeof $Enums.ConversationStatus
+
+export type AiMode = $Enums.AiMode
+
+export const AiMode: typeof $Enums.AiMode
 
 export type ActivityType = $Enums.ActivityType
 
@@ -2375,6 +2393,16 @@ export class PrismaClient<
   get assistant(): Prisma.AssistantDelegate<ExtArgs>;
 
   /**
+   * `prisma.assistantRoute`: Exposes CRUD operations for the **AssistantRoute** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssistantRoutes
+    * const assistantRoutes = await prisma.assistantRoute.findMany()
+    * ```
+    */
+  get assistantRoute(): Prisma.AssistantRouteDelegate<ExtArgs>;
+
+  /**
    * `prisma.aiUsageLog`: Exposes CRUD operations for the **AiUsageLog** model.
     * Example usage:
     * ```ts
@@ -2982,6 +3010,7 @@ export namespace Prisma {
     CouponRedemption: 'CouponRedemption',
     AdminAuditLog: 'AdminAuditLog',
     Assistant: 'Assistant',
+    AssistantRoute: 'AssistantRoute',
     AiUsageLog: 'AiUsageLog',
     Service: 'Service',
     ClientService: 'ClientService',
@@ -3004,7 +3033,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9868,6 +9897,76 @@ export namespace Prisma {
           }
         }
       }
+      AssistantRoute: {
+        payload: Prisma.$AssistantRoutePayload<ExtArgs>
+        fields: Prisma.AssistantRouteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssistantRouteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssistantRouteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          findFirst: {
+            args: Prisma.AssistantRouteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssistantRouteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          findMany: {
+            args: Prisma.AssistantRouteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>[]
+          }
+          create: {
+            args: Prisma.AssistantRouteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          createMany: {
+            args: Prisma.AssistantRouteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssistantRouteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>[]
+          }
+          delete: {
+            args: Prisma.AssistantRouteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          update: {
+            args: Prisma.AssistantRouteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          deleteMany: {
+            args: Prisma.AssistantRouteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssistantRouteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssistantRouteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssistantRoutePayload>
+          }
+          aggregate: {
+            args: Prisma.AssistantRouteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssistantRoute>
+          }
+          groupBy: {
+            args: Prisma.AssistantRouteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssistantRouteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssistantRouteCountArgs<ExtArgs>
+            result: $Utils.Optional<AssistantRouteCountAggregateOutputType> | number
+          }
+        }
+      }
       AiUsageLog: {
         payload: Prisma.$AiUsageLogPayload<ExtArgs>
         fields: Prisma.AiUsageLogFieldRefs
@@ -11855,6 +11954,7 @@ export namespace Prisma {
     tickets: number
     conversations: number
     clickupLists: number
+    assistantRoutes: number
   }
 
   export type SetorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11863,6 +11963,7 @@ export namespace Prisma {
     tickets?: boolean | SetorCountOutputTypeCountTicketsArgs
     conversations?: boolean | SetorCountOutputTypeCountConversationsArgs
     clickupLists?: boolean | SetorCountOutputTypeCountClickupListsArgs
+    assistantRoutes?: boolean | SetorCountOutputTypeCountAssistantRoutesArgs
   }
 
   // Custom InputTypes
@@ -11909,6 +12010,13 @@ export namespace Prisma {
    */
   export type SetorCountOutputTypeCountClickupListsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorClickupListWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountAssistantRoutesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantRouteWhereInput
   }
 
 
@@ -12575,10 +12683,12 @@ export namespace Prisma {
 
   export type AssistantCountOutputType = {
     usageLogs: number
+    routes: number
   }
 
   export type AssistantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usageLogs?: boolean | AssistantCountOutputTypeCountUsageLogsArgs
+    routes?: boolean | AssistantCountOutputTypeCountRoutesArgs
   }
 
   // Custom InputTypes
@@ -12597,6 +12707,13 @@ export namespace Prisma {
    */
   export type AssistantCountOutputTypeCountUsageLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AiUsageLogWhereInput
+  }
+
+  /**
+   * AssistantCountOutputType without action
+   */
+  export type AssistantCountOutputTypeCountRoutesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantRouteWhereInput
   }
 
 
@@ -40544,6 +40661,8 @@ export namespace Prisma {
     scheduledReturnAt: Date | null
     returnNote: string | null
     excludeFromGamification: boolean | null
+    aiMode: $Enums.AiMode | null
+    aiPausedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -40566,6 +40685,8 @@ export namespace Prisma {
     scheduledReturnAt: Date | null
     returnNote: string | null
     excludeFromGamification: boolean | null
+    aiMode: $Enums.AiMode | null
+    aiPausedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -40588,6 +40709,8 @@ export namespace Prisma {
     scheduledReturnAt: number
     returnNote: number
     excludeFromGamification: number
+    aiMode: number
+    aiPausedAt: number
     firstResponseAt: number
     closedAt: number
     companyId: number
@@ -40620,6 +40743,8 @@ export namespace Prisma {
     scheduledReturnAt?: true
     returnNote?: true
     excludeFromGamification?: true
+    aiMode?: true
+    aiPausedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -40642,6 +40767,8 @@ export namespace Prisma {
     scheduledReturnAt?: true
     returnNote?: true
     excludeFromGamification?: true
+    aiMode?: true
+    aiPausedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -40664,6 +40791,8 @@ export namespace Prisma {
     scheduledReturnAt?: true
     returnNote?: true
     excludeFromGamification?: true
+    aiMode?: true
+    aiPausedAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -40773,6 +40902,8 @@ export namespace Prisma {
     scheduledReturnAt: Date | null
     returnNote: string | null
     excludeFromGamification: boolean
+    aiMode: $Enums.AiMode
+    aiPausedAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string
@@ -40814,6 +40945,8 @@ export namespace Prisma {
     scheduledReturnAt?: boolean
     returnNote?: boolean
     excludeFromGamification?: boolean
+    aiMode?: boolean
+    aiPausedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -40844,6 +40977,8 @@ export namespace Prisma {
     scheduledReturnAt?: boolean
     returnNote?: boolean
     excludeFromGamification?: boolean
+    aiMode?: boolean
+    aiPausedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -40869,6 +41004,8 @@ export namespace Prisma {
     scheduledReturnAt?: boolean
     returnNote?: boolean
     excludeFromGamification?: boolean
+    aiMode?: boolean
+    aiPausedAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -40918,6 +41055,8 @@ export namespace Prisma {
       scheduledReturnAt: Date | null
       returnNote: string | null
       excludeFromGamification: boolean
+      aiMode: $Enums.AiMode
+      aiPausedAt: Date | null
       firstResponseAt: Date | null
       closedAt: Date | null
       companyId: string
@@ -41337,6 +41476,8 @@ export namespace Prisma {
     readonly scheduledReturnAt: FieldRef<"Conversation", 'DateTime'>
     readonly returnNote: FieldRef<"Conversation", 'String'>
     readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
+    readonly aiMode: FieldRef<"Conversation", 'AiMode'>
+    readonly aiPausedAt: FieldRef<"Conversation", 'DateTime'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
     readonly companyId: FieldRef<"Conversation", 'String'>
@@ -46452,6 +46593,7 @@ export namespace Prisma {
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
+    assistantRoutes?: boolean | Setor$assistantRoutesArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["setor"]>
 
@@ -46515,6 +46657,7 @@ export namespace Prisma {
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
+    assistantRoutes?: boolean | Setor$assistantRoutesArgs<ExtArgs>
     _count?: boolean | SetorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SetorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46530,6 +46673,7 @@ export namespace Prisma {
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
       clickupLists: Prisma.$SetorClickupListPayload<ExtArgs>[]
+      assistantRoutes: Prisma.$AssistantRoutePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -46925,6 +47069,7 @@ export namespace Prisma {
     tickets<T extends Setor$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends Setor$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     clickupLists<T extends Setor$clickupListsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$clickupListsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
+    assistantRoutes<T extends Setor$assistantRoutesArgs<ExtArgs> = {}>(args?: Subset<T, Setor$assistantRoutesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -47392,6 +47537,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SetorClickupListScalarFieldEnum | SetorClickupListScalarFieldEnum[]
+  }
+
+  /**
+   * Setor.assistantRoutes
+   */
+  export type Setor$assistantRoutesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    where?: AssistantRouteWhereInput
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    cursor?: AssistantRouteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantRouteScalarFieldEnum | AssistantRouteScalarFieldEnum[]
   }
 
   /**
@@ -117480,6 +117645,9 @@ export namespace Prisma {
     type: $Enums.AssistantType | null
     manual: string | null
     isActive: boolean | null
+    autoRespond: boolean | null
+    learnings: string | null
+    qualificationChecklist: string | null
     schedulingLink: string | null
     instanceId: string | null
     model: string | null
@@ -117496,6 +117664,9 @@ export namespace Prisma {
     type: $Enums.AssistantType | null
     manual: string | null
     isActive: boolean | null
+    autoRespond: boolean | null
+    learnings: string | null
+    qualificationChecklist: string | null
     schedulingLink: string | null
     instanceId: string | null
     model: string | null
@@ -117512,6 +117683,9 @@ export namespace Prisma {
     type: number
     manual: number
     isActive: number
+    autoRespond: number
+    learnings: number
+    qualificationChecklist: number
     schedulingLink: number
     instanceId: number
     model: number
@@ -117538,6 +117712,9 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    autoRespond?: true
+    learnings?: true
+    qualificationChecklist?: true
     schedulingLink?: true
     instanceId?: true
     model?: true
@@ -117554,6 +117731,9 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    autoRespond?: true
+    learnings?: true
+    qualificationChecklist?: true
     schedulingLink?: true
     instanceId?: true
     model?: true
@@ -117570,6 +117750,9 @@ export namespace Prisma {
     type?: true
     manual?: true
     isActive?: true
+    autoRespond?: true
+    learnings?: true
+    qualificationChecklist?: true
     schedulingLink?: true
     instanceId?: true
     model?: true
@@ -117673,6 +117856,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive: boolean
+    autoRespond: boolean
+    learnings: string | null
+    qualificationChecklist: string | null
     schedulingLink: string | null
     instanceId: string | null
     model: string | null
@@ -117708,6 +117894,9 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: boolean
+    qualificationChecklist?: boolean
     schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
@@ -117718,6 +117907,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
+    routes?: boolean | Assistant$routesArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
     _count?: boolean | AssistantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assistant"]>
@@ -117729,6 +117919,9 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: boolean
+    qualificationChecklist?: boolean
     schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
@@ -117748,6 +117941,9 @@ export namespace Prisma {
     type?: boolean
     manual?: boolean
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: boolean
+    qualificationChecklist?: boolean
     schedulingLink?: boolean
     instanceId?: boolean
     model?: boolean
@@ -117761,6 +117957,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Assistant$instanceArgs<ExtArgs>
     usageLogs?: boolean | Assistant$usageLogsArgs<ExtArgs>
+    routes?: boolean | Assistant$routesArgs<ExtArgs>
     createdBy?: boolean | Assistant$createdByArgs<ExtArgs>
     _count?: boolean | AssistantCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -117776,6 +117973,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
       usageLogs: Prisma.$AiUsageLogPayload<ExtArgs>[]
+      routes: Prisma.$AssistantRoutePayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -117785,6 +117983,9 @@ export namespace Prisma {
       type: $Enums.AssistantType
       manual: string
       isActive: boolean
+      autoRespond: boolean
+      learnings: string | null
+      qualificationChecklist: string | null
       schedulingLink: string | null
       instanceId: string | null
       model: string | null
@@ -118159,6 +118360,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     instance<T extends Assistant$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     usageLogs<T extends Assistant$usageLogsArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$usageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUsageLogPayload<ExtArgs>, T, "findMany"> | Null>
+    routes<T extends Assistant$routesArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$routesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findMany"> | Null>
     createdBy<T extends Assistant$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Assistant$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -118195,6 +118397,9 @@ export namespace Prisma {
     readonly type: FieldRef<"Assistant", 'AssistantType'>
     readonly manual: FieldRef<"Assistant", 'String'>
     readonly isActive: FieldRef<"Assistant", 'Boolean'>
+    readonly autoRespond: FieldRef<"Assistant", 'Boolean'>
+    readonly learnings: FieldRef<"Assistant", 'String'>
+    readonly qualificationChecklist: FieldRef<"Assistant", 'String'>
     readonly schedulingLink: FieldRef<"Assistant", 'String'>
     readonly instanceId: FieldRef<"Assistant", 'String'>
     readonly model: FieldRef<"Assistant", 'String'>
@@ -118555,6 +118760,26 @@ export namespace Prisma {
   }
 
   /**
+   * Assistant.routes
+   */
+  export type Assistant$routesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    where?: AssistantRouteWhereInput
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    cursor?: AssistantRouteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssistantRouteScalarFieldEnum | AssistantRouteScalarFieldEnum[]
+  }
+
+  /**
    * Assistant.createdBy
    */
   export type Assistant$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -118581,6 +118806,981 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssistantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssistantRoute
+   */
+
+  export type AggregateAssistantRoute = {
+    _count: AssistantRouteCountAggregateOutputType | null
+    _min: AssistantRouteMinAggregateOutputType | null
+    _max: AssistantRouteMaxAggregateOutputType | null
+  }
+
+  export type AssistantRouteMinAggregateOutputType = {
+    id: string | null
+    assistantId: string | null
+    intent: string | null
+    label: string | null
+    setorId: string | null
+    createLead: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantRouteMaxAggregateOutputType = {
+    id: string | null
+    assistantId: string | null
+    intent: string | null
+    label: string | null
+    setorId: string | null
+    createLead: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssistantRouteCountAggregateOutputType = {
+    id: number
+    assistantId: number
+    intent: number
+    label: number
+    setorId: number
+    createLead: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssistantRouteMinAggregateInputType = {
+    id?: true
+    assistantId?: true
+    intent?: true
+    label?: true
+    setorId?: true
+    createLead?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantRouteMaxAggregateInputType = {
+    id?: true
+    assistantId?: true
+    intent?: true
+    label?: true
+    setorId?: true
+    createLead?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssistantRouteCountAggregateInputType = {
+    id?: true
+    assistantId?: true
+    intent?: true
+    label?: true
+    setorId?: true
+    createLead?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssistantRouteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantRoute to aggregate.
+     */
+    where?: AssistantRouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRoutes to fetch.
+     */
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssistantRouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRoutes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRoutes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssistantRoutes
+    **/
+    _count?: true | AssistantRouteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssistantRouteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssistantRouteMaxAggregateInputType
+  }
+
+  export type GetAssistantRouteAggregateType<T extends AssistantRouteAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssistantRoute]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssistantRoute[P]>
+      : GetScalarType<T[P], AggregateAssistantRoute[P]>
+  }
+
+
+
+
+  export type AssistantRouteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssistantRouteWhereInput
+    orderBy?: AssistantRouteOrderByWithAggregationInput | AssistantRouteOrderByWithAggregationInput[]
+    by: AssistantRouteScalarFieldEnum[] | AssistantRouteScalarFieldEnum
+    having?: AssistantRouteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssistantRouteCountAggregateInputType | true
+    _min?: AssistantRouteMinAggregateInputType
+    _max?: AssistantRouteMaxAggregateInputType
+  }
+
+  export type AssistantRouteGroupByOutputType = {
+    id: string
+    assistantId: string
+    intent: string
+    label: string | null
+    setorId: string
+    createLead: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: AssistantRouteCountAggregateOutputType | null
+    _min: AssistantRouteMinAggregateOutputType | null
+    _max: AssistantRouteMaxAggregateOutputType | null
+  }
+
+  type GetAssistantRouteGroupByPayload<T extends AssistantRouteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssistantRouteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssistantRouteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssistantRouteGroupByOutputType[P]>
+            : GetScalarType<T[P], AssistantRouteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssistantRouteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assistantId?: boolean
+    intent?: boolean
+    label?: boolean
+    setorId?: boolean
+    createLead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assistant?: boolean | AssistantDefaultArgs<ExtArgs>
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantRoute"]>
+
+  export type AssistantRouteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assistantId?: boolean
+    intent?: boolean
+    label?: boolean
+    setorId?: boolean
+    createLead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assistant?: boolean | AssistantDefaultArgs<ExtArgs>
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assistantRoute"]>
+
+  export type AssistantRouteSelectScalar = {
+    id?: boolean
+    assistantId?: boolean
+    intent?: boolean
+    label?: boolean
+    setorId?: boolean
+    createLead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssistantRouteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assistant?: boolean | AssistantDefaultArgs<ExtArgs>
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+  }
+  export type AssistantRouteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assistant?: boolean | AssistantDefaultArgs<ExtArgs>
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+  }
+
+  export type $AssistantRoutePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssistantRoute"
+    objects: {
+      assistant: Prisma.$AssistantPayload<ExtArgs>
+      setor: Prisma.$SetorPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      assistantId: string
+      intent: string
+      label: string | null
+      setorId: string
+      createLead: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assistantRoute"]>
+    composites: {}
+  }
+
+  type AssistantRouteGetPayload<S extends boolean | null | undefined | AssistantRouteDefaultArgs> = $Result.GetResult<Prisma.$AssistantRoutePayload, S>
+
+  type AssistantRouteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssistantRouteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssistantRouteCountAggregateInputType | true
+    }
+
+  export interface AssistantRouteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssistantRoute'], meta: { name: 'AssistantRoute' } }
+    /**
+     * Find zero or one AssistantRoute that matches the filter.
+     * @param {AssistantRouteFindUniqueArgs} args - Arguments to find a AssistantRoute
+     * @example
+     * // Get one AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssistantRouteFindUniqueArgs>(args: SelectSubset<T, AssistantRouteFindUniqueArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AssistantRoute that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssistantRouteFindUniqueOrThrowArgs} args - Arguments to find a AssistantRoute
+     * @example
+     * // Get one AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssistantRouteFindUniqueOrThrowArgs>(args: SelectSubset<T, AssistantRouteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AssistantRoute that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteFindFirstArgs} args - Arguments to find a AssistantRoute
+     * @example
+     * // Get one AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssistantRouteFindFirstArgs>(args?: SelectSubset<T, AssistantRouteFindFirstArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AssistantRoute that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteFindFirstOrThrowArgs} args - Arguments to find a AssistantRoute
+     * @example
+     * // Get one AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssistantRouteFindFirstOrThrowArgs>(args?: SelectSubset<T, AssistantRouteFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AssistantRoutes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssistantRoutes
+     * const assistantRoutes = await prisma.assistantRoute.findMany()
+     * 
+     * // Get first 10 AssistantRoutes
+     * const assistantRoutes = await prisma.assistantRoute.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assistantRouteWithIdOnly = await prisma.assistantRoute.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssistantRouteFindManyArgs>(args?: SelectSubset<T, AssistantRouteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AssistantRoute.
+     * @param {AssistantRouteCreateArgs} args - Arguments to create a AssistantRoute.
+     * @example
+     * // Create one AssistantRoute
+     * const AssistantRoute = await prisma.assistantRoute.create({
+     *   data: {
+     *     // ... data to create a AssistantRoute
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssistantRouteCreateArgs>(args: SelectSubset<T, AssistantRouteCreateArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AssistantRoutes.
+     * @param {AssistantRouteCreateManyArgs} args - Arguments to create many AssistantRoutes.
+     * @example
+     * // Create many AssistantRoutes
+     * const assistantRoute = await prisma.assistantRoute.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssistantRouteCreateManyArgs>(args?: SelectSubset<T, AssistantRouteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssistantRoutes and returns the data saved in the database.
+     * @param {AssistantRouteCreateManyAndReturnArgs} args - Arguments to create many AssistantRoutes.
+     * @example
+     * // Create many AssistantRoutes
+     * const assistantRoute = await prisma.assistantRoute.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssistantRoutes and only return the `id`
+     * const assistantRouteWithIdOnly = await prisma.assistantRoute.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssistantRouteCreateManyAndReturnArgs>(args?: SelectSubset<T, AssistantRouteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AssistantRoute.
+     * @param {AssistantRouteDeleteArgs} args - Arguments to delete one AssistantRoute.
+     * @example
+     * // Delete one AssistantRoute
+     * const AssistantRoute = await prisma.assistantRoute.delete({
+     *   where: {
+     *     // ... filter to delete one AssistantRoute
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssistantRouteDeleteArgs>(args: SelectSubset<T, AssistantRouteDeleteArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AssistantRoute.
+     * @param {AssistantRouteUpdateArgs} args - Arguments to update one AssistantRoute.
+     * @example
+     * // Update one AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssistantRouteUpdateArgs>(args: SelectSubset<T, AssistantRouteUpdateArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AssistantRoutes.
+     * @param {AssistantRouteDeleteManyArgs} args - Arguments to filter AssistantRoutes to delete.
+     * @example
+     * // Delete a few AssistantRoutes
+     * const { count } = await prisma.assistantRoute.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssistantRouteDeleteManyArgs>(args?: SelectSubset<T, AssistantRouteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssistantRoutes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssistantRoutes
+     * const assistantRoute = await prisma.assistantRoute.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssistantRouteUpdateManyArgs>(args: SelectSubset<T, AssistantRouteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AssistantRoute.
+     * @param {AssistantRouteUpsertArgs} args - Arguments to update or create a AssistantRoute.
+     * @example
+     * // Update or create a AssistantRoute
+     * const assistantRoute = await prisma.assistantRoute.upsert({
+     *   create: {
+     *     // ... data to create a AssistantRoute
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssistantRoute we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssistantRouteUpsertArgs>(args: SelectSubset<T, AssistantRouteUpsertArgs<ExtArgs>>): Prisma__AssistantRouteClient<$Result.GetResult<Prisma.$AssistantRoutePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AssistantRoutes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteCountArgs} args - Arguments to filter AssistantRoutes to count.
+     * @example
+     * // Count the number of AssistantRoutes
+     * const count = await prisma.assistantRoute.count({
+     *   where: {
+     *     // ... the filter for the AssistantRoutes we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssistantRouteCountArgs>(
+      args?: Subset<T, AssistantRouteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssistantRouteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssistantRoute.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssistantRouteAggregateArgs>(args: Subset<T, AssistantRouteAggregateArgs>): Prisma.PrismaPromise<GetAssistantRouteAggregateType<T>>
+
+    /**
+     * Group by AssistantRoute.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssistantRouteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssistantRouteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssistantRouteGroupByArgs['orderBy'] }
+        : { orderBy?: AssistantRouteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssistantRouteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssistantRouteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssistantRoute model
+   */
+  readonly fields: AssistantRouteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssistantRoute.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssistantRouteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assistant<T extends AssistantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssistantDefaultArgs<ExtArgs>>): Prisma__AssistantClient<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssistantRoute model
+   */ 
+  interface AssistantRouteFieldRefs {
+    readonly id: FieldRef<"AssistantRoute", 'String'>
+    readonly assistantId: FieldRef<"AssistantRoute", 'String'>
+    readonly intent: FieldRef<"AssistantRoute", 'String'>
+    readonly label: FieldRef<"AssistantRoute", 'String'>
+    readonly setorId: FieldRef<"AssistantRoute", 'String'>
+    readonly createLead: FieldRef<"AssistantRoute", 'Boolean'>
+    readonly createdAt: FieldRef<"AssistantRoute", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssistantRoute", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssistantRoute findUnique
+   */
+  export type AssistantRouteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRoute to fetch.
+     */
+    where: AssistantRouteWhereUniqueInput
+  }
+
+  /**
+   * AssistantRoute findUniqueOrThrow
+   */
+  export type AssistantRouteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRoute to fetch.
+     */
+    where: AssistantRouteWhereUniqueInput
+  }
+
+  /**
+   * AssistantRoute findFirst
+   */
+  export type AssistantRouteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRoute to fetch.
+     */
+    where?: AssistantRouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRoutes to fetch.
+     */
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantRoutes.
+     */
+    cursor?: AssistantRouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRoutes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRoutes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantRoutes.
+     */
+    distinct?: AssistantRouteScalarFieldEnum | AssistantRouteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRoute findFirstOrThrow
+   */
+  export type AssistantRouteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRoute to fetch.
+     */
+    where?: AssistantRouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRoutes to fetch.
+     */
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssistantRoutes.
+     */
+    cursor?: AssistantRouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRoutes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRoutes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssistantRoutes.
+     */
+    distinct?: AssistantRouteScalarFieldEnum | AssistantRouteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRoute findMany
+   */
+  export type AssistantRouteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter, which AssistantRoutes to fetch.
+     */
+    where?: AssistantRouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssistantRoutes to fetch.
+     */
+    orderBy?: AssistantRouteOrderByWithRelationInput | AssistantRouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssistantRoutes.
+     */
+    cursor?: AssistantRouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssistantRoutes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssistantRoutes.
+     */
+    skip?: number
+    distinct?: AssistantRouteScalarFieldEnum | AssistantRouteScalarFieldEnum[]
+  }
+
+  /**
+   * AssistantRoute create
+   */
+  export type AssistantRouteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssistantRoute.
+     */
+    data: XOR<AssistantRouteCreateInput, AssistantRouteUncheckedCreateInput>
+  }
+
+  /**
+   * AssistantRoute createMany
+   */
+  export type AssistantRouteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssistantRoutes.
+     */
+    data: AssistantRouteCreateManyInput | AssistantRouteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssistantRoute createManyAndReturn
+   */
+  export type AssistantRouteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AssistantRoutes.
+     */
+    data: AssistantRouteCreateManyInput | AssistantRouteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssistantRoute update
+   */
+  export type AssistantRouteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssistantRoute.
+     */
+    data: XOR<AssistantRouteUpdateInput, AssistantRouteUncheckedUpdateInput>
+    /**
+     * Choose, which AssistantRoute to update.
+     */
+    where: AssistantRouteWhereUniqueInput
+  }
+
+  /**
+   * AssistantRoute updateMany
+   */
+  export type AssistantRouteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssistantRoutes.
+     */
+    data: XOR<AssistantRouteUpdateManyMutationInput, AssistantRouteUncheckedUpdateManyInput>
+    /**
+     * Filter which AssistantRoutes to update
+     */
+    where?: AssistantRouteWhereInput
+  }
+
+  /**
+   * AssistantRoute upsert
+   */
+  export type AssistantRouteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssistantRoute to update in case it exists.
+     */
+    where: AssistantRouteWhereUniqueInput
+    /**
+     * In case the AssistantRoute found by the `where` argument doesn't exist, create a new AssistantRoute with this data.
+     */
+    create: XOR<AssistantRouteCreateInput, AssistantRouteUncheckedCreateInput>
+    /**
+     * In case the AssistantRoute was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssistantRouteUpdateInput, AssistantRouteUncheckedUpdateInput>
+  }
+
+  /**
+   * AssistantRoute delete
+   */
+  export type AssistantRouteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
+    /**
+     * Filter which AssistantRoute to delete.
+     */
+    where: AssistantRouteWhereUniqueInput
+  }
+
+  /**
+   * AssistantRoute deleteMany
+   */
+  export type AssistantRouteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssistantRoutes to delete
+     */
+    where?: AssistantRouteWhereInput
+  }
+
+  /**
+   * AssistantRoute without action
+   */
+  export type AssistantRouteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssistantRoute
+     */
+    select?: AssistantRouteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssistantRouteInclude<ExtArgs> | null
   }
 
 
@@ -126525,6 +127725,8 @@ export namespace Prisma {
     scheduledReturnAt: 'scheduledReturnAt',
     returnNote: 'returnNote',
     excludeFromGamification: 'excludeFromGamification',
+    aiMode: 'aiMode',
+    aiPausedAt: 'aiPausedAt',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
     companyId: 'companyId',
@@ -127806,6 +129008,9 @@ export namespace Prisma {
     type: 'type',
     manual: 'manual',
     isActive: 'isActive',
+    autoRespond: 'autoRespond',
+    learnings: 'learnings',
+    qualificationChecklist: 'qualificationChecklist',
     schedulingLink: 'schedulingLink',
     instanceId: 'instanceId',
     model: 'model',
@@ -127816,6 +129021,20 @@ export namespace Prisma {
   };
 
   export type AssistantScalarFieldEnum = (typeof AssistantScalarFieldEnum)[keyof typeof AssistantScalarFieldEnum]
+
+
+  export const AssistantRouteScalarFieldEnum: {
+    id: 'id',
+    assistantId: 'assistantId',
+    intent: 'intent',
+    label: 'label',
+    setorId: 'setorId',
+    createLead: 'createLead',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssistantRouteScalarFieldEnum = (typeof AssistantRouteScalarFieldEnum)[keyof typeof AssistantRouteScalarFieldEnum]
 
 
   export const AiUsageLogScalarFieldEnum: {
@@ -128268,6 +129487,20 @@ export namespace Prisma {
    * Reference to a field of type 'ConversationStatus[]'
    */
   export type ListEnumConversationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiMode'
+   */
+  export type EnumAiModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiMode[]'
+   */
+  export type ListEnumAiModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiMode[]'>
     
 
 
@@ -131319,6 +132552,8 @@ export namespace Prisma {
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
+    aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
+    aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -131348,6 +132583,8 @@ export namespace Prisma {
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
     excludeFromGamification?: SortOrder
+    aiMode?: SortOrder
+    aiPausedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -131381,6 +132618,8 @@ export namespace Prisma {
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
+    aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
+    aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -131410,6 +132649,8 @@ export namespace Prisma {
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
     excludeFromGamification?: SortOrder
+    aiMode?: SortOrder
+    aiPausedAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -131440,6 +132681,8 @@ export namespace Prisma {
     scheduledReturnAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
     excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
+    aiMode?: EnumAiModeWithAggregatesFilter<"Conversation"> | $Enums.AiMode
+    aiPausedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Conversation"> | string
@@ -131886,6 +133129,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
     clickupLists?: SetorClickupListListRelationFilter
+    assistantRoutes?: AssistantRouteListRelationFilter
   }
 
   export type SetorOrderByWithRelationInput = {
@@ -131918,6 +133162,7 @@ export namespace Prisma {
     tickets?: TicketOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
     clickupLists?: SetorClickupListOrderByRelationAggregateInput
+    assistantRoutes?: AssistantRouteOrderByRelationAggregateInput
   }
 
   export type SetorWhereUniqueInput = Prisma.AtLeast<{
@@ -131953,6 +133198,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
     clickupLists?: SetorClickupListListRelationFilter
+    assistantRoutes?: AssistantRouteListRelationFilter
   }, "id">
 
   export type SetorOrderByWithAggregationInput = {
@@ -138104,6 +139350,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    autoRespond?: BoolFilter<"Assistant"> | boolean
+    learnings?: StringNullableFilter<"Assistant"> | string | null
+    qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
@@ -138114,6 +139363,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
+    routes?: AssistantRouteListRelationFilter
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
@@ -138124,6 +139374,9 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    autoRespond?: SortOrder
+    learnings?: SortOrderInput | SortOrder
+    qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
@@ -138134,6 +139387,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     usageLogs?: AiUsageLogOrderByRelationAggregateInput
+    routes?: AssistantRouteOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
   }
 
@@ -138147,6 +139401,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    autoRespond?: BoolFilter<"Assistant"> | boolean
+    learnings?: StringNullableFilter<"Assistant"> | string | null
+    qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
@@ -138157,6 +139414,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     usageLogs?: AiUsageLogListRelationFilter
+    routes?: AssistantRouteListRelationFilter
     createdBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id">
 
@@ -138167,6 +139425,9 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    autoRespond?: SortOrder
+    learnings?: SortOrderInput | SortOrder
+    qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
     instanceId?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
@@ -138191,6 +139452,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeWithAggregatesFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringWithAggregatesFilter<"Assistant"> | string
     isActive?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    autoRespond?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    learnings?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
+    qualificationChecklist?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     instanceId?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     model?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -138198,6 +139462,80 @@ export namespace Prisma {
     createdById?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Assistant"> | Date | string
+  }
+
+  export type AssistantRouteWhereInput = {
+    AND?: AssistantRouteWhereInput | AssistantRouteWhereInput[]
+    OR?: AssistantRouteWhereInput[]
+    NOT?: AssistantRouteWhereInput | AssistantRouteWhereInput[]
+    id?: StringFilter<"AssistantRoute"> | string
+    assistantId?: StringFilter<"AssistantRoute"> | string
+    intent?: StringFilter<"AssistantRoute"> | string
+    label?: StringNullableFilter<"AssistantRoute"> | string | null
+    setorId?: StringFilter<"AssistantRoute"> | string
+    createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+    assistant?: XOR<AssistantRelationFilter, AssistantWhereInput>
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+  }
+
+  export type AssistantRouteOrderByWithRelationInput = {
+    id?: SortOrder
+    assistantId?: SortOrder
+    intent?: SortOrder
+    label?: SortOrderInput | SortOrder
+    setorId?: SortOrder
+    createLead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assistant?: AssistantOrderByWithRelationInput
+    setor?: SetorOrderByWithRelationInput
+  }
+
+  export type AssistantRouteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    assistantId_intent?: AssistantRouteAssistantIdIntentCompoundUniqueInput
+    AND?: AssistantRouteWhereInput | AssistantRouteWhereInput[]
+    OR?: AssistantRouteWhereInput[]
+    NOT?: AssistantRouteWhereInput | AssistantRouteWhereInput[]
+    assistantId?: StringFilter<"AssistantRoute"> | string
+    intent?: StringFilter<"AssistantRoute"> | string
+    label?: StringNullableFilter<"AssistantRoute"> | string | null
+    setorId?: StringFilter<"AssistantRoute"> | string
+    createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+    assistant?: XOR<AssistantRelationFilter, AssistantWhereInput>
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+  }, "id" | "assistantId_intent">
+
+  export type AssistantRouteOrderByWithAggregationInput = {
+    id?: SortOrder
+    assistantId?: SortOrder
+    intent?: SortOrder
+    label?: SortOrderInput | SortOrder
+    setorId?: SortOrder
+    createLead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssistantRouteCountOrderByAggregateInput
+    _max?: AssistantRouteMaxOrderByAggregateInput
+    _min?: AssistantRouteMinOrderByAggregateInput
+  }
+
+  export type AssistantRouteScalarWhereWithAggregatesInput = {
+    AND?: AssistantRouteScalarWhereWithAggregatesInput | AssistantRouteScalarWhereWithAggregatesInput[]
+    OR?: AssistantRouteScalarWhereWithAggregatesInput[]
+    NOT?: AssistantRouteScalarWhereWithAggregatesInput | AssistantRouteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssistantRoute"> | string
+    assistantId?: StringWithAggregatesFilter<"AssistantRoute"> | string
+    intent?: StringWithAggregatesFilter<"AssistantRoute"> | string
+    label?: StringNullableWithAggregatesFilter<"AssistantRoute"> | string | null
+    setorId?: StringWithAggregatesFilter<"AssistantRoute"> | string
+    createLead?: BoolWithAggregatesFilter<"AssistantRoute"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"AssistantRoute"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AssistantRoute"> | Date | string
   }
 
   export type AiUsageLogWhereInput = {
@@ -141745,6 +143083,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -141773,6 +143113,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -141797,6 +143139,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141825,6 +143169,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -141851,6 +143197,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -141871,6 +143219,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -141892,6 +143242,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -142366,6 +143718,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateInput = {
@@ -142397,6 +143750,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUpdateInput = {
@@ -142428,6 +143782,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateInput = {
@@ -142459,6 +143814,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorCreateManyInput = {
@@ -149289,6 +150645,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -149297,6 +150656,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
 
@@ -149307,6 +150667,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -149315,6 +150678,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantUpdateInput = {
@@ -149323,6 +150687,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -149331,6 +150698,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
 
@@ -149341,6 +150709,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149349,6 +150720,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
   }
 
   export type AssistantCreateManyInput = {
@@ -149358,6 +150730,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -149373,6 +150748,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -149387,11 +150765,89 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteCreateInput = {
+    id?: string
+    intent: string
+    label?: string | null
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assistant: AssistantCreateNestedOneWithoutRoutesInput
+    setor: SetorCreateNestedOneWithoutAssistantRoutesInput
+  }
+
+  export type AssistantRouteUncheckedCreateInput = {
+    id?: string
+    assistantId: string
+    intent: string
+    label?: string | null
+    setorId: string
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantRouteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assistant?: AssistantUpdateOneRequiredWithoutRoutesNestedInput
+    setor?: SetorUpdateOneRequiredWithoutAssistantRoutesNestedInput
+  }
+
+  export type AssistantRouteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: StringFieldUpdateOperationsInput | string
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteCreateManyInput = {
+    id?: string
+    assistantId: string
+    intent: string
+    label?: string | null
+    setorId: string
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantRouteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: StringFieldUpdateOperationsInput | string
+    createLead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -152795,6 +154251,13 @@ export namespace Prisma {
     not?: NestedEnumMessageDirNullableFilter<$PrismaModel> | $Enums.MessageDir | null
   }
 
+  export type EnumAiModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiMode | EnumAiModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiModeFilter<$PrismaModel> | $Enums.AiMode
+  }
+
   export type SetorNullableRelationFilter = {
     is?: SetorWhereInput | null
     isNot?: SetorWhereInput | null
@@ -152830,6 +154293,8 @@ export namespace Prisma {
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
     excludeFromGamification?: SortOrder
+    aiMode?: SortOrder
+    aiPausedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -152856,6 +154321,8 @@ export namespace Prisma {
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
     excludeFromGamification?: SortOrder
+    aiMode?: SortOrder
+    aiPausedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -152878,6 +154345,8 @@ export namespace Prisma {
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
     excludeFromGamification?: SortOrder
+    aiMode?: SortOrder
+    aiPausedAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -152907,6 +154376,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumMessageDirNullableFilter<$PrismaModel>
     _max?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAiModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiMode | EnumAiModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiModeWithAggregatesFilter<$PrismaModel> | $Enums.AiMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiModeFilter<$PrismaModel>
+    _max?: NestedEnumAiModeFilter<$PrismaModel>
   }
 
   export type ConversationRelationFilter = {
@@ -153172,6 +154651,16 @@ export namespace Prisma {
     externalId?: SortOrder
     createdAt?: SortOrder
     ticketId?: SortOrder
+  }
+
+  export type AssistantRouteListRelationFilter = {
+    every?: AssistantRouteWhereInput
+    some?: AssistantRouteWhereInput
+    none?: AssistantRouteWhereInput
+  }
+
+  export type AssistantRouteOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SetorCountOrderByAggregateInput = {
@@ -157511,6 +159000,9 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    autoRespond?: SortOrder
+    learnings?: SortOrder
+    qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
@@ -157531,6 +159023,9 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    autoRespond?: SortOrder
+    learnings?: SortOrder
+    qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
@@ -157547,6 +159042,9 @@ export namespace Prisma {
     type?: SortOrder
     manual?: SortOrder
     isActive?: SortOrder
+    autoRespond?: SortOrder
+    learnings?: SortOrder
+    qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
     instanceId?: SortOrder
     model?: SortOrder
@@ -157568,6 +159066,49 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAssistantTypeFilter<$PrismaModel>
     _max?: NestedEnumAssistantTypeFilter<$PrismaModel>
+  }
+
+  export type AssistantRelationFilter = {
+    is?: AssistantWhereInput
+    isNot?: AssistantWhereInput
+  }
+
+  export type AssistantRouteAssistantIdIntentCompoundUniqueInput = {
+    assistantId: string
+    intent: string
+  }
+
+  export type AssistantRouteCountOrderByAggregateInput = {
+    id?: SortOrder
+    assistantId?: SortOrder
+    intent?: SortOrder
+    label?: SortOrder
+    setorId?: SortOrder
+    createLead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantRouteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    assistantId?: SortOrder
+    intent?: SortOrder
+    label?: SortOrder
+    setorId?: SortOrder
+    createLead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssistantRouteMinOrderByAggregateInput = {
+    id?: SortOrder
+    assistantId?: SortOrder
+    intent?: SortOrder
+    label?: SortOrder
+    setorId?: SortOrder
+    createLead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssistantNullableRelationFilter = {
@@ -163682,6 +165223,10 @@ export namespace Prisma {
     set?: $Enums.MessageDir | null
   }
 
+  export type EnumAiModeFieldUpdateOperationsInput = {
+    set?: $Enums.AiMode
+  }
+
   export type UserUpdateOneWithoutConversationsAssignedNestedInput = {
     create?: XOR<UserCreateWithoutConversationsAssignedInput, UserUncheckedCreateWithoutConversationsAssignedInput>
     connectOrCreate?: UserCreateOrConnectWithoutConversationsAssignedInput
@@ -164227,6 +165772,13 @@ export namespace Prisma {
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
   }
 
+  export type AssistantRouteCreateNestedManyWithoutSetorInput = {
+    create?: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput> | AssistantRouteCreateWithoutSetorInput[] | AssistantRouteUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutSetorInput | AssistantRouteCreateOrConnectWithoutSetorInput[]
+    createMany?: AssistantRouteCreateManySetorInputEnvelope
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+  }
+
   export type SetorUserUncheckedCreateNestedManyWithoutSetorInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -164260,6 +165812,13 @@ export namespace Prisma {
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutSetorInput | SetorClickupListCreateOrConnectWithoutSetorInput[]
     createMany?: SetorClickupListCreateManySetorInputEnvelope
     connect?: SetorClickupListWhereUniqueInput | SetorClickupListWhereUniqueInput[]
+  }
+
+  export type AssistantRouteUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput> | AssistantRouteCreateWithoutSetorInput[] | AssistantRouteUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutSetorInput | AssistantRouteCreateOrConnectWithoutSetorInput[]
+    createMany?: AssistantRouteCreateManySetorInputEnvelope
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutSetoresNestedInput = {
@@ -164340,6 +165899,20 @@ export namespace Prisma {
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
   }
 
+  export type AssistantRouteUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput> | AssistantRouteCreateWithoutSetorInput[] | AssistantRouteUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutSetorInput | AssistantRouteCreateOrConnectWithoutSetorInput[]
+    upsert?: AssistantRouteUpsertWithWhereUniqueWithoutSetorInput | AssistantRouteUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: AssistantRouteCreateManySetorInputEnvelope
+    set?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    disconnect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    delete?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    update?: AssistantRouteUpdateWithWhereUniqueWithoutSetorInput | AssistantRouteUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: AssistantRouteUpdateManyWithWhereWithoutSetorInput | AssistantRouteUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+  }
+
   export type SetorUserUncheckedUpdateManyWithoutSetorNestedInput = {
     create?: XOR<SetorUserCreateWithoutSetorInput, SetorUserUncheckedCreateWithoutSetorInput> | SetorUserCreateWithoutSetorInput[] | SetorUserUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: SetorUserCreateOrConnectWithoutSetorInput | SetorUserCreateOrConnectWithoutSetorInput[]
@@ -164408,6 +165981,20 @@ export namespace Prisma {
     update?: SetorClickupListUpdateWithWhereUniqueWithoutSetorInput | SetorClickupListUpdateWithWhereUniqueWithoutSetorInput[]
     updateMany?: SetorClickupListUpdateManyWithWhereWithoutSetorInput | SetorClickupListUpdateManyWithWhereWithoutSetorInput[]
     deleteMany?: SetorClickupListScalarWhereInput | SetorClickupListScalarWhereInput[]
+  }
+
+  export type AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput> | AssistantRouteCreateWithoutSetorInput[] | AssistantRouteUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutSetorInput | AssistantRouteCreateOrConnectWithoutSetorInput[]
+    upsert?: AssistantRouteUpsertWithWhereUniqueWithoutSetorInput | AssistantRouteUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: AssistantRouteCreateManySetorInputEnvelope
+    set?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    disconnect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    delete?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    update?: AssistantRouteUpdateWithWhereUniqueWithoutSetorInput | AssistantRouteUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: AssistantRouteUpdateManyWithWhereWithoutSetorInput | AssistantRouteUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
   }
 
   export type SetorCreateNestedOneWithoutClickupListsInput = {
@@ -167192,6 +168779,13 @@ export namespace Prisma {
     connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
   }
 
+  export type AssistantRouteCreateNestedManyWithoutAssistantInput = {
+    create?: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput> | AssistantRouteCreateWithoutAssistantInput[] | AssistantRouteUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutAssistantInput | AssistantRouteCreateOrConnectWithoutAssistantInput[]
+    createMany?: AssistantRouteCreateManyAssistantInputEnvelope
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutAssistantsCreatedInput = {
     create?: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutAssistantsCreatedInput
@@ -167203,6 +168797,13 @@ export namespace Prisma {
     connectOrCreate?: AiUsageLogCreateOrConnectWithoutAssistantInput | AiUsageLogCreateOrConnectWithoutAssistantInput[]
     createMany?: AiUsageLogCreateManyAssistantInputEnvelope
     connect?: AiUsageLogWhereUniqueInput | AiUsageLogWhereUniqueInput[]
+  }
+
+  export type AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput = {
+    create?: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput> | AssistantRouteCreateWithoutAssistantInput[] | AssistantRouteUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutAssistantInput | AssistantRouteCreateOrConnectWithoutAssistantInput[]
+    createMany?: AssistantRouteCreateManyAssistantInputEnvelope
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
   }
 
   export type EnumAssistantTypeFieldUpdateOperationsInput = {
@@ -167241,6 +168842,20 @@ export namespace Prisma {
     deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
   }
 
+  export type AssistantRouteUpdateManyWithoutAssistantNestedInput = {
+    create?: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput> | AssistantRouteCreateWithoutAssistantInput[] | AssistantRouteUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutAssistantInput | AssistantRouteCreateOrConnectWithoutAssistantInput[]
+    upsert?: AssistantRouteUpsertWithWhereUniqueWithoutAssistantInput | AssistantRouteUpsertWithWhereUniqueWithoutAssistantInput[]
+    createMany?: AssistantRouteCreateManyAssistantInputEnvelope
+    set?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    disconnect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    delete?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    update?: AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput | AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput[]
+    updateMany?: AssistantRouteUpdateManyWithWhereWithoutAssistantInput | AssistantRouteUpdateManyWithWhereWithoutAssistantInput[]
+    deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutAssistantsCreatedNestedInput = {
     create?: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutAssistantsCreatedInput
@@ -167263,6 +168878,48 @@ export namespace Prisma {
     update?: AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput | AiUsageLogUpdateWithWhereUniqueWithoutAssistantInput[]
     updateMany?: AiUsageLogUpdateManyWithWhereWithoutAssistantInput | AiUsageLogUpdateManyWithWhereWithoutAssistantInput[]
     deleteMany?: AiUsageLogScalarWhereInput | AiUsageLogScalarWhereInput[]
+  }
+
+  export type AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput = {
+    create?: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput> | AssistantRouteCreateWithoutAssistantInput[] | AssistantRouteUncheckedCreateWithoutAssistantInput[]
+    connectOrCreate?: AssistantRouteCreateOrConnectWithoutAssistantInput | AssistantRouteCreateOrConnectWithoutAssistantInput[]
+    upsert?: AssistantRouteUpsertWithWhereUniqueWithoutAssistantInput | AssistantRouteUpsertWithWhereUniqueWithoutAssistantInput[]
+    createMany?: AssistantRouteCreateManyAssistantInputEnvelope
+    set?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    disconnect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    delete?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    connect?: AssistantRouteWhereUniqueInput | AssistantRouteWhereUniqueInput[]
+    update?: AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput | AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput[]
+    updateMany?: AssistantRouteUpdateManyWithWhereWithoutAssistantInput | AssistantRouteUpdateManyWithWhereWithoutAssistantInput[]
+    deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+  }
+
+  export type AssistantCreateNestedOneWithoutRoutesInput = {
+    create?: XOR<AssistantCreateWithoutRoutesInput, AssistantUncheckedCreateWithoutRoutesInput>
+    connectOrCreate?: AssistantCreateOrConnectWithoutRoutesInput
+    connect?: AssistantWhereUniqueInput
+  }
+
+  export type SetorCreateNestedOneWithoutAssistantRoutesInput = {
+    create?: XOR<SetorCreateWithoutAssistantRoutesInput, SetorUncheckedCreateWithoutAssistantRoutesInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutAssistantRoutesInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type AssistantUpdateOneRequiredWithoutRoutesNestedInput = {
+    create?: XOR<AssistantCreateWithoutRoutesInput, AssistantUncheckedCreateWithoutRoutesInput>
+    connectOrCreate?: AssistantCreateOrConnectWithoutRoutesInput
+    upsert?: AssistantUpsertWithoutRoutesInput
+    connect?: AssistantWhereUniqueInput
+    update?: XOR<XOR<AssistantUpdateToOneWithWhereWithoutRoutesInput, AssistantUpdateWithoutRoutesInput>, AssistantUncheckedUpdateWithoutRoutesInput>
+  }
+
+  export type SetorUpdateOneRequiredWithoutAssistantRoutesNestedInput = {
+    create?: XOR<SetorCreateWithoutAssistantRoutesInput, SetorUncheckedCreateWithoutAssistantRoutesInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutAssistantRoutesInput
+    upsert?: SetorUpsertWithoutAssistantRoutesInput
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutAssistantRoutesInput, SetorUpdateWithoutAssistantRoutesInput>, SetorUncheckedUpdateWithoutAssistantRoutesInput>
   }
 
   export type CompanyCreateNestedOneWithoutAiUsageLogsInput = {
@@ -168208,6 +169865,13 @@ export namespace Prisma {
     not?: NestedEnumMessageDirNullableFilter<$PrismaModel> | $Enums.MessageDir | null
   }
 
+  export type NestedEnumAiModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiMode | EnumAiModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiModeFilter<$PrismaModel> | $Enums.AiMode
+  }
+
   export type NestedEnumConversationStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ConversationStatus | EnumConversationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ConversationStatus[] | ListEnumConversationStatusFieldRefInput<$PrismaModel>
@@ -168226,6 +169890,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumMessageDirNullableFilter<$PrismaModel>
     _max?: NestedEnumMessageDirNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAiModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiMode | EnumAiModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiMode[] | ListEnumAiModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiModeWithAggregatesFilter<$PrismaModel> | $Enums.AiMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiModeFilter<$PrismaModel>
+    _max?: NestedEnumAiModeFilter<$PrismaModel>
   }
 
   export type NestedEnumActivityTypeFilter<$PrismaModel = never> = {
@@ -169300,6 +170974,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -169326,6 +171002,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -170000,6 +171678,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -170008,6 +171689,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutAssistantsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantUncheckedCreateWithoutCreatedByInput = {
@@ -170017,6 +171699,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -170024,6 +171709,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantCreateOrConnectWithoutCreatedByInput = {
@@ -170425,6 +172111,8 @@ export namespace Prisma {
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
+    aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
+    aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -171004,6 +172692,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFilter<"Assistant"> | $Enums.AssistantType
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
+    autoRespond?: BoolFilter<"Assistant"> | boolean
+    learnings?: StringNullableFilter<"Assistant"> | string | null
+    qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
     instanceId?: StringNullableFilter<"Assistant"> | string | null
     model?: StringNullableFilter<"Assistant"> | string | null
@@ -173551,6 +175242,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutCompanyInput = {
@@ -173581,6 +175273,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutCompanyInput = {
@@ -173606,6 +175299,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -173633,6 +175328,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -174907,6 +176604,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -174914,6 +176614,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
 
@@ -174923,6 +176624,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -174931,6 +176635,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantCreateOrConnectWithoutCompanyInput = {
@@ -179708,6 +181413,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -179735,6 +181442,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -180484,6 +182193,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -180511,6 +182222,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -186025,6 +187738,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -186032,6 +187748,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
     usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
 
@@ -186042,6 +187759,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -186049,6 +187769,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantCreateOrConnectWithoutInstanceInput = {
@@ -186787,6 +188508,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -186814,6 +188537,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -187382,6 +189107,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -187409,6 +189136,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -188179,6 +189908,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutConversationsInput = {
@@ -188209,6 +189939,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutConversationsInput = {
@@ -188813,6 +190544,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutConversationsInput = {
@@ -188843,6 +190575,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type CompanyUpsertWithoutConversationsInput = {
@@ -189172,6 +190905,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -189199,6 +190934,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -189238,6 +190975,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -189265,6 +191004,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -189288,6 +191029,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -189315,6 +191058,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -189753,6 +191498,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -189780,6 +191527,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -190867,6 +192616,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutTicketsInput = {
@@ -190897,6 +192647,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutTicketsInput = {
@@ -191826,6 +193577,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutTicketsInput = {
@@ -191856,6 +193608,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorClickupListUpsertWithoutTicketsInput = {
@@ -192486,6 +194239,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -192512,6 +194267,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -192608,6 +194365,36 @@ export namespace Prisma {
 
   export type SetorClickupListCreateManySetorInputEnvelope = {
     data: SetorClickupListCreateManySetorInput | SetorClickupListCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssistantRouteCreateWithoutSetorInput = {
+    id?: string
+    intent: string
+    label?: string | null
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assistant: AssistantCreateNestedOneWithoutRoutesInput
+  }
+
+  export type AssistantRouteUncheckedCreateWithoutSetorInput = {
+    id?: string
+    assistantId: string
+    intent: string
+    label?: string | null
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantRouteCreateOrConnectWithoutSetorInput = {
+    where: AssistantRouteWhereUniqueInput
+    create: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput>
+  }
+
+  export type AssistantRouteCreateManySetorInputEnvelope = {
+    data: AssistantRouteCreateManySetorInput | AssistantRouteCreateManySetorInput[]
     skipDuplicates?: boolean
   }
 
@@ -192928,6 +194715,36 @@ export namespace Prisma {
     data: XOR<SetorClickupListUpdateManyMutationInput, SetorClickupListUncheckedUpdateManyWithoutSetorInput>
   }
 
+  export type AssistantRouteUpsertWithWhereUniqueWithoutSetorInput = {
+    where: AssistantRouteWhereUniqueInput
+    update: XOR<AssistantRouteUpdateWithoutSetorInput, AssistantRouteUncheckedUpdateWithoutSetorInput>
+    create: XOR<AssistantRouteCreateWithoutSetorInput, AssistantRouteUncheckedCreateWithoutSetorInput>
+  }
+
+  export type AssistantRouteUpdateWithWhereUniqueWithoutSetorInput = {
+    where: AssistantRouteWhereUniqueInput
+    data: XOR<AssistantRouteUpdateWithoutSetorInput, AssistantRouteUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type AssistantRouteUpdateManyWithWhereWithoutSetorInput = {
+    where: AssistantRouteScalarWhereInput
+    data: XOR<AssistantRouteUpdateManyMutationInput, AssistantRouteUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type AssistantRouteScalarWhereInput = {
+    AND?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+    OR?: AssistantRouteScalarWhereInput[]
+    NOT?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+    id?: StringFilter<"AssistantRoute"> | string
+    assistantId?: StringFilter<"AssistantRoute"> | string
+    intent?: StringFilter<"AssistantRoute"> | string
+    label?: StringNullableFilter<"AssistantRoute"> | string | null
+    setorId?: StringFilter<"AssistantRoute"> | string
+    createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+    updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
+  }
+
   export type SetorCreateWithoutClickupListsInput = {
     id?: string
     name: string
@@ -192956,6 +194773,7 @@ export namespace Prisma {
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutClickupListsInput = {
@@ -192986,6 +194804,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutClickupListsInput = {
@@ -193610,6 +195429,7 @@ export namespace Prisma {
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutClickupListsInput = {
@@ -193640,6 +195460,7 @@ export namespace Prisma {
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type CompanyUpsertWithoutSetorClickupListsAsClientInput = {
@@ -196604,6 +198425,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutUsersInput = {
@@ -196634,6 +198456,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutUsersInput = {
@@ -196765,6 +198588,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutUsersInput = {
@@ -196795,6 +198619,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type UserUpsertWithoutSetoresInput = {
@@ -196916,6 +198741,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
   }
 
   export type SetorUncheckedCreateWithoutInstancesInput = {
@@ -196946,6 +198772,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
   }
 
   export type SetorCreateOrConnectWithoutInstancesInput = {
@@ -197031,6 +198858,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutInstancesInput = {
@@ -197061,6 +198889,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutSetoresInput = {
@@ -223442,6 +225271,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssistantRouteCreateWithoutAssistantInput = {
+    id?: string
+    intent: string
+    label?: string | null
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    setor: SetorCreateNestedOneWithoutAssistantRoutesInput
+  }
+
+  export type AssistantRouteUncheckedCreateWithoutAssistantInput = {
+    id?: string
+    intent: string
+    label?: string | null
+    setorId: string
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantRouteCreateOrConnectWithoutAssistantInput = {
+    where: AssistantRouteWhereUniqueInput
+    create: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput>
+  }
+
+  export type AssistantRouteCreateManyAssistantInputEnvelope = {
+    data: AssistantRouteCreateManyAssistantInput | AssistantRouteCreateManyAssistantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutAssistantsCreatedInput = {
     id?: string
     name: string
@@ -223825,6 +225684,22 @@ export namespace Prisma {
     data: XOR<AiUsageLogUpdateManyMutationInput, AiUsageLogUncheckedUpdateManyWithoutAssistantInput>
   }
 
+  export type AssistantRouteUpsertWithWhereUniqueWithoutAssistantInput = {
+    where: AssistantRouteWhereUniqueInput
+    update: XOR<AssistantRouteUpdateWithoutAssistantInput, AssistantRouteUncheckedUpdateWithoutAssistantInput>
+    create: XOR<AssistantRouteCreateWithoutAssistantInput, AssistantRouteUncheckedCreateWithoutAssistantInput>
+  }
+
+  export type AssistantRouteUpdateWithWhereUniqueWithoutAssistantInput = {
+    where: AssistantRouteWhereUniqueInput
+    data: XOR<AssistantRouteUpdateWithoutAssistantInput, AssistantRouteUncheckedUpdateWithoutAssistantInput>
+  }
+
+  export type AssistantRouteUpdateManyWithWhereWithoutAssistantInput = {
+    where: AssistantRouteScalarWhereInput
+    data: XOR<AssistantRouteUpdateManyMutationInput, AssistantRouteUncheckedUpdateManyWithoutAssistantInput>
+  }
+
   export type UserUpsertWithoutAssistantsCreatedInput = {
     update: XOR<UserUpdateWithoutAssistantsCreatedInput, UserUncheckedUpdateWithoutAssistantsCreatedInput>
     create: XOR<UserCreateWithoutAssistantsCreatedInput, UserUncheckedCreateWithoutAssistantsCreatedInput>
@@ -223914,6 +225789,242 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type AssistantCreateWithoutRoutesInput = {
+    id?: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAssistantsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    usageLogs?: AiUsageLogCreateNestedManyWithoutAssistantInput
+    createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
+  }
+
+  export type AssistantUncheckedCreateWithoutRoutesInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AssistantType
+    manual: string
+    isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
+    schedulingLink?: string | null
+    instanceId?: string | null
+    model?: string | null
+    temperature?: number | null
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutAssistantInput
+  }
+
+  export type AssistantCreateOrConnectWithoutRoutesInput = {
+    where: AssistantWhereUniqueInput
+    create: XOR<AssistantCreateWithoutRoutesInput, AssistantUncheckedCreateWithoutRoutesInput>
+  }
+
+  export type SetorCreateWithoutAssistantRoutesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutAssistantRoutesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutAssistantRoutesInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutAssistantRoutesInput, SetorUncheckedCreateWithoutAssistantRoutesInput>
+  }
+
+  export type AssistantUpsertWithoutRoutesInput = {
+    update: XOR<AssistantUpdateWithoutRoutesInput, AssistantUncheckedUpdateWithoutRoutesInput>
+    create: XOR<AssistantCreateWithoutRoutesInput, AssistantUncheckedCreateWithoutRoutesInput>
+    where?: AssistantWhereInput
+  }
+
+  export type AssistantUpdateToOneWithWhereWithoutRoutesInput = {
+    where?: AssistantWhereInput
+    data: XOR<AssistantUpdateWithoutRoutesInput, AssistantUncheckedUpdateWithoutRoutesInput>
+  }
+
+  export type AssistantUpdateWithoutRoutesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
+  }
+
+  export type AssistantUncheckedUpdateWithoutRoutesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
+    manual?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
+    schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+  }
+
+  export type SetorUpsertWithoutAssistantRoutesInput = {
+    update: XOR<SetorUpdateWithoutAssistantRoutesInput, SetorUncheckedUpdateWithoutAssistantRoutesInput>
+    create: XOR<SetorCreateWithoutAssistantRoutesInput, SetorUncheckedCreateWithoutAssistantRoutesInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutAssistantRoutesInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutAssistantRoutesInput, SetorUncheckedUpdateWithoutAssistantRoutesInput>
+  }
+
+  export type SetorUpdateWithoutAssistantRoutesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutAssistantRoutesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type CompanyCreateWithoutAiUsageLogsInput = {
@@ -224153,6 +226264,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -224160,6 +226274,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAssistantsInput
     instance?: WhatsappInstanceCreateNestedOneWithoutAssistantsInput
+    routes?: AssistantRouteCreateNestedManyWithoutAssistantInput
     createdBy?: UserCreateNestedOneWithoutAssistantsCreatedInput
   }
 
@@ -224170,6 +226285,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -224177,6 +226295,7 @@ export namespace Prisma {
     createdById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    routes?: AssistantRouteUncheckedCreateNestedManyWithoutAssistantInput
   }
 
   export type AssistantCreateOrConnectWithoutUsageLogsInput = {
@@ -224438,6 +226557,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -224445,6 +226567,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
 
@@ -224455,6 +226578,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224462,6 +226588,7 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
   }
 
   export type CompanyCreateWithoutServicesInput = {
@@ -227557,6 +229684,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -227795,6 +229924,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -227982,6 +230114,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -228008,6 +230142,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -228033,6 +230169,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -228726,6 +230864,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -228734,6 +230875,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
   }
 
   export type AssistantUncheckedUpdateWithoutCreatedByInput = {
@@ -228743,6 +230885,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228750,6 +230895,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
   }
 
   export type AssistantUncheckedUpdateManyWithoutCreatedByInput = {
@@ -228759,6 +230905,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -229349,6 +231498,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -229787,6 +231938,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     instanceId?: string | null
     model?: string | null
@@ -231785,6 +233939,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateWithoutCompanyInput = {
@@ -231815,6 +233970,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
   }
 
   export type SetorUncheckedUpdateManyWithoutCompanyInput = {
@@ -231855,6 +234011,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -231882,6 +234040,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -231907,6 +234067,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -233211,6 +235373,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -233218,6 +235383,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instance?: WhatsappInstanceUpdateOneWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
 
@@ -233227,6 +235393,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -233235,6 +235404,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
   }
 
   export type AssistantUncheckedUpdateManyWithoutCompanyInput = {
@@ -233243,6 +235413,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     instanceId?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
@@ -234608,6 +236781,9 @@ export namespace Prisma {
     type: $Enums.AssistantType
     manual: string
     isActive?: boolean
+    autoRespond?: boolean
+    learnings?: string | null
+    qualificationChecklist?: string | null
     schedulingLink?: string | null
     model?: string | null
     temperature?: number | null
@@ -234706,6 +236882,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234713,6 +236892,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAssistantsNestedInput
     usageLogs?: AiUsageLogUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUpdateManyWithoutAssistantNestedInput
     createdBy?: UserUpdateOneWithoutAssistantsCreatedNestedInput
   }
 
@@ -234723,6 +236903,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -234730,6 +236913,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usageLogs?: AiUsageLogUncheckedUpdateManyWithoutAssistantNestedInput
+    routes?: AssistantRouteUncheckedUpdateManyWithoutAssistantNestedInput
   }
 
   export type AssistantUncheckedUpdateManyWithoutInstanceInput = {
@@ -234739,6 +236923,9 @@ export namespace Prisma {
     type?: EnumAssistantTypeFieldUpdateOperationsInput | $Enums.AssistantType
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    learnings?: NullableStringFieldUpdateOperationsInput | string | null
+    qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -235392,6 +237579,8 @@ export namespace Prisma {
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
     excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -235421,6 +237610,16 @@ export namespace Prisma {
     lastSyncedAt?: Date | string | null
     clientExpectedAt?: Date | string | null
     clientLastContactAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssistantRouteCreateManySetorInput = {
+    id?: string
+    assistantId: string
+    intent: string
+    label?: string | null
+    createLead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -235539,6 +237738,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -235565,6 +237766,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -235590,6 +237793,8 @@ export namespace Prisma {
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -235687,6 +237892,36 @@ export namespace Prisma {
     lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientExpectedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clientLastContactAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assistant?: AssistantUpdateOneRequiredWithoutRoutesNestedInput
+  }
+
+  export type AssistantRouteUncheckedUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteUncheckedUpdateManyWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assistantId?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -237565,6 +239800,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AssistantRouteCreateManyAssistantInput = {
+    id?: string
+    intent: string
+    label?: string | null
+    setorId: string
+    createLead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AiUsageLogUpdateWithoutAssistantInput = {
     id?: StringFieldUpdateOperationsInput | string
     endpoint?: StringFieldUpdateOperationsInput | string
@@ -237599,6 +239844,36 @@ export namespace Prisma {
     tokensTotal?: IntFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteUpdateWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutAssistantRoutesNestedInput
+  }
+
+  export type AssistantRouteUncheckedUpdateWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: StringFieldUpdateOperationsInput | string
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssistantRouteUncheckedUpdateManyWithoutAssistantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    intent?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: StringFieldUpdateOperationsInput | string
+    createLead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClientServiceCreateManyServiceInput = {
@@ -238498,6 +240773,10 @@ export namespace Prisma {
      * @deprecated Use AssistantDefaultArgs instead
      */
     export type AssistantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssistantRouteDefaultArgs instead
+     */
+    export type AssistantRouteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssistantRouteDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AiUsageLogDefaultArgs instead
      */

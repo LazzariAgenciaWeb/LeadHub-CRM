@@ -146,6 +146,8 @@ interface Conversation {
     setorId: string | null;
     setor: { id: string; name: string } | null;
     excludeFromGamification?: boolean;
+    // Agente de IA autônomo — estado do bot nesta conversa
+    aiMode?: "ACTIVE" | "PAUSED_HUMAN" | "OFF";
   } | null;
 }
 
@@ -1352,6 +1354,31 @@ export default function WhatsappManager({
       if (res.ok) {
         setSelectedConv((prev) => prev?.conversation
           ? { ...prev, conversation: { ...prev.conversation, excludeFromGamification: next } }
+          : prev);
+        router.refresh();
+      }
+    } finally {
+      setConvActionLoading(false);
+    }
+  }
+
+  // Liga/desliga o agente de IA autônomo NESTA conversa.
+  // OFF = desligado manual (não volta nem quando a conversa reabre);
+  // ACTIVE = bot volta a responder.
+  async function toggleAiMode() {
+    const conv = selectedConv?.conversation;
+    if (!conv) return;
+    const next = conv.aiMode === "ACTIVE" ? "OFF" : "ACTIVE";
+    setConvActionLoading(true);
+    try {
+      const res = await fetch(`/api/conversations/${conv.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ aiMode: next }),
+      });
+      if (res.ok) {
+        setSelectedConv((prev) => prev?.conversation
+          ? { ...prev, conversation: { ...prev.conversation, aiMode: next } }
           : prev);
         router.refresh();
       }
@@ -3507,6 +3534,30 @@ export default function WhatsappManager({
                       {/* Encaminhar movido pro menu "+ Ações" — header fica mais
                           limpo, com Pegar e Finalizar apenas. canTransfer
                           ainda controla a visibilidade da opção no menu. */}
+
+                      {/* Toggle do agente de IA autônomo — mostra o estado do
+                          bot nesta conversa e permite pausar/reativar. Só
+                          aparece quando a conversa tem o campo (individuais). */}
+                      {conv.aiMode !== undefined && (
+                        <button
+                          onClick={toggleAiMode}
+                          disabled={convActionLoading}
+                          title={
+                            conv.aiMode === "ACTIVE"
+                              ? "🤖 IA atendendo esta conversa — clique pra desligar"
+                              : conv.aiMode === "PAUSED_HUMAN"
+                                ? "IA pausada (humano assumiu) — clique pra reativar"
+                                : "IA desligada nesta conversa — clique pra reativar"
+                          }
+                          className={`px-2 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1 ${
+                            conv.aiMode === "ACTIVE"
+                              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+                              : "border-slate-600 bg-slate-700/30 text-slate-400 hover:bg-slate-700/50"
+                          }`}
+                        >
+                          🤖{conv.aiMode === "ACTIVE" ? "" : conv.aiMode === "PAUSED_HUMAN" ? " ⏸" : " ✕"}
+                        </button>
+                      )}
 
                       {/* Toggle de gamificação — admin marca grupos internos
                           pra não gerar pontos. Visível apenas pra admin. */}

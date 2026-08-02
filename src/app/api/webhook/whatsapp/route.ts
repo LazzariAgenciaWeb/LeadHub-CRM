@@ -438,6 +438,13 @@ export async function POST(request: NextRequest) {
                 ...(quotedId ? { quotedId, quotedBody } : {}),
               },
             });
+
+            // Mensagem digitada no CELULAR (não passou pela API — envios do
+            // painel e do bot caem no `existing`/`fallback` acima) → humano
+            // assumiu: agente autônomo desta conversa cala.
+            if (!isGroup) {
+              void import("@/lib/auto-agent").then(({ pauseBot }) => pauseBot(conv.id)).catch(() => {});
+            }
           }
         }
         // Se existing !== null → já foi salvo corretamente pelo send/route.ts → não tocar

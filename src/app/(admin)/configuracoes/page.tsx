@@ -402,11 +402,14 @@ export default async function ConfiguracoesPage({
         </div>
       );
     } else {
-      const [assistants, instances, company] = await Promise.all([
+      const [assistants, instances, company, setores] = await Promise.all([
         prisma.assistant.findMany({
           where: { companyId: targetCompanyId },
           orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
-          include: { instance: { select: { id: true, label: true, instanceName: true, phone: true } } },
+          include: {
+            instance: { select: { id: true, label: true, instanceName: true, phone: true } },
+            routes: { include: { setor: { select: { id: true, name: true } } }, orderBy: { createdAt: "asc" } },
+          },
         }),
         prisma.whatsappInstance.findMany({
           where: { companyId: targetCompanyId },
@@ -416,6 +419,11 @@ export default async function ConfiguracoesPage({
         prisma.company.findUnique({
           where: { id: targetCompanyId },
           select: { aiMonthlyQuota: true, aiUsedThisMonth: true, aiQuotaResetAt: true },
+        }),
+        prisma.setor.findMany({
+          where: { companyId: targetCompanyId },
+          select: { id: true, name: true },
+          orderBy: { name: "asc" },
         }),
       ]);
 
@@ -430,6 +438,7 @@ export default async function ConfiguracoesPage({
               updatedAt: a.updatedAt.toISOString(),
             })) as any}
             instances={instances as any}
+            setores={setores}
             quota={{
               aiMonthlyQuota:  company?.aiMonthlyQuota ?? 0,
               aiUsedThisMonth: company?.aiUsedThisMonth ?? 0,

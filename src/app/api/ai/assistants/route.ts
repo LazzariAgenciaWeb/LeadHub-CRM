@@ -25,7 +25,10 @@ export async function GET(req: NextRequest) {
   const assistants = await prisma.assistant.findMany({
     where: { companyId },
     orderBy: [{ type: "asc" }, { updatedAt: "desc" }],
-    include: { instance: { select: { id: true, label: true, instanceName: true, phone: true } } },
+    include: {
+      instance: { select: { id: true, label: true, instanceName: true, phone: true } },
+      routes: { include: { setor: { select: { id: true, name: true } } }, orderBy: { createdAt: "asc" } },
+    },
   });
   return NextResponse.json(assistants);
 }
@@ -64,6 +67,13 @@ export async function POST(req: NextRequest) {
     if (!inst) return NextResponse.json({ error: "Instância inválida" }, { status: 400 });
   }
 
+  // Rotas de triagem (modo autônomo)
+  const { sanitizeRoutes } = await import("@/lib/assistant");
+  const routes = await sanitizeRoutes(body.routes, companyId);
+  if (routes === null) {
+    return NextResponse.json({ error: "Rota inválida: intent e setor são obrigatórios (sem intents repetidos)" }, { status: 400 });
+  }
+
   const created = await prisma.assistant.create({
     data: {
       companyId,
@@ -72,11 +82,16 @@ export async function POST(req: NextRequest) {
       manual,
       instanceId,
       isActive: body.isActive ?? true,
+      autoRespond: body.autoRespond === true,
+      learnings: (body.learnings ?? "").trim() || null,
+      qualificationChecklist: (body.qualificationChecklist ?? "").trim() || null,
       schedulingLink: (body.schedulingLink ?? "").trim() || null,
       model: (body.model ?? "").trim() || null,
       temperature: typeof body.temperature === "number" ? body.temperature : null,
       createdById: (session.user as any).id ?? null,
+      ...(routes.length ? { routes: { create: routes } } : {}),
     },
+    include: { routes: { include: { setor: { select: { id: true, name: true } } } } },
   });
   return NextResponse.json(created, { status: 201 });
 }

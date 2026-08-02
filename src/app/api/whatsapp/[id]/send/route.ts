@@ -179,6 +179,10 @@ export async function POST(
       include: { instance: { select: { instanceName: true } }, campaign: { select: { id: true, name: true } } },
     });
 
+    // Atendente respondeu pelo painel → agente autônomo desta conversa cala.
+    // fire-and-forget; só sai de ACTIVE (OFF/PAUSED continuam como estão).
+    void import("@/lib/auto-agent").then(({ pauseBot }) => pauseBot(conv.id)).catch(() => {});
+
     // Gamificação — NÃO roda mais aqui. Toda pontuação ligada a mensagens
     // (resposta rápida, primeira resposta, ajuda exército, badges de grupo,
     // easter eggs noturnos) é processada em batch pelo cron diário

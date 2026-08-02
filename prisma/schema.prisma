@@ -973,6 +973,13 @@ model Conversation {
   // do time, testes etc). Default false = pontua normal.
   excludeFromGamification Boolean @default(false)
 
+  // Agente de IA autônomo — máquina de estado do bot NESTA conversa.
+  //   ACTIVE       → bot pode responder (se a instância tiver agente autoRespond)
+  //   PAUSED_HUMAN → humano assumiu (outbound de atendente ou handoff) — bot cala
+  //   OFF          → bot desligado manualmente nesta conversa
+  aiMode     AiMode    @default(ACTIVE)
+  aiPausedAt DateTime? // quando o bot foi pausado (handoff/humano)
+
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
   closedAt        DateTime?
@@ -1005,6 +1012,12 @@ enum ConversationStatus {
   WAITING_CUSTOMER // 🔵 respondemos, esperando cliente
   SCHEDULED // 🟣 standby — retorno agendado (usa Lead.expectedReturnAt como prazo)
   CLOSED // ⚪ finalizada
+}
+
+enum AiMode {
+  ACTIVE // bot pode responder
+  PAUSED_HUMAN // humano assumiu — bot em silêncio
+  OFF // desligado manualmente nesta conversa
 }
 
 model ConversationNote {
@@ -1219,11 +1232,12 @@ model Setor {
   canViewLinks       Boolean @default(true) // ver Links de rastreamento
   canViewCofre       Boolean @default(true) // ver Cofre (2FA continua valendo por credencial)
 
-  users         SetorUser[]
-  instances     SetorInstance[]
-  tickets       Ticket[]
-  conversations Conversation[]
-  clickupLists  SetorClickupList[]
+  users           SetorUser[]
+  instances       SetorInstance[]
+  tickets         Ticket[]
+  conversations   Conversation[]
+  clickupLists    SetorClickupList[]
+  assistantRoutes AssistantRoute[]
 
   @@index([companyId])
 }
@@ -3301,6 +3315,22 @@ model Assistant {
   manual    String        @db.Text
   isActive  Boolean       @default(true)
 
+  // Modo AUTÔNOMO: quando true, o agente responde SOZINHO as mensagens que
+  // chegam na instância vinculada (via webhook), sem atendente. false = só
+  // copiloto (sugestões/resumos como hoje).
+  autoRespond Boolean @default(false)
+
+  // "Aprendizados" — bloco vivo injetado no prompt DEPOIS do manual. Começa
+  // curado à mão (correções que o gestor anota); no futuro é alimentado por
+  // revisão automática dos atendimentos (handoffs, correções de humano).
+  learnings String? @db.Text
+
+  // Checklist de qualificação (ICP) — UMA informação por linha (ex.: "Nome",
+  // "Nome da empresa", "Ramo de atuação", "Já anuncia online?"). O agente
+  // coleta TODAS naturalmente (uma por vez) antes de oferecer agendamento;
+  // o que foi coletado vai no resumo da triagem.
+  qualificationChecklist String? @db.Text
+
   // Link de agendamento (Google Calendar, Calendly, etc.). Quando preenchido, o
   // sistema injeta a URL EXATA no prompt — o modelo copia sem errar, em vez de
   // depender de lembrar o link do meio do manual.
@@ -3315,6 +3345,7 @@ model Assistant {
   temperature Float?
 
   usageLogs   AiUsageLog[]
+  routes      AssistantRoute[]
   createdBy   User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
@@ -3323,6 +3354,32 @@ model Assistant {
 
   @@index([companyId, type, isActive])
   @@index([instanceId])
+}
+
+// Rota de triagem do agente autônomo: mapeia a INTENÇÃO identificada pela IA
+// (token livre, ex.: "COMERCIAL", "ATENDIMENTO") para o Setor que assume a
+// conversa. Genérico de propósito — novo setor = nova rota cadastrada, sem
+// mexer em código.
+model AssistantRoute {
+  id          String    @id @default(cuid())
+  assistant   Assistant @relation(fields: [assistantId], references: [id], onDelete: Cascade)
+  assistantId String
+
+  intent String // token que a IA devolve na action (ex.: "COMERCIAL")
+  label  String? // nome amigável na UI ("Time comercial")
+
+  setor   Setor  @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  setorId String
+
+  // Ao rotear, criar/atualizar Lead no CRM com o resumo da qualificação
+  // (típico da rota comercial).
+  createLead Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([assistantId, intent])
+  @@index([setorId])
 }
 
 enum AssistantType {

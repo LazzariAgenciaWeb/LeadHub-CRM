@@ -287,6 +287,16 @@ export async function upsertConversation(args: {
     select: { id: true },
   });
 
+  // Reativação do bot em novo ciclo: conversa CLOSED reaberta por INBOUND.
+  // Fora do upsert porque é condicional ao valor atual de aiMode (só sai de
+  // PAUSED_HUMAN → ACTIVE; OFF manual é respeitado).
+  if (existing && existing.status === "CLOSED" && newStatus === "OPEN") {
+    await prisma.conversation.updateMany({
+      where: { id: conversation.id, aiMode: "PAUSED_HUMAN" },
+      data: { aiMode: "ACTIVE", aiPausedAt: null },
+    }).catch(() => {/* não crítico */});
+  }
+
   // Log de reabertura
   if (existing && existing.status === "CLOSED" && newStatus === "OPEN") {
     await prisma.activity.create({
@@ -723,6 +733,9 @@ export async function processInboundMessage(payload: {
         });
         // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
         if (contactName) await saveWAContactName(phone, contactName, companyId);
+        // Agente autônomo — agenda processamento com debounce (guards no motor).
+        // Import dinâmico evita ciclo (auto-agent importa upsertConversation daqui).
+        void import("./auto-agent").then(({ scheduleAutoAgent }) => scheduleAutoAgent(conv.id)).catch(() => {});
         return null;
       }
       // Se não é triggerOnly mas tem regras, cria lead NEW sem campanha
@@ -811,6 +824,8 @@ export async function processInboundMessage(payload: {
     });
     // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
     if (contactName) await saveWAContactName(phone, contactName, companyId);
+    // Agente autônomo — agenda processamento com debounce (guards no motor).
+    void import("./auto-agent").then(({ scheduleAutoAgent }) => scheduleAutoAgent(conv.id)).catch(() => {});
     return null;
   }
 
@@ -928,6 +943,9 @@ export async function processInboundMessage(payload: {
       }
     } catch { /* nunca propaga */ }
   })();
+
+  // Agente autônomo — agenda processamento com debounce (guards no motor).
+  void import("./auto-agent").then(({ scheduleAutoAgent }) => scheduleAutoAgent(conv.id)).catch(() => {});
 
   return { lead, message, identifiedAs, campaignId };
 }
