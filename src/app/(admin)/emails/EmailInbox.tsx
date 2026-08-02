@@ -87,6 +87,15 @@ const ACCOUNT_COLORS = [
   "bg-fuchsia-500/20 text-fuchsia-300",
 ];
 
+/** Default de prazo: amanhã 09:00, no formato do input datetime-local. */
+function defaultDueAtLocal(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(9, 0, 0, 0);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 function fmtSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
@@ -152,6 +161,12 @@ export default function EmailInbox() {
   const [aiDigest, setAiDigest] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
+
+  // Criar chamado a partir do email
+  const [ticketOpen, setTicketOpen] = useState(false);
+  const [ticketForm, setTicketForm] = useState({ title: "", dueDate: "", priority: "MEDIUM" });
+  const [ticketSaving, setTicketSaving] = useState(false);
+  const [ticketErr, setTicketErr] = useState("");
 
   // Regras de remetente (blacklist/whitelist)
   const [rulesOpen, setRulesOpen] = useState(false);
@@ -303,6 +318,41 @@ export default function EmailInbox() {
       load({ silent: true });
     } finally {
       setSending(false);
+    }
+  }
+
+  // ── Criar chamado a partir do email ───────────────────────────────────────
+
+  function startCreateTicket(email: EmailFull) {
+    setTicketForm({
+      title: email.subject || `Email de ${email.fromName ?? email.fromEmail}`,
+      dueDate: defaultDueAtLocal(),
+      // Importância da IA sugere a prioridade do chamado.
+      priority: email.aiImportance === "ALTA" ? "HIGH" : email.aiImportance === "BAIXA" ? "LOW" : "MEDIUM",
+    });
+    setTicketErr("");
+    setTicketOpen(true);
+  }
+
+  async function createTicketFromEmail() {
+    if (!selected) return;
+    setTicketSaving(true);
+    setTicketErr("");
+    try {
+      const res = await fetch(`/api/email/inbox/${selected.id}/create-ticket`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ticketForm),
+      });
+      const j = await res.json();
+      if (!res.ok) { setTicketErr(j.error || "Falha ao criar chamado"); return; }
+      setTicketOpen(false);
+      setSelected((s) => (s ? { ...s, ticketId: j.ticketId, ticket: { id: j.ticketId, title: j.title } } : s));
+      setNotice("Chamado criado e vinculado ✓ — respostas deste email caem nele automaticamente");
+      setTimeout(() => setNotice(""), 8000);
+      load({ silent: true });
+    } finally {
+      setTicketSaving(false);
     }
   }
 
@@ -948,6 +998,10 @@ export default function EmailInbox() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button onClick={() => startReply(selected)} title="Responder"
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
+                    {!selected.ticket && (
+                      <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
+                        className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
+                    )}
                     {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
                       <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquivar)"
                         className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Check size={14} /></button>
@@ -1034,6 +1088,54 @@ export default function EmailInbox() {
               <button onClick={send} disabled={sending}
                 className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
                 {sending ? "Enviando…" : "Enviar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: criar chamado a partir do email */}
+      {ticketOpen && selected && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setTicketOpen(false)}>
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#0f1623] p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-white text-sm font-semibold flex items-center gap-2">
+                <LifeBuoy size={15} className="text-sky-400" /> Criar chamado deste email
+              </h3>
+              <button onClick={() => setTicketOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            <p className="text-[11px] text-slate-500 mb-3">
+              O email vira a solicitação do chamado e fica vinculado — respostas do remetente aparecem na aba 📧 do chamado.
+            </p>
+            <div className="space-y-2">
+              <input value={ticketForm.title} onChange={(e) => setTicketForm((f) => ({ ...f, title: e.target.value }))}
+                placeholder="Título do chamado"
+                className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-500 uppercase tracking-wide">Prazo</label>
+                  <input type="datetime-local" value={ticketForm.dueDate}
+                    onChange={(e) => setTicketForm((f) => ({ ...f, dueDate: e.target.value }))}
+                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-500 uppercase tracking-wide">Prioridade</label>
+                  <select value={ticketForm.priority} onChange={(e) => setTicketForm((f) => ({ ...f, priority: e.target.value }))}
+                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                    <option value="LOW" className="bg-[#0f1623]">🟢 Baixa</option>
+                    <option value="MEDIUM" className="bg-[#0f1623]">🟡 Média</option>
+                    <option value="HIGH" className="bg-[#0f1623]">🟠 Alta</option>
+                    <option value="URGENT" className="bg-[#0f1623]">🔴 Urgente</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            {ticketErr && <p className="text-red-400 text-xs mt-2">{ticketErr}</p>}
+            <div className="flex justify-end gap-2 mt-3">
+              <button onClick={() => setTicketOpen(false)} className="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5">Cancelar</button>
+              <button onClick={createTicketFromEmail} disabled={ticketSaving || !ticketForm.title.trim() || !ticketForm.dueDate}
+                className="rounded-lg bg-indigo-500 px-4 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
+                {ticketSaving ? "Criando…" : "Criar chamado"}
               </button>
             </div>
           </div>
