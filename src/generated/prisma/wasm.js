@@ -1462,6 +1462,16 @@ exports.Prisma.InboxSenderRuleScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.InboxEmailAttachmentScalarFieldEnum = {
+  id: 'id',
+  emailId: 'emailId',
+  filename: 'filename',
+  contentType: 'contentType',
+  size: 'size',
+  partId: 'partId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.InboxEmailTagScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -2166,6 +2176,7 @@ exports.Prisma.ModelName = {
   EmailAccount: 'EmailAccount',
   InboxEmail: 'InboxEmail',
   InboxSenderRule: 'InboxSenderRule',
+  InboxEmailAttachment: 'InboxEmailAttachment',
   InboxEmailTag: 'InboxEmailTag',
   BillingEvent: 'BillingEvent',
   SubscriptionAddon: 'SubscriptionAddon',

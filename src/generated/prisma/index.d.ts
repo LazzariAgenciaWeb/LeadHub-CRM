@@ -464,6 +464,11 @@ export type InboxEmail = $Result.DefaultSelection<Prisma.$InboxEmailPayload>
  */
 export type InboxSenderRule = $Result.DefaultSelection<Prisma.$InboxSenderRulePayload>
 /**
+ * Model InboxEmailAttachment
+ * 
+ */
+export type InboxEmailAttachment = $Result.DefaultSelection<Prisma.$InboxEmailAttachmentPayload>
+/**
  * Model InboxEmailTag
  * 
  */
@@ -2290,6 +2295,16 @@ export class PrismaClient<
   get inboxSenderRule(): Prisma.InboxSenderRuleDelegate<ExtArgs>;
 
   /**
+   * `prisma.inboxEmailAttachment`: Exposes CRUD operations for the **InboxEmailAttachment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InboxEmailAttachments
+    * const inboxEmailAttachments = await prisma.inboxEmailAttachment.findMany()
+    * ```
+    */
+  get inboxEmailAttachment(): Prisma.InboxEmailAttachmentDelegate<ExtArgs>;
+
+  /**
    * `prisma.inboxEmailTag`: Exposes CRUD operations for the **InboxEmailTag** model.
     * Example usage:
     * ```ts
@@ -2959,6 +2974,7 @@ export namespace Prisma {
     EmailAccount: 'EmailAccount',
     InboxEmail: 'InboxEmail',
     InboxSenderRule: 'InboxSenderRule',
+    InboxEmailAttachment: 'InboxEmailAttachment',
     InboxEmailTag: 'InboxEmailTag',
     BillingEvent: 'BillingEvent',
     SubscriptionAddon: 'SubscriptionAddon',
@@ -2988,7 +3004,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9292,6 +9308,76 @@ export namespace Prisma {
           }
         }
       }
+      InboxEmailAttachment: {
+        payload: Prisma.$InboxEmailAttachmentPayload<ExtArgs>
+        fields: Prisma.InboxEmailAttachmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InboxEmailAttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InboxEmailAttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          findFirst: {
+            args: Prisma.InboxEmailAttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InboxEmailAttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          findMany: {
+            args: Prisma.InboxEmailAttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>[]
+          }
+          create: {
+            args: Prisma.InboxEmailAttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          createMany: {
+            args: Prisma.InboxEmailAttachmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InboxEmailAttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>[]
+          }
+          delete: {
+            args: Prisma.InboxEmailAttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          update: {
+            args: Prisma.InboxEmailAttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.InboxEmailAttachmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InboxEmailAttachmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InboxEmailAttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxEmailAttachmentPayload>
+          }
+          aggregate: {
+            args: Prisma.InboxEmailAttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInboxEmailAttachment>
+          }
+          groupBy: {
+            args: Prisma.InboxEmailAttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InboxEmailAttachmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InboxEmailAttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<InboxEmailAttachmentCountAggregateOutputType> | number
+          }
+        }
+      }
       InboxEmailTag: {
         payload: Prisma.$InboxEmailTagPayload<ExtArgs>
         fields: Prisma.InboxEmailTagFieldRefs
@@ -12387,10 +12473,12 @@ export namespace Prisma {
 
   export type InboxEmailCountOutputType = {
     tags: number
+    attachments: number
   }
 
   export type InboxEmailCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tags?: boolean | InboxEmailCountOutputTypeCountTagsArgs
+    attachments?: boolean | InboxEmailCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
@@ -12409,6 +12497,13 @@ export namespace Prisma {
    */
   export type InboxEmailCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InboxEmailTagWhereInput
+  }
+
+  /**
+   * InboxEmailCountOutputType without action
+   */
+  export type InboxEmailCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxEmailAttachmentWhereInput
   }
 
 
@@ -108483,6 +108578,7 @@ export namespace Prisma {
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
     tags?: boolean | InboxEmail$tagsArgs<ExtArgs>
+    attachments?: boolean | InboxEmail$attachmentsArgs<ExtArgs>
     _count?: boolean | InboxEmailCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["inboxEmail"]>
 
@@ -108548,6 +108644,7 @@ export namespace Prisma {
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
     tags?: boolean | InboxEmail$tagsArgs<ExtArgs>
+    attachments?: boolean | InboxEmail$attachmentsArgs<ExtArgs>
     _count?: boolean | InboxEmailCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InboxEmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -108565,6 +108662,7 @@ export namespace Prisma {
       lead: Prisma.$LeadPayload<ExtArgs> | null
       ticket: Prisma.$TicketPayload<ExtArgs> | null
       tags: Prisma.$InboxEmailTagPayload<ExtArgs>[]
+      attachments: Prisma.$InboxEmailAttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -108959,6 +109057,7 @@ export namespace Prisma {
     lead<T extends InboxEmail$leadArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticket<T extends InboxEmail$ticketArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$ticketArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     tags<T extends InboxEmail$tagsArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailTagPayload<ExtArgs>, T, "findMany"> | Null>
+    attachments<T extends InboxEmail$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -109391,6 +109490,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InboxEmailTagScalarFieldEnum | InboxEmailTagScalarFieldEnum[]
+  }
+
+  /**
+   * InboxEmail.attachments
+   */
+  export type InboxEmail$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    where?: InboxEmailAttachmentWhereInput
+    orderBy?: InboxEmailAttachmentOrderByWithRelationInput | InboxEmailAttachmentOrderByWithRelationInput[]
+    cursor?: InboxEmailAttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InboxEmailAttachmentScalarFieldEnum | InboxEmailAttachmentScalarFieldEnum[]
   }
 
   /**
@@ -110338,6 +110457,997 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: InboxSenderRuleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InboxEmailAttachment
+   */
+
+  export type AggregateInboxEmailAttachment = {
+    _count: InboxEmailAttachmentCountAggregateOutputType | null
+    _avg: InboxEmailAttachmentAvgAggregateOutputType | null
+    _sum: InboxEmailAttachmentSumAggregateOutputType | null
+    _min: InboxEmailAttachmentMinAggregateOutputType | null
+    _max: InboxEmailAttachmentMaxAggregateOutputType | null
+  }
+
+  export type InboxEmailAttachmentAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type InboxEmailAttachmentSumAggregateOutputType = {
+    size: number | null
+  }
+
+  export type InboxEmailAttachmentMinAggregateOutputType = {
+    id: string | null
+    emailId: string | null
+    filename: string | null
+    contentType: string | null
+    size: number | null
+    partId: string | null
+    createdAt: Date | null
+  }
+
+  export type InboxEmailAttachmentMaxAggregateOutputType = {
+    id: string | null
+    emailId: string | null
+    filename: string | null
+    contentType: string | null
+    size: number | null
+    partId: string | null
+    createdAt: Date | null
+  }
+
+  export type InboxEmailAttachmentCountAggregateOutputType = {
+    id: number
+    emailId: number
+    filename: number
+    contentType: number
+    size: number
+    partId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InboxEmailAttachmentAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type InboxEmailAttachmentSumAggregateInputType = {
+    size?: true
+  }
+
+  export type InboxEmailAttachmentMinAggregateInputType = {
+    id?: true
+    emailId?: true
+    filename?: true
+    contentType?: true
+    size?: true
+    partId?: true
+    createdAt?: true
+  }
+
+  export type InboxEmailAttachmentMaxAggregateInputType = {
+    id?: true
+    emailId?: true
+    filename?: true
+    contentType?: true
+    size?: true
+    partId?: true
+    createdAt?: true
+  }
+
+  export type InboxEmailAttachmentCountAggregateInputType = {
+    id?: true
+    emailId?: true
+    filename?: true
+    contentType?: true
+    size?: true
+    partId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InboxEmailAttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InboxEmailAttachment to aggregate.
+     */
+    where?: InboxEmailAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxEmailAttachments to fetch.
+     */
+    orderBy?: InboxEmailAttachmentOrderByWithRelationInput | InboxEmailAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InboxEmailAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxEmailAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxEmailAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InboxEmailAttachments
+    **/
+    _count?: true | InboxEmailAttachmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InboxEmailAttachmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InboxEmailAttachmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InboxEmailAttachmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InboxEmailAttachmentMaxAggregateInputType
+  }
+
+  export type GetInboxEmailAttachmentAggregateType<T extends InboxEmailAttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateInboxEmailAttachment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInboxEmailAttachment[P]>
+      : GetScalarType<T[P], AggregateInboxEmailAttachment[P]>
+  }
+
+
+
+
+  export type InboxEmailAttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxEmailAttachmentWhereInput
+    orderBy?: InboxEmailAttachmentOrderByWithAggregationInput | InboxEmailAttachmentOrderByWithAggregationInput[]
+    by: InboxEmailAttachmentScalarFieldEnum[] | InboxEmailAttachmentScalarFieldEnum
+    having?: InboxEmailAttachmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InboxEmailAttachmentCountAggregateInputType | true
+    _avg?: InboxEmailAttachmentAvgAggregateInputType
+    _sum?: InboxEmailAttachmentSumAggregateInputType
+    _min?: InboxEmailAttachmentMinAggregateInputType
+    _max?: InboxEmailAttachmentMaxAggregateInputType
+  }
+
+  export type InboxEmailAttachmentGroupByOutputType = {
+    id: string
+    emailId: string
+    filename: string
+    contentType: string
+    size: number
+    partId: string
+    createdAt: Date
+    _count: InboxEmailAttachmentCountAggregateOutputType | null
+    _avg: InboxEmailAttachmentAvgAggregateOutputType | null
+    _sum: InboxEmailAttachmentSumAggregateOutputType | null
+    _min: InboxEmailAttachmentMinAggregateOutputType | null
+    _max: InboxEmailAttachmentMaxAggregateOutputType | null
+  }
+
+  type GetInboxEmailAttachmentGroupByPayload<T extends InboxEmailAttachmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InboxEmailAttachmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InboxEmailAttachmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InboxEmailAttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], InboxEmailAttachmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InboxEmailAttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    emailId?: boolean
+    filename?: boolean
+    contentType?: boolean
+    size?: boolean
+    partId?: boolean
+    createdAt?: boolean
+    email?: boolean | InboxEmailDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inboxEmailAttachment"]>
+
+  export type InboxEmailAttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    emailId?: boolean
+    filename?: boolean
+    contentType?: boolean
+    size?: boolean
+    partId?: boolean
+    createdAt?: boolean
+    email?: boolean | InboxEmailDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inboxEmailAttachment"]>
+
+  export type InboxEmailAttachmentSelectScalar = {
+    id?: boolean
+    emailId?: boolean
+    filename?: boolean
+    contentType?: boolean
+    size?: boolean
+    partId?: boolean
+    createdAt?: boolean
+  }
+
+  export type InboxEmailAttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    email?: boolean | InboxEmailDefaultArgs<ExtArgs>
+  }
+  export type InboxEmailAttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    email?: boolean | InboxEmailDefaultArgs<ExtArgs>
+  }
+
+  export type $InboxEmailAttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InboxEmailAttachment"
+    objects: {
+      email: Prisma.$InboxEmailPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      emailId: string
+      filename: string
+      contentType: string
+      size: number
+      partId: string
+      createdAt: Date
+    }, ExtArgs["result"]["inboxEmailAttachment"]>
+    composites: {}
+  }
+
+  type InboxEmailAttachmentGetPayload<S extends boolean | null | undefined | InboxEmailAttachmentDefaultArgs> = $Result.GetResult<Prisma.$InboxEmailAttachmentPayload, S>
+
+  type InboxEmailAttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InboxEmailAttachmentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InboxEmailAttachmentCountAggregateInputType | true
+    }
+
+  export interface InboxEmailAttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InboxEmailAttachment'], meta: { name: 'InboxEmailAttachment' } }
+    /**
+     * Find zero or one InboxEmailAttachment that matches the filter.
+     * @param {InboxEmailAttachmentFindUniqueArgs} args - Arguments to find a InboxEmailAttachment
+     * @example
+     * // Get one InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InboxEmailAttachmentFindUniqueArgs>(args: SelectSubset<T, InboxEmailAttachmentFindUniqueArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InboxEmailAttachment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InboxEmailAttachmentFindUniqueOrThrowArgs} args - Arguments to find a InboxEmailAttachment
+     * @example
+     * // Get one InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InboxEmailAttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, InboxEmailAttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InboxEmailAttachment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentFindFirstArgs} args - Arguments to find a InboxEmailAttachment
+     * @example
+     * // Get one InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InboxEmailAttachmentFindFirstArgs>(args?: SelectSubset<T, InboxEmailAttachmentFindFirstArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InboxEmailAttachment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentFindFirstOrThrowArgs} args - Arguments to find a InboxEmailAttachment
+     * @example
+     * // Get one InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InboxEmailAttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, InboxEmailAttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InboxEmailAttachments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InboxEmailAttachments
+     * const inboxEmailAttachments = await prisma.inboxEmailAttachment.findMany()
+     * 
+     * // Get first 10 InboxEmailAttachments
+     * const inboxEmailAttachments = await prisma.inboxEmailAttachment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inboxEmailAttachmentWithIdOnly = await prisma.inboxEmailAttachment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InboxEmailAttachmentFindManyArgs>(args?: SelectSubset<T, InboxEmailAttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InboxEmailAttachment.
+     * @param {InboxEmailAttachmentCreateArgs} args - Arguments to create a InboxEmailAttachment.
+     * @example
+     * // Create one InboxEmailAttachment
+     * const InboxEmailAttachment = await prisma.inboxEmailAttachment.create({
+     *   data: {
+     *     // ... data to create a InboxEmailAttachment
+     *   }
+     * })
+     * 
+     */
+    create<T extends InboxEmailAttachmentCreateArgs>(args: SelectSubset<T, InboxEmailAttachmentCreateArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InboxEmailAttachments.
+     * @param {InboxEmailAttachmentCreateManyArgs} args - Arguments to create many InboxEmailAttachments.
+     * @example
+     * // Create many InboxEmailAttachments
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InboxEmailAttachmentCreateManyArgs>(args?: SelectSubset<T, InboxEmailAttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InboxEmailAttachments and returns the data saved in the database.
+     * @param {InboxEmailAttachmentCreateManyAndReturnArgs} args - Arguments to create many InboxEmailAttachments.
+     * @example
+     * // Create many InboxEmailAttachments
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InboxEmailAttachments and only return the `id`
+     * const inboxEmailAttachmentWithIdOnly = await prisma.inboxEmailAttachment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InboxEmailAttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, InboxEmailAttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InboxEmailAttachment.
+     * @param {InboxEmailAttachmentDeleteArgs} args - Arguments to delete one InboxEmailAttachment.
+     * @example
+     * // Delete one InboxEmailAttachment
+     * const InboxEmailAttachment = await prisma.inboxEmailAttachment.delete({
+     *   where: {
+     *     // ... filter to delete one InboxEmailAttachment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InboxEmailAttachmentDeleteArgs>(args: SelectSubset<T, InboxEmailAttachmentDeleteArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InboxEmailAttachment.
+     * @param {InboxEmailAttachmentUpdateArgs} args - Arguments to update one InboxEmailAttachment.
+     * @example
+     * // Update one InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InboxEmailAttachmentUpdateArgs>(args: SelectSubset<T, InboxEmailAttachmentUpdateArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InboxEmailAttachments.
+     * @param {InboxEmailAttachmentDeleteManyArgs} args - Arguments to filter InboxEmailAttachments to delete.
+     * @example
+     * // Delete a few InboxEmailAttachments
+     * const { count } = await prisma.inboxEmailAttachment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InboxEmailAttachmentDeleteManyArgs>(args?: SelectSubset<T, InboxEmailAttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InboxEmailAttachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InboxEmailAttachments
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InboxEmailAttachmentUpdateManyArgs>(args: SelectSubset<T, InboxEmailAttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InboxEmailAttachment.
+     * @param {InboxEmailAttachmentUpsertArgs} args - Arguments to update or create a InboxEmailAttachment.
+     * @example
+     * // Update or create a InboxEmailAttachment
+     * const inboxEmailAttachment = await prisma.inboxEmailAttachment.upsert({
+     *   create: {
+     *     // ... data to create a InboxEmailAttachment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InboxEmailAttachment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InboxEmailAttachmentUpsertArgs>(args: SelectSubset<T, InboxEmailAttachmentUpsertArgs<ExtArgs>>): Prisma__InboxEmailAttachmentClient<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InboxEmailAttachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentCountArgs} args - Arguments to filter InboxEmailAttachments to count.
+     * @example
+     * // Count the number of InboxEmailAttachments
+     * const count = await prisma.inboxEmailAttachment.count({
+     *   where: {
+     *     // ... the filter for the InboxEmailAttachments we want to count
+     *   }
+     * })
+    **/
+    count<T extends InboxEmailAttachmentCountArgs>(
+      args?: Subset<T, InboxEmailAttachmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InboxEmailAttachmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InboxEmailAttachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InboxEmailAttachmentAggregateArgs>(args: Subset<T, InboxEmailAttachmentAggregateArgs>): Prisma.PrismaPromise<GetInboxEmailAttachmentAggregateType<T>>
+
+    /**
+     * Group by InboxEmailAttachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxEmailAttachmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InboxEmailAttachmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InboxEmailAttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: InboxEmailAttachmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InboxEmailAttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInboxEmailAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InboxEmailAttachment model
+   */
+  readonly fields: InboxEmailAttachmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InboxEmailAttachment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InboxEmailAttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    email<T extends InboxEmailDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmailDefaultArgs<ExtArgs>>): Prisma__InboxEmailClient<$Result.GetResult<Prisma.$InboxEmailPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InboxEmailAttachment model
+   */ 
+  interface InboxEmailAttachmentFieldRefs {
+    readonly id: FieldRef<"InboxEmailAttachment", 'String'>
+    readonly emailId: FieldRef<"InboxEmailAttachment", 'String'>
+    readonly filename: FieldRef<"InboxEmailAttachment", 'String'>
+    readonly contentType: FieldRef<"InboxEmailAttachment", 'String'>
+    readonly size: FieldRef<"InboxEmailAttachment", 'Int'>
+    readonly partId: FieldRef<"InboxEmailAttachment", 'String'>
+    readonly createdAt: FieldRef<"InboxEmailAttachment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InboxEmailAttachment findUnique
+   */
+  export type InboxEmailAttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxEmailAttachment to fetch.
+     */
+    where: InboxEmailAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InboxEmailAttachment findUniqueOrThrow
+   */
+  export type InboxEmailAttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxEmailAttachment to fetch.
+     */
+    where: InboxEmailAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InboxEmailAttachment findFirst
+   */
+  export type InboxEmailAttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxEmailAttachment to fetch.
+     */
+    where?: InboxEmailAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxEmailAttachments to fetch.
+     */
+    orderBy?: InboxEmailAttachmentOrderByWithRelationInput | InboxEmailAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InboxEmailAttachments.
+     */
+    cursor?: InboxEmailAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxEmailAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxEmailAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InboxEmailAttachments.
+     */
+    distinct?: InboxEmailAttachmentScalarFieldEnum | InboxEmailAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InboxEmailAttachment findFirstOrThrow
+   */
+  export type InboxEmailAttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxEmailAttachment to fetch.
+     */
+    where?: InboxEmailAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxEmailAttachments to fetch.
+     */
+    orderBy?: InboxEmailAttachmentOrderByWithRelationInput | InboxEmailAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InboxEmailAttachments.
+     */
+    cursor?: InboxEmailAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxEmailAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxEmailAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InboxEmailAttachments.
+     */
+    distinct?: InboxEmailAttachmentScalarFieldEnum | InboxEmailAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InboxEmailAttachment findMany
+   */
+  export type InboxEmailAttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxEmailAttachments to fetch.
+     */
+    where?: InboxEmailAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxEmailAttachments to fetch.
+     */
+    orderBy?: InboxEmailAttachmentOrderByWithRelationInput | InboxEmailAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InboxEmailAttachments.
+     */
+    cursor?: InboxEmailAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxEmailAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxEmailAttachments.
+     */
+    skip?: number
+    distinct?: InboxEmailAttachmentScalarFieldEnum | InboxEmailAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InboxEmailAttachment create
+   */
+  export type InboxEmailAttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InboxEmailAttachment.
+     */
+    data: XOR<InboxEmailAttachmentCreateInput, InboxEmailAttachmentUncheckedCreateInput>
+  }
+
+  /**
+   * InboxEmailAttachment createMany
+   */
+  export type InboxEmailAttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InboxEmailAttachments.
+     */
+    data: InboxEmailAttachmentCreateManyInput | InboxEmailAttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InboxEmailAttachment createManyAndReturn
+   */
+  export type InboxEmailAttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InboxEmailAttachments.
+     */
+    data: InboxEmailAttachmentCreateManyInput | InboxEmailAttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InboxEmailAttachment update
+   */
+  export type InboxEmailAttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InboxEmailAttachment.
+     */
+    data: XOR<InboxEmailAttachmentUpdateInput, InboxEmailAttachmentUncheckedUpdateInput>
+    /**
+     * Choose, which InboxEmailAttachment to update.
+     */
+    where: InboxEmailAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InboxEmailAttachment updateMany
+   */
+  export type InboxEmailAttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InboxEmailAttachments.
+     */
+    data: XOR<InboxEmailAttachmentUpdateManyMutationInput, InboxEmailAttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which InboxEmailAttachments to update
+     */
+    where?: InboxEmailAttachmentWhereInput
+  }
+
+  /**
+   * InboxEmailAttachment upsert
+   */
+  export type InboxEmailAttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InboxEmailAttachment to update in case it exists.
+     */
+    where: InboxEmailAttachmentWhereUniqueInput
+    /**
+     * In case the InboxEmailAttachment found by the `where` argument doesn't exist, create a new InboxEmailAttachment with this data.
+     */
+    create: XOR<InboxEmailAttachmentCreateInput, InboxEmailAttachmentUncheckedCreateInput>
+    /**
+     * In case the InboxEmailAttachment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InboxEmailAttachmentUpdateInput, InboxEmailAttachmentUncheckedUpdateInput>
+  }
+
+  /**
+   * InboxEmailAttachment delete
+   */
+  export type InboxEmailAttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter which InboxEmailAttachment to delete.
+     */
+    where: InboxEmailAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InboxEmailAttachment deleteMany
+   */
+  export type InboxEmailAttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InboxEmailAttachments to delete
+     */
+    where?: InboxEmailAttachmentWhereInput
+  }
+
+  /**
+   * InboxEmailAttachment without action
+   */
+  export type InboxEmailAttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmailAttachment
+     */
+    select?: InboxEmailAttachmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailAttachmentInclude<ExtArgs> | null
   }
 
 
@@ -126587,6 +127697,19 @@ export namespace Prisma {
   export type InboxSenderRuleScalarFieldEnum = (typeof InboxSenderRuleScalarFieldEnum)[keyof typeof InboxSenderRuleScalarFieldEnum]
 
 
+  export const InboxEmailAttachmentScalarFieldEnum: {
+    id: 'id',
+    emailId: 'emailId',
+    filename: 'filename',
+    contentType: 'contentType',
+    size: 'size',
+    partId: 'partId',
+    createdAt: 'createdAt'
+  };
+
+  export type InboxEmailAttachmentScalarFieldEnum = (typeof InboxEmailAttachmentScalarFieldEnum)[keyof typeof InboxEmailAttachmentScalarFieldEnum]
+
+
   export const InboxEmailTagScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -136258,6 +137381,7 @@ export namespace Prisma {
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
     tags?: InboxEmailTagListRelationFilter
+    attachments?: InboxEmailAttachmentListRelationFilter
   }
 
   export type InboxEmailOrderByWithRelationInput = {
@@ -136289,6 +137413,7 @@ export namespace Prisma {
     lead?: LeadOrderByWithRelationInput
     ticket?: TicketOrderByWithRelationInput
     tags?: InboxEmailTagOrderByRelationAggregateInput
+    attachments?: InboxEmailAttachmentOrderByRelationAggregateInput
   }
 
   export type InboxEmailWhereUniqueInput = Prisma.AtLeast<{
@@ -136324,6 +137449,7 @@ export namespace Prisma {
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
     tags?: InboxEmailTagListRelationFilter
+    attachments?: InboxEmailAttachmentListRelationFilter
   }, "id" | "accountId_messageId">
 
   export type InboxEmailOrderByWithAggregationInput = {
@@ -136440,6 +137566,73 @@ export namespace Prisma {
     fromEmail?: StringWithAggregatesFilter<"InboxSenderRule"> | string
     type?: EnumInboxSenderRuleTypeWithAggregatesFilter<"InboxSenderRule"> | $Enums.InboxSenderRuleType
     createdAt?: DateTimeWithAggregatesFilter<"InboxSenderRule"> | Date | string
+  }
+
+  export type InboxEmailAttachmentWhereInput = {
+    AND?: InboxEmailAttachmentWhereInput | InboxEmailAttachmentWhereInput[]
+    OR?: InboxEmailAttachmentWhereInput[]
+    NOT?: InboxEmailAttachmentWhereInput | InboxEmailAttachmentWhereInput[]
+    id?: StringFilter<"InboxEmailAttachment"> | string
+    emailId?: StringFilter<"InboxEmailAttachment"> | string
+    filename?: StringFilter<"InboxEmailAttachment"> | string
+    contentType?: StringFilter<"InboxEmailAttachment"> | string
+    size?: IntFilter<"InboxEmailAttachment"> | number
+    partId?: StringFilter<"InboxEmailAttachment"> | string
+    createdAt?: DateTimeFilter<"InboxEmailAttachment"> | Date | string
+    email?: XOR<InboxEmailRelationFilter, InboxEmailWhereInput>
+  }
+
+  export type InboxEmailAttachmentOrderByWithRelationInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    filename?: SortOrder
+    contentType?: SortOrder
+    size?: SortOrder
+    partId?: SortOrder
+    createdAt?: SortOrder
+    email?: InboxEmailOrderByWithRelationInput
+  }
+
+  export type InboxEmailAttachmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InboxEmailAttachmentWhereInput | InboxEmailAttachmentWhereInput[]
+    OR?: InboxEmailAttachmentWhereInput[]
+    NOT?: InboxEmailAttachmentWhereInput | InboxEmailAttachmentWhereInput[]
+    emailId?: StringFilter<"InboxEmailAttachment"> | string
+    filename?: StringFilter<"InboxEmailAttachment"> | string
+    contentType?: StringFilter<"InboxEmailAttachment"> | string
+    size?: IntFilter<"InboxEmailAttachment"> | number
+    partId?: StringFilter<"InboxEmailAttachment"> | string
+    createdAt?: DateTimeFilter<"InboxEmailAttachment"> | Date | string
+    email?: XOR<InboxEmailRelationFilter, InboxEmailWhereInput>
+  }, "id">
+
+  export type InboxEmailAttachmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    filename?: SortOrder
+    contentType?: SortOrder
+    size?: SortOrder
+    partId?: SortOrder
+    createdAt?: SortOrder
+    _count?: InboxEmailAttachmentCountOrderByAggregateInput
+    _avg?: InboxEmailAttachmentAvgOrderByAggregateInput
+    _max?: InboxEmailAttachmentMaxOrderByAggregateInput
+    _min?: InboxEmailAttachmentMinOrderByAggregateInput
+    _sum?: InboxEmailAttachmentSumOrderByAggregateInput
+  }
+
+  export type InboxEmailAttachmentScalarWhereWithAggregatesInput = {
+    AND?: InboxEmailAttachmentScalarWhereWithAggregatesInput | InboxEmailAttachmentScalarWhereWithAggregatesInput[]
+    OR?: InboxEmailAttachmentScalarWhereWithAggregatesInput[]
+    NOT?: InboxEmailAttachmentScalarWhereWithAggregatesInput | InboxEmailAttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InboxEmailAttachment"> | string
+    emailId?: StringWithAggregatesFilter<"InboxEmailAttachment"> | string
+    filename?: StringWithAggregatesFilter<"InboxEmailAttachment"> | string
+    contentType?: StringWithAggregatesFilter<"InboxEmailAttachment"> | string
+    size?: IntWithAggregatesFilter<"InboxEmailAttachment"> | number
+    partId?: StringWithAggregatesFilter<"InboxEmailAttachment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"InboxEmailAttachment"> | Date | string
   }
 
   export type InboxEmailTagWhereInput = {
@@ -147305,6 +148498,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateInput = {
@@ -147332,6 +148526,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUpdateInput = {
@@ -147359,6 +148554,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateInput = {
@@ -147386,6 +148582,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailCreateManyInput = {
@@ -147514,6 +148711,75 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     fromEmail?: StringFieldUpdateOperationsInput | string
     type?: EnumInboxSenderRuleTypeFieldUpdateOperationsInput | $Enums.InboxSenderRuleType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentCreateInput = {
+    id?: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+    email: InboxEmailCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type InboxEmailAttachmentUncheckedCreateInput = {
+    id?: string
+    emailId: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+  }
+
+  export type InboxEmailAttachmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: InboxEmailUpdateOneRequiredWithoutAttachmentsNestedInput
+  }
+
+  export type InboxEmailAttachmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailId?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentCreateManyInput = {
+    id?: string
+    emailId: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+  }
+
+  export type InboxEmailAttachmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailId?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -155722,6 +156988,16 @@ export namespace Prisma {
     isNot?: EmailAccountWhereInput | null
   }
 
+  export type InboxEmailAttachmentListRelationFilter = {
+    every?: InboxEmailAttachmentWhereInput
+    some?: InboxEmailAttachmentWhereInput
+    none?: InboxEmailAttachmentWhereInput
+  }
+
+  export type InboxEmailAttachmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type InboxEmailAccountIdMessageIdCompoundUniqueInput = {
     accountId: string
     messageId: string
@@ -155877,6 +157153,49 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumInboxSenderRuleTypeFilter<$PrismaModel>
     _max?: NestedEnumInboxSenderRuleTypeFilter<$PrismaModel>
+  }
+
+  export type InboxEmailRelationFilter = {
+    is?: InboxEmailWhereInput
+    isNot?: InboxEmailWhereInput
+  }
+
+  export type InboxEmailAttachmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    filename?: SortOrder
+    contentType?: SortOrder
+    size?: SortOrder
+    partId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InboxEmailAttachmentAvgOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
+  export type InboxEmailAttachmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    filename?: SortOrder
+    contentType?: SortOrder
+    size?: SortOrder
+    partId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InboxEmailAttachmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    filename?: SortOrder
+    contentType?: SortOrder
+    size?: SortOrder
+    partId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InboxEmailAttachmentSumOrderByAggregateInput = {
+    size?: SortOrder
   }
 
   export type InboxEmailTagCompanyIdNameCompoundUniqueInput = {
@@ -165535,10 +166854,24 @@ export namespace Prisma {
     connect?: InboxEmailTagWhereUniqueInput | InboxEmailTagWhereUniqueInput[]
   }
 
+  export type InboxEmailAttachmentCreateNestedManyWithoutEmailInput = {
+    create?: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput> | InboxEmailAttachmentCreateWithoutEmailInput[] | InboxEmailAttachmentUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: InboxEmailAttachmentCreateOrConnectWithoutEmailInput | InboxEmailAttachmentCreateOrConnectWithoutEmailInput[]
+    createMany?: InboxEmailAttachmentCreateManyEmailInputEnvelope
+    connect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+  }
+
   export type InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput = {
     create?: XOR<InboxEmailTagCreateWithoutEmailsInput, InboxEmailTagUncheckedCreateWithoutEmailsInput> | InboxEmailTagCreateWithoutEmailsInput[] | InboxEmailTagUncheckedCreateWithoutEmailsInput[]
     connectOrCreate?: InboxEmailTagCreateOrConnectWithoutEmailsInput | InboxEmailTagCreateOrConnectWithoutEmailsInput[]
     connect?: InboxEmailTagWhereUniqueInput | InboxEmailTagWhereUniqueInput[]
+  }
+
+  export type InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput = {
+    create?: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput> | InboxEmailAttachmentCreateWithoutEmailInput[] | InboxEmailAttachmentUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: InboxEmailAttachmentCreateOrConnectWithoutEmailInput | InboxEmailAttachmentCreateOrConnectWithoutEmailInput[]
+    createMany?: InboxEmailAttachmentCreateManyEmailInputEnvelope
+    connect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
   }
 
   export type EnumInboxEmailDirectionFieldUpdateOperationsInput = {
@@ -165600,6 +166933,20 @@ export namespace Prisma {
     deleteMany?: InboxEmailTagScalarWhereInput | InboxEmailTagScalarWhereInput[]
   }
 
+  export type InboxEmailAttachmentUpdateManyWithoutEmailNestedInput = {
+    create?: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput> | InboxEmailAttachmentCreateWithoutEmailInput[] | InboxEmailAttachmentUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: InboxEmailAttachmentCreateOrConnectWithoutEmailInput | InboxEmailAttachmentCreateOrConnectWithoutEmailInput[]
+    upsert?: InboxEmailAttachmentUpsertWithWhereUniqueWithoutEmailInput | InboxEmailAttachmentUpsertWithWhereUniqueWithoutEmailInput[]
+    createMany?: InboxEmailAttachmentCreateManyEmailInputEnvelope
+    set?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    disconnect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    delete?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    connect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    update?: InboxEmailAttachmentUpdateWithWhereUniqueWithoutEmailInput | InboxEmailAttachmentUpdateWithWhereUniqueWithoutEmailInput[]
+    updateMany?: InboxEmailAttachmentUpdateManyWithWhereWithoutEmailInput | InboxEmailAttachmentUpdateManyWithWhereWithoutEmailInput[]
+    deleteMany?: InboxEmailAttachmentScalarWhereInput | InboxEmailAttachmentScalarWhereInput[]
+  }
+
   export type InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput = {
     create?: XOR<InboxEmailTagCreateWithoutEmailsInput, InboxEmailTagUncheckedCreateWithoutEmailsInput> | InboxEmailTagCreateWithoutEmailsInput[] | InboxEmailTagUncheckedCreateWithoutEmailsInput[]
     connectOrCreate?: InboxEmailTagCreateOrConnectWithoutEmailsInput | InboxEmailTagCreateOrConnectWithoutEmailsInput[]
@@ -165611,6 +166958,20 @@ export namespace Prisma {
     update?: InboxEmailTagUpdateWithWhereUniqueWithoutEmailsInput | InboxEmailTagUpdateWithWhereUniqueWithoutEmailsInput[]
     updateMany?: InboxEmailTagUpdateManyWithWhereWithoutEmailsInput | InboxEmailTagUpdateManyWithWhereWithoutEmailsInput[]
     deleteMany?: InboxEmailTagScalarWhereInput | InboxEmailTagScalarWhereInput[]
+  }
+
+  export type InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput = {
+    create?: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput> | InboxEmailAttachmentCreateWithoutEmailInput[] | InboxEmailAttachmentUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: InboxEmailAttachmentCreateOrConnectWithoutEmailInput | InboxEmailAttachmentCreateOrConnectWithoutEmailInput[]
+    upsert?: InboxEmailAttachmentUpsertWithWhereUniqueWithoutEmailInput | InboxEmailAttachmentUpsertWithWhereUniqueWithoutEmailInput[]
+    createMany?: InboxEmailAttachmentCreateManyEmailInputEnvelope
+    set?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    disconnect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    delete?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    connect?: InboxEmailAttachmentWhereUniqueInput | InboxEmailAttachmentWhereUniqueInput[]
+    update?: InboxEmailAttachmentUpdateWithWhereUniqueWithoutEmailInput | InboxEmailAttachmentUpdateWithWhereUniqueWithoutEmailInput[]
+    updateMany?: InboxEmailAttachmentUpdateManyWithWhereWithoutEmailInput | InboxEmailAttachmentUpdateManyWithWhereWithoutEmailInput[]
+    deleteMany?: InboxEmailAttachmentScalarWhereInput | InboxEmailAttachmentScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutInboxSenderRulesInput = {
@@ -165629,6 +166990,20 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutInboxSenderRulesInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutInboxSenderRulesInput, CompanyUpdateWithoutInboxSenderRulesInput>, CompanyUncheckedUpdateWithoutInboxSenderRulesInput>
+  }
+
+  export type InboxEmailCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<InboxEmailCreateWithoutAttachmentsInput, InboxEmailUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutAttachmentsInput
+    connect?: InboxEmailWhereUniqueInput
+  }
+
+  export type InboxEmailUpdateOneRequiredWithoutAttachmentsNestedInput = {
+    create?: XOR<InboxEmailCreateWithoutAttachmentsInput, InboxEmailUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutAttachmentsInput
+    upsert?: InboxEmailUpsertWithoutAttachmentsInput
+    connect?: InboxEmailWhereUniqueInput
+    update?: XOR<XOR<InboxEmailUpdateToOneWithWhereWithoutAttachmentsInput, InboxEmailUpdateWithoutAttachmentsInput>, InboxEmailUncheckedUpdateWithoutAttachmentsInput>
   }
 
   export type CompanyCreateNestedOneWithoutInboxEmailTagsInput = {
@@ -171544,6 +172919,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateWithoutCompanyInput = {
@@ -171570,6 +172946,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailCreateOrConnectWithoutCompanyInput = {
@@ -178651,6 +180028,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateWithoutLeadInput = {
@@ -178677,6 +180055,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailCreateOrConnectWithoutLeadInput = {
@@ -189712,6 +191091,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateWithoutTicketInput = {
@@ -189738,6 +191118,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailCreateOrConnectWithoutTicketInput = {
@@ -217749,6 +219130,7 @@ export namespace Prisma {
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateWithoutAccountInput = {
@@ -217775,6 +219157,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailCreateOrConnectWithoutAccountInput = {
@@ -218525,6 +219908,34 @@ export namespace Prisma {
     create: XOR<InboxEmailTagCreateWithoutEmailsInput, InboxEmailTagUncheckedCreateWithoutEmailsInput>
   }
 
+  export type InboxEmailAttachmentCreateWithoutEmailInput = {
+    id?: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+  }
+
+  export type InboxEmailAttachmentUncheckedCreateWithoutEmailInput = {
+    id?: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+  }
+
+  export type InboxEmailAttachmentCreateOrConnectWithoutEmailInput = {
+    where: InboxEmailAttachmentWhereUniqueInput
+    create: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput>
+  }
+
+  export type InboxEmailAttachmentCreateManyEmailInputEnvelope = {
+    data: InboxEmailAttachmentCreateManyEmailInput | InboxEmailAttachmentCreateManyEmailInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutInboxEmailsInput = {
     update: XOR<CompanyUpdateWithoutInboxEmailsInput, CompanyUncheckedUpdateWithoutInboxEmailsInput>
     create: XOR<CompanyCreateWithoutInboxEmailsInput, CompanyUncheckedCreateWithoutInboxEmailsInput>
@@ -219029,6 +220440,35 @@ export namespace Prisma {
     data: XOR<InboxEmailTagUpdateManyMutationInput, InboxEmailTagUncheckedUpdateManyWithoutEmailsInput>
   }
 
+  export type InboxEmailAttachmentUpsertWithWhereUniqueWithoutEmailInput = {
+    where: InboxEmailAttachmentWhereUniqueInput
+    update: XOR<InboxEmailAttachmentUpdateWithoutEmailInput, InboxEmailAttachmentUncheckedUpdateWithoutEmailInput>
+    create: XOR<InboxEmailAttachmentCreateWithoutEmailInput, InboxEmailAttachmentUncheckedCreateWithoutEmailInput>
+  }
+
+  export type InboxEmailAttachmentUpdateWithWhereUniqueWithoutEmailInput = {
+    where: InboxEmailAttachmentWhereUniqueInput
+    data: XOR<InboxEmailAttachmentUpdateWithoutEmailInput, InboxEmailAttachmentUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type InboxEmailAttachmentUpdateManyWithWhereWithoutEmailInput = {
+    where: InboxEmailAttachmentScalarWhereInput
+    data: XOR<InboxEmailAttachmentUpdateManyMutationInput, InboxEmailAttachmentUncheckedUpdateManyWithoutEmailInput>
+  }
+
+  export type InboxEmailAttachmentScalarWhereInput = {
+    AND?: InboxEmailAttachmentScalarWhereInput | InboxEmailAttachmentScalarWhereInput[]
+    OR?: InboxEmailAttachmentScalarWhereInput[]
+    NOT?: InboxEmailAttachmentScalarWhereInput | InboxEmailAttachmentScalarWhereInput[]
+    id?: StringFilter<"InboxEmailAttachment"> | string
+    emailId?: StringFilter<"InboxEmailAttachment"> | string
+    filename?: StringFilter<"InboxEmailAttachment"> | string
+    contentType?: StringFilter<"InboxEmailAttachment"> | string
+    size?: IntFilter<"InboxEmailAttachment"> | number
+    partId?: StringFilter<"InboxEmailAttachment"> | string
+    createdAt?: DateTimeFilter<"InboxEmailAttachment"> | Date | string
+  }
+
   export type CompanyCreateWithoutInboxSenderRulesInput = {
     id?: string
     name: string
@@ -219497,6 +220937,130 @@ export namespace Prisma {
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
+  export type InboxEmailCreateWithoutAttachmentsInput = {
+    id?: string
+    direction: $Enums.InboxEmailDirection
+    folder?: $Enums.InboxEmailFolder
+    messageId?: string | null
+    imapUid?: number | null
+    fromEmail: string
+    fromName?: string | null
+    toEmail: string
+    subject?: string
+    snippet?: string
+    textBody?: string | null
+    htmlBody?: string | null
+    inReplyTo?: string | null
+    aiImportance?: string | null
+    aiSummary?: string | null
+    seen?: boolean
+    sentAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutInboxEmailsInput
+    account?: EmailAccountCreateNestedOneWithoutEmailsInput
+    lead?: LeadCreateNestedOneWithoutInboxEmailsInput
+    ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+  }
+
+  export type InboxEmailUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    companyId: string
+    accountId?: string | null
+    direction: $Enums.InboxEmailDirection
+    folder?: $Enums.InboxEmailFolder
+    messageId?: string | null
+    imapUid?: number | null
+    fromEmail: string
+    fromName?: string | null
+    toEmail: string
+    subject?: string
+    snippet?: string
+    textBody?: string | null
+    htmlBody?: string | null
+    inReplyTo?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+    aiImportance?: string | null
+    aiSummary?: string | null
+    seen?: boolean
+    sentAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+  }
+
+  export type InboxEmailCreateOrConnectWithoutAttachmentsInput = {
+    where: InboxEmailWhereUniqueInput
+    create: XOR<InboxEmailCreateWithoutAttachmentsInput, InboxEmailUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type InboxEmailUpsertWithoutAttachmentsInput = {
+    update: XOR<InboxEmailUpdateWithoutAttachmentsInput, InboxEmailUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<InboxEmailCreateWithoutAttachmentsInput, InboxEmailUncheckedCreateWithoutAttachmentsInput>
+    where?: InboxEmailWhereInput
+  }
+
+  export type InboxEmailUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: InboxEmailWhereInput
+    data: XOR<InboxEmailUpdateWithoutAttachmentsInput, InboxEmailUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type InboxEmailUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFieldUpdateOperationsInput | $Enums.InboxEmailFolder
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    imapUid?: NullableIntFieldUpdateOperationsInput | number | null
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    fromName?: NullableStringFieldUpdateOperationsInput | string | null
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    snippet?: StringFieldUpdateOperationsInput | string
+    textBody?: NullableStringFieldUpdateOperationsInput | string | null
+    htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
+    inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    seen?: BoolFieldUpdateOperationsInput | boolean
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
+    account?: EmailAccountUpdateOneWithoutEmailsNestedInput
+    lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
+    ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+  }
+
+  export type InboxEmailUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFieldUpdateOperationsInput | $Enums.InboxEmailFolder
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    imapUid?: NullableIntFieldUpdateOperationsInput | number | null
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    fromName?: NullableStringFieldUpdateOperationsInput | string | null
+    toEmail?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    snippet?: StringFieldUpdateOperationsInput | string
+    textBody?: NullableStringFieldUpdateOperationsInput | string | null
+    htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
+    inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    seen?: BoolFieldUpdateOperationsInput | boolean
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+  }
+
   export type CompanyCreateWithoutInboxEmailTagsInput = {
     id?: string
     name: string
@@ -219752,6 +221316,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailUncheckedCreateWithoutTagsInput = {
@@ -219778,6 +221343,7 @@ export namespace Prisma {
     sentAt: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type InboxEmailCreateOrConnectWithoutTagsInput = {
@@ -229516,6 +231082,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateWithoutCompanyInput = {
@@ -229542,6 +231109,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateManyWithoutCompanyInput = {
@@ -232866,6 +234434,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateWithoutLeadInput = {
@@ -232892,6 +234461,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateManyWithoutLeadInput = {
@@ -233722,6 +235292,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateWithoutTicketInput = {
@@ -233748,6 +235319,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateManyWithoutTicketInput = {
@@ -235754,6 +237326,7 @@ export namespace Prisma {
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateWithoutAccountInput = {
@@ -235780,6 +237353,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateManyWithoutAccountInput = {
@@ -235807,6 +237381,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InboxEmailAttachmentCreateManyEmailInput = {
+    id?: string
+    filename: string
+    contentType?: string
+    size?: number
+    partId: string
+    createdAt?: Date | string
+  }
+
   export type InboxEmailTagUpdateWithoutEmailsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -235828,6 +237411,33 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentUncheckedUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailAttachmentUncheckedUpdateManyWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    contentType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    partId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -235855,6 +237465,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateWithoutTagsInput = {
@@ -235881,6 +237492,7 @@ export namespace Prisma {
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type InboxEmailUncheckedUpdateManyWithoutTagsInput = {
@@ -236854,6 +238466,10 @@ export namespace Prisma {
      * @deprecated Use InboxSenderRuleDefaultArgs instead
      */
     export type InboxSenderRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InboxSenderRuleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InboxEmailAttachmentDefaultArgs instead
+     */
+    export type InboxEmailAttachmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InboxEmailAttachmentDefaultArgs<ExtArgs>
     /**
      * @deprecated Use InboxEmailTagDefaultArgs instead
      */

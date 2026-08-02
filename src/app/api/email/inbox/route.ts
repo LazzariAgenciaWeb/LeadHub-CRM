@@ -78,6 +78,7 @@ export async function GET(req: NextRequest) {
         aiImportance: true, aiSummary: true,
         leadId: true, ticketId: true, accountId: true,
         tags: { select: { id: true, name: true, color: true } },
+        _count: { select: { attachments: true } },
         account: { select: { id: true, label: true, fromEmail: true } },
         lead: { select: { id: true, name: true } },
         ticket: { select: { id: true, title: true } },

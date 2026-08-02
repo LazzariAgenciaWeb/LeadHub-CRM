@@ -224,7 +224,7 @@ model Company {
   userBadges                UserBadge[]
   scoreEvents               ScoreEvent[]
   scoreRuleConfigs          ScoreRuleConfig[]
-  setorClickupListsAsClient SetorClickupList[]       @relation("SetorClickupListClient")
+  setorClickupListsAsClient SetorClickupList[]    @relation("SetorClickupListClient")
   rewards                   Reward[]
   rewardRedemptions         RewardRedemption[]
   businessHours             BusinessHoursConfig[]
@@ -240,67 +240,67 @@ model Company {
   // Triagem IA automática da caixa de email no poller (consome cota de IA a
   // cada rodada com email novo). Default OFF — o botão "Resumo IA" manual
   // sempre funciona; este flag só controla o disparo automático.
-  emailAiTriageAuto Boolean @default(false)
+  emailAiTriageAuto         Boolean               @default(false)
 
-  emailAccounts             EmailAccount[]
-  inboxEmails               InboxEmail[]
-  inboxSenderRules          InboxSenderRule[]
-  inboxEmailTags            InboxEmailTag[]
+  emailAccounts           EmailAccount[]
+  inboxEmails             InboxEmail[]
+  inboxSenderRules        InboxSenderRule[]
+  inboxEmailTags          InboxEmailTag[]
   // Campos personalizados definidos por este tenant — aplicam-se às próprias
   // empresas-cliente (sub-empresas) e à própria empresa.
-  companyFieldDefs          CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
-  companyCustomValues       CompanyCustomValue[]
-  whatsappInstances         WhatsappInstance[]
-  messages                  Message[]
-  keywordRules              KeywordRule[]
-  tickets                   Ticket[]
-  ticketsAsClient           Ticket[]                 @relation("TicketClientCompany")
-  clientServices            ClientService[]          @relation("ClientServiceClient")
-  clientInvoices            ClientInvoice[]          @relation("ClientInvoiceClient")
-  trackingLinks             TrackingLink[]
-  pipelineStages            PipelineStageConfig[]
-  contacts                  CompanyContact[]
-  setores                   Setor[]
-  conversations             Conversation[]
-  activities                Activity[]
-  assets                    CompanyAsset[]
-  credentialAccessLogs      CredentialAccessLog[]
-  secureNotes               CompanySecureNote[]
-  secureNoteAccessLogs      SecureNoteAccessLog[]
-  marketingIntegrations     MarketingIntegration[]
-  metaConversionConfig      MetaConversionConfig?
-  metaConversionLogs        MetaConversionLog[]
-  instagramAccounts         InstagramAccount[]
-  igAutomations             IgAutomation[]
-  igAutomationRuns          IgAutomationRun[]
-  igConversations           IgConversation[]
-  facebookPages             FacebookPage[]
-  analyticsSnapshots        AnalyticsSnapshot[]
-  analyticsTopPages         AnalyticsTopPage[]
-  analyticsTrafficSources   AnalyticsTrafficSource[]
-  analyticsGeoData          AnalyticsGeoData[]
-  analyticsEventDaily       AnalyticsEventDaily[]
-  marketingEventConfig      MarketingEventConfig[]
-  searchConsoleQueries      SearchConsoleQuery[]
-  gbpInsights               GbpInsight[]
-  gbpReviews                GbpReview[]
-  gbpSearchKeywords         GbpSearchKeyword[]
-  gbpProfileSnapshots       GbpProfileSnapshot[]
-  adCampaignDailies         AdCampaignDaily[]
-  adSearchTermDailies       AdSearchTermDaily[]
-  adCreatives               AdCreative[]
-  adCreativeDailies         AdCreativeDaily[]
-  subscription              Subscription?
-  billingEvents             BillingEvent[]
-  addons                    SubscriptionAddon[]
-  couponRedemptions         CouponRedemption[]
-  assistants                Assistant[]
-  aiUsageLogs               AiUsageLog[]
-  services                  Service[]
-  videoCategories           VideoCategory[]          @relation("CompanyVideoCategories")
-  videoReleases             VideoCategoryRelease[]   @relation("CompanyVideoReleases")
-  triggerOnly               Boolean                  @default(false)
-  webhookToken              String?                  @unique // token público para receber leads via webhook
+  companyFieldDefs        CompanyCustomFieldDef[]  @relation("CompanyFieldDefOwner")
+  companyCustomValues     CompanyCustomValue[]
+  whatsappInstances       WhatsappInstance[]
+  messages                Message[]
+  keywordRules            KeywordRule[]
+  tickets                 Ticket[]
+  ticketsAsClient         Ticket[]                 @relation("TicketClientCompany")
+  clientServices          ClientService[]          @relation("ClientServiceClient")
+  clientInvoices          ClientInvoice[]          @relation("ClientInvoiceClient")
+  trackingLinks           TrackingLink[]
+  pipelineStages          PipelineStageConfig[]
+  contacts                CompanyContact[]
+  setores                 Setor[]
+  conversations           Conversation[]
+  activities              Activity[]
+  assets                  CompanyAsset[]
+  credentialAccessLogs    CredentialAccessLog[]
+  secureNotes             CompanySecureNote[]
+  secureNoteAccessLogs    SecureNoteAccessLog[]
+  marketingIntegrations   MarketingIntegration[]
+  metaConversionConfig    MetaConversionConfig?
+  metaConversionLogs      MetaConversionLog[]
+  instagramAccounts       InstagramAccount[]
+  igAutomations           IgAutomation[]
+  igAutomationRuns        IgAutomationRun[]
+  igConversations         IgConversation[]
+  facebookPages           FacebookPage[]
+  analyticsSnapshots      AnalyticsSnapshot[]
+  analyticsTopPages       AnalyticsTopPage[]
+  analyticsTrafficSources AnalyticsTrafficSource[]
+  analyticsGeoData        AnalyticsGeoData[]
+  analyticsEventDaily     AnalyticsEventDaily[]
+  marketingEventConfig    MarketingEventConfig[]
+  searchConsoleQueries    SearchConsoleQuery[]
+  gbpInsights             GbpInsight[]
+  gbpReviews              GbpReview[]
+  gbpSearchKeywords       GbpSearchKeyword[]
+  gbpProfileSnapshots     GbpProfileSnapshot[]
+  adCampaignDailies       AdCampaignDaily[]
+  adSearchTermDailies     AdSearchTermDaily[]
+  adCreatives             AdCreative[]
+  adCreativeDailies       AdCreativeDaily[]
+  subscription            Subscription?
+  billingEvents           BillingEvent[]
+  addons                  SubscriptionAddon[]
+  couponRedemptions       CouponRedemption[]
+  assistants              Assistant[]
+  aiUsageLogs             AiUsageLog[]
+  services                Service[]
+  videoCategories         VideoCategory[]          @relation("CompanyVideoCategories")
+  videoReleases           VideoCategoryRelease[]   @relation("CompanyVideoReleases")
+  triggerOnly             Boolean                  @default(false)
+  webhookToken            String?                  @unique // token público para receber leads via webhook
 
   @@index([parentCompanyId])
 }
@@ -3062,6 +3062,8 @@ model InboxEmail {
   // Tags livres da empresa (classificação manual, m2m implícito).
   tags InboxEmailTag[] @relation("InboxEmailTags")
 
+  attachments InboxEmailAttachment[]
+
   seen   Boolean  @default(false)
   sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
 
@@ -3099,6 +3101,27 @@ model InboxSenderRule {
 enum InboxSenderRuleType {
   BLOCK
   ALLOW
+}
+
+// Anexo de email — SÓ METADADOS (nome, tipo, tamanho e a parte MIME dentro
+// da mensagem). O conteúdo NÃO fica no banco: ao clicar no link, a rota
+// /api/email/inbox/attachments/[id] baixa a parte direto do servidor IMAP
+// sob demanda. Zero peso de storage; requer o email ainda existir no servidor.
+model InboxEmailAttachment {
+  id      String     @id @default(cuid())
+  email   InboxEmail @relation(fields: [emailId], references: [id], onDelete: Cascade)
+  emailId String
+
+  filename    String
+  contentType String @default("application/octet-stream")
+  size        Int    @default(0) // bytes (aprox., como reportado na estrutura MIME)
+  // Identificador da parte MIME na mensagem (ex: "2", "1.2") — usado no
+  // download IMAP (client.download(uid, partId)).
+  partId      String
+
+  createdAt DateTime @default(now())
+
+  @@index([emailId])
 }
 
 // Tag de email da empresa — classificação manual da caixa ("Financeiro",

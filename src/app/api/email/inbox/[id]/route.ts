@@ -32,6 +32,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       aiImportance: true, aiSummary: true,
       leadId: true, ticketId: true, accountId: true,
       tags: { select: { id: true, name: true, color: true } },
+      attachments: { select: { id: true, filename: true, contentType: true, size: true } },
       account: { select: { id: true, label: true, fromEmail: true } },
       lead: { select: { id: true, name: true, email: true, pipeline: true } },
       ticket: { select: { id: true, title: true } },

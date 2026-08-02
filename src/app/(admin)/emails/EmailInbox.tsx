@@ -15,6 +15,8 @@ type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; crea
 
 type EmailTag = { id: string; name: string; color: string; count?: number };
 
+type EmailAttachment = { id: string; filename: string; contentType: string; size: number };
+
 type AccountRef = { id: string; label: string | null; fromEmail: string } | null;
 
 type EmailRow = {
@@ -31,6 +33,7 @@ type EmailRow = {
   aiImportance: "ALTA" | "NORMAL" | "BAIXA" | null;
   aiSummary: string | null;
   tags: EmailTag[];
+  _count?: { attachments: number };
   leadId: string | null;
   ticketId: string | null;
   accountId: string | null;
@@ -42,6 +45,7 @@ type EmailRow = {
 type EmailFull = EmailRow & {
   textBody: string | null;
   htmlBody: string | null;
+  attachments: EmailAttachment[];
   lead: { id: string; name: string | null; email: string | null; pipeline: string | null } | null;
 };
 
@@ -82,6 +86,12 @@ const ACCOUNT_COLORS = [
   "bg-lime-500/20 text-lime-300",
   "bg-fuchsia-500/20 text-fuchsia-300",
 ];
+
+function fmtSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 const IMPORTANCE_BADGE: Record<string, { label: string; cls: string }> = {
   ALTA:   { label: "🔥 alta",  cls: "bg-red-500/20 text-red-300" },
@@ -817,6 +827,7 @@ export default function EmailInbox() {
                     <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
                       {e.direction === "OUT" ? `Para: ${e.toEmail}` : (e.fromName || e.fromEmail)}
                     </span>
+                    {(e._count?.attachments ?? 0) > 0 && <span className="text-[10px] text-slate-500 flex-shrink-0" title="Com anexo">📎</span>}
                     <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
                   </div>
                   <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
@@ -937,6 +948,18 @@ export default function EmailInbox() {
                   </div>
                 </div>
               </div>
+              {selected.attachments?.length > 0 && (
+                <div className="px-4 py-2 border-b border-white/10 flex flex-wrap gap-1.5">
+                  {selected.attachments.map((a) => (
+                    <a key={a.id} href={`/api/email/inbox/attachments/${a.id}`} target="_blank" rel="noopener noreferrer"
+                      title={a.contentType}
+                      className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-indigo-200 hover:bg-white/10">
+                      📎 <span className="truncate max-w-[200px]">{a.filename}</span>
+                      <span className="text-slate-500">({fmtSize(a.size)})</span>
+                    </a>
+                  ))}
+                </div>
+              )}
               <div className="flex-1 min-h-0 bg-white rounded-b-xl overflow-hidden">
                 {selected.htmlBody ? (
                   // sandbox sem allow-scripts: HTML de terceiros não executa nada.

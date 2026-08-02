@@ -40,6 +40,36 @@ export interface EmailAccountInput {
 const FIRST_SYNC_COUNT = 50;
 /** Máximo de emails importados por tick (não travar o handler do cron). */
 const MAX_PER_SYNC = 100;
+/** Máximo de anexos referenciados por email. */
+const MAX_ATTACHMENTS_PER_EMAIL = 10;
+
+/**
+ * Varre a estrutura MIME (bodyStructure do IMAP) e coleta as partes que são
+ * anexo: disposition=attachment, ou parte com filename que não é inline
+ * (logo de assinatura etc. fica de fora). Só METADADOS — o conteúdo é baixado
+ * sob demanda pela rota de download, direto do servidor.
+ */
+function collectAttachmentParts(
+  node: any,
+  out: { partId: string; filename: string; contentType: string; size: number }[] = []
+): { partId: string; filename: string; contentType: string; size: number }[] {
+  if (!node) return out;
+  const filename: string | undefined =
+    node.dispositionParameters?.filename || node.parameters?.name;
+  const isAttachment =
+    !!node.part &&
+    (node.disposition === "attachment" || (!!filename && node.disposition !== "inline"));
+  if (isAttachment) {
+    out.push({
+      partId: String(node.part),
+      filename: filename || "anexo",
+      contentType: String(node.type || "application/octet-stream"),
+      size: Number(node.size ?? 0),
+    });
+  }
+  for (const child of node.childNodes ?? []) collectAttachmentParts(child, out);
+  return out;
+}
 
 /** Cria/atualiza uma conta. Senhas em AES-256-GCM. */
 export async function upsertEmailAccount(
@@ -255,7 +285,8 @@ async function storeMessage(
   accountId: string,
   uid: number,
   parsed: ParsedMail,
-  direction: "IN" | "OUT"
+  direction: "IN" | "OUT",
+  bodyStructure?: any
 ) {
   const fromAddr = parsed.from?.value?.[0];
   const fromEmail = (fromAddr?.address ?? "").toLowerCase();
@@ -292,7 +323,7 @@ async function storeMessage(
     folder = "SENT";
   }
 
-  await prisma.inboxEmail.create({
+  const created = await prisma.inboxEmail.create({
     data: {
       companyId,
       accountId,
@@ -313,7 +344,17 @@ async function storeMessage(
       seen: direction === "OUT",
       sentAt: parsed.date ?? new Date(),
     },
+    select: { id: true },
   });
+
+  // Anexos: só a REFERÊNCIA (parte MIME) — conteúdo fica no servidor e é
+  // baixado sob demanda no clique. Best-effort: falha não perde o email.
+  const attachments = collectAttachmentParts(bodyStructure).slice(0, MAX_ATTACHMENTS_PER_EMAIL);
+  for (const a of attachments) {
+    await prisma.inboxEmailAttachment.create({
+      data: { emailId: created.id, ...a },
+    }).catch((e) => console.warn(`[imap-inbox] anexo falhou (${a.filename})`, e));
+  }
   return true;
 }
 
@@ -359,10 +400,10 @@ async function syncMailbox(
 
     let maxUid = validCursor ? cursor.lastUid! : 0;
     for (const uid of batch) {
-      const msg = await client.fetchOne(String(uid), { source: true }, { uid: true });
-      if (!msg || !msg.source) continue;
+      const msg = await client.fetchOne(String(uid), { source: true, bodyStructure: true }, { uid: true });
+      if (!msg || typeof msg === "boolean" || !msg.source) continue;
       const parsed = await simpleParser(msg.source);
-      const created = await storeMessage(companyId, accountId, uid, parsed, direction);
+      const created = await storeMessage(companyId, accountId, uid, parsed, direction, msg.bodyStructure);
       if (created) imported++;
       if (uid > maxUid) maxUid = uid;
     }
@@ -465,6 +506,63 @@ export async function syncCompanyAccounts(companyId: string): Promise<{ imported
     }
   }
   return { imported, errors };
+}
+
+/**
+ * Baixa UM anexo direto do servidor IMAP, sob demanda (nada fica no banco).
+ * Confere o Message-ID do UID antes (mailbox renumerada → não entrega arquivo
+ * errado). Retorna null se o email não está mais no servidor / conta sem IMAP.
+ */
+export async function downloadEmailAttachment(
+  companyId: string,
+  attachmentId: string
+): Promise<{ filename: string; contentType: string; buffer: Buffer } | null> {
+  const att = await prisma.inboxEmailAttachment.findFirst({
+    where: { id: attachmentId, email: { companyId } },
+    select: {
+      filename: true, contentType: true, partId: true,
+      email: { select: { imapUid: true, messageId: true, direction: true, accountId: true } },
+    },
+  });
+  if (!att?.email?.accountId || !att.email.imapUid) return null;
+  const acc = await prisma.emailAccount.findFirst({ where: { id: att.email.accountId, companyId } });
+  if (!acc?.imapHost) return null;
+  const imapCfg = decryptedImap(acc);
+  if (!imapCfg) return null;
+
+  const client = buildImapClient(imapCfg);
+  try {
+    await client.connect();
+    const path = att.email.direction === "IN" ? "INBOX" : (await findSentMailboxPath(client)) ?? "INBOX";
+    const lock = await client.getMailboxLock(path);
+    try {
+      if (att.email.messageId) {
+        const msg = await client.fetchOne(String(att.email.imapUid), { envelope: true }, { uid: true });
+        const serverMsgId = msg && typeof msg !== "boolean" ? msg.envelope?.messageId : null;
+        if (!serverMsgId || serverMsgId !== att.email.messageId) return null;
+      }
+      const dl = await client.download(String(att.email.imapUid), att.partId, { uid: true });
+      if (!dl?.content) return null;
+      const chunks: Buffer[] = [];
+      for await (const chunk of dl.content) chunks.push(chunk as Buffer);
+      return {
+        filename: att.filename,
+        contentType: dl.meta?.contentType || att.contentType,
+        buffer: Buffer.concat(chunks),
+      };
+    } finally {
+      lock.release();
+    }
+  } catch (e) {
+    console.warn(`[imap-inbox] download de anexo falhou (${attachmentId})`, e);
+    return null;
+  } finally {
+    try {
+      await client.logout();
+    } catch {
+      try { client.close(); } catch {}
+    }
+  }
 }
 
 /**

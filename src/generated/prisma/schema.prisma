@@ -3062,6 +3062,8 @@ model InboxEmail {
   // Tags livres da empresa (classificação manual, m2m implícito).
   tags InboxEmailTag[] @relation("InboxEmailTags")
 
+  attachments InboxEmailAttachment[]
+
   seen   Boolean  @default(false)
   sentAt DateTime // data do header Date (recebidos) ou do envio (enviados)
 
@@ -3099,6 +3101,27 @@ model InboxSenderRule {
 enum InboxSenderRuleType {
   BLOCK
   ALLOW
+}
+
+// Anexo de email — SÓ METADADOS (nome, tipo, tamanho e a parte MIME dentro
+// da mensagem). O conteúdo NÃO fica no banco: ao clicar no link, a rota
+// /api/email/inbox/attachments/[id] baixa a parte direto do servidor IMAP
+// sob demanda. Zero peso de storage; requer o email ainda existir no servidor.
+model InboxEmailAttachment {
+  id      String     @id @default(cuid())
+  email   InboxEmail @relation(fields: [emailId], references: [id], onDelete: Cascade)
+  emailId String
+
+  filename    String
+  contentType String @default("application/octet-stream")
+  size        Int    @default(0) // bytes (aprox., como reportado na estrutura MIME)
+  // Identificador da parte MIME na mensagem (ex: "2", "1.2") — usado no
+  // download IMAP (client.download(uid, partId)).
+  partId      String
+
+  createdAt DateTime @default(now())
+
+  @@index([emailId])
 }
 
 // Tag de email da empresa — classificação manual da caixa ("Financeiro",
@@ -3334,7 +3357,7 @@ model AiUsageLog {
   @@index([assistantId])
 }
 
-// ─── Catálogo de Serviços ��────────────────────────────────────────────────────
+// ─── Catálogo de Serviços ─────────────────────────────────────────────────────
 // Serviço = CONHECIMENTO que os agentes consultam (não é um agente). O agente de
 // Vendas/Pré-atendente usa o catálogo pra reconhecer o que o contato quer e fazer
 // as perguntas de qualificação certas. priceRange é de USO INTERNO — NÃO é
