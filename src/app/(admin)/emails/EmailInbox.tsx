@@ -706,6 +706,12 @@ export default function EmailInbox() {
               {typeof t.count === "number" && t.count > 0 && <span className="text-[9px] text-slate-500">{t.count}</span>}
             </button>
           ))}
+          <button onClick={() => setTagFilter(tagFilter === "__none" ? null : "__none")}
+            title="Emails sem nenhuma tag"
+            className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
+              tagFilter === "__none" ? "border-indigo-500/50 text-slate-200" : "border-dashed border-white/15 text-slate-500 hover:bg-white/5"}`}>
+            sem tag
+          </button>
           {tagFilter && (
             <button onClick={() => setTagFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
           )}

@@ -20,7 +20,7 @@ export type TriageResult =
 
 /**
  * Roda a triagem. `scope`:
- *  - "today": emails do dia (recebidos, Entrada + Importantes) — botão manual.
+ *  - "today": emails das últimas 24h (recebidos, Entrada + Importantes) — botão manual.
  *  - "untriaged": só os sem aiImportance — poller automático (não retria nem
  *    gasta cota à toa quando não há novidade).
  */
@@ -29,15 +29,14 @@ export async function runEmailTriage(
   scope: "today" | "untriaged",
   userId?: string | null
 ): Promise<TriageResult> {
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
+  const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
   const emails = await prisma.inboxEmail.findMany({
     where: {
       companyId,
       direction: "IN",
       folder: { in: ["INBOX", "IMPORTANT"] },
-      ...(scope === "today" ? { sentAt: { gte: startOfDay } } : { aiImportance: null }),
+      ...(scope === "today" ? { sentAt: { gte: last24h } } : { aiImportance: null }),
     },
     orderBy: { sentAt: "desc" },
     take: MAX_EMAILS,
@@ -53,7 +52,7 @@ export async function runEmailTriage(
       ok: false,
       code: "EMPTY",
       error: scope === "today"
-        ? "Nenhum email recebido hoje na Entrada — nada pra analisar."
+        ? "Nenhum email recebido nas últimas 24h na Entrada — nada pra analisar."
         : "Nenhum email novo pra analisar.",
     };
   }
@@ -73,19 +72,39 @@ export async function runEmailTriage(
     endpoint: "email-triage",
     userId: userId ?? null,
     temperature: 0.2,
-    maxTokens: 3000,
+    maxTokens: 4000,
     messages: [
       {
         role: "system",
-        content: `Você é o assistente de triagem de emails de uma empresa brasileira. Classifique cada email:
-- ALTA: exige ação/resposta — cliente ou lead escrevendo, proposta, pagamento, prazo, problema, oportunidade de negócio.
+        content: `Você é o assistente de triagem de emails de uma empresa brasileira de marketing digital/web (gerencia sites, domínios e hospedagens de clientes). Classifique cada email:
+- ALTA: exige ação/resposta — cliente ou lead escrevendo, proposta, pagamento, prazo, problema técnico (site fora do ar, invasão, suspensão), oportunidade de negócio.
 - NORMAL: relevante mas sem urgência.
 - BAIXA: newsletter, propaganda, notificação automática, spam que passou.
 
+O "digest" é um BRIEFING EXECUTIVO em texto puro (use \\n pra quebras de linha), neste formato — omita seções sem conteúdo:
+
+📬 E-MAILS IMPORTANTES (últimas 24h)
+🔴 Urgente
+* Remetente/assunto — resumo do problema. → Ação: o que fazer.
+🟡 Importante
+* ... (ou "Nenhum nas últimas 24h.")
+🟢 Informativo: N email(s) sem ação necessária (uma linha explicando).
+
+🌐 VENCIMENTO DE DOMÍNIOS  ← só se houver emails de registro/renovação de domínio
+* dominio.com.br — situação (expirado/congelado/a vencer em X dias) — registrador → Ação: ...
+
+💳 COBRANÇAS E PAGAMENTOS  ← só se houver faturas/cobranças
+* Fornecedor — valor/descrição — vencimento → status (a vencer/vencida/confirmar)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 RESUMO: X urgente(s) | Y importante(s) | Z informativos | (domínios/cobranças se houver)
+
+Agrupe emails do mesmo assunto/chamado numa linha só. Seja específico: nomes, números de chamado, datas, valores.
+
 Responda APENAS com JSON válido, sem markdown, neste formato:
-{"digest":"resumo geral em 3-6 frases: o que precisa de atenção primeiro e o que pode ignorar","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português"}]}`,
+{"digest":"o briefing acima","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português"}]}`,
       },
-      { role: "user", content: `Emails da caixa de entrada (mais recentes primeiro):\n\n${list}` },
+      { role: "user", content: `Data/hora atual: ${new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}\n\nEmails da caixa de entrada (mais recentes primeiro):\n\n${list}` },
     ],
   });
 

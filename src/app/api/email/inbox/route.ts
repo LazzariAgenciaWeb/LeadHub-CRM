@@ -48,7 +48,9 @@ export async function GET(req: NextRequest) {
     where.folder = folder;
   }
   if (accountId) where.accountId = accountId;
-  if (tagId) where.tags = { some: { id: tagId } };
+  // tagId "__none" = pseudo-tag "sem tag": emails sem nenhuma marcação.
+  if (tagId === "__none") where.tags = { none: {} };
+  else if (tagId) where.tags = { some: { id: tagId } };
   if (importance) where.aiImportance = importance === "NONE" ? null : importance;
   if (q) {
     where.OR = [
