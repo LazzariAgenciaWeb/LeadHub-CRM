@@ -87,14 +87,15 @@ export async function resumeBot(conversationId: string): Promise<void> {
 // ── Núcleo ────────────────────────────────────────────────────────────────────
 
 interface AgentDecision {
-  reply: string | null;
+  replies: string[]; // 0-3 mensagens curtas, enviadas em sequência
   action: string; // "NONE" | "HANDOFF" | intent de AssistantRoute
   resumo: string | null;
 }
 
 /**
  * Extrai o JSON da resposta da IA de forma tolerante (com/sem cerca de código,
- * texto em volta). Retorna null se não houver JSON utilizável.
+ * texto em volta). `reply` aceita string única OU lista de mensagens curtas
+ * (estilo WhatsApp real — várias bolhas). Retorna null se não houver JSON.
  */
 function parseDecision(raw: string): AgentDecision | null {
   const start = raw.indexOf("{");
@@ -102,10 +103,15 @@ function parseDecision(raw: string): AgentDecision | null {
   if (start === -1 || end <= start) return null;
   try {
     const obj = JSON.parse(raw.slice(start, end + 1));
-    const reply = typeof obj.reply === "string" && obj.reply.trim() ? obj.reply.trim() : null;
+    const rawReply: unknown[] = Array.isArray(obj.reply) ? obj.reply : [obj.reply];
+    const replies = rawReply
+      .filter((r): r is string => typeof r === "string")
+      .map((r) => r.trim())
+      .filter(Boolean)
+      .slice(0, 3);
     const action = typeof obj.action === "string" && obj.action.trim() ? obj.action.trim().toUpperCase() : "NONE";
     const resumo = typeof obj.resumo === "string" && obj.resumo.trim() ? obj.resumo.trim() : null;
-    return { reply, action, resumo };
+    return { replies, action, resumo };
   } catch {
     return null;
   }
@@ -133,12 +139,20 @@ function buildSystemPrompt(args: {
   const parts: string[] = [];
 
   parts.push(`# PAPEL
-Você é um atendente da empresa respondendo mensagens de WhatsApp. Converse de forma natural, calorosa e breve (estilo WhatsApp: mensagens curtas, no máximo ~3 frases, UMA pergunta por vez). Nunca invente informações, preços ou prazos que não estejam no manual/catálogo abaixo.
+Você é um atendente da empresa respondendo mensagens de WhatsApp. Converse de forma natural e calorosa. Nunca invente informações, preços ou prazos que não estejam no manual/catálogo abaixo.
 
 Identidade:
 - NÃO se apresente como "assistente virtual", "IA", "bot" ou "atendimento automático". Você é simplesmente alguém do time — desenrole a conversa como uma pessoa faria.
 - Não use frases robóticas ("digite 1 para...", "em que posso ajudá-lo hoje?"). Fale como gente.
-- Se o contato perguntar DIRETAMENTE se você é um robô/IA, NÃO minta: responda leve ("aqui é do time da empresa 🙂 vou te passar com alguém agora") e use action "HANDOFF".`);
+- Se o contato perguntar DIRETAMENTE se você é um robô/IA, NÃO minta: responda leve ("aqui é do time da empresa 🙂 vou te passar com alguém agora") e use action "HANDOFF".
+
+# ESTILO DAS MENSAGENS (obrigatório)
+- CURTO: cada mensagem tem 1-2 frases no máximo. Nada de parágrafos longos ou textões.
+- Quando a resposta tem mais de uma ideia, DIVIDA em 2-3 mensagens separadas (campo "reply" aceita lista) — como uma pessoa mandando várias bolhas no WhatsApp.
+- UMA pergunta por vez, sempre a última mensagem da sequência.
+- Emojis com moderação: no máximo 1 por mensagem, e só quando encaixar natural 🙂
+- NUNCA repita um convite ou proposta que o contato já recusou ou ignorou (ex.: agendar reunião). Recusou? Mude a abordagem: explique em 1 frase POR QUE precisa entender o contexto e siga coletando as informações pela própria conversa.
+- Não repita o nome do contato em toda mensagem — soa robótico. Use no máximo 1x a cada 3-4 mensagens.`);
 
   parts.push(`# MANUAL DO AGENTE (siga à risca)\n${manual.trim()}`);
 
@@ -179,8 +193,9 @@ ${routeLines}
 
 # FORMATO DA RESPOSTA (obrigatório)
 Responda SOMENTE com um JSON válido, sem texto fora dele, neste formato:
-{"reply": "mensagem pro contato (ou null se não deve responder nada)", "action": "NONE", "resumo": "1 frase objetiva: quem é o contato e o que quer"}
-O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível.`);
+{"reply": ["primeira mensagem curta", "segunda mensagem curta (opcional)"], "action": "NONE", "resumo": "1 frase objetiva: quem é o contato e o que quer"}
+- "reply": lista de 1 a 3 mensagens curtas (enviadas em sequência, como bolhas separadas). Pode ser string única. null/[] se não deve responder nada.
+- O campo "resumo" é interno (o time lê) — sempre preencha da melhor forma possível.`);
 
   return parts.join("\n\n");
 }
@@ -296,32 +311,39 @@ export async function runAutoAgentNow(conversationId: string): Promise<
   });
   if (newer) return { ok: false, skipped: "human_replied_during_ai" };
 
-  // 1) Enviar a resposta ao contato
+  // 1) Enviar a(s) resposta(s) ao contato — em sequência, com pausa curta
+  //    entre bolhas pra soar como pessoa digitando (não metralhadora).
   let replied = false;
-  if (decision.reply) {
+  for (let i = 0; i < decision.replies.length; i++) {
+    const part = decision.replies[i];
+    if (i > 0) {
+      // Pausa proporcional ao tamanho da próxima mensagem (1.5s a 4s).
+      const pause = Math.min(4000, 1500 + part.length * 25);
+      await new Promise((r) => setTimeout(r, pause));
+    }
     try {
       const sendResult = await evolutionSendText(
         instance.instanceName,
         conv.phone,
-        decision.reply,
+        part,
         instance.instanceToken ?? null
       );
       // Prefixo "out-" no fallback: o webhook fromMe (eco do envio) reconhece
       // esse padrão e ATUALIZA o registro em vez de duplicar/pausar o bot.
-      const externalId: string = sendResult?.key?.id ?? sendResult?.id ?? `out-${Date.now()}`;
+      const externalId: string = sendResult?.key?.id ?? sendResult?.id ?? `out-${Date.now()}-${i}`;
 
       const updatedConv = await upsertConversation({
         companyId: conv.companyId,
         phone: conv.phone,
         direction: "OUTBOUND",
-        body: decision.reply,
+        body: part,
         instanceId: instance.id,
       });
 
       await prisma.message.create({
         data: {
           externalId,
-          body: decision.reply,
+          body: part,
           direction: "OUTBOUND",
           phone: conv.phone,
           instanceId: instance.id,
@@ -335,9 +357,11 @@ export async function runAutoAgentNow(conversationId: string): Promise<
       });
       replied = true;
     } catch (err) {
-      console.error(`[AutoAgent] falha ao enviar resposta conv=${conv.id}:`, err);
-      // Sem envio não faz sentido rotear "às cegas" — tenta de novo na próxima msg.
-      return { ok: false, skipped: "send_failed" };
+      console.error(`[AutoAgent] falha ao enviar resposta conv=${conv.id} (parte ${i + 1}):`, err);
+      // Nada enviado → não roteia "às cegas"; tenta de novo na próxima msg.
+      // Se já enviou parte da sequência, segue pro roteamento normalmente.
+      if (!replied) return { ok: false, skipped: "send_failed" };
+      break;
     }
   }
 
