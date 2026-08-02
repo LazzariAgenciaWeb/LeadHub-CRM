@@ -355,6 +355,22 @@ async function storeMessage(
       data: { emailId: created.id, ...a },
     }).catch((e) => console.warn(`[imap-inbox] anexo falhou (${a.filename})`, e));
   }
+
+  // Auto-tag por histórico: se o usuário já tagueou email deste remetente,
+  // repete as mesmas tags do mais recente tagueado — "mesmo remetente, mesmo
+  // tratamento". Grátis (sem IA). A triagem IA complementa com tag semântica.
+  if (direction === "IN" && fromEmail) {
+    const prev = await prisma.inboxEmail.findFirst({
+      where: { companyId, fromEmail, tags: { some: {} }, id: { not: created.id } },
+      orderBy: { sentAt: "desc" },
+      select: { tags: { select: { id: true } } },
+    });
+    if (prev?.tags.length) {
+      await prisma.inboxEmail
+        .update({ where: { id: created.id }, data: { tags: { connect: prev.tags } } })
+        .catch(() => null);
+    }
+  }
   return true;
 }
 
