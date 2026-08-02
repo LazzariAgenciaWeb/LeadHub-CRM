@@ -64,8 +64,11 @@ export async function GET(req: NextRequest) {
 
   // Contadores respeitam o filtro de conta (etiqueta selecionada).
   const countScope: Prisma.InboxEmailWhereInput = { companyId, ...(accountId ? { accountId } : {}) };
+  // Contagem das tags escopada na PASTA atual (+ conta): na Entrada, o chip
+  // da tag mostra só quantos emails daquela tag estão na Entrada.
+  const tagScope: Prisma.InboxEmailWhereInput = { ...countScope, folder };
 
-  const [emails, grouped, unseen, accounts] = await Promise.all([
+  const [emails, grouped, unseen, accounts, tagCountRows, noTagCount] = await Promise.all([
     prisma.inboxEmail.findMany({
       where,
       orderBy: { sentAt: "desc" },
@@ -99,11 +102,19 @@ export async function GET(req: NextRequest) {
         lastSyncedAt: true, lastError: true,
       },
     }),
+    prisma.inboxEmailTag.findMany({
+      where: { companyId },
+      select: { id: true, _count: { select: { emails: { where: tagScope } } } },
+    }),
+    prisma.inboxEmail.count({ where: { ...tagScope, tags: { none: {} } } }),
   ]);
 
   const counts: Record<string, number> = {};
   for (const f of FOLDERS) counts[f] = 0;
   for (const g of grouped) counts[g.folder] = g._count._all;
 
-  return NextResponse.json({ emails, counts, unseen, accounts });
+  const tagCounts: Record<string, number> = { __none: noTagCount };
+  for (const t of tagCountRows) tagCounts[t.id] = t._count.emails;
+
+  return NextResponse.json({ emails, counts, unseen, accounts, tagCounts });
 }

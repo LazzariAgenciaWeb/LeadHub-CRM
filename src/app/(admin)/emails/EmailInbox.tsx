@@ -122,6 +122,8 @@ export default function EmailInbox() {
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [aiFilter, setAiFilter] = useState<"ALTA" | "NORMAL" | "BAIXA" | null>(null);
   const [tags, setTags] = useState<EmailTag[]>([]);
+  // Contagem por tag escopada na pasta/conta atual (vem da listagem).
+  const [tagCounts, setTagCounts] = useState<Record<string, number>>({});
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkBusy, setBulkBusy] = useState(false);
   const [emails, setEmails] = useState<EmailRow[]>([]);
@@ -186,6 +188,7 @@ export default function EmailInbox() {
       setCounts(res.counts || {});
       setUnseen(res.unseen || 0);
       setAccounts(res.accounts || []);
+      setTagCounts(res.tagCounts || {});
     } finally {
       if (!opts?.silent) setLoading(false);
     }
@@ -707,20 +710,26 @@ export default function EmailInbox() {
       {tags.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5 mb-3">
           <TagIcon size={12} className="text-slate-500" />
-          {tags.map((t) => (
-            <button key={t.id} onClick={() => setTagFilter(tagFilter === t.id ? null : t.id)}
-              className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
-                tagFilter === t.id ? "border-indigo-500/50" : "border-white/10 hover:bg-white/5"}`}>
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
-              <span className="text-slate-300">{t.name}</span>
-              {typeof t.count === "number" && t.count > 0 && <span className="text-[9px] text-slate-500">{t.count}</span>}
-            </button>
-          ))}
+          {tags.map((t) => {
+            const n = tagCounts[t.id] ?? 0;
+            return (
+              <button key={t.id} onClick={() => setTagFilter(tagFilter === t.id ? null : t.id)}
+                title={`${t.name} — ${n} nesta pasta${typeof t.count === "number" ? ` (${t.count} no total)` : ""}`}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
+                  tagFilter === t.id ? "border-indigo-500/50" : "border-white/10 hover:bg-white/5"} ${
+                  n === 0 && tagFilter !== t.id ? "opacity-50" : ""}`}>
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+                <span className="text-slate-300">{t.name}</span>
+                {n > 0 && <span className="text-[9px] text-slate-500">{n}</span>}
+              </button>
+            );
+          })}
           <button onClick={() => setTagFilter(tagFilter === "__none" ? null : "__none")}
-            title="Emails sem nenhuma tag"
+            title="Emails sem nenhuma tag nesta pasta"
             className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
               tagFilter === "__none" ? "border-indigo-500/50 text-slate-200" : "border-dashed border-white/15 text-slate-500 hover:bg-white/5"}`}>
             sem tag
+            {(tagCounts.__none ?? 0) > 0 && <span className="text-[9px] text-slate-500">{tagCounts.__none}</span>}
           </button>
           {tagFilter && (
             <button onClick={() => setTagFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
