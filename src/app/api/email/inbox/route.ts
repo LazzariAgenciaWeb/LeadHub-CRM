@@ -36,15 +36,19 @@ export async function GET(req: NextRequest) {
   const skip = Math.max(0, parseInt(sp.get("skip") ?? "0", 10) || 0);
   const take = Math.min(100, Math.max(1, parseInt(sp.get("take") ?? "50", 10) || 50));
 
-  const folderParam = (sp.get("folder") ?? "INBOX").toUpperCase() as InboxEmailFolder;
-  const folder = FOLDERS.includes(folderParam) ? folderParam : "INBOX";
+  // "ALL" = pseudo-pasta "Todos": busca/lista atravessando todas as pastas.
+  const folderParam = (sp.get("folder") ?? "INBOX").toUpperCase();
+  const isAll = folderParam === "ALL";
+  const folder = FOLDERS.includes(folderParam as InboxEmailFolder)
+    ? (folderParam as InboxEmailFolder)
+    : "INBOX";
 
   const where: Prisma.InboxEmailWhereInput = { companyId };
   if (leadId || ticketId) {
     if (leadId) where.leadId = leadId;
     if (ticketId) where.ticketId = ticketId;
     where.folder = { not: "TRASH" };
-  } else {
+  } else if (!isAll) {
     where.folder = folder;
   }
   if (accountId) where.accountId = accountId;
@@ -65,8 +69,9 @@ export async function GET(req: NextRequest) {
   // Contadores respeitam o filtro de conta (etiqueta selecionada).
   const countScope: Prisma.InboxEmailWhereInput = { companyId, ...(accountId ? { accountId } : {}) };
   // Contagem das tags escopada na PASTA atual (+ conta): na Entrada, o chip
-  // da tag mostra só quantos emails daquela tag estão na Entrada.
-  const tagScope: Prisma.InboxEmailWhereInput = { ...countScope, folder };
+  // da tag mostra só quantos emails daquela tag estão na Entrada. Em "Todos",
+  // conta geral.
+  const tagScope: Prisma.InboxEmailWhereInput = isAll ? countScope : { ...countScope, folder };
 
   const [emails, grouped, unseen, accounts, tagCountRows, noTagCount] = await Promise.all([
     prisma.inboxEmail.findMany({

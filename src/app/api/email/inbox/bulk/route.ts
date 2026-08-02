@@ -12,7 +12,8 @@ const FOLDER_ACTIONS: Record<string, InboxEmailFolder> = {
 
 // POST /api/email/inbox/bulk
 // { ids: string[], action: "INBOX"|"IMPORTANT"|"ARCHIVE"|"SPAM"|"TRASH"
-//                        | "DELETE_SERVER" | "ADD_TAG" | "REMOVE_TAG", tagId? }
+//                        | "DELETE_SERVER" | "ADD_TAG" | "REMOVE_TAG"
+//                        | "MARK_READ" | "MARK_UNREAD", tagId? }
 // Ações em lote sobre emails selecionados. SPAM aplica blacklist por remetente
 // (mesmo efeito do PATCH individual). DELETE_SERVER: exclusão definitiva —
 // apaga do servidor IMAP (best-effort, com verificação de Message-ID) e do LeadHub.
@@ -36,6 +37,15 @@ export async function POST(req: NextRequest) {
   });
   if (!emails.length) return NextResponse.json({ error: "Emails não encontrados" }, { status: 404 });
   const validIds = emails.map((e) => e.id);
+
+  // ── Lido / não lido em massa ──
+  if (action === "MARK_READ" || action === "MARK_UNREAD") {
+    await prisma.inboxEmail.updateMany({
+      where: { id: { in: validIds }, companyId },
+      data: { seen: action === "MARK_READ" },
+    });
+    return NextResponse.json({ ok: true, affected: validIds.length });
+  }
 
   // ── Tags ──
   if (action === "ADD_TAG" || action === "REMOVE_TAG") {

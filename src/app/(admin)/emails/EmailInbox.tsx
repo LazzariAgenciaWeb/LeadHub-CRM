@@ -6,10 +6,13 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
-  Tag as TagIcon, Flame, Activity, ChevronsDown, Globe, type LucideIcon,
+  Tag as TagIcon, Flame, Activity, ChevronsDown, Globe, ChevronDown, ChevronRight,
+  Layers, Eye, EyeOff, type LucideIcon,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
+// Seleção da coluna esquerda: pastas reais + pseudo-pasta "Todos" (busca geral).
+type FolderSel = Folder | "ALL";
 
 type SenderRule = { id: string; fromEmail: string; type: "BLOCK" | "ALLOW"; createdAt: string };
 
@@ -142,8 +145,11 @@ const EMPTY_ACC_FORM = {
 };
 
 export default function EmailInbox() {
-  const [folder, setFolder] = useState<Folder>("INBOX");
+  const [folder, setFolder] = useState<FolderSel>("INBOX");
   const [accountFilter, setAccountFilter] = useState<string | null>(null);
+  // Seções colapsáveis da coluna esquerda (Contas / Tags).
+  const [sideAccountsOpen, setSideAccountsOpen] = useState(true);
+  const [sideTagsOpen, setSideTagsOpen] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [aiFilter, setAiFilter] = useState<"ALTA" | "NORMAL" | "BAIXA" | null>(null);
   const [tags, setTags] = useState<EmailTag[]>([]);
@@ -255,6 +261,21 @@ export default function EmailInbox() {
       }
     } finally {
       setDetailLoading(false);
+    }
+  }
+
+  async function toggleSeen() {
+    if (!selected) return;
+    const next = !selected.seen;
+    const res = await fetch(`/api/email/inbox/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ seen: next }),
+    });
+    if (res.ok) {
+      setSelected((s) => (s ? { ...s, seen: next } : s));
+      setEmails((prev) => prev.map((e) => (e.id === selected.id ? { ...e, seen: next } : e)));
+      load({ silent: true });
     }
   }
 
@@ -429,6 +450,8 @@ export default function EmailInbox() {
       if (!res.ok) { setNotice(j.error || "Falha na ação"); }
       else {
         const msgs: Record<string, string> = {
+          MARK_READ: `${j.affected} email(s) marcados como lidos`,
+          MARK_UNREAD: `${j.affected} email(s) marcados como não lidos`,
           SPAM: `${j.affected} email(s) pro Spam${j.rulesCreated ? ` · ${j.rulesCreated} remetente(s) na blacklist` : ""}`,
           TRASH: `${j.affected} email(s) pra Lixeira`,
           IMPORTANT: `${j.affected} email(s) marcados como importantes`,
@@ -747,28 +770,6 @@ export default function EmailInbox() {
         </div>
       </div>
 
-      {/* Etiquetas de conta — filtro + status */}
-      {accounts.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 mb-3">
-          <button onClick={() => setAccountFilter(null)}
-            className={`px-2.5 py-1 rounded-lg text-[11px] border ${!accountFilter ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200" : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
-            Todas as contas
-          </button>
-          {accounts.map((a) => (
-            <button key={a.id} onClick={() => setAccountFilter(accountFilter === a.id ? null : a.id)}
-              title={`${a.fromEmail}${a.lastError ? ` · Erro: ${a.lastError}` : ""}${a.lastSyncedAt ? ` · sync ${fmtDate(a.lastSyncedAt)}` : ""}`}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] border ${
-                accountFilter === a.id ? "border-indigo-500/40" : "border-white/10 hover:bg-white/5"}`}>
-              <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded ${accountColor(a.id)}`}>
-                <AtSign size={10} /> {accountName(a)}
-              </span>
-              {a.lastError && <XCircle size={11} className="text-red-400" />}
-              {!a.lastError && (a.imapVerified || a.smtpVerified) && <CheckCircle2 size={11} className="text-emerald-400" />}
-              {!a.active && <span className="text-[9px] text-slate-500">pausada</span>}
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* Filtro pela triagem IA */}
       <div className="flex flex-wrap items-center gap-1.5 mb-3">
@@ -802,36 +803,6 @@ export default function EmailInbox() {
         </button>
       </div>
 
-      {/* Tags — filtro */}
-      {tags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 mb-3">
-          <TagIcon size={12} className="text-slate-500" />
-          {tags.map((t) => {
-            const n = tagCounts[t.id] ?? 0;
-            return (
-              <button key={t.id} onClick={() => setTagFilter(tagFilter === t.id ? null : t.id)}
-                title={`${t.name} — ${n} nesta pasta${typeof t.count === "number" ? ` (${t.count} no total)` : ""}`}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
-                  tagFilter === t.id ? "border-indigo-500/50" : "border-white/10 hover:bg-white/5"} ${
-                  n === 0 && tagFilter !== t.id ? "opacity-50" : ""}`}>
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
-                <span className="text-slate-300">{t.name}</span>
-                {n > 0 && <span className="text-[9px] text-slate-500">{n}</span>}
-              </button>
-            );
-          })}
-          <button onClick={() => setTagFilter(tagFilter === "__none" ? null : "__none")}
-            title="Emails sem nenhuma tag nesta pasta"
-            className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
-              tagFilter === "__none" ? "border-indigo-500/50 text-slate-200" : "border-dashed border-white/15 text-slate-500 hover:bg-white/5"}`}>
-            sem tag
-            {(tagCounts.__none ?? 0) > 0 && <span className="text-[9px] text-slate-500">{tagCounts.__none}</span>}
-          </button>
-          {tagFilter && (
-            <button onClick={() => setTagFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
-          )}
-        </div>
-      )}
 
       {noAccounts && (
         <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
@@ -841,8 +812,43 @@ export default function EmailInbox() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-[170px_320px_1fr] gap-4 h-[72vh]">
-        {/* Pastas */}
+        {/* Coluna esquerda: Contas · Pastas · Todos · Tags */}
         <div className="rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto">
+          {/* Contas (caixas) — colapsável */}
+          {accounts.length > 0 && (
+            <>
+              <button onClick={() => setSideAccountsOpen((v) => !v)}
+                className="hidden md:flex items-center gap-1.5 px-2 py-1 text-[10px] uppercase tracking-wide text-slate-500 hover:text-slate-300">
+                {sideAccountsOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />} Caixas
+                {accountFilter && !sideAccountsOpen && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+              </button>
+              {sideAccountsOpen && (
+                <>
+                  {accounts.map((a) => (
+                    <button key={a.id} onClick={() => { setAccountFilter(accountFilter === a.id ? null : a.id); setSelected(null); }}
+                      title={`${a.fromEmail}${a.lastError ? ` · Erro: ${a.lastError}` : ""}${a.lastSyncedAt ? ` · sync ${fmtDate(a.lastSyncedAt)}` : ""}${!a.active ? " · pausada" : ""}`}
+                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] whitespace-nowrap ${
+                        accountFilter === a.id ? "bg-indigo-500/20" : "hover:bg-white/5"}`}>
+                      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] min-w-0 ${accountColor(a.id)}`}>
+                        <AtSign size={10} className="flex-shrink-0" />
+                        <span className="truncate">{accountName(a)}</span>
+                      </span>
+                      {a.lastError
+                        ? <XCircle size={11} className="text-red-400 flex-shrink-0" />
+                        : (a.imapVerified || a.smtpVerified) && <CheckCircle2 size={11} className="text-emerald-400 flex-shrink-0" />}
+                    </button>
+                  ))}
+                  {accountFilter && (
+                    <button onClick={() => setAccountFilter(null)}
+                      className="text-left px-2.5 text-[10px] text-slate-500 hover:text-white">todas as caixas</button>
+                  )}
+                </>
+              )}
+              <div className="hidden md:block border-t border-white/5 my-1" />
+            </>
+          )}
+
+          {/* Pastas */}
           {FOLDER_META.map(({ key, label, Icon }) => (
             <button key={key} onClick={() => { setFolder(key); setSelected(null); }}
               className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm whitespace-nowrap ${
@@ -857,6 +863,62 @@ export default function EmailInbox() {
               )}
             </button>
           ))}
+
+          {/* Todos — pseudo-pasta de busca geral (estilo "Todos os e-mails" do Gmail) */}
+          <button onClick={() => { setFolder("ALL"); setSelected(null); }}
+            title="Todos os emails de todas as pastas — busca sem caçar caixa por caixa"
+            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm whitespace-nowrap border border-dashed ${
+              folder === "ALL"
+                ? "bg-violet-500/20 text-violet-200 border-violet-500/40"
+                : "text-violet-300/80 border-violet-500/25 hover:bg-violet-500/10"}`}>
+            <Layers size={15} />
+            <span className="flex-1 text-left">Todos</span>
+            <span className="text-[10px] text-violet-300/60">
+              {Object.values(counts).reduce((a, b) => a + b, 0) || ""}
+            </span>
+          </button>
+
+          {/* Tags — colapsável */}
+          {tags.length > 0 && (
+            <>
+              <div className="hidden md:block border-t border-white/5 my-1" />
+              <button onClick={() => setSideTagsOpen((v) => !v)}
+                className="hidden md:flex items-center gap-1.5 px-2 py-1 text-[10px] uppercase tracking-wide text-slate-500 hover:text-slate-300">
+                {sideTagsOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />} Tags
+                {tagFilter && !sideTagsOpen && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+              </button>
+              {sideTagsOpen && (
+                <>
+                  {tags.map((t) => {
+                    const n = tagCounts[t.id] ?? 0;
+                    return (
+                      <button key={t.id} onClick={() => { setTagFilter(tagFilter === t.id ? null : t.id); setSelected(null); }}
+                        title={`${t.name} — ${n} nesta pasta${typeof t.count === "number" ? ` (${t.count} no total)` : ""}`}
+                        className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] whitespace-nowrap ${
+                          tagFilter === t.id ? "bg-indigo-500/20" : "hover:bg-white/5"} ${
+                          n === 0 && tagFilter !== t.id ? "opacity-50" : ""}`}>
+                        <TagIcon size={11} style={{ color: t.color }} className="flex-shrink-0" />
+                        <span className="flex-1 text-left text-slate-300 truncate">{t.name}</span>
+                        {n > 0 && <span className="text-[10px] text-slate-500">{n}</span>}
+                      </button>
+                    );
+                  })}
+                  <button onClick={() => { setTagFilter(tagFilter === "__none" ? null : "__none"); setSelected(null); }}
+                    title="Emails sem nenhuma tag nesta pasta"
+                    className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] whitespace-nowrap ${
+                      tagFilter === "__none" ? "bg-indigo-500/20 text-slate-200" : "text-slate-500 hover:bg-white/5"}`}>
+                    <TagIcon size={11} className="flex-shrink-0 opacity-40" />
+                    <span className="flex-1 text-left">sem tag</span>
+                    {(tagCounts.__none ?? 0) > 0 && <span className="text-[10px] text-slate-500">{tagCounts.__none}</span>}
+                  </button>
+                  {tagFilter && (
+                    <button onClick={() => setTagFilter(null)}
+                      className="text-left px-2.5 text-[10px] text-slate-500 hover:text-white">limpar filtro</button>
+                  )}
+                </>
+              )}
+            </>
+          )}
         </div>
 
         {/* Lista */}
@@ -876,11 +938,15 @@ export default function EmailInbox() {
             {selectedIds.size > 0 && (
               <div className="flex flex-wrap items-center gap-1">
                 <span className="text-[10px] text-slate-400 mr-1">{selectedIds.size} sel.</span>
+                <button onClick={() => bulkAction("MARK_READ")} disabled={bulkBusy} title="Marcar como lidos"
+                  className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5 disabled:opacity-40"><Eye size={13} /></button>
+                <button onClick={() => bulkAction("MARK_UNREAD")} disabled={bulkBusy} title="Marcar como não lidos"
+                  className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5 disabled:opacity-40"><EyeOff size={13} /></button>
                 {folder !== "IMPORTANT" && (
                   <button onClick={() => bulkAction("IMPORTANT")} disabled={bulkBusy} title="Marcar importantes"
                     className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5 disabled:opacity-40"><Star size={13} /></button>
                 )}
-                {(folder === "INBOX" || folder === "IMPORTANT") && (
+                {(folder === "INBOX" || folder === "IMPORTANT" || folder === "ALL") && (
                   <button onClick={() => bulkAction("ARCHIVE")} disabled={bulkBusy} title="Resolvidos (arquivar)"
                     className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5 disabled:opacity-40"><Check size={13} /></button>
                 )}
@@ -1057,6 +1123,10 @@ export default function EmailInbox() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button onClick={() => startReply(selected)} title="Responder"
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
+                    <button onClick={toggleSeen} title={selected.seen ? "Marcar como não lido" : "Marcar como lido"}
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5">
+                      {selected.seen ? <EyeOff size={14} /> : <Eye size={14} />}
+                    </button>
                     {!selected.ticket && (
                       <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
                         className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
