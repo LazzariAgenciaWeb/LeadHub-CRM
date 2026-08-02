@@ -2492,12 +2492,14 @@ export default function CRMBoard({
                     )}
                   </div>
 
-                  {selected.email && (
-                    <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="text-slate-500 text-[10px] uppercase tracking-wide">E-mail</div>
+                  <div className="bg-[#161f30] rounded-lg p-3 col-span-2">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-slate-500 text-[10px] uppercase tracking-wide">E-mail</div>
+                      {selected.email && (
                         <SendEmailButton to={selected.email} leadId={selected.id} onSent={reloadTimeline} />
-                      </div>
+                      )}
+                    </div>
+                    {selected.email ? (
                       <div className="text-white text-sm">
                         <a
                           href={`mailto:${selected.email}`}
@@ -2506,8 +2508,12 @@ export default function CRMBoard({
                           {selected.email}
                         </a>
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="text-slate-600 text-xs">
+                        Sem email cadastrado — preencha no lápis ✏️ acima pra habilitar o envio pela plataforma.
+                      </div>
+                    )}
+                  </div>
 
                   {(selected.website || selected.instagram || selected.facebook || selected.address || selected.city || selected.segment || selected.source === "SerpAPI" || selected.externalId) && (
                     <div className="bg-[#161f30] rounded-lg p-3 col-span-2 space-y-2">

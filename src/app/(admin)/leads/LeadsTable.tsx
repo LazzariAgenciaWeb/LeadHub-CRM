@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import SendEmailButton from "@/components/SendEmailButton";
 
 interface Lead {
   id: string;
@@ -207,7 +208,10 @@ export default function LeadsTable({
               </div>
               {selected.email && (
                 <div>
-                  <div className="text-slate-500 text-[11px] uppercase tracking-wide mb-1">E-mail</div>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="text-slate-500 text-[11px] uppercase tracking-wide">E-mail</div>
+                    <SendEmailButton to={selected.email} leadId={selected.id} />
+                  </div>
                   <div className="text-white">{selected.email}</div>
                 </div>
               )}
