@@ -1273,7 +1273,7 @@ export default function EmailInbox() {
                 <option value="BLOCK" className="bg-[#0f1623]">Bloquear</option>
                 <option value="ALLOW" className="bg-[#0f1623]">Liberar</option>
               </select>
-              <button onClick={addRule} disabled={ruleSaving || !ruleForm.fromEmail.trim()}
+              <button onClick={() => addRule()} disabled={ruleSaving || !ruleForm.fromEmail.trim()}
                 className="rounded-lg bg-indigo-500 px-3 py-2 text-sm text-white hover:bg-indigo-400 disabled:opacity-50">
                 {ruleSaving ? "…" : "Adicionar"}
               </button>
