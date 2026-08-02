@@ -29,6 +29,23 @@ export async function POST(req: NextRequest) {
   if (!subject) return NextResponse.json({ error: "Assunto obrigatório" }, { status: 400 });
   if (!text) return NextResponse.json({ error: "Mensagem obrigatória" }, { status: 400 });
 
+  // Anexos do upload: máx 5 arquivos, 8MB no total (base64 ≈ +33%).
+  const rawAtts = Array.isArray(body?.attachments) ? body.attachments : [];
+  if (rawAtts.length > 5) return NextResponse.json({ error: "Máximo de 5 anexos por email" }, { status: 400 });
+  let totalBytes = 0;
+  const attachments = rawAtts.map((a: any) => {
+    const contentBase64 = String(a?.contentBase64 ?? "");
+    totalBytes += Math.floor(contentBase64.length * 0.75);
+    return {
+      filename: String(a?.filename ?? "anexo").slice(0, 200),
+      contentType: String(a?.contentType ?? "application/octet-stream"),
+      contentBase64,
+    };
+  }).filter((a: any) => a.contentBase64);
+  if (totalBytes > 8 * 1024 * 1024) {
+    return NextResponse.json({ error: "Anexos passam de 8MB no total" }, { status: 400 });
+  }
+
   // Vínculos são sempre validados contra a empresa da sessão.
   let leadId: string | null = null;
   let ticketId: string | null = null;
@@ -48,6 +65,7 @@ export async function POST(req: NextRequest) {
       to,
       subject,
       text,
+      attachments,
       accountId: body?.accountId ?? null,
       replyToId: body?.replyToId ?? null,
       leadId,

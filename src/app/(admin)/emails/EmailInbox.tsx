@@ -152,6 +152,7 @@ export default function EmailInbox() {
   // Compor / responder
   const [composeOpen, setComposeOpen] = useState(false);
   const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
+  const [composeAtts, setComposeAtts] = useState<{ filename: string; contentType: string; contentBase64: string; size: number }[]>([]);
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
 
@@ -287,8 +288,28 @@ export default function EmailInbox() {
   function startCompose() {
     const firstActive = accounts.find((a) => a.active);
     setCompose({ to: "", subject: "", text: "", replyToId: null, accountId: firstActive?.id ?? "" });
+    setComposeAtts([]);
     setSendErr("");
     setComposeOpen(true);
+  }
+
+  async function addComposeFiles(files: FileList | null) {
+    if (!files?.length) return;
+    const MAX_TOTAL = 8 * 1024 * 1024;
+    const next = [...composeAtts];
+    for (const file of Array.from(files)) {
+      if (next.length >= 5) { setSendErr("Máximo de 5 anexos"); break; }
+      const current = next.reduce((acc, a) => acc + a.size, 0);
+      if (current + file.size > MAX_TOTAL) { setSendErr("Anexos passam de 8MB no total"); break; }
+      const contentBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      next.push({ filename: file.name, contentType: file.type || "application/octet-stream", contentBase64, size: file.size });
+    }
+    setComposeAtts(next);
   }
 
   function startReply(email: EmailFull) {
@@ -297,6 +318,7 @@ export default function EmailInbox() {
     // Resposta sai pela conta que recebeu o email original.
     const accountId = email.accountId ?? accounts.find((a) => a.active)?.id ?? "";
     setCompose({ to, subject, text: "", replyToId: email.id, accountId });
+    setComposeAtts([]);
     setSendErr("");
     setComposeOpen(true);
   }
@@ -308,7 +330,11 @@ export default function EmailInbox() {
       const res = await fetch(`/api/email/inbox/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...compose, accountId: compose.accountId || null }),
+        body: JSON.stringify({
+          ...compose,
+          accountId: compose.accountId || null,
+          attachments: composeAtts.map(({ filename, contentType, contentBase64 }) => ({ filename, contentType, contentBase64 })),
+        }),
       });
       const j = await res.json();
       if (!res.ok) { setSendErr(j.error || "Falha ao enviar"); return; }
@@ -1100,6 +1126,24 @@ export default function EmailInbox() {
               <textarea value={compose.text} onChange={(e) => setCompose((c) => ({ ...c, text: e.target.value }))}
                 placeholder="Mensagem…" rows={8}
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-y" />
+              <div className="flex flex-wrap items-center gap-1.5">
+                <label className="flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1 text-[11px] text-slate-300 hover:bg-white/5 cursor-pointer">
+                  📎 Anexar
+                  <input type="file" multiple className="hidden"
+                    onChange={(e) => { addComposeFiles(e.target.files); e.target.value = ""; }} />
+                </label>
+                {composeAtts.map((a, i) => (
+                  <span key={i} className="flex items-center gap-1 rounded-lg bg-white/5 border border-white/10 px-2 py-1 text-[11px] text-slate-300">
+                    <span className="truncate max-w-[160px]">{a.filename}</span>
+                    <span className="text-slate-500">({fmtSize(a.size)})</span>
+                    <button onClick={() => setComposeAtts((prev) => prev.filter((_, j) => j !== i))}
+                      className="text-slate-500 hover:text-red-300">×</button>
+                  </span>
+                ))}
+                {composeAtts.length > 0 && (
+                  <span className="text-[10px] text-slate-500">máx 5 arquivos · 8MB no total</span>
+                )}
+              </div>
             </div>
             {sendErr && <p className="text-red-400 text-xs mt-2">{sendErr}</p>}
             <div className="flex justify-end gap-2 mt-3">

@@ -296,14 +296,40 @@ async function storeMessage(
   const messageId = parsed.messageId ?? null;
   const inReplyTo = parsed.inReplyTo ?? null;
 
-  // Dedup por Message-ID dentro da conta (re-sync após reset de uidValidity;
-  // email enviado pela plataforma que também aparece na pasta \Sent).
+  // Dedup por Message-ID na EMPRESA inteira: email redirecionado entre caixas
+  // (contato@ → diego@) mantém o Message-ID e mostraria duplicado — só a
+  // primeira cópia importada entra. Também cobre re-sync após reset de
+  // uidValidity e o email enviado pela plataforma que aparece na \Sent.
   if (messageId) {
-    const dup = await prisma.inboxEmail.findUnique({
-      where: { accountId_messageId: { accountId, messageId } },
-      select: { id: true },
+    const dup = await prisma.inboxEmail.findFirst({
+      where: { companyId, messageId },
+      select: {
+        id: true, imapUid: true, direction: true, accountId: true,
+        _count: { select: { attachments: true } },
+      },
     });
-    if (dup) return false;
+    if (dup) {
+      // Backfill: o registro criado na hora do envio pela plataforma não tem
+      // UID nem anexos referenciados — quando a cópia aparece na pasta \Sent
+      // do servidor, completamos (habilita o download dos anexos enviados).
+      if (
+        direction === "OUT" && dup.direction === "OUT" && !dup.imapUid &&
+        (dup.accountId === accountId || !dup.accountId)
+      ) {
+        await prisma.inboxEmail
+          .update({ where: { id: dup.id }, data: { imapUid: uid, accountId } })
+          .catch(() => null);
+        if (dup._count.attachments === 0) {
+          const parts = collectAttachmentParts(bodyStructure).slice(0, MAX_ATTACHMENTS_PER_EMAIL);
+          for (const a of parts) {
+            await prisma.inboxEmailAttachment
+              .create({ data: { emailId: dup.id, ...a } })
+              .catch(() => null);
+          }
+        }
+      }
+      return false;
+    }
   }
 
   let folder: InboxEmailFolder;
@@ -664,11 +690,19 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+export interface SendAttachmentInput {
+  filename: string;
+  contentType: string;
+  /** Conteúdo em base64 (upload do browser). */
+  contentBase64: string;
+}
+
 export interface SendInboxEmailInput {
   to: string;
   subject: string;
   /** Corpo em texto puro (a UI manda texto; viramos HTML simples). */
   text: string;
+  attachments?: SendAttachmentInput[];
   /** Conta pela qual enviar. Sem ela: conta da thread (resposta) → 1ª ativa → fallback CompanyEmailConfig. */
   accountId?: string | null;
   /** Responder a um InboxEmail existente → In-Reply-To/References + herda vínculo. */
@@ -718,6 +752,13 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
   const text = input.text.trim();
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111">${escapeHtml(text).replace(/\n/g, "<br/>")}</div>`;
 
+  // Anexos do upload → formato do nodemailer.
+  const mailAttachments = (input.attachments ?? []).map((a) => ({
+    filename: a.filename,
+    contentType: a.contentType || undefined,
+    content: Buffer.from(a.contentBase64, "base64"),
+  }));
+
   let messageId: string | null = null;
   let fromEmail: string;
   let fromName: string;
@@ -736,6 +777,7 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       html,
       text,
       headers: Object.keys(headers).length ? headers : undefined,
+      attachments: mailAttachments.length ? mailAttachments : undefined,
     });
     messageId = info?.messageId ?? null;
     fromEmail = account.fromEmail;
@@ -748,6 +790,7 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       html,
       text,
       headers: Object.keys(headers).length ? headers : undefined,
+      attachments: mailAttachments.length ? mailAttachments : undefined,
     });
     messageId = sent.messageId;
     fromEmail = sent.fromEmail;

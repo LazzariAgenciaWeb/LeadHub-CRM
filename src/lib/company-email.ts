@@ -130,7 +130,11 @@ export async function verifyCompanyEmail(companyId: string): Promise<{ ok: true 
 /** Envia 1 email pela conta da empresa. Lança em erro (worker captura). */
 export async function sendCompanyMail(
   companyId: string,
-  opts: { to: string; subject: string; html: string; text?: string; headers?: Record<string, string> }
+  opts: {
+    to: string; subject: string; html: string; text?: string;
+    headers?: Record<string, string>;
+    attachments?: { filename: string; content: Buffer; contentType?: string }[];
+  }
 ): Promise<{ messageId: string | null; fromEmail: string; fromName: string }> {
   const cfg = await getCompanyEmailConfig(companyId);
   if (!cfg) throw new Error("SMTP da empresa não configurado");
@@ -143,6 +147,7 @@ export async function sendCompanyMail(
     html: opts.html,
     text: opts.text,
     headers: opts.headers,
+    attachments: opts.attachments,
   });
   return { messageId: info?.messageId ?? null, fromEmail: cfg.fromEmail, fromName: cfg.fromName };
 }
