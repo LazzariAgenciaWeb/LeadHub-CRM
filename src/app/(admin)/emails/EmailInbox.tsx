@@ -889,9 +889,28 @@ export default function EmailInbox() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     {!e.seen && e.direction === "IN" && <span className="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0" />}
-                    <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
-                      {e.direction === "OUT" ? `Para: ${e.toEmail}` : (e.fromName || e.fromEmail)}
-                    </span>
+                    {e.direction === "OUT" ? (
+                      <span className={`text-sm truncate flex-1 ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
+                        Para: {e.toEmail}
+                      </span>
+                    ) : (
+                      <span className="flex-1 min-w-0 flex items-baseline gap-1.5">
+                        <span className={`text-sm truncate ${e.seen ? "text-slate-300" : "text-white font-semibold"}`}>
+                          {e.fromName || e.fromEmail}
+                        </span>
+                        {/* Endereço real sempre visível — é o que denuncia remetente
+                            estranho. Clique filtra pela busca (bloqueio em 3 cliques). */}
+                        {e.fromName && (
+                          <span
+                            onClick={(ev) => { ev.stopPropagation(); setQ(e.fromEmail); }}
+                            title={`Filtrar por ${e.fromEmail}`}
+                            className="text-[10px] text-slate-500 truncate hover:text-indigo-300 cursor-pointer flex-shrink min-w-0"
+                          >
+                            {e.fromEmail}
+                          </span>
+                        )}
+                      </span>
+                    )}
                     {(e._count?.attachments ?? 0) > 0 && <span className="text-[10px] text-slate-500 flex-shrink-0" title="Com anexo">📎</span>}
                     <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
                   </div>
