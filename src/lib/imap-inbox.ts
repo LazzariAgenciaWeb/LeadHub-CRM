@@ -356,19 +356,45 @@ async function storeMessage(
     }).catch((e) => console.warn(`[imap-inbox] anexo falhou (${a.filename})`, e));
   }
 
-  // Auto-tag por histórico: se o usuário já tagueou email deste remetente,
-  // repete as mesmas tags do mais recente tagueado — "mesmo remetente, mesmo
-  // tratamento". Grátis (sem IA). A triagem IA complementa com tag semântica.
+  // Auto-tag por histórico. Mesmo remetente NÃO basta (o mesmo fornecedor
+  // manda boleto, confirmação de pagamento E nota fiscal — tags diferentes).
+  // Regra: aplica as tags de um email anterior do MESMO remetente quando
+  //   a) o assunto normalizado bate (Re:/números/datas ignorados) — mesmo
+  //      tipo de email, mesmo tratamento; OU
+  //   b) o remetente é "monotemático": TODOS os emails tagueados dele têm o
+  //      mesmo conjunto de tags (aí não há ambiguidade).
+  // Grátis (sem IA). Casos ambíguos ficam pra triagem IA, que decide pelo
+  // conteúdo imitando exemplos do usuário.
   if (direction === "IN" && fromEmail) {
-    const prev = await prisma.inboxEmail.findFirst({
+    const prevTagged = await prisma.inboxEmail.findMany({
       where: { companyId, fromEmail, tags: { some: {} }, id: { not: created.id } },
       orderBy: { sentAt: "desc" },
-      select: { tags: { select: { id: true } } },
+      take: 20,
+      select: { subject: true, tags: { select: { id: true } } },
     });
-    if (prev?.tags.length) {
-      await prisma.inboxEmail
-        .update({ where: { id: created.id }, data: { tags: { connect: prev.tags } } })
-        .catch(() => null);
+    if (prevTagged.length) {
+      const norm = (s: string) =>
+        s.toLowerCase()
+          .replace(/^((re|fwd?|enc|res):\s*)+/g, "")
+          .replace(/\d+/g, "#")
+          .replace(/\s+/g, " ")
+          .trim();
+      const target = norm(parsed.subject ?? "");
+
+      let tagsToApply = target
+        ? prevTagged.find((p) => norm(p.subject) === target)?.tags
+        : undefined;
+      if (!tagsToApply) {
+        const distinctSets = new Set(
+          prevTagged.map((p) => p.tags.map((t) => t.id).sort().join(","))
+        );
+        if (distinctSets.size === 1) tagsToApply = prevTagged[0].tags;
+      }
+      if (tagsToApply?.length) {
+        await prisma.inboxEmail
+          .update({ where: { id: created.id }, data: { tags: { connect: tagsToApply } } })
+          .catch(() => null);
+      }
     }
   }
   return true;
