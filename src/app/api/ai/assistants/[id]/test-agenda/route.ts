@@ -35,8 +35,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 
   const q = req.nextUrl.searchParams;
-  const calendarUserId = q.get("calendarUserId") || assistant.calendarUserId;
+  const formCalendarUserId = q.get("calendarUserId") || null;
+  const calendarUserId = formCalendarUserId || assistant.calendarUserId;
   const durationMin = Math.min(180, Math.max(15, parseInt(q.get("duration") ?? "", 10) || assistant.meetingDurationMin || 30));
+  // O teste usa o valor do FORM; o motor em produção usa o SALVO. Se divergem,
+  // o usuário selecionou mas não salvou — avisar com destaque.
+  const notSaved = !!(formCalendarUserId && formCalendarUserId !== assistant.calendarUserId);
 
   // 1) Agenda selecionada?
   if (!calendarUserId) {
@@ -72,15 +76,16 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       durationMin,
       maxSlots: 12,
     });
+    const avisos: string[] = [];
+    if (notSaved) avisos.push("A agenda testada ainda NÃO está salva no agente — clique em Salvar, senão o bot continua usando o link!");
+    if (slots.length === 0) avisos.push("Conexão OK, mas nenhum horário livre nos próximos 3 dias úteis — agenda cheia ou horários de atendimento da empresa não configurados.");
     return NextResponse.json({
       ok: true,
       googleEmail: conn.googleEmail,
       durationMin,
       slotsCount: slots.length,
       sample: slots.slice(0, 6).map((s) => s.label),
-      aviso: slots.length === 0
-        ? "Conexão OK, mas nenhum horário livre nos próximos 3 dias úteis — agenda cheia ou horários de atendimento da empresa não configurados."
-        : null,
+      aviso: avisos.length ? avisos.join(" ") : null,
     });
   } catch (e: any) {
     return NextResponse.json({
