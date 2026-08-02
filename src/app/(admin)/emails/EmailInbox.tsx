@@ -6,7 +6,7 @@ import {
   Mail, Inbox, Star, Send, AlertOctagon, Trash2, RefreshCw, Settings,
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
-  Tag as TagIcon,
+  Tag as TagIcon, Flame, Activity, ChevronsDown, type LucideIcon,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -93,10 +93,13 @@ function fmtSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-const IMPORTANCE_BADGE: Record<string, { label: string; cls: string }> = {
-  ALTA:   { label: "🔥 alta",  cls: "bg-red-500/20 text-red-300" },
-  NORMAL: { label: "normal",   cls: "bg-slate-500/20 text-slate-400" },
-  BAIXA:  { label: "baixa",    cls: "bg-slate-600/20 text-slate-500" },
+// Importância da triagem IA — ícones lucide no padrão do sistema, uma cor
+// por nível (vermelho/azul/cinza) pra diferenciar de tag (◦ colorido) e
+// conta (@).
+const IMPORTANCE_BADGE: Record<string, { label: string; cls: string; Icon: LucideIcon }> = {
+  ALTA:   { label: "alta",   cls: "bg-red-500/20 text-red-300",     Icon: Flame },
+  NORMAL: { label: "normal", cls: "bg-sky-500/20 text-sky-300",     Icon: Activity },
+  BAIXA:  { label: "baixa",  cls: "bg-slate-500/20 text-slate-400", Icon: ChevronsDown },
 };
 
 function fmtDate(iso: string): string {
@@ -680,13 +683,16 @@ export default function EmailInbox() {
       {/* Filtro pela triagem IA */}
       <div className="flex flex-wrap items-center gap-1.5 mb-3">
         <Sparkles size={12} className="text-indigo-400" />
-        {(["ALTA", "NORMAL", "BAIXA"] as const).map((imp) => (
-          <button key={imp} onClick={() => setAiFilter(aiFilter === imp ? null : imp)}
-            className={`px-2 py-0.5 rounded-lg text-[11px] border ${
-              aiFilter === imp ? "border-indigo-500/50 " + IMPORTANCE_BADGE[imp].cls : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
-            {IMPORTANCE_BADGE[imp].label}
-          </button>
-        ))}
+        {(["ALTA", "NORMAL", "BAIXA"] as const).map((imp) => {
+          const b = IMPORTANCE_BADGE[imp];
+          return (
+            <button key={imp} onClick={() => setAiFilter(aiFilter === imp ? null : imp)}
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] border ${
+                aiFilter === imp ? "border-indigo-500/50 " + b.cls : "border-white/10 text-slate-400 hover:bg-white/5"}`}>
+              <b.Icon size={11} /> {b.label}
+            </button>
+          );
+        })}
         {aiFilter && (
           <button onClick={() => setAiFilter(null)} className="text-[10px] text-slate-500 hover:text-white">limpar</button>
         )}
@@ -842,14 +848,18 @@ export default function EmailInbox() {
                   <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
                   <div className="flex items-center gap-1.5">
                     <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
-                    {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${IMPORTANCE_BADGE[e.aiImportance].cls}`}>
-                        {IMPORTANCE_BADGE[e.aiImportance].label}
-                      </span>
-                    )}
+                    {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (() => {
+                      const b = IMPORTANCE_BADGE[e.aiImportance];
+                      return (
+                        <span className={`flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded flex-shrink-0 ${b.cls}`}>
+                          <b.Icon size={9} /> {b.label}
+                        </span>
+                      );
+                    })()}
                     {e.tags?.map((t) => (
-                      <span key={t.id} className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300 flex-shrink-0">
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: t.color }} />{t.name}
+                      <span key={t.id} className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded bg-white/5 flex-shrink-0"
+                        style={{ color: t.color }}>
+                        <TagIcon size={9} />{t.name}
                       </span>
                     ))}
                     {e.account && (
@@ -891,11 +901,14 @@ export default function EmailInbox() {
                       </p>
                     )}
                     <div className="flex flex-wrap gap-2 mt-1.5">
-                      {selected.aiImportance && selected.direction === "IN" && IMPORTANCE_BADGE[selected.aiImportance] && (
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${IMPORTANCE_BADGE[selected.aiImportance].cls}`}>
-                          {IMPORTANCE_BADGE[selected.aiImportance].label}
-                        </span>
-                      )}
+                      {selected.aiImportance && selected.direction === "IN" && IMPORTANCE_BADGE[selected.aiImportance] && (() => {
+                        const b = IMPORTANCE_BADGE[selected.aiImportance];
+                        return (
+                          <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${b.cls}`}>
+                            <b.Icon size={10} /> {b.label}
+                          </span>
+                        );
+                      })()}
                       {selected.account && (
                         <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${accountColor(selected.accountId)}`}>
                           <AtSign size={10} /> {selected.direction === "IN" ? "recebido em" : "enviado por"} {accountName(selected.account)}
@@ -914,8 +927,9 @@ export default function EmailInbox() {
                         </Link>
                       )}
                       {selected.tags?.map((t) => (
-                        <span key={t.id} className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300">
-                          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+                        <span key={t.id} className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-white/5"
+                          style={{ color: t.color }}>
+                          <TagIcon size={10} />
                           {t.name}
                           <button onClick={() => untagCurrent(t.id)} title="Remover tag" className="text-slate-500 hover:text-red-300 ml-0.5">×</button>
                         </span>
