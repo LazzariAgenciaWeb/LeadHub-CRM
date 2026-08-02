@@ -483,5 +483,6 @@ export async function POST(request: NextRequest) {
 // A Evolution API pode fazer um GET para verificar o webhook
 // Também retorna os últimos payloads recebidos para diagnóstico
 export async function GET() {
-  return NextResponse.json({ ok: true, service: "LeadHub Webhook", recentPayloads, recentAckPayloads });
+  const { AUTO_AGENT_REV } = await import("@/lib/auto-agent");
+  return NextResponse.json({ ok: true, service: "LeadHub Webhook", autoAgentRev: AUTO_AGENT_REV, recentPayloads, recentAckPayloads });
 }

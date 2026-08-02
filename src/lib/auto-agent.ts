@@ -28,9 +28,14 @@ import {
  * pelo runAssistant() → cota mensal da empresa + AiUsageLog valem aqui.
  */
 
+// Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
+// segundos qual versão está no ar após um deploy.
+export const AUTO_AGENT_REV = "v3-bolhas-curtas-agenda";
+
 const DEBOUNCE_MS = 10_000;
 const HISTORY_LIMIT = 30;
 const MAX_REPLY_TOKENS = 500;
+const MAX_BUBBLE_CHARS = 200; // acima disso o motor quebra a bolha na marra
 
 // Debounce por conversa. Vive em globalThis pra sobreviver ao HMR do dev.
 // Servidor único (standalone) — suficiente pra Fase 1; se um dia houver
@@ -110,11 +115,12 @@ function parseDecision(raw: string): AgentDecision | null {
   try {
     const obj = JSON.parse(raw.slice(start, end + 1));
     const rawReply: unknown[] = Array.isArray(obj.reply) ? obj.reply : [obj.reply];
-    const replies = rawReply
-      .filter((r): r is string => typeof r === "string")
-      .map((r) => r.trim())
-      .filter(Boolean)
-      .slice(0, 3);
+    const replies = normalizeBubbles(
+      rawReply
+        .filter((r): r is string => typeof r === "string")
+        .map((r) => r.trim())
+        .filter(Boolean)
+    );
     const action = typeof obj.action === "string" && obj.action.trim() ? obj.action.trim().toUpperCase() : "NONE";
     const resumo = typeof obj.resumo === "string" && obj.resumo.trim() ? obj.resumo.trim() : null;
     const agendarInicio = typeof obj.agendarInicio === "string" && obj.agendarInicio.trim() ? obj.agendarInicio.trim() : null;
@@ -123,6 +129,32 @@ function parseDecision(raw: string): AgentDecision | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Backstop MECÂNICO do estilo: o modelo às vezes ignora a instrução e devolve
+ * um parágrafo único. Aqui qualquer bolha acima de MAX_BUBBLE_CHARS é quebrada
+ * em sentenças e reagrupada em bolhas curtas; máximo 3 bolhas no total (o
+ * excedente é fundido na última — nunca se perde conteúdo).
+ */
+function normalizeBubbles(replies: string[]): string[] {
+  const out: string[] = [];
+  for (const r of replies) {
+    if (r.length <= MAX_BUBBLE_CHARS) {
+      out.push(r);
+      continue;
+    }
+    const sentences = r.split(/(?<=[.!?…])\s+/);
+    let cur = "";
+    for (const s of sentences) {
+      if (!cur) cur = s;
+      else if (cur.length + 1 + s.length <= MAX_BUBBLE_CHARS) cur += " " + s;
+      else { out.push(cur); cur = s; }
+    }
+    if (cur) out.push(cur);
+  }
+  if (out.length > 3) return [out[0], out[1], out.slice(2).join(" ")];
+  return out;
 }
 
 interface SchedulingContext {
@@ -339,6 +371,13 @@ export async function runAutoAgentNow(conversationId: string): Promise<
       role: m.direction === "INBOUND" ? "user" : "assistant",
       content: m.body,
     })),
+    // Lembrete FINAL depois do histórico — modelos seguem melhor a última
+    // instrução, e o histórico com mensagens longas antigas puxa o estilo
+    // de volta pro textão se não reforçar aqui.
+    {
+      role: "system",
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.`,
+    },
   ];
 
   const result = await runAssistant({
