@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v5-diagnostico-runtime";
+export const AUTO_AGENT_REV = "v6-slot-tolerante";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -595,6 +595,31 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
 const REMINDER_BEFORE_MIN = 60; // lembrete 1h antes da reunião
 
 /**
+ * Resolve o slot escolhido pelo modelo comparando o INSTANTE (epoch), não a
+ * string. Tolera ISO sem segundos e sem offset (assume o offset dos slots).
+ */
+function resolveSlot(slots: Slot[], agendarInicio: string | null): Slot | null {
+  if (!agendarInicio) return null;
+  const raw = agendarInicio.trim().replace(" ", "T");
+  const candidates = [raw];
+  // Sem offset/Z no final → anexa o offset usado nos próprios slots (ex.: -03:00)
+  if (!/(?:[+-]\d{2}:?\d{2}|Z)$/i.test(raw)) {
+    const offset = slots[0]?.startISO.match(/([+-]\d{2}:\d{2})$/)?.[1];
+    if (offset) {
+      candidates.push(`${raw}${offset}`);
+      if (/T\d{2}:\d{2}$/.test(raw)) candidates.push(`${raw}:00${offset}`);
+    }
+  }
+  for (const c of candidates) {
+    const t = Date.parse(c);
+    if (Number.isNaN(t)) continue;
+    const match = slots.find((s) => Date.parse(s.startISO) === t);
+    if (match) return match;
+  }
+  return null;
+}
+
+/**
  * Confirma a reunião escolhida: revalida o slot (NUNCA confirma horário
  * ocupado), cria o evento com Google Meet, manda a confirmação + link no
  * WhatsApp, agenda o lembrete e encaminha pro time comercial (rota createLead).
@@ -618,12 +643,22 @@ async function handleBooking(args: {
     return;
   }
 
-  // O horário TEM que ser um dos oferecidos (anti-alucinação de slot).
-  const slot = decision.agendarInicio
-    ? scheduling.slots.find((sl) => sl.startISO === decision.agendarInicio) ?? null
-    : null;
+  // O horário TEM que ser um dos oferecidos (anti-alucinação de slot), mas o
+  // match é pelo INSTANTE, não pelo texto — o modelo devolve o ISO com
+  // variações (sem segundos, sem offset) e a comparação de string travava em
+  // loop de "qual horário?".
+  const slot = resolveSlot(scheduling.slots, decision.agendarInicio);
   if (!slot) {
-    await sendBotText(sender, "Só me confirma qual dos horários que te passei fica melhor pra você? 😊");
+    console.warn(`[AutoAgent] AGENDAR com horário não reconhecido conv=${conversationId}: "${decision.agendarInicio}"`);
+    const manha = scheduling.slots.find((sl) => sl.period === "manha");
+    const tarde = scheduling.slots.find((sl) => sl.period === "tarde");
+    const opts = [manha, tarde].filter(Boolean).map((sl) => sl!.label);
+    await sendBotText(
+      sender,
+      opts.length
+        ? `Deixa eu confirmar direito o horário: consigo ${opts.join(" ou ")}. Qual desses fecha pra você?`
+        : "Deixa eu confirmar direito: qual dia e horário você prefere?"
+    );
     return;
   }
 
