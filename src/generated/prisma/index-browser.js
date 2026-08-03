@@ -196,6 +196,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   moduleProjetos: 'moduleProjetos',
   moduleCalendario: 'moduleCalendario',
   moduleEmailMarketing: 'moduleEmailMarketing',
+  moduleEmailInbox: 'moduleEmailInbox',
   moduleProspeccao: 'moduleProspeccao',
   serpapiKey: 'serpapiKey',
   moduleClickup: 'moduleClickup',

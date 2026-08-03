@@ -17607,6 +17607,7 @@ export namespace Prisma {
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
     moduleEmailMarketing: boolean | null
+    moduleEmailInbox: boolean | null
     moduleProspeccao: boolean | null
     serpapiKey: string | null
     moduleClickup: boolean | null
@@ -17647,6 +17648,7 @@ export namespace Prisma {
     moduleProjetos: boolean | null
     moduleCalendario: boolean | null
     moduleEmailMarketing: boolean | null
+    moduleEmailInbox: boolean | null
     moduleProspeccao: boolean | null
     serpapiKey: string | null
     moduleClickup: boolean | null
@@ -17687,6 +17689,7 @@ export namespace Prisma {
     moduleProjetos: number
     moduleCalendario: number
     moduleEmailMarketing: number
+    moduleEmailInbox: number
     moduleProspeccao: number
     serpapiKey: number
     moduleClickup: number
@@ -17739,6 +17742,7 @@ export namespace Prisma {
     moduleProjetos?: true
     moduleCalendario?: true
     moduleEmailMarketing?: true
+    moduleEmailInbox?: true
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
@@ -17779,6 +17783,7 @@ export namespace Prisma {
     moduleProjetos?: true
     moduleCalendario?: true
     moduleEmailMarketing?: true
+    moduleEmailInbox?: true
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
@@ -17819,6 +17824,7 @@ export namespace Prisma {
     moduleProjetos?: true
     moduleCalendario?: true
     moduleEmailMarketing?: true
+    moduleEmailInbox?: true
     moduleProspeccao?: true
     serpapiKey?: true
     moduleClickup?: true
@@ -17946,6 +17952,7 @@ export namespace Prisma {
     moduleProjetos: boolean
     moduleCalendario: boolean
     moduleEmailMarketing: boolean
+    moduleEmailInbox: boolean
     moduleProspeccao: boolean
     serpapiKey: string | null
     moduleClickup: boolean
@@ -18005,6 +18012,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
@@ -18122,6 +18130,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
@@ -18163,6 +18172,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: boolean
     moduleClickup?: boolean
@@ -18366,6 +18376,7 @@ export namespace Prisma {
       moduleProjetos: boolean
       moduleCalendario: boolean
       moduleEmailMarketing: boolean
+      moduleEmailInbox: boolean
       moduleProspeccao: boolean
       serpapiKey: string | null
       moduleClickup: boolean
@@ -18872,6 +18883,7 @@ export namespace Prisma {
     readonly moduleProjetos: FieldRef<"Company", 'Boolean'>
     readonly moduleCalendario: FieldRef<"Company", 'Boolean'>
     readonly moduleEmailMarketing: FieldRef<"Company", 'Boolean'>
+    readonly moduleEmailInbox: FieldRef<"Company", 'Boolean'>
     readonly moduleProspeccao: FieldRef<"Company", 'Boolean'>
     readonly serpapiKey: FieldRef<"Company", 'String'>
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
@@ -128729,6 +128741,7 @@ export namespace Prisma {
     moduleProjetos: 'moduleProjetos',
     moduleCalendario: 'moduleCalendario',
     moduleEmailMarketing: 'moduleEmailMarketing',
+    moduleEmailInbox: 'moduleEmailInbox',
     moduleProspeccao: 'moduleProspeccao',
     serpapiKey: 'serpapiKey',
     moduleClickup: 'moduleClickup',
@@ -131789,6 +131802,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
     moduleEmailMarketing?: BoolFilter<"Company"> | boolean
+    moduleEmailInbox?: BoolFilter<"Company"> | boolean
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
@@ -131905,6 +131919,7 @@ export namespace Prisma {
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
     moduleEmailMarketing?: SortOrder
+    moduleEmailInbox?: SortOrder
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
@@ -132025,6 +132040,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
     moduleEmailMarketing?: BoolFilter<"Company"> | boolean
+    moduleEmailInbox?: BoolFilter<"Company"> | boolean
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
@@ -132140,6 +132156,7 @@ export namespace Prisma {
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
     moduleEmailMarketing?: SortOrder
+    moduleEmailInbox?: SortOrder
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
@@ -132188,6 +132205,7 @@ export namespace Prisma {
     moduleProjetos?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCalendario?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleEmailMarketing?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleEmailInbox?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleProspeccao?: BoolWithAggregatesFilter<"Company"> | boolean
     serpapiKey?: StringNullableWithAggregatesFilter<"Company"> | string | null
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -142196,6 +142214,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -142311,6 +142330,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -142426,6 +142446,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -142541,6 +142562,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -142656,6 +142678,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -142696,6 +142719,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -142735,6 +142759,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -154509,6 +154534,7 @@ export namespace Prisma {
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
     moduleEmailMarketing?: SortOrder
+    moduleEmailInbox?: SortOrder
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
@@ -154554,6 +154580,7 @@ export namespace Prisma {
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
     moduleEmailMarketing?: SortOrder
+    moduleEmailInbox?: SortOrder
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
@@ -154594,6 +154621,7 @@ export namespace Prisma {
     moduleProjetos?: SortOrder
     moduleCalendario?: SortOrder
     moduleEmailMarketing?: SortOrder
+    moduleEmailInbox?: SortOrder
     moduleProspeccao?: SortOrder
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
@@ -172543,6 +172571,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -172657,6 +172686,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -173803,6 +173833,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -173917,6 +173948,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -175340,6 +175372,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -175454,6 +175487,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -175573,6 +175607,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -175687,6 +175722,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -178973,6 +179009,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -179087,6 +179124,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -179220,6 +179258,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFilter<"Company"> | boolean
     moduleCalendario?: BoolFilter<"Company"> | boolean
     moduleEmailMarketing?: BoolFilter<"Company"> | boolean
+    moduleEmailInbox?: BoolFilter<"Company"> | boolean
     moduleProspeccao?: BoolFilter<"Company"> | boolean
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
@@ -181636,6 +181675,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -181750,6 +181790,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -182126,6 +182167,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -182240,6 +182282,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -182459,6 +182502,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -182573,6 +182617,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -182890,6 +182935,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -183004,6 +183050,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -183246,6 +183293,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -183360,6 +183408,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -184006,6 +184055,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -184120,6 +184170,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -184639,6 +184690,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -184753,6 +184805,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -184903,6 +184956,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -185017,6 +185071,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -185427,6 +185482,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -185541,6 +185597,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -185697,6 +185754,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -185811,6 +185869,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -186233,6 +186292,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -186347,6 +186407,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -186503,6 +186564,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -186617,6 +186679,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -186747,6 +186810,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -186861,6 +186925,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -187020,6 +187085,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -187134,6 +187200,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -187392,6 +187459,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -187506,6 +187574,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -187925,6 +187994,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -188039,6 +188109,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -188563,6 +188634,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -188677,6 +188749,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -188807,6 +188880,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -188921,6 +188995,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -189035,6 +189110,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -189149,6 +189225,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -189366,6 +189443,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -189480,6 +189558,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -189687,6 +189766,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -189801,6 +189881,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -190109,6 +190190,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -190223,6 +190305,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -190409,6 +190492,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -190523,6 +190607,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -190992,6 +191077,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -191106,6 +191192,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -191589,6 +191676,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -191703,6 +191791,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -191874,6 +191963,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -191988,6 +192078,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -192303,6 +192394,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -192417,6 +192509,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -192949,6 +193042,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -193063,6 +193157,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -193611,6 +193706,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -193725,6 +193821,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -194102,6 +194199,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -194216,6 +194314,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -194330,6 +194429,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -194444,6 +194544,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -194650,6 +194751,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -194764,6 +194866,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -195275,6 +195378,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -195389,6 +195493,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -195607,6 +195712,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -195721,6 +195827,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -196285,6 +196392,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -196399,6 +196507,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -196805,6 +196914,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -196919,6 +197029,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -197211,6 +197322,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -197325,6 +197437,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -197875,6 +197988,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -197989,6 +198103,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -201368,6 +201483,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -201482,6 +201598,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -201662,6 +201779,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -201776,6 +201894,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -202112,6 +202231,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -202226,6 +202346,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -202407,6 +202528,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -202521,6 +202643,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -202635,6 +202758,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -202749,6 +202873,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -202913,6 +203038,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -203027,6 +203153,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -203188,6 +203315,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -203302,6 +203430,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -203469,6 +203598,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -203583,6 +203713,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -203697,6 +203828,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -203811,6 +203943,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -203941,6 +204074,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -204055,6 +204189,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -204169,6 +204304,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -204283,6 +204419,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -204413,6 +204550,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -204527,6 +204665,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -204641,6 +204780,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -204755,6 +204895,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -204885,6 +205026,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -204999,6 +205141,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -205113,6 +205256,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -205227,6 +205371,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -205501,6 +205646,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -205615,6 +205761,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -205777,6 +205924,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -205891,6 +206039,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -206110,6 +206259,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -206224,6 +206374,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -206405,6 +206556,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -206519,6 +206671,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -206745,6 +206898,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -206859,6 +207013,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -207081,6 +207236,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -207195,6 +207351,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -207400,6 +207557,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -207514,6 +207672,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -207793,6 +207952,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -207907,6 +208067,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -208037,6 +208198,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -208151,6 +208313,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -208265,6 +208428,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -208379,6 +208543,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -208509,6 +208674,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -208623,6 +208789,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -208737,6 +208904,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -208851,6 +209019,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -208981,6 +209150,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -209095,6 +209265,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -209209,6 +209380,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -209323,6 +209495,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -209453,6 +209626,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -209567,6 +209741,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -209681,6 +209856,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -209795,6 +209971,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -209925,6 +210102,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -210039,6 +210217,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -210153,6 +210332,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -210267,6 +210447,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -210397,6 +210578,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -210511,6 +210693,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -210625,6 +210808,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -210739,6 +210923,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -210869,6 +211054,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -210983,6 +211169,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -211097,6 +211284,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -211211,6 +211399,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -211341,6 +211530,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -211455,6 +211645,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -211569,6 +211760,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -211683,6 +211875,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -211813,6 +212006,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -211927,6 +212121,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -212041,6 +212236,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -212155,6 +212351,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -212285,6 +212482,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -212399,6 +212597,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -212513,6 +212712,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -212627,6 +212827,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -212757,6 +212958,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -212871,6 +213073,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -212985,6 +213188,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -213099,6 +213303,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -213229,6 +213434,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -213343,6 +213549,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -213457,6 +213664,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -213571,6 +213779,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -213701,6 +213910,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -213815,6 +214025,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -213929,6 +214140,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -214043,6 +214255,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -214173,6 +214386,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -214287,6 +214501,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -214401,6 +214616,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -214515,6 +214731,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -214645,6 +214862,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -214759,6 +214977,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -214873,6 +215092,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -214987,6 +215207,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -215117,6 +215338,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -215231,6 +215453,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -215345,6 +215568,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -215459,6 +215683,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -215589,6 +215814,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -215703,6 +215929,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -215817,6 +216044,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -215931,6 +216159,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -216085,6 +216314,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -216199,6 +216429,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -216400,6 +216631,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -216514,6 +216746,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -216680,6 +216913,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -216794,6 +217028,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -217011,6 +217246,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -217125,6 +217361,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -217379,6 +217616,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -217493,6 +217731,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -217731,6 +217970,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -217845,6 +218085,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -218068,6 +218309,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -218182,6 +218424,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -218383,6 +218626,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -218497,6 +218741,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -218720,6 +218965,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -218834,6 +219080,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -219035,6 +219282,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -219149,6 +219397,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -219372,6 +219621,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -219486,6 +219736,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -219600,6 +219851,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -219714,6 +219966,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -219844,6 +220097,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -219958,6 +220212,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -220432,6 +220687,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -220546,6 +220802,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -220676,6 +220933,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -220790,6 +221048,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -220904,6 +221163,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -221018,6 +221278,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -221210,6 +221471,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -221324,6 +221586,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -221481,6 +221744,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -221595,6 +221859,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -222005,6 +222270,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -222119,6 +222385,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -222847,6 +223114,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -222961,6 +223229,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -223091,6 +223360,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -223205,6 +223475,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -223319,6 +223590,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -223433,6 +223705,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -223627,6 +223900,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -223741,6 +224015,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -223871,6 +224146,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -223985,6 +224261,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -224397,6 +224674,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -224511,6 +224789,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -224921,6 +225200,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -225035,6 +225315,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -225165,6 +225446,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -225279,6 +225561,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -225517,6 +225800,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -225631,6 +225915,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -225820,6 +226105,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -225934,6 +226220,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -226064,6 +226351,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -226178,6 +226466,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -226308,6 +226597,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -226422,6 +226712,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -226536,6 +226827,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -226650,6 +226942,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -226780,6 +227073,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -226894,6 +227188,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -227091,6 +227386,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -227205,6 +227501,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -227382,6 +227679,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -227496,6 +227794,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -227610,6 +227909,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -227724,6 +228024,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -228135,6 +228436,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -228249,6 +228551,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -228628,6 +228931,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -228742,6 +229046,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -228913,6 +229218,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -229027,6 +229333,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -229452,6 +229759,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -229566,6 +229874,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -229755,6 +230064,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -229869,6 +230179,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -230048,6 +230359,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -230162,6 +230474,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -230440,6 +230753,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -230554,6 +230868,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -230716,6 +231031,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -230830,6 +231146,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -231047,6 +231364,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -231161,6 +231479,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -231338,6 +231657,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -231452,6 +231772,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -231617,6 +231938,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -231731,6 +232053,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -231886,6 +232209,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -232000,6 +232324,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -232188,6 +232513,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -232302,6 +232628,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -232502,6 +232829,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -232616,6 +232944,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -232789,6 +233118,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -232903,6 +233233,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -234529,6 +234860,7 @@ export namespace Prisma {
     moduleProjetos?: boolean
     moduleCalendario?: boolean
     moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
     moduleProspeccao?: boolean
     serpapiKey?: string | null
     moduleClickup?: boolean
@@ -235632,6 +235964,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -235746,6 +236079,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
@@ -235860,6 +236194,7 @@ export namespace Prisma {
     moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
     moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
     moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
     moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean

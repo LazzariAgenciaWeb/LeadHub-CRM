@@ -288,6 +288,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                           {[
                             { title: "Atrair", items: [
                               { key: "moduleEmailMarketing", label: "E-mail Marketing" },
+                              { key: "moduleEmailInbox", label: "Caixa de E-mail" },
                               { key: "moduleInstagram", label: "Instagram (automação estilo ManyChat)" },
                               { key: "moduleVideos", label: "Vídeos (material de apoio)" },
                             ] },

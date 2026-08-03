@@ -8,7 +8,7 @@ import { bodyToInput, resolveCompanyId, validateAccountBody } from "../helpers";
 async function requireCtx(explicitCompanyId?: string | null) {
   const session = await getEffectiveSession();
   if (!session) return { ok: false as const, res: NextResponse.json({ error: "Não autorizado" }, { status: 401 }) };
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return { ok: false as const, res: gate.response };
   const companyId = resolveCompanyId(session, explicitCompanyId);
   if (!companyId) return { ok: false as const, res: NextResponse.json({ error: "Sem empresa" }, { status: 400 }) };

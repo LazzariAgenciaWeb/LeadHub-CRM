@@ -9,7 +9,7 @@ const FOLDERS: InboxEmailFolder[] = ["INBOX", "IMPORTANT", "SENT", "ARCHIVE", "S
 async function requireCtx() {
   const session = await getEffectiveSession();
   if (!session) return { ok: false as const, res: NextResponse.json({ error: "Não autorizado" }, { status: 401 }) };
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return { ok: false as const, res: gate.response };
   const companyId = (session.user as any).companyId as string | undefined;
   if (!companyId) return { ok: false as const, res: NextResponse.json({ error: "Sem empresa" }, { status: 400 }) };

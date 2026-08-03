@@ -12,7 +12,7 @@ import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
   const companyId = (session.user as any).companyId as string | undefined;
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });

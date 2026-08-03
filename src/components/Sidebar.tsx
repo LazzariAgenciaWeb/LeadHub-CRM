@@ -182,7 +182,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
       items: [
         { href: "/whatsapp",        Icon: MessageSquare, label: "WhatsApp",     grad: "whatsapp",  lockModule: "whatsapp",  perm: can(session, "canViewInbox"), badgeKey: "whatsappUnread" },
         { href: "/instagram/inbox", Icon: Camera,        label: "Inbox Social", grad: "marketing", lockModule: "instagram", perm: _isAdmin },
-        { href: "/emails",          Icon: Mail,          label: "E-mail",       grad: "email",     lockModule: "campanhas", perm: can(session, "canViewInbox") },
+        { href: "/emails",          Icon: Mail,          label: "E-mail",       grad: "email",     lockModule: "emailInbox", perm: can(session, "canViewInbox") },
         { href: "/chamados",        Icon: LifeBuoy,      label: "Chamados",     grad: "chamados",  lockModule: "tickets",   perm: can(session, "canViewTickets") },
         { href: "/assistente",      Icon: Sparkles,      label: "Assistente IA", grad: "ai",       lockModule: "ai",        perm: can(session, "canUseAI") },
       ],

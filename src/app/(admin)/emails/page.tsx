@@ -10,7 +10,7 @@ export default async function EmailInboxPage() {
   const session = await getEffectiveSession();
   if (!session) redirect("/login");
 
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) {
     return <div className="p-6 text-slate-400 text-sm">Módulo não disponível para esta empresa.</div>;
   }

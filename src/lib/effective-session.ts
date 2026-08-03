@@ -86,6 +86,7 @@ export async function getEffectiveSession() {
         calendario:  (company as any).moduleCalendario ?? false,
         prospeccao:  (company as any).moduleProspeccao ?? false,
         campanhas:   (company as any).moduleCampanhas ?? false,
+        emailInbox:  (company as any).moduleEmailInbox ?? false,
         links:       (company as any).moduleLinks ?? false,
         instagram:   (company as any).moduleInstagram ?? false,
         espacoCliente: (company as any).moduleEspacoCliente ?? false,

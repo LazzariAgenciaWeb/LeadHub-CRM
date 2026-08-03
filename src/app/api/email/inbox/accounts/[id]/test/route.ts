@@ -9,7 +9,7 @@ import { resolveCompanyId } from "../../helpers";
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
 
   const body = await req.json().catch(() => ({}));

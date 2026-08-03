@@ -12,7 +12,7 @@ const INLINE_TYPES = /^(image\/(png|jpe?g|gif|webp)|application\/pdf|text\/plain
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
   const companyId = (session.user as any).companyId as string | undefined;
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });

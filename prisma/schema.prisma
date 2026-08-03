@@ -172,6 +172,9 @@ model Company {
   // Disparo de email em massa (campanhas). Quando ligado, a empresa configura
   // o próprio SMTP em CompanyEmailConfig e dispara campanhas pros leads.
   moduleEmailMarketing Boolean @default(false)
+  // Caixa de E-mail (Atender → E-mail): separado do E-mail Marketing pra
+  // liberar um sem o outro por empresa.
+  moduleEmailInbox     Boolean @default(false)
   // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
   // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
   moduleProspeccao     Boolean @default(false)

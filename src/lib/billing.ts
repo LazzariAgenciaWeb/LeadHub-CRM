@@ -40,6 +40,7 @@ export type ModuleName =
   | "projetos"
   | "clickup"
   | "emailMarketing"
+  | "emailInbox"
   | "instagram"
   | "espacoCliente"
   | "videos";
@@ -60,6 +61,7 @@ const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
   projetos:    "projetos",
   clickup:     null,                // integração — habilitada manualmente, sem feature de plano
   emailMarketing: "emailMassa",     // feature do plano (PlanFeatures.emailMassa) + override custom
+  emailInbox:  null,                // Caixa de E-mail — toggle manual por empresa (sem feature de plano por ora)
   instagram:   null,                // integração — habilitada manualmente (moduleInstagram), sem feature de plano (por ora)
   espacoCliente: null,              // toggle manual do super-admin por agência (sem feature de plano por ora)
   videos:      null,                // biblioteca de vídeos — toggle manual por empresa (sem feature de plano por ora)
@@ -111,6 +113,7 @@ export async function assertModule(
       moduleCalendario: true,
       moduleClickup: true,
       moduleEmailMarketing: true,
+      moduleEmailInbox: true,
       moduleInstagram: true,
       moduleEspacoCliente: true,
       moduleVideos: true,
@@ -136,6 +139,7 @@ export async function assertModule(
     calendario:  company.moduleCalendario,
     clickup:     (company as any).moduleClickup ?? false,
     emailMarketing: (company as any).moduleEmailMarketing ?? false,
+    emailInbox:  (company as any).moduleEmailInbox ?? false,
     instagram:   (company as any).moduleInstagram ?? false,
     espacoCliente: (company as any).moduleEspacoCliente ?? false,
     videos:      (company as any).moduleVideos ?? false,

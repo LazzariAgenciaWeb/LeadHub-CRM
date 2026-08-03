@@ -9,7 +9,7 @@ import { ACCOUNT_SELECT, bodyToInput, resolveCompanyId, validateAccountBody } fr
 export async function GET(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
 
   const companyId = resolveCompanyId(session, req.nextUrl.searchParams.get("companyId"));
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-  const gate = await assertModule(session, "emailMarketing");
+  const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
 
   const body = await req.json().catch(() => ({}));
