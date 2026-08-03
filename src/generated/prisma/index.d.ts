@@ -40848,6 +40848,7 @@ export namespace Prisma {
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
+    aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -40872,6 +40873,7 @@ export namespace Prisma {
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
+    aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string | null
@@ -40896,6 +40898,7 @@ export namespace Prisma {
     excludeFromGamification: number
     aiMode: number
     aiPausedAt: number
+    aiCycleResetAt: number
     firstResponseAt: number
     closedAt: number
     companyId: number
@@ -40930,6 +40933,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -40954,6 +40958,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -40978,6 +40983,7 @@ export namespace Prisma {
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
+    aiCycleResetAt?: true
     firstResponseAt?: true
     closedAt?: true
     companyId?: true
@@ -41089,6 +41095,7 @@ export namespace Prisma {
     excludeFromGamification: boolean
     aiMode: $Enums.AiMode
     aiPausedAt: Date | null
+    aiCycleResetAt: Date | null
     firstResponseAt: Date | null
     closedAt: Date | null
     companyId: string
@@ -41132,6 +41139,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -41164,6 +41172,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -41191,6 +41200,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
+    aiCycleResetAt?: boolean
     firstResponseAt?: boolean
     closedAt?: boolean
     companyId?: boolean
@@ -41242,6 +41252,7 @@ export namespace Prisma {
       excludeFromGamification: boolean
       aiMode: $Enums.AiMode
       aiPausedAt: Date | null
+      aiCycleResetAt: Date | null
       firstResponseAt: Date | null
       closedAt: Date | null
       companyId: string
@@ -41663,6 +41674,7 @@ export namespace Prisma {
     readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
     readonly aiMode: FieldRef<"Conversation", 'AiMode'>
     readonly aiPausedAt: FieldRef<"Conversation", 'DateTime'>
+    readonly aiCycleResetAt: FieldRef<"Conversation", 'DateTime'>
     readonly firstResponseAt: FieldRef<"Conversation", 'DateTime'>
     readonly closedAt: FieldRef<"Conversation", 'DateTime'>
     readonly companyId: FieldRef<"Conversation", 'String'>
@@ -129059,6 +129071,7 @@ export namespace Prisma {
     excludeFromGamification: 'excludeFromGamification',
     aiMode: 'aiMode',
     aiPausedAt: 'aiPausedAt',
+    aiCycleResetAt: 'aiCycleResetAt',
     firstResponseAt: 'firstResponseAt',
     closedAt: 'closedAt',
     companyId: 'companyId',
@@ -133920,6 +133933,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -133951,6 +133965,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
+    aiCycleResetAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -133986,6 +134001,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -134017,6 +134033,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
+    aiCycleResetAt?: SortOrderInput | SortOrder
     firstResponseAt?: SortOrderInput | SortOrder
     closedAt?: SortOrderInput | SortOrder
     companyId?: SortOrder
@@ -134049,6 +134066,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
+    aiCycleResetAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     companyId?: StringWithAggregatesFilter<"Conversation"> | string
@@ -144594,6 +144612,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -144624,6 +144643,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -144650,6 +144670,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -144680,6 +144701,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -144708,6 +144730,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -144730,6 +144753,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -144753,6 +144777,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -155965,6 +155990,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -155993,6 +156019,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -156017,6 +156044,7 @@ export namespace Prisma {
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
+    aiCycleResetAt?: SortOrder
     firstResponseAt?: SortOrder
     closedAt?: SortOrder
     companyId?: SortOrder
@@ -172888,6 +172916,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -172916,6 +172945,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -174105,6 +174135,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
+    aiCycleResetAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     firstResponseAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     closedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     companyId?: StringFilter<"Conversation"> | string
@@ -177336,6 +177367,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -177365,6 +177397,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -183548,6 +183581,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -183577,6 +183611,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -184330,6 +184365,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -184359,6 +184395,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -190761,6 +190798,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -190790,6 +190828,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -191366,6 +191405,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -191395,6 +191435,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -193178,6 +193219,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -193207,6 +193249,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -193248,6 +193291,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -193277,6 +193321,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -193302,6 +193347,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -193331,6 +193377,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -193773,6 +193820,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -193802,6 +193850,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -196534,6 +196583,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -196562,6 +196612,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -233057,6 +233108,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -233519,6 +233571,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -233547,6 +233600,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -233574,6 +233628,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -235003,6 +235058,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     createdAt?: Date | string
@@ -237543,6 +237599,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -237572,6 +237629,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -237599,6 +237657,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241258,6 +241317,7 @@ export namespace Prisma {
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
     firstResponseAt?: Date | string | null
     closedAt?: Date | string | null
     companyId: string
@@ -241417,6 +241477,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -241445,6 +241506,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string
@@ -241472,6 +241534,7 @@ export namespace Prisma {
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     companyId?: StringFieldUpdateOperationsInput | string

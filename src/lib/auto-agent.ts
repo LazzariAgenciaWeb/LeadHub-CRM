@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v11-link-gatilho";
+export const AUTO_AGENT_REV = "v12-ciclo-novo";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -360,8 +360,9 @@ function buildSystemPrompt(args: {
   servicesBlock: string;
   routes: { intent: string; label: string | null; setorName: string }[];
   scheduling: SchedulingContext | null;
+  knownData: string[];
 }): string {
-  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling } = args;
+  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData } = args;
 
   const routeLines = routes
     .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}. Use quando o contato foi identificado/qualificado como esse caso.`)
@@ -404,8 +405,15 @@ ${checklistItems.map((c) => `- ${c}`).join("\n")}
 Regras de coleta:
 - Colete no meio da conversa, de forma NATURAL — uma informação por mensagem, encaixada no assunto. NUNCA despeje as perguntas como formulário/questionário.
 - O que o contato já disse espontaneamente conta como coletado — não pergunte de novo.
+- O que está em DADOS JÁ CADASTRADOS (se houver) também conta como coletado — apenas confirme.
 - Só ofereça agendar reunião/horário depois que TODAS estiverem coletadas.
 - Inclua todas as respostas coletadas no campo "resumo" ao encaminhar.`);
+  }
+
+  if (knownData.length) {
+    parts.push(`# DADOS JÁ CADASTRADOS DO CONTATO (do sistema — NÃO pergunte de novo; apenas CONFIRME com naturalidade quando for usar)
+${knownData.join("\n")}
+Ex.: em vez de pedir o e-mail de novo, confirme ("posso mandar o convite naquele seu e-mail que termina em ...?"). Se o contato corrigir algum dado, use o valor novo.`);
   }
 
   if (scheduling) {
@@ -468,7 +476,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     where: { id: conversationId },
     select: {
       id: true, phone: true, isGroup: true, status: true, aiMode: true,
-      companyId: true, setorId: true, assigneeId: true,
+      companyId: true, setorId: true, assigneeId: true, aiCycleResetAt: true,
     },
   });
 
@@ -518,14 +526,37 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     include: { setor: { select: { id: true, name: true } } },
   });
 
-  // Histórico recente (ordem cronológica)
+  // Histórico recente (ordem cronológica). aiCycleResetAt = "atendimento
+  // concluído": tudo antes do marco é invisível pro agente — ciclo novo.
   const history = await prisma.message.findMany({
-    where: { conversationId: conv.id },
+    where: {
+      conversationId: conv.id,
+      ...(conv.aiCycleResetAt ? { receivedAt: { gt: conv.aiCycleResetAt } } : {}),
+    },
     orderBy: { receivedAt: "desc" },
     take: HISTORY_LIMIT,
     select: { body: true, direction: true, receivedAt: true },
   });
   history.reverse();
+
+  // Dados já cadastrados (Lead/Contato) — o agente CONFIRMA em vez de pedir.
+  const [leadInfo, contactInfo] = await Promise.all([
+    prisma.lead.findFirst({
+      where: { phone: conv.phone, companyId: conv.companyId },
+      orderBy: { createdAt: "desc" },
+      select: { name: true, email: true, website: true, instagram: true },
+    }),
+    prisma.companyContact.findFirst({
+      where: { phone: conv.phone, companyId: conv.companyId },
+      select: { name: true },
+    }),
+  ]);
+  const knownData = [
+    (leadInfo?.name || contactInfo?.name) ? `- Nome: ${leadInfo?.name ?? contactInfo?.name}` : null,
+    leadInfo?.email ? `- E-mail: ${leadInfo.email}` : null,
+    leadInfo?.instagram ? `- Instagram: ${leadInfo.instagram}` : null,
+    leadInfo?.website ? `- Site: ${leadInfo.website}` : null,
+  ].filter((l): l is string => l !== null);
 
   const servicesBlock = await getServicesCatalogBlock(conv.companyId);
 
@@ -567,6 +598,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     servicesBlock,
     routes: routes.map((r) => ({ intent: r.intent, label: r.label, setorName: r.setor.name })),
     scheduling,
+    knownData,
   });
 
   const messages: ChatMessage[] = [
@@ -918,15 +950,16 @@ async function handleBooking(args: {
     return;
   }
 
-  // E-mail: o que veio no JSON; senão, o que o contato digitou no histórico.
-  const attendeeEmail = decision.agendarEmail ?? fallbackEmail;
-
-  // Nome do lead (se existir) pro título do evento.
+  // Nome/e-mail do lead (se existir) — título do evento + e-mail de reserva.
   const lead = await prisma.lead.findFirst({
     where: { phone, companyId },
     orderBy: { createdAt: "desc" },
-    select: { id: true, name: true },
+    select: { id: true, name: true, email: true },
   });
+
+  // E-mail: o que veio no JSON; senão o que o contato digitou no histórico;
+  // senão o cadastrado no Lead.
+  const attendeeEmail = decision.agendarEmail ?? fallbackEmail ?? lead?.email ?? null;
 
   let booked;
   try {

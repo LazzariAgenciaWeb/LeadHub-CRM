@@ -1387,6 +1387,29 @@ export default function WhatsappManager({
     }
   }
 
+  // Conclui o atendimento de IA: zera o contexto do agente (a próxima mensagem
+  // do contato inicia um ciclo NOVO — re-saudação/qualificação) e rearma o bot.
+  async function concludeAi() {
+    const conv = selectedConv?.conversation;
+    if (!conv) return;
+    setConvActionLoading(true);
+    try {
+      const res = await fetch(`/api/conversations/${conv.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ action: "concludeAi" }),
+      });
+      if (res.ok) {
+        setSelectedConv((prev) => prev?.conversation
+          ? { ...prev, conversation: { ...prev.conversation, aiMode: "ACTIVE" } }
+          : prev);
+        router.refresh();
+      }
+    } finally {
+      setConvActionLoading(false);
+    }
+  }
+
   // Transferência de conversa — agora aceita combinação livre de setor + atendente
   // (antes era um OU outro via toggle). Casos:
   //   só setor       → atribui setor + limpa atendente (qualquer um do setor pega)
@@ -3567,6 +3590,20 @@ export default function WhatsappManager({
                           ) : (
                             <BotOff className="w-4 h-4" strokeWidth={2.5} />
                           )}
+                        </button>
+                      )}
+
+                      {/* Concluir atendimento de IA — zera o contexto do agente:
+                          a próxima mensagem do contato começa um ciclo novo. */}
+                      {conv.aiMode !== undefined && (
+                        <button
+                          onClick={concludeAi}
+                          disabled={convActionLoading}
+                          title="Concluir atendimento da IA — zera o contexto (a próxima mensagem do contato começa um atendimento novo, do zero) e rearma o bot"
+                          className="px-2 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-medium hover:bg-cyan-500/20 transition-colors disabled:opacity-50 flex items-center gap-0.5"
+                        >
+                          <Bot className="w-4 h-4" strokeWidth={2.5} />
+                          <CheckCheck className="w-3 h-3" strokeWidth={2.5} />
                         </button>
                       )}
 

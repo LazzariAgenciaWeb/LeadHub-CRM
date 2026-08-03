@@ -490,6 +490,7 @@ exports.Prisma.ConversationScalarFieldEnum = {
   excludeFromGamification: 'excludeFromGamification',
   aiMode: 'aiMode',
   aiPausedAt: 'aiPausedAt',
+  aiCycleResetAt: 'aiCycleResetAt',
   firstResponseAt: 'firstResponseAt',
   closedAt: 'closedAt',
   companyId: 'companyId',

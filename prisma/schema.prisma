@@ -982,6 +982,10 @@ model Conversation {
   //   OFF          → bot desligado manualmente nesta conversa
   aiMode     AiMode    @default(ACTIVE)
   aiPausedAt DateTime? // quando o bot foi pausado (handoff/humano)
+  // Marco de "atendimento de IA concluído": o agente ignora todo o histórico
+  // anterior a este instante — a próxima mensagem inicia um ciclo NOVO
+  // (re-saudação, re-qualificação). Setado pelo botão da Inbox e no Finalizar.
+  aiCycleResetAt DateTime?
 
   // SLA
   firstResponseAt DateTime? // primeira resposta do atendente (calcula tempo de resposta)
