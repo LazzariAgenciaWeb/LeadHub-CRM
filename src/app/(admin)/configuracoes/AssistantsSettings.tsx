@@ -43,7 +43,7 @@ function fmtBrl(v: number) {
 
 interface Instance { id: string; label: string | null; instanceName: string; phone: string | null; status?: string }
 interface Setor { id: string; name: string }
-interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; setor?: Setor | null }
+interface Route { intent: string; label: string | null; setorId: string; createLead: boolean; createTicket?: boolean; setor?: Setor | null }
 interface CalendarUser { id: string; name: string; googleEmail: string | null; canWrite: boolean }
 interface Assistant {
   id: string;
@@ -155,8 +155,8 @@ export default function AssistantsSettings({
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
     // Sugestão inicial das 2 rotas clássicas (o usuário edita/remove à vontade)
     setFRoutes([
-      { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true },
-      { intent: "ATENDIMENTO", label: "Atendimento a clientes", setorId: "", createLead: false },
+      { intent: "COMERCIAL", label: "Time comercial", setorId: "", createLead: true, createTicket: false },
+      { intent: "ATENDIMENTO", label: "Atendimento a clientes", setorId: "", createLead: false, createTicket: true },
     ]);
   }
   function openEdit(a: Assistant) {
@@ -166,7 +166,7 @@ export default function AssistantsSettings({
     setFAutoRespond(a.autoRespond ?? false);
     setFChecklist(a.qualificationChecklist ?? "");
     setFLearnings(a.learnings ?? "");
-    setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead })));
+    setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead, createTicket: r.createTicket ?? false })));
     setFCalendarUser(a.calendarUserId ?? "");
     setFDuration(a.meetingDurationMin ?? 30);
     setFCourtesyDelay(a.courtesyDelayMin ?? 5);
@@ -451,6 +451,15 @@ export default function AssistantsSettings({
                             />
                             cria lead
                           </label>
+                          <label className="flex items-center gap-1.5 text-[11px] text-slate-400 whitespace-nowrap cursor-pointer" title="Ao encaminhar, abre um Chamado (Ticket) no setor com o resumo coletado — o pedido entra na fila do time">
+                            <input
+                              type="checkbox"
+                              checked={r.createTicket ?? false}
+                              onChange={(e) => setRoute(idx, { createTicket: e.target.checked })}
+                              className="accent-emerald-500"
+                            />
+                            abre chamado
+                          </label>
                           <button
                             type="button"
                             onClick={() => setFRoutes((prev) => prev.filter((_, i) => i !== idx))}
@@ -464,7 +473,7 @@ export default function AssistantsSettings({
                     </div>
                     <button
                       type="button"
-                      onClick={() => setFRoutes((prev) => [...prev, { intent: "", label: null, setorId: "", createLead: false }])}
+                      onClick={() => setFRoutes((prev) => [...prev, { intent: "", label: null, setorId: "", createLead: false, createTicket: false }])}
                       className="mt-2 text-emerald-400 text-xs hover:text-emerald-300"
                     >
                       + Adicionar rota

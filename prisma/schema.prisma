@@ -3430,6 +3430,10 @@ model AssistantRoute {
   // (típico da rota comercial).
   createLead Boolean @default(false)
 
+  // Ao rotear, abrir um CHAMADO (Ticket) no setor com o resumo coletado —
+  // típico de rotas de suporte/financeiro (o pedido entra na fila do time).
+  createTicket Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

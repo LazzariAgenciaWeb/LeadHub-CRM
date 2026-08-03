@@ -120170,6 +120170,7 @@ export namespace Prisma {
     label: string | null
     setorId: string | null
     createLead: boolean | null
+    createTicket: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -120181,6 +120182,7 @@ export namespace Prisma {
     label: string | null
     setorId: string | null
     createLead: boolean | null
+    createTicket: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -120192,6 +120194,7 @@ export namespace Prisma {
     label: number
     setorId: number
     createLead: number
+    createTicket: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -120205,6 +120208,7 @@ export namespace Prisma {
     label?: true
     setorId?: true
     createLead?: true
+    createTicket?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -120216,6 +120220,7 @@ export namespace Prisma {
     label?: true
     setorId?: true
     createLead?: true
+    createTicket?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -120227,6 +120232,7 @@ export namespace Prisma {
     label?: true
     setorId?: true
     createLead?: true
+    createTicket?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -120311,6 +120317,7 @@ export namespace Prisma {
     label: string | null
     setorId: string
     createLead: boolean
+    createTicket: boolean
     createdAt: Date
     updatedAt: Date
     _count: AssistantRouteCountAggregateOutputType | null
@@ -120339,6 +120346,7 @@ export namespace Prisma {
     label?: boolean
     setorId?: boolean
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     assistant?: boolean | AssistantDefaultArgs<ExtArgs>
@@ -120352,6 +120360,7 @@ export namespace Prisma {
     label?: boolean
     setorId?: boolean
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     assistant?: boolean | AssistantDefaultArgs<ExtArgs>
@@ -120365,6 +120374,7 @@ export namespace Prisma {
     label?: boolean
     setorId?: boolean
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -120391,6 +120401,7 @@ export namespace Prisma {
       label: string | null
       setorId: string
       createLead: boolean
+      createTicket: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["assistantRoute"]>
@@ -120794,6 +120805,7 @@ export namespace Prisma {
     readonly label: FieldRef<"AssistantRoute", 'String'>
     readonly setorId: FieldRef<"AssistantRoute", 'String'>
     readonly createLead: FieldRef<"AssistantRoute", 'Boolean'>
+    readonly createTicket: FieldRef<"AssistantRoute", 'Boolean'>
     readonly createdAt: FieldRef<"AssistantRoute", 'DateTime'>
     readonly updatedAt: FieldRef<"AssistantRoute", 'DateTime'>
   }
@@ -130400,6 +130412,7 @@ export namespace Prisma {
     label: 'label',
     setorId: 'setorId',
     createLead: 'createLead',
+    createTicket: 'createTicket',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -140989,6 +141002,7 @@ export namespace Prisma {
     label?: StringNullableFilter<"AssistantRoute"> | string | null
     setorId?: StringFilter<"AssistantRoute"> | string
     createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createTicket?: BoolFilter<"AssistantRoute"> | boolean
     createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
     assistant?: XOR<AssistantRelationFilter, AssistantWhereInput>
@@ -141002,6 +141016,7 @@ export namespace Prisma {
     label?: SortOrderInput | SortOrder
     setorId?: SortOrder
     createLead?: SortOrder
+    createTicket?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     assistant?: AssistantOrderByWithRelationInput
@@ -141019,6 +141034,7 @@ export namespace Prisma {
     label?: StringNullableFilter<"AssistantRoute"> | string | null
     setorId?: StringFilter<"AssistantRoute"> | string
     createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createTicket?: BoolFilter<"AssistantRoute"> | boolean
     createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
     assistant?: XOR<AssistantRelationFilter, AssistantWhereInput>
@@ -141032,6 +141048,7 @@ export namespace Prisma {
     label?: SortOrderInput | SortOrder
     setorId?: SortOrder
     createLead?: SortOrder
+    createTicket?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AssistantRouteCountOrderByAggregateInput
@@ -141049,6 +141066,7 @@ export namespace Prisma {
     label?: StringNullableWithAggregatesFilter<"AssistantRoute"> | string | null
     setorId?: StringWithAggregatesFilter<"AssistantRoute"> | string
     createLead?: BoolWithAggregatesFilter<"AssistantRoute"> | boolean
+    createTicket?: BoolWithAggregatesFilter<"AssistantRoute"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"AssistantRoute"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AssistantRoute"> | Date | string
   }
@@ -152467,6 +152485,7 @@ export namespace Prisma {
     intent: string
     label?: string | null
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     assistant: AssistantCreateNestedOneWithoutRoutesInput
@@ -152480,6 +152499,7 @@ export namespace Prisma {
     label?: string | null
     setorId: string
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -152489,6 +152509,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assistant?: AssistantUpdateOneRequiredWithoutRoutesNestedInput
@@ -152502,6 +152523,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: StringFieldUpdateOperationsInput | string
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -152513,6 +152535,7 @@ export namespace Prisma {
     label?: string | null
     setorId: string
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -152522,6 +152545,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -152533,6 +152557,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: StringFieldUpdateOperationsInput | string
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -160851,6 +160876,7 @@ export namespace Prisma {
     label?: SortOrder
     setorId?: SortOrder
     createLead?: SortOrder
+    createTicket?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -160862,6 +160888,7 @@ export namespace Prisma {
     label?: SortOrder
     setorId?: SortOrder
     createLead?: SortOrder
+    createTicket?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -160873,6 +160900,7 @@ export namespace Prisma {
     label?: SortOrder
     setorId?: SortOrder
     createLead?: SortOrder
+    createTicket?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -196717,6 +196745,7 @@ export namespace Prisma {
     intent: string
     label?: string | null
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     assistant: AssistantCreateNestedOneWithoutRoutesInput
@@ -196728,6 +196757,7 @@ export namespace Prisma {
     intent: string
     label?: string | null
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -197087,6 +197117,7 @@ export namespace Prisma {
     label?: StringNullableFilter<"AssistantRoute"> | string | null
     setorId?: StringFilter<"AssistantRoute"> | string
     createLead?: BoolFilter<"AssistantRoute"> | boolean
+    createTicket?: BoolFilter<"AssistantRoute"> | boolean
     createdAt?: DateTimeFilter<"AssistantRoute"> | Date | string
     updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
   }
@@ -227957,6 +227988,7 @@ export namespace Prisma {
     intent: string
     label?: string | null
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     setor: SetorCreateNestedOneWithoutAssistantRoutesInput
@@ -227968,6 +228000,7 @@ export namespace Prisma {
     label?: string | null
     setorId: string
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -241357,6 +241390,7 @@ export namespace Prisma {
     intent: string
     label?: string | null
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -241641,6 +241675,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assistant?: AssistantUpdateOneRequiredWithoutRoutesNestedInput
@@ -241652,6 +241687,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -241662,6 +241698,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -243546,6 +243583,7 @@ export namespace Prisma {
     label?: string | null
     setorId: string
     createLead?: boolean
+    createTicket?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -243591,6 +243629,7 @@ export namespace Prisma {
     intent?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneRequiredWithoutAssistantRoutesNestedInput
@@ -243602,6 +243641,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: StringFieldUpdateOperationsInput | string
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -243612,6 +243652,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     setorId?: StringFieldUpdateOperationsInput | string
     createLead?: BoolFieldUpdateOperationsInput | boolean
+    createTicket?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

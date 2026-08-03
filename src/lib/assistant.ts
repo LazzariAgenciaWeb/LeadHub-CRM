@@ -88,6 +88,7 @@ export async function sanitizeRoutes(
       label: String(r?.label ?? "").trim() || null,
       setorId: String(r?.setorId ?? "").trim(),
       createLead: !!r?.createLead,
+      createTicket: !!r?.createTicket,
     }))
     .filter((r) => r.intent || r.setorId); // ignora linhas totalmente vazias
   if (routes.some((r) => !r.intent || !r.setorId)) return null;

@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v12-ciclo-novo";
+export const AUTO_AGENT_REV = "v13-chamado-por-rota";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -358,14 +358,14 @@ function buildSystemPrompt(args: {
   schedulingLink: string | null;
   qualificationChecklist: string | null;
   servicesBlock: string;
-  routes: { intent: string; label: string | null; setorName: string }[];
+  routes: { intent: string; label: string | null; setorName: string; createTicket?: boolean }[];
   scheduling: SchedulingContext | null;
   knownData: string[];
 }): string {
   const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData } = args;
 
   const routeLines = routes
-    .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}. Use quando o contato foi identificado/qualificado como esse caso.`)
+    .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}${r.createTicket ? " e ABRE UM CHAMADO interno com o pedido (avise o contato que o chamado foi registrado)" : ""}. Use quando o contato foi identificado/qualificado como esse caso.`)
     .join("\n");
 
   const checklistItems = (qualificationChecklist ?? "")
@@ -596,7 +596,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     schedulingLink: assistant.schedulingLink,
     qualificationChecklist: (assistant as any).qualificationChecklist ?? null,
     servicesBlock,
-    routes: routes.map((r) => ({ intent: r.intent, label: r.label, setorName: r.setor.name })),
+    routes: routes.map((r) => ({ intent: r.intent, label: r.label, setorName: r.setor.name, createTicket: r.createTicket })),
     scheduling,
     knownData,
   });
@@ -710,7 +710,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
       fallbackText,
       fallbackEmail,
       diag,
-      routes: routes.map((r) => ({ intent: r.intent, setorId: r.setorId, setorName: r.setor.name, createLead: r.createLead })),
+      routes: routes.map((r) => ({ intent: r.intent, setorId: r.setorId, setorName: r.setor.name, createLead: r.createLead, createTicket: r.createTicket })),
     });
     return { ok: true, action, replied: true };
   }
@@ -743,6 +743,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
         setorId: route.setorId,
         setorName: route.setor.name,
         createLead: route.createLead,
+        createTicket: route.createTicket,
         resumo: decision.resumo,
       });
     } else if (action === "HANDOFF") {
@@ -1045,9 +1046,10 @@ async function routeConversation(args: {
   setorId: string;
   setorName: string;
   createLead: boolean;
+  createTicket?: boolean;
   resumo: string | null;
 }): Promise<void> {
-  const { conversationId, companyId, phone, setorId, setorName, createLead, resumo } = args;
+  const { conversationId, companyId, phone, setorId, setorName, createLead, createTicket, resumo } = args;
 
   // Move pro setor, volta pra OPEN (aparece como "nova" pro time que assumiu)
   // e silencia o bot.
@@ -1117,8 +1119,48 @@ async function routeConversation(args: {
     }
   }
 
+  // Chamado (Ticket) no setor — o pedido entra na fila do time com o resumo
+  // já coletado pela IA. Prazo default: 24h.
+  if (createTicket) {
+    try {
+      const contactName = await prisma.companyContact.findFirst({
+        where: { companyId, phone },
+        select: { name: true },
+      });
+      const shortTitle = (resumo ?? "Atendimento via IA").slice(0, 90);
+      const ticket = await prisma.ticket.create({
+        data: {
+          title: `🤖 ${shortTitle}`,
+          description: [
+            resumo ? `Pedido coletado pela IA: ${resumo}` : "Pedido encaminhado pela IA (sem resumo).",
+            `Contato: ${contactName?.name ?? "—"} · WhatsApp ${phone}`,
+            `Conversa: /whatsapp?abrir=${encodeURIComponent(phone)}`,
+          ].join("\n"),
+          category: "ia-triagem",
+          phone,
+          companyId,
+          setorId,
+          dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        },
+      });
+      await prisma.conversationNote.create({
+        data: {
+          conversationId,
+          authorName: "🤖 Agente IA",
+          type: "SYSTEM",
+          body: `Chamado aberto no setor ${setorName}: "${shortTitle}"`,
+        },
+      }).catch(() => {/* acessório */});
+      console.log(`[AutoAgent] chamado ${ticket.id} aberto (conv=${conversationId}, setor=${setorName})`);
+    } catch (err) {
+      console.error(`[AutoAgent] falha ao abrir chamado conv=${conversationId}:`, err);
+    }
+  }
+
   await notifySetor(setorId, {
-    title: `🤖 IA encaminhou um atendimento (${setorName})`,
+    title: createTicket
+      ? `🤖 IA abriu um chamado (${setorName})`
+      : `🤖 IA encaminhou um atendimento (${setorName})`,
     body: resumo ?? "Novo atendimento triado pela IA.",
     url: `/whatsapp?abrir=${encodeURIComponent(phone)}`,
     tag: `auto-agent-${conversationId}`,

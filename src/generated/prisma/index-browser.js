@@ -1594,6 +1594,7 @@ exports.Prisma.AssistantRouteScalarFieldEnum = {
   label: 'label',
   setorId: 'setorId',
   createLead: 'createLead',
+  createTicket: 'createTicket',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
