@@ -86,7 +86,7 @@ export async function PATCH(
   const {
     status, priority, category, title, clickupTaskId, ticketStage, companyId,
     dueDate, assigneeId, setorId, clientCompanyId, projetoId,
-    visibility, accessUserIds,
+    visibility, accessUserIds, phone,
   } = body;
 
   const userId   = (session.user as any).id as string | undefined;
@@ -99,7 +99,7 @@ export async function PATCH(
     where: { id },
     select: {
       clickupTaskId: true, type: true, status: true,
-      priority: true, ticketStage: true, title: true,
+      priority: true, ticketStage: true, title: true, phone: true,
       assigneeId: true, setorId: true, clientCompanyId: true,
       dueDate: true, companyId: true, createdAt: true, projetoId: true,
       description: true, visibility: true, createdById: true,
@@ -144,6 +144,7 @@ export async function PATCH(
       ...(setorId !== undefined && { setorId: setorId ?? null }),
       ...(clientCompanyId !== undefined && { clientCompanyId: clientCompanyId ?? null }),
       ...(projetoId !== undefined && { projetoId: projetoId ?? null }),
+      ...(phone !== undefined && { phone: phone ? String(phone) : null }),
       ...(visibility !== undefined && { visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN" }),
     },
     include: {
@@ -255,6 +256,16 @@ export async function PATCH(
         type: ActivityType.VALUE_CHANGED,
         body: `${userName ?? "Usuário"} renomeou: "${existing.title}" → "${title}"`,
         meta: { field: "title", from: existing.title, to: title },
+      });
+    }
+    if (phone !== undefined && (phone ?? null) !== (existing.phone ?? null)) {
+      const newPhone = phone ? String(phone) : null;
+      activities.push({
+        type: ActivityType.VALUE_CHANGED,
+        body: newPhone
+          ? `${userName ?? "Usuário"} ${existing.phone ? "trocou" : "vinculou"} conversa WhatsApp: ${existing.phone ? existing.phone + " → " : ""}${newPhone}`
+          : `${userName ?? "Usuário"} desvinculou conversa WhatsApp (antes: ${existing.phone})`,
+        meta: { field: "phone", from: existing.phone, to: newPhone },
       });
     }
 

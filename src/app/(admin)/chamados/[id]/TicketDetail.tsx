@@ -53,6 +53,28 @@ interface TicketEmail {
   sentAt: string;
 }
 
+// Resultado da busca de conversas no modal "Vincular" (formato de
+// /api/conversations/search — só os campos que a UI do modal usa).
+interface ConvHit {
+  phone: string;
+  lastMsg?: { body: string | null; direction: string; receivedAt: string } | null;
+  lead?: { name: string | null } | null;
+  companyContact?: { name: string | null } | null;
+}
+
+// Resultado da busca de e-mails no modal "Vincular" (formato de /api/email/inbox).
+interface EmailHit {
+  id: string;
+  direction: "IN" | "OUT";
+  fromEmail: string;
+  fromName: string | null;
+  toEmail: string;
+  subject: string;
+  snippet: string;
+  sentAt: string;
+  ticketId: string | null;
+}
+
 interface TicketStageOption {
   id: string;
   name: string;
@@ -202,6 +224,83 @@ export default function TicketDetail({
     loadTicketEmails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedTab]);
+
+  // ── Modal "Vincular" — mescla conversa WhatsApp e/ou e-mails ao chamado
+  // depois de criado (chamado aberto por e-mail ganha o WhatsApp e vice-versa).
+  // WhatsApp grava Ticket.phone (a aba passa a existir); e-mail grava
+  // InboxEmail.ticketId (mesmo vínculo usado pelo envio/resposta automática).
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
+  const [linkTab, setLinkTab] = useState<"whatsapp" | "email">("whatsapp");
+  const [convQuery, setConvQuery] = useState("");
+  const [convResults, setConvResults] = useState<ConvHit[] | null>(null);
+  const [searchingConvs, setSearchingConvs] = useState(false);
+  const [emailQuery, setEmailQuery] = useState("");
+  const [emailResults, setEmailResults] = useState<EmailHit[] | null>(null);
+  const [searchingEmails, setSearchingEmails] = useState(false);
+  const [linkingId, setLinkingId] = useState<string | null>(null);
+
+  // Busca de conversas (debounce) — reusa /api/conversations/search, que casa
+  // por telefone, nome de lead e nome de contato da empresa.
+  useEffect(() => {
+    if (!linkModalOpen || linkTab !== "whatsapp") return;
+    const q = convQuery.trim();
+    if (q.length < 2) { setConvResults(null); return; }
+    const t = setTimeout(() => {
+      setSearchingConvs(true);
+      fetch(`/api/conversations/search?q=${encodeURIComponent(q)}&companyId=${ticket.company.id}`)
+        .then((r) => r.json())
+        .then((d) => setConvResults(d.conversations ?? []))
+        .catch(() => setConvResults([]))
+        .finally(() => setSearchingConvs(false));
+    }, 350);
+    return () => clearTimeout(t);
+  }, [linkModalOpen, linkTab, convQuery, ticket.company.id]);
+
+  // Busca de e-mails (debounce) — sem termo lista os recentes de todas as pastas.
+  useEffect(() => {
+    if (!linkModalOpen || linkTab !== "email") return;
+    const q = emailQuery.trim();
+    const t = setTimeout(() => {
+      setSearchingEmails(true);
+      const params = new URLSearchParams({ folder: "ALL", take: "15", companyId: ticket.company.id });
+      if (q) params.set("q", q);
+      fetch(`/api/email/inbox?${params}`)
+        .then((r) => r.json())
+        .then((d) => setEmailResults(d.emails ?? []))
+        .catch(() => setEmailResults([]))
+        .finally(() => setSearchingEmails(false));
+    }, q ? 350 : 0);
+    return () => clearTimeout(t);
+  }, [linkModalOpen, linkTab, emailQuery, ticket.company.id]);
+
+  async function linkWhatsapp(phone: string | null) {
+    setLinkingId(phone ?? "__unlink");
+    try {
+      await patchTicket({ phone });
+      setWhatsappMessages(null); // força recarregar a aba com o novo número
+      if (phone) { setFeedTab("whatsapp"); setLinkModalOpen(false); }
+      else if (feedTab === "whatsapp") setFeedTab("all");
+    } finally {
+      setLinkingId(null);
+    }
+  }
+
+  async function linkEmail(emailId: string, link: boolean) {
+    setLinkingId(emailId);
+    try {
+      await fetch(`/api/email/inbox/${emailId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ticketId: link ? ticket.id : null }),
+      });
+      setEmailResults((prev) =>
+        prev?.map((e) => (e.id === emailId ? { ...e, ticketId: link ? ticket.id : null } : e)) ?? null
+      );
+      loadTicketEmails(true);
+    } finally {
+      setLinkingId(null);
+    }
+  }
   const [status, setStatus] = useState(ticket.status);
   const [ticketStage, setTicketStage] = useState(ticket.ticketStage ?? stages[0]?.name ?? "");
   const [priority, setPriority] = useState(ticket.priority);
@@ -683,6 +782,17 @@ export default function TicketDetail({
                 </button>
               );
             })}
+            {/* Vincular/mesclar canais — chamado criado por um canal ganha o
+                outro depois (e-mail ↔ WhatsApp). Só gestores. */}
+            {canManage && (
+              <button
+                onClick={() => { setLinkTab(whatsappEnabled ? "whatsapp" : "email"); setLinkModalOpen(true); }}
+                title="Vincular conversa WhatsApp ou e-mail a este chamado"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border border-dashed border-[#2a3d5a] text-slate-400 hover:text-white hover:border-indigo-500/60 transition-colors ml-auto"
+              >
+                🔗 <span>Vincular</span>
+              </button>
+            )}
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
             {/* Original request card — aparece nas abas Informações, Todas e Mensagens.
@@ -1505,6 +1615,185 @@ export default function TicketDetail({
           )}
         </div>
       </div>
+
+      {/* Modal Vincular — busca e mescla conversa WhatsApp / e-mails ao chamado */}
+      {linkModalOpen && canManage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          onClick={() => setLinkModalOpen(false)}
+        >
+          <div
+            className="bg-[#0f1623] border border-[#1e2d45] rounded-xl w-full max-w-lg max-h-[80vh] flex flex-col shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-[#1e2d45] flex-shrink-0">
+              <h2 className="text-white text-sm font-bold">🔗 Vincular ao chamado</h2>
+              <button onClick={() => setLinkModalOpen(false)} className="text-slate-500 hover:text-white text-xl leading-none px-1">×</button>
+            </div>
+
+            <div className="flex gap-1.5 px-5 pt-3 flex-shrink-0">
+              {whatsappEnabled && (
+                <button
+                  onClick={() => setLinkTab("whatsapp")}
+                  className={`px-2.5 py-1 rounded-md text-[11px] border transition-colors ${
+                    linkTab === "whatsapp"
+                      ? "bg-green-500/15 border-green-500/40 text-green-300"
+                      : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
+                  }`}
+                >
+                  📱 Conversa WhatsApp
+                </button>
+              )}
+              <button
+                onClick={() => setLinkTab("email")}
+                className={`px-2.5 py-1 rounded-md text-[11px] border transition-colors ${
+                  linkTab === "email"
+                    ? "bg-indigo-500/15 border-indigo-500/40 text-indigo-300"
+                    : "bg-[#0a0f1a] border-[#1e2d45] text-slate-400 hover:text-white"
+                }`}
+              >
+                📧 E-mail
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+              {linkTab === "whatsapp" && whatsappEnabled && (
+                <>
+                  {ticket.phone && (
+                    <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-3 flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="text-green-400 text-[10px] font-bold uppercase tracking-wide mb-0.5">Conversa vinculada</div>
+                        <div className="text-slate-200 text-xs font-mono truncate">{ticket.phone}</div>
+                      </div>
+                      <button
+                        onClick={() => linkWhatsapp(null)}
+                        disabled={linkingId !== null}
+                        className="text-red-400/80 hover:text-red-400 text-[11px] flex-shrink-0 disabled:opacity-50 transition-colors"
+                      >
+                        Desvincular
+                      </button>
+                    </div>
+                  )}
+                  <input
+                    autoFocus
+                    type="text"
+                    value={convQuery}
+                    onChange={(e) => setConvQuery(e.target.value)}
+                    placeholder="Buscar conversa por nome ou telefone..."
+                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-green-500/60"
+                  />
+                  {searchingConvs && (
+                    <div className="text-slate-600 text-xs text-center py-4">Buscando conversas...</div>
+                  )}
+                  {!searchingConvs && convQuery.trim().length < 2 && (
+                    <div className="text-slate-600 text-xs text-center py-4 italic">
+                      Digite ao menos 2 caracteres pra buscar nas conversas do WhatsApp.
+                    </div>
+                  )}
+                  {!searchingConvs && convResults && convResults.length === 0 && (
+                    <div className="text-slate-600 text-xs text-center py-4 italic">Nenhuma conversa encontrada.</div>
+                  )}
+                  {!searchingConvs && convResults && convResults.length > 0 && (
+                    <div className="space-y-1.5">
+                      {convResults.map((c) => {
+                        const name = c.companyContact?.name ?? c.lead?.name ?? c.phone;
+                        const isLinked = c.phone === ticket.phone;
+                        return (
+                          <div key={c.phone} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2.5 flex items-center gap-3">
+                            <div className="flex-1 min-w-0">
+                              <div className="text-slate-200 text-xs font-medium truncate">{name}</div>
+                              <div className="text-slate-500 text-[10px] font-mono truncate">{c.phone}</div>
+                              {c.lastMsg?.body && (
+                                <div className="text-slate-600 text-[10px] truncate mt-0.5">{c.lastMsg.body}</div>
+                              )}
+                            </div>
+                            {isLinked ? (
+                              <span className="text-green-400 text-[10px] font-semibold flex-shrink-0">✓ vinculada</span>
+                            ) : (
+                              <button
+                                onClick={() => linkWhatsapp(c.phone)}
+                                disabled={linkingId !== null}
+                                className="px-2.5 py-1 rounded-md bg-green-600/20 border border-green-500/40 text-green-300 text-[11px] font-medium hover:bg-green-600/30 disabled:opacity-50 flex-shrink-0 transition-colors"
+                              >
+                                {linkingId === c.phone ? "..." : ticket.phone ? "Trocar pra esta" : "Vincular"}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
+              )}
+
+              {linkTab === "email" && (
+                <>
+                  <input
+                    autoFocus
+                    type="text"
+                    value={emailQuery}
+                    onChange={(e) => setEmailQuery(e.target.value)}
+                    placeholder="Buscar e-mail por assunto, remetente ou conteúdo..."
+                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/60"
+                  />
+                  {searchingEmails && (
+                    <div className="text-slate-600 text-xs text-center py-4">Buscando e-mails...</div>
+                  )}
+                  {!searchingEmails && emailResults && emailResults.length === 0 && (
+                    <div className="text-slate-600 text-xs text-center py-4 italic">Nenhum e-mail encontrado.</div>
+                  )}
+                  {!searchingEmails && emailResults && emailResults.length > 0 && (
+                    <div className="space-y-1.5">
+                      {emailResults.map((em) => {
+                        const isLinked = em.ticketId === ticket.id;
+                        const linkedElsewhere = !!em.ticketId && !isLinked;
+                        return (
+                          <div key={em.id} className="bg-[#0a0f1a] border border-[#1e2d45] rounded-lg p-2.5 flex items-center gap-3">
+                            <div className="flex-1 min-w-0">
+                              <div className="text-slate-200 text-xs font-medium truncate">
+                                {em.subject || "(sem assunto)"}
+                              </div>
+                              <div className="text-slate-500 text-[10px] truncate">
+                                {em.direction === "OUT" ? `→ ${em.toEmail}` : (em.fromName || em.fromEmail)}
+                                <span className="text-slate-700 font-mono ml-2">
+                                  {new Date(em.sentAt).toLocaleDateString("pt-BR")}
+                                </span>
+                              </div>
+                              {em.snippet && (
+                                <div className="text-slate-600 text-[10px] truncate mt-0.5">{em.snippet}</div>
+                              )}
+                              {linkedElsewhere && (
+                                <div className="text-amber-500/70 text-[10px] mt-0.5">⚠ já vinculado a outro chamado</div>
+                              )}
+                            </div>
+                            {isLinked ? (
+                              <button
+                                onClick={() => linkEmail(em.id, false)}
+                                disabled={linkingId !== null}
+                                className="text-red-400/80 hover:text-red-400 text-[11px] flex-shrink-0 disabled:opacity-50 transition-colors"
+                              >
+                                {linkingId === em.id ? "..." : "Desvincular"}
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => linkEmail(em.id, true)}
+                                disabled={linkingId !== null}
+                                className="px-2.5 py-1 rounded-md bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 text-[11px] font-medium hover:bg-indigo-600/30 disabled:opacity-50 flex-shrink-0 transition-colors"
+                              >
+                                {linkingId === em.id ? "..." : "Vincular"}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
