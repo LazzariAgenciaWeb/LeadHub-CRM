@@ -313,14 +313,27 @@ export async function evolutionSendText(
     };
   }
 
-  const res = await fetch(`${baseUrl}/message/sendText/${instanceName}`, {
+  // "Connection Closed": o socket do Baileys estava reconectando no momento do
+  // envio. É TRANSITÓRIO e a mensagem NÃO foi enviada (erro antes de sair), então
+  // é seguro repetir sem risco de duplicar. Baileys costuma reconectar em poucos
+  // segundos — tenta de novo com uma pequena espera antes de desistir.
+  const doPost = () => fetch(`${baseUrl}/message/sendText/${instanceName}`, {
     method: "POST",
     headers: headers(authKey),
     body: JSON.stringify(body),
   });
 
+  let res = await doPost();
+  let lastErr = "";
+  for (let attempt = 0; attempt < 2 && !res.ok; attempt++) {
+    lastErr = await res.text();
+    if (!(res.status === 400 && /connection closed/i.test(lastErr))) break; // só re-tenta o caso transitório
+    await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));          // 1.5s, depois 3s
+    res = await doPost();
+  }
+
   if (!res.ok) {
-    const err = await res.text();
+    const err = res.bodyUsed ? lastErr : await res.text();
     throw new Error(`Evolution send: ${res.status} ${err}`);
   }
   return res.json();
@@ -371,13 +384,24 @@ export async function evolutionSendMedia(
     };
   }
 
-  const res = await fetch(`${baseUrl}/message/sendMedia/${instanceName}`, {
+  // Mesmo tratamento do sendText: "Connection Closed" é transitório e a mídia
+  // não foi enviada — retry único com espera antes de desistir.
+  const doPost = () => fetch(`${baseUrl}/message/sendMedia/${instanceName}`, {
     method: "POST",
     headers: headers(authKey),
     body: JSON.stringify(body),
   });
+
+  let res = await doPost();
+  let lastErr = "";
+  for (let attempt = 0; attempt < 2 && !res.ok; attempt++) {
+    lastErr = await res.text();
+    if (!(res.status === 400 && /connection closed/i.test(lastErr))) break;
+    await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+    res = await doPost();
+  }
   if (!res.ok) {
-    const err = await res.text();
+    const err = res.bodyUsed ? lastErr : await res.text();
     throw new Error(`Evolution sendMedia: ${res.status} ${err}`);
   }
   return res.json();

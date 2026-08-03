@@ -247,6 +247,11 @@ export async function POST(
     // diário só conta sucessos, evitando "queimar" envios pra cliente com
     // problema de conectividade.
     await releaseQuota(id);
-    return NextResponse.json({ error: err.message }, { status: 502 });
+    // Traduz erros técnicos da Evolution em algo acionável pro atendente.
+    const raw = String(err?.message ?? "");
+    const friendly = /connection closed/i.test(raw)
+      ? "A conexão do WhatsApp caiu no momento do envio (a instância está reconectando). Aguarde alguns segundos e tente de novo — se persistir, reconecte a instância em Configurações → Instâncias WhatsApp."
+      : raw;
+    return NextResponse.json({ error: friendly }, { status: 502 });
   }
 }
