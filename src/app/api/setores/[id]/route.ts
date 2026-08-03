@@ -138,6 +138,7 @@ export async function PATCH(
     include: {
       users:     { include: { user: { select: { id: true, name: true, email: true } } } },
       instances: { include: { instance: { select: { id: true, instanceName: true, phone: true, status: true } } } },
+      emailAccounts: { select: { accountId: true } },
       _count:    { select: { tickets: true } },
     },
   });
