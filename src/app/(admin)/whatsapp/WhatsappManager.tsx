@@ -1270,7 +1270,7 @@ export default function WhatsappManager({
     return map;
   }, [convMessages]);
 
-  function resolveParticipant(participantPhone: string | null, pushName?: string | null): { isOurs: boolean; label: string; rawNorm: string } | null {
+  function resolveParticipant(participantPhone: string | null, pushName?: string | null): { isOurs: boolean; isInstance: boolean; isTeam: boolean; label: string; rawNorm: string } | null {
     if (!participantPhone) return null;
     const raw = participantPhone.replace("@s.whatsapp.net", "").replace(/\D/g, "");
     const norm = raw.replace(/^55/, "");
@@ -1278,7 +1278,7 @@ export default function WhatsappManager({
     // Tenta todas as variantes (com/sem 55, com/sem 9 extra) para encontrar a instância
     const allVariants = phoneVariants(raw);
     const instanceName = allVariants.reduce<string | undefined>((found, v) => found ?? instancePhoneMap.get(v), undefined);
-    if (instanceName) return { isOurs: true, label: instanceName, rawNorm: norm };
+    if (instanceName) return { isOurs: true, isInstance: true, isTeam: false, label: instanceName, rawNorm: norm };
 
     // Número da equipe (nosso, mas sem instância): é nosso lado, mas mostramos o
     // nome/telefone da pessoa (não um nome de conexão).
@@ -1301,7 +1301,7 @@ export default function WhatsappManager({
     } else {
       display = norm;
     }
-    return { isOurs: isTeam, label: display, rawNorm: norm };
+    return { isOurs: isTeam, isInstance: false, isTeam, label: display, rawNorm: norm };
   }
 
   // (menção @ agora é feita clicando no participante na lista do topo — ver
@@ -3216,7 +3216,12 @@ export default function WhatsappManager({
                           let senderColor = "text-slate-500";
                           if (isGroupItem) {
                             if (conv.lastMsg.direction === "OUTBOUND") {
-                              senderPrefix = "→ Você: ";
+                              // OUTBOUND de número da equipe (nosso, sem instância) →
+                              // mostra o nome da pessoa; senão o padrão "→ Você:".
+                              const teamP = conv.lastMsg.participantPhone
+                                ? resolveParticipant(conv.lastMsg.participantPhone, null)
+                                : null;
+                              senderPrefix = teamP && !teamP.isInstance ? `→ ${teamP.label}: ` : "→ Você: ";
                             } else {
                               const participant = resolveParticipant(conv.lastMsg.participantPhone ?? null);
                               if (participant?.isOurs) {
@@ -4438,6 +4443,15 @@ export default function WhatsappManager({
                       ? resolveParticipant(msg.participantPhone, msg.participantName)
                       : null;
 
+                    // OUTBOUND de "número da equipe" (nosso, mas SEM instância): a
+                    // mensagem fica vinculada à instância que a recebeu, então o
+                    // rótulo "Via {instância}" fica errado. Aqui detectamos a pessoa
+                    // pelo participantPhone (não é uma instância) e mostramos o nome.
+                    const teamSender = isGroupConv && isOut && msg.participantPhone
+                      ? resolveParticipant(msg.participantPhone, msg.participantName)
+                      : null;
+                    const isTeamOutbound = !!teamSender && !teamSender.isInstance;
+
                     // Em grupo, mensagem INBOUND de um dos nossos números → estilo "enviado"
                     const isOursInGroup = isGroupConv && !isOut && groupParticipant?.isOurs === true;
 
@@ -4494,6 +4508,14 @@ export default function WhatsappManager({
                               </div>
                             )}
 
+                            {/* Grupo: OUTBOUND de número da equipe (nosso, sem instância)
+                                → mostra o nome da pessoa, não "Via {instância}". */}
+                            {isTeamOutbound && teamSender && (
+                              <div className="text-[10px] font-bold mb-1 truncate text-emerald-300">
+                                📤 {teamSender.label}
+                              </div>
+                            )}
+
                             {/* Grupo: participante é cliente — cor estável + clicável (nomear/mencionar) */}
                             {isGroupConv && groupParticipant && !groupParticipant.isOurs && (
                               <button
@@ -4517,7 +4539,7 @@ export default function WhatsappManager({
                                 + nome do user que enviou (interno, ajuda a
                                 identificar quem operou — mensagens antigas/
                                 vindas do webhook ficam só com a instância). */}
-                            {isOut && msg.instance && (
+                            {isOut && msg.instance && !isTeamOutbound && (
                               <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
                                 Via {msg.instance.instanceName}
                                 {msg.sentBy?.name && (
