@@ -593,6 +593,7 @@ export default function AssistantsSettings({
                     )}
                     <p className="text-slate-600 text-[11px] mt-1.5">
                       O contato manda uma mensagem SÓ com a palavra-gatilho numa conversa pausada e o robô volta a atender (não vale quando foi desligado manualmente na Inbox).
+                      Nos textos da despedida e da sentinela você pode usar <code className="text-emerald-400">{"{palavra}"}</code> (vira a palavra-gatilho) e <code className="text-emerald-400">{"{link}"}</code> (vira um link wa.me que abre o WhatsApp com a palavra já digitada — o contato só toca e envia). O texto padrão já inclui o link.
                     </p>
                   </div>
 

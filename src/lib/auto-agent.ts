@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v10-despedida-config";
+export const AUTO_AGENT_REV = "v11-link-gatilho";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -187,19 +187,26 @@ async function runCourtesyCheck(conversationId: string, text: string = COURTESY_
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
-    select: { id: true, instanceName: true, instanceToken: true },
+    select: { id: true, instanceName: true, instanceToken: true, phone: true },
   });
   if (!instance) return;
 
+  // Placeholders {palavra}/{link} também valem no texto da sentinela.
+  const word = ((assistant as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
+  const waLink = (instance as any).phone
+    ? `https://wa.me/${(instance as any).phone}?text=${encodeURIComponent(word)}`
+    : null;
+  const finalText = text.replace(/\{palavra\}/gi, word).replace(/\{link\}/gi, waLink ?? `*${word}*`);
+
   try {
-    const res = await evolutionSendText(instance.instanceName, conv.phone, text, instance.instanceToken ?? null);
+    const res = await evolutionSendText(instance.instanceName, conv.phone, finalText, instance.instanceToken ?? null);
     const externalId: string = res?.key?.id ?? res?.id ?? `out-${Date.now()}-c`;
     // De propósito SEM upsertConversation: o status continua OPEN e o unread
     // continua contando — o time ainda precisa responder de verdade.
     await prisma.message.create({
       data: {
         externalId,
-        body: text,
+        body: finalText,
         direction: "OUTBOUND",
         phone: conv.phone,
         instanceId: instance.id,
@@ -481,7 +488,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
-    select: { id: true, instanceName: true, instanceToken: true, status: true },
+    select: { id: true, instanceName: true, instanceToken: true, status: true, phone: true },
   });
   if (!instance) return { ok: false, skipped: "instance_not_found" };
 
@@ -677,13 +684,19 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   }
   if (action !== "NONE") {
     // Aviso de pausa (configurável) — a despedida do bot ensina o gatilho de
-    // reativação. Enviado ANTES de rotear: o roteamento seta a conversa como
-    // OPEN pro time, e um envio depois viraria WAITING_CUSTOMER (sumiria da
-    // fila de pendentes).
+    // reativação, com link wa.me que preenche a palavra sozinho (contato só
+    // toca e envia). Enviado ANTES de rotear: o roteamento seta a conversa
+    // como OPEN pro time, e um envio depois viraria WAITING_CUSTOMER (sumiria
+    // da fila de pendentes).
     if ((assistant as any).sendPauseNotice !== false) {
       const word = ((assistant as any).reactivationWord as string | null)?.trim() || REACTIVATION_WORD;
-      const notice = ((assistant as any).pauseNoticeText as string | null)?.trim()
-        || `Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${word}*.`;
+      const waLink = (instance as any).phone
+        ? `https://wa.me/${(instance as any).phone}?text=${encodeURIComponent(word)}`
+        : null;
+      const custom = ((assistant as any).pauseNoticeText as string | null)?.trim();
+      const notice = custom
+        ? custom.replace(/\{palavra\}/gi, word).replace(/\{link\}/gi, waLink ?? `*${word}*`)
+        : `Agradecemos o contato! 🙏 Se precisar do atendimento automático de novo, é só digitar *${word}*${waLink ? ` — ou toque aqui que já vai pronto: ${waLink}` : ""}.`;
       await new Promise((r) => setTimeout(r, 1500));
       await sendBotText(botSender, notice);
     }
