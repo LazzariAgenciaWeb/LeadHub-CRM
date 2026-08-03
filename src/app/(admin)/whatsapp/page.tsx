@@ -107,7 +107,7 @@ export default async function WhatsappPage({
   // Para cada conversation, busca lastMsg (para instanceName/participant), lead, counts e contact em paralelo
   const conversations = await Promise.all(
     convFiltered.map(async (conv) => {
-      const [lastMsg, lead, companyContact] = await Promise.all([
+      const [lastMsg, lead, companyContact, lastOutbound] = await Promise.all([
         prisma.message.findFirst({
           where: { conversationId: conv.id },
           orderBy: { receivedAt: "desc" },
@@ -141,13 +141,23 @@ export default async function WhatsappPage({
             company: { select: { id: true, name: true } },
           },
         }),
+        // Última mensagem NOSSA (OUTBOUND) — usada pra saber se quem falou por
+        // último foi o agente de IA (rawPayload.autoAgent) e ninguém humano
+        // respondeu depois. Alimenta o filtro "IA" (precisa assumir/finalizar).
+        prisma.message.findFirst({
+          where: { conversationId: conv.id, direction: "OUTBOUND" },
+          orderBy: { receivedAt: "desc" },
+          select: { rawPayload: true },
+        }),
       ]);
+      const lastOutboundByAI = !!((lastOutbound?.rawPayload as any)?.autoAgent);
       return {
         phone: conv.phone,
         companyId: conv.companyId,
         lastMsg,
         lead,
         companyContact,
+        lastOutboundByAI,
         conversation: {
           id: conv.id,
           status: conv.status,

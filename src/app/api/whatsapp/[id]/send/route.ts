@@ -6,6 +6,7 @@ import { evolutionSendText, evolutionSendMedia } from "@/lib/evolution";
 import { upsertConversation } from "@/lib/whatsapp";
 import { assertModule } from "@/lib/billing";
 import { enforceSendGuards, releaseQuota } from "@/lib/whatsapp-guard";
+import { ActivityType } from "@/generated/prisma";
 
 // POST /api/whatsapp/[id]/send
 // Body: { phone: string, text: string }
@@ -150,6 +151,38 @@ export async function POST(
       instanceId: id,
     });
 
+    // Retorno humano: se a conversa estava "Aguardando retorno" (SCHEDULED) e o
+    // atendente enviou uma mensagem pelo painel, considera o retorno CUMPRIDO.
+    // (A regra pura mantém SCHEDULED no OUTBOUND pra follow-ups automáticos não
+    // quebrarem o agendamento — aqui é uma ação humana explícita de retornar.)
+    // Sai de SCHEDULED → WAITING_CUSTOMER e limpa o agendamento (calendário/filtro).
+    let returnFulfilled = false;
+    if (conv.previousStatus === "SCHEDULED") {
+      returnFulfilled = true;
+      const now = new Date();
+      await prisma.conversation.update({
+        where: { id: conv.id },
+        data: {
+          status: "WAITING_CUSTOMER",
+          statusUpdatedAt: now,
+          scheduledReturnAt: null,
+          returnNote: null,
+        },
+      }).catch(() => {/* não crítico */});
+      await prisma.lead.updateMany({
+        where: { conversationId: conv.id },
+        data: { expectedReturnAt: null, attendanceStatus: "IN_PROGRESS" },
+      }).catch(() => {/* não crítico */});
+      await prisma.activity.create({
+        data: {
+          type: ActivityType.STATUS_CHANGED,
+          body: "Retorno realizado pelo atendente — agendamento encerrado",
+          conversationId: conv.id,
+          companyId: instance.companyId,
+        },
+      }).catch(() => {/* não crítico */});
+    }
+
     // Save the sent message locally.
     // ack=1 (SERVER_ACK): a Evolution já confirmou que recebeu — mensagem está ao menos
     // no servidor. O webhook MESSAGES_UPDATE depois eleva pra 2 (entregue) e 3 (lido).
@@ -208,7 +241,7 @@ export async function POST(
     // pro front renderizar via /api/whatsapp/messages/[id]/media — mesmo padrão
     // do listing e do ticket endpoint.
     const { mediaBase64: _drop, ...rest } = saved as any;
-    return NextResponse.json({ ok: true, message: { ...rest, hasMedia: !!_drop } });
+    return NextResponse.json({ ok: true, message: { ...rest, hasMedia: !!_drop }, returnFulfilled });
   } catch (err: any) {
     // fix 7b — devolve a quota consumida quando a Evolution falha; o limite
     // diário só conta sucessos, evitando "queimar" envios pra cliente com

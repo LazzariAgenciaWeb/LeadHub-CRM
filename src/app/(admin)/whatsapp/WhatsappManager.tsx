@@ -135,6 +135,9 @@ interface Conversation {
     instance: { instanceName: string } | null;
   } | null;
   companyContact: CompanyContactInfo | null;
+  // true quando a última mensagem NOSSA foi do agente de IA (ninguém humano
+  // respondeu depois). Alimenta o filtro "IA" — precisa assumir/finalizar.
+  lastOutboundByAI?: boolean;
   // Dados da Conversation (Sprint 3) — populado por page.tsx via convByKey
   conversation: {
     id: string;
@@ -1173,6 +1176,9 @@ export default function WhatsappManager({
           case "IN_PROGRESS": if (cStatus !== "IN_PROGRESS") return false; break;
           case "RESOLVED":    if (cStatus !== "CLOSED") return false; break;
           case "SCHEDULED":   if (!hasReturn) return false; break;
+          // IA: a última resposta nossa foi do agente de IA e ninguém humano
+          // assumiu ainda (conversa não fechada) → precisa de atenção.
+          case "AI":          if (!c.lastOutboundByAI || cStatus === "CLOSED") return false; break;
           case "CLIENTS":     if (!c.companyContact) return false; break;
           case "NO_LEAD":     if (c.lead?.pipeline) return false; break;
           // Minhas conversas: atribuídas a mim e ainda abertas (não fechadas)
@@ -1189,7 +1195,7 @@ export default function WhatsappManager({
   const filterCounts = useMemo(() => {
     const counts: Record<string, number> = {
       URGENT: 0, UNANSWERED: 0, IN_PROGRESS: 0, RESOLVED: 0, SCHEDULED: 0,
-      CLIENTS: 0, NO_LEAD: 0, MINE: 0, UNASSIGNED: 0,
+      CLIENTS: 0, NO_LEAD: 0, MINE: 0, UNASSIGNED: 0, AI: 0,
     };
     for (const c of conversations) {
       // Respeita filtro de empresa client-side
@@ -1210,6 +1216,7 @@ export default function WhatsappManager({
       if (cStatus === "IN_PROGRESS") counts.IN_PROGRESS++;
       if (cStatus === "CLOSED")      counts.RESOLVED++;
       if (hasReturn)                 counts.SCHEDULED++;
+      if (c.lastOutboundByAI && !isClosed) counts.AI++;
       if (c.companyContact)          counts.CLIENTS++;
       if (!c.lead?.pipeline)         counts.NO_LEAD++;
       if (!isClosed && assigneeId === currentUserId) counts.MINE++;
@@ -2179,6 +2186,14 @@ export default function WhatsappManager({
           mediaType: pendingMedia?.mimeType ?? null,
         },
       ]);
+      // Retorno cumprido: a conversa estava "Aguardando retorno" e nós retornamos.
+      // Reflete na hora — sai do roxo (SCHEDULED) e some do calendário/agendados.
+      if (data.returnFulfilled) {
+        setConvStatusOverride((prev) => new Map(prev).set(selectedConv.phone, "WAITING_CUSTOMER"));
+        setSelectedConv((prev) => prev && prev.lead
+          ? { ...prev, lead: { ...prev.lead, expectedReturnAt: null, attendanceStatus: "IN_PROGRESS" } }
+          : prev);
+      }
       // Após enviar, limpa citação, textarea, menções e anexo de mídia
       setReplyingTo(null);
       setReplyText("");
@@ -2945,6 +2960,7 @@ export default function WhatsappManager({
                       { key: "MINE",       label: "Minhas",      Icon: User,          dim: "text-indigo-400", count: filterCounts.MINE },
                       { key: "UNASSIGNED", label: "Sem depto",   Icon: Hourglass,     dim: "text-rose-400",   count: filterCounts.UNASSIGNED },
                       { key: "IN_PROGRESS",label: "Em atend.",   Icon: MessageCircle, dim: "text-blue-400",   count: filterCounts.IN_PROGRESS },
+                      { key: "AI",         label: "IA atendeu",  Icon: Bot,           dim: "text-cyan-400",   count: filterCounts.AI },
                       { key: "RESOLVED",   label: "Resolvidos",  Icon: CheckCircle2,  dim: "text-green-400",  count: filterCounts.RESOLVED },
                       { key: "SCHEDULED",  label: "Agendados",   Icon: Calendar,      dim: "text-purple-400", count: filterCounts.SCHEDULED },
                       { key: "CLIENTS",    label: "Clientes",    Icon: Star,          dim: "text-amber-400",  count: filterCounts.CLIENTS },
@@ -3158,10 +3174,19 @@ export default function WhatsappManager({
                               {conv.conversation && (() => {
                                 const currentStatus: ConvStatus = (convStatusOverride.get(conv.phone) ?? conv.conversation.status) as ConvStatus;
                                 const meta = CONV_STATUS_META[currentStatus];
+                                const showAiBadge = conv.lastOutboundByAI && currentStatus !== "CLOSED";
                                 return (
                                   <div className="flex items-center gap-1 mt-0.5">
                                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${meta.dot}`} />
                                     <span className="text-[10px] text-slate-500 truncate">{meta.label}</span>
+                                    {showAiBadge && (
+                                      <span
+                                        title="Última resposta foi do agente de IA — ninguém da equipe assumiu ainda"
+                                        className="flex items-center gap-0.5 flex-shrink-0 text-[9px] font-semibold text-cyan-300 bg-cyan-500/10 border border-cyan-500/25 rounded-full px-1 leading-none py-0.5"
+                                      >
+                                        <Bot className="w-2.5 h-2.5" strokeWidth={2.5} /> IA
+                                      </span>
+                                    )}
                                   </div>
                                 );
                               })()}
