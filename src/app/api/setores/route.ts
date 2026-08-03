@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
     canViewEmail       = true,
     userIds            = [] as string[],
     instanceIds        = [] as string[],
+    emailAccountIds    = [] as string[],
   } = body;
 
   if (!name?.trim()) return NextResponse.json({ error: "Nome obrigatório" }, { status: 400 });
@@ -84,6 +85,7 @@ export async function POST(req: NextRequest) {
       canViewEmail,
       users:     { create: userIds.map((uid: string) => ({ userId: uid })) },
       instances: { create: instanceIds.map((iid: string) => ({ instanceId: iid })) },
+      emailAccounts: { create: emailAccountIds.map((aid: string) => ({ accountId: aid })) },
     },
     include: {
       users:     { include: { user: { select: { id: true, name: true, email: true } } } },

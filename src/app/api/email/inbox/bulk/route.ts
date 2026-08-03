@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { deleteEmailFromServer } from "@/lib/imap-inbox";
 import type { InboxEmailFolder } from "@/generated/prisma";
@@ -31,10 +32,17 @@ export async function POST(req: NextRequest) {
   if (!ids.length) return NextResponse.json({ error: "Nenhum email selecionado" }, { status: 400 });
 
   // Só emails da empresa da sessão.
-  const emails = await prisma.inboxEmail.findMany({
+  // Restrição por setor: só age nos emails de caixas liberadas.
+  const perms = await getUserPermissions(session);
+  const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+
+  const emailsRaw = await prisma.inboxEmail.findMany({
     where: { id: { in: ids }, companyId },
-    select: { id: true, direction: true, fromEmail: true, folder: true },
+    select: { id: true, direction: true, fromEmail: true, folder: true, accountId: true },
   });
+  const emails = allowed
+    ? emailsRaw.filter((e) => e.accountId && allowed.includes(e.accountId))
+    : emailsRaw;
   if (!emails.length) return NextResponse.json({ error: "Emails não encontrados" }, { status: 404 });
   const validIds = emails.map((e) => e.id);
 

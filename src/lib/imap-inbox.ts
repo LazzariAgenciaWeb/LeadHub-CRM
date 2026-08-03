@@ -296,15 +296,17 @@ async function storeMessage(
   const messageId = parsed.messageId ?? null;
   const inReplyTo = parsed.inReplyTo ?? null;
 
-  // Dedup por Message-ID na EMPRESA inteira: email redirecionado entre caixas
-  // (contato@ → diego@) mantém o Message-ID e mostraria duplicado — só a
-  // primeira cópia importada entra. Também cobre re-sync após reset de
-  // uidValidity e o email enviado pela plataforma que aparece na \Sent.
+  // Dedup por Message-ID DENTRO DA MESMA CONTA. Já foi dedup na empresa
+  // inteira, mas com caixas restritas por setor isso escondia email: a cópia
+  // redirecionada ficava só na primeira caixa sincronizada, e quem só acessa
+  // a segunda não via nada. Agora cada caixa guarda a própria cópia (admin
+  // vendo "Todas" pode ver o mesmo email 2x — preço da permissão correta).
+  // Cobre re-sync após reset de uidValidity e o envio da plataforma na \Sent.
   if (messageId) {
-    const dup = await prisma.inboxEmail.findFirst({
-      where: { companyId, messageId },
+    const dup = await prisma.inboxEmail.findUnique({
+      where: { accountId_messageId: { accountId, messageId } },
       select: {
-        id: true, imapUid: true, direction: true, accountId: true,
+        id: true, imapUid: true, direction: true,
         _count: { select: { attachments: true } },
       },
     });
@@ -312,12 +314,9 @@ async function storeMessage(
       // Backfill: o registro criado na hora do envio pela plataforma não tem
       // UID nem anexos referenciados — quando a cópia aparece na pasta \Sent
       // do servidor, completamos (habilita o download dos anexos enviados).
-      if (
-        direction === "OUT" && dup.direction === "OUT" && !dup.imapUid &&
-        (dup.accountId === accountId || !dup.accountId)
-      ) {
+      if (direction === "OUT" && dup.direction === "OUT" && !dup.imapUid) {
         await prisma.inboxEmail
-          .update({ where: { id: dup.id }, data: { imapUid: uid, accountId } })
+          .update({ where: { id: dup.id }, data: { imapUid: uid } })
           .catch(() => null);
         if (dup._count.attachments === 0) {
           const parts = collectAttachmentParts(bodyStructure).slice(0, MAX_ATTACHMENTS_PER_EMAIL);

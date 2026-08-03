@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { getClickupSettings, syncTicketToClickup } from "@/lib/clickup";
 
@@ -25,10 +26,17 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     select: {
       id: true, subject: true, fromEmail: true, fromName: true,
       textBody: true, snippet: true, sentAt: true, ticketId: true,
-      aiImportance: true, aiSummary: true,
+      aiImportance: true, aiSummary: true, accountId: true,
     },
   });
   if (!email) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+  {
+    const perms = await getUserPermissions(session);
+    const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+    if (allowed && (!email.accountId || !allowed.includes(email.accountId))) {
+      return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+    }
+  }
   if (email.ticketId) {
     return NextResponse.json({ error: "Este email já está vinculado a um chamado" }, { status: 400 });
   }

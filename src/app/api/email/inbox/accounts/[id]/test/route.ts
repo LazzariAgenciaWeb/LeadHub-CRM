@@ -11,6 +11,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return gate.response;
+  if ((session.user as any).role === "CLIENT") {
+    return NextResponse.json({ error: "Somente administradores gerenciam contas de email" }, { status: 403 });
+  }
 
   const body = await req.json().catch(() => ({}));
   const companyId = resolveCompanyId(session, body?.companyId);

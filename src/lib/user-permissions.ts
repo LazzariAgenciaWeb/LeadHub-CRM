@@ -23,6 +23,7 @@ export interface UserPermissions {
   companyId: string;
   setorIds: string[] | null; // null = sem restrição (admin); array = setores do usuário; [] = sem setor
   instanceIds: string[] | null; // null = sem restrição; array = instâncias permitidas
+  emailAccountIds: string[] | null; // null = todas as caixas de email; array = só as vinculadas aos setores
   noSetor: boolean;          // true → CLIENT sem nenhum setor (todas flags false)
   canManageUsers: boolean;
   canViewLeads: boolean;
@@ -48,6 +49,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
       companyId: companyId ?? "",
       setorIds: null,
       instanceIds: null,
+      emailAccountIds: null,
       noSetor: false,
       canManageUsers: true,
       canViewLeads: true,
@@ -68,6 +70,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
       setor: {
         include: {
           instances: { select: { instanceId: true } },
+          emailAccounts: { select: { accountId: true } },
         },
       },
     },
@@ -83,6 +86,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
       companyId,
       setorIds: [],
       instanceIds: [],
+      emailAccountIds: [],
       noSetor: true,
       canManageUsers: false,
       canViewLeads: false,
@@ -97,6 +101,11 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
   const setorIds    = setorUsers.map((su) => su.setorId);
   const instanceIds = [
     ...new Set(setorUsers.flatMap((su) => su.setor.instances.map((i) => i.instanceId))),
+  ];
+  // Caixas de email: união dos vínculos dos setores. NENHUM vínculo em nenhum
+  // setor → null (vê todas — compat com setores criados antes da feature).
+  const emailAccountIds = [
+    ...new Set(setorUsers.flatMap((su) => (su.setor as any).emailAccounts?.map((e: any) => e.accountId) ?? [])),
   ];
 
   const perms = {
@@ -113,6 +122,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
     companyId,
     setorIds,
     instanceIds: instanceIds.length > 0 ? instanceIds : [],
+    emailAccountIds: emailAccountIds.length > 0 ? emailAccountIds : null,
     noSetor: false,
     ...perms,
   };

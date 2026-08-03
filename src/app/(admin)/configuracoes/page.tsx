@@ -508,12 +508,13 @@ export default async function ConfiguracoesPage({
     );
   } else if (secao === "setores") {
     const companyId = userCompanyId ?? "";
-    const [setores, allUsers, allInstances] = await Promise.all([
+    const [setores, allUsers, allInstances, allEmailAccounts] = await Promise.all([
       prisma.setor.findMany({
         where: { companyId },
         include: {
           users:     { include: { user: { select: { id: true, name: true, email: true } } } },
           instances: { include: { instance: { select: { id: true, instanceName: true, phone: true, status: true } } } },
+          emailAccounts: { select: { accountId: true } },
           _count:    { select: { tickets: true } },
         },
         orderBy: { name: "asc" },
@@ -531,12 +532,18 @@ export default async function ConfiguracoesPage({
         select: { id: true, instanceName: true, phone: true, status: true },
         orderBy: { instanceName: "asc" },
       }),
+      prisma.emailAccount.findMany({
+        where: { companyId },
+        select: { id: true, label: true, fromEmail: true },
+        orderBy: { createdAt: "asc" },
+      }),
     ]);
     content = (
       <SetoresSection
         initialSetores={setores as any}
         allUsers={allUsers}
         allInstances={allInstances as any}
+        allEmailAccounts={allEmailAccounts as any}
       />
     );
   } else if (secao === "email") {

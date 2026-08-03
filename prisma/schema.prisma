@@ -62,7 +62,7 @@ model User {
   notifPreferences      UserNotifPreferences?
   emailCampaignsCreated EmailCampaign[]        @relation("EmailCampaignCreatedBy")
   assistantsCreated     Assistant[]
-  assistantCalendars    Assistant[] @relation("AssistantCalendarUser")
+  assistantCalendars    Assistant[]            @relation("AssistantCalendarUser")
 
   @@index([companyId])
 }
@@ -820,9 +820,9 @@ model WhatsappInstance {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
 
-  messages   Message[]
-  setores    SetorInstance[]
-  assistants Assistant[]
+  messages          Message[]
+  setores           SetorInstance[]
+  assistants        Assistant[]
   scheduledMessages ScheduledMessage[]
 
   @@index([companyId])
@@ -983,8 +983,8 @@ model Conversation {
   //   ACTIVE       → bot pode responder (se a instância tiver agente autoRespond)
   //   PAUSED_HUMAN → humano assumiu (outbound de atendente ou handoff) — bot cala
   //   OFF          → bot desligado manualmente nesta conversa
-  aiMode     AiMode    @default(ACTIVE)
-  aiPausedAt DateTime? // quando o bot foi pausado (handoff/humano)
+  aiMode         AiMode    @default(ACTIVE)
+  aiPausedAt     DateTime? // quando o bot foi pausado (handoff/humano)
   // Marco de "atendimento de IA concluído": o agente ignora todo o histórico
   // anterior a este instante — a próxima mensagem inicia um ciclo NOVO
   // (re-saudação, re-qualificação). Setado pelo botão da Inbox e no Finalizar.
@@ -1245,12 +1245,29 @@ model Setor {
 
   users           SetorUser[]
   instances       SetorInstance[]
+  emailAccounts   SetorEmailAccount[]
   tickets         Ticket[]
   conversations   Conversation[]
   clickupLists    SetorClickupList[]
   assistantRoutes AssistantRoute[]
 
   @@index([companyId])
+}
+
+// Caixas de email liberadas pro setor (espelho do SetorInstance do WhatsApp).
+// Setor SEM vínculo = vê todas as caixas da empresa (compat); com vínculos,
+// o usuário só enxerga as caixas dos seus setores. ADMIN sempre vê todas.
+model SetorEmailAccount {
+  id        String       @id @default(cuid())
+  setor     Setor        @relation(fields: [setorId], references: [id], onDelete: Cascade)
+  setorId   String
+  account   EmailAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([setorId, accountId])
+  @@index([accountId])
 }
 
 // Project: lista do ClickUp atrelada a um setor com gestão própria de prazo,
@@ -3033,7 +3050,8 @@ model EmailAccount {
   lastVerifiedAt DateTime?
   lastError      String?   @db.Text
 
-  emails InboxEmail[]
+  emails  InboxEmail[]
+  setores SetorEmailAccount[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -3366,8 +3384,8 @@ model Assistant {
   reactivationWord String?
   // Aviso enviado quando o bot encerra a parte dele (encaminhou/handoff),
   // ensinando o gatilho de reativação. Desligável; null = texto padrão.
-  sendPauseNotice Boolean @default(true)
-  pauseNoticeText String? @db.Text
+  sendPauseNotice  Boolean @default(true)
+  pauseNoticeText  String? @db.Text
 
   // Vínculo opcional a uma instância WhatsApp (roteamento por número de entrada).
   instance   WhatsappInstance? @relation(fields: [instanceId], references: [id], onDelete: SetNull)
@@ -3379,7 +3397,7 @@ model Assistant {
 
   usageLogs   AiUsageLog[]
   routes      AssistantRoute[]
-  createdBy   User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy   User?            @relation(fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
 
   createdAt DateTime @default(now())

@@ -22,6 +22,7 @@ export async function GET(
     include: {
       users:     { include: { user: { select: { id: true, name: true, email: true } } } },
       instances: { include: { instance: { select: { id: true, instanceName: true, phone: true, status: true } } } },
+      emailAccounts: { select: { accountId: true } },
       _count:    { select: { tickets: true } },
     },
   });
@@ -68,6 +69,7 @@ export async function PATCH(
     canViewEmail,
     userIds,     // string[] | undefined — substitui lista completa se fornecido
     instanceIds, // string[] | undefined — substitui lista completa se fornecido
+    emailAccountIds, // string[] | undefined — idem, caixas de email do setor
   } = body;
 
   // Atualiza campos escalares
@@ -114,6 +116,17 @@ export async function PATCH(
     if (instanceIds.length > 0) {
       await prisma.setorInstance.createMany({
         data: instanceIds.map((iid: string) => ({ setorId: id, instanceId: iid })),
+        skipDuplicates: true,
+      });
+    }
+  }
+
+  // Substitui lista de caixas de email (se enviada)
+  if (Array.isArray(emailAccountIds)) {
+    await prisma.setorEmailAccount.deleteMany({ where: { setorId: id } });
+    if (emailAccountIds.length > 0) {
+      await prisma.setorEmailAccount.createMany({
+        data: emailAccountIds.map((aid: string) => ({ setorId: id, accountId: aid })),
         skipDuplicates: true,
       });
     }

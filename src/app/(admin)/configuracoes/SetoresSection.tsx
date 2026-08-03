@@ -34,11 +34,13 @@ interface Setor {
   canViewEmail: boolean;
   users: SetorUser[];
   instances: SetorInstance[];
+  emailAccounts?: { accountId: string }[];
   _count: { tickets: number };
 }
 
 interface User     { id: string; name: string; email: string }
 interface Instance { id: string; instanceName: string; phone: string | null; status: string }
+interface EmailAccountOpt { id: string; label: string | null; fromEmail: string }
 
 type PermKey =
   | "canManageUsers" | "canViewLeads" | "canCreateLeads"
@@ -155,16 +157,19 @@ const EMPTY_FORM = {
   canViewEmail:      true,
   userIds:           [] as string[],
   instanceIds:       [] as string[],
+  emailAccountIds:   [] as string[],
 };
 
 export default function SetoresSection({
   initialSetores,
   allUsers,
   allInstances,
+  allEmailAccounts = [],
 }: {
   initialSetores: Setor[];
   allUsers: User[];
   allInstances: Instance[];
+  allEmailAccounts?: EmailAccountOpt[];
 }) {
   const [setores, setSetores] = useState<Setor[]>(initialSetores);
   const [editing, setEditing]   = useState<Setor | null>(null);
@@ -207,6 +212,7 @@ export default function SetoresSection({
       canViewEmail:       (s as any).canViewEmail ?? true,
       userIds:            s.users.map((u) => u.userId),
       instanceIds:        s.instances.map((i) => i.instanceId),
+      emailAccountIds:    s.emailAccounts?.map((e) => e.accountId) ?? [],
     });
     setEditing(s);
   }
@@ -217,7 +223,7 @@ export default function SetoresSection({
     setSaveError(null);
   }
 
-  function toggleId(field: "userIds" | "instanceIds", id: string) {
+  function toggleId(field: "userIds" | "instanceIds" | "emailAccountIds", id: string) {
     setForm((prev) => {
       const arr = prev[field];
       return { ...prev, [field]: arr.includes(id) ? arr.filter((x) => x !== id) : [...arr, id] };
@@ -439,6 +445,42 @@ export default function SetoresSection({
                         <div className="flex-1 min-w-0">
                           <p className="text-white text-xs font-medium truncate">{inst.instanceName}</p>
                           {inst.phone && <p className="text-slate-600 text-[10px] font-mono">{inst.phone}</p>}
+                        </div>
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${checked ? "bg-indigo-600 border-indigo-600" : "border-slate-600"}`}>
+                          {checked && <span className="text-white text-[10px] font-bold">✓</span>}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Caixas de E-mail */}
+            <div className="mb-6">
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider block mb-3">
+                Caixas de E-mail
+                <span className="text-slate-600 normal-case font-normal ml-1.5">— quais caixas este setor pode ver (nenhuma marcada = todas)</span>
+              </label>
+              {allEmailAccounts.length === 0 ? (
+                <p className="text-slate-600 text-xs">Nenhuma caixa de email cadastrada (Atender → E-mail → Contas).</p>
+              ) : (
+                <div className="space-y-1.5">
+                  {allEmailAccounts.map((acc) => {
+                    const checked = form.emailAccountIds.includes(acc.id);
+                    return (
+                      <button
+                        key={acc.id}
+                        type="button"
+                        onClick={() => toggleId("emailAccountIds", acc.id)}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border text-left transition-colors ${
+                          checked ? "border-indigo-500/50 bg-indigo-500/5" : "border-[#1e2d45] bg-[#0c1220] hover:border-[#2a3a55]"
+                        }`}
+                      >
+                        <span className="text-indigo-300 text-xs flex-shrink-0">@</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-xs font-medium truncate">{acc.label || acc.fromEmail}</p>
+                          {acc.label && <p className="text-slate-600 text-[10px] font-mono truncate">{acc.fromEmail}</p>}
                         </div>
                         <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${checked ? "bg-indigo-600 border-indigo-600" : "border-slate-600"}`}>
                           {checked && <span className="text-white text-[10px] font-bold">✓</span>}

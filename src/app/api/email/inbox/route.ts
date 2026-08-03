@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import type { InboxEmailFolder, Prisma } from "@/generated/prisma";
 
@@ -22,6 +23,14 @@ export async function GET(req: NextRequest) {
     ? (sp.get("companyId") ?? (session.user as any).companyId)
     : (session.user as any).companyId;
   if (!companyId) return NextResponse.json({ emails: [], counts: {}, unseen: 0 });
+
+  // Restrição por setor: CLIENT pode estar limitado a caixas específicas
+  // (SetorEmailAccount). null = sem restrição (admin ou setor sem vínculos).
+  const perms = await getUserPermissions(session);
+  const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+  if (allowed && allowed.length === 0) {
+    return NextResponse.json({ emails: [], counts: {}, unseen: 0, accounts: [], tagCounts: {} });
+  }
 
   const leadId = sp.get("leadId");
   const ticketId = sp.get("ticketId");
@@ -51,7 +60,10 @@ export async function GET(req: NextRequest) {
   } else if (!isAll) {
     where.folder = folder;
   }
-  if (accountId) where.accountId = accountId;
+  const accountScope: Prisma.InboxEmailWhereInput = allowed
+    ? { accountId: accountId && allowed.includes(accountId) ? accountId : { in: allowed } }
+    : accountId ? { accountId } : {};
+  Object.assign(where, accountScope);
   // tagId "__none" = pseudo-tag "sem tag": emails sem nenhuma marcação.
   if (tagId === "__none") where.tags = { none: {} };
   else if (tagId) where.tags = { some: { id: tagId } };
@@ -67,7 +79,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Contadores respeitam o filtro de conta (etiqueta selecionada).
-  const countScope: Prisma.InboxEmailWhereInput = { companyId, ...(accountId ? { accountId } : {}) };
+  const countScope: Prisma.InboxEmailWhereInput = { companyId, ...accountScope };
   // Contagem das tags escopada na PASTA atual (+ conta): na Entrada, o chip
   // da tag mostra só quantos emails daquela tag estão na Entrada. Em "Todos",
   // conta geral.
@@ -121,5 +133,11 @@ export async function GET(req: NextRequest) {
   const tagCounts: Record<string, number> = { __none: noTagCount };
   for (const t of tagCountRows) tagCounts[t.id] = t._count.emails;
 
-  return NextResponse.json({ emails, counts, unseen, accounts, tagCounts });
+  return NextResponse.json({
+    emails,
+    counts,
+    unseen,
+    accounts: allowed ? accounts.filter((a) => allowed.includes(a.id)) : accounts,
+    tagCounts,
+  });
 }

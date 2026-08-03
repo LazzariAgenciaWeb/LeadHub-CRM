@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import { sendInboxEmail } from "@/lib/imap-inbox";
 
@@ -21,6 +22,18 @@ export async function POST(req: NextRequest) {
     ? (body?.companyId ?? (session.user as any).companyId)
     : (session.user as any).companyId;
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });
+
+  // Restrição por setor: CLIENT só envia pelas caixas liberadas.
+  const perms = await getUserPermissions(session);
+  const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+  let accountId: string | null = body?.accountId ?? null;
+  if (allowed) {
+    if (!allowed.length) return NextResponse.json({ error: "Nenhuma caixa de email liberada pro seu setor" }, { status: 403 });
+    if (accountId && !allowed.includes(accountId)) {
+      return NextResponse.json({ error: "Caixa não liberada pro seu setor" }, { status: 403 });
+    }
+    if (!accountId) accountId = allowed[0];
+  }
 
   const to = String(body?.to ?? "").trim();
   const subject = String(body?.subject ?? "").trim();
@@ -66,7 +79,7 @@ export async function POST(req: NextRequest) {
       subject,
       text,
       attachments,
-      accountId: body?.accountId ?? null,
+      accountId,
       replyToId: body?.replyToId ?? null,
       leadId,
       ticketId,

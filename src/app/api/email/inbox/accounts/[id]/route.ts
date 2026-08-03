@@ -10,6 +10,9 @@ async function requireCtx(explicitCompanyId?: string | null) {
   if (!session) return { ok: false as const, res: NextResponse.json({ error: "Não autorizado" }, { status: 401 }) };
   const gate = await assertModule(session, "emailInbox");
   if (!gate.ok) return { ok: false as const, res: gate.response };
+  if ((session.user as any).role === "CLIENT") {
+    return { ok: false as const, res: NextResponse.json({ error: "Somente administradores gerenciam contas de email" }, { status: 403 }) };
+  }
   const companyId = resolveCompanyId(session, explicitCompanyId);
   if (!companyId) return { ok: false as const, res: NextResponse.json({ error: "Sem empresa" }, { status: 400 }) };
   return { ok: true as const, companyId };

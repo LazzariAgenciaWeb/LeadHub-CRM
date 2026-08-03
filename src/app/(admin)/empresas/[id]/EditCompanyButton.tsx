@@ -26,6 +26,7 @@ interface Company {
   moduleCalendario: boolean;
   moduleProspeccao: boolean;
   moduleEmailMarketing: boolean;
+  moduleEmailInbox: boolean;
   moduleInstagram: boolean;
   moduleEspacoCliente: boolean;
   moduleVideos: boolean;
@@ -66,6 +67,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     moduleCalendario: company.moduleCalendario,
     moduleProspeccao: company.moduleProspeccao,
     moduleEmailMarketing: company.moduleEmailMarketing,
+    moduleEmailInbox: (company as any).moduleEmailInbox ?? false,
     moduleInstagram: company.moduleInstagram,
     moduleEspacoCliente: company.moduleEspacoCliente,
     moduleVideos: company.moduleVideos,
@@ -106,6 +108,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
         payload.moduleCalendario = form.moduleCalendario;
         payload.moduleProspeccao = form.moduleProspeccao;
         payload.moduleEmailMarketing = form.moduleEmailMarketing;
+        payload.moduleEmailInbox = form.moduleEmailInbox;
         payload.moduleInstagram = form.moduleInstagram;
         payload.moduleEspacoCliente = form.moduleEspacoCliente;
         payload.moduleVideos = form.moduleVideos;

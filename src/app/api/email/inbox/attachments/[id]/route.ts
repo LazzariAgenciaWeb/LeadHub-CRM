@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
+import { prisma } from "@/lib/prisma";
 import { downloadEmailAttachment } from "@/lib/imap-inbox";
 
 // Tipos seguros pra abrir inline no navegador; o resto força download.
@@ -18,6 +20,20 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   if (!companyId) return NextResponse.json({ error: "Sem empresa" }, { status: 400 });
 
   const { id } = await params;
+
+  // Restrição por setor: anexo de caixa não liberada → 404.
+  const perms = await getUserPermissions(session);
+  const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+  if (allowed) {
+    const att = await prisma.inboxEmailAttachment.findFirst({
+      where: { id, email: { companyId } },
+      select: { email: { select: { accountId: true } } },
+    });
+    if (!att?.email.accountId || !allowed.includes(att.email.accountId)) {
+      return NextResponse.json({ error: "Anexo não encontrado" }, { status: 404 });
+    }
+  }
+
   const result = await downloadEmailAttachment(companyId, id);
   if (!result) {
     return NextResponse.json(

@@ -588,6 +588,13 @@ exports.Prisma.SetorScalarFieldEnum = {
   canViewEmail: 'canViewEmail'
 };
 
+exports.Prisma.SetorEmailAccountScalarFieldEnum = {
+  id: 'id',
+  setorId: 'setorId',
+  accountId: 'accountId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SetorClickupListScalarFieldEnum = {
   id: 'id',
   setorId: 'setorId',
@@ -2164,6 +2171,7 @@ exports.Prisma.ModelName = {
   Ticket: 'Ticket',
   TicketMessage: 'TicketMessage',
   Setor: 'Setor',
+  SetorEmailAccount: 'SetorEmailAccount',
   SetorClickupList: 'SetorClickupList',
   ProjectTask: 'ProjectTask',
   ProjectService: 'ProjectService',

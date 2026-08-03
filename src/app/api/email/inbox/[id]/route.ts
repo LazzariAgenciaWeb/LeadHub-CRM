@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
+import { getUserPermissions } from "@/lib/user-permissions";
 import { prisma } from "@/lib/prisma";
 import type { InboxEmailFolder } from "@/generated/prisma";
 
@@ -13,7 +14,9 @@ async function requireCtx() {
   if (!gate.ok) return { ok: false as const, res: gate.response };
   const companyId = (session.user as any).companyId as string | undefined;
   if (!companyId) return { ok: false as const, res: NextResponse.json({ error: "Sem empresa" }, { status: 400 }) };
-  return { ok: true as const, companyId };
+  const perms = await getUserPermissions(session);
+  const allowed = perms && !perms.isAdmin ? perms.emailAccountIds : null;
+  return { ok: true as const, companyId, allowed };
 }
 
 // GET /api/email/inbox/[id] → email completo (marca como lido).
@@ -39,6 +42,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     },
   });
   if (!email) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+  if (ctx.allowed && (!email.accountId || !ctx.allowed.includes(email.accountId))) {
+    return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+  }
 
   if (!email.seen) {
     await prisma.inboxEmail.update({ where: { id: email.id }, data: { seen: true } });
@@ -60,9 +66,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const existing = await prisma.inboxEmail.findFirst({
     where: { id, companyId: ctx.companyId },
-    select: { id: true, folder: true, direction: true, fromEmail: true },
+    select: { id: true, folder: true, direction: true, fromEmail: true, accountId: true },
   });
   if (!existing) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+  if (ctx.allowed && (!existing.accountId || !ctx.allowed.includes(existing.accountId))) {
+    return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
+  }
 
   const data: Record<string, unknown> = {};
   if (body.folder !== undefined) {

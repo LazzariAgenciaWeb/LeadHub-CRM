@@ -164,6 +164,11 @@ export type TicketMessage = $Result.DefaultSelection<Prisma.$TicketMessagePayloa
  */
 export type Setor = $Result.DefaultSelection<Prisma.$SetorPayload>
 /**
+ * Model SetorEmailAccount
+ * 
+ */
+export type SetorEmailAccount = $Result.DefaultSelection<Prisma.$SetorEmailAccountPayload>
+/**
  * Model SetorClickupList
  * 
  */
@@ -1718,6 +1723,16 @@ export class PrismaClient<
   get setor(): Prisma.SetorDelegate<ExtArgs>;
 
   /**
+   * `prisma.setorEmailAccount`: Exposes CRUD operations for the **SetorEmailAccount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SetorEmailAccounts
+    * const setorEmailAccounts = await prisma.setorEmailAccount.findMany()
+    * ```
+    */
+  get setorEmailAccount(): Prisma.SetorEmailAccountDelegate<ExtArgs>;
+
+  /**
    * `prisma.setorClickupList`: Exposes CRUD operations for the **SetorClickupList** model.
     * Example usage:
     * ```ts
@@ -2957,6 +2972,7 @@ export namespace Prisma {
     Ticket: 'Ticket',
     TicketMessage: 'TicketMessage',
     Setor: 'Setor',
+    SetorEmailAccount: 'SetorEmailAccount',
     SetorClickupList: 'SetorClickupList',
     ProjectTask: 'ProjectTask',
     ProjectService: 'ProjectService',
@@ -3049,7 +3065,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
+      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5150,6 +5166,76 @@ export namespace Prisma {
           count: {
             args: Prisma.SetorCountArgs<ExtArgs>
             result: $Utils.Optional<SetorCountAggregateOutputType> | number
+          }
+        }
+      }
+      SetorEmailAccount: {
+        payload: Prisma.$SetorEmailAccountPayload<ExtArgs>
+        fields: Prisma.SetorEmailAccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SetorEmailAccountFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SetorEmailAccountFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          findFirst: {
+            args: Prisma.SetorEmailAccountFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SetorEmailAccountFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          findMany: {
+            args: Prisma.SetorEmailAccountFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>[]
+          }
+          create: {
+            args: Prisma.SetorEmailAccountCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          createMany: {
+            args: Prisma.SetorEmailAccountCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SetorEmailAccountCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>[]
+          }
+          delete: {
+            args: Prisma.SetorEmailAccountDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          update: {
+            args: Prisma.SetorEmailAccountUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.SetorEmailAccountDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SetorEmailAccountUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SetorEmailAccountUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SetorEmailAccountPayload>
+          }
+          aggregate: {
+            args: Prisma.SetorEmailAccountAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetorEmailAccount>
+          }
+          groupBy: {
+            args: Prisma.SetorEmailAccountGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SetorEmailAccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SetorEmailAccountCountArgs<ExtArgs>
+            result: $Utils.Optional<SetorEmailAccountCountAggregateOutputType> | number
           }
         }
       }
@@ -12064,6 +12150,7 @@ export namespace Prisma {
   export type SetorCountOutputType = {
     users: number
     instances: number
+    emailAccounts: number
     tickets: number
     conversations: number
     clickupLists: number
@@ -12073,6 +12160,7 @@ export namespace Prisma {
   export type SetorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | SetorCountOutputTypeCountUsersArgs
     instances?: boolean | SetorCountOutputTypeCountInstancesArgs
+    emailAccounts?: boolean | SetorCountOutputTypeCountEmailAccountsArgs
     tickets?: boolean | SetorCountOutputTypeCountTicketsArgs
     conversations?: boolean | SetorCountOutputTypeCountConversationsArgs
     clickupLists?: boolean | SetorCountOutputTypeCountClickupListsArgs
@@ -12102,6 +12190,13 @@ export namespace Prisma {
    */
   export type SetorCountOutputTypeCountInstancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SetorInstanceWhereInput
+  }
+
+  /**
+   * SetorCountOutputType without action
+   */
+  export type SetorCountOutputTypeCountEmailAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorEmailAccountWhereInput
   }
 
   /**
@@ -12663,10 +12758,12 @@ export namespace Prisma {
 
   export type EmailAccountCountOutputType = {
     emails: number
+    setores: number
   }
 
   export type EmailAccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     emails?: boolean | EmailAccountCountOutputTypeCountEmailsArgs
+    setores?: boolean | EmailAccountCountOutputTypeCountSetoresArgs
   }
 
   // Custom InputTypes
@@ -12685,6 +12782,13 @@ export namespace Prisma {
    */
   export type EmailAccountCountOutputTypeCountEmailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InboxEmailWhereInput
+  }
+
+  /**
+   * EmailAccountCountOutputType without action
+   */
+  export type EmailAccountCountOutputTypeCountSetoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorEmailAccountWhereInput
   }
 
 
@@ -46807,6 +46911,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
+    emailAccounts?: boolean | Setor$emailAccountsArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
@@ -46873,6 +46978,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     users?: boolean | Setor$usersArgs<ExtArgs>
     instances?: boolean | Setor$instancesArgs<ExtArgs>
+    emailAccounts?: boolean | Setor$emailAccountsArgs<ExtArgs>
     tickets?: boolean | Setor$ticketsArgs<ExtArgs>
     conversations?: boolean | Setor$conversationsArgs<ExtArgs>
     clickupLists?: boolean | Setor$clickupListsArgs<ExtArgs>
@@ -46889,6 +46995,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       users: Prisma.$SetorUserPayload<ExtArgs>[]
       instances: Prisma.$SetorInstancePayload<ExtArgs>[]
+      emailAccounts: Prisma.$SetorEmailAccountPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
       clickupLists: Prisma.$SetorClickupListPayload<ExtArgs>[]
@@ -47286,6 +47393,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     users<T extends Setor$usersArgs<ExtArgs> = {}>(args?: Subset<T, Setor$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorUserPayload<ExtArgs>, T, "findMany"> | Null>
     instances<T extends Setor$instancesArgs<ExtArgs> = {}>(args?: Subset<T, Setor$instancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
+    emailAccounts<T extends Setor$emailAccountsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$emailAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findMany"> | Null>
     tickets<T extends Setor$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany"> | Null>
     conversations<T extends Setor$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     clickupLists<T extends Setor$clickupListsArgs<ExtArgs> = {}>(args?: Subset<T, Setor$clickupListsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findMany"> | Null>
@@ -47701,6 +47809,26 @@ export namespace Prisma {
   }
 
   /**
+   * Setor.emailAccounts
+   */
+  export type Setor$emailAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    where?: SetorEmailAccountWhereInput
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    cursor?: SetorEmailAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorEmailAccountScalarFieldEnum | SetorEmailAccountScalarFieldEnum[]
+  }
+
+  /**
    * Setor.tickets
    */
   export type Setor$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -47792,6 +47920,933 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SetorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SetorEmailAccount
+   */
+
+  export type AggregateSetorEmailAccount = {
+    _count: SetorEmailAccountCountAggregateOutputType | null
+    _min: SetorEmailAccountMinAggregateOutputType | null
+    _max: SetorEmailAccountMaxAggregateOutputType | null
+  }
+
+  export type SetorEmailAccountMinAggregateOutputType = {
+    id: string | null
+    setorId: string | null
+    accountId: string | null
+    createdAt: Date | null
+  }
+
+  export type SetorEmailAccountMaxAggregateOutputType = {
+    id: string | null
+    setorId: string | null
+    accountId: string | null
+    createdAt: Date | null
+  }
+
+  export type SetorEmailAccountCountAggregateOutputType = {
+    id: number
+    setorId: number
+    accountId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SetorEmailAccountMinAggregateInputType = {
+    id?: true
+    setorId?: true
+    accountId?: true
+    createdAt?: true
+  }
+
+  export type SetorEmailAccountMaxAggregateInputType = {
+    id?: true
+    setorId?: true
+    accountId?: true
+    createdAt?: true
+  }
+
+  export type SetorEmailAccountCountAggregateInputType = {
+    id?: true
+    setorId?: true
+    accountId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SetorEmailAccountAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorEmailAccount to aggregate.
+     */
+    where?: SetorEmailAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorEmailAccounts to fetch.
+     */
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SetorEmailAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorEmailAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorEmailAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SetorEmailAccounts
+    **/
+    _count?: true | SetorEmailAccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SetorEmailAccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SetorEmailAccountMaxAggregateInputType
+  }
+
+  export type GetSetorEmailAccountAggregateType<T extends SetorEmailAccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetorEmailAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetorEmailAccount[P]>
+      : GetScalarType<T[P], AggregateSetorEmailAccount[P]>
+  }
+
+
+
+
+  export type SetorEmailAccountGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SetorEmailAccountWhereInput
+    orderBy?: SetorEmailAccountOrderByWithAggregationInput | SetorEmailAccountOrderByWithAggregationInput[]
+    by: SetorEmailAccountScalarFieldEnum[] | SetorEmailAccountScalarFieldEnum
+    having?: SetorEmailAccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SetorEmailAccountCountAggregateInputType | true
+    _min?: SetorEmailAccountMinAggregateInputType
+    _max?: SetorEmailAccountMaxAggregateInputType
+  }
+
+  export type SetorEmailAccountGroupByOutputType = {
+    id: string
+    setorId: string
+    accountId: string
+    createdAt: Date
+    _count: SetorEmailAccountCountAggregateOutputType | null
+    _min: SetorEmailAccountMinAggregateOutputType | null
+    _max: SetorEmailAccountMaxAggregateOutputType | null
+  }
+
+  type GetSetorEmailAccountGroupByPayload<T extends SetorEmailAccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SetorEmailAccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SetorEmailAccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SetorEmailAccountGroupByOutputType[P]>
+            : GetScalarType<T[P], SetorEmailAccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SetorEmailAccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setorId?: boolean
+    accountId?: boolean
+    createdAt?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    account?: boolean | EmailAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorEmailAccount"]>
+
+  export type SetorEmailAccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setorId?: boolean
+    accountId?: boolean
+    createdAt?: boolean
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    account?: boolean | EmailAccountDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["setorEmailAccount"]>
+
+  export type SetorEmailAccountSelectScalar = {
+    id?: boolean
+    setorId?: boolean
+    accountId?: boolean
+    createdAt?: boolean
+  }
+
+  export type SetorEmailAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    account?: boolean | EmailAccountDefaultArgs<ExtArgs>
+  }
+  export type SetorEmailAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    setor?: boolean | SetorDefaultArgs<ExtArgs>
+    account?: boolean | EmailAccountDefaultArgs<ExtArgs>
+  }
+
+  export type $SetorEmailAccountPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SetorEmailAccount"
+    objects: {
+      setor: Prisma.$SetorPayload<ExtArgs>
+      account: Prisma.$EmailAccountPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      setorId: string
+      accountId: string
+      createdAt: Date
+    }, ExtArgs["result"]["setorEmailAccount"]>
+    composites: {}
+  }
+
+  type SetorEmailAccountGetPayload<S extends boolean | null | undefined | SetorEmailAccountDefaultArgs> = $Result.GetResult<Prisma.$SetorEmailAccountPayload, S>
+
+  type SetorEmailAccountCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SetorEmailAccountFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SetorEmailAccountCountAggregateInputType | true
+    }
+
+  export interface SetorEmailAccountDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SetorEmailAccount'], meta: { name: 'SetorEmailAccount' } }
+    /**
+     * Find zero or one SetorEmailAccount that matches the filter.
+     * @param {SetorEmailAccountFindUniqueArgs} args - Arguments to find a SetorEmailAccount
+     * @example
+     * // Get one SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SetorEmailAccountFindUniqueArgs>(args: SelectSubset<T, SetorEmailAccountFindUniqueArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SetorEmailAccount that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SetorEmailAccountFindUniqueOrThrowArgs} args - Arguments to find a SetorEmailAccount
+     * @example
+     * // Get one SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SetorEmailAccountFindUniqueOrThrowArgs>(args: SelectSubset<T, SetorEmailAccountFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SetorEmailAccount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountFindFirstArgs} args - Arguments to find a SetorEmailAccount
+     * @example
+     * // Get one SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SetorEmailAccountFindFirstArgs>(args?: SelectSubset<T, SetorEmailAccountFindFirstArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SetorEmailAccount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountFindFirstOrThrowArgs} args - Arguments to find a SetorEmailAccount
+     * @example
+     * // Get one SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SetorEmailAccountFindFirstOrThrowArgs>(args?: SelectSubset<T, SetorEmailAccountFindFirstOrThrowArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SetorEmailAccounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SetorEmailAccounts
+     * const setorEmailAccounts = await prisma.setorEmailAccount.findMany()
+     * 
+     * // Get first 10 SetorEmailAccounts
+     * const setorEmailAccounts = await prisma.setorEmailAccount.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const setorEmailAccountWithIdOnly = await prisma.setorEmailAccount.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SetorEmailAccountFindManyArgs>(args?: SelectSubset<T, SetorEmailAccountFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SetorEmailAccount.
+     * @param {SetorEmailAccountCreateArgs} args - Arguments to create a SetorEmailAccount.
+     * @example
+     * // Create one SetorEmailAccount
+     * const SetorEmailAccount = await prisma.setorEmailAccount.create({
+     *   data: {
+     *     // ... data to create a SetorEmailAccount
+     *   }
+     * })
+     * 
+     */
+    create<T extends SetorEmailAccountCreateArgs>(args: SelectSubset<T, SetorEmailAccountCreateArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SetorEmailAccounts.
+     * @param {SetorEmailAccountCreateManyArgs} args - Arguments to create many SetorEmailAccounts.
+     * @example
+     * // Create many SetorEmailAccounts
+     * const setorEmailAccount = await prisma.setorEmailAccount.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SetorEmailAccountCreateManyArgs>(args?: SelectSubset<T, SetorEmailAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SetorEmailAccounts and returns the data saved in the database.
+     * @param {SetorEmailAccountCreateManyAndReturnArgs} args - Arguments to create many SetorEmailAccounts.
+     * @example
+     * // Create many SetorEmailAccounts
+     * const setorEmailAccount = await prisma.setorEmailAccount.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SetorEmailAccounts and only return the `id`
+     * const setorEmailAccountWithIdOnly = await prisma.setorEmailAccount.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SetorEmailAccountCreateManyAndReturnArgs>(args?: SelectSubset<T, SetorEmailAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SetorEmailAccount.
+     * @param {SetorEmailAccountDeleteArgs} args - Arguments to delete one SetorEmailAccount.
+     * @example
+     * // Delete one SetorEmailAccount
+     * const SetorEmailAccount = await prisma.setorEmailAccount.delete({
+     *   where: {
+     *     // ... filter to delete one SetorEmailAccount
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SetorEmailAccountDeleteArgs>(args: SelectSubset<T, SetorEmailAccountDeleteArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SetorEmailAccount.
+     * @param {SetorEmailAccountUpdateArgs} args - Arguments to update one SetorEmailAccount.
+     * @example
+     * // Update one SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SetorEmailAccountUpdateArgs>(args: SelectSubset<T, SetorEmailAccountUpdateArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SetorEmailAccounts.
+     * @param {SetorEmailAccountDeleteManyArgs} args - Arguments to filter SetorEmailAccounts to delete.
+     * @example
+     * // Delete a few SetorEmailAccounts
+     * const { count } = await prisma.setorEmailAccount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SetorEmailAccountDeleteManyArgs>(args?: SelectSubset<T, SetorEmailAccountDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SetorEmailAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SetorEmailAccounts
+     * const setorEmailAccount = await prisma.setorEmailAccount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SetorEmailAccountUpdateManyArgs>(args: SelectSubset<T, SetorEmailAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SetorEmailAccount.
+     * @param {SetorEmailAccountUpsertArgs} args - Arguments to update or create a SetorEmailAccount.
+     * @example
+     * // Update or create a SetorEmailAccount
+     * const setorEmailAccount = await prisma.setorEmailAccount.upsert({
+     *   create: {
+     *     // ... data to create a SetorEmailAccount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SetorEmailAccount we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SetorEmailAccountUpsertArgs>(args: SelectSubset<T, SetorEmailAccountUpsertArgs<ExtArgs>>): Prisma__SetorEmailAccountClient<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SetorEmailAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountCountArgs} args - Arguments to filter SetorEmailAccounts to count.
+     * @example
+     * // Count the number of SetorEmailAccounts
+     * const count = await prisma.setorEmailAccount.count({
+     *   where: {
+     *     // ... the filter for the SetorEmailAccounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends SetorEmailAccountCountArgs>(
+      args?: Subset<T, SetorEmailAccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SetorEmailAccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SetorEmailAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SetorEmailAccountAggregateArgs>(args: Subset<T, SetorEmailAccountAggregateArgs>): Prisma.PrismaPromise<GetSetorEmailAccountAggregateType<T>>
+
+    /**
+     * Group by SetorEmailAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SetorEmailAccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SetorEmailAccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SetorEmailAccountGroupByArgs['orderBy'] }
+        : { orderBy?: SetorEmailAccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SetorEmailAccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSetorEmailAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SetorEmailAccount model
+   */
+  readonly fields: SetorEmailAccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SetorEmailAccount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SetorEmailAccountClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    setor<T extends SetorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SetorDefaultArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    account<T extends EmailAccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmailAccountDefaultArgs<ExtArgs>>): Prisma__EmailAccountClient<$Result.GetResult<Prisma.$EmailAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SetorEmailAccount model
+   */ 
+  interface SetorEmailAccountFieldRefs {
+    readonly id: FieldRef<"SetorEmailAccount", 'String'>
+    readonly setorId: FieldRef<"SetorEmailAccount", 'String'>
+    readonly accountId: FieldRef<"SetorEmailAccount", 'String'>
+    readonly createdAt: FieldRef<"SetorEmailAccount", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SetorEmailAccount findUnique
+   */
+  export type SetorEmailAccountFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorEmailAccount to fetch.
+     */
+    where: SetorEmailAccountWhereUniqueInput
+  }
+
+  /**
+   * SetorEmailAccount findUniqueOrThrow
+   */
+  export type SetorEmailAccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorEmailAccount to fetch.
+     */
+    where: SetorEmailAccountWhereUniqueInput
+  }
+
+  /**
+   * SetorEmailAccount findFirst
+   */
+  export type SetorEmailAccountFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorEmailAccount to fetch.
+     */
+    where?: SetorEmailAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorEmailAccounts to fetch.
+     */
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorEmailAccounts.
+     */
+    cursor?: SetorEmailAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorEmailAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorEmailAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorEmailAccounts.
+     */
+    distinct?: SetorEmailAccountScalarFieldEnum | SetorEmailAccountScalarFieldEnum[]
+  }
+
+  /**
+   * SetorEmailAccount findFirstOrThrow
+   */
+  export type SetorEmailAccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorEmailAccount to fetch.
+     */
+    where?: SetorEmailAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorEmailAccounts to fetch.
+     */
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SetorEmailAccounts.
+     */
+    cursor?: SetorEmailAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorEmailAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorEmailAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SetorEmailAccounts.
+     */
+    distinct?: SetorEmailAccountScalarFieldEnum | SetorEmailAccountScalarFieldEnum[]
+  }
+
+  /**
+   * SetorEmailAccount findMany
+   */
+  export type SetorEmailAccountFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which SetorEmailAccounts to fetch.
+     */
+    where?: SetorEmailAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SetorEmailAccounts to fetch.
+     */
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SetorEmailAccounts.
+     */
+    cursor?: SetorEmailAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SetorEmailAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SetorEmailAccounts.
+     */
+    skip?: number
+    distinct?: SetorEmailAccountScalarFieldEnum | SetorEmailAccountScalarFieldEnum[]
+  }
+
+  /**
+   * SetorEmailAccount create
+   */
+  export type SetorEmailAccountCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SetorEmailAccount.
+     */
+    data: XOR<SetorEmailAccountCreateInput, SetorEmailAccountUncheckedCreateInput>
+  }
+
+  /**
+   * SetorEmailAccount createMany
+   */
+  export type SetorEmailAccountCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SetorEmailAccounts.
+     */
+    data: SetorEmailAccountCreateManyInput | SetorEmailAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SetorEmailAccount createManyAndReturn
+   */
+  export type SetorEmailAccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SetorEmailAccounts.
+     */
+    data: SetorEmailAccountCreateManyInput | SetorEmailAccountCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SetorEmailAccount update
+   */
+  export type SetorEmailAccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SetorEmailAccount.
+     */
+    data: XOR<SetorEmailAccountUpdateInput, SetorEmailAccountUncheckedUpdateInput>
+    /**
+     * Choose, which SetorEmailAccount to update.
+     */
+    where: SetorEmailAccountWhereUniqueInput
+  }
+
+  /**
+   * SetorEmailAccount updateMany
+   */
+  export type SetorEmailAccountUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SetorEmailAccounts.
+     */
+    data: XOR<SetorEmailAccountUpdateManyMutationInput, SetorEmailAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which SetorEmailAccounts to update
+     */
+    where?: SetorEmailAccountWhereInput
+  }
+
+  /**
+   * SetorEmailAccount upsert
+   */
+  export type SetorEmailAccountUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SetorEmailAccount to update in case it exists.
+     */
+    where: SetorEmailAccountWhereUniqueInput
+    /**
+     * In case the SetorEmailAccount found by the `where` argument doesn't exist, create a new SetorEmailAccount with this data.
+     */
+    create: XOR<SetorEmailAccountCreateInput, SetorEmailAccountUncheckedCreateInput>
+    /**
+     * In case the SetorEmailAccount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SetorEmailAccountUpdateInput, SetorEmailAccountUncheckedUpdateInput>
+  }
+
+  /**
+   * SetorEmailAccount delete
+   */
+  export type SetorEmailAccountDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    /**
+     * Filter which SetorEmailAccount to delete.
+     */
+    where: SetorEmailAccountWhereUniqueInput
+  }
+
+  /**
+   * SetorEmailAccount deleteMany
+   */
+  export type SetorEmailAccountDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SetorEmailAccounts to delete
+     */
+    where?: SetorEmailAccountWhereInput
+  }
+
+  /**
+   * SetorEmailAccount without action
+   */
+  export type SetorEmailAccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
   }
 
 
@@ -107736,6 +108791,7 @@ export namespace Prisma {
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     emails?: boolean | EmailAccount$emailsArgs<ExtArgs>
+    setores?: boolean | EmailAccount$setoresArgs<ExtArgs>
     _count?: boolean | EmailAccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emailAccount"]>
 
@@ -107803,6 +108859,7 @@ export namespace Prisma {
   export type EmailAccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     emails?: boolean | EmailAccount$emailsArgs<ExtArgs>
+    setores?: boolean | EmailAccount$setoresArgs<ExtArgs>
     _count?: boolean | EmailAccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmailAccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -107814,6 +108871,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       emails: Prisma.$InboxEmailPayload<ExtArgs>[]
+      setores: Prisma.$SetorEmailAccountPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -108209,6 +109267,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     emails<T extends EmailAccount$emailsArgs<ExtArgs> = {}>(args?: Subset<T, EmailAccount$emailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailPayload<ExtArgs>, T, "findMany"> | Null>
+    setores<T extends EmailAccount$setoresArgs<ExtArgs> = {}>(args?: Subset<T, EmailAccount$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorEmailAccountPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -108600,6 +109659,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InboxEmailScalarFieldEnum | InboxEmailScalarFieldEnum[]
+  }
+
+  /**
+   * EmailAccount.setores
+   */
+  export type EmailAccount$setoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SetorEmailAccount
+     */
+    select?: SetorEmailAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SetorEmailAccountInclude<ExtArgs> | null
+    where?: SetorEmailAccountWhereInput
+    orderBy?: SetorEmailAccountOrderByWithRelationInput | SetorEmailAccountOrderByWithRelationInput[]
+    cursor?: SetorEmailAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SetorEmailAccountScalarFieldEnum | SetorEmailAccountScalarFieldEnum[]
   }
 
   /**
@@ -129223,6 +130302,16 @@ export namespace Prisma {
   export type SetorScalarFieldEnum = (typeof SetorScalarFieldEnum)[keyof typeof SetorScalarFieldEnum]
 
 
+  export const SetorEmailAccountScalarFieldEnum: {
+    id: 'id',
+    setorId: 'setorId',
+    accountId: 'accountId',
+    createdAt: 'createdAt'
+  };
+
+  export type SetorEmailAccountScalarFieldEnum = (typeof SetorEmailAccountScalarFieldEnum)[keyof typeof SetorEmailAccountScalarFieldEnum]
+
+
   export const SetorClickupListScalarFieldEnum: {
     id: 'id',
     setorId: 'setorId',
@@ -134555,6 +135644,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
+    emailAccounts?: SetorEmailAccountListRelationFilter
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
     clickupLists?: SetorClickupListListRelationFilter
@@ -134589,6 +135679,7 @@ export namespace Prisma {
     company?: CompanyOrderByWithRelationInput
     users?: SetorUserOrderByRelationAggregateInput
     instances?: SetorInstanceOrderByRelationAggregateInput
+    emailAccounts?: SetorEmailAccountOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
     clickupLists?: SetorClickupListOrderByRelationAggregateInput
@@ -134626,6 +135717,7 @@ export namespace Prisma {
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     users?: SetorUserListRelationFilter
     instances?: SetorInstanceListRelationFilter
+    emailAccounts?: SetorEmailAccountListRelationFilter
     tickets?: TicketListRelationFilter
     conversations?: ConversationListRelationFilter
     clickupLists?: SetorClickupListListRelationFilter
@@ -134690,6 +135782,60 @@ export namespace Prisma {
     canViewLinks?: BoolWithAggregatesFilter<"Setor"> | boolean
     canViewCofre?: BoolWithAggregatesFilter<"Setor"> | boolean
     canViewEmail?: BoolWithAggregatesFilter<"Setor"> | boolean
+  }
+
+  export type SetorEmailAccountWhereInput = {
+    AND?: SetorEmailAccountWhereInput | SetorEmailAccountWhereInput[]
+    OR?: SetorEmailAccountWhereInput[]
+    NOT?: SetorEmailAccountWhereInput | SetorEmailAccountWhereInput[]
+    id?: StringFilter<"SetorEmailAccount"> | string
+    setorId?: StringFilter<"SetorEmailAccount"> | string
+    accountId?: StringFilter<"SetorEmailAccount"> | string
+    createdAt?: DateTimeFilter<"SetorEmailAccount"> | Date | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    account?: XOR<EmailAccountRelationFilter, EmailAccountWhereInput>
+  }
+
+  export type SetorEmailAccountOrderByWithRelationInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    accountId?: SortOrder
+    createdAt?: SortOrder
+    setor?: SetorOrderByWithRelationInput
+    account?: EmailAccountOrderByWithRelationInput
+  }
+
+  export type SetorEmailAccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    setorId_accountId?: SetorEmailAccountSetorIdAccountIdCompoundUniqueInput
+    AND?: SetorEmailAccountWhereInput | SetorEmailAccountWhereInput[]
+    OR?: SetorEmailAccountWhereInput[]
+    NOT?: SetorEmailAccountWhereInput | SetorEmailAccountWhereInput[]
+    setorId?: StringFilter<"SetorEmailAccount"> | string
+    accountId?: StringFilter<"SetorEmailAccount"> | string
+    createdAt?: DateTimeFilter<"SetorEmailAccount"> | Date | string
+    setor?: XOR<SetorRelationFilter, SetorWhereInput>
+    account?: XOR<EmailAccountRelationFilter, EmailAccountWhereInput>
+  }, "id" | "setorId_accountId">
+
+  export type SetorEmailAccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    accountId?: SortOrder
+    createdAt?: SortOrder
+    _count?: SetorEmailAccountCountOrderByAggregateInput
+    _max?: SetorEmailAccountMaxOrderByAggregateInput
+    _min?: SetorEmailAccountMinOrderByAggregateInput
+  }
+
+  export type SetorEmailAccountScalarWhereWithAggregatesInput = {
+    AND?: SetorEmailAccountScalarWhereWithAggregatesInput | SetorEmailAccountScalarWhereWithAggregatesInput[]
+    OR?: SetorEmailAccountScalarWhereWithAggregatesInput[]
+    NOT?: SetorEmailAccountScalarWhereWithAggregatesInput | SetorEmailAccountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SetorEmailAccount"> | string
+    setorId?: StringWithAggregatesFilter<"SetorEmailAccount"> | string
+    accountId?: StringWithAggregatesFilter<"SetorEmailAccount"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SetorEmailAccount"> | Date | string
   }
 
   export type SetorClickupListWhereInput = {
@@ -139891,6 +141037,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EmailAccount"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     emails?: InboxEmailListRelationFilter
+    setores?: SetorEmailAccountListRelationFilter
   }
 
   export type EmailAccountOrderByWithRelationInput = {
@@ -139923,6 +141070,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     emails?: InboxEmailOrderByRelationAggregateInput
+    setores?: SetorEmailAccountOrderByRelationAggregateInput
   }
 
   export type EmailAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -139958,6 +141106,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EmailAccount"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     emails?: InboxEmailListRelationFilter
+    setores?: SetorEmailAccountListRelationFilter
   }, "id">
 
   export type EmailAccountOrderByWithAggregationInput = {
@@ -145311,6 +146460,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
@@ -145344,6 +146494,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
@@ -145377,6 +146528,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
@@ -145410,6 +146562,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
@@ -145494,6 +146647,53 @@ export namespace Prisma {
     canViewLinks?: BoolFieldUpdateOperationsInput | boolean
     canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SetorEmailAccountCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    setor: SetorCreateNestedOneWithoutEmailAccountsInput
+    account: EmailAccountCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorEmailAccountUncheckedCreateInput = {
+    id?: string
+    setorId: string
+    accountId: string
+    createdAt?: Date | string
+  }
+
+  export type SetorEmailAccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutEmailAccountsNestedInput
+    account?: EmailAccountUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorEmailAccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorEmailAccountCreateManyInput = {
+    id?: string
+    setorId: string
+    accountId: string
+    createdAt?: Date | string
+  }
+
+  export type SetorEmailAccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorEmailAccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SetorClickupListCreateInput = {
@@ -151247,6 +152447,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutEmailAccountsInput
     emails?: InboxEmailCreateNestedManyWithoutAccountInput
+    setores?: SetorEmailAccountCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountUncheckedCreateInput = {
@@ -151278,6 +152479,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     emails?: InboxEmailUncheckedCreateNestedManyWithoutAccountInput
+    setores?: SetorEmailAccountUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountUpdateInput = {
@@ -151309,6 +152511,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutEmailAccountsNestedInput
     emails?: InboxEmailUpdateManyWithoutAccountNestedInput
+    setores?: SetorEmailAccountUpdateManyWithoutAccountNestedInput
   }
 
   export type EmailAccountUncheckedUpdateInput = {
@@ -151340,6 +152543,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     emails?: InboxEmailUncheckedUpdateManyWithoutAccountNestedInput
+    setores?: SetorEmailAccountUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type EmailAccountCreateManyInput = {
@@ -156429,10 +157633,20 @@ export namespace Prisma {
     ticketId?: SortOrder
   }
 
+  export type SetorEmailAccountListRelationFilter = {
+    every?: SetorEmailAccountWhereInput
+    some?: SetorEmailAccountWhereInput
+    none?: SetorEmailAccountWhereInput
+  }
+
   export type AssistantRouteListRelationFilter = {
     every?: AssistantRouteWhereInput
     some?: AssistantRouteWhereInput
     none?: AssistantRouteWhereInput
+  }
+
+  export type SetorEmailAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AssistantRouteOrderByRelationAggregateInput = {
@@ -156520,16 +157734,47 @@ export namespace Prisma {
     canViewEmail?: SortOrder
   }
 
+  export type SetorRelationFilter = {
+    is?: SetorWhereInput
+    isNot?: SetorWhereInput
+  }
+
+  export type EmailAccountRelationFilter = {
+    is?: EmailAccountWhereInput
+    isNot?: EmailAccountWhereInput
+  }
+
+  export type SetorEmailAccountSetorIdAccountIdCompoundUniqueInput = {
+    setorId: string
+    accountId: string
+  }
+
+  export type SetorEmailAccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    accountId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SetorEmailAccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    accountId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SetorEmailAccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    setorId?: SortOrder
+    accountId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumProjectStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ProjectStatus | EnumProjectStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ProjectStatus[] | ListEnumProjectStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ProjectStatus[] | ListEnumProjectStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumProjectStatusFilter<$PrismaModel> | $Enums.ProjectStatus
-  }
-
-  export type SetorRelationFilter = {
-    is?: SetorWhereInput
-    isNot?: SetorWhereInput
   }
 
   export type ServiceNullableRelationFilter = {
@@ -167727,6 +168972,13 @@ export namespace Prisma {
     connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
   }
 
+  export type SetorEmailAccountCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput> | SetorEmailAccountCreateWithoutSetorInput[] | SetorEmailAccountUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutSetorInput | SetorEmailAccountCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorEmailAccountCreateManySetorInputEnvelope
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+  }
+
   export type TicketCreateNestedManyWithoutSetorInput = {
     create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
@@ -167767,6 +169019,13 @@ export namespace Prisma {
     connectOrCreate?: SetorInstanceCreateOrConnectWithoutSetorInput | SetorInstanceCreateOrConnectWithoutSetorInput[]
     createMany?: SetorInstanceCreateManySetorInputEnvelope
     connect?: SetorInstanceWhereUniqueInput | SetorInstanceWhereUniqueInput[]
+  }
+
+  export type SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput> | SetorEmailAccountCreateWithoutSetorInput[] | SetorEmailAccountUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutSetorInput | SetorEmailAccountCreateOrConnectWithoutSetorInput[]
+    createMany?: SetorEmailAccountCreateManySetorInputEnvelope
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
   }
 
   export type TicketUncheckedCreateNestedManyWithoutSetorInput = {
@@ -167831,6 +169090,20 @@ export namespace Prisma {
     update?: SetorInstanceUpdateWithWhereUniqueWithoutSetorInput | SetorInstanceUpdateWithWhereUniqueWithoutSetorInput[]
     updateMany?: SetorInstanceUpdateManyWithWhereWithoutSetorInput | SetorInstanceUpdateManyWithWhereWithoutSetorInput[]
     deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
+  }
+
+  export type SetorEmailAccountUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput> | SetorEmailAccountCreateWithoutSetorInput[] | SetorEmailAccountUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutSetorInput | SetorEmailAccountCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorEmailAccountUpsertWithWhereUniqueWithoutSetorInput | SetorEmailAccountUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorEmailAccountCreateManySetorInputEnvelope
+    set?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    disconnect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    delete?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    update?: SetorEmailAccountUpdateWithWhereUniqueWithoutSetorInput | SetorEmailAccountUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorEmailAccountUpdateManyWithWhereWithoutSetorInput | SetorEmailAccountUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
   }
 
   export type TicketUpdateManyWithoutSetorNestedInput = {
@@ -167917,6 +169190,20 @@ export namespace Prisma {
     deleteMany?: SetorInstanceScalarWhereInput | SetorInstanceScalarWhereInput[]
   }
 
+  export type SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput> | SetorEmailAccountCreateWithoutSetorInput[] | SetorEmailAccountUncheckedCreateWithoutSetorInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutSetorInput | SetorEmailAccountCreateOrConnectWithoutSetorInput[]
+    upsert?: SetorEmailAccountUpsertWithWhereUniqueWithoutSetorInput | SetorEmailAccountUpsertWithWhereUniqueWithoutSetorInput[]
+    createMany?: SetorEmailAccountCreateManySetorInputEnvelope
+    set?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    disconnect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    delete?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    update?: SetorEmailAccountUpdateWithWhereUniqueWithoutSetorInput | SetorEmailAccountUpdateWithWhereUniqueWithoutSetorInput[]
+    updateMany?: SetorEmailAccountUpdateManyWithWhereWithoutSetorInput | SetorEmailAccountUpdateManyWithWhereWithoutSetorInput[]
+    deleteMany?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutSetorNestedInput = {
     create?: XOR<TicketCreateWithoutSetorInput, TicketUncheckedCreateWithoutSetorInput> | TicketCreateWithoutSetorInput[] | TicketUncheckedCreateWithoutSetorInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutSetorInput | TicketCreateOrConnectWithoutSetorInput[]
@@ -167971,6 +169258,34 @@ export namespace Prisma {
     update?: AssistantRouteUpdateWithWhereUniqueWithoutSetorInput | AssistantRouteUpdateWithWhereUniqueWithoutSetorInput[]
     updateMany?: AssistantRouteUpdateManyWithWhereWithoutSetorInput | AssistantRouteUpdateManyWithWhereWithoutSetorInput[]
     deleteMany?: AssistantRouteScalarWhereInput | AssistantRouteScalarWhereInput[]
+  }
+
+  export type SetorCreateNestedOneWithoutEmailAccountsInput = {
+    create?: XOR<SetorCreateWithoutEmailAccountsInput, SetorUncheckedCreateWithoutEmailAccountsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutEmailAccountsInput
+    connect?: SetorWhereUniqueInput
+  }
+
+  export type EmailAccountCreateNestedOneWithoutSetoresInput = {
+    create?: XOR<EmailAccountCreateWithoutSetoresInput, EmailAccountUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: EmailAccountCreateOrConnectWithoutSetoresInput
+    connect?: EmailAccountWhereUniqueInput
+  }
+
+  export type SetorUpdateOneRequiredWithoutEmailAccountsNestedInput = {
+    create?: XOR<SetorCreateWithoutEmailAccountsInput, SetorUncheckedCreateWithoutEmailAccountsInput>
+    connectOrCreate?: SetorCreateOrConnectWithoutEmailAccountsInput
+    upsert?: SetorUpsertWithoutEmailAccountsInput
+    connect?: SetorWhereUniqueInput
+    update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutEmailAccountsInput, SetorUpdateWithoutEmailAccountsInput>, SetorUncheckedUpdateWithoutEmailAccountsInput>
+  }
+
+  export type EmailAccountUpdateOneRequiredWithoutSetoresNestedInput = {
+    create?: XOR<EmailAccountCreateWithoutSetoresInput, EmailAccountUncheckedCreateWithoutSetoresInput>
+    connectOrCreate?: EmailAccountCreateOrConnectWithoutSetoresInput
+    upsert?: EmailAccountUpsertWithoutSetoresInput
+    connect?: EmailAccountWhereUniqueInput
+    update?: XOR<XOR<EmailAccountUpdateToOneWithWhereWithoutSetoresInput, EmailAccountUpdateWithoutSetoresInput>, EmailAccountUncheckedUpdateWithoutSetoresInput>
   }
 
   export type SetorCreateNestedOneWithoutClickupListsInput = {
@@ -170344,11 +171659,25 @@ export namespace Prisma {
     connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
   }
 
+  export type SetorEmailAccountCreateNestedManyWithoutAccountInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput> | SetorEmailAccountCreateWithoutAccountInput[] | SetorEmailAccountUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutAccountInput | SetorEmailAccountCreateOrConnectWithoutAccountInput[]
+    createMany?: SetorEmailAccountCreateManyAccountInputEnvelope
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+  }
+
   export type InboxEmailUncheckedCreateNestedManyWithoutAccountInput = {
     create?: XOR<InboxEmailCreateWithoutAccountInput, InboxEmailUncheckedCreateWithoutAccountInput> | InboxEmailCreateWithoutAccountInput[] | InboxEmailUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: InboxEmailCreateOrConnectWithoutAccountInput | InboxEmailCreateOrConnectWithoutAccountInput[]
     createMany?: InboxEmailCreateManyAccountInputEnvelope
     connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+  }
+
+  export type SetorEmailAccountUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput> | SetorEmailAccountCreateWithoutAccountInput[] | SetorEmailAccountUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutAccountInput | SetorEmailAccountCreateOrConnectWithoutAccountInput[]
+    createMany?: SetorEmailAccountCreateManyAccountInputEnvelope
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutEmailAccountsNestedInput = {
@@ -170373,6 +171702,20 @@ export namespace Prisma {
     deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
   }
 
+  export type SetorEmailAccountUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput> | SetorEmailAccountCreateWithoutAccountInput[] | SetorEmailAccountUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutAccountInput | SetorEmailAccountCreateOrConnectWithoutAccountInput[]
+    upsert?: SetorEmailAccountUpsertWithWhereUniqueWithoutAccountInput | SetorEmailAccountUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: SetorEmailAccountCreateManyAccountInputEnvelope
+    set?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    disconnect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    delete?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    update?: SetorEmailAccountUpdateWithWhereUniqueWithoutAccountInput | SetorEmailAccountUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: SetorEmailAccountUpdateManyWithWhereWithoutAccountInput | SetorEmailAccountUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
+  }
+
   export type InboxEmailUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<InboxEmailCreateWithoutAccountInput, InboxEmailUncheckedCreateWithoutAccountInput> | InboxEmailCreateWithoutAccountInput[] | InboxEmailUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: InboxEmailCreateOrConnectWithoutAccountInput | InboxEmailCreateOrConnectWithoutAccountInput[]
@@ -170385,6 +171728,20 @@ export namespace Prisma {
     update?: InboxEmailUpdateWithWhereUniqueWithoutAccountInput | InboxEmailUpdateWithWhereUniqueWithoutAccountInput[]
     updateMany?: InboxEmailUpdateManyWithWhereWithoutAccountInput | InboxEmailUpdateManyWithWhereWithoutAccountInput[]
     deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
+  }
+
+  export type SetorEmailAccountUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput> | SetorEmailAccountCreateWithoutAccountInput[] | SetorEmailAccountUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: SetorEmailAccountCreateOrConnectWithoutAccountInput | SetorEmailAccountCreateOrConnectWithoutAccountInput[]
+    upsert?: SetorEmailAccountUpsertWithWhereUniqueWithoutAccountInput | SetorEmailAccountUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: SetorEmailAccountCreateManyAccountInputEnvelope
+    set?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    disconnect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    delete?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    connect?: SetorEmailAccountWhereUniqueInput | SetorEmailAccountWhereUniqueInput[]
+    update?: SetorEmailAccountUpdateWithWhereUniqueWithoutAccountInput | SetorEmailAccountUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: SetorEmailAccountUpdateManyWithWhereWithoutAccountInput | SetorEmailAccountUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutInboxEmailsInput = {
@@ -176700,6 +178057,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     emails?: InboxEmailCreateNestedManyWithoutAccountInput
+    setores?: SetorEmailAccountCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountUncheckedCreateWithoutCompanyInput = {
@@ -176730,6 +178088,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     emails?: InboxEmailUncheckedCreateNestedManyWithoutAccountInput
+    setores?: SetorEmailAccountUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountCreateOrConnectWithoutCompanyInput = {
@@ -177398,6 +178757,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
@@ -177430,6 +178790,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
@@ -192363,6 +193724,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
@@ -192395,6 +193757,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
@@ -193007,6 +194370,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
@@ -193039,6 +194403,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
@@ -195113,6 +196478,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
@@ -195145,6 +196511,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
@@ -196088,6 +197455,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
@@ -196120,6 +197488,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
@@ -196680,6 +198049,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorEmailAccountCreateWithoutSetorInput = {
+    id?: string
+    createdAt?: Date | string
+    account: EmailAccountCreateNestedOneWithoutSetoresInput
+  }
+
+  export type SetorEmailAccountUncheckedCreateWithoutSetorInput = {
+    id?: string
+    accountId: string
+    createdAt?: Date | string
+  }
+
+  export type SetorEmailAccountCreateOrConnectWithoutSetorInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    create: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorEmailAccountCreateManySetorInputEnvelope = {
+    data: SetorEmailAccountCreateManySetorInput | SetorEmailAccountCreateManySetorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TicketCreateWithoutSetorInput = {
     id?: string
     title: string
@@ -197193,6 +198584,32 @@ export namespace Prisma {
     data: XOR<SetorInstanceUpdateManyMutationInput, SetorInstanceUncheckedUpdateManyWithoutSetorInput>
   }
 
+  export type SetorEmailAccountUpsertWithWhereUniqueWithoutSetorInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    update: XOR<SetorEmailAccountUpdateWithoutSetorInput, SetorEmailAccountUncheckedUpdateWithoutSetorInput>
+    create: XOR<SetorEmailAccountCreateWithoutSetorInput, SetorEmailAccountUncheckedCreateWithoutSetorInput>
+  }
+
+  export type SetorEmailAccountUpdateWithWhereUniqueWithoutSetorInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    data: XOR<SetorEmailAccountUpdateWithoutSetorInput, SetorEmailAccountUncheckedUpdateWithoutSetorInput>
+  }
+
+  export type SetorEmailAccountUpdateManyWithWhereWithoutSetorInput = {
+    where: SetorEmailAccountScalarWhereInput
+    data: XOR<SetorEmailAccountUpdateManyMutationInput, SetorEmailAccountUncheckedUpdateManyWithoutSetorInput>
+  }
+
+  export type SetorEmailAccountScalarWhereInput = {
+    AND?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
+    OR?: SetorEmailAccountScalarWhereInput[]
+    NOT?: SetorEmailAccountScalarWhereInput | SetorEmailAccountScalarWhereInput[]
+    id?: StringFilter<"SetorEmailAccount"> | string
+    setorId?: StringFilter<"SetorEmailAccount"> | string
+    accountId?: StringFilter<"SetorEmailAccount"> | string
+    createdAt?: DateTimeFilter<"SetorEmailAccount"> | Date | string
+  }
+
   export type TicketUpsertWithWhereUniqueWithoutSetorInput = {
     where: TicketWhereUniqueInput
     update: XOR<TicketUpdateWithoutSetorInput, TicketUncheckedUpdateWithoutSetorInput>
@@ -197272,6 +198689,294 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AssistantRoute"> | Date | string
   }
 
+  export type SetorCreateWithoutEmailAccountsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
+    canViewEmail?: boolean
+    company: CompanyCreateNestedOneWithoutSetoresInput
+    users?: SetorUserCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    tickets?: TicketCreateNestedManyWithoutSetorInput
+    conversations?: ConversationCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorUncheckedCreateWithoutEmailAccountsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    canManageUsers?: boolean
+    canViewLeads?: boolean
+    canCreateLeads?: boolean
+    canViewTickets?: boolean
+    canCreateTickets?: boolean
+    canViewConfig?: boolean
+    canUseAI?: boolean
+    canViewInbox?: boolean
+    canSendMessages?: boolean
+    canViewCompanies?: boolean
+    canCreateCompanies?: boolean
+    canViewCalendario?: boolean
+    canViewMarketing?: boolean
+    canViewCampanhas?: boolean
+    canViewProjetos?: boolean
+    canViewRanking?: boolean
+    canViewLinks?: boolean
+    canViewCofre?: boolean
+    canViewEmail?: boolean
+    users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
+    clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
+    assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
+  }
+
+  export type SetorCreateOrConnectWithoutEmailAccountsInput = {
+    where: SetorWhereUniqueInput
+    create: XOR<SetorCreateWithoutEmailAccountsInput, SetorUncheckedCreateWithoutEmailAccountsInput>
+  }
+
+  export type EmailAccountCreateWithoutSetoresInput = {
+    id?: string
+    label?: string | null
+    fromName: string
+    fromEmail: string
+    smtpHost: string
+    smtpPort?: number
+    smtpSecure?: boolean
+    smtpUser: string
+    smtpPassEnc: string
+    imapHost?: string | null
+    imapPort?: number
+    imapSecure?: boolean
+    imapUser?: string | null
+    imapPassEnc?: string | null
+    active?: boolean
+    lastUid?: number | null
+    uidValidity?: bigint | number | null
+    lastSyncedAt?: Date | string | null
+    sentLastUid?: number | null
+    sentUidValidity?: bigint | number | null
+    smtpVerified?: boolean
+    imapVerified?: boolean
+    lastVerifiedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutEmailAccountsInput
+    emails?: InboxEmailCreateNestedManyWithoutAccountInput
+  }
+
+  export type EmailAccountUncheckedCreateWithoutSetoresInput = {
+    id?: string
+    companyId: string
+    label?: string | null
+    fromName: string
+    fromEmail: string
+    smtpHost: string
+    smtpPort?: number
+    smtpSecure?: boolean
+    smtpUser: string
+    smtpPassEnc: string
+    imapHost?: string | null
+    imapPort?: number
+    imapSecure?: boolean
+    imapUser?: string | null
+    imapPassEnc?: string | null
+    active?: boolean
+    lastUid?: number | null
+    uidValidity?: bigint | number | null
+    lastSyncedAt?: Date | string | null
+    sentLastUid?: number | null
+    sentUidValidity?: bigint | number | null
+    smtpVerified?: boolean
+    imapVerified?: boolean
+    lastVerifiedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emails?: InboxEmailUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type EmailAccountCreateOrConnectWithoutSetoresInput = {
+    where: EmailAccountWhereUniqueInput
+    create: XOR<EmailAccountCreateWithoutSetoresInput, EmailAccountUncheckedCreateWithoutSetoresInput>
+  }
+
+  export type SetorUpsertWithoutEmailAccountsInput = {
+    update: XOR<SetorUpdateWithoutEmailAccountsInput, SetorUncheckedUpdateWithoutEmailAccountsInput>
+    create: XOR<SetorCreateWithoutEmailAccountsInput, SetorUncheckedCreateWithoutEmailAccountsInput>
+    where?: SetorWhereInput
+  }
+
+  export type SetorUpdateToOneWithWhereWithoutEmailAccountsInput = {
+    where?: SetorWhereInput
+    data: XOR<SetorUpdateWithoutEmailAccountsInput, SetorUncheckedUpdateWithoutEmailAccountsInput>
+  }
+
+  export type SetorUpdateWithoutEmailAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
+    canViewEmail?: BoolFieldUpdateOperationsInput | boolean
+    company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
+    users?: SetorUserUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
+  }
+
+  export type SetorUncheckedUpdateWithoutEmailAccountsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    canManageUsers?: BoolFieldUpdateOperationsInput | boolean
+    canViewLeads?: BoolFieldUpdateOperationsInput | boolean
+    canCreateLeads?: BoolFieldUpdateOperationsInput | boolean
+    canViewTickets?: BoolFieldUpdateOperationsInput | boolean
+    canCreateTickets?: BoolFieldUpdateOperationsInput | boolean
+    canViewConfig?: BoolFieldUpdateOperationsInput | boolean
+    canUseAI?: BoolFieldUpdateOperationsInput | boolean
+    canViewInbox?: BoolFieldUpdateOperationsInput | boolean
+    canSendMessages?: BoolFieldUpdateOperationsInput | boolean
+    canViewCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canCreateCompanies?: BoolFieldUpdateOperationsInput | boolean
+    canViewCalendario?: BoolFieldUpdateOperationsInput | boolean
+    canViewMarketing?: BoolFieldUpdateOperationsInput | boolean
+    canViewCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    canViewProjetos?: BoolFieldUpdateOperationsInput | boolean
+    canViewRanking?: BoolFieldUpdateOperationsInput | boolean
+    canViewLinks?: BoolFieldUpdateOperationsInput | boolean
+    canViewCofre?: BoolFieldUpdateOperationsInput | boolean
+    canViewEmail?: BoolFieldUpdateOperationsInput | boolean
+    users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
+    clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
+    assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type EmailAccountUpsertWithoutSetoresInput = {
+    update: XOR<EmailAccountUpdateWithoutSetoresInput, EmailAccountUncheckedUpdateWithoutSetoresInput>
+    create: XOR<EmailAccountCreateWithoutSetoresInput, EmailAccountUncheckedCreateWithoutSetoresInput>
+    where?: EmailAccountWhereInput
+  }
+
+  export type EmailAccountUpdateToOneWithWhereWithoutSetoresInput = {
+    where?: EmailAccountWhereInput
+    data: XOR<EmailAccountUpdateWithoutSetoresInput, EmailAccountUncheckedUpdateWithoutSetoresInput>
+  }
+
+  export type EmailAccountUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: IntFieldUpdateOperationsInput | number
+    smtpSecure?: BoolFieldUpdateOperationsInput | boolean
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassEnc?: StringFieldUpdateOperationsInput | string
+    imapHost?: NullableStringFieldUpdateOperationsInput | string | null
+    imapPort?: IntFieldUpdateOperationsInput | number
+    imapSecure?: BoolFieldUpdateOperationsInput | boolean
+    imapUser?: NullableStringFieldUpdateOperationsInput | string | null
+    imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    lastUid?: NullableIntFieldUpdateOperationsInput | number | null
+    uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentLastUid?: NullableIntFieldUpdateOperationsInput | number | null
+    sentUidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    smtpVerified?: BoolFieldUpdateOperationsInput | boolean
+    imapVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutEmailAccountsNestedInput
+    emails?: InboxEmailUpdateManyWithoutAccountNestedInput
+  }
+
+  export type EmailAccountUncheckedUpdateWithoutSetoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: IntFieldUpdateOperationsInput | number
+    smtpSecure?: BoolFieldUpdateOperationsInput | boolean
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassEnc?: StringFieldUpdateOperationsInput | string
+    imapHost?: NullableStringFieldUpdateOperationsInput | string | null
+    imapPort?: IntFieldUpdateOperationsInput | number
+    imapSecure?: BoolFieldUpdateOperationsInput | boolean
+    imapUser?: NullableStringFieldUpdateOperationsInput | string | null
+    imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    lastUid?: NullableIntFieldUpdateOperationsInput | number | null
+    uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    lastSyncedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentLastUid?: NullableIntFieldUpdateOperationsInput | number | null
+    sentUidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    smtpVerified?: BoolFieldUpdateOperationsInput | boolean
+    imapVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emails?: InboxEmailUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
   export type SetorCreateWithoutClickupListsInput = {
     id?: string
     name: string
@@ -197299,6 +199004,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteCreateNestedManyWithoutSetorInput
@@ -197331,6 +199037,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     assistantRoutes?: AssistantRouteUncheckedCreateNestedManyWithoutSetorInput
@@ -197961,6 +199668,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUpdateManyWithoutSetorNestedInput
@@ -197993,6 +199701,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
@@ -200982,6 +202691,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
@@ -201014,6 +202724,7 @@ export namespace Prisma {
     canViewCofre?: boolean
     canViewEmail?: boolean
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
@@ -201149,6 +202860,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
@@ -201181,6 +202893,7 @@ export namespace Prisma {
     canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
@@ -201306,6 +203019,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
@@ -201338,6 +203052,7 @@ export namespace Prisma {
     canViewCofre?: boolean
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
@@ -201427,6 +203142,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
@@ -201459,6 +203175,7 @@ export namespace Prisma {
     canViewCofre?: BoolFieldUpdateOperationsInput | boolean
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
@@ -223918,6 +225635,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SetorEmailAccountCreateWithoutAccountInput = {
+    id?: string
+    createdAt?: Date | string
+    setor: SetorCreateNestedOneWithoutEmailAccountsInput
+  }
+
+  export type SetorEmailAccountUncheckedCreateWithoutAccountInput = {
+    id?: string
+    setorId: string
+    createdAt?: Date | string
+  }
+
+  export type SetorEmailAccountCreateOrConnectWithoutAccountInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    create: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput>
+  }
+
+  export type SetorEmailAccountCreateManyAccountInputEnvelope = {
+    data: SetorEmailAccountCreateManyAccountInput | SetorEmailAccountCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutEmailAccountsInput = {
     update: XOR<CompanyUpdateWithoutEmailAccountsInput, CompanyUncheckedUpdateWithoutEmailAccountsInput>
     create: XOR<CompanyCreateWithoutEmailAccountsInput, CompanyUncheckedCreateWithoutEmailAccountsInput>
@@ -224173,6 +225912,22 @@ export namespace Prisma {
   export type InboxEmailUpdateManyWithWhereWithoutAccountInput = {
     where: InboxEmailScalarWhereInput
     data: XOR<InboxEmailUpdateManyMutationInput, InboxEmailUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type SetorEmailAccountUpsertWithWhereUniqueWithoutAccountInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    update: XOR<SetorEmailAccountUpdateWithoutAccountInput, SetorEmailAccountUncheckedUpdateWithoutAccountInput>
+    create: XOR<SetorEmailAccountCreateWithoutAccountInput, SetorEmailAccountUncheckedCreateWithoutAccountInput>
+  }
+
+  export type SetorEmailAccountUpdateWithWhereUniqueWithoutAccountInput = {
+    where: SetorEmailAccountWhereUniqueInput
+    data: XOR<SetorEmailAccountUpdateWithoutAccountInput, SetorEmailAccountUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type SetorEmailAccountUpdateManyWithWhereWithoutAccountInput = {
+    where: SetorEmailAccountScalarWhereInput
+    data: XOR<SetorEmailAccountUpdateManyMutationInput, SetorEmailAccountUncheckedUpdateManyWithoutAccountInput>
   }
 
   export type CompanyCreateWithoutInboxEmailsInput = {
@@ -224438,6 +226193,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutEmailAccountsInput
+    setores?: SetorEmailAccountCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountUncheckedCreateWithoutEmailsInput = {
@@ -224468,6 +226224,7 @@ export namespace Prisma {
     lastError?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    setores?: SetorEmailAccountUncheckedCreateNestedManyWithoutAccountInput
   }
 
   export type EmailAccountCreateOrConnectWithoutEmailsInput = {
@@ -224972,6 +226729,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutEmailAccountsNestedInput
+    setores?: SetorEmailAccountUpdateManyWithoutAccountNestedInput
   }
 
   export type EmailAccountUncheckedUpdateWithoutEmailsInput = {
@@ -225002,6 +226760,7 @@ export namespace Prisma {
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setores?: SetorEmailAccountUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type LeadUpsertWithoutInboxEmailsInput = {
@@ -229610,6 +231369,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutSetoresInput
     users?: SetorUserCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountCreateNestedManyWithoutSetorInput
     tickets?: TicketCreateNestedManyWithoutSetorInput
     conversations?: ConversationCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListCreateNestedManyWithoutSetorInput
@@ -229642,6 +231402,7 @@ export namespace Prisma {
     canViewEmail?: boolean
     users?: SetorUserUncheckedCreateNestedManyWithoutSetorInput
     instances?: SetorInstanceUncheckedCreateNestedManyWithoutSetorInput
+    emailAccounts?: SetorEmailAccountUncheckedCreateNestedManyWithoutSetorInput
     tickets?: TicketUncheckedCreateNestedManyWithoutSetorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutSetorInput
     clickupLists?: SetorClickupListUncheckedCreateNestedManyWithoutSetorInput
@@ -229755,6 +231516,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutSetoresNestedInput
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
@@ -229787,6 +231549,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
@@ -237159,6 +238922,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     emails?: InboxEmailUpdateManyWithoutAccountNestedInput
+    setores?: SetorEmailAccountUpdateManyWithoutAccountNestedInput
   }
 
   export type EmailAccountUncheckedUpdateWithoutCompanyInput = {
@@ -237189,6 +238953,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     emails?: InboxEmailUncheckedUpdateManyWithoutAccountNestedInput
+    setores?: SetorEmailAccountUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type EmailAccountUncheckedUpdateManyWithoutCompanyInput = {
@@ -237947,6 +239712,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUpdateManyWithoutSetorNestedInput
     tickets?: TicketUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUpdateManyWithoutSetorNestedInput
@@ -237979,6 +239745,7 @@ export namespace Prisma {
     canViewEmail?: BoolFieldUpdateOperationsInput | boolean
     users?: SetorUserUncheckedUpdateManyWithoutSetorNestedInput
     instances?: SetorInstanceUncheckedUpdateManyWithoutSetorNestedInput
+    emailAccounts?: SetorEmailAccountUncheckedUpdateManyWithoutSetorNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
@@ -241705,6 +243472,12 @@ export namespace Prisma {
     instanceId: string
   }
 
+  export type SetorEmailAccountCreateManySetorInput = {
+    id?: string
+    accountId: string
+    createdAt?: Date | string
+  }
+
   export type TicketCreateManySetorInput = {
     id?: string
     title: string
@@ -241811,6 +243584,24 @@ export namespace Prisma {
 
   export type SetorInstanceUncheckedUpdateManyWithoutSetorInput = {
     instanceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SetorEmailAccountUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: EmailAccountUpdateOneRequiredWithoutSetoresNestedInput
+  }
+
+  export type SetorEmailAccountUncheckedUpdateWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorEmailAccountUncheckedUpdateManyWithoutSetorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TicketUpdateWithoutSetorInput = {
@@ -243708,6 +245499,12 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SetorEmailAccountCreateManyAccountInput = {
+    id?: string
+    setorId: string
+    createdAt?: Date | string
+  }
+
   export type InboxEmailUpdateWithoutAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
     direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
@@ -243785,6 +245582,24 @@ export namespace Prisma {
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorEmailAccountUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    setor?: SetorUpdateOneRequiredWithoutEmailAccountsNestedInput
+  }
+
+  export type SetorEmailAccountUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SetorEmailAccountUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InboxEmailAttachmentCreateManyEmailInput = {
@@ -244676,6 +246491,10 @@ export namespace Prisma {
      * @deprecated Use SetorDefaultArgs instead
      */
     export type SetorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SetorEmailAccountDefaultArgs instead
+     */
+    export type SetorEmailAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SetorEmailAccountDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SetorClickupListDefaultArgs instead
      */
