@@ -53,6 +53,20 @@ interface TicketEmail {
   sentAt: string;
 }
 
+// E-mail completo pro modal de leitura (formato de GET /api/email/inbox/[id]).
+interface FullEmail {
+  id: string;
+  direction: "IN" | "OUT";
+  fromEmail: string;
+  fromName: string | null;
+  toEmail: string;
+  subject: string;
+  textBody: string | null;
+  htmlBody: string | null;
+  sentAt: string;
+  attachments?: { id: string; filename: string; contentType: string; size: number }[];
+}
+
 // Resultado da busca de conversas no modal "Vincular" (formato de
 // /api/conversations/search — só os campos que a UI do modal usa).
 interface ConvHit {
@@ -224,6 +238,24 @@ export default function TicketDetail({
     loadTicketEmails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedTab]);
+
+  // Leitor de e-mail completo — clique num e-mail da aba abre modal com o
+  // corpo inteiro (mesmo endpoint e iframe sandboxed da Caixa de E-mail).
+  const [viewEmail, setViewEmail] = useState<FullEmail | null>(null);
+  const [loadingViewEmail, setLoadingViewEmail] = useState<string | null>(null);
+
+  async function openEmail(emailId: string) {
+    if (loadingViewEmail) return;
+    setLoadingViewEmail(emailId);
+    try {
+      const res = await fetch(`/api/email/inbox/${emailId}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.email) setViewEmail(data.email);
+    } finally {
+      setLoadingViewEmail(null);
+    }
+  }
 
   // ── Modal "Vincular" — mescla conversa WhatsApp e/ou e-mails ao chamado
   // depois de criado (chamado aberto por e-mail ganha o WhatsApp e vice-versa).
@@ -1050,11 +1082,19 @@ export default function TicketDetail({
                                 {new Date(em.sentAt).toLocaleString("pt-BR")}
                               </span>
                             </div>
-                            <div className={`rounded-xl px-3 py-2 text-sm max-w-[85%] ${
-                              isOut ? "bg-indigo-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
-                            }`}>
+                            <div
+                              onClick={() => openEmail(em.id)}
+                              title="Ver e-mail completo"
+                              className={`rounded-xl px-3 py-2 text-sm max-w-[85%] cursor-pointer transition-opacity hover:opacity-80 ${
+                                loadingViewEmail === em.id ? "opacity-60" : ""
+                              } ${
+                                isOut ? "bg-indigo-600/90 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-200"
+                              }`}
+                            >
                               <div className="font-semibold text-[12px] mb-0.5">{em.subject || "(sem assunto)"}</div>
-                              <div className={`text-[12px] ${isOut ? "text-indigo-100" : "text-slate-400"}`}>{em.snippet || "—"}</div>
+                              <div className={`text-[12px] ${isOut ? "text-indigo-100" : "text-slate-400"}`}>
+                                {loadingViewEmail === em.id ? "Abrindo..." : (em.snippet || "—")}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1618,6 +1658,58 @@ export default function TicketDetail({
           )}
         </div>
       </div>
+
+      {/* Modal leitor de e-mail — corpo completo com iframe sandboxed (mesmo
+          padrão da Caixa de E-mail: sandbox sem allow-scripts, HTML de
+          terceiros não executa nada). */}
+      {viewEmail && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          onClick={() => setViewEmail(null)}
+        >
+          <div
+            className="bg-[#0f1623] border border-[#1e2d45] rounded-xl w-full max-w-3xl h-[85vh] flex flex-col shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3 px-5 pt-4 pb-3 border-b border-[#1e2d45] flex-shrink-0">
+              <div className="min-w-0">
+                <h2 className="text-white text-sm font-bold truncate">{viewEmail.subject || "(sem assunto)"}</h2>
+                <div className="text-slate-500 text-[11px] mt-1 truncate">
+                  {viewEmail.direction === "OUT"
+                    ? <>Você → {viewEmail.toEmail}</>
+                    : <>{viewEmail.fromName ? `${viewEmail.fromName} <${viewEmail.fromEmail}>` : viewEmail.fromEmail} → {viewEmail.toEmail}</>}
+                  <span className="text-slate-700 font-mono ml-2">{new Date(viewEmail.sentAt).toLocaleString("pt-BR")}</span>
+                </div>
+              </div>
+              <button onClick={() => setViewEmail(null)} className="text-slate-500 hover:text-white text-xl leading-none px-1 flex-shrink-0">×</button>
+            </div>
+            {(viewEmail.attachments?.length ?? 0) > 0 && (
+              <div className="px-5 py-2 border-b border-[#1e2d45] flex flex-wrap gap-1.5 flex-shrink-0">
+                {viewEmail.attachments!.map((a) => (
+                  <a
+                    key={a.id}
+                    href={`/api/email/inbox/attachments/${a.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={a.contentType}
+                    className="flex items-center gap-1.5 rounded-lg border border-[#1e2d45] bg-white/5 px-2.5 py-1 text-[11px] text-indigo-200 hover:bg-white/10 transition-colors"
+                  >
+                    📎 <span className="truncate max-w-[200px]">{a.filename}</span>
+                    <span className="text-slate-500">({Math.max(1, Math.round(a.size / 1024))} KB)</span>
+                  </a>
+                ))}
+              </div>
+            )}
+            <div className="flex-1 min-h-0 bg-white">
+              {viewEmail.htmlBody ? (
+                <iframe title="email" sandbox="" srcDoc={viewEmail.htmlBody} className="w-full h-full border-0" />
+              ) : (
+                <pre className="w-full h-full overflow-auto p-4 text-sm text-slate-800 whitespace-pre-wrap font-sans">{viewEmail.textBody || "—"}</pre>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal Vincular — busca e mescla conversa WhatsApp / e-mails ao chamado */}
       {linkModalOpen && canManage && (
