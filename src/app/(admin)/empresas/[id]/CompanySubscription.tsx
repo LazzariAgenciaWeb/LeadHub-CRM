@@ -99,6 +99,7 @@ const FEATURE_GROUPS: FeatureGroup[] = [
       { key: "whatsappGrupos",   label: "Ver grupos no inbox" },
       { key: "inboxAvancado",    label: "Inbox avançado (SLA, transferência)" },
       { key: "socialInbox",      label: "Instagram + Facebook na inbox" },
+      { key: "caixaEmail",       label: "Caixa de E-mail (IMAP/SMTP)" },
       { key: "tickets",          label: "Tickets / Chamados" },
       { key: "tarefasInternas",  label: "Tarefas internas" },
       { key: "assistenteIA",     label: "Assistente IA" },

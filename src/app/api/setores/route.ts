@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
     canViewRanking     = true,
     canViewLinks       = true,
     canViewCofre       = true,
+    canViewEmail       = true,
     userIds            = [] as string[],
     instanceIds        = [] as string[],
   } = body;
@@ -80,6 +81,7 @@ export async function POST(req: NextRequest) {
       canViewRanking,
       canViewLinks,
       canViewCofre,
+      canViewEmail,
       users:     { create: userIds.map((uid: string) => ({ userId: uid })) },
       instances: { create: instanceIds.map((iid: string) => ({ instanceId: iid })) },
     },

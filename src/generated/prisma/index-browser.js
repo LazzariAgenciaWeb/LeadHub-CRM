@@ -584,7 +584,8 @@ exports.Prisma.SetorScalarFieldEnum = {
   canViewProjetos: 'canViewProjetos',
   canViewRanking: 'canViewRanking',
   canViewLinks: 'canViewLinks',
-  canViewCofre: 'canViewCofre'
+  canViewCofre: 'canViewCofre',
+  canViewEmail: 'canViewEmail'
 };
 
 exports.Prisma.SetorClickupListScalarFieldEnum = {

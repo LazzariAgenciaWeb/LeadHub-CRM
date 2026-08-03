@@ -28,6 +28,8 @@ export interface UserPermissions {
   canViewRanking: boolean;
   canViewLinks: boolean;
   canViewCofre: boolean;
+  // Caixa de E-mail (Atender → E-mail)
+  canViewEmail: boolean;
 }
 
 export interface UserModules {
@@ -78,6 +80,7 @@ const ALL_PERMISSIONS: UserPermissions = {
   canViewRanking: true,
   canViewLinks: true,
   canViewCofre: true,
+  canViewEmail: true,
 };
 
 // Deny-by-default: CLIENT sem setor não enxerga nada até receber atribuição
@@ -102,6 +105,7 @@ const DEFAULT_CLIENT_PERMISSIONS: UserPermissions = {
   canViewRanking: false,
   canViewLinks: false,
   canViewCofre: false,
+  canViewEmail: false,
 };
 
 const ALL_MODULES: UserModules = {

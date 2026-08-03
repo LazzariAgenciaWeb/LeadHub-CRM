@@ -67,6 +67,8 @@ export interface PlanFeatures {
   prospectaIa: boolean;
   /** Disparo de email em massa com cadência + tracking. */
   emailMassa: boolean;
+  /** Caixa de E-mail (Atender): receber/enviar via IMAP+SMTP, tags, triagem IA. */
+  caixaEmail: boolean;
   /** Gestão de projetos com cobrança/status. */
   projetos: boolean;
   /** Calendário (Dia/Semana/Mês + Google Calendar OAuth). */
@@ -156,6 +158,7 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     crmPipelineOportunidades: false,
     prospectaIa: false,
     emailMassa: false,
+    caixaEmail: false,
     projetos: false,
     calendario: false,
     gamificacao: false,
@@ -388,6 +391,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       suportePrioritario: true,
       // + diferenciais
       emailMassa: true,        // e-mail marketing
+      caixaEmail: true,        // caixa de e-mail (Atender)
       socialInbox: true,       // Instagram + Facebook na inbox
       projetos: true,
       tickets: true,           // chamados
@@ -435,6 +439,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       crmPipelineOportunidades: true,
       prospectaIa: true,
       emailMassa: true,
+      caixaEmail: true,
       projetos: true,
       calendario: true,
       gamificacao: true,

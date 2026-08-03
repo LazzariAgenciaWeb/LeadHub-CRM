@@ -65,6 +65,7 @@ export async function PATCH(
     canViewRanking,
     canViewLinks,
     canViewCofre,
+    canViewEmail,
     userIds,     // string[] | undefined — substitui lista completa se fornecido
     instanceIds, // string[] | undefined — substitui lista completa se fornecido
   } = body;
@@ -92,6 +93,7 @@ export async function PATCH(
       ...(canViewRanking !== undefined     && { canViewRanking }),
       ...(canViewLinks !== undefined       && { canViewLinks }),
       ...(canViewCofre !== undefined       && { canViewCofre }),
+      ...(canViewEmail !== undefined       && { canViewEmail }),
     },
   });
 

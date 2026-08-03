@@ -53,12 +53,14 @@ export async function getEffectiveSession() {
   let pipelineProspeccao = false;
   let pipelineLeads = true;
   let pipelineOportunidades = false;
+  let caixaEmailFeat = false;
   try {
     const ctx = await getCompanyPlan(companyId);
     cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
     pipelineProspeccao = ctx.effectiveFeatures.crmPipelineProspeccao;
     pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
     pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
+    caixaEmailFeat = ctx.effectiveFeatures.caixaEmail;
   } catch {
     // mantém defaults se a empresa não tiver subscription
   }
@@ -86,7 +88,7 @@ export async function getEffectiveSession() {
         calendario:  (company as any).moduleCalendario ?? false,
         prospeccao:  (company as any).moduleProspeccao ?? false,
         campanhas:   (company as any).moduleCampanhas ?? false,
-        emailInbox:  (company as any).moduleEmailInbox ?? false,
+        emailInbox:  ((company as any).moduleEmailInbox ?? false) || caixaEmailFeat,
         links:       (company as any).moduleLinks ?? false,
         instagram:   (company as any).moduleInstagram ?? false,
         espacoCliente: (company as any).moduleEspacoCliente ?? false,

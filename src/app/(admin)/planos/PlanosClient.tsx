@@ -71,6 +71,7 @@ const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
   crmPipelineOportunidades: "CRM — Oportunidades",
   prospectaIa: "LeadHub Prospecta",
   emailMassa: "Email em massa",
+  caixaEmail: "Caixa de E-mail",
   projetos: "Projetos",
   calendario: "Calendário",
   gamificacao: "Gamificação",

@@ -1241,6 +1241,7 @@ model Setor {
   canViewRanking     Boolean @default(true) // ver Ranking de gamificação
   canViewLinks       Boolean @default(true) // ver Links de rastreamento
   canViewCofre       Boolean @default(true) // ver Cofre (2FA continua valendo por credencial)
+  canViewEmail       Boolean @default(true) // ver Caixa de E-mail (Atender → E-mail)
 
   users           SetorUser[]
   instances       SetorInstance[]

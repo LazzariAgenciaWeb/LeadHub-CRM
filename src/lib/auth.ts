@@ -28,6 +28,7 @@ type SetorPerms = {
   canViewRanking:     boolean;
   canViewLinks:       boolean;
   canViewCofre:       boolean;
+  canViewEmail:       boolean;
 };
 
 function mergeSetorPermissions(setores: any[]): SetorPerms | null {
@@ -51,6 +52,7 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     canViewRanking:     false,
     canViewLinks:       false,
     canViewCofre:       false,
+    canViewEmail:       false,
   };
   for (const s of setores) {
     merged.canManageUsers     ||= !!s.canManageUsers;
@@ -74,6 +76,7 @@ function mergeSetorPermissions(setores: any[]): SetorPerms | null {
     merged.canViewRanking     ||= !!(s.canViewRanking ?? true);
     merged.canViewLinks       ||= !!(s.canViewLinks ?? true);
     merged.canViewCofre       ||= !!(s.canViewCofre ?? true);
+    merged.canViewEmail       ||= !!(s.canViewEmail ?? true);
   }
   return merged;
 }
@@ -134,6 +137,7 @@ export const authOptions: NextAuthOptions = {
         let pipelineLeads = true;
         let pipelineOportunidades = false;
         let cofreEnabled = false;
+        let caixaEmailFeat = false;
         if (user.companyId) {
           try {
             const ctx = await getCompanyPlan(user.companyId);
@@ -141,6 +145,7 @@ export const authOptions: NextAuthOptions = {
             pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
             pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
             cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+            caixaEmailFeat = ctx.effectiveFeatures.caixaEmail;
           } catch {
             // mantém defaults caso sem subscription
           }
@@ -165,7 +170,8 @@ export const authOptions: NextAuthOptions = {
             calendario:  (user.company as any)?.moduleCalendario ?? false,
             prospeccao:  (user.company as any)?.moduleProspeccao ?? false,
             campanhas:   (user.company as any)?.moduleCampanhas ?? false,
-            emailInbox:  (user.company as any)?.moduleEmailInbox ?? false,
+            // Toggle da empresa OU feature do plano — espelha o assertModule.
+            emailInbox:  ((user.company as any)?.moduleEmailInbox ?? false) || caixaEmailFeat,
             links:       (user.company as any)?.moduleLinks ?? false,
             instagram:   (user.company as any)?.moduleInstagram ?? false,
             espacoCliente: (user.company as any)?.moduleEspacoCliente ?? false,
@@ -244,6 +250,7 @@ export const authOptions: NextAuthOptions = {
               let pipelineLeads = true;
               let pipelineOportunidades = false;
               let cofreEnabled = false;
+              let caixaEmailFeat = false;
               if (dbUser.companyId) {
                 try {
                   const ctx = await getCompanyPlan(dbUser.companyId);
@@ -251,6 +258,7 @@ export const authOptions: NextAuthOptions = {
                   pipelineLeads = ctx.effectiveFeatures.crmPipelineLeads;
                   pipelineOportunidades = ctx.effectiveFeatures.crmPipelineOportunidades;
                   cofreEnabled = ctx.effectiveFeatures.cofreCredenciais;
+                  caixaEmailFeat = ctx.effectiveFeatures.caixaEmail;
                 } catch {
                   // mantém defaults
                 }
@@ -267,7 +275,7 @@ export const authOptions: NextAuthOptions = {
                 calendario:  (dbUser.company as any)?.moduleCalendario  ?? false,
                 prospeccao:  (dbUser.company as any)?.moduleProspeccao  ?? false,
                 campanhas:   (dbUser.company as any)?.moduleCampanhas   ?? false,
-                emailInbox:  (dbUser.company as any)?.moduleEmailInbox  ?? false,
+                emailInbox:  ((dbUser.company as any)?.moduleEmailInbox ?? false) || caixaEmailFeat,
                 links:       (dbUser.company as any)?.moduleLinks       ?? false,
                 instagram:   (dbUser.company as any)?.moduleInstagram   ?? false,
                 espacoCliente: (dbUser.company as any)?.moduleEspacoCliente ?? false,

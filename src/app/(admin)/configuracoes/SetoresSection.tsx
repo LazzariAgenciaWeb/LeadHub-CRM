@@ -31,6 +31,7 @@ interface Setor {
   canViewRanking: boolean;
   canViewLinks: boolean;
   canViewCofre: boolean;
+  canViewEmail: boolean;
   users: SetorUser[];
   instances: SetorInstance[];
   _count: { tickets: number };
@@ -45,7 +46,8 @@ type PermKey =
   | "canUseAI" | "canViewInbox" | "canSendMessages"
   | "canViewCompanies" | "canCreateCompanies"
   | "canViewCalendario" | "canViewMarketing" | "canViewCampanhas"
-  | "canViewProjetos" | "canViewRanking" | "canViewLinks" | "canViewCofre";
+  | "canViewProjetos" | "canViewRanking" | "canViewLinks" | "canViewCofre"
+  | "canViewEmail";
 
 interface PermGroup {
   label: string;
@@ -57,6 +59,7 @@ const PERM_GROUPS: PermGroup[] = [
     label: "Mensagens (WhatsApp)",
     perms: [
       { key: "canViewInbox",      label: "Ver Mensagens",      desc: "Acessar a caixa de entrada" },
+      { key: "canViewEmail",      label: "Ver E-mail",         desc: "Acessar a Caixa de E-mail da empresa" },
       { key: "canSendMessages",   label: "Enviar Mensagens",   desc: "Responder conversas" },
     ],
   },
@@ -149,6 +152,7 @@ const EMPTY_FORM = {
   canViewRanking:    true,
   canViewLinks:      true,
   canViewCofre:      true,
+  canViewEmail:      true,
   userIds:           [] as string[],
   instanceIds:       [] as string[],
 };
@@ -200,6 +204,7 @@ export default function SetoresSection({
       canViewRanking:     s.canViewRanking,
       canViewLinks:       s.canViewLinks,
       canViewCofre:       s.canViewCofre,
+      canViewEmail:       (s as any).canViewEmail ?? true,
       userIds:            s.users.map((u) => u.userId),
       instanceIds:        s.instances.map((i) => i.instanceId),
     });

@@ -239,20 +239,23 @@ export default function TicketDetail({
   const [searchingEmails, setSearchingEmails] = useState(false);
   const [linkingId, setLinkingId] = useState<string | null>(null);
 
-  // Busca de conversas (debounce) — reusa /api/conversations/search, que casa
-  // por telefone, nome de lead e nome de contato da empresa.
+  // Busca de conversas (debounce) — com 2+ caracteres usa /api/conversations/
+  // search (casa por telefone, nome de lead e contato da empresa); sem termo
+  // lista as recentes via /api/conversations/list (mesmo formato enriquecido).
   useEffect(() => {
     if (!linkModalOpen || linkTab !== "whatsapp") return;
     const q = convQuery.trim();
-    if (q.length < 2) { setConvResults(null); return; }
     const t = setTimeout(() => {
       setSearchingConvs(true);
-      fetch(`/api/conversations/search?q=${encodeURIComponent(q)}&companyId=${ticket.company.id}`)
+      const url = q.length >= 2
+        ? `/api/conversations/search?q=${encodeURIComponent(q)}&companyId=${ticket.company.id}`
+        : `/api/conversations/list?take=15&companyId=${ticket.company.id}`;
+      fetch(url)
         .then((r) => r.json())
         .then((d) => setConvResults(d.conversations ?? []))
         .catch(() => setConvResults([]))
         .finally(() => setSearchingConvs(false));
-    }, 350);
+    }, q ? 350 : 0);
     return () => clearTimeout(t);
   }, [linkModalOpen, linkTab, convQuery, ticket.company.id]);
 
@@ -1685,13 +1688,13 @@ export default function TicketDetail({
                   {searchingConvs && (
                     <div className="text-slate-600 text-xs text-center py-4">Buscando conversas...</div>
                   )}
-                  {!searchingConvs && convQuery.trim().length < 2 && (
-                    <div className="text-slate-600 text-xs text-center py-4 italic">
-                      Digite ao menos 2 caracteres pra buscar nas conversas do WhatsApp.
-                    </div>
-                  )}
                   {!searchingConvs && convResults && convResults.length === 0 && (
                     <div className="text-slate-600 text-xs text-center py-4 italic">Nenhuma conversa encontrada.</div>
+                  )}
+                  {!searchingConvs && convResults && convResults.length > 0 && convQuery.trim().length < 2 && (
+                    <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
+                      Últimas conversas
+                    </div>
                   )}
                   {!searchingConvs && convResults && convResults.length > 0 && (
                     <div className="space-y-1.5">
@@ -1741,6 +1744,11 @@ export default function TicketDetail({
                   )}
                   {!searchingEmails && emailResults && emailResults.length === 0 && (
                     <div className="text-slate-600 text-xs text-center py-4 italic">Nenhum e-mail encontrado.</div>
+                  )}
+                  {!searchingEmails && emailResults && emailResults.length > 0 && !emailQuery.trim() && (
+                    <div className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
+                      Últimos e-mails
+                    </div>
                   )}
                   {!searchingEmails && emailResults && emailResults.length > 0 && (
                     <div className="space-y-1.5">
