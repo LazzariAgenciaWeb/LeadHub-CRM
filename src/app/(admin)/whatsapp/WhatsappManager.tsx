@@ -282,6 +282,7 @@ export default function WhatsappManager({
   hasTicketsModule = true,
   modoAtendimento = "ATENDE",
   pipelineStages = [],
+  teamNumbers = [],
 }: {
   instances: Instance[];
   isSuperAdmin: boolean;
@@ -301,6 +302,7 @@ export default function WhatsappManager({
   hasTicketsModule?: boolean;
   modoAtendimento?: "VISAO" | "ATENDE";
   pipelineStages?: { pipeline: string; name: string; color: string; order: number; isFinal: boolean; companyId: string }[];
+  teamNumbers?: string[];
 }) {
   // Toggle de assinatura por mensagem. Default vem da preferência do user
   // (Configurações → Meu Perfil): se ele desligou o default, começa desmarcado
@@ -456,6 +458,9 @@ export default function WhatsappManager({
   const [markingAsMine, setMarkingAsMine] = useState(false);
   // Overrides locais: phone → instanceName (aplicados imediatamente ao marcar "é meu número")
   const [instancePhoneOverrides, setInstancePhoneOverrides] = useState<Map<string, string>>(new Map());
+  // Números da equipe adicionados nesta sessão (efeito imediato nos balões, sem router.refresh)
+  const [teamNumberOverrides, setTeamNumberOverrides] = useState<Set<string>>(new Set());
+  const [markingAsTeam, setMarkingAsTeam] = useState(false);
 
   // Name editor
   const [editingName, setEditingName] = useState(false);
@@ -1234,6 +1239,16 @@ export default function WhatsappManager({
     return map;
   }, [instances, instancePhoneOverrides]);
 
+  // Set com todas as variantes dos "números da equipe" (nossos, mas sem instância).
+  // Vem do servedor (prop) + adições locais desta sessão.
+  const teamNumberSet = useMemo(() => {
+    const set = new Set<string>();
+    const addAll = (n: string) => { for (const v of phoneVariants(n)) set.add(v); };
+    for (const n of teamNumbers) addAll(n);
+    for (const n of teamNumberOverrides) addAll(n);
+    return set;
+  }, [teamNumbers, teamNumberOverrides]);
+
   // Mapa phone normalizado → nome vindo do pushName (preenchido ao carregar mensagens do grupo)
   const pushNameMap = useMemo(() => {
     const map = new Map<string, string>();
@@ -1258,6 +1273,10 @@ export default function WhatsappManager({
     const instanceName = allVariants.reduce<string | undefined>((found, v) => found ?? instancePhoneMap.get(v), undefined);
     if (instanceName) return { isOurs: true, label: instanceName, rawNorm: norm };
 
+    // Número da equipe (nosso, mas sem instância): é nosso lado, mas mostramos o
+    // nome/telefone da pessoa (não um nome de conexão).
+    const isTeam = allVariants.some((v) => teamNumberSet.has(v));
+
     // Prioridade de nome: nome salvo manualmente > pushName da Evolution > número formatado
     const savedName = participantNames[norm] ?? participantNames[raw];
     const evolutionName = pushName ?? pushNameMap.get(norm) ?? pushNameMap.get(raw);
@@ -1275,7 +1294,7 @@ export default function WhatsappManager({
     } else {
       display = norm;
     }
-    return { isOurs: false, label: display, rawNorm: norm };
+    return { isOurs: isTeam, label: display, rawNorm: norm };
   }
 
   // (menção @ agora é feita clicando no participante na lista do topo — ver
@@ -1624,6 +1643,30 @@ export default function WhatsappManager({
         const next = new Map(prev);
         next.set(editingParticipant, inst.instanceName);
         next.set(norm, inst.instanceName);
+        return next;
+      });
+      setEditingParticipant(null);
+      setParticipantMarkMode(null);
+    }
+  }
+
+  // Marca o número como "da nossa equipe" (nosso, mas sem instância no LeadHub).
+  // A partir daí, em qualquer grupo, as mensagens desse número aparecem como nossas.
+  async function handleMarkAsTeam() {
+    if (!editingParticipant) return;
+    setMarkingAsTeam(true);
+    const res = await fetch(`/api/whatsapp/team-numbers`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: editingParticipant, companyId: selectedConv?.companyId }),
+    });
+    setMarkingAsTeam(false);
+    if (res.ok) {
+      const norm = editingParticipant.replace(/^55/, "");
+      setTeamNumberOverrides((prev) => {
+        const next = new Set(prev);
+        next.add(editingParticipant);
+        next.add(norm);
         return next;
       });
       setEditingParticipant(null);
@@ -4539,6 +4582,20 @@ export default function WhatsappManager({
                           <div>
                             <p className="text-white text-xs font-medium group-hover:text-emerald-300 transition-colors">É meu número</p>
                             <p className="text-slate-600 text-[10px]">Associar este número a uma das minhas instâncias WhatsApp</p>
+                          </div>
+                        </button>
+                        {/* Número da equipe — nosso, mas sem instância no LeadHub. */}
+                        <button
+                          onClick={handleMarkAsTeam}
+                          disabled={markingAsTeam}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0f1623] border border-[#1e2d45] hover:border-teal-500/50 text-left transition-colors disabled:opacity-50 group"
+                        >
+                          <span className="text-xl">👥</span>
+                          <div>
+                            <p className="text-white text-xs font-medium group-hover:text-teal-300 transition-colors">
+                              {markingAsTeam ? "Salvando..." : "É número da nossa equipe"}
+                            </p>
+                            <p className="text-slate-600 text-[10px]">Celular de um colaborador (sem conexão no LeadHub). As mensagens dele nos grupos passam a aparecer como nossas.</p>
                           </div>
                         </button>
                         {/* Mencionar — só em grupo. Insere @ desta pessoa no campo. */}

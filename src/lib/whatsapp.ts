@@ -450,6 +450,48 @@ async function isPhoneOurInstance(phone: string, companyId: string): Promise<boo
 }
 
 /**
+ * "Números da equipe" — telefones que são NOSSOS mas NÃO são instâncias do
+ * LeadHub (ex.: o celular pessoal do dono/colaborador que participa de grupos
+ * junto com as conexões da agência). Armazenados num Setting por empresa
+ * (`team_numbers:{companyId}`) como JSON de strings de dígitos.
+ *
+ * Em grupos, mensagens enviadas por esses números são tratadas como OUTBOUND
+ * (nosso lado) em vez de cliente — sem precisar sobrescrever o telefone de
+ * nenhuma instância.
+ */
+export async function getTeamNumbers(companyId: string): Promise<string[]> {
+  const row = await prisma.setting.findUnique({
+    where: { key: `team_numbers:${companyId}` },
+  }).catch(() => null);
+  if (!row?.value) return [];
+  try {
+    const arr = JSON.parse(row.value);
+    return Array.isArray(arr) ? arr.filter((x) => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Retorna true se o número informado está na lista de "números da equipe" da
+ * empresa (considerando variações de DDI/9 extra). Resolve @lid via alias,
+ * mesmo padrão de isPhoneOurInstance.
+ */
+async function isPhoneTeamNumber(phone: string, companyId: string): Promise<boolean> {
+  let resolved = phone;
+  if (phone.includes("@lid")) {
+    const alias = await prisma.setting.findUnique({
+      where: { key: `phone_alias:${companyId}:${phone}` },
+    }).catch(() => null);
+    if (alias?.value) resolved = alias.value;
+  }
+  const variants = new Set(phoneVariants(resolved));
+  if (variants.size === 0) return false;
+  const team = await getTeamNumbers(companyId);
+  return team.some((t) => phoneVariants(t).some((v) => variants.has(v)));
+}
+
+/**
  * Retorna true se o pushName do participante bate com o nome de exibição
  * de alguma instância da empresa. Fallback pra quando o participantPhone
  * vem em formato que não casa (@lid sem alias, etc.) — o pushName de quem
@@ -633,6 +675,7 @@ export async function processInboundMessage(payload: {
     const isOurParticipant =
       fromMe === true ||
       (participantPhone ? await isPhoneOurInstance(participantPhone, instance.companyId) : false) ||
+      (participantPhone ? await isPhoneTeamNumber(participantPhone, instance.companyId) : false) ||
       (await isNameOurInstance(participantName, instance.companyId));
     const groupDirection: "INBOUND" | "OUTBOUND" = isOurParticipant ? "OUTBOUND" : "INBOUND";
 

@@ -2,6 +2,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { hasModule } from "@/lib/permissions";
+import { getTeamNumbers } from "@/lib/whatsapp";
 import WhatsappManager from "./WhatsappManager";
 
 export default async function WhatsappPage({
@@ -213,6 +214,10 @@ export default async function WhatsappPage({
       })
     : null;
 
+  // Números da equipe (celulares nossos que não são instâncias) — usados para
+  // reconhecer, em grupos, mensagens desses números como OUTBOUND (nosso lado).
+  const teamNumbers = companyId ? await getTeamNumbers(companyId) : [];
+
   // Modo de atendimento da empresa do usuário (VISAO = read-only, sem envio
   // pelo painel). SUPER_ADMIN sempre opera em ATENDE pois é admin do sistema
   // (não-cliente). Quando o user logado é de uma empresa-cliente em VISAO, o
@@ -246,6 +251,7 @@ export default async function WhatsappPage({
       availableSetores={setores}
       availableAtendentes={atendentes}
       modoAtendimento={modoAtendimento}
+      teamNumbers={teamNumbers}
     />
   );
 }
