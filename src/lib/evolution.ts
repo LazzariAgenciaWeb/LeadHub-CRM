@@ -83,7 +83,11 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
       webhook: {
         url: webhookUrl,
         byEvents: false,
-        base64: true,
+        // base64:false — NÃO baixar+codificar a mídia inline no webhook. Isso
+        // evita o pico de memória na Evolution (mídia grande = base64 gigante
+        // no processo, derrubando sockets de outras instâncias). A mídia é
+        // buscada sob demanda via evolutionGetMediaBase64 quando a UI renderiza.
+        base64: false,
         events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
@@ -94,6 +98,46 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
     throw new Error(`Evolution create: ${res.status} ${err}`);
   }
   return res.json();
+}
+
+/**
+ * Baixa a mídia de uma mensagem sob demanda (POST /chat/getBase64FromMediaMessage).
+ * Usado quando o webhook veio SEM base64 inline (base64:false) — a UI pede o
+ * binário só quando vai renderizar. Retorna { base64 (puro), mimetype } ou null
+ * (se a Evolution não conseguir rebaixar a mídia; a UI mostra placeholder).
+ */
+export async function evolutionGetMediaBase64(
+  instanceName: string,
+  key: { id: string; remoteJid: string; fromMe: boolean; participant?: string | null },
+  instanceToken?: string | null,
+): Promise<{ base64: string; mimetype: string | null } | null> {
+  const { baseUrl, apiKey } = await getConfig();
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  try {
+    const res = await fetch(`${baseUrl}/chat/getBase64FromMediaMessage/${instanceName}`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify({
+        message: {
+          key: {
+            id: key.id,
+            remoteJid: key.remoteJid,
+            fromMe: key.fromMe,
+            ...(key.participant ? { participant: key.participant } : {}),
+          },
+        },
+        convertToMp4: false,
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const base64: string | null = data?.base64 ?? data?.media ?? null;
+    const mimetype: string | null = data?.mimetype ?? data?.mediaType ?? null;
+    if (!base64) return null;
+    return { base64: String(base64).replace(/^data:[^;]+;base64,/, ""), mimetype };
+  } catch {
+    return null;
+  }
 }
 
 /** Busca token da instância via fetchInstances (para autenticar endpoints que precisam do token) */
@@ -252,7 +296,9 @@ export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl
         enabled: true,
         url: webhookUrl,
         byEvents: false,
-        base64: true,
+        // base64:false — mídia buscada sob demanda (ver evolutionGetMediaBase64).
+        // Evita o pico de memória da Evolution ao codificar mídia grande inline.
+        base64: false,
         events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),

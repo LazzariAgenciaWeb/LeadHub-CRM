@@ -329,21 +329,21 @@ export async function POST(request: NextRequest) {
       message?.pttMessage?.base64 ??
       null;
 
-    // Só salvar base64 para imagem e áudio (ignorar vídeo e documento)
+    // Só salvar base64 para imagem e áudio (ignorar vídeo e documento).
+    // Com o webhook em base64:false, rawBase64 normalmente vem null → mediaBase64
+    // fica null e a mídia é buscada sob demanda pelo endpoint /media.
     const mediaBase64: string | null = (rawBase64 && (isImageMsg || isAudioMsg)) ? rawBase64 : null;
-    const mediaType: string | null = mediaBase64
+    // mediaType é setado para TODA imagem/áudio (independente do base64): é o que
+    // sinaliza `hasMedia` na UI e o mime pro fetch sob demanda. Sem ele, mídia
+    // recebida com base64:false apareceria só como texto "[imagem]".
+    const mediaType: string | null = (isImageMsg || isAudioMsg)
       ? (message?.imageMessage?.mimetype ??
          message?.audioMessage?.mimetype ??
          message?.pttMessage?.mimetype ??
          (isImageMsg ? "image/jpeg" : "audio/ogg; codecs=opus"))
       : null;
 
-    // Log diagnóstico — mostra chaves disponíveis no data quando base64 é nulo
-    if (!mediaBase64 && (isImageMsg || isAudioMsg)) {
-      console.log(`[Webhook WA] base64 não encontrado. messageType=${messageType} data_keys=${Object.keys(data ?? {}).join(",")} msg_keys=${Object.keys(message ?? {}).join(",")}`);
-    } else {
-      console.log(`[Webhook WA] mediaBase64=${mediaBase64 ? `present(${mediaBase64.length} chars)` : "null"} mediaType=${mediaType} messageType=${messageType}`);
-    }
+    console.log(`[Webhook WA] mediaBase64=${mediaBase64 ? `present(${mediaBase64.length} chars)` : "null(on-demand)"} mediaType=${mediaType} messageType=${messageType}`);
 
     // Mensagem enviada pelo celular da instância (fromMe=true) → salvar como OUTBOUND
     if (fromMe) {

@@ -702,7 +702,8 @@ export async function processInboundMessage(payload: {
       companyId: instance.companyId,
       instanceId: instance.id,
       conversationId: conv.id,
-      ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
+      ...(mediaType ? { mediaType } : {}),
+      ...(mediaBase64 ? { mediaBase64 } : {}),
     });
 
     // Upsert do CompanyContact com nome do grupo (busca na Evolution se ainda não tem nome)
@@ -772,7 +773,8 @@ export async function processInboundMessage(payload: {
           companyId,
           instanceId: instance.id,
           conversationId: conv.id,
-          ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
+          ...(mediaType ? { mediaType } : {}),
+      ...(mediaBase64 ? { mediaBase64 } : {}),
         });
         // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
         if (contactName) await saveWAContactName(phone, contactName, companyId);
@@ -863,7 +865,8 @@ export async function processInboundMessage(payload: {
       companyId,
       instanceId: instance.id,
       conversationId: conv.id,
-      ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
+      ...(mediaType ? { mediaType } : {}),
+      ...(mediaBase64 ? { mediaBase64 } : {}),
     });
     // Persiste o pushName para aparecer na lista de conversas mesmo sem lead
     if (contactName) await saveWAContactName(phone, contactName, companyId);
@@ -963,7 +966,8 @@ export async function processInboundMessage(payload: {
     conversationId: conv.id,
     ...(receivedAt ? { receivedAt } : {}),
     ...(quotedId ? { quotedId, quotedBody: quotedBody ?? null } : {}),
-    ...(mediaBase64 ? { mediaBase64, mediaType: mediaType ?? null } : {}),
+    ...(mediaType ? { mediaType } : {}),
+    ...(mediaBase64 ? { mediaBase64 } : {}),
   });
 
   // Push notification — só pra quem é responsável pela conversa.

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { evolutionGetMediaBase64 } from "@/lib/evolution";
 
 /**
  * GET /api/whatsapp/messages/[id]/media
@@ -31,21 +32,53 @@ export async function GET(
   const { id } = await params;
   const msg = await prisma.message.findUnique({
     where:  { id },
-    select: { mediaBase64: true, mediaType: true, companyId: true },
+    select: {
+      mediaBase64: true, mediaType: true, companyId: true,
+      externalId: true, phone: true, direction: true, participantPhone: true,
+      instance: { select: { instanceName: true, instanceToken: true } },
+    },
   });
 
-  if (!msg)              return new NextResponse("Não encontrado", { status: 404 });
-  if (!msg.mediaBase64)  return new NextResponse("Sem mídia",      { status: 404 });
+  if (!msg) return new NextResponse("Não encontrado", { status: 404 });
 
   if (userRole !== "SUPER_ADMIN" && msg.companyId !== userCompanyId) {
     return new NextResponse("Não autorizado", { status: 403 });
   }
 
-  const buf = Buffer.from(msg.mediaBase64, "base64");
+  let base64 = msg.mediaBase64;
+  let mime = msg.mediaType;
+
+  // On-demand: webhook em base64:false não guarda o binário. Se a mensagem é
+  // mídia (tem mediaType) mas não tem base64 armazenado, baixa da Evolution
+  // agora e cacheia no DB pra próximos acessos (browser cacheia após o 1º hit).
+  if (!base64 && msg.mediaType && msg.externalId && msg.instance) {
+    const fetched = await evolutionGetMediaBase64(
+      msg.instance.instanceName,
+      {
+        id: msg.externalId,
+        remoteJid: msg.phone,
+        fromMe: msg.direction === "OUTBOUND",
+        participant: msg.participantPhone ?? undefined,
+      },
+      msg.instance.instanceToken,
+    );
+    if (fetched?.base64) {
+      base64 = fetched.base64;
+      mime = fetched.mimetype ?? mime;
+      void prisma.message.update({
+        where: { id },
+        data: { mediaBase64: fetched.base64, ...(fetched.mimetype ? { mediaType: fetched.mimetype } : {}) },
+      }).catch(() => {/* cache best-effort */});
+    }
+  }
+
+  if (!base64) return new NextResponse("Sem mídia", { status: 404 });
+
+  const buf = Buffer.from(base64, "base64");
   return new NextResponse(buf, {
     status: 200,
     headers: {
-      "Content-Type":   msg.mediaType ?? "application/octet-stream",
+      "Content-Type":   mime ?? "application/octet-stream",
       "Content-Length": String(buf.byteLength),
       // 1 ano, immutable — id é único e mediaBase64 não muda em update.
       "Cache-Control":  "private, max-age=31536000, immutable",
