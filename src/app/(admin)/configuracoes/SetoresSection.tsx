@@ -460,7 +460,7 @@ export default function SetoresSection({
             <div className="mb-6">
               <label className="text-slate-400 text-xs font-semibold uppercase tracking-wider block mb-3">
                 Caixas de E-mail
-                <span className="text-slate-600 normal-case font-normal ml-1.5">— quais caixas este setor pode ver (nenhuma marcada = todas)</span>
+                <span className="text-slate-600 normal-case font-normal ml-1.5">— marque as caixas que este setor pode ver e usar (nenhuma marcada = sem acesso)</span>
               </label>
               {allEmailAccounts.length === 0 ? (
                 <p className="text-slate-600 text-xs">Nenhuma caixa de email cadastrada (Atender → E-mail → Contas).</p>

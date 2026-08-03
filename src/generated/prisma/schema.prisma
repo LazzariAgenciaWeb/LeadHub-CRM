@@ -1255,8 +1255,8 @@ model Setor {
 }
 
 // Caixas de email liberadas pro setor (espelho do SetorInstance do WhatsApp).
-// Setor SEM vínculo = vê todas as caixas da empresa (compat); com vínculos,
-// o usuário só enxerga as caixas dos seus setores. ADMIN sempre vê todas.
+// DENY BY DEFAULT: setor sem vínculo não vê caixa nenhuma — o acesso do
+// atendente é sempre explícito. ADMIN/SUPER_ADMIN sempre veem todas.
 model SetorEmailAccount {
   id        String       @id @default(cuid())
   setor     Setor        @relation(fields: [setorId], references: [id], onDelete: Cascade)
@@ -1543,7 +1543,7 @@ model SetorInstance {
   @@id([setorId, instanceId])
 }
 
-// ─── Cofre de credenciais ────────────────────────────────────────���────────────
+// ─── Cofre de credenciais ─────────────────────────────────────────────────────
 //
 // CompanyAsset é qualquer "recurso digital" que gerenciamos para o cliente:
 // domínio, hospedagem, site, conta de e-mail, banco, repositório, etc.

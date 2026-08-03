@@ -23,7 +23,7 @@ export interface UserPermissions {
   companyId: string;
   setorIds: string[] | null; // null = sem restrição (admin); array = setores do usuário; [] = sem setor
   instanceIds: string[] | null; // null = sem restrição; array = instâncias permitidas
-  emailAccountIds: string[] | null; // null = todas as caixas de email; array = só as vinculadas aos setores
+  emailAccountIds: string[] | null; // null = todas (admin); array = só as caixas vinculadas aos setores (vazio = nenhuma)
   noSetor: boolean;          // true → CLIENT sem nenhum setor (todas flags false)
   canManageUsers: boolean;
   canViewLeads: boolean;
@@ -102,8 +102,8 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
   const instanceIds = [
     ...new Set(setorUsers.flatMap((su) => su.setor.instances.map((i) => i.instanceId))),
   ];
-  // Caixas de email: união dos vínculos dos setores. NENHUM vínculo em nenhum
-  // setor → null (vê todas — compat com setores criados antes da feature).
+  // Caixas de email: união dos vínculos dos setores. DENY BY DEFAULT:
+  // setor sem caixa marcada não vê caixa nenhuma — acesso é explícito.
   const emailAccountIds = [
     ...new Set(setorUsers.flatMap((su) => (su.setor as any).emailAccounts?.map((e: any) => e.accountId) ?? [])),
   ];
@@ -122,7 +122,7 @@ export async function getUserPermissions(session: any): Promise<UserPermissions 
     companyId,
     setorIds,
     instanceIds: instanceIds.length > 0 ? instanceIds : [],
-    emailAccountIds: emailAccountIds.length > 0 ? emailAccountIds : null,
+    emailAccountIds,
     noSetor: false,
     ...perms,
   };
