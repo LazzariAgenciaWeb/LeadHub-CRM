@@ -139,6 +139,18 @@ exports.Prisma.UserScalarFieldEnum = {
   lastBadgeSeenAt: 'lastBadgeSeenAt'
 };
 
+exports.Prisma.QuickReplyScalarFieldEnum = {
+  id: 'id',
+  shortcut: 'shortcut',
+  title: 'title',
+  body: 'body',
+  order: 'order',
+  companyId: 'companyId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VaultEmailChallengeScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2142,6 +2154,7 @@ exports.VideoCategoryVisibility = exports.$Enums.VideoCategoryVisibility = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  QuickReply: 'QuickReply',
   VaultEmailChallenge: 'VaultEmailChallenge',
   VaultTrustedSession: 'VaultTrustedSession',
   UserGoogleConnection: 'UserGoogleConnection',

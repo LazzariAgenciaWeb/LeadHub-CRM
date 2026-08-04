@@ -8,9 +8,10 @@ import {
   MessageCircle, MessageSquare, Hourglass, Calendar,
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
-  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle,
+  ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap,
   type LucideIcon,
 } from "lucide-react";
+import QuickReplies from "./QuickReplies";
 
 type ConvStatus = "OPEN" | "PENDING" | "IN_PROGRESS" | "WAITING_CUSTOMER" | "SCHEDULED" | "CLOSED";
 
@@ -414,6 +415,30 @@ export default function WhatsappManager({
   // A seleção é feita clicando no participante na lista do topo.
   const [pendingMentions, setPendingMentions] = useState<{ token: string; jid: string }[]>([]);
   const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Respostas rápidas (atalhos). O "/" no início do campo abre o picker filtrado.
+  const [showQuickReplies, setShowQuickReplies] = useState(false);
+  const [quickReplySlash, setQuickReplySlash] = useState("");
+
+  // Insere o texto de uma resposta rápida. Se o campo tem só um "/atalho"
+  // (gatilho do "/"), substitui tudo; senão insere no cursor.
+  function insertQuickReply(text: string) {
+    const ta = replyTextareaRef.current;
+    const slashOnly = /^\/\S*$/.test(replyText.trim());
+    if (slashOnly || !ta) {
+      setReplyText(text);
+    } else {
+      const start = ta.selectionStart ?? replyText.length;
+      const end = ta.selectionEnd ?? replyText.length;
+      setReplyText(replyText.slice(0, start) + text + replyText.slice(end));
+    }
+    setShowQuickReplies(false);
+    setQuickReplySlash("");
+    setTimeout(() => {
+      const t = replyTextareaRef.current;
+      if (t) { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 160) + "px"; t.focus(); }
+    }, 0);
+  }
 
   // Insere o token @<numero> no cursor e registra o participante pra menção.
   function addMention(p: { jid: string; token: string; label: string }) {
@@ -5323,6 +5348,35 @@ export default function WhatsappManager({
                     );
                   })()}
 
+                  {/* ── Respostas rápidas (⚡) — atalhos de mensagem padrão ── */}
+                  <div className="relative flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => { setQuickReplySlash(""); setShowQuickReplies((v) => !v); }}
+                      title="Respostas rápidas (ou digite / no campo)"
+                      className={`px-3 rounded-xl border text-sm transition-colors ${
+                        showQuickReplies
+                          ? "bg-indigo-600 border-indigo-500 text-white"
+                          : "bg-[#0f1623] border-[#1e2d45] text-slate-400 hover:text-white hover:border-indigo-500/40"
+                      }`}
+                      style={{ height: "42px" }}
+                    >
+                      <Zap className="w-4 h-4" strokeWidth={2.5} />
+                    </button>
+                    <QuickReplies
+                      open={showQuickReplies}
+                      onClose={() => { setShowQuickReplies(false); setQuickReplySlash(""); }}
+                      initialQuery={quickReplySlash}
+                      onInsert={insertQuickReply}
+                      isAdmin={canManageGamification}
+                      vars={{
+                        nome: selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? "",
+                        primeiroNome: (selectedConv.lead?.name ?? selectedConv.companyContact?.name ?? "").split(" ")[0] ?? "",
+                        atendente: userName ?? "",
+                      }}
+                    />
+                  </div>
+
                   {/* Input file invisível — disparado pelo botão 📎 */}
                   <input
                     ref={mediaInputRef}
@@ -5347,10 +5401,15 @@ export default function WhatsappManager({
                       ref={replyTextareaRef}
                       value={replyText}
                       onChange={(e) => {
-                        setReplyText(e.target.value);
+                        const val = e.target.value;
+                        setReplyText(val);
                         // Auto-expand: reset height then set to scrollHeight
                         e.target.style.height = "auto";
                         e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
+                        // Atalho "/" no início → abre respostas rápidas filtrado
+                        const m = val.match(/^\/(\S*)$/);
+                        if (m) { setQuickReplySlash(m[1]); setShowQuickReplies(true); }
+                        else if (quickReplySlash) { setShowQuickReplies(false); setQuickReplySlash(""); }
                       }}
                       onPaste={(e) => {
                         // Aceita print de tela colado direto (Ctrl+V) — ignora texto puro
@@ -5368,8 +5427,16 @@ export default function WhatsappManager({
                         }
                       }}
                       onKeyDown={(e) => {
+                        // Enquanto o "/" está ativo (campo = só "/atalho"), o Enter
+                        // não envia — evita mandar "/bomdia" literal. Fecha com Esc.
+                        const slashTrigger = showQuickReplies && /^\/\S*$/.test(replyText.trim());
+                        if (e.key === "Escape" && showQuickReplies) {
+                          setShowQuickReplies(false); setQuickReplySlash("");
+                          return;
+                        }
                         if (e.key === "Enter" && !e.ctrlKey && !e.shiftKey) {
                           e.preventDefault();
+                          if (slashTrigger) return; // deixa o usuário escolher na lista
                           if ((replyText.trim() || pendingMedia) && !sendingReply) handleReply(e as any);
                         }
                         // Ctrl+Enter ou Shift+Enter → quebra de linha (comportamento default do textarea)

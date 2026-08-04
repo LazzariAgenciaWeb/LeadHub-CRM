@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model QuickReply
+ * 
+ */
+export type QuickReply = $Result.DefaultSelection<Prisma.$QuickReplyPayload>
+/**
  * Model VaultEmailChallenge
  * 
  */
@@ -1431,6 +1436,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs>;
+
+  /**
+   * `prisma.quickReply`: Exposes CRUD operations for the **QuickReply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuickReplies
+    * const quickReplies = await prisma.quickReply.findMany()
+    * ```
+    */
+  get quickReply(): Prisma.QuickReplyDelegate<ExtArgs>;
 
   /**
    * `prisma.vaultEmailChallenge`: Exposes CRUD operations for the **VaultEmailChallenge** model.
@@ -2943,6 +2958,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    QuickReply: 'QuickReply',
     VaultEmailChallenge: 'VaultEmailChallenge',
     VaultTrustedSession: 'VaultTrustedSession',
     UserGoogleConnection: 'UserGoogleConnection',
@@ -3065,7 +3081,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3136,6 +3152,76 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuickReply: {
+        payload: Prisma.$QuickReplyPayload<ExtArgs>
+        fields: Prisma.QuickReplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuickReplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuickReplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          findFirst: {
+            args: Prisma.QuickReplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuickReplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          findMany: {
+            args: Prisma.QuickReplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>[]
+          }
+          create: {
+            args: Prisma.QuickReplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          createMany: {
+            args: Prisma.QuickReplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuickReplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>[]
+          }
+          delete: {
+            args: Prisma.QuickReplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          update: {
+            args: Prisma.QuickReplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuickReplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuickReplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.QuickReplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuickReplyPayload>
+          }
+          aggregate: {
+            args: Prisma.QuickReplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuickReply>
+          }
+          groupBy: {
+            args: Prisma.QuickReplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuickReplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuickReplyCountArgs<ExtArgs>
+            result: $Utils.Optional<QuickReplyCountAggregateOutputType> | number
           }
         }
       }
@@ -10813,6 +10899,7 @@ export namespace Prisma {
     emailCampaignsCreated: number
     assistantsCreated: number
     assistantCalendars: number
+    quickReplies: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10839,6 +10926,7 @@ export namespace Prisma {
     emailCampaignsCreated?: boolean | UserCountOutputTypeCountEmailCampaignsCreatedArgs
     assistantsCreated?: boolean | UserCountOutputTypeCountAssistantsCreatedArgs
     assistantCalendars?: boolean | UserCountOutputTypeCountAssistantCalendarsArgs
+    quickReplies?: boolean | UserCountOutputTypeCountQuickRepliesArgs
   }
 
   // Custom InputTypes
@@ -11013,6 +11101,13 @@ export namespace Prisma {
     where?: AssistantWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountQuickRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuickReplyWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -11091,6 +11186,7 @@ export namespace Prisma {
     services: number
     videoCategories: number
     videoReleases: number
+    quickReplies: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11166,6 +11262,7 @@ export namespace Prisma {
     services?: boolean | CompanyCountOutputTypeCountServicesArgs
     videoCategories?: boolean | CompanyCountOutputTypeCountVideoCategoriesArgs
     videoReleases?: boolean | CompanyCountOutputTypeCountVideoReleasesArgs
+    quickReplies?: boolean | CompanyCountOutputTypeCountQuickRepliesArgs
   }
 
   // Custom InputTypes
@@ -11681,6 +11778,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountVideoReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VideoCategoryReleaseWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountQuickRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuickReplyWhereInput
   }
 
 
@@ -13320,6 +13424,7 @@ export namespace Prisma {
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
     assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
     assistantCalendars?: boolean | User$assistantCalendarsArgs<ExtArgs>
+    quickReplies?: boolean | User$quickRepliesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -13385,6 +13490,7 @@ export namespace Prisma {
     emailCampaignsCreated?: boolean | User$emailCampaignsCreatedArgs<ExtArgs>
     assistantsCreated?: boolean | User$assistantsCreatedArgs<ExtArgs>
     assistantCalendars?: boolean | User$assistantCalendarsArgs<ExtArgs>
+    quickReplies?: boolean | User$quickRepliesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13420,6 +13526,7 @@ export namespace Prisma {
       emailCampaignsCreated: Prisma.$EmailCampaignPayload<ExtArgs>[]
       assistantsCreated: Prisma.$AssistantPayload<ExtArgs>[]
       assistantCalendars: Prisma.$AssistantPayload<ExtArgs>[]
+      quickReplies: Prisma.$QuickReplyPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13826,6 +13933,7 @@ export namespace Prisma {
     emailCampaignsCreated<T extends User$emailCampaignsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$emailCampaignsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailCampaignPayload<ExtArgs>, T, "findMany"> | Null>
     assistantsCreated<T extends User$assistantsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     assistantCalendars<T extends User$assistantCalendarsArgs<ExtArgs> = {}>(args?: Subset<T, User$assistantCalendarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
+    quickReplies<T extends User$quickRepliesArgs<ExtArgs> = {}>(args?: Subset<T, User$quickRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14692,6 +14800,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.quickReplies
+   */
+  export type User$quickRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    where?: QuickReplyWhereInput
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    cursor?: QuickReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuickReplyScalarFieldEnum | QuickReplyScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14703,6 +14831,1042 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuickReply
+   */
+
+  export type AggregateQuickReply = {
+    _count: QuickReplyCountAggregateOutputType | null
+    _avg: QuickReplyAvgAggregateOutputType | null
+    _sum: QuickReplySumAggregateOutputType | null
+    _min: QuickReplyMinAggregateOutputType | null
+    _max: QuickReplyMaxAggregateOutputType | null
+  }
+
+  export type QuickReplyAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type QuickReplySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type QuickReplyMinAggregateOutputType = {
+    id: string | null
+    shortcut: string | null
+    title: string | null
+    body: string | null
+    order: number | null
+    companyId: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuickReplyMaxAggregateOutputType = {
+    id: string | null
+    shortcut: string | null
+    title: string | null
+    body: string | null
+    order: number | null
+    companyId: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuickReplyCountAggregateOutputType = {
+    id: number
+    shortcut: number
+    title: number
+    body: number
+    order: number
+    companyId: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuickReplyAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type QuickReplySumAggregateInputType = {
+    order?: true
+  }
+
+  export type QuickReplyMinAggregateInputType = {
+    id?: true
+    shortcut?: true
+    title?: true
+    body?: true
+    order?: true
+    companyId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuickReplyMaxAggregateInputType = {
+    id?: true
+    shortcut?: true
+    title?: true
+    body?: true
+    order?: true
+    companyId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuickReplyCountAggregateInputType = {
+    id?: true
+    shortcut?: true
+    title?: true
+    body?: true
+    order?: true
+    companyId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuickReplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuickReply to aggregate.
+     */
+    where?: QuickReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuickReplies to fetch.
+     */
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuickReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuickReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuickReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuickReplies
+    **/
+    _count?: true | QuickReplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuickReplyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuickReplySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuickReplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuickReplyMaxAggregateInputType
+  }
+
+  export type GetQuickReplyAggregateType<T extends QuickReplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuickReply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuickReply[P]>
+      : GetScalarType<T[P], AggregateQuickReply[P]>
+  }
+
+
+
+
+  export type QuickReplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuickReplyWhereInput
+    orderBy?: QuickReplyOrderByWithAggregationInput | QuickReplyOrderByWithAggregationInput[]
+    by: QuickReplyScalarFieldEnum[] | QuickReplyScalarFieldEnum
+    having?: QuickReplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuickReplyCountAggregateInputType | true
+    _avg?: QuickReplyAvgAggregateInputType
+    _sum?: QuickReplySumAggregateInputType
+    _min?: QuickReplyMinAggregateInputType
+    _max?: QuickReplyMaxAggregateInputType
+  }
+
+  export type QuickReplyGroupByOutputType = {
+    id: string
+    shortcut: string
+    title: string
+    body: string
+    order: number
+    companyId: string
+    userId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QuickReplyCountAggregateOutputType | null
+    _avg: QuickReplyAvgAggregateOutputType | null
+    _sum: QuickReplySumAggregateOutputType | null
+    _min: QuickReplyMinAggregateOutputType | null
+    _max: QuickReplyMaxAggregateOutputType | null
+  }
+
+  type GetQuickReplyGroupByPayload<T extends QuickReplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuickReplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuickReplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuickReplyGroupByOutputType[P]>
+            : GetScalarType<T[P], QuickReplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuickReplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shortcut?: boolean
+    title?: boolean
+    body?: boolean
+    order?: boolean
+    companyId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | QuickReply$userArgs<ExtArgs>
+  }, ExtArgs["result"]["quickReply"]>
+
+  export type QuickReplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shortcut?: boolean
+    title?: boolean
+    body?: boolean
+    order?: boolean
+    companyId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | QuickReply$userArgs<ExtArgs>
+  }, ExtArgs["result"]["quickReply"]>
+
+  export type QuickReplySelectScalar = {
+    id?: boolean
+    shortcut?: boolean
+    title?: boolean
+    body?: boolean
+    order?: boolean
+    companyId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuickReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | QuickReply$userArgs<ExtArgs>
+  }
+  export type QuickReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    user?: boolean | QuickReply$userArgs<ExtArgs>
+  }
+
+  export type $QuickReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuickReply"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shortcut: string
+      title: string
+      body: string
+      order: number
+      companyId: string
+      userId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quickReply"]>
+    composites: {}
+  }
+
+  type QuickReplyGetPayload<S extends boolean | null | undefined | QuickReplyDefaultArgs> = $Result.GetResult<Prisma.$QuickReplyPayload, S>
+
+  type QuickReplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<QuickReplyFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: QuickReplyCountAggregateInputType | true
+    }
+
+  export interface QuickReplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuickReply'], meta: { name: 'QuickReply' } }
+    /**
+     * Find zero or one QuickReply that matches the filter.
+     * @param {QuickReplyFindUniqueArgs} args - Arguments to find a QuickReply
+     * @example
+     * // Get one QuickReply
+     * const quickReply = await prisma.quickReply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuickReplyFindUniqueArgs>(args: SelectSubset<T, QuickReplyFindUniqueArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one QuickReply that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {QuickReplyFindUniqueOrThrowArgs} args - Arguments to find a QuickReply
+     * @example
+     * // Get one QuickReply
+     * const quickReply = await prisma.quickReply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuickReplyFindUniqueOrThrowArgs>(args: SelectSubset<T, QuickReplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first QuickReply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyFindFirstArgs} args - Arguments to find a QuickReply
+     * @example
+     * // Get one QuickReply
+     * const quickReply = await prisma.quickReply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuickReplyFindFirstArgs>(args?: SelectSubset<T, QuickReplyFindFirstArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first QuickReply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyFindFirstOrThrowArgs} args - Arguments to find a QuickReply
+     * @example
+     * // Get one QuickReply
+     * const quickReply = await prisma.quickReply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuickReplyFindFirstOrThrowArgs>(args?: SelectSubset<T, QuickReplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more QuickReplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuickReplies
+     * const quickReplies = await prisma.quickReply.findMany()
+     * 
+     * // Get first 10 QuickReplies
+     * const quickReplies = await prisma.quickReply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quickReplyWithIdOnly = await prisma.quickReply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuickReplyFindManyArgs>(args?: SelectSubset<T, QuickReplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a QuickReply.
+     * @param {QuickReplyCreateArgs} args - Arguments to create a QuickReply.
+     * @example
+     * // Create one QuickReply
+     * const QuickReply = await prisma.quickReply.create({
+     *   data: {
+     *     // ... data to create a QuickReply
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuickReplyCreateArgs>(args: SelectSubset<T, QuickReplyCreateArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many QuickReplies.
+     * @param {QuickReplyCreateManyArgs} args - Arguments to create many QuickReplies.
+     * @example
+     * // Create many QuickReplies
+     * const quickReply = await prisma.quickReply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuickReplyCreateManyArgs>(args?: SelectSubset<T, QuickReplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuickReplies and returns the data saved in the database.
+     * @param {QuickReplyCreateManyAndReturnArgs} args - Arguments to create many QuickReplies.
+     * @example
+     * // Create many QuickReplies
+     * const quickReply = await prisma.quickReply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuickReplies and only return the `id`
+     * const quickReplyWithIdOnly = await prisma.quickReply.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuickReplyCreateManyAndReturnArgs>(args?: SelectSubset<T, QuickReplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a QuickReply.
+     * @param {QuickReplyDeleteArgs} args - Arguments to delete one QuickReply.
+     * @example
+     * // Delete one QuickReply
+     * const QuickReply = await prisma.quickReply.delete({
+     *   where: {
+     *     // ... filter to delete one QuickReply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuickReplyDeleteArgs>(args: SelectSubset<T, QuickReplyDeleteArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one QuickReply.
+     * @param {QuickReplyUpdateArgs} args - Arguments to update one QuickReply.
+     * @example
+     * // Update one QuickReply
+     * const quickReply = await prisma.quickReply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuickReplyUpdateArgs>(args: SelectSubset<T, QuickReplyUpdateArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more QuickReplies.
+     * @param {QuickReplyDeleteManyArgs} args - Arguments to filter QuickReplies to delete.
+     * @example
+     * // Delete a few QuickReplies
+     * const { count } = await prisma.quickReply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuickReplyDeleteManyArgs>(args?: SelectSubset<T, QuickReplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuickReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuickReplies
+     * const quickReply = await prisma.quickReply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuickReplyUpdateManyArgs>(args: SelectSubset<T, QuickReplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one QuickReply.
+     * @param {QuickReplyUpsertArgs} args - Arguments to update or create a QuickReply.
+     * @example
+     * // Update or create a QuickReply
+     * const quickReply = await prisma.quickReply.upsert({
+     *   create: {
+     *     // ... data to create a QuickReply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuickReply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuickReplyUpsertArgs>(args: SelectSubset<T, QuickReplyUpsertArgs<ExtArgs>>): Prisma__QuickReplyClient<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of QuickReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyCountArgs} args - Arguments to filter QuickReplies to count.
+     * @example
+     * // Count the number of QuickReplies
+     * const count = await prisma.quickReply.count({
+     *   where: {
+     *     // ... the filter for the QuickReplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuickReplyCountArgs>(
+      args?: Subset<T, QuickReplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuickReplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuickReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuickReplyAggregateArgs>(args: Subset<T, QuickReplyAggregateArgs>): Prisma.PrismaPromise<GetQuickReplyAggregateType<T>>
+
+    /**
+     * Group by QuickReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuickReplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuickReplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuickReplyGroupByArgs['orderBy'] }
+        : { orderBy?: QuickReplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuickReplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuickReplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuickReply model
+   */
+  readonly fields: QuickReplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuickReply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuickReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends QuickReply$userArgs<ExtArgs> = {}>(args?: Subset<T, QuickReply$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuickReply model
+   */ 
+  interface QuickReplyFieldRefs {
+    readonly id: FieldRef<"QuickReply", 'String'>
+    readonly shortcut: FieldRef<"QuickReply", 'String'>
+    readonly title: FieldRef<"QuickReply", 'String'>
+    readonly body: FieldRef<"QuickReply", 'String'>
+    readonly order: FieldRef<"QuickReply", 'Int'>
+    readonly companyId: FieldRef<"QuickReply", 'String'>
+    readonly userId: FieldRef<"QuickReply", 'String'>
+    readonly createdAt: FieldRef<"QuickReply", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuickReply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuickReply findUnique
+   */
+  export type QuickReplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which QuickReply to fetch.
+     */
+    where: QuickReplyWhereUniqueInput
+  }
+
+  /**
+   * QuickReply findUniqueOrThrow
+   */
+  export type QuickReplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which QuickReply to fetch.
+     */
+    where: QuickReplyWhereUniqueInput
+  }
+
+  /**
+   * QuickReply findFirst
+   */
+  export type QuickReplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which QuickReply to fetch.
+     */
+    where?: QuickReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuickReplies to fetch.
+     */
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuickReplies.
+     */
+    cursor?: QuickReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuickReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuickReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuickReplies.
+     */
+    distinct?: QuickReplyScalarFieldEnum | QuickReplyScalarFieldEnum[]
+  }
+
+  /**
+   * QuickReply findFirstOrThrow
+   */
+  export type QuickReplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which QuickReply to fetch.
+     */
+    where?: QuickReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuickReplies to fetch.
+     */
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuickReplies.
+     */
+    cursor?: QuickReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuickReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuickReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuickReplies.
+     */
+    distinct?: QuickReplyScalarFieldEnum | QuickReplyScalarFieldEnum[]
+  }
+
+  /**
+   * QuickReply findMany
+   */
+  export type QuickReplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which QuickReplies to fetch.
+     */
+    where?: QuickReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuickReplies to fetch.
+     */
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuickReplies.
+     */
+    cursor?: QuickReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuickReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuickReplies.
+     */
+    skip?: number
+    distinct?: QuickReplyScalarFieldEnum | QuickReplyScalarFieldEnum[]
+  }
+
+  /**
+   * QuickReply create
+   */
+  export type QuickReplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuickReply.
+     */
+    data: XOR<QuickReplyCreateInput, QuickReplyUncheckedCreateInput>
+  }
+
+  /**
+   * QuickReply createMany
+   */
+  export type QuickReplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuickReplies.
+     */
+    data: QuickReplyCreateManyInput | QuickReplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuickReply createManyAndReturn
+   */
+  export type QuickReplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many QuickReplies.
+     */
+    data: QuickReplyCreateManyInput | QuickReplyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuickReply update
+   */
+  export type QuickReplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuickReply.
+     */
+    data: XOR<QuickReplyUpdateInput, QuickReplyUncheckedUpdateInput>
+    /**
+     * Choose, which QuickReply to update.
+     */
+    where: QuickReplyWhereUniqueInput
+  }
+
+  /**
+   * QuickReply updateMany
+   */
+  export type QuickReplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuickReplies.
+     */
+    data: XOR<QuickReplyUpdateManyMutationInput, QuickReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which QuickReplies to update
+     */
+    where?: QuickReplyWhereInput
+  }
+
+  /**
+   * QuickReply upsert
+   */
+  export type QuickReplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuickReply to update in case it exists.
+     */
+    where: QuickReplyWhereUniqueInput
+    /**
+     * In case the QuickReply found by the `where` argument doesn't exist, create a new QuickReply with this data.
+     */
+    create: XOR<QuickReplyCreateInput, QuickReplyUncheckedCreateInput>
+    /**
+     * In case the QuickReply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuickReplyUpdateInput, QuickReplyUncheckedUpdateInput>
+  }
+
+  /**
+   * QuickReply delete
+   */
+  export type QuickReplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    /**
+     * Filter which QuickReply to delete.
+     */
+    where: QuickReplyWhereUniqueInput
+  }
+
+  /**
+   * QuickReply deleteMany
+   */
+  export type QuickReplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuickReplies to delete
+     */
+    where?: QuickReplyWhereInput
+  }
+
+  /**
+   * QuickReply.user
+   */
+  export type QuickReply$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * QuickReply without action
+   */
+  export type QuickReplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
   }
 
 
@@ -18209,6 +19373,7 @@ export namespace Prisma {
     services?: boolean | Company$servicesArgs<ExtArgs>
     videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
     videoReleases?: boolean | Company$videoReleasesArgs<ExtArgs>
+    quickReplies?: boolean | Company$quickRepliesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -18372,6 +19537,7 @@ export namespace Prisma {
     services?: boolean | Company$servicesArgs<ExtArgs>
     videoCategories?: boolean | Company$videoCategoriesArgs<ExtArgs>
     videoReleases?: boolean | Company$videoReleasesArgs<ExtArgs>
+    quickReplies?: boolean | Company$quickRepliesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18457,6 +19623,7 @@ export namespace Prisma {
       services: Prisma.$ServicePayload<ExtArgs>[]
       videoCategories: Prisma.$VideoCategoryPayload<ExtArgs>[]
       videoReleases: Prisma.$VideoCategoryReleasePayload<ExtArgs>[]
+      quickReplies: Prisma.$QuickReplyPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18937,6 +20104,7 @@ export namespace Prisma {
     services<T extends Company$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany"> | Null>
     videoCategories<T extends Company$videoCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$videoCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryPayload<ExtArgs>, T, "findMany"> | Null>
     videoReleases<T extends Company$videoReleasesArgs<ExtArgs> = {}>(args?: Subset<T, Company$videoReleasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoCategoryReleasePayload<ExtArgs>, T, "findMany"> | Null>
+    quickReplies<T extends Company$quickRepliesArgs<ExtArgs> = {}>(args?: Subset<T, Company$quickRepliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuickReplyPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20819,6 +21987,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VideoCategoryReleaseScalarFieldEnum | VideoCategoryReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * Company.quickReplies
+   */
+  export type Company$quickRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuickReply
+     */
+    select?: QuickReplySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuickReplyInclude<ExtArgs> | null
+    where?: QuickReplyWhereInput
+    orderBy?: QuickReplyOrderByWithRelationInput | QuickReplyOrderByWithRelationInput[]
+    cursor?: QuickReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuickReplyScalarFieldEnum | QuickReplyScalarFieldEnum[]
   }
 
   /**
@@ -129766,6 +130954,21 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const QuickReplyScalarFieldEnum: {
+    id: 'id',
+    shortcut: 'shortcut',
+    title: 'title',
+    body: 'body',
+    order: 'order',
+    companyId: 'companyId',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuickReplyScalarFieldEnum = (typeof QuickReplyScalarFieldEnum)[keyof typeof QuickReplyScalarFieldEnum]
+
+
   export const VaultEmailChallengeScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -132525,6 +133728,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignListRelationFilter
     assistantsCreated?: AssistantListRelationFilter
     assistantCalendars?: AssistantListRelationFilter
+    quickReplies?: QuickReplyListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -132568,6 +133772,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignOrderByRelationAggregateInput
     assistantsCreated?: AssistantOrderByRelationAggregateInput
     assistantCalendars?: AssistantOrderByRelationAggregateInput
+    quickReplies?: QuickReplyOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -132614,6 +133819,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignListRelationFilter
     assistantsCreated?: AssistantListRelationFilter
     assistantCalendars?: AssistantListRelationFilter
+    quickReplies?: QuickReplyListRelationFilter
   }, "id" | "email" | "passwordResetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -132654,6 +133860,86 @@ export namespace Prisma {
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
     rankingCategory?: EnumRankingCategoryWithAggregatesFilter<"User"> | $Enums.RankingCategory
     lastBadgeSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  }
+
+  export type QuickReplyWhereInput = {
+    AND?: QuickReplyWhereInput | QuickReplyWhereInput[]
+    OR?: QuickReplyWhereInput[]
+    NOT?: QuickReplyWhereInput | QuickReplyWhereInput[]
+    id?: StringFilter<"QuickReply"> | string
+    shortcut?: StringFilter<"QuickReply"> | string
+    title?: StringFilter<"QuickReply"> | string
+    body?: StringFilter<"QuickReply"> | string
+    order?: IntFilter<"QuickReply"> | number
+    companyId?: StringFilter<"QuickReply"> | string
+    userId?: StringNullableFilter<"QuickReply"> | string | null
+    createdAt?: DateTimeFilter<"QuickReply"> | Date | string
+    updatedAt?: DateTimeFilter<"QuickReply"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type QuickReplyOrderByWithRelationInput = {
+    id?: SortOrder
+    shortcut?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type QuickReplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuickReplyWhereInput | QuickReplyWhereInput[]
+    OR?: QuickReplyWhereInput[]
+    NOT?: QuickReplyWhereInput | QuickReplyWhereInput[]
+    shortcut?: StringFilter<"QuickReply"> | string
+    title?: StringFilter<"QuickReply"> | string
+    body?: StringFilter<"QuickReply"> | string
+    order?: IntFilter<"QuickReply"> | number
+    companyId?: StringFilter<"QuickReply"> | string
+    userId?: StringNullableFilter<"QuickReply"> | string | null
+    createdAt?: DateTimeFilter<"QuickReply"> | Date | string
+    updatedAt?: DateTimeFilter<"QuickReply"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type QuickReplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    shortcut?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuickReplyCountOrderByAggregateInput
+    _avg?: QuickReplyAvgOrderByAggregateInput
+    _max?: QuickReplyMaxOrderByAggregateInput
+    _min?: QuickReplyMinOrderByAggregateInput
+    _sum?: QuickReplySumOrderByAggregateInput
+  }
+
+  export type QuickReplyScalarWhereWithAggregatesInput = {
+    AND?: QuickReplyScalarWhereWithAggregatesInput | QuickReplyScalarWhereWithAggregatesInput[]
+    OR?: QuickReplyScalarWhereWithAggregatesInput[]
+    NOT?: QuickReplyScalarWhereWithAggregatesInput | QuickReplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuickReply"> | string
+    shortcut?: StringWithAggregatesFilter<"QuickReply"> | string
+    title?: StringWithAggregatesFilter<"QuickReply"> | string
+    body?: StringWithAggregatesFilter<"QuickReply"> | string
+    order?: IntWithAggregatesFilter<"QuickReply"> | number
+    companyId?: StringWithAggregatesFilter<"QuickReply"> | string
+    userId?: StringNullableWithAggregatesFilter<"QuickReply"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"QuickReply"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuickReply"> | Date | string
   }
 
   export type VaultEmailChallengeWhereInput = {
@@ -132997,6 +134283,7 @@ export namespace Prisma {
     services?: ServiceListRelationFilter
     videoCategories?: VideoCategoryListRelationFilter
     videoReleases?: VideoCategoryReleaseListRelationFilter
+    quickReplies?: QuickReplyListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -133114,6 +134401,7 @@ export namespace Prisma {
     services?: ServiceOrderByRelationAggregateInput
     videoCategories?: VideoCategoryOrderByRelationAggregateInput
     videoReleases?: VideoCategoryReleaseOrderByRelationAggregateInput
+    quickReplies?: QuickReplyOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -133234,6 +134522,7 @@ export namespace Prisma {
     services?: ServiceListRelationFilter
     videoCategories?: VideoCategoryListRelationFilter
     videoReleases?: VideoCategoryReleaseListRelationFilter
+    quickReplies?: QuickReplyListRelationFilter
   }, "id" | "slug" | "webhookToken">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -142939,6 +144228,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -142981,6 +144271,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -143023,6 +144314,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -143065,6 +144357,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -143115,6 +144408,88 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
     lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type QuickReplyCreateInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutQuickRepliesInput
+    user?: UserCreateNestedOneWithoutQuickRepliesInput
+  }
+
+  export type QuickReplyUncheckedCreateInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    companyId: string
+    userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuickReplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutQuickRepliesNestedInput
+    user?: UserUpdateOneWithoutQuickRepliesNestedInput
+  }
+
+  export type QuickReplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyCreateManyInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    companyId: string
+    userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuickReplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VaultEmailChallengeCreateInput = {
@@ -143473,6 +144848,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -143589,6 +144965,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -143705,6 +145082,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -143821,6 +145199,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -154722,6 +156101,12 @@ export namespace Prisma {
     none?: AssistantWhereInput
   }
 
+  export type QuickReplyListRelationFilter = {
+    every?: QuickReplyWhereInput
+    some?: QuickReplyWhereInput
+    none?: QuickReplyWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -154800,6 +156185,10 @@ export namespace Prisma {
   }
 
   export type AssistantOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuickReplyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -154957,6 +156346,76 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type CompanyRelationFilter = {
+    is?: CompanyWhereInput
+    isNot?: CompanyWhereInput
+  }
+
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type QuickReplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    shortcut?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuickReplyAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type QuickReplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shortcut?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuickReplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    shortcut?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    order?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuickReplySumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -155001,22 +156460,6 @@ export namespace Prisma {
 
   export type VaultEmailChallengeSumOrderByAggregateInput = {
     attempts?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type VaultTrustedSessionCountOrderByAggregateInput = {
@@ -155919,11 +157362,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type CompanyRelationFilter = {
-    is?: CompanyWhereInput
-    isNot?: CompanyWhereInput
-  }
-
   export type CampaignCompanyIdSlugCompoundUniqueInput = {
     companyId: string
     slug: string
@@ -156680,11 +158118,6 @@ export namespace Prisma {
     in?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
     notIn?: $Enums.TaskSource[] | ListEnumTaskSourceFieldRefInput<$PrismaModel>
     not?: NestedEnumTaskSourceFilter<$PrismaModel> | $Enums.TaskSource
-  }
-
-  export type UserNullableRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type TaskCountOrderByAggregateInput = {
@@ -162796,6 +164229,13 @@ export namespace Prisma {
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
   }
 
+  export type QuickReplyCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput> | QuickReplyCreateWithoutUserInput[] | QuickReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutUserInput | QuickReplyCreateOrConnectWithoutUserInput[]
+    createMany?: QuickReplyCreateManyUserInputEnvelope
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -162967,6 +164407,13 @@ export namespace Prisma {
     connectOrCreate?: AssistantCreateOrConnectWithoutCalendarUserInput | AssistantCreateOrConnectWithoutCalendarUserInput[]
     createMany?: AssistantCreateManyCalendarUserInputEnvelope
     connect?: AssistantWhereUniqueInput | AssistantWhereUniqueInput[]
+  }
+
+  export type QuickReplyUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput> | QuickReplyCreateWithoutUserInput[] | QuickReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutUserInput | QuickReplyCreateOrConnectWithoutUserInput[]
+    createMany?: QuickReplyCreateManyUserInputEnvelope
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -163349,6 +164796,20 @@ export namespace Prisma {
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
+  export type QuickReplyUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput> | QuickReplyCreateWithoutUserInput[] | QuickReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutUserInput | QuickReplyCreateOrConnectWithoutUserInput[]
+    upsert?: QuickReplyUpsertWithWhereUniqueWithoutUserInput | QuickReplyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuickReplyCreateManyUserInputEnvelope
+    set?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    disconnect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    delete?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    update?: QuickReplyUpdateWithWhereUniqueWithoutUserInput | QuickReplyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuickReplyUpdateManyWithWhereWithoutUserInput | QuickReplyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -163691,9 +165152,29 @@ export namespace Prisma {
     deleteMany?: AssistantScalarWhereInput | AssistantScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutVaultChallengesInput = {
-    create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
+  export type QuickReplyUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput> | QuickReplyCreateWithoutUserInput[] | QuickReplyUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutUserInput | QuickReplyCreateOrConnectWithoutUserInput[]
+    upsert?: QuickReplyUpsertWithWhereUniqueWithoutUserInput | QuickReplyUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuickReplyCreateManyUserInputEnvelope
+    set?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    disconnect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    delete?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    update?: QuickReplyUpdateWithWhereUniqueWithoutUserInput | QuickReplyUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuickReplyUpdateManyWithWhereWithoutUserInput | QuickReplyUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutQuickRepliesInput = {
+    create?: XOR<CompanyCreateWithoutQuickRepliesInput, CompanyUncheckedCreateWithoutQuickRepliesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutQuickRepliesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutQuickRepliesInput = {
+    create?: XOR<UserCreateWithoutQuickRepliesInput, UserUncheckedCreateWithoutQuickRepliesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuickRepliesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -163703,6 +165184,30 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type CompanyUpdateOneRequiredWithoutQuickRepliesNestedInput = {
+    create?: XOR<CompanyCreateWithoutQuickRepliesInput, CompanyUncheckedCreateWithoutQuickRepliesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutQuickRepliesInput
+    upsert?: CompanyUpsertWithoutQuickRepliesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutQuickRepliesInput, CompanyUpdateWithoutQuickRepliesInput>, CompanyUncheckedUpdateWithoutQuickRepliesInput>
+  }
+
+  export type UserUpdateOneWithoutQuickRepliesNestedInput = {
+    create?: XOR<UserCreateWithoutQuickRepliesInput, UserUncheckedCreateWithoutQuickRepliesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuickRepliesInput
+    upsert?: UserUpsertWithoutQuickRepliesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutQuickRepliesInput, UserUpdateWithoutQuickRepliesInput>, UserUncheckedUpdateWithoutQuickRepliesInput>
+  }
+
+  export type UserCreateNestedOneWithoutVaultChallengesInput = {
+    create?: XOR<UserCreateWithoutVaultChallengesInput, UserUncheckedCreateWithoutVaultChallengesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVaultChallengesInput
+    connect?: UserWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutVaultChallengesNestedInput = {
@@ -164278,6 +165783,13 @@ export namespace Prisma {
     connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
   }
 
+  export type QuickReplyCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput> | QuickReplyCreateWithoutCompanyInput[] | QuickReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutCompanyInput | QuickReplyCreateOrConnectWithoutCompanyInput[]
+    createMany?: QuickReplyCreateManyCompanyInputEnvelope
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -164798,6 +166310,13 @@ export namespace Prisma {
     connectOrCreate?: VideoCategoryReleaseCreateOrConnectWithoutCompanyInput | VideoCategoryReleaseCreateOrConnectWithoutCompanyInput[]
     createMany?: VideoCategoryReleaseCreateManyCompanyInputEnvelope
     connect?: VideoCategoryReleaseWhereUniqueInput | VideoCategoryReleaseWhereUniqueInput[]
+  }
+
+  export type QuickReplyUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput> | QuickReplyCreateWithoutCompanyInput[] | QuickReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutCompanyInput | QuickReplyCreateOrConnectWithoutCompanyInput[]
+    createMany?: QuickReplyCreateManyCompanyInputEnvelope
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -165856,6 +167375,20 @@ export namespace Prisma {
     deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
   }
 
+  export type QuickReplyUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput> | QuickReplyCreateWithoutCompanyInput[] | QuickReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutCompanyInput | QuickReplyCreateOrConnectWithoutCompanyInput[]
+    upsert?: QuickReplyUpsertWithWhereUniqueWithoutCompanyInput | QuickReplyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: QuickReplyCreateManyCompanyInputEnvelope
+    set?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    disconnect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    delete?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    update?: QuickReplyUpdateWithWhereUniqueWithoutCompanyInput | QuickReplyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: QuickReplyUpdateManyWithWhereWithoutCompanyInput | QuickReplyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -166892,6 +168425,20 @@ export namespace Prisma {
     update?: VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput | VideoCategoryReleaseUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput | VideoCategoryReleaseUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: VideoCategoryReleaseScalarWhereInput | VideoCategoryReleaseScalarWhereInput[]
+  }
+
+  export type QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput> | QuickReplyCreateWithoutCompanyInput[] | QuickReplyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: QuickReplyCreateOrConnectWithoutCompanyInput | QuickReplyCreateOrConnectWithoutCompanyInput[]
+    upsert?: QuickReplyUpsertWithWhereUniqueWithoutCompanyInput | QuickReplyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: QuickReplyCreateManyCompanyInputEnvelope
+    set?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    disconnect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    delete?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    connect?: QuickReplyWhereUniqueInput | QuickReplyWhereUniqueInput[]
+    update?: QuickReplyUpdateWithWhereUniqueWithoutCompanyInput | QuickReplyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: QuickReplyUpdateManyWithWhereWithoutCompanyInput | QuickReplyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -174047,6 +175594,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -174162,6 +175710,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -175185,6 +176734,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type QuickReplyCreateWithoutUserInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutQuickRepliesInput
+  }
+
+  export type QuickReplyUncheckedCreateWithoutUserInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuickReplyCreateOrConnectWithoutUserInput = {
+    where: QuickReplyWhereUniqueInput
+    create: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuickReplyCreateManyUserInputEnvelope = {
+    data: QuickReplyCreateManyUserInput | QuickReplyCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -175309,6 +176890,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -175424,6 +177006,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -176195,6 +177778,701 @@ export namespace Prisma {
     data: XOR<AssistantUpdateManyMutationInput, AssistantUncheckedUpdateManyWithoutCalendarUserInput>
   }
 
+  export type QuickReplyUpsertWithWhereUniqueWithoutUserInput = {
+    where: QuickReplyWhereUniqueInput
+    update: XOR<QuickReplyUpdateWithoutUserInput, QuickReplyUncheckedUpdateWithoutUserInput>
+    create: XOR<QuickReplyCreateWithoutUserInput, QuickReplyUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuickReplyUpdateWithWhereUniqueWithoutUserInput = {
+    where: QuickReplyWhereUniqueInput
+    data: XOR<QuickReplyUpdateWithoutUserInput, QuickReplyUncheckedUpdateWithoutUserInput>
+  }
+
+  export type QuickReplyUpdateManyWithWhereWithoutUserInput = {
+    where: QuickReplyScalarWhereInput
+    data: XOR<QuickReplyUpdateManyMutationInput, QuickReplyUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type QuickReplyScalarWhereInput = {
+    AND?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
+    OR?: QuickReplyScalarWhereInput[]
+    NOT?: QuickReplyScalarWhereInput | QuickReplyScalarWhereInput[]
+    id?: StringFilter<"QuickReply"> | string
+    shortcut?: StringFilter<"QuickReply"> | string
+    title?: StringFilter<"QuickReply"> | string
+    body?: StringFilter<"QuickReply"> | string
+    order?: IntFilter<"QuickReply"> | number
+    companyId?: StringFilter<"QuickReply"> | string
+    userId?: StringNullableFilter<"QuickReply"> | string | null
+    createdAt?: DateTimeFilter<"QuickReply"> | Date | string
+    updatedAt?: DateTimeFilter<"QuickReply"> | Date | string
+  }
+
+  export type CompanyCreateWithoutQuickRepliesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutQuickRepliesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutQuickRepliesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutQuickRepliesInput, CompanyUncheckedCreateWithoutQuickRepliesInput>
+  }
+
+  export type UserCreateWithoutQuickRepliesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+  }
+
+  export type UserUncheckedCreateWithoutQuickRepliesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+  }
+
+  export type UserCreateOrConnectWithoutQuickRepliesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutQuickRepliesInput, UserUncheckedCreateWithoutQuickRepliesInput>
+  }
+
+  export type CompanyUpsertWithoutQuickRepliesInput = {
+    update: XOR<CompanyUpdateWithoutQuickRepliesInput, CompanyUncheckedUpdateWithoutQuickRepliesInput>
+    create: XOR<CompanyCreateWithoutQuickRepliesInput, CompanyUncheckedCreateWithoutQuickRepliesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutQuickRepliesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutQuickRepliesInput, CompanyUncheckedUpdateWithoutQuickRepliesInput>
+  }
+
+  export type CompanyUpdateWithoutQuickRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutQuickRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutQuickRepliesInput = {
+    update: XOR<UserUpdateWithoutQuickRepliesInput, UserUncheckedUpdateWithoutQuickRepliesInput>
+    create: XOR<UserCreateWithoutQuickRepliesInput, UserUncheckedCreateWithoutQuickRepliesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutQuickRepliesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutQuickRepliesInput, UserUncheckedUpdateWithoutQuickRepliesInput>
+  }
+
+  export type UserUpdateWithoutQuickRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutQuickRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+  }
+
   export type UserCreateWithoutVaultChallengesInput = {
     id?: string
     name: string
@@ -176234,6 +178512,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -176275,6 +178554,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -176332,6 +178612,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -176373,6 +178654,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -176414,6 +178696,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -176455,6 +178738,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -176512,6 +178796,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -176553,6 +178838,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -176594,6 +178880,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -176635,6 +178922,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -176692,6 +178980,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -176733,6 +179022,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -176848,6 +179138,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -176963,6 +179254,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -177083,6 +179375,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -177198,6 +179491,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -177249,6 +179543,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -177290,6 +179585,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -180367,6 +182663,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type QuickReplyCreateWithoutCompanyInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutQuickRepliesInput
+  }
+
+  export type QuickReplyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuickReplyCreateOrConnectWithoutCompanyInput = {
+    where: QuickReplyWhereUniqueInput
+    create: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type QuickReplyCreateManyCompanyInputEnvelope = {
+    data: QuickReplyCreateManyCompanyInput | QuickReplyCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -180491,6 +182819,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -180606,6 +182935,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -183045,6 +185375,22 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VideoCategoryRelease"> | Date | string
   }
 
+  export type QuickReplyUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: QuickReplyWhereUniqueInput
+    update: XOR<QuickReplyUpdateWithoutCompanyInput, QuickReplyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<QuickReplyCreateWithoutCompanyInput, QuickReplyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type QuickReplyUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: QuickReplyWhereUniqueInput
+    data: XOR<QuickReplyUpdateWithoutCompanyInput, QuickReplyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type QuickReplyUpdateManyWithWhereWithoutCompanyInput = {
+    where: QuickReplyScalarWhereInput
+    data: XOR<QuickReplyUpdateManyMutationInput, QuickReplyUncheckedUpdateManyWithoutCompanyInput>
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -183158,6 +185504,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -183273,6 +185620,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -183650,6 +185998,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -183765,6 +186114,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -183985,6 +186335,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -184100,6 +186451,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -184418,6 +186770,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -184533,6 +186886,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -184776,6 +187130,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -184891,6 +187246,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -185538,6 +187894,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -185653,6 +188010,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -186173,6 +188531,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -186288,6 +188647,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -186439,6 +188799,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -186554,6 +188915,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -186965,6 +189327,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -187080,6 +189443,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -187237,6 +189601,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -187352,6 +189717,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -187775,6 +190141,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -187890,6 +190257,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -188047,6 +190415,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -188162,6 +190531,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -188293,6 +190663,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -188408,6 +190779,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -188568,6 +190940,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -188683,6 +191056,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -188942,6 +191316,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -189057,6 +191432,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -189103,6 +191479,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -189144,6 +191521,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -189190,6 +191568,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -189231,6 +191610,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -189477,6 +191857,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -189592,6 +191973,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -189644,6 +192026,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -189685,6 +192068,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -189737,6 +192121,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -189778,6 +192163,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -190117,6 +192503,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -190232,6 +192619,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -190363,6 +192751,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -190478,6 +192867,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -190593,6 +192983,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -190708,6 +193099,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -190754,6 +193146,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -190795,6 +193188,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -190926,6 +193320,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -191041,6 +193436,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -191093,6 +193489,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -191134,6 +193531,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -191249,6 +193647,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -191364,6 +193763,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -191673,6 +194073,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -191788,6 +194189,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -191975,6 +194377,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -192090,6 +194493,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -192388,6 +194792,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -192429,6 +194834,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -192560,6 +194966,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -192675,6 +195082,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -193003,6 +195411,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -193044,6 +195453,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -193159,6 +195569,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -193274,6 +195685,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -193446,6 +195858,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -193561,6 +195974,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -193649,6 +196063,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -193690,6 +196105,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -193881,6 +196297,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -193996,6 +196413,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -194289,6 +196707,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -194330,6 +196749,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -194533,6 +196953,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -194648,6 +197069,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -195197,6 +197619,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -195312,6 +197735,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -195690,6 +198114,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -195805,6 +198230,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -195920,6 +198346,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -196035,6 +198462,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -196081,6 +198509,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -196122,6 +198551,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -196242,6 +198672,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -196357,6 +198788,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -196403,6 +198835,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -196444,6 +198877,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -196873,6 +199307,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -196988,6 +199423,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -197040,6 +199476,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -197081,6 +199518,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -197207,6 +199645,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -197322,6 +199761,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -197374,6 +199814,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -197415,6 +199856,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -197891,6 +200333,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -198006,6 +200449,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -198435,6 +200879,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -198550,6 +200995,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -199161,6 +201607,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -199276,6 +201723,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -199831,6 +202279,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -199946,6 +202395,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutProjectsInput = {
@@ -200328,6 +202778,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -200369,6 +202820,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -200415,6 +202867,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -200456,6 +202909,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -200669,6 +203123,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -200710,6 +203165,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -200762,6 +203218,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -200803,6 +203260,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -201231,6 +203689,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -201272,6 +203731,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -201394,6 +203854,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -201435,6 +203896,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -201549,6 +204011,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -201590,6 +204053,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -201726,6 +204190,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -201767,6 +204232,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -202185,6 +204651,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -202226,6 +204693,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -202362,6 +204830,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -202403,6 +204872,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -202775,6 +205245,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -202816,6 +205287,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -202950,6 +205422,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -202991,6 +205464,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -203342,6 +205816,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -203457,6 +205932,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -203638,6 +206114,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -203753,6 +206230,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -204090,6 +206568,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -204205,6 +206684,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -204387,6 +206867,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -204502,6 +206983,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSecureNotesInput = {
@@ -204617,6 +207099,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
@@ -204732,6 +207215,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNotesInput = {
@@ -204897,6 +207381,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
@@ -205012,6 +207497,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
@@ -205174,6 +207660,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
@@ -205289,6 +207776,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
@@ -205457,6 +207945,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
@@ -205572,6 +208061,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -205687,6 +208177,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -205802,6 +208293,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -205933,6 +208425,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -206048,6 +208541,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionConfigInput = {
@@ -206163,6 +208657,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
@@ -206278,6 +208773,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
@@ -206409,6 +208905,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
@@ -206524,6 +209021,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionLogsInput = {
@@ -206639,6 +209137,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
@@ -206754,6 +209253,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
@@ -206885,6 +209385,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
@@ -207000,6 +209501,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutInstagramAccountsInput = {
@@ -207115,6 +209617,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
@@ -207230,6 +209733,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
@@ -207505,6 +210009,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
@@ -207620,6 +210125,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -207783,6 +210289,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
@@ -207898,6 +210405,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
@@ -208118,6 +210626,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
@@ -208233,6 +210742,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutAutomationsInput = {
@@ -208415,6 +210925,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
@@ -208530,6 +211041,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
@@ -208757,6 +211269,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
@@ -208872,6 +211385,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutRunsInput = {
@@ -209095,6 +211609,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
@@ -209210,6 +211725,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgConversationsInput = {
@@ -209416,6 +211932,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
@@ -209531,6 +212048,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutConversationsInput = {
@@ -209811,6 +212329,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
@@ -209926,6 +212445,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutFacebookPagesInput = {
@@ -210057,6 +212577,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
@@ -210172,6 +212693,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -210287,6 +212809,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -210402,6 +212925,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -210533,6 +213057,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -210648,6 +213173,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -210763,6 +213289,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -210878,6 +213405,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -211009,6 +213537,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -211124,6 +213653,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -211239,6 +213769,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -211354,6 +213885,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -211485,6 +214017,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -211600,6 +214133,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -211715,6 +214249,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -211830,6 +214365,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -211961,6 +214497,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -212076,6 +214613,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
@@ -212191,6 +214729,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
@@ -212306,6 +214845,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventDailyInput = {
@@ -212437,6 +214977,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
@@ -212552,6 +215093,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingEventConfigInput = {
@@ -212667,6 +215209,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
@@ -212782,6 +215325,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingEventConfigInput = {
@@ -212913,6 +215457,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
@@ -213028,6 +215573,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -213143,6 +215689,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -213258,6 +215805,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -213389,6 +215937,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -213504,6 +216053,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -213619,6 +216169,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -213734,6 +216285,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -213865,6 +216417,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -213980,6 +216533,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -214095,6 +216649,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -214210,6 +216765,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -214341,6 +216897,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -214456,6 +217013,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -214571,6 +217129,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -214686,6 +217245,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -214817,6 +217377,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -214932,6 +217493,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -215047,6 +217609,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -215162,6 +217725,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -215293,6 +217857,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -215408,6 +217973,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
@@ -215523,6 +218089,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
@@ -215638,6 +218205,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
@@ -215769,6 +218337,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
@@ -215884,6 +218453,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
@@ -215999,6 +218569,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
@@ -216114,6 +218685,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdSearchTermDailiesInput = {
@@ -216245,6 +218817,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
@@ -216360,6 +218933,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativesInput = {
@@ -216475,6 +219049,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
@@ -216590,6 +219165,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativesInput = {
@@ -216721,6 +219297,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
@@ -216836,6 +219413,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
@@ -216951,6 +219529,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
@@ -217066,6 +219645,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativeDailiesInput = {
@@ -217197,6 +219777,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
@@ -217312,6 +219893,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -217427,6 +220009,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -217542,6 +220125,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -217673,6 +220257,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -217788,6 +220373,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -217903,6 +220489,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -218018,6 +220605,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -218173,6 +220761,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -218288,6 +220877,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -218490,6 +221080,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -218605,6 +221196,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -218772,6 +221364,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -218887,6 +221480,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -218944,6 +221538,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -218985,6 +221580,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -219105,6 +221701,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -219220,6 +221817,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -219308,6 +221906,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -219349,6 +221948,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -219475,6 +222075,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -219590,6 +222191,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -219668,6 +222270,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -219709,6 +222312,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -219829,6 +222433,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -219944,6 +222549,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -220001,6 +222607,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -220042,6 +222649,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -220168,6 +222776,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -220283,6 +222892,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -220324,6 +222934,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -220365,6 +222976,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -220485,6 +223097,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -220600,6 +223213,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -220657,6 +223271,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -220698,6 +223313,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -220824,6 +223440,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -220939,6 +223556,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -220980,6 +223598,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -221021,6 +223640,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -221141,6 +223761,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -221256,6 +223877,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -221313,6 +223935,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -221354,6 +223977,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -221480,6 +224104,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -221595,6 +224220,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -221710,6 +224336,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -221825,6 +224452,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -221956,6 +224584,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -222071,6 +224700,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -222112,6 +224742,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -222153,6 +224784,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -222210,6 +224842,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -222251,6 +224884,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -222292,6 +224926,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -222333,6 +224968,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -222390,6 +225026,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -222431,6 +225068,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -222546,6 +225184,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -222661,6 +225300,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -222792,6 +225432,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -222907,6 +225548,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -223022,6 +225664,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -223137,6 +225780,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -223330,6 +225974,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -223445,6 +226090,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -223603,6 +226249,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -223718,6 +226365,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -223764,6 +226412,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -223805,6 +226454,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -224129,6 +226779,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -224244,6 +226895,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -224296,6 +226948,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -224337,6 +226990,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -224973,6 +227627,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -225088,6 +227743,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -225219,6 +227875,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -225334,6 +227991,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailAccountsInput = {
@@ -225449,6 +228107,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailAccountsInput = {
@@ -225564,6 +228223,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailAccountsInput = {
@@ -225781,6 +228441,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailAccountsInput = {
@@ -225896,6 +228557,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutAccountInput = {
@@ -226043,6 +228705,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailsInput = {
@@ -226158,6 +228821,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailsInput = {
@@ -226573,6 +229237,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailsInput = {
@@ -226688,6 +229353,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type EmailAccountUpsertWithoutEmailsInput = {
@@ -227101,6 +229767,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxSenderRulesInput = {
@@ -227216,6 +229883,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxSenderRulesInput = {
@@ -227347,6 +230015,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxSenderRulesInput = {
@@ -227462,6 +230131,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailCreateWithoutAttachmentsInput = {
@@ -227701,6 +230371,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailTagsInput = {
@@ -227816,6 +230487,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailTagsInput = {
@@ -228006,6 +230678,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailTagsInput = {
@@ -228121,6 +230794,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutTagsInput = {
@@ -228252,6 +230926,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -228367,6 +231042,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -228498,6 +231174,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -228613,6 +231290,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAddonsInput = {
@@ -228728,6 +231406,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAddonsInput = {
@@ -228843,6 +231522,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAddonsInput = {
@@ -228974,6 +231654,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAddonsInput = {
@@ -229089,6 +231770,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CouponRedemptionCreateWithoutCouponInput = {
@@ -229287,6 +231969,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCouponRedemptionsInput = {
@@ -229402,6 +232085,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCouponRedemptionsInput = {
@@ -229580,6 +232264,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCouponRedemptionsInput = {
@@ -229695,6 +232380,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAssistantsInput = {
@@ -229810,6 +232496,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
@@ -229925,6 +232612,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
@@ -229971,6 +232659,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
@@ -230012,6 +232701,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
@@ -230165,6 +232855,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -230206,6 +232897,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
     emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
     assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -230337,6 +233029,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
@@ -230452,6 +233145,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutAssistantCalendarsInput = {
@@ -230504,6 +233198,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
@@ -230545,6 +233240,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -230676,6 +233372,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -230717,6 +233414,7 @@ export namespace Prisma {
     notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateWithoutScheduledMessagesInput = {
@@ -230832,6 +233530,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
@@ -230947,6 +233646,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScheduledMessagesInput = {
@@ -231119,6 +233819,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
@@ -231234,6 +233935,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutScheduledMessagesInput = {
@@ -231668,6 +234370,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
@@ -231783,6 +234486,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
@@ -231973,6 +234677,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
@@ -232088,6 +234793,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AssistantUpsertWithoutUsageLogsInput = {
@@ -232268,6 +234974,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
@@ -232383,6 +235090,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -232662,6 +235370,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
@@ -232777,6 +235486,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -232940,6 +235650,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
@@ -233055,6 +235766,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientServicesInput = {
@@ -233273,6 +235985,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
@@ -233388,6 +236101,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutClientInstancesInput = {
@@ -233566,6 +236280,7 @@ export namespace Prisma {
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
@@ -233681,6 +236396,7 @@ export namespace Prisma {
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
@@ -233847,6 +236563,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
@@ -233962,6 +236679,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithoutInvoicesInput = {
@@ -234118,6 +236836,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
@@ -234233,6 +236952,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoCategoriesInput = {
@@ -234422,6 +237142,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
@@ -234537,6 +237258,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type VideoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -234738,6 +237460,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
     services?: ServiceCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
@@ -234853,6 +237576,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
     services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
     videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoReleasesInput = {
@@ -235027,6 +237751,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
@@ -235142,6 +237867,7 @@ export namespace Prisma {
     aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type VideoCategoryCreateWithoutVideosInput = {
@@ -235568,6 +238294,17 @@ export namespace Prisma {
     model?: string | null
     temperature?: number | null
     createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuickReplyCreateManyUserInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    companyId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -236652,6 +239389,39 @@ export namespace Prisma {
     model?: NullableStringFieldUpdateOperationsInput | string | null
     temperature?: NullableFloatFieldUpdateOperationsInput | number | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutQuickRepliesNestedInput
+  }
+
+  export type QuickReplyUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    companyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -237761,6 +240531,17 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type QuickReplyCreateManyCompanyInput = {
+    id?: string
+    shortcut: string
+    title: string
+    body: string
+    order?: number
+    userId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -237874,6 +240655,7 @@ export namespace Prisma {
     services?: ServiceUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -237989,6 +240771,7 @@ export namespace Prisma {
     services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
     videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -238070,6 +240853,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -238111,6 +240895,7 @@ export namespace Prisma {
     emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
     assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -241420,6 +244205,39 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutQuickRepliesNestedInput
+  }
+
+  export type QuickReplyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuickReplyUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shortcut?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeadCreateManyCampaignInput = {
@@ -246375,6 +249193,10 @@ export namespace Prisma {
      * @deprecated Use UserDefaultArgs instead
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use QuickReplyDefaultArgs instead
+     */
+    export type QuickReplyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = QuickReplyDefaultArgs<ExtArgs>
     /**
      * @deprecated Use VaultEmailChallengeDefaultArgs instead
      */

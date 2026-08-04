@@ -63,8 +63,33 @@ model User {
   emailCampaignsCreated EmailCampaign[]        @relation("EmailCampaignCreatedBy")
   assistantsCreated     Assistant[]
   assistantCalendars    Assistant[]            @relation("AssistantCalendarUser")
+  quickReplies          QuickReply[]
 
   @@index([companyId])
+}
+
+// Respostas rápidas (atalhos de mensagem padrão) do WhatsApp — estilo
+// "quick replies" do WhatsApp Business. userId null = compartilhada da empresa
+// (toda a equipe vê); userId setado = pessoal daquele usuário.
+// Body aceita variáveis: {nome} (contato/lead), {primeiroNome}, {atendente}.
+model QuickReply {
+  id       String @id @default(cuid())
+  shortcut String // atalho digitável, sem a barra (ex: "bomdia")
+  title    String // rótulo curto pra achar na lista
+  body     String @db.Text
+  order    Int    @default(0)
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  // Pessoal (dono) — null = compartilhada da empresa
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([userId])
 }
 
 // ─── 2FA por e-mail para revelar credenciais do cofre ─────────────────────────
@@ -304,6 +329,7 @@ model Company {
   services                Service[]
   videoCategories         VideoCategory[]          @relation("CompanyVideoCategories")
   videoReleases           VideoCategoryRelease[]   @relation("CompanyVideoReleases")
+  quickReplies            QuickReply[]
   triggerOnly             Boolean                  @default(false)
   webhookToken            String?                  @unique // token público para receber leads via webhook
 
