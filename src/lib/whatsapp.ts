@@ -686,6 +686,22 @@ export async function processInboundMessage(payload: {
       }
     }
 
+    // Dedup/eco: se já temos esta mensagem (mesmo externalId), é re-entrega OU o
+    // eco da NOSSA própria mensagem ouvido por outra instância do grupo. NÃO
+    // reprocessa — senão o upsertConversation abaixo reabre a conversa (volta pra
+    // OPEN → PENDING/vermelho) mesmo tendo a gente respondido. O envio pelo painel
+    // já gravou a mensagem (OUTBOUND) e deixou o status como WAITING_CUSTOMER.
+    if (externalId) {
+      const already = await prisma.message.findUnique({
+        where: { externalId },
+        select: { id: true },
+      }).catch(() => null);
+      if (already) {
+        console.log(`[WA inbound] grupo: externalId ${externalId} já existe — ignorando eco (não reabre)`);
+        return null;
+      }
+    }
+
     // Em grupo, descobre se quem ENVIOU é uma das nossas instâncias.
     // Se for, trata como OUTBOUND (não devolve a conversa para OPEN só porque
     // outra instância nossa ouviu o eco do envio).

@@ -39059,6 +39059,7 @@ export namespace Prisma {
     leadId: string | null
     conversationId: string | null
     sentByUserId: string | null
+    sentByAI: boolean | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -39083,6 +39084,7 @@ export namespace Prisma {
     leadId: string | null
     conversationId: string | null
     sentByUserId: string | null
+    sentByAI: boolean | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -39108,6 +39110,7 @@ export namespace Prisma {
     leadId: number
     conversationId: number
     sentByUserId: number
+    sentByAI: number
     _all: number
   }
 
@@ -39142,6 +39145,7 @@ export namespace Prisma {
     leadId?: true
     conversationId?: true
     sentByUserId?: true
+    sentByAI?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -39166,6 +39170,7 @@ export namespace Prisma {
     leadId?: true
     conversationId?: true
     sentByUserId?: true
+    sentByAI?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -39191,6 +39196,7 @@ export namespace Prisma {
     leadId?: true
     conversationId?: true
     sentByUserId?: true
+    sentByAI?: true
     _all?: true
   }
 
@@ -39303,6 +39309,7 @@ export namespace Prisma {
     leadId: string | null
     conversationId: string | null
     sentByUserId: string | null
+    sentByAI: boolean
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -39347,6 +39354,7 @@ export namespace Prisma {
     leadId?: boolean
     conversationId?: boolean
     sentByUserId?: boolean
+    sentByAI?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -39378,6 +39386,7 @@ export namespace Prisma {
     leadId?: boolean
     conversationId?: boolean
     sentByUserId?: boolean
+    sentByAI?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -39409,6 +39418,7 @@ export namespace Prisma {
     leadId?: boolean
     conversationId?: boolean
     sentByUserId?: boolean
+    sentByAI?: boolean
   }
 
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -39461,6 +39471,7 @@ export namespace Prisma {
       leadId: string | null
       conversationId: string | null
       sentByUserId: string | null
+      sentByAI: boolean
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -39882,6 +39893,7 @@ export namespace Prisma {
     readonly leadId: FieldRef<"Message", 'String'>
     readonly conversationId: FieldRef<"Message", 'String'>
     readonly sentByUserId: FieldRef<"Message", 'String'>
+    readonly sentByAI: FieldRef<"Message", 'Boolean'>
   }
     
 
@@ -137418,7 +137430,8 @@ export namespace Prisma {
     campaignId: 'campaignId',
     leadId: 'leadId',
     conversationId: 'conversationId',
-    sentByUserId: 'sentByUserId'
+    sentByUserId: 'sentByUserId',
+    sentByAI: 'sentByAI'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -142300,6 +142313,7 @@ export namespace Prisma {
     leadId?: StringNullableFilter<"Message"> | string | null
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
+    sentByAI?: BoolFilter<"Message"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -142331,6 +142345,7 @@ export namespace Prisma {
     leadId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
+    sentByAI?: SortOrder
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
@@ -142365,6 +142380,7 @@ export namespace Prisma {
     leadId?: StringNullableFilter<"Message"> | string | null
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
+    sentByAI?: BoolFilter<"Message"> | boolean
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -142396,6 +142412,7 @@ export namespace Prisma {
     leadId?: SortOrderInput | SortOrder
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
+    sentByAI?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -142429,6 +142446,7 @@ export namespace Prisma {
     leadId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     conversationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     sentByUserId?: StringNullableWithAggregatesFilter<"Message"> | string | null
+    sentByAI?: BoolWithAggregatesFilter<"Message"> | boolean
   }
 
   export type KeywordRuleWhereInput = {
@@ -153606,6 +153624,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -153637,6 +153656,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageUpdateInput = {
@@ -153656,6 +153676,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -153687,6 +153708,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageCreateManyInput = {
@@ -153712,6 +153734,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -153731,6 +153754,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -153756,6 +153780,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type KeywordRuleCreateInput = {
@@ -165659,6 +165684,7 @@ export namespace Prisma {
     leadId?: SortOrder
     conversationId?: SortOrder
     sentByUserId?: SortOrder
+    sentByAI?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -165687,6 +165713,7 @@ export namespace Prisma {
     leadId?: SortOrder
     conversationId?: SortOrder
     sentByUserId?: SortOrder
+    sentByAI?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -165711,6 +165738,7 @@ export namespace Prisma {
     leadId?: SortOrder
     conversationId?: SortOrder
     sentByUserId?: SortOrder
+    sentByAI?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
@@ -184614,6 +184642,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -184643,6 +184672,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutSentByInput = {
@@ -186138,6 +186168,7 @@ export namespace Prisma {
     leadId?: StringNullableFilter<"Message"> | string | null
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
+    sentByAI?: BoolFilter<"Message"> | boolean
   }
 
   export type TaskUpsertWithWhereUniqueWithoutAssigneeInput = {
@@ -189726,6 +189757,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -189755,6 +189787,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutCompanyInput = {
@@ -195097,6 +195130,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -195126,6 +195160,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutCampaignInput = {
@@ -196851,6 +196886,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -196880,6 +196916,7 @@ export namespace Prisma {
     campaignId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutLeadInput = {
@@ -203535,6 +203572,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -203564,6 +203602,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutInstanceInput = {
@@ -206551,6 +206590,7 @@ export namespace Prisma {
     quotedBody?: string | null
     mediaBase64?: string | null
     mediaType?: string | null
+    sentByAI?: boolean
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -206580,6 +206620,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type MessageCreateOrConnectWithoutConversationInput = {
@@ -254101,6 +254142,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     conversationId?: string | null
+    sentByAI?: boolean
   }
 
   export type TaskCreateManyAssigneeInput = {
@@ -254893,6 +254935,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -254922,6 +254965,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutSentByInput = {
@@ -254946,6 +254990,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskUpdateWithoutAssigneeInput = {
@@ -256207,6 +256252,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type KeywordRuleCreateManyCompanyInput = {
@@ -258472,6 +258518,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -258501,6 +258548,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutCompanyInput = {
@@ -258525,6 +258573,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type KeywordRuleUpdateWithoutCompanyInput = {
@@ -260930,6 +260979,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type TrackingLinkCreateManyCampaignInput = {
@@ -261122,6 +261172,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -261151,6 +261202,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutCampaignInput = {
@@ -261175,6 +261227,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TrackingLinkUpdateWithoutCampaignInput = {
@@ -261502,6 +261555,7 @@ export namespace Prisma {
     campaignId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type LeadCommentCreateManyLeadInput = {
@@ -261613,6 +261667,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -261642,6 +261697,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutLeadInput = {
@@ -261666,6 +261722,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LeadCommentUpdateWithoutLeadInput = {
@@ -262056,6 +262113,7 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type ConversationCreateManyInstanceInput = {
@@ -262144,6 +262202,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -262173,6 +262232,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutInstanceInput = {
@@ -262197,6 +262257,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ConversationUpdateWithoutInstanceInput = {
@@ -262440,6 +262501,7 @@ export namespace Prisma {
     campaignId?: string | null
     leadId?: string | null
     sentByUserId?: string | null
+    sentByAI?: boolean
   }
 
   export type ConversationNoteCreateManyConversationInput = {
@@ -262525,6 +262587,7 @@ export namespace Prisma {
     quotedBody?: NullableStringFieldUpdateOperationsInput | string | null
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -262554,6 +262617,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutConversationInput = {
@@ -262578,6 +262642,7 @@ export namespace Prisma {
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    sentByAI?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ConversationNoteUpdateWithoutConversationInput = {

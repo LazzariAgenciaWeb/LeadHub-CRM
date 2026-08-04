@@ -97,6 +97,7 @@ export async function GET(req: NextRequest) {
     leadId:            true,
     conversationId:    true,
     sentByUserId:      true,
+    sentByAI:          true, // balão de IA (🤖 + cor diferente)
     instance: { select: { instanceName: true } },
     campaign: { select: { id: true, name: true } },
     sentBy:   { select: { id: true, name: true } },
