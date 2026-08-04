@@ -644,12 +644,14 @@ export default function CRMBoard({
       if (!res.ok) {
         setBulkMsg(`⚠️ ${data?.error ?? "Falha ao mesclar"}`);
       } else {
-        // Remove os perdedores do board (mantém só o sobrevivente).
-        const removed = ids.filter((id) => id !== data.primaryId);
-        setLeads((prev) => prev.filter((l) => !removed.includes(l.id)));
-        setBulkMsg(`✅ ${data.merged} registro(s) fundido(s) num só`);
+        // Recarrega a página pra refletir TODOS os dados migrados no
+        // sobrevivente — link de rastreio, campos preenchidos por gap-fill etc.
+        // O board guarda os leads em estado local (useState) e não re-sincroniza
+        // sozinho após o merge; só filtrar os perdedores deixaria o card do
+        // sobrevivente com dados velhos (ex.: link que veio do lead fundido).
+        setBulkMsg(`✅ ${data.merged} registro(s) fundido(s) — atualizando...`);
         setBulkSelected(new Set());
-        startTransition(() => router.refresh());
+        setTimeout(() => window.location.reload(), 700);
       }
     } catch (err: any) {
       setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
