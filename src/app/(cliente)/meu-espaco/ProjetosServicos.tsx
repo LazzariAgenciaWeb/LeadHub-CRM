@@ -6,10 +6,18 @@ import Link from "next/link";
 type Update = { text: string; at: string; client: boolean };
 type Task = { id: string; title: string; description: string | null; done: boolean; startDate: string | null; dueDate: string | null; awaitingClient: boolean; updates: Update[] };
 type Service = { id: string; name: string; tasks: Task[] };
-type Project = { id: string; name: string; color: string; services: Service[] };
+type Project = { id: string; name: string; color: string; status: string; services: Service[] };
 
 const SC: Record<string, string> = { done: "#4FD1A0", exec: "#7AA0FF", wait: "#F5B564", late: "#F87171", todo: "#5A6473" };
 const SL: Record<string, string> = { done: "Concluído", exec: "Em execução", wait: "Aguardando você", late: "Atrasado", todo: "A fazer" };
+// Selo de status do projeto (mesma nomenclatura do rail de pôsteres na home).
+const PST: Record<string, { label: string; cls: string }> = {
+  PLANEJAMENTO:       { label: "Planejamento",    cls: "info" },
+  EM_ANDAMENTO:       { label: "Em andamento",    cls: "info" },
+  AGUARDANDO_CLIENTE: { label: "Aguardando você", cls: "warn" },
+  PAUSADO:            { label: "Pausado",         cls: "muted" },
+  ENTREGUE:           { label: "Concluído",       cls: "ok" },
+};
 const fmtDM = (s: string) => new Date(s).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
 const stripImg = (s: string) => s.replace(/\[\[img:[^\]]+\]\]/g, "").trim();
 
@@ -17,7 +25,6 @@ const stripImg = (s: string) => s.replace(/\[\[img:[^\]]+\]\]/g, "").trim();
 // numa tarefa abre um painel com o descritivo e as atualizações ("o que já foi
 // feito"). Para o cronograma completo, o card leva ao painel do projeto.
 export default function ProjetosServicos({ projects }: { projects: Project[] }) {
-  const [filter, setFilter] = useState<string | null>(null);
   const [open, setOpen] = useState<{ t: Task; p: Project } | null>(null);
   const now = Date.now();
   const stOf = (t: Task): string =>
@@ -27,36 +34,41 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
     : (t.startDate && new Date(t.startDate).getTime() <= now) ? "exec"
     : "todo";
 
-  const shown = filter ? projects.filter((p) => p.id === filter) : projects;
-
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: PS_CSS }} />
 
       <section className="row">
-        <div className="rowhead"><h2>Seus projetos</h2><span className="sub">{projects.length > 1 ? "clique pra ver só um projeto" : "seu projeto ativo"}</span></div>
+        <div className="rowhead"><h2>Seus projetos</h2><span className="sub">{projects.length > 1 ? "toque num projeto pra abrir" : "toque pra abrir e ver os materiais"}</span></div>
         <div className="ps-projs">
           {projects.map((p) => {
             const nt = p.services.reduce((a, s) => a + s.tasks.length, 0);
-            const on = filter === p.id;
+            const badge = PST[p.status] ?? { label: p.status, cls: "muted" };
+            const cta = p.status === "ENTREGUE" ? "Ver materiais →" : "Abrir projeto →";
+            const meta = p.services.length || nt
+              ? `${p.services.length} serviço${p.services.length !== 1 ? "s" : ""} · ${nt} tarefa${nt !== 1 ? "s" : ""}`
+              : "materiais e entregas";
             return (
-              <button key={p.id} className={`ps-proj ${on ? "on" : ""}`} style={{ "--pc": p.color } as React.CSSProperties} onClick={() => setFilter(on ? null : p.id)}>
+              <Link key={p.id} href={`/meu-espaco/${p.id}`} className="ps-proj" style={{ "--pc": p.color } as React.CSSProperties}>
                 <span className="ps-nm">{p.name}</span>
-                <span className="ps-mt">{p.services.length} serviço{p.services.length > 1 ? "s" : ""} · {nt} tarefa{nt !== 1 ? "s" : ""}</span>
-              </button>
+                <div className="ps-meta">
+                  <span className={`ps-st ${badge.cls}`}>{badge.label}</span>
+                  <span className="ps-mt">{meta}</span>
+                </div>
+                <span className="ps-open">{cta}</span>
+              </Link>
             );
           })}
-          {filter && <button className="ps-clear" onClick={() => setFilter(null)}>ver todos</button>}
         </div>
       </section>
 
       <section className="row">
         <div className="rowhead"><h2>Serviços em execução</h2><span className="sub">tudo que estamos fazendo com você</span></div>
-        {shown.every((p) => p.services.length === 0) ? (
+        {projects.every((p) => p.services.length === 0) ? (
           <div className="ps-empty">Nada em execução visível por aqui ainda. Assim que liberarmos algo pra você acompanhar, aparece aqui.</div>
         ) : (
         <div className="ps-grid">
-          {shown.flatMap((p) => p.services.map((s) => {
+          {projects.flatMap((p) => p.services.map((s) => {
             const total = s.tasks.length;
             const done = s.tasks.filter((t) => t.done).length;
             const pct = total ? Math.round((done / total) * 100) : 0;
@@ -155,13 +167,19 @@ export default function ProjetosServicos({ projects }: { projects: Project[] }) 
 
 const PS_CSS = `
 .ps-projs{display:flex;gap:10px;flex-wrap:wrap}
-.ps-proj{position:relative;text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:14px;padding:12px 16px 12px 18px;color:var(--ink);cursor:pointer;min-width:200px;transition:border-color .15s,transform .15s}
-.ps-proj:hover{transform:translateY(-2px)}
+.ps-proj{position:relative;display:flex;flex-direction:column;gap:8px;text-align:left;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:14px;padding:13px 16px 13px 18px;color:var(--ink);cursor:pointer;min-width:230px;transition:border-color .15s,transform .15s,box-shadow .15s}
+.ps-proj:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--pc) 55%,transparent);box-shadow:0 24px 44px -32px rgba(0,0,0,.9)}
 .ps-proj::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:3px;background:var(--pc)}
-.ps-proj.on{border-color:var(--pc)}
 .ps-proj .ps-nm{display:block;font-weight:700;font-size:14px;letter-spacing:-.01em}
-.ps-proj .ps-mt{display:block;color:var(--ink3);font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums}
-.ps-clear{align-self:center;border:0;background:transparent;color:var(--info);font-weight:700;font-size:13px;cursor:pointer;padding:0 8px}
+.ps-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ps-st{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.ps-st.ok{color:var(--ok);background:rgba(79,209,160,.12)}
+.ps-st.info{color:#B6C4FF;background:rgba(110,134,255,.14)}
+.ps-st.warn{color:var(--warn);background:rgba(245,181,100,.14)}
+.ps-st.muted{color:var(--ink3);background:rgba(255,255,255,.06)}
+.ps-proj .ps-mt{color:var(--ink3);font-size:12px;font-variant-numeric:tabular-nums}
+.ps-open{font-size:12.5px;font-weight:700;color:#AFC0FF}
+.ps-proj:hover .ps-open{color:#C9D4FF}
 .ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px}
 .ps-empty{border:1px dashed var(--line2);border-radius:14px;padding:22px;color:var(--ink3);font-size:13.5px;text-align:center}
 .ps-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));border-radius:16px;padding:16px;box-shadow:0 24px 46px -34px rgba(0,0,0,.9)}

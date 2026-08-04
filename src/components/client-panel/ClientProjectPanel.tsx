@@ -359,9 +359,14 @@ export default function ClientProjectPanel({
 
   const doneCount = viewTasks.filter((t) => t.done).length;
   const pct = viewTasks.length ? Math.round((doneCount / viewTasks.length) * 100) : 0;
+  // Materiais só aparecem no cronograma quando casam com uma tarefa VISÍVEL ao
+  // cliente. Se o material está preso a uma tarefa oculta (ou o projeto não tem
+  // tarefas visíveis — ex.: projeto entregue sincronizado do ClickUp), ele cairia
+  // no vazio. Então tratamos como "solto" e mandamos pra "Sua biblioteca".
+  const taskIds = new Set(tasks.map((t) => t.id));
   const featured = materials.filter((m) => m.featured);
-  const looseMats = materials.filter((m) => !m.taskId && !m.featured);
-  const ganttMats = materials.filter((m) => !m.featured); // destaques saem do rail/modal (ficam no topo)
+  const looseMats = materials.filter((m) => !m.featured && (!m.taskId || !taskIds.has(m.taskId)));
+  const ganttMats = materials.filter((m) => !m.featured && !!m.taskId && taskIds.has(m.taskId)); // destaques saem do rail/modal (ficam no topo)
 
   function Feature({ m }: { m: PanelMat }) {
     const cat = catOf(m.kind);
