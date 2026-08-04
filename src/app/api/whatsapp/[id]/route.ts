@@ -31,6 +31,13 @@ export async function PATCH(
   const body = await req.json();
   const { instanceName, phone, status, webhookUrl, instanceToken, acceptGroups, groupReceiver } = body;
 
+  // Instância PRIVADA: { private: true } vincula ao usuário atual como dono
+  // (só ele vê as conversas). { private: false } remove a privacidade.
+  const userId = (session.user as any).id as string;
+  let ownerUserIdUpdate: string | null | undefined = undefined;
+  if (body.private === true) ownerUserIdUpdate = userId;
+  else if (body.private === false) ownerUserIdUpdate = null;
+
   // Receptora de grupos: no máximo 1 por empresa. Ao MARCAR esta como receptora,
   // desmarca as demais da mesma empresa (regra aplicada aqui, não no banco).
   if (groupReceiver === true) {
@@ -80,6 +87,7 @@ export async function PATCH(
       ...(instanceToken !== undefined && { instanceToken: instanceToken || null }),
       ...(acceptGroups !== undefined  && { acceptGroups: !!acceptGroups }),
       ...(groupReceiver !== undefined && { groupReceiver: !!groupReceiver }),
+      ...(ownerUserIdUpdate !== undefined && { ownerUserId: ownerUserIdUpdate }),
     },
   });
 

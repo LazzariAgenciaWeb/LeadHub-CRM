@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getUserPermissions } from "@/lib/user-permissions";
+import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
 
 // GET /api/conversations/list?skip=50&take=50&companyId=...
 // Paginação "carregar mais" da listagem inicial de conversas. Espelha o
@@ -33,6 +34,15 @@ export async function GET(req: NextRequest) {
 
   const convFilter: any = {};
   if (companyId) convFilter.companyId = companyId;
+
+  // Visibilidade: instância privada + bloqueio. ?blocked=1 lista SÓ as
+  // bloqueadas (tela de gerenciar/desbloquear).
+  const blockedMode = searchParams.get("blocked") === "1" ? "only" : "exclude";
+  const hiddenInstanceIds = await getHiddenInstanceIds(session);
+  convFilter.AND = [
+    ...(convFilter.AND ?? []),
+    ...conversationVisibilityAnd({ hiddenIds: hiddenInstanceIds, blocked: blockedMode }),
+  ];
 
   const convRecords = await prisma.conversation.findMany({
     where: convFilter,

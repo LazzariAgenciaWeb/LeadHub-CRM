@@ -40,6 +40,21 @@ export async function GET(req: NextRequest) {
   const effectiveCompanyId = userRole === "SUPER_ADMIN" ? companyId : userCompanyId;
   const paginated = limitRaw !== null || before !== null;
 
+  // Visibilidade: não serve mensagens de conversa de instância privada de outro
+  // dono nem de conversa bloqueada (esconde o histórico até desbloquear).
+  if (effectiveCompanyId) {
+    const conv = await prisma.conversation.findUnique({
+      where: { companyId_phone: { companyId: effectiveCompanyId, phone } },
+      select: { instanceId: true, syncBlocked: true },
+    });
+    if (conv) {
+      const { canUserSeeConversation } = await import("@/lib/whatsapp-visibility");
+      if (!(await canUserSeeConversation(session, conv))) {
+        return NextResponse.json(paginated ? { messages: [], hasMore: false } : []);
+      }
+    }
+  }
+
   const where: any = { phone };
   if (effectiveCompanyId) where.companyId = effectiveCompanyId;
 

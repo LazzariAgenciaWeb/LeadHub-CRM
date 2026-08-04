@@ -41,7 +41,7 @@ export async function PATCH(
 
   const conv = await prisma.conversation.findUnique({
     where: { id },
-    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true, lastMessageDirection: true, lastMessageAt: true },
+    select: { id: true, companyId: true, status: true, assigneeId: true, setorId: true, scheduledReturnAt: true, returnNote: true, createdAt: true, excludeFromGamification: true, lastMessageDirection: true, lastMessageAt: true, instanceId: true, syncBlocked: true },
   });
   if (!conv) return NextResponse.json({ error: "Conversa não encontrada" }, { status: 404 });
   if (userRole !== "SUPER_ADMIN" && conv.companyId !== userCompanyId) {
@@ -87,6 +87,22 @@ export async function PATCH(
     data.closedAt = null;
     data.statusUpdatedAt = new Date();
     activities.push({ type: "CONVERSATION_REOPENED", body: `${userName} reabriu a conversa`, meta: { from: conv.status, to: "OPEN" } });
+  } else if (body.action === "block" || body.action === "unblock") {
+    // Só quem já enxerga a conversa pode bloquear/desbloquear (respeita
+    // instância privada). allowBlocked=true pra o dono conseguir desbloquear.
+    const { canUserSeeConversation } = await import("@/lib/whatsapp-visibility");
+    if (!(await canUserSeeConversation(session, { instanceId: conv.instanceId, syncBlocked: conv.syncBlocked }, { allowBlocked: true }))) {
+      return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+    }
+    const blocking = body.action === "block";
+    data.syncBlocked = blocking;
+    activities.push({
+      type: "STATUS_CHANGED",
+      body: blocking
+        ? `${userName} bloqueou a sincronização desta conversa (não aparece mais na caixa)`
+        : `${userName} reativou a sincronização desta conversa`,
+      meta: { syncBlocked: blocking },
+    });
   } else {
     // Atualização explícita
     if (typeof body.status === "string" && VALID_STATUS.includes(body.status)) {

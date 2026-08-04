@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { hasModule } from "@/lib/permissions";
 import { getTeamNumbers } from "@/lib/whatsapp";
+import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
 import WhatsappManager from "./WhatsappManager";
 
 export default async function WhatsappPage({
@@ -58,6 +59,14 @@ export default async function WhatsappPage({
   if (companyId) convFilter.companyId = companyId;
   // Aplica o mesmo filtro de instância que era usado em msgWhere
   if (msgWhere.instanceId)  convFilter.companyId = convFilter.companyId; // (placeholder)
+
+  // Visibilidade: esconde conversas de instâncias privadas de outro dono e as
+  // bloqueadas (syncBlocked). Vale pra todos, inclusive admins.
+  const hiddenInstanceIds = await getHiddenInstanceIds(session);
+  convFilter.AND = [
+    ...(convFilter.AND ?? []),
+    ...conversationVisibilityAnd({ hiddenIds: hiddenInstanceIds }),
+  ];
 
   // Carga inicial enxuta (50) — o enriquecimento por conversa (lastMsg, lead,
   // counts, contact) custa ~5 queries cada, então 50 abre rápido. O resto vem

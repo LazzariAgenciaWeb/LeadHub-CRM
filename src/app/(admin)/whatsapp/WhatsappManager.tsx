@@ -506,6 +506,54 @@ export default function WhatsappManager({
   const [newNote, setNewNote] = useState("");
   const [savingNote, setSavingNote] = useState(false);
 
+  // Bloqueio de conversa (não sincronizar / esconder) + tela de gerenciar
+  const [togglingBlock, setTogglingBlock] = useState(false);
+  const [showBlockedModal, setShowBlockedModal] = useState(false);
+  const [blockedConvs, setBlockedConvs] = useState<any[]>([]);
+  const [loadingBlocked, setLoadingBlocked] = useState(false);
+
+  // Bloqueia/desbloqueia uma conversa. Ao bloquear: some da caixa (o servidor
+  // filtra) — limpamos a seleção e recarregamos a lista.
+  async function handleToggleBlock(block: boolean) {
+    const convId = selectedConv?.conversation?.id;
+    if (!convId) return;
+    setTogglingBlock(true);
+    const res = await fetch(`/api/conversations/${convId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: block ? "block" : "unblock" }),
+    });
+    setTogglingBlock(false);
+    if (res.ok) {
+      setShowActionsMenu(false);
+      if (block) { setSelectedConv(null); router.refresh(); }
+    }
+  }
+
+  async function loadBlockedConversations() {
+    setLoadingBlocked(true);
+    const params = new URLSearchParams({ blocked: "1", take: "100" });
+    if (isSuperAdmin && defaultCompanyId) params.set("companyId", defaultCompanyId);
+    const res = await fetch(`/api/conversations/list?${params}`);
+    if (res.ok) {
+      const data = await res.json();
+      setBlockedConvs(data.conversations ?? []);
+    }
+    setLoadingBlocked(false);
+  }
+
+  async function handleUnblockFromModal(convId: string) {
+    const res = await fetch(`/api/conversations/${convId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "unblock" }),
+    });
+    if (res.ok) {
+      setBlockedConvs((prev) => prev.filter((c) => c.conversation?.id !== convId));
+      router.refresh();
+    }
+  }
+
   // Filters
   // Detecção de mobile (< 768px) via JS — mais confiável que breakpoints Tailwind em SSR
   const [isMobile, setIsMobile] = useState(false);
@@ -3053,12 +3101,23 @@ export default function WhatsappManager({
                           }`}
                         >
                           <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${instanceFilter === name ? "bg-white" : "bg-slate-600"}`} />
-                          <span>{name}</span>
+                          <span>{instDisplay(name)}</span>
                         </button>
                       ))}
                     </div>
                   </div>
                 )}
+
+                {/* Conversas bloqueadas (escondidas) — abrir pra desbloquear */}
+                <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
+                  <button
+                    onClick={() => { setShowBlockedModal(true); loadBlockedConversations(); }}
+                    className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-medium text-slate-500 hover:bg-white/5 hover:text-slate-300 transition-colors w-full"
+                  >
+                    <Ban className="w-3.5 h-3.5 text-rose-400" strokeWidth={2.25} />
+                    <span className="flex-1 text-left">Conversas bloqueadas</span>
+                  </button>
+                </div>
 
                 {/* Ocultar grupos */}
                 <div className="px-3 pb-3 border-t border-[#1e2d45] pt-2">
@@ -5336,6 +5395,17 @@ export default function WhatsappManager({
                                   <Bot className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
                                   Assistente IA
                                 </button>
+                                {/* Bloquear sincronização — esconde a conversa da caixa */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleToggleBlock(true)}
+                                  disabled={togglingBlock}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-rose-300 hover:bg-rose-500/10 hover:text-rose-200 transition-colors text-left disabled:opacity-50"
+                                  title="Some da caixa e para de sincronizar mensagens novas. Reversível em 'Bloqueadas'."
+                                >
+                                  <Ban className="w-4 h-4 text-rose-400" strokeWidth={2.25} />
+                                  {togglingBlock ? "Bloqueando..." : "Não sincronizar (esconder)"}
+                                </button>
                                 {selectedConv.phone.includes("@g.us") && (
                                   <button
                                     type="button"
@@ -5511,6 +5581,51 @@ export default function WhatsappManager({
           )}
         </div>
       </div>
+
+      {/* Modal de conversas bloqueadas (escondidas) — desbloquear */}
+      {showBlockedModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70" onClick={() => setShowBlockedModal(false)} />
+          <div className="relative bg-[#0c1220] border border-[#1e2d45] rounded-2xl w-full max-w-md mx-4 shadow-2xl max-h-[80vh] flex flex-col">
+            <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Ban className="w-4 h-4 text-rose-400" strokeWidth={2.5} />
+                <span className="text-sm font-semibold text-white">Conversas bloqueadas</span>
+              </div>
+              <button onClick={() => setShowBlockedModal(false)} className="text-slate-500 hover:text-white text-lg">×</button>
+            </div>
+            <div className="px-5 py-3 overflow-y-auto">
+              <p className="text-slate-500 text-[11px] mb-3">
+                Estão escondidas da caixa e não sincronizam. Desbloquear traz de volta e volta a receber mensagens novas.
+              </p>
+              {loadingBlocked && <p className="text-slate-600 text-xs py-4 text-center">Carregando...</p>}
+              {!loadingBlocked && blockedConvs.length === 0 && (
+                <p className="text-slate-600 text-xs py-4 text-center">Nenhuma conversa bloqueada.</p>
+              )}
+              <div className="space-y-1.5">
+                {blockedConvs.map((c) => {
+                  const nome = c.lead?.name ?? c.companyContact?.name ?? formatPhone(c.phone);
+                  return (
+                    <div key={c.conversation?.id ?? c.phone} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0f1623] border border-[#1e2d45]">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-slate-200 font-medium truncate">{nome}</p>
+                        <p className="text-[10px] text-slate-600 truncate">{c.lastMsg?.body ?? ""}</p>
+                      </div>
+                      <button
+                        onClick={() => handleUnblockFromModal(c.conversation?.id)}
+                        disabled={!c.conversation?.id}
+                        className="text-[11px] font-semibold text-emerald-300 hover:text-emerald-200 px-2 py-1 rounded-lg hover:bg-emerald-500/10 transition-colors flex-shrink-0 disabled:opacity-40"
+                      >
+                        Desbloquear
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal de Transferência (Sprint 4) — para atendente OU setor */}
       {showTransferModal && selectedConv?.conversation && (
