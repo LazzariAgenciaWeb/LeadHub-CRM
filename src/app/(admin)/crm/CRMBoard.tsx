@@ -620,6 +620,44 @@ export default function CRMBoard({
     }
   }
 
+  async function bulkMerge() {
+    if (bulkSelected.size < 2) return;
+    const ids = [...bulkSelected];
+    const chosen = leads.filter((l) => ids.includes(l.id));
+    const names = chosen.map((l) => l.name ?? l.phone).join(", ");
+    if (!window.confirm(
+      `Mesclar ${ids.length} registros num só?\n\n${names}\n\n` +
+      `O registro mais avançado no funil sobrevive; os demais serão fundidos ` +
+      `(mensagens, comentários, tarefas, tags e histórico migram) e removidos. ` +
+      `Esta ação não pode ser desfeita.`
+    )) return;
+
+    setBulkBusy(true);
+    setBulkMsg(null);
+    try {
+      const res = await fetch("/api/leads/merge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadIds: ids }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBulkMsg(`⚠️ ${data?.error ?? "Falha ao mesclar"}`);
+      } else {
+        // Remove os perdedores do board (mantém só o sobrevivente).
+        const removed = ids.filter((id) => id !== data.primaryId);
+        setLeads((prev) => prev.filter((l) => !removed.includes(l.id)));
+        setBulkMsg(`✅ ${data.merged} registro(s) fundido(s) num só`);
+        setBulkSelected(new Set());
+        startTransition(() => router.refresh());
+      }
+    } catch (err: any) {
+      setBulkMsg(`⚠️ ${err?.message ?? "Erro"}`);
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
   async function moveToPipeline(leadId: string, newPipeline: string) {
     setMovingId(leadId);
     setLeads((prev) => prev.filter((l) => l.id !== leadId));
@@ -1736,6 +1774,16 @@ export default function CRMBoard({
                 </div>
               )}
             </div>
+
+            {/* Mesclar duplicados */}
+            <button
+              onClick={bulkMerge}
+              disabled={bulkSelected.size < 2 || bulkBusy}
+              title="Fundir os selecionados num só registro (mensagens, tarefas e histórico migram)"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+            >
+              🔀 Mesclar
+            </button>
 
             <button
               onClick={exitSelectMode}

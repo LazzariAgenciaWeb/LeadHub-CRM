@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getLeadFollowUps, STALE_AFTER_DAYS } from "@/lib/calendar-data";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import FollowUpsToday from "../dashboard/FollowUpsToday";
+import AttentionList, { type AttentionItem, type AttentionReason } from "./AttentionList";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -36,13 +36,6 @@ const SOURCE_LABEL: Record<string, string> = {
   whatsapp: "💬", instagram: "📸", facebook: "👥",
   google: "🔍", link: "🔗", bdr: "🤖", manual: "✍️",
 };
-
-function staleUrgency(days: number): { badge: string; color: string; suggestion: string } {
-  if (days <= 7)  return { badge: "Morno",      color: "text-amber-400",  suggestion: "Retome o contato em breve" };
-  if (days <= 14) return { badge: "Esfriando",  color: "text-orange-400", suggestion: "Contato urgente necessário" };
-  if (days <= 30) return { badge: "Frio",       color: "text-red-400",    suggestion: "Últimas tentativas ou arquivar" };
-  return               { badge: "Muito frio",  color: "text-slate-500",  suggestion: "Campanha de reengajamento" };
-}
 
 export default async function CRMDashboardPage() {
   const session = await getEffectiveSession();
@@ -111,8 +104,66 @@ export default async function CRMDashboardPage() {
     getLeadFollowUps({ companyId: effectiveCo, userId, isManager, userSetorIds }),
   ]);
 
-  const todayNew     = newLeads.filter(l => l.createdAt >= today).length;
-  const attentionTotal = unansweredLeads.length + followUps.leadsFollowUp.length + followUps.staleLeads.length;
+  const todayNew = newLeads.filter(l => l.createdAt >= today).length;
+
+  // ── Lista unificada "Precisam de atenção" — dedup por telefone ──────────────
+  // Um mesmo contato pode aparecer como sem-resposta E esfriando E ter registro
+  // duplicado (Lead + Oportunidade). Aqui fundimos tudo num item só por telefone,
+  // preferindo o registro mais avançado no funil, acumulando os motivos.
+  const PIPELINE_RANK: Record<string, number> = { OPORTUNIDADES: 3, LEADS: 2, PROSPECCAO: 1 };
+  const attentionMap = new Map<string, AttentionItem>();
+
+  function upsertAttention(
+    lead: { id: string; name: string | null; phone: string; pipeline: string | null; pipelineStage: string | null },
+    reason: AttentionReason,
+  ) {
+    const key = lead.phone || lead.id;
+    const existing = attentionMap.get(key);
+    if (!existing) {
+      attentionMap.set(key, {
+        id: lead.id, name: lead.name, phone: lead.phone,
+        pipeline: lead.pipeline, pipelineStage: lead.pipelineStage,
+        reasons: [reason],
+      });
+      return;
+    }
+    // Registro mais avançado no funil vira o "principal" (id do link + badge).
+    if ((PIPELINE_RANK[lead.pipeline ?? ""] ?? 0) > (PIPELINE_RANK[existing.pipeline ?? ""] ?? 0)) {
+      existing.id = lead.id;
+      existing.pipeline = lead.pipeline;
+      existing.pipelineStage = lead.pipelineStage;
+      existing.name = existing.name ?? lead.name;
+    }
+    // Não duplica o mesmo tipo de motivo.
+    if (!existing.reasons.some((r) => r.kind === reason.kind)) existing.reasons.push(reason);
+  }
+
+  for (const l of unansweredLeads) {
+    upsertAttention(l, { kind: "unanswered", at: l.conversation?.lastMessageAt?.toISOString() ?? null, body: l.conversation?.lastMessageBody ?? null });
+  }
+  for (const l of followUps.leadsFollowUp) {
+    upsertAttention(l, { kind: "overdue", at: l.expectedReturnAt?.toISOString() ?? null });
+  }
+  for (const l of followUps.staleLeads) {
+    const ref = l.conversation?.lastMessageAt ?? l.updatedAt;
+    const days = Math.max(0, Math.floor((Date.now() - new Date(ref).getTime()) / 86400000));
+    upsertAttention(l, { kind: "stale", days });
+  }
+
+  // Ordena: sem-resposta > retorno vencido > esfriando (mais frio primeiro).
+  function reasonWeight(item: AttentionItem): number {
+    if (item.reasons.some((r) => r.kind === "unanswered")) return 3;
+    if (item.reasons.some((r) => r.kind === "overdue")) return 2;
+    return 1;
+  }
+  const attentionItems = [...attentionMap.values()].sort((a, b) => {
+    const w = reasonWeight(b) - reasonWeight(a);
+    if (w !== 0) return w;
+    const ad = (a.reasons.find((r) => r.kind === "stale") as any)?.days ?? 0;
+    const bd = (b.reasons.find((r) => r.kind === "stale") as any)?.days ?? 0;
+    return bd - ad;
+  });
+  const attentionTotal = attentionItems.length;
 
   function leadHref(l: { id: string; pipeline: string | null }) {
     const base = PIPELINE_HREF[l.pipeline ?? ""] ?? "/crm/leads";
@@ -181,49 +232,8 @@ export default async function CRMDashboardPage() {
         </div>
       </div>
 
-      {/* Aguardando Resposta */}
-      {unansweredLeads.length > 0 && (
-        <div className="bg-[#0f1623] border border-red-500/20 rounded-xl overflow-hidden">
-          <div className="px-5 py-3 border-b border-red-500/10 flex items-center justify-between">
-            <h2 className="text-white font-bold text-sm flex items-center gap-2">
-              🔴 Aguardando Resposta
-              <span className="text-[10px] bg-red-500/20 text-red-300 px-2 py-0.5 rounded-full font-bold">{unansweredLeads.length}</span>
-            </h2>
-            <span className="text-slate-500 text-xs hidden sm:block">Mensagem recebida sem retorno</span>
-          </div>
-          <div className="divide-y divide-[#1e2d45]/50">
-            {unansweredLeads.map((lead) => {
-              const pl = PIPELINE_BADGE[lead.pipeline ?? ""];
-              const msgAt = lead.conversation?.lastMessageAt ?? null;
-              const elapsed = timeSince(msgAt);
-              return (
-                <Link key={lead.id} href={leadHref(lead)} className="flex items-center gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors group">
-                  <div className="relative flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-[#1e2d45] flex items-center justify-center text-xs font-bold text-slate-400">
-                      {(lead.name ?? lead.phone).slice(0, 2).toUpperCase()}
-                    </div>
-                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-[#0f1623] animate-pulse" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-slate-200 text-[13px] font-medium truncate">{lead.name ?? lead.phone}</span>
-                      {pl && <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded flex-shrink-0 ${pl.color}`}>{pl.label}</span>}
-                      {lead.pipelineStage && <span className="text-slate-600 text-[10px] truncate">{lead.pipelineStage}</span>}
-                    </div>
-                    <p className="text-slate-500 text-[11px] truncate mt-0.5">{lead.conversation?.lastMessageBody ?? "—"}</p>
-                  </div>
-                  {msgAt && (
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 bg-red-500/20 text-red-400 whitespace-nowrap">
-                      {elapsed}
-                    </span>
-                  )}
-                  <span className="text-indigo-400 text-[11px] font-medium group-hover:text-indigo-300 flex-shrink-0 hidden sm:block">Responder →</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* Precisam de atenção — lista unificada e deduplicada */}
+      <AttentionList items={attentionItems} />
 
       {/* Leads novos */}
       {newLeads.length > 0 && (
@@ -272,78 +282,6 @@ export default async function CRMDashboardPage() {
           </div>
         </div>
       )}
-
-      {/* Esfriando + Retornos */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Esfriando com sugestões de urgência */}
-        {followUps.staleLeads.length > 0 && (
-          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-[#1e2d45]">
-              <h2 className="text-white font-bold text-sm">🧊 Esfriando — sem contato</h2>
-              <p className="text-slate-500 text-[11px] mt-0.5">Ordenados pelo mais frio primeiro</p>
-            </div>
-            <div className="divide-y divide-[#1e2d45]/50">
-              {followUps.staleLeads.map((lead) => {
-                const ref = lead.conversation?.lastMessageAt ?? lead.updatedAt;
-                const days = Math.max(0, Math.floor((Date.now() - new Date(ref).getTime()) / 86400000));
-                const pl   = PIPELINE_BADGE[lead.pipeline ?? ""];
-                const urg  = staleUrgency(days);
-                return (
-                  <Link key={lead.id} href={leadHref(lead)} className="flex items-start gap-3 px-4 py-3 hover:bg-white/[0.02] transition-colors group">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-slate-200 text-[12.5px] font-medium truncate">{lead.name ?? lead.phone}</span>
-                        {pl && <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded flex-shrink-0 ${pl.color}`}>{pl.label}</span>}
-                      </div>
-                      <div className={`text-[11px] mt-0.5 font-medium ${urg.color}`}>{urg.badge} · {days}d sem contato</div>
-                      <div className="text-slate-600 text-[10px] mt-0.5 italic">{urg.suggestion}</div>
-                    </div>
-                    <span className="text-indigo-400 text-[11px] font-medium group-hover:text-indigo-300 flex-shrink-0 mt-0.5">Ver →</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Retornos vencidos / hoje */}
-        {followUps.leadsFollowUp.length > 0 && (
-          <div className="bg-[#0f1623] border border-amber-500/20 rounded-xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-amber-500/10">
-              <h2 className="text-white font-bold text-sm">⏰ Retornos — pra hoje</h2>
-              <p className="text-slate-500 text-[11px] mt-0.5">Prazo marcado vencido ou para hoje</p>
-            </div>
-            <div className="divide-y divide-[#1e2d45]/50">
-              {followUps.leadsFollowUp.map((lead) => {
-                const pl  = PIPELINE_BADGE[lead.pipeline ?? ""];
-                const d   = lead.expectedReturnAt ? new Date(lead.expectedReturnAt) : null;
-                const now = new Date();
-                const isOverdue = d && d < now;
-                const timeLabel = d
-                  ? isOverdue
-                    ? `Atrasado ${Math.ceil((now.getTime() - d.getTime()) / 86400000)}d`
-                    : `Hoje ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`
-                  : "sem prazo";
-                return (
-                  <Link key={lead.id} href={leadHref(lead)} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.02] transition-colors group">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-slate-200 text-[12.5px] font-medium truncate">{lead.name ?? lead.phone}</span>
-                        {pl && <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded flex-shrink-0 ${pl.color}`}>{pl.label}</span>}
-                      </div>
-                      <div className={`text-[11px] mt-0.5 font-medium ${isOverdue ? "text-red-400" : "text-amber-400"}`}>{timeLabel}</div>
-                    </div>
-                    <span className="text-indigo-400 text-[11px] font-medium group-hover:text-indigo-300 flex-shrink-0">Ver →</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Follow-ups com geração de IA */}
-      <FollowUpsToday />
 
       {/* Empty state */}
       {attentionTotal === 0 && newLeads.length === 0 && (
