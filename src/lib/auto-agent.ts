@@ -213,6 +213,7 @@ async function runCourtesyCheck(conversationId: string, text: string = COURTESY_
         companyId: conv.companyId,
         conversationId,
         ack: 1,
+        sentByAI: true,
         rawPayload: { autoAgent: true, courtesy: true } as any,
       },
     });
@@ -809,8 +810,8 @@ async function sendBotText(s: BotSender, text: string): Promise<boolean> {
         companyId: s.companyId,
         conversationId: updatedConv.id,
         ack: 1,
-        // Marca de origem: mensagem gerada pelo agente autônomo (a UI pode
-        // usar pra exibir o badge 🤖 sem precisar de campo novo).
+        sentByAI: true,
+        // Marca de origem: mensagem gerada pelo agente autônomo.
         rawPayload: { autoAgent: true, assistantId: s.assistantId } as any,
       },
     });

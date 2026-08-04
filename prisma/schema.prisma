@@ -925,6 +925,11 @@ model Message {
   sentBy       User?   @relation("MessageSentBy", fields: [sentByUserId], references: [id])
   sentByUserId String?
 
+  // true quando a mensagem OUTBOUND foi gerada pelo agente de IA (auto-agent),
+  // não por um atendente humano. A UI usa pra marcar o balão com 🤖 e cor
+  // diferente. (Antes só dava pra saber via rawPayload.autoAgent, que é pesado.)
+  sentByAI     Boolean @default(false)
+
   @@index([companyId])
   // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
   // (rota /api/whatsapp/messages — abrir conversa). Substituiu o antigo

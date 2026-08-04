@@ -169,6 +169,8 @@ interface WaMessage {
   // User do LeadHub que enviou a mensagem (visível só na UI interna).
   // Mensagens antigas e mensagens vindas do webhook ficam null.
   sentBy?: { id: string; name: string } | null;
+  // Mensagem gerada pelo agente de IA (auto-agent) — balão diferenciado.
+  sentByAI?: boolean;
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
@@ -2687,14 +2689,22 @@ export default function WhatsappManager({
     pulse: boolean;
     meter?: { progress: number; color: string }; // 0-1+ — só para OPEN
   };
+  // Status de EXIBIÇÃO: se a última mensagem é NOSSA (OUTBOUND), não há cliente
+  // esperando por nós — uma conversa OPEN/PENDING (vermelho) já foi respondida,
+  // então mostra "Aguardando cliente". Corrige grupos onde o eco da própria
+  // mensagem reabria o status. (O status cru continua no banco; isto é só UI.)
+  const displayConvStatus = useCallback((conv: Conversation): ConvStatus | undefined => {
+    const raw = (convStatusOverride.get(conv.phone) ?? conv.conversation?.status) as ConvStatus | undefined;
+    if ((raw === "PENDING" || raw === "OPEN") && conv.lastMsg?.direction === "OUTBOUND") return "WAITING_CUSTOMER";
+    return raw;
+  }, [convStatusOverride]);
+
   function getUrgencyRing(conv: Conversation): UrgencyRing {
     const isInbound = conv.lastMsg?.direction === "INBOUND";
     const pipeline  = conv.lead?.pipeline;
 
-    // Status da Conversation é a fonte da verdade (com override local para reflexo imediato)
-    const convStatus: ConvStatus | undefined = (
-      convStatusOverride.get(conv.phone) ?? conv.conversation?.status
-    ) as ConvStatus | undefined;
+    // Status da Conversation é a fonte da verdade (com override local + regra de exibição)
+    const convStatus: ConvStatus | undefined = displayConvStatus(conv);
 
     if (convStatus === "PENDING")          return { ring: "ring-4 ring-red-500",        Icon: AlertCircle,   iconColor: "text-red-400",     pulse: true  };
     if (convStatus === "IN_PROGRESS")      return { ring: "ring-4 ring-yellow-400",     Icon: MessageCircle, iconColor: "text-yellow-400",  pulse: false };
@@ -3271,7 +3281,7 @@ export default function WhatsappManager({
 
                               {/* Chip de status da Conversation (Sprint 3) */}
                               {conv.conversation && (() => {
-                                const currentStatus: ConvStatus = (convStatusOverride.get(conv.phone) ?? conv.conversation.status) as ConvStatus;
+                                const currentStatus: ConvStatus = (displayConvStatus(conv) ?? conv.conversation.status) as ConvStatus;
                                 const meta = CONV_STATUS_META[currentStatus];
                                 const showAiBadge = conv.lastOutboundByAI && currentStatus !== "CLOSED";
                                 return (
@@ -4559,8 +4569,13 @@ export default function WhatsappManager({
                       ? (selectedConv?.companyContact?.name ?? selectedConv?.lead?.name ?? selectedConv?.phone)
                       : null;
 
+                    // Mensagem do agente de IA → balão diferenciado (teal + 🤖)
+                    const isAiMsg = isOut && !!msg.sentByAI;
+
                     // Estilo do bubble
-                    const bubbleStyle = isOut || isOursInGroup
+                    const bubbleStyle = isAiMsg
+                      ? "bg-teal-700 text-white rounded-tr-none ring-1 ring-teal-400/40"
+                      : (isOut || isOursInGroup)
                       ? "bg-indigo-600 text-white rounded-tr-none"
                       : "bg-[#0f1623] border border-[#1e2d45] text-slate-200 rounded-tl-none";
                     const bubbleAlign = isOut || isOursInGroup ? "items-end" : "items-start";
@@ -4639,12 +4654,19 @@ export default function WhatsappManager({
                                 identificar quem operou — mensagens antigas/
                                 vindas do webhook ficam só com a instância). */}
                             {isOut && msg.instance && !isTeamOutbound && (
-                              <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
-                                Via {instDisplay(msg.instance.instanceName)}
-                                {msg.sentBy?.name && (
-                                  <span className="text-slate-400 font-normal"> · {msg.sentBy.name.split(" ")[0]}</span>
-                                )}
-                              </div>
+                              isAiMsg ? (
+                                <div className="text-[10px] font-semibold mb-1 truncate text-teal-200 flex items-center gap-1">
+                                  <Bot className="w-3 h-3" strokeWidth={2.5} /> Agente IA
+                                  <span className="text-teal-300/60 font-normal">· {instDisplay(msg.instance.instanceName)}</span>
+                                </div>
+                              ) : (
+                                <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
+                                  Via {instDisplay(msg.instance.instanceName)}
+                                  {msg.sentBy?.name && (
+                                    <span className="text-slate-400 font-normal"> · {msg.sentBy.name.split(" ")[0]}</span>
+                                  )}
+                                </div>
+                              )
                             )}
 
                             {/* Bloco de citação (mensagem respondida) */}
