@@ -9,6 +9,7 @@ import PerformanceTeaser from "./PerformanceTeaser";
 import DashboardGamificacaoTop from "./DashboardGamificacaoTop";
 import MyTasksToday from "./MyTasksToday";
 import MarketingDashboardWidget from "./MarketingDashboardWidget";
+import PontoWidget from "./PontoWidget";
 import { getCompanyPlan } from "@/lib/limits";
 import { getLeadFollowUps, STALE_AFTER_DAYS } from "@/lib/calendar-data";
 
@@ -328,6 +329,9 @@ export default async function DashboardPage() {
           {isSuperAdmin ? "Visão geral de todas as empresas" : "Painel da sua empresa"}
         </p>
       </div>
+
+      {/* Bater ponto — controle de jornada (some se o usuário não tem empresa) */}
+      {!isSuperAdmin && <PontoWidget />}
 
       {/* Topo: o que precisa de retorno agora (negociação + atendimento) */}
       <AtendimentoStats />

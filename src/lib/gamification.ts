@@ -71,6 +71,8 @@ export const SCORE_TABLE: Record<ScoreReason, number> = {
   // Tarefas do CRM (módulo nativo do LeadHub, não confundir com ClickUp)
   TAREFA_LEADHUB_FEITA:     3, // marcou tarefa de follow-up como feita
   SINAL_QUENTE_RESPONDIDO: 12, // tarefa AUTO_LINK_OPEN (cliente abriu proposta) feita — bônus por resposta rápida
+  // Módulo Ponto — entrada batida até o horário previsto (tolerância de 5min)
+  PONTO_PONTUAL:            3, // 1× por dia (idempotente por usuário+dia)
 };
 
 // ─── Regras de badges (6 tiers cada) ──────────────────────────────────────────

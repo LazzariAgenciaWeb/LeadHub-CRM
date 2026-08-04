@@ -9,7 +9,7 @@ import { isAdmin, isSuperAdmin, can, hasModule } from "@/lib/permissions";
 import {
   Zap, X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
-  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays,
+  Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, Clock,
   BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, MonitorPlay, Ticket, Lock, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
@@ -209,6 +209,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
         { href: "/empresas",   Icon: Building2,    label: _isSuperAdmin ? "Empresas" : "Clientes", grad: "empresas", perm: _isAdmin || can(session, "canViewCompanies") },
         { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
         { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
+        { href: "/ponto",      Icon: Clock,        label: "Ponto",      grad: "calendario", perm: true },
         { href: "/videos",     Icon: MonitorPlay,  label: "Vídeos",     grad: "marketing",  lockModule: "videos",     perm: _isAdmin },
         { href: "/cofre",      Icon: Shield,       label: "Cofre",      grad: "cofre",      lockModule: "cofre",      perm: _isAdmin || can(session, "canViewCofre") },
       ],

@@ -65,6 +65,15 @@ model User {
   assistantCalendars    Assistant[]            @relation("AssistantCalendarUser")
   quickReplies          QuickReply[]
 
+  // Módulo Ponto (controle de jornada)
+  timePunches          TimePunch[]
+  workScheduleDays     WorkScheduleDay[]
+  timeOffEntries       TimeOffEntry[]       @relation("TimeOffUser")
+  timeOffsCreated      TimeOffEntry[]       @relation("TimeOffCreatedBy")
+  punchAdjustRequests  PunchAdjustRequest[] @relation("AdjustUser")
+  punchAdjustsReviewed PunchAdjustRequest[] @relation("AdjustReviewer")
+  timesheetSignatures  TimesheetSignature[]
+
   @@index([companyId])
 }
 
@@ -330,6 +339,12 @@ model Company {
   videoCategories         VideoCategory[]          @relation("CompanyVideoCategories")
   videoReleases           VideoCategoryRelease[]   @relation("CompanyVideoReleases")
   quickReplies            QuickReply[]
+  // Módulo Ponto (controle de jornada)
+  timePunches             TimePunch[]
+  workScheduleDays        WorkScheduleDay[]
+  timeOffEntries          TimeOffEntry[]
+  punchAdjustRequests     PunchAdjustRequest[]
+  timesheetSignatures     TimesheetSignature[]
   triggerOnly             Boolean                  @default(false)
   webhookToken            String?                  @unique // token público para receber leads via webhook
 
@@ -2809,6 +2824,7 @@ enum ScoreReason {
   LEAD_VIROU_OPORTUNIDADE // lead promovido pra oportunidade (cliente pediu orcamento)
   TAREFA_LEADHUB_FEITA // marcou tarefa do LeadHub como feita (não confundir com TAREFA_CONCLUIDA do ClickUp)
   SINAL_QUENTE_RESPONDIDO // marcou tarefa AUTO_LINK_OPEN feita (cliente abriu proposta → vendedor agiu rápido)
+  PONTO_PONTUAL // bateu o ponto de entrada no horário previsto (módulo Ponto)
 }
 
 // ─── Push Notifications (Web Push API) ───────────────────────────────────────
@@ -3691,4 +3707,133 @@ model Video {
   updatedAt DateTime @updatedAt
 
   @@index([categoryId, active])
+}
+
+// ─── Módulo Ponto — controle de jornada gerencial ─────────────────────────────
+// Cartão ponto SIMPLES pra controle interno + espelho mensal pra contabilidade.
+// NÃO é REP-P (Portaria 671/2021): sem certificado ICP-Brasil, AFD ou AEJ —
+// a UI deixa isso explícito. Fluxo: colaborador bate ponto (TimePunch); admin
+// cadastra jornada esperada por dia da semana (WorkScheduleDay) e abonos
+// (TimeOffEntry — atestado/férias/feriado não contam como falta); esquecimento
+// vira solicitação de ajuste (PunchAdjustRequest) que o admin aprova/rejeita;
+// no fechamento do mês o colaborador assina o espelho eletronicamente
+// (TimesheetSignature) e o admin imprime/salva PDF pra mandar ao escritório.
+
+enum PunchType {
+  ENTRADA
+  INTERVALO_INICIO
+  INTERVALO_FIM
+  SAIDA
+}
+
+enum PunchSource {
+  MANUAL // batido na hora pelo próprio colaborador
+  AJUSTE // criado via aprovação de solicitação de ajuste
+}
+
+enum TimeOffType {
+  ATESTADO
+  FERIAS
+  FERIADO // userId null = vale pra empresa toda
+  FOLGA
+}
+
+enum PunchAdjustStatus {
+  PENDENTE
+  APROVADO
+  REJEITADO
+}
+
+model TimePunch {
+  id              String      @id @default(cuid())
+  company         Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  type            PunchType
+  // Instante real da marcação — SEMPRE gerado no servidor, nunca aceito do client
+  timestamp       DateTime
+  source          PunchSource @default(MANUAL)
+  ip              String? // evidência simples de origem da marcação
+  // Quando source=AJUSTE, aponta a solicitação que originou a marcação
+  adjustRequestId String?
+  createdAt       DateTime    @default(now())
+
+  @@index([companyId, timestamp])
+  @@index([userId, timestamp])
+}
+
+model WorkScheduleDay {
+  id         String  @id @default(cuid())
+  company    Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId  String
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  dayOfWeek  Int // 0=dom … 6=sáb (mesmo padrão do BusinessHoursConfig)
+  active     Boolean @default(true) // false = dia sem expediente pra este colaborador
+  startTime  String  @default("09:00") // "HH:MM" no TZ do sistema
+  endTime    String  @default("18:00")
+  // Intervalo previsto (ex: almoço) — abatido das horas esperadas do dia
+  breakStart String?
+  breakEnd   String?
+
+  @@unique([userId, dayOfWeek])
+  @@index([companyId])
+}
+
+model TimeOffEntry {
+  id          String      @id @default(cuid())
+  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String
+  // null = abono coletivo (feriado da empresa toda)
+  user        User?       @relation("TimeOffUser", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?
+  type        TimeOffType
+  startDate   DateTime // dia-calendário (00:00 no TZ do sistema)
+  endDate     DateTime // inclusivo
+  description String?
+  createdBy   User?       @relation("TimeOffCreatedBy", fields: [createdById], references: [id])
+  createdById String?
+  createdAt   DateTime    @default(now())
+
+  @@index([companyId, startDate])
+  @@index([userId])
+}
+
+model PunchAdjustRequest {
+  id        String            @id @default(cuid())
+  company   Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  user      User              @relation("AdjustUser", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  // Dia a corrigir (00:00 no TZ do sistema)
+  date      DateTime
+  // Marcações pedidas: [{ "type": "ENTRADA", "time": "08:00" }, ...]
+  punches   Json
+  reason    String
+  status    PunchAdjustStatus @default(PENDENTE)
+
+  reviewedBy   User?     @relation("AdjustReviewer", fields: [reviewedById], references: [id])
+  reviewedById String?
+  reviewedAt   DateTime?
+  reviewNote   String?
+  createdAt    DateTime  @default(now())
+
+  @@index([companyId, status])
+  @@index([userId])
+}
+
+model TimesheetSignature {
+  id        String   @id @default(cuid())
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  year      Int
+  month     Int // 1–12
+  signedAt  DateTime @default(now())
+  ip        String?
+
+  @@unique([userId, year, month])
+  @@index([companyId, year, month])
 }

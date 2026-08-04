@@ -1719,6 +1719,66 @@ exports.Prisma.VideoScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TimePunchScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  type: 'type',
+  timestamp: 'timestamp',
+  source: 'source',
+  ip: 'ip',
+  adjustRequestId: 'adjustRequestId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WorkScheduleDayScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  dayOfWeek: 'dayOfWeek',
+  active: 'active',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  breakStart: 'breakStart',
+  breakEnd: 'breakEnd'
+};
+
+exports.Prisma.TimeOffEntryScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  type: 'type',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  description: 'description',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PunchAdjustRequestScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  date: 'date',
+  punches: 'punches',
+  reason: 'reason',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  reviewNote: 'reviewNote',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TimesheetSignatureScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  year: 'year',
+  month: 'month',
+  signedAt: 'signedAt',
+  ip: 'ip'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2076,7 +2136,8 @@ exports.ScoreReason = exports.$Enums.ScoreReason = {
   DIA_NETWORK: 'DIA_NETWORK',
   LEAD_VIROU_OPORTUNIDADE: 'LEAD_VIROU_OPORTUNIDADE',
   TAREFA_LEADHUB_FEITA: 'TAREFA_LEADHUB_FEITA',
-  SINAL_QUENTE_RESPONDIDO: 'SINAL_QUENTE_RESPONDIDO'
+  SINAL_QUENTE_RESPONDIDO: 'SINAL_QUENTE_RESPONDIDO',
+  PONTO_PONTUAL: 'PONTO_PONTUAL'
 };
 
 exports.EmailCampaignStatus = exports.$Enums.EmailCampaignStatus = {
@@ -2150,6 +2211,31 @@ exports.VideoCategoryScope = exports.$Enums.VideoCategoryScope = {
 exports.VideoCategoryVisibility = exports.$Enums.VideoCategoryVisibility = {
   ALL: 'ALL',
   SELECTED: 'SELECTED'
+};
+
+exports.PunchType = exports.$Enums.PunchType = {
+  ENTRADA: 'ENTRADA',
+  INTERVALO_INICIO: 'INTERVALO_INICIO',
+  INTERVALO_FIM: 'INTERVALO_FIM',
+  SAIDA: 'SAIDA'
+};
+
+exports.PunchSource = exports.$Enums.PunchSource = {
+  MANUAL: 'MANUAL',
+  AJUSTE: 'AJUSTE'
+};
+
+exports.TimeOffType = exports.$Enums.TimeOffType = {
+  ATESTADO: 'ATESTADO',
+  FERIAS: 'FERIAS',
+  FERIADO: 'FERIADO',
+  FOLGA: 'FOLGA'
+};
+
+exports.PunchAdjustStatus = exports.$Enums.PunchAdjustStatus = {
+  PENDENTE: 'PENDENTE',
+  APROVADO: 'APROVADO',
+  REJEITADO: 'REJEITADO'
 };
 
 exports.Prisma.ModelName = {
@@ -2261,7 +2347,12 @@ exports.Prisma.ModelName = {
   ClientInvoice: 'ClientInvoice',
   VideoCategory: 'VideoCategory',
   VideoCategoryRelease: 'VideoCategoryRelease',
-  Video: 'Video'
+  Video: 'Video',
+  TimePunch: 'TimePunch',
+  WorkScheduleDay: 'WorkScheduleDay',
+  TimeOffEntry: 'TimeOffEntry',
+  PunchAdjustRequest: 'PunchAdjustRequest',
+  TimesheetSignature: 'TimesheetSignature'
 };
 
 /**

@@ -75,6 +75,9 @@ export const SCORING_TRIGGER: Record<ScoreReason, ScoringTrigger> = {
   DIA_SEM_PENDENCIA:          "REALTIME",
   BONUS_VENDA_RAPIDA:         "REALTIME",
   BONUS_RECUPERACAO:          "REALTIME",
+  PONTO_PONTUAL:              "REALTIME", // disparado pelo POST /api/ponto/punch na entrada
+
+
 
   // Sync — vem do ClickUp via syncProjectTasks
   TAREFA_CRIADA:    "SYNC",

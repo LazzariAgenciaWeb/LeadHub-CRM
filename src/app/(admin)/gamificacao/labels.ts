@@ -607,4 +607,5 @@ export const REASON_LABEL: Record<ScoreReason, { text: string; positive: boolean
   LEAD_VIROU_OPORTUNIDADE: { text: "Lead virou oportunidade (cliente pediu orçamento)", positive: true },
   TAREFA_LEADHUB_FEITA:    { text: "Tarefa de follow-up concluída",                    positive: true },
   SINAL_QUENTE_RESPONDIDO: { text: "Respondeu sinal quente (cliente abriu a proposta)", positive: true },
+  PONTO_PONTUAL:           { text: "Ponto de entrada batido no horário",                positive: true },
 };
