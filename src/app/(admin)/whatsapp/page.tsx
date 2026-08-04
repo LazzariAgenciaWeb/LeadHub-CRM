@@ -35,6 +35,7 @@ export default async function WhatsappPage({
     select: {
       id: true,
       instanceName: true,
+      label: true,
       phone: true,
       status: true,
       company: { select: { id: true, name: true } },
