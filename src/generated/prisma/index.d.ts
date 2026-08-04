@@ -11391,6 +11391,7 @@ export namespace Prisma {
     punchAdjustRequests: number
     punchAdjustsReviewed: number
     timesheetSignatures: number
+    ownedInstances: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11425,6 +11426,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | UserCountOutputTypeCountPunchAdjustRequestsArgs
     punchAdjustsReviewed?: boolean | UserCountOutputTypeCountPunchAdjustsReviewedArgs
     timesheetSignatures?: boolean | UserCountOutputTypeCountTimesheetSignaturesArgs
+    ownedInstances?: boolean | UserCountOutputTypeCountOwnedInstancesArgs
   }
 
   // Custom InputTypes
@@ -11653,6 +11655,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTimesheetSignaturesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimesheetSignatureWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOwnedInstancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhatsappInstanceWhereInput
   }
 
 
@@ -12671,6 +12680,7 @@ export namespace Prisma {
 
   export type WhatsappInstanceCountOutputType = {
     messages: number
+    conversations: number
     setores: number
     assistants: number
     scheduledMessages: number
@@ -12678,6 +12688,7 @@ export namespace Prisma {
 
   export type WhatsappInstanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | WhatsappInstanceCountOutputTypeCountMessagesArgs
+    conversations?: boolean | WhatsappInstanceCountOutputTypeCountConversationsArgs
     setores?: boolean | WhatsappInstanceCountOutputTypeCountSetoresArgs
     assistants?: boolean | WhatsappInstanceCountOutputTypeCountAssistantsArgs
     scheduledMessages?: boolean | WhatsappInstanceCountOutputTypeCountScheduledMessagesArgs
@@ -12699,6 +12710,13 @@ export namespace Prisma {
    */
   export type WhatsappInstanceCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * WhatsappInstanceCountOutputType without action
+   */
+  export type WhatsappInstanceCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConversationWhereInput
   }
 
   /**
@@ -14024,6 +14042,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | User$punchAdjustRequestsArgs<ExtArgs>
     punchAdjustsReviewed?: boolean | User$punchAdjustsReviewedArgs<ExtArgs>
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
+    ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -14097,6 +14116,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | User$punchAdjustRequestsArgs<ExtArgs>
     punchAdjustsReviewed?: boolean | User$punchAdjustsReviewedArgs<ExtArgs>
     timesheetSignatures?: boolean | User$timesheetSignaturesArgs<ExtArgs>
+    ownedInstances?: boolean | User$ownedInstancesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14140,6 +14160,7 @@ export namespace Prisma {
       punchAdjustRequests: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       punchAdjustsReviewed: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
+      ownedInstances: Prisma.$WhatsappInstancePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14554,6 +14575,7 @@ export namespace Prisma {
     punchAdjustRequests<T extends User$punchAdjustRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$punchAdjustRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     punchAdjustsReviewed<T extends User$punchAdjustsReviewedArgs<ExtArgs> = {}>(args?: Subset<T, User$punchAdjustsReviewedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     timesheetSignatures<T extends User$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
+    ownedInstances<T extends User$ownedInstancesArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedInstancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15577,6 +15599,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TimesheetSignatureScalarFieldEnum | TimesheetSignatureScalarFieldEnum[]
+  }
+
+  /**
+   * User.ownedInstances
+   */
+  export type User$ownedInstancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappInstance
+     */
+    select?: WhatsappInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhatsappInstanceInclude<ExtArgs> | null
+    where?: WhatsappInstanceWhereInput
+    orderBy?: WhatsappInstanceOrderByWithRelationInput | WhatsappInstanceOrderByWithRelationInput[]
+    cursor?: WhatsappInstanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WhatsappInstanceScalarFieldEnum | WhatsappInstanceScalarFieldEnum[]
   }
 
   /**
@@ -37823,6 +37865,7 @@ export namespace Prisma {
     instanceToken: string | null
     acceptGroups: boolean | null
     groupReceiver: boolean | null
+    ownerUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -37838,6 +37881,7 @@ export namespace Prisma {
     instanceToken: string | null
     acceptGroups: boolean | null
     groupReceiver: boolean | null
+    ownerUserId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     companyId: string | null
@@ -37853,6 +37897,7 @@ export namespace Prisma {
     instanceToken: number
     acceptGroups: number
     groupReceiver: number
+    ownerUserId: number
     createdAt: number
     updatedAt: number
     companyId: number
@@ -37870,6 +37915,7 @@ export namespace Prisma {
     instanceToken?: true
     acceptGroups?: true
     groupReceiver?: true
+    ownerUserId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -37885,6 +37931,7 @@ export namespace Prisma {
     instanceToken?: true
     acceptGroups?: true
     groupReceiver?: true
+    ownerUserId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -37900,6 +37947,7 @@ export namespace Prisma {
     instanceToken?: true
     acceptGroups?: true
     groupReceiver?: true
+    ownerUserId?: true
     createdAt?: true
     updatedAt?: true
     companyId?: true
@@ -37988,6 +38036,7 @@ export namespace Prisma {
     instanceToken: string | null
     acceptGroups: boolean
     groupReceiver: boolean
+    ownerUserId: string | null
     createdAt: Date
     updatedAt: Date
     companyId: string
@@ -38020,11 +38069,14 @@ export namespace Prisma {
     instanceToken?: boolean
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
+    owner?: boolean | WhatsappInstance$ownerArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
+    conversations?: boolean | WhatsappInstance$conversationsArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
     scheduledMessages?: boolean | WhatsappInstance$scheduledMessagesArgs<ExtArgs>
@@ -38041,9 +38093,11 @@ export namespace Prisma {
     instanceToken?: boolean
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
+    owner?: boolean | WhatsappInstance$ownerArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["whatsappInstance"]>
 
@@ -38057,28 +38111,34 @@ export namespace Prisma {
     instanceToken?: boolean
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     companyId?: boolean
   }
 
   export type WhatsappInstanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | WhatsappInstance$ownerArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | WhatsappInstance$messagesArgs<ExtArgs>
+    conversations?: boolean | WhatsappInstance$conversationsArgs<ExtArgs>
     setores?: boolean | WhatsappInstance$setoresArgs<ExtArgs>
     assistants?: boolean | WhatsappInstance$assistantsArgs<ExtArgs>
     scheduledMessages?: boolean | WhatsappInstance$scheduledMessagesArgs<ExtArgs>
     _count?: boolean | WhatsappInstanceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WhatsappInstanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | WhatsappInstance$ownerArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
 
   export type $WhatsappInstancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WhatsappInstance"
     objects: {
+      owner: Prisma.$UserPayload<ExtArgs> | null
       company: Prisma.$CompanyPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      conversations: Prisma.$ConversationPayload<ExtArgs>[]
       setores: Prisma.$SetorInstancePayload<ExtArgs>[]
       assistants: Prisma.$AssistantPayload<ExtArgs>[]
       scheduledMessages: Prisma.$ScheduledMessagePayload<ExtArgs>[]
@@ -38093,6 +38153,7 @@ export namespace Prisma {
       instanceToken: string | null
       acceptGroups: boolean
       groupReceiver: boolean
+      ownerUserId: string | null
       createdAt: Date
       updatedAt: Date
       companyId: string
@@ -38460,8 +38521,10 @@ export namespace Prisma {
    */
   export interface Prisma__WhatsappInstanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends WhatsappInstance$ownerArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$ownerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     messages<T extends WhatsappInstance$messagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
+    conversations<T extends WhatsappInstance$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany"> | Null>
     setores<T extends WhatsappInstance$setoresArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$setoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SetorInstancePayload<ExtArgs>, T, "findMany"> | Null>
     assistants<T extends WhatsappInstance$assistantsArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$assistantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssistantPayload<ExtArgs>, T, "findMany"> | Null>
     scheduledMessages<T extends WhatsappInstance$scheduledMessagesArgs<ExtArgs> = {}>(args?: Subset<T, WhatsappInstance$scheduledMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledMessagePayload<ExtArgs>, T, "findMany"> | Null>
@@ -38503,6 +38566,7 @@ export namespace Prisma {
     readonly instanceToken: FieldRef<"WhatsappInstance", 'String'>
     readonly acceptGroups: FieldRef<"WhatsappInstance", 'Boolean'>
     readonly groupReceiver: FieldRef<"WhatsappInstance", 'Boolean'>
+    readonly ownerUserId: FieldRef<"WhatsappInstance", 'String'>
     readonly createdAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly updatedAt: FieldRef<"WhatsappInstance", 'DateTime'>
     readonly companyId: FieldRef<"WhatsappInstance", 'String'>
@@ -38824,6 +38888,21 @@ export namespace Prisma {
   }
 
   /**
+   * WhatsappInstance.owner
+   */
+  export type WhatsappInstance$ownerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * WhatsappInstance.messages
    */
   export type WhatsappInstance$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38841,6 +38920,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * WhatsappInstance.conversations
+   */
+  export type WhatsappInstance$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Conversation
+     */
+    select?: ConversationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConversationInclude<ExtArgs> | null
+    where?: ConversationWhereInput
+    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
+    cursor?: ConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
   }
 
   /**
@@ -43029,6 +43128,8 @@ export namespace Prisma {
     unreadCount: number | null
     scheduledReturnAt: Date | null
     returnNote: string | null
+    instanceId: string | null
+    syncBlocked: boolean | null
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
@@ -43054,6 +43155,8 @@ export namespace Prisma {
     unreadCount: number | null
     scheduledReturnAt: Date | null
     returnNote: string | null
+    instanceId: string | null
+    syncBlocked: boolean | null
     excludeFromGamification: boolean | null
     aiMode: $Enums.AiMode | null
     aiPausedAt: Date | null
@@ -43079,6 +43182,8 @@ export namespace Prisma {
     unreadCount: number
     scheduledReturnAt: number
     returnNote: number
+    instanceId: number
+    syncBlocked: number
     excludeFromGamification: number
     aiMode: number
     aiPausedAt: number
@@ -43114,6 +43219,8 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    instanceId?: true
+    syncBlocked?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -43139,6 +43246,8 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    instanceId?: true
+    syncBlocked?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -43164,6 +43273,8 @@ export namespace Prisma {
     unreadCount?: true
     scheduledReturnAt?: true
     returnNote?: true
+    instanceId?: true
+    syncBlocked?: true
     excludeFromGamification?: true
     aiMode?: true
     aiPausedAt?: true
@@ -43276,6 +43387,8 @@ export namespace Prisma {
     unreadCount: number
     scheduledReturnAt: Date | null
     returnNote: string | null
+    instanceId: string | null
+    syncBlocked: boolean
     excludeFromGamification: boolean
     aiMode: $Enums.AiMode
     aiPausedAt: Date | null
@@ -43320,6 +43433,8 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    instanceId?: boolean
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -43331,6 +43446,7 @@ export namespace Prisma {
     updatedAt?: boolean
     assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
     setor?: boolean | Conversation$setorArgs<ExtArgs>
+    instance?: boolean | Conversation$instanceArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     notes?: boolean | Conversation$notesArgs<ExtArgs>
@@ -43353,6 +43469,8 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    instanceId?: boolean
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -43364,6 +43482,7 @@ export namespace Prisma {
     updatedAt?: boolean
     assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
     setor?: boolean | Conversation$setorArgs<ExtArgs>
+    instance?: boolean | Conversation$instanceArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
@@ -43381,6 +43500,8 @@ export namespace Prisma {
     unreadCount?: boolean
     scheduledReturnAt?: boolean
     returnNote?: boolean
+    instanceId?: boolean
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: boolean
     aiPausedAt?: boolean
@@ -43395,6 +43516,7 @@ export namespace Prisma {
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
     setor?: boolean | Conversation$setorArgs<ExtArgs>
+    instance?: boolean | Conversation$instanceArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     notes?: boolean | Conversation$notesArgs<ExtArgs>
@@ -43405,6 +43527,7 @@ export namespace Prisma {
   export type ConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignee?: boolean | Conversation$assigneeArgs<ExtArgs>
     setor?: boolean | Conversation$setorArgs<ExtArgs>
+    instance?: boolean | Conversation$instanceArgs<ExtArgs>
     company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
 
@@ -43413,6 +43536,7 @@ export namespace Prisma {
     objects: {
       assignee: Prisma.$UserPayload<ExtArgs> | null
       setor: Prisma.$SetorPayload<ExtArgs> | null
+      instance: Prisma.$WhatsappInstancePayload<ExtArgs> | null
       company: Prisma.$CompanyPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
       notes: Prisma.$ConversationNotePayload<ExtArgs>[]
@@ -43433,6 +43557,8 @@ export namespace Prisma {
       unreadCount: number
       scheduledReturnAt: Date | null
       returnNote: string | null
+      instanceId: string | null
+      syncBlocked: boolean
       excludeFromGamification: boolean
       aiMode: $Enums.AiMode
       aiPausedAt: Date | null
@@ -43808,6 +43934,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     assignee<T extends Conversation$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     setor<T extends Conversation$setorArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$setorArgs<ExtArgs>>): Prisma__SetorClient<$Result.GetResult<Prisma.$SetorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    instance<T extends Conversation$instanceArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$instanceArgs<ExtArgs>>): Prisma__WhatsappInstanceClient<$Result.GetResult<Prisma.$WhatsappInstancePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     messages<T extends Conversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
     notes<T extends Conversation$notesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationNotePayload<ExtArgs>, T, "findMany"> | Null>
@@ -43855,6 +43982,8 @@ export namespace Prisma {
     readonly unreadCount: FieldRef<"Conversation", 'Int'>
     readonly scheduledReturnAt: FieldRef<"Conversation", 'DateTime'>
     readonly returnNote: FieldRef<"Conversation", 'String'>
+    readonly instanceId: FieldRef<"Conversation", 'String'>
+    readonly syncBlocked: FieldRef<"Conversation", 'Boolean'>
     readonly excludeFromGamification: FieldRef<"Conversation", 'Boolean'>
     readonly aiMode: FieldRef<"Conversation", 'AiMode'>
     readonly aiPausedAt: FieldRef<"Conversation", 'DateTime'>
@@ -44209,6 +44338,21 @@ export namespace Prisma {
      */
     include?: SetorInclude<ExtArgs> | null
     where?: SetorWhereInput
+  }
+
+  /**
+   * Conversation.instance
+   */
+  export type Conversation$instanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WhatsappInstance
+     */
+    select?: WhatsappInstanceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhatsappInstanceInclude<ExtArgs> | null
+    where?: WhatsappInstanceWhereInput
   }
 
   /**
@@ -137243,6 +137387,7 @@ export namespace Prisma {
     instanceToken: 'instanceToken',
     acceptGroups: 'acceptGroups',
     groupReceiver: 'groupReceiver',
+    ownerUserId: 'ownerUserId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     companyId: 'companyId'
@@ -137327,6 +137472,8 @@ export namespace Prisma {
     unreadCount: 'unreadCount',
     scheduledReturnAt: 'scheduledReturnAt',
     returnNote: 'returnNote',
+    instanceId: 'instanceId',
+    syncBlocked: 'syncBlocked',
     excludeFromGamification: 'excludeFromGamification',
     aiMode: 'aiMode',
     aiPausedAt: 'aiPausedAt',
@@ -139807,6 +139954,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     punchAdjustsReviewed?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
+    ownedInstances?: WhatsappInstanceListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -139858,6 +140006,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestOrderByRelationAggregateInput
     punchAdjustsReviewed?: PunchAdjustRequestOrderByRelationAggregateInput
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
+    ownedInstances?: WhatsappInstanceOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -139912,6 +140061,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     punchAdjustsReviewed?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
+    ownedInstances?: WhatsappInstanceListRelationFilter
   }, "id" | "email" | "passwordResetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -142024,11 +142174,14 @@ export namespace Prisma {
     instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
     acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
     groupReceiver?: BoolFilter<"WhatsappInstance"> | boolean
+    ownerUserId?: StringNullableFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
+    owner?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
+    conversations?: ConversationListRelationFilter
     setores?: SetorInstanceListRelationFilter
     assistants?: AssistantListRelationFilter
     scheduledMessages?: ScheduledMessageListRelationFilter
@@ -142044,11 +142197,14 @@ export namespace Prisma {
     instanceToken?: SortOrderInput | SortOrder
     acceptGroups?: SortOrder
     groupReceiver?: SortOrder
+    ownerUserId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
+    owner?: UserOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
+    conversations?: ConversationOrderByRelationAggregateInput
     setores?: SetorInstanceOrderByRelationAggregateInput
     assistants?: AssistantOrderByRelationAggregateInput
     scheduledMessages?: ScheduledMessageOrderByRelationAggregateInput
@@ -142067,11 +142223,14 @@ export namespace Prisma {
     instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
     acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
     groupReceiver?: BoolFilter<"WhatsappInstance"> | boolean
+    ownerUserId?: StringNullableFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
     companyId?: StringFilter<"WhatsappInstance"> | string
+    owner?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
+    conversations?: ConversationListRelationFilter
     setores?: SetorInstanceListRelationFilter
     assistants?: AssistantListRelationFilter
     scheduledMessages?: ScheduledMessageListRelationFilter
@@ -142087,6 +142246,7 @@ export namespace Prisma {
     instanceToken?: SortOrderInput | SortOrder
     acceptGroups?: SortOrder
     groupReceiver?: SortOrder
+    ownerUserId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -142108,6 +142268,7 @@ export namespace Prisma {
     instanceToken?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     acceptGroups?: BoolWithAggregatesFilter<"WhatsappInstance"> | boolean
     groupReceiver?: BoolWithAggregatesFilter<"WhatsappInstance"> | boolean
+    ownerUserId?: StringNullableWithAggregatesFilter<"WhatsappInstance"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WhatsappInstance"> | Date | string
     companyId?: StringWithAggregatesFilter<"WhatsappInstance"> | string
@@ -142459,6 +142620,8 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    instanceId?: StringNullableFilter<"Conversation"> | string | null
+    syncBlocked?: BoolFilter<"Conversation"> | boolean
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -142470,6 +142633,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
     notes?: ConversationNoteListRelationFilter
@@ -142491,6 +142655,8 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    syncBlocked?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
@@ -142502,6 +142668,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     assignee?: UserOrderByWithRelationInput
     setor?: SetorOrderByWithRelationInput
+    instance?: WhatsappInstanceOrderByWithRelationInput
     company?: CompanyOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
     notes?: ConversationNoteOrderByRelationAggregateInput
@@ -142527,6 +142694,8 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    instanceId?: StringNullableFilter<"Conversation"> | string | null
+    syncBlocked?: BoolFilter<"Conversation"> | boolean
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -142538,6 +142707,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
     assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     setor?: XOR<SetorNullableRelationFilter, SetorWhereInput> | null
+    instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     messages?: MessageListRelationFilter
     notes?: ConversationNoteListRelationFilter
@@ -142559,6 +142729,8 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrderInput | SortOrder
     returnNote?: SortOrderInput | SortOrder
+    instanceId?: SortOrderInput | SortOrder
+    syncBlocked?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrderInput | SortOrder
@@ -142592,6 +142764,8 @@ export namespace Prisma {
     unreadCount?: IntWithAggregatesFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    instanceId?: StringNullableWithAggregatesFilter<"Conversation"> | string | null
+    syncBlocked?: BoolWithAggregatesFilter<"Conversation"> | boolean
     excludeFromGamification?: BoolWithAggregatesFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeWithAggregatesFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableWithAggregatesFilter<"Conversation"> | Date | string | null
@@ -150745,6 +150919,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -150795,6 +150970,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -150845,6 +151021,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -150895,6 +151072,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -153293,8 +153471,10 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
@@ -153310,10 +153490,12 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
@@ -153331,8 +153513,10 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
@@ -153348,10 +153532,12 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
@@ -153367,6 +153553,7 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
@@ -153396,6 +153583,7 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
@@ -153755,6 +153943,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -153765,6 +153954,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
@@ -153786,6 +153976,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -153813,6 +154005,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -153823,6 +154016,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
@@ -153844,6 +154038,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -153873,6 +154069,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -153896,6 +154094,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -153920,6 +154119,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -163102,6 +163303,12 @@ export namespace Prisma {
     none?: TimesheetSignatureWhereInput
   }
 
+  export type WhatsappInstanceListRelationFilter = {
+    every?: WhatsappInstanceWhereInput
+    some?: WhatsappInstanceWhereInput
+    none?: WhatsappInstanceWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -163204,6 +163411,10 @@ export namespace Prisma {
   }
 
   export type TimesheetSignatureOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WhatsappInstanceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -163687,12 +163898,6 @@ export namespace Prisma {
     none?: CompanyCustomValueWhereInput
   }
 
-  export type WhatsappInstanceListRelationFilter = {
-    every?: WhatsappInstanceWhereInput
-    some?: WhatsappInstanceWhereInput
-    none?: WhatsappInstanceWhereInput
-  }
-
   export type KeywordRuleListRelationFilter = {
     every?: KeywordRuleWhereInput
     some?: KeywordRuleWhereInput
@@ -164024,10 +164229,6 @@ export namespace Prisma {
   }
 
   export type CompanyCustomValueOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WhatsappInstanceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -165352,6 +165553,7 @@ export namespace Prisma {
     instanceToken?: SortOrder
     acceptGroups?: SortOrder
     groupReceiver?: SortOrder
+    ownerUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -165367,6 +165569,7 @@ export namespace Prisma {
     instanceToken?: SortOrder
     acceptGroups?: SortOrder
     groupReceiver?: SortOrder
+    ownerUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -165382,6 +165585,7 @@ export namespace Prisma {
     instanceToken?: SortOrder
     acceptGroups?: SortOrder
     groupReceiver?: SortOrder
+    ownerUserId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     companyId?: SortOrder
@@ -165717,6 +165921,8 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    instanceId?: SortOrder
+    syncBlocked?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -165746,6 +165952,8 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    instanceId?: SortOrder
+    syncBlocked?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -165771,6 +165979,8 @@ export namespace Prisma {
     unreadCount?: SortOrder
     scheduledReturnAt?: SortOrder
     returnNote?: SortOrder
+    instanceId?: SortOrder
+    syncBlocked?: SortOrder
     excludeFromGamification?: SortOrder
     aiMode?: SortOrder
     aiPausedAt?: SortOrder
@@ -171575,6 +171785,13 @@ export namespace Prisma {
     connect?: TimesheetSignatureWhereUniqueInput | TimesheetSignatureWhereUniqueInput[]
   }
 
+  export type WhatsappInstanceCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput> | WhatsappInstanceCreateWithoutOwnerInput[] | WhatsappInstanceUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutOwnerInput | WhatsappInstanceCreateOrConnectWithoutOwnerInput[]
+    createMany?: WhatsappInstanceCreateManyOwnerInputEnvelope
+    connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+  }
+
   export type TicketUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -171802,6 +172019,13 @@ export namespace Prisma {
     connectOrCreate?: TimesheetSignatureCreateOrConnectWithoutUserInput | TimesheetSignatureCreateOrConnectWithoutUserInput[]
     createMany?: TimesheetSignatureCreateManyUserInputEnvelope
     connect?: TimesheetSignatureWhereUniqueInput | TimesheetSignatureWhereUniqueInput[]
+  }
+
+  export type WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput> | WhatsappInstanceCreateWithoutOwnerInput[] | WhatsappInstanceUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutOwnerInput | WhatsappInstanceCreateOrConnectWithoutOwnerInput[]
+    createMany?: WhatsappInstanceCreateManyOwnerInputEnvelope
+    connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -172296,6 +172520,20 @@ export namespace Prisma {
     deleteMany?: TimesheetSignatureScalarWhereInput | TimesheetSignatureScalarWhereInput[]
   }
 
+  export type WhatsappInstanceUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput> | WhatsappInstanceCreateWithoutOwnerInput[] | WhatsappInstanceUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutOwnerInput | WhatsappInstanceCreateOrConnectWithoutOwnerInput[]
+    upsert?: WhatsappInstanceUpsertWithWhereUniqueWithoutOwnerInput | WhatsappInstanceUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: WhatsappInstanceCreateManyOwnerInputEnvelope
+    set?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    disconnect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    delete?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    update?: WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput | WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput | WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
+  }
+
   export type TicketUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<TicketCreateWithoutCreatedByInput, TicketUncheckedCreateWithoutCreatedByInput> | TicketCreateWithoutCreatedByInput[] | TicketUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: TicketCreateOrConnectWithoutCreatedByInput | TicketCreateOrConnectWithoutCreatedByInput[]
@@ -172748,6 +172986,20 @@ export namespace Prisma {
     update?: TimesheetSignatureUpdateWithWhereUniqueWithoutUserInput | TimesheetSignatureUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TimesheetSignatureUpdateManyWithWhereWithoutUserInput | TimesheetSignatureUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TimesheetSignatureScalarWhereInput | TimesheetSignatureScalarWhereInput[]
+  }
+
+  export type WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput> | WhatsappInstanceCreateWithoutOwnerInput[] | WhatsappInstanceUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutOwnerInput | WhatsappInstanceCreateOrConnectWithoutOwnerInput[]
+    upsert?: WhatsappInstanceUpsertWithWhereUniqueWithoutOwnerInput | WhatsappInstanceUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: WhatsappInstanceCreateManyOwnerInputEnvelope
+    set?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    disconnect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    delete?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    connect?: WhatsappInstanceWhereUniqueInput | WhatsappInstanceWhereUniqueInput[]
+    update?: WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput | WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput | WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutQuickRepliesInput = {
@@ -177371,6 +177623,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCompanyContactInput, UserUpdateWithoutCompanyContactInput>, UserUncheckedUpdateWithoutCompanyContactInput>
   }
 
+  export type UserCreateNestedOneWithoutOwnedInstancesInput = {
+    create?: XOR<UserCreateWithoutOwnedInstancesInput, UserUncheckedCreateWithoutOwnedInstancesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedInstancesInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CompanyCreateNestedOneWithoutWhatsappInstancesInput = {
     create?: XOR<CompanyCreateWithoutWhatsappInstancesInput, CompanyUncheckedCreateWithoutWhatsappInstancesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutWhatsappInstancesInput
@@ -177382,6 +177640,13 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutInstanceInput | MessageCreateOrConnectWithoutInstanceInput[]
     createMany?: MessageCreateManyInstanceInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ConversationCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput> | ConversationCreateWithoutInstanceInput[] | ConversationUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutInstanceInput | ConversationCreateOrConnectWithoutInstanceInput[]
+    createMany?: ConversationCreateManyInstanceInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
   export type SetorInstanceCreateNestedManyWithoutInstanceInput = {
@@ -177412,6 +177677,13 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type ConversationUncheckedCreateNestedManyWithoutInstanceInput = {
+    create?: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput> | ConversationCreateWithoutInstanceInput[] | ConversationUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutInstanceInput | ConversationCreateOrConnectWithoutInstanceInput[]
+    createMany?: ConversationCreateManyInstanceInputEnvelope
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
   export type SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput = {
     create?: XOR<SetorInstanceCreateWithoutInstanceInput, SetorInstanceUncheckedCreateWithoutInstanceInput> | SetorInstanceCreateWithoutInstanceInput[] | SetorInstanceUncheckedCreateWithoutInstanceInput[]
     connectOrCreate?: SetorInstanceCreateOrConnectWithoutInstanceInput | SetorInstanceCreateOrConnectWithoutInstanceInput[]
@@ -177437,6 +177709,16 @@ export namespace Prisma {
     set?: $Enums.InstanceStatus
   }
 
+  export type UserUpdateOneWithoutOwnedInstancesNestedInput = {
+    create?: XOR<UserCreateWithoutOwnedInstancesInput, UserUncheckedCreateWithoutOwnedInstancesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedInstancesInput
+    upsert?: UserUpsertWithoutOwnedInstancesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnedInstancesInput, UserUpdateWithoutOwnedInstancesInput>, UserUncheckedUpdateWithoutOwnedInstancesInput>
+  }
+
   export type CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput = {
     create?: XOR<CompanyCreateWithoutWhatsappInstancesInput, CompanyUncheckedCreateWithoutWhatsappInstancesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutWhatsappInstancesInput
@@ -177457,6 +177739,20 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutInstanceInput | MessageUpdateWithWhereUniqueWithoutInstanceInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutInstanceInput | MessageUpdateManyWithWhereWithoutInstanceInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ConversationUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput> | ConversationCreateWithoutInstanceInput[] | ConversationUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutInstanceInput | ConversationCreateOrConnectWithoutInstanceInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutInstanceInput | ConversationUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: ConversationCreateManyInstanceInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutInstanceInput | ConversationUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutInstanceInput | ConversationUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
   export type SetorInstanceUpdateManyWithoutInstanceNestedInput = {
@@ -177513,6 +177809,20 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutInstanceInput | MessageUpdateWithWhereUniqueWithoutInstanceInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutInstanceInput | MessageUpdateManyWithWhereWithoutInstanceInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutInstanceNestedInput = {
+    create?: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput> | ConversationCreateWithoutInstanceInput[] | ConversationUncheckedCreateWithoutInstanceInput[]
+    connectOrCreate?: ConversationCreateOrConnectWithoutInstanceInput | ConversationCreateOrConnectWithoutInstanceInput[]
+    upsert?: ConversationUpsertWithWhereUniqueWithoutInstanceInput | ConversationUpsertWithWhereUniqueWithoutInstanceInput[]
+    createMany?: ConversationCreateManyInstanceInputEnvelope
+    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+    update?: ConversationUpdateWithWhereUniqueWithoutInstanceInput | ConversationUpdateWithWhereUniqueWithoutInstanceInput[]
+    updateMany?: ConversationUpdateManyWithWhereWithoutInstanceInput | ConversationUpdateManyWithWhereWithoutInstanceInput[]
+    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
   export type SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput = {
@@ -177715,6 +178025,12 @@ export namespace Prisma {
     connect?: SetorWhereUniqueInput
   }
 
+  export type WhatsappInstanceCreateNestedOneWithoutConversationsInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutConversationsInput, WhatsappInstanceUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutConversationsInput
+    connect?: WhatsappInstanceWhereUniqueInput
+  }
+
   export type CompanyCreateNestedOneWithoutConversationsInput = {
     create?: XOR<CompanyCreateWithoutConversationsInput, CompanyUncheckedCreateWithoutConversationsInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutConversationsInput
@@ -177807,6 +178123,16 @@ export namespace Prisma {
     delete?: SetorWhereInput | boolean
     connect?: SetorWhereUniqueInput
     update?: XOR<XOR<SetorUpdateToOneWithWhereWithoutConversationsInput, SetorUpdateWithoutConversationsInput>, SetorUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type WhatsappInstanceUpdateOneWithoutConversationsNestedInput = {
+    create?: XOR<WhatsappInstanceCreateWithoutConversationsInput, WhatsappInstanceUncheckedCreateWithoutConversationsInput>
+    connectOrCreate?: WhatsappInstanceCreateOrConnectWithoutConversationsInput
+    upsert?: WhatsappInstanceUpsertWithoutConversationsInput
+    disconnect?: WhatsappInstanceWhereInput | boolean
+    delete?: WhatsappInstanceWhereInput | boolean
+    connect?: WhatsappInstanceWhereUniqueInput
+    update?: XOR<XOR<WhatsappInstanceUpdateToOneWithWhereWithoutConversationsInput, WhatsappInstanceUpdateWithoutConversationsInput>, WhatsappInstanceUncheckedUpdateWithoutConversationsInput>
   }
 
   export type CompanyUpdateOneRequiredWithoutConversationsNestedInput = {
@@ -183967,6 +184293,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -183976,6 +184303,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
@@ -183996,6 +184324,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -185056,6 +185386,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WhatsappInstanceCreateWithoutOwnerInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceCreateOrConnectWithoutOwnerInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    create: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type WhatsappInstanceCreateManyOwnerInputEnvelope = {
+    data: WhatsappInstanceCreateManyOwnerInput | WhatsappInstanceCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -185460,6 +185840,8 @@ export namespace Prisma {
     unreadCount?: IntFilter<"Conversation"> | number
     scheduledReturnAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
     returnNote?: StringNullableFilter<"Conversation"> | string | null
+    instanceId?: StringNullableFilter<"Conversation"> | string | null
+    syncBlocked?: BoolFilter<"Conversation"> | boolean
     excludeFromGamification?: BoolFilter<"Conversation"> | boolean
     aiMode?: EnumAiModeFilter<"Conversation"> | $Enums.AiMode
     aiPausedAt?: DateTimeNullableFilter<"Conversation"> | Date | string | null
@@ -186296,6 +186678,41 @@ export namespace Prisma {
     ip?: StringNullableFilter<"TimesheetSignature"> | string | null
   }
 
+  export type WhatsappInstanceUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    update: XOR<WhatsappInstanceUpdateWithoutOwnerInput, WhatsappInstanceUncheckedUpdateWithoutOwnerInput>
+    create: XOR<WhatsappInstanceCreateWithoutOwnerInput, WhatsappInstanceUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type WhatsappInstanceUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    data: XOR<WhatsappInstanceUpdateWithoutOwnerInput, WhatsappInstanceUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type WhatsappInstanceUpdateManyWithWhereWithoutOwnerInput = {
+    where: WhatsappInstanceScalarWhereInput
+    data: XOR<WhatsappInstanceUpdateManyMutationInput, WhatsappInstanceUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type WhatsappInstanceScalarWhereInput = {
+    AND?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
+    OR?: WhatsappInstanceScalarWhereInput[]
+    NOT?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
+    id?: StringFilter<"WhatsappInstance"> | string
+    instanceName?: StringFilter<"WhatsappInstance"> | string
+    label?: StringNullableFilter<"WhatsappInstance"> | string | null
+    phone?: StringNullableFilter<"WhatsappInstance"> | string | null
+    status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
+    webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
+    instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
+    acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
+    groupReceiver?: BoolFilter<"WhatsappInstance"> | boolean
+    ownerUserId?: StringNullableFilter<"WhatsappInstance"> | string | null
+    createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
+    updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
+    companyId?: StringFilter<"WhatsappInstance"> | string
+  }
+
   export type CompanyCreateWithoutQuickRepliesInput = {
     id?: string
     name: string
@@ -186590,6 +187007,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutQuickRepliesInput = {
@@ -186639,6 +187057,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutQuickRepliesInput = {
@@ -186957,6 +187376,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuickRepliesInput = {
@@ -187006,6 +187426,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutVaultChallengesInput = {
@@ -187055,6 +187476,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutVaultChallengesInput = {
@@ -187104,6 +187526,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutVaultChallengesInput = {
@@ -187169,6 +187592,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultChallengesInput = {
@@ -187218,6 +187642,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutVaultTrustedSessionsInput = {
@@ -187267,6 +187692,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutVaultTrustedSessionsInput = {
@@ -187316,6 +187742,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutVaultTrustedSessionsInput = {
@@ -187381,6 +187808,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVaultTrustedSessionsInput = {
@@ -187430,6 +187858,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutGoogleConnectionsInput = {
@@ -187479,6 +187908,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutGoogleConnectionsInput = {
@@ -187528,6 +187958,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutGoogleConnectionsInput = {
@@ -187593,6 +188024,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoogleConnectionsInput = {
@@ -187642,6 +188074,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutSubCompaniesInput = {
@@ -188190,6 +188623,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -188239,6 +188673,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -189236,7 +189671,9 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
@@ -189252,9 +189689,11 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
@@ -189768,6 +190207,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -189778,6 +190218,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
     activities?: ActivityCreateNestedManyWithoutConversationInput
@@ -189798,6 +190239,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -192572,24 +193015,6 @@ export namespace Prisma {
   export type WhatsappInstanceUpdateManyWithWhereWithoutCompanyInput = {
     where: WhatsappInstanceScalarWhereInput
     data: XOR<WhatsappInstanceUpdateManyMutationInput, WhatsappInstanceUncheckedUpdateManyWithoutCompanyInput>
-  }
-
-  export type WhatsappInstanceScalarWhereInput = {
-    AND?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
-    OR?: WhatsappInstanceScalarWhereInput[]
-    NOT?: WhatsappInstanceScalarWhereInput | WhatsappInstanceScalarWhereInput[]
-    id?: StringFilter<"WhatsappInstance"> | string
-    instanceName?: StringFilter<"WhatsappInstance"> | string
-    label?: StringNullableFilter<"WhatsappInstance"> | string | null
-    phone?: StringNullableFilter<"WhatsappInstance"> | string | null
-    status?: EnumInstanceStatusFilter<"WhatsappInstance"> | $Enums.InstanceStatus
-    webhookUrl?: StringNullableFilter<"WhatsappInstance"> | string | null
-    instanceToken?: StringNullableFilter<"WhatsappInstance"> | string | null
-    acceptGroups?: BoolFilter<"WhatsappInstance"> | boolean
-    groupReceiver?: BoolFilter<"WhatsappInstance"> | boolean
-    createdAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
-    updatedAt?: DateTimeFilter<"WhatsappInstance"> | Date | string
-    companyId?: StringFilter<"WhatsappInstance"> | string
   }
 
   export type MessageUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -196356,6 +196781,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -196366,6 +196792,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
@@ -196386,6 +196813,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -197154,6 +197583,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -197164,6 +197594,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
@@ -197184,6 +197615,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -200540,6 +200973,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTasksAssignedInput = {
@@ -200589,6 +201023,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTasksAssignedInput = {
@@ -200643,6 +201078,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTasksCreatedInput = {
@@ -200692,6 +201128,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTasksCreatedInput = {
@@ -201125,6 +201562,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksAssignedInput = {
@@ -201174,6 +201612,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutTasksCreatedInput = {
@@ -201234,6 +201673,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksCreatedInput = {
@@ -201283,6 +201723,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type LeadCreateWithoutCommentsInput = {
@@ -202303,6 +202744,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutCompanyContactInput = {
@@ -202352,6 +202794,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutCompanyContactInput = {
@@ -202670,6 +203113,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyContactInput = {
@@ -202719,6 +203163,112 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserCreateWithoutOwnedInstancesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutOwnedInstancesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutOwnedInstancesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOwnedInstancesInput, UserUncheckedCreateWithoutOwnedInstancesInput>
   }
 
   export type CompanyCreateWithoutWhatsappInstancesInput = {
@@ -203026,6 +203576,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ConversationCreateWithoutInstanceInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
+    syncBlocked?: boolean
+    excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    setor?: SetorCreateNestedOneWithoutConversationsInput
+    company: CompanyCreateNestedOneWithoutConversationsInput
+    messages?: MessageCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteCreateNestedManyWithoutConversationInput
+    activities?: ActivityCreateNestedManyWithoutConversationInput
+    leads?: LeadCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationUncheckedCreateWithoutInstanceInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
+    syncBlocked?: boolean
+    excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
+    notes?: ConversationNoteUncheckedCreateNestedManyWithoutConversationInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutConversationInput
+    leads?: LeadUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ConversationCreateOrConnectWithoutInstanceInput = {
+    where: ConversationWhereUniqueInput
+    create: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type ConversationCreateManyInstanceInputEnvelope = {
+    data: ConversationCreateManyInstanceInput | ConversationCreateManyInstanceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SetorInstanceCreateWithoutInstanceInput = {
     setor: SetorCreateNestedOneWithoutInstancesInput
   }
@@ -203144,6 +203764,117 @@ export namespace Prisma {
   export type ScheduledMessageCreateManyInstanceInputEnvelope = {
     data: ScheduledMessageCreateManyInstanceInput | ScheduledMessageCreateManyInstanceInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutOwnedInstancesInput = {
+    update: XOR<UserUpdateWithoutOwnedInstancesInput, UserUncheckedUpdateWithoutOwnedInstancesInput>
+    create: XOR<UserCreateWithoutOwnedInstancesInput, UserUncheckedCreateWithoutOwnedInstancesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOwnedInstancesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOwnedInstancesInput, UserUncheckedUpdateWithoutOwnedInstancesInput>
+  }
+
+  export type UserUpdateWithoutOwnedInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOwnedInstancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutWhatsappInstancesInput = {
@@ -203413,6 +204144,22 @@ export namespace Prisma {
   export type MessageUpdateManyWithWhereWithoutInstanceInput = {
     where: MessageScalarWhereInput
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutInstanceInput>
+  }
+
+  export type ConversationUpsertWithWhereUniqueWithoutInstanceInput = {
+    where: ConversationWhereUniqueInput
+    update: XOR<ConversationUpdateWithoutInstanceInput, ConversationUncheckedUpdateWithoutInstanceInput>
+    create: XOR<ConversationCreateWithoutInstanceInput, ConversationUncheckedCreateWithoutInstanceInput>
+  }
+
+  export type ConversationUpdateWithWhereUniqueWithoutInstanceInput = {
+    where: ConversationWhereUniqueInput
+    data: XOR<ConversationUpdateWithoutInstanceInput, ConversationUncheckedUpdateWithoutInstanceInput>
+  }
+
+  export type ConversationUpdateManyWithWhereWithoutInstanceInput = {
+    where: ConversationScalarWhereInput
+    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutInstanceInput>
   }
 
   export type SetorInstanceUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -203730,7 +204477,9 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
@@ -203746,9 +204495,11 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
@@ -203921,6 +204672,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -203931,6 +204683,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
     activities?: ActivityCreateNestedManyWithoutConversationInput
@@ -203951,6 +204704,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -204017,6 +204772,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -204066,6 +204822,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -204349,7 +205106,9 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
@@ -204365,9 +205124,11 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
@@ -204558,6 +205319,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -204568,6 +205330,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
     activities?: ActivityUpdateManyWithoutConversationNestedInput
@@ -204588,6 +205351,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -204660,6 +205425,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -204709,6 +205475,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutKeywordRulesInput = {
@@ -205346,6 +206113,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutConversationsAssignedInput = {
@@ -205395,6 +206163,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutConversationsAssignedInput = {
@@ -205471,6 +206240,51 @@ export namespace Prisma {
   export type SetorCreateOrConnectWithoutConversationsInput = {
     where: SetorWhereUniqueInput
     create: XOR<SetorCreateWithoutConversationsInput, SetorUncheckedCreateWithoutConversationsInput>
+  }
+
+  export type WhatsappInstanceCreateWithoutConversationsInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
+    company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
+    messages?: MessageCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceUncheckedCreateWithoutConversationsInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    ownerUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
+  }
+
+  export type WhatsappInstanceCreateOrConnectWithoutConversationsInput = {
+    where: WhatsappInstanceWhereUniqueInput
+    create: XOR<WhatsappInstanceCreateWithoutConversationsInput, WhatsappInstanceUncheckedCreateWithoutConversationsInput>
   }
 
   export type CompanyCreateWithoutConversationsInput = {
@@ -206014,6 +206828,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationsAssignedInput = {
@@ -206063,6 +206878,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorUpsertWithoutConversationsInput = {
@@ -206140,6 +206956,57 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutSetorNestedInput
     clickupLists?: SetorClickupListUncheckedUpdateManyWithoutSetorNestedInput
     assistantRoutes?: AssistantRouteUncheckedUpdateManyWithoutSetorNestedInput
+  }
+
+  export type WhatsappInstanceUpsertWithoutConversationsInput = {
+    update: XOR<WhatsappInstanceUpdateWithoutConversationsInput, WhatsappInstanceUncheckedUpdateWithoutConversationsInput>
+    create: XOR<WhatsappInstanceCreateWithoutConversationsInput, WhatsappInstanceUncheckedCreateWithoutConversationsInput>
+    where?: WhatsappInstanceWhereInput
+  }
+
+  export type WhatsappInstanceUpdateToOneWithWhereWithoutConversationsInput = {
+    where?: WhatsappInstanceWhereInput
+    data: XOR<WhatsappInstanceUpdateWithoutConversationsInput, WhatsappInstanceUncheckedUpdateWithoutConversationsInput>
+  }
+
+  export type WhatsappInstanceUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    messages?: MessageUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateWithoutConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
 
   export type CompanyUpsertWithoutConversationsInput = {
@@ -206484,6 +207351,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -206494,6 +207362,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     activities?: ActivityCreateNestedManyWithoutConversationInput
@@ -206514,6 +207383,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -206556,6 +207427,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -206566,6 +207438,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     activities?: ActivityUpdateManyWithoutConversationNestedInput
@@ -206586,6 +207459,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -206612,6 +207487,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -206622,6 +207498,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
     setor?: SetorCreateNestedOneWithoutConversationsInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
@@ -206642,6 +207519,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -207099,6 +207978,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -207109,6 +207989,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
@@ -207129,6 +208010,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -207870,6 +208753,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTicketsAssignedInput = {
@@ -207919,6 +208803,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTicketsAssignedInput = {
@@ -208220,6 +209105,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTicketsCreatedInput = {
@@ -208269,6 +209155,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTicketsCreatedInput = {
@@ -208885,6 +209772,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsAssignedInput = {
@@ -208934,6 +209822,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyUpsertWithoutTicketsInput = {
@@ -209247,6 +210136,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketsCreatedInput = {
@@ -209296,6 +210186,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorUpsertWithoutTicketsInput = {
@@ -210040,6 +210931,7 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -210049,6 +210941,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     assignee?: UserCreateNestedOneWithoutConversationsAssignedInput
+    instance?: WhatsappInstanceCreateNestedOneWithoutConversationsInput
     company: CompanyCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
     notes?: ConversationNoteCreateNestedManyWithoutConversationInput
@@ -210069,6 +210962,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -212265,6 +213160,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksAssignedInput = {
@@ -212314,6 +213210,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksAssignedInput = {
@@ -212368,6 +213265,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutProjectTasksCreatedInput = {
@@ -212417,6 +213315,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutProjectTasksCreatedInput = {
@@ -212638,6 +213537,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksAssignedInput = {
@@ -212687,6 +213587,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutProjectTasksCreatedInput = {
@@ -212747,6 +213648,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectTasksCreatedInput = {
@@ -212796,6 +213698,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type ProjectMaterialUpsertWithWhereUniqueWithoutTaskInput = {
@@ -213232,6 +214135,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTicketAccessInput = {
@@ -213281,6 +214185,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTicketAccessInput = {
@@ -213411,6 +214316,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTicketAccessInput = {
@@ -213460,6 +214366,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorClickupListCreateWithoutAccessUsersInput = {
@@ -213582,6 +214489,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutProjectAccessInput = {
@@ -213631,6 +214539,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutProjectAccessInput = {
@@ -213775,6 +214684,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectAccessInput = {
@@ -213824,6 +214734,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorClickupListCreateWithoutTaskStatesInput = {
@@ -214250,6 +215161,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -214299,6 +215211,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -214443,6 +215356,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -214492,6 +215406,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorClickupListCreateWithoutMaterialsInput = {
@@ -214872,6 +215787,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutSetoresInput = {
@@ -214921,6 +215837,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutSetoresInput = {
@@ -215063,6 +215980,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSetoresInput = {
@@ -215112,6 +216030,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type SetorCreateWithoutInstancesInput = {
@@ -215197,8 +216116,10 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
@@ -215213,10 +216134,12 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
@@ -215326,8 +216249,10 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
@@ -215342,10 +216267,12 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
@@ -231793,6 +232720,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -231842,6 +232770,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -232185,6 +233114,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -232234,6 +233164,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyUpsertWithoutRewardRedemptionsInput = {
@@ -232573,6 +233504,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutUserScoresInput = {
@@ -232622,6 +233554,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutUserScoresInput = {
@@ -232934,6 +233867,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserScoresInput = {
@@ -232983,6 +233917,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyUpsertWithoutUserScoresInput = {
@@ -233285,6 +234220,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -233334,6 +234270,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -233646,6 +234583,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -233695,6 +234633,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyUpsertWithoutUserBadgesInput = {
@@ -233997,6 +234936,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutScoreEventsInput = {
@@ -234046,6 +234986,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutScoreEventsInput = {
@@ -234358,6 +235299,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScoreEventsInput = {
@@ -234407,6 +235349,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyUpsertWithoutScoreEventsInput = {
@@ -235209,6 +236152,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -235258,6 +236202,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -235323,6 +236268,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -235372,6 +236318,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutNotifPreferencesInput = {
@@ -235421,6 +236368,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutNotifPreferencesInput = {
@@ -235470,6 +236418,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutNotifPreferencesInput = {
@@ -235535,6 +236484,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotifPreferencesInput = {
@@ -235584,6 +236534,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutEmailConfigInput = {
@@ -236985,6 +237936,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutEmailCampaignsCreatedInput = {
@@ -237034,6 +237986,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutEmailCampaignsCreatedInput = {
@@ -237545,6 +238498,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailCampaignsCreatedInput = {
@@ -237594,6 +238548,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type EmailRecipientUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -243440,6 +244395,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAssistantCalendarsInput = {
@@ -243489,6 +244445,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAssistantCalendarsInput = {
@@ -243508,8 +244465,10 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageCreateNestedManyWithoutInstanceInput
   }
@@ -243524,10 +244483,12 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutInstanceInput
   }
@@ -243650,6 +244611,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAssistantsCreatedInput = {
@@ -243699,6 +244661,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAssistantsCreatedInput = {
@@ -244017,6 +244980,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantCalendarsInput = {
@@ -244066,6 +245030,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutAssistantsInput = {
@@ -244091,8 +245056,10 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
   }
@@ -244107,10 +245074,12 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
   }
@@ -244205,6 +245174,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssistantsCreatedInput = {
@@ -244254,6 +245224,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutScheduledMessagesInput = {
@@ -244515,8 +245486,10 @@ export namespace Prisma {
     groupReceiver?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    owner?: UserCreateNestedOneWithoutOwnedInstancesInput
     company: CompanyCreateNestedOneWithoutWhatsappInstancesInput
     messages?: MessageCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceCreateNestedManyWithoutInstanceInput
     assistants?: AssistantCreateNestedManyWithoutInstanceInput
   }
@@ -244531,10 +245504,12 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     companyId: string
     messages?: MessageUncheckedCreateNestedManyWithoutInstanceInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutInstanceInput
     setores?: SetorInstanceUncheckedCreateNestedManyWithoutInstanceInput
     assistants?: AssistantUncheckedCreateNestedManyWithoutInstanceInput
   }
@@ -244820,8 +245795,10 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
   }
@@ -244836,10 +245813,12 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     companyId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
   }
@@ -249223,6 +250202,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTimePunchesInput = {
@@ -249272,6 +250252,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTimePunchesInput = {
@@ -249590,6 +250571,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimePunchesInput = {
@@ -249639,6 +250621,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutWorkScheduleDaysInput = {
@@ -249935,6 +250918,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -249984,6 +250968,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -250302,6 +251287,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -250351,6 +251337,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutTimeOffEntriesInput = {
@@ -250647,6 +251634,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -250696,6 +251684,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -250750,6 +251739,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTimeOffsCreatedInput = {
@@ -250799,6 +251789,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTimeOffsCreatedInput = {
@@ -251117,6 +252108,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -251166,6 +252158,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutTimeOffsCreatedInput = {
@@ -251226,6 +252219,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeOffsCreatedInput = {
@@ -251275,6 +252269,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutPunchAdjustRequestsInput = {
@@ -251571,6 +252566,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -251620,6 +252616,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -251674,6 +252671,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutPunchAdjustsReviewedInput = {
@@ -251723,6 +252721,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutPunchAdjustsReviewedInput = {
@@ -252041,6 +253040,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -252090,6 +253090,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustsReviewedInput = {
@@ -252150,6 +253151,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPunchAdjustsReviewedInput = {
@@ -252199,6 +253201,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutTimesheetSignaturesInput = {
@@ -252495,6 +253498,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -252544,6 +253548,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -252862,6 +253867,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -252911,6 +253917,7 @@ export namespace Prisma {
     timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type TicketCreateManyCreatedByInput = {
@@ -252976,6 +253983,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -253351,6 +254360,21 @@ export namespace Prisma {
     ip?: string | null
   }
 
+  export type WhatsappInstanceCreateManyOwnerInput = {
+    id?: string
+    instanceName: string
+    label?: string | null
+    phone?: string | null
+    status?: $Enums.InstanceStatus
+    webhookUrl?: string | null
+    instanceToken?: string | null
+    acceptGroups?: boolean
+    groupReceiver?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    companyId: string
+  }
+
   export type TicketUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -253529,6 +254553,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -253538,6 +254563,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
@@ -253558,6 +254584,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -253586,6 +254614,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -254705,6 +255735,61 @@ export namespace Prisma {
     ip?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type WhatsappInstanceUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutWhatsappInstancesNestedInput
+    messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
+    setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
+  }
+
+  export type WhatsappInstanceUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    instanceName?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInstanceStatusFieldUpdateOperationsInput | $Enums.InstanceStatus
+    webhookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptGroups?: BoolFieldUpdateOperationsInput | boolean
+    groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -255095,6 +256180,7 @@ export namespace Prisma {
     instanceToken?: string | null
     acceptGroups?: boolean
     groupReceiver?: boolean
+    ownerUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -255288,6 +256374,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -256205,6 +257293,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -256254,6 +257343,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
     punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -257322,7 +258412,9 @@ export namespace Prisma {
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneWithoutOwnedInstancesNestedInput
     messages?: MessageUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUpdateManyWithoutInstanceNestedInput
@@ -257338,9 +258430,11 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutInstanceNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutInstanceNestedInput
     setores?: SetorInstanceUncheckedUpdateManyWithoutInstanceNestedInput
     assistants?: AssistantUncheckedUpdateManyWithoutInstanceNestedInput
     scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutInstanceNestedInput
@@ -257356,6 +258450,7 @@ export namespace Prisma {
     instanceToken?: NullableStringFieldUpdateOperationsInput | string | null
     acceptGroups?: BoolFieldUpdateOperationsInput | boolean
     groupReceiver?: BoolFieldUpdateOperationsInput | boolean
+    ownerUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -257933,6 +259028,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257943,6 +259039,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
     setor?: SetorUpdateOneWithoutConversationsNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
     activities?: ActivityUpdateManyWithoutConversationNestedInput
@@ -257963,6 +259060,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -257991,6 +259090,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -260957,6 +262058,32 @@ export namespace Prisma {
     sentByUserId?: string | null
   }
 
+  export type ConversationCreateManyInstanceInput = {
+    id?: string
+    phone: string
+    isGroup?: boolean
+    status?: $Enums.ConversationStatus
+    statusUpdatedAt?: Date | string
+    assigneeId?: string | null
+    setorId?: string | null
+    lastMessageAt?: Date | string | null
+    lastMessageBody?: string | null
+    lastMessageDirection?: $Enums.MessageDir | null
+    unreadCount?: number
+    scheduledReturnAt?: Date | string | null
+    returnNote?: string | null
+    syncBlocked?: boolean
+    excludeFromGamification?: boolean
+    aiMode?: $Enums.AiMode
+    aiPausedAt?: Date | string | null
+    aiCycleResetAt?: Date | string | null
+    firstResponseAt?: Date | string | null
+    closedAt?: Date | string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SetorInstanceCreateManyInstanceInput = {
     setorId: string
   }
@@ -261070,6 +262197,92 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConversationUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    setor?: SetorUpdateOneWithoutConversationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
+    messages?: MessageUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUpdateManyWithoutConversationNestedInput
+    leads?: LeadUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
+    notes?: ConversationNoteUncheckedUpdateManyWithoutConversationNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutConversationNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ConversationUncheckedUpdateManyWithoutInstanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    isGroup?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
+    setorId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessageBody?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageDirection?: NullableEnumMessageDirFieldUpdateOperationsInput | $Enums.MessageDir | null
+    unreadCount?: IntFieldUpdateOperationsInput | number
+    scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
+    excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
+    aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
+    aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aiCycleResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firstResponseAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SetorInstanceUpdateWithoutInstanceInput = {
@@ -261855,6 +263068,8 @@ export namespace Prisma {
     unreadCount?: number
     scheduledReturnAt?: Date | string | null
     returnNote?: string | null
+    instanceId?: string | null
+    syncBlocked?: boolean
     excludeFromGamification?: boolean
     aiMode?: $Enums.AiMode
     aiPausedAt?: Date | string | null
@@ -262034,6 +263249,7 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -262043,6 +263259,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignee?: UserUpdateOneWithoutConversationsAssignedNestedInput
+    instance?: WhatsappInstanceUpdateOneWithoutConversationsNestedInput
     company?: CompanyUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
     notes?: ConversationNoteUpdateManyWithoutConversationNestedInput
@@ -262063,6 +263280,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -262091,6 +263310,8 @@ export namespace Prisma {
     unreadCount?: IntFieldUpdateOperationsInput | number
     scheduledReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     returnNote?: NullableStringFieldUpdateOperationsInput | string | null
+    instanceId?: NullableStringFieldUpdateOperationsInput | string | null
+    syncBlocked?: BoolFieldUpdateOperationsInput | boolean
     excludeFromGamification?: BoolFieldUpdateOperationsInput | boolean
     aiMode?: EnumAiModeFieldUpdateOperationsInput | $Enums.AiMode
     aiPausedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

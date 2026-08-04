@@ -431,6 +431,7 @@ exports.Prisma.WhatsappInstanceScalarFieldEnum = {
   instanceToken: 'instanceToken',
   acceptGroups: 'acceptGroups',
   groupReceiver: 'groupReceiver',
+  ownerUserId: 'ownerUserId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   companyId: 'companyId'
@@ -500,6 +501,8 @@ exports.Prisma.ConversationScalarFieldEnum = {
   unreadCount: 'unreadCount',
   scheduledReturnAt: 'scheduledReturnAt',
   returnNote: 'returnNote',
+  instanceId: 'instanceId',
+  syncBlocked: 'syncBlocked',
   excludeFromGamification: 'excludeFromGamification',
   aiMode: 'aiMode',
   aiPausedAt: 'aiPausedAt',

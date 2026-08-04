@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
 
 // GET /api/conversations/search?q=...
 // Procura conversas em todo o histórico (não só nas 100 mais recentes que a
@@ -91,6 +92,12 @@ export async function GET(req: NextRequest) {
   // 2) Busca as Conversations correspondentes (com escopo de empresa)
   const convWhere: any = { phone: { in: [...phoneSet] } };
   if (effectiveCompanyId) convWhere.companyId = effectiveCompanyId;
+  // Visibilidade: some instância privada de outro dono + bloqueadas.
+  const hiddenInstanceIds = await getHiddenInstanceIds(session);
+  convWhere.AND = [
+    ...(convWhere.AND ?? []),
+    ...conversationVisibilityAnd({ hiddenIds: hiddenInstanceIds }),
+  ];
   const convRecords = await prisma.conversation.findMany({
     where:   convWhere,
     orderBy: { lastMessageAt: { sort: "desc", nulls: "last" } },

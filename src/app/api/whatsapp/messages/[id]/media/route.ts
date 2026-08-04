@@ -36,6 +36,7 @@ export async function GET(
       mediaBase64: true, mediaType: true, companyId: true,
       externalId: true, phone: true, direction: true, participantPhone: true,
       instance: { select: { instanceName: true, instanceToken: true } },
+      conversation: { select: { instanceId: true, syncBlocked: true } },
     },
   });
 
@@ -43,6 +44,14 @@ export async function GET(
 
   if (userRole !== "SUPER_ADMIN" && msg.companyId !== userCompanyId) {
     return new NextResponse("Não autorizado", { status: 403 });
+  }
+
+  // Visibilidade: conversa de instância privada de outro dono ou bloqueada → nega.
+  if (msg.conversation) {
+    const { canUserSeeConversation } = await import("@/lib/whatsapp-visibility");
+    if (!(await canUserSeeConversation(session, msg.conversation))) {
+      return new NextResponse("Não autorizado", { status: 403 });
+    }
   }
 
   let base64 = msg.mediaBase64;

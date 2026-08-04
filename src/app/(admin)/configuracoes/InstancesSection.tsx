@@ -19,6 +19,8 @@ interface Instance {
   // marcada, só ela registra mensagens de grupo — as outras continuam podendo
   // responder, mas não duplicam a recepção.
   groupReceiver: boolean;
+  // Instância privada: quando setado, só o dono (este usuário) vê as conversas.
+  ownerUserId?: string | null;
   createdAt: string;
   company: { id: string; name: string } | null;
   _count: { messages: number };
@@ -68,6 +70,7 @@ export default function InstancesSection({
   const [togglingGroups, setTogglingGroups] = useState<string | null>(null);
   const [groupsToggleResult, setGroupsToggleResult] = useState<string | null>(null);
   const [togglingReceiver, setTogglingReceiver] = useState<string | null>(null);
+  const [togglingPrivate, setTogglingPrivate] = useState<string | null>(null);
   const [form, setForm] = useState({ label: "", phone: "", companyId: defaultCompanyId });
   const [createError, setCreateError] = useState<string | null>(null);
 
@@ -282,6 +285,22 @@ export default function InstancesSection({
       setGroupsToggleResult("❌ Erro de conexão");
     } finally {
       setTogglingReceiver(null);
+    }
+  }
+
+  async function handleTogglePrivate(inst: Instance) {
+    const makePrivate = !inst.ownerUserId;
+    if (makePrivate && !confirm(`Tornar "${inst.label ?? inst.instanceName}" PRIVADA?\n\nAs conversas dela passam a aparecer só pra você — escondidas de toda a equipe, inclusive outros admins.`)) return;
+    setTogglingPrivate(inst.id);
+    try {
+      await fetch(`/api/whatsapp/${inst.id}`, {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ private: makePrivate }),
+      });
+      router.refresh();
+    } finally {
+      setTogglingPrivate(null);
     }
   }
 
@@ -683,6 +702,22 @@ export default function InstancesSection({
                       }`}
                     >
                       {togglingReceiver === inst.id ? "..." : `📥 Receptora ${inst.groupReceiver ? "✓" : ""}`}
+                    </button>
+
+                    {/* Privada — conversas visíveis só pro dono (esconde da equipe) */}
+                    <button
+                      onClick={() => handleTogglePrivate(inst)}
+                      disabled={togglingPrivate === inst.id}
+                      title={inst.ownerUserId
+                        ? "Instância PRIVADA — as conversas aparecem só pra você. Clique pra tornar visível à equipe."
+                        : "Tornar privada: as conversas passam a aparecer só pra você, escondidas de toda a equipe (inclusive outros admins)."}
+                      className={`px-3 py-1.5 rounded-lg border text-xs transition-colors disabled:opacity-50 ${
+                        inst.ownerUserId
+                          ? "bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
+                          : "bg-[#161f30] border-[#1e2d45] text-slate-500 hover:text-slate-300"
+                      }`}
+                    >
+                      {togglingPrivate === inst.id ? "..." : `🔒 Privada ${inst.ownerUserId ? "✓" : ""}`}
                     </button>
 
                     {/* Delete */}

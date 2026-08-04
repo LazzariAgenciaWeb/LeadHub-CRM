@@ -263,6 +263,7 @@ export async function upsertConversation(args: {
       lastMessageDirection: direction,
       unreadCount: direction === "INBOUND" ? 1 : 0,
       setorId: setorId ?? undefined,
+      instanceId: instanceId ?? undefined,
       firstResponseAt: direction === "OUTBOUND" ? now : null,
       closedAt: null,
     },
@@ -270,6 +271,9 @@ export async function upsertConversation(args: {
       lastMessageAt: now,
       lastMessageBody: bodyPreview,
       lastMessageDirection: direction,
+      // Mantém a instância denormalizada em dia (backfill-on-write p/ conversas
+      // criadas antes do campo existir). 1:1 é estável; grupo usa a última.
+      ...(instanceId ? { instanceId } : {}),
       ...(statusChanged ? { status: newStatus, statusUpdatedAt: now } : {}),
       // Mensagem terminal pós-CLOSED: mantém status CLOSED e closedAt original.
       // Caso contrário, qualquer INBOUND reabre a conversa (closedAt = null).
@@ -625,6 +629,26 @@ export async function processInboundMessage(payload: {
 
   // Log de entrada — visível nos logs do servidor (Railway/Vercel)
   console.log(`[WA inbound] instance=${instanceName} phone=${phone} externalId=${externalId ?? "?"} body="${body.slice(0, 60)}"`);
+
+  // Bloqueio de sincronização: se já existe conversa marcada como bloqueada pra
+  // este (empresa, phone), IGNORA a mensagem por completo — não grava nem
+  // atualiza. Desbloquear volta a sincronizar dali pra frente.
+  {
+    const instForBlock = await prisma.whatsappInstance.findFirst({
+      where: { instanceName },
+      select: { companyId: true },
+    });
+    if (instForBlock) {
+      const conv = await prisma.conversation.findUnique({
+        where: { companyId_phone: { companyId: instForBlock.companyId, phone } },
+        select: { syncBlocked: true },
+      });
+      if (conv?.syncBlocked) {
+        console.log(`[WA inbound] conversa bloqueada (${phone}) — ignorando sincronização`);
+        return null;
+      }
+    }
+  }
 
   // Mensagens de grupo e @lid (identidade anônima WhatsApp Business) → salvar na inbox, sem criar lead
   if (phone.includes("@g.us") || phone.includes("@lid")) {

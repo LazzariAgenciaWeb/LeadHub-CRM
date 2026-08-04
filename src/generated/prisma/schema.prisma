@@ -73,6 +73,7 @@ model User {
   punchAdjustRequests  PunchAdjustRequest[] @relation("AdjustUser")
   punchAdjustsReviewed PunchAdjustRequest[] @relation("AdjustReviewer")
   timesheetSignatures  TimesheetSignature[]
+  ownedInstances       WhatsappInstance[]   @relation("InstanceOwner")
 
   @@index([companyId])
 }
@@ -855,6 +856,11 @@ model WhatsappInstance {
   // Se nenhuma instância da empresa estiver marcada, mantém o comportamento
   // antigo (toda instância com acceptGroups=true processa grupo).
   groupReceiver Boolean        @default(false)
+  // Instância PRIVADA — quando setado, só este usuário (dono) enxerga as
+  // conversas dela. Escondida de todos os outros, INCLUSIVE admins. Usado pra
+  // número pessoal que roda no LeadHub sem expor os chats pra equipe.
+  ownerUserId   String?
+  owner         User?          @relation("InstanceOwner", fields: [ownerUserId], references: [id])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -862,11 +868,13 @@ model WhatsappInstance {
   companyId String
 
   messages          Message[]
+  conversations     Conversation[]
   setores           SetorInstance[]
   assistants        Assistant[]
   scheduledMessages ScheduledMessage[]
 
   @@index([companyId])
+  @@index([ownerUserId])
 }
 
 enum InstanceStatus {
@@ -1016,6 +1024,16 @@ model Conversation {
   scheduledReturnAt DateTime? // data/hora do retorno agendado (usado quando status=SCHEDULED)
   returnNote        String? // nota/motivo do agendamento
 
+  // Instância que atende a conversa (denormalizado da última mensagem). Usado
+  // pra filtrar visibilidade por instância privada sem join em Message.
+  instanceId String?
+  instance   WhatsappInstance? @relation(fields: [instanceId], references: [id])
+
+  // Conversa bloqueada: some da caixa (histórico incluso) e o webhook para de
+  // sincronizar mensagens novas dela. Desbloquear traz de volta. Usado pra
+  // esconder chats pessoais que não devem aparecer no LeadHub.
+  syncBlocked Boolean @default(false)
+
   // Gamificação — admin pode desligar pontos pra conversas internas (grupos
   // do time, testes etc). Default false = pontua normal.
   excludeFromGamification Boolean @default(false)
@@ -1054,6 +1072,7 @@ model Conversation {
   @@index([companyId, lastMessageAt])
   @@index([assigneeId])
   @@index([setorId])
+  @@index([instanceId])
 }
 
 enum ConversationStatus {

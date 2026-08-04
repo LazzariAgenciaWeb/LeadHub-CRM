@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { hasModule } from "@/lib/permissions";
+import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
 
 // GET /api/conversations/unread-count
 // Conta conversas "sem resposta" (aguardando atendimento) pra alimentar o
@@ -53,6 +54,13 @@ export async function GET() {
       if (ids.length === 0) return NextResponse.json({ count: 0 });
       baseWhere.id = { in: ids };
     }
+
+    // Não conta conversas de instância privada de outro dono nem bloqueadas.
+    const hiddenInstanceIds = await getHiddenInstanceIds(session);
+    baseWhere.AND = [
+      ...(baseWhere.AND ?? []),
+      ...conversationVisibilityAnd({ hiddenIds: hiddenInstanceIds }),
+    ];
 
     const count = await prisma.conversation.count({ where: baseWhere });
     return NextResponse.json({ count });
