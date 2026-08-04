@@ -105,6 +105,7 @@ function formatPhone(phone: string): string {
 interface Instance {
   id: string;
   instanceName: string;
+  label?: string | null;
   phone: string | null;
   status: "CONNECTED" | "DISCONNECTED" | "CONNECTING";
   company: { id: string; name: string } | null;
@@ -1270,6 +1271,20 @@ export default function WhatsappManager({
     }
     return map;
   }, [instances, instancePhoneOverrides]);
+
+  // Mapa instanceName (slug técnico) → label amigável que o usuário digitou.
+  // A UI mostra o label; cai no slug só se a instância não tiver label.
+  const instanceLabelMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const inst of instances) {
+      if (inst.label && inst.label.trim()) map.set(inst.instanceName, inst.label.trim());
+    }
+    return map;
+  }, [instances]);
+  const instDisplay = useCallback(
+    (name: string | null | undefined) => (name ? (instanceLabelMap.get(name) ?? name) : ""),
+    [instanceLabelMap],
+  );
 
   // Set com todas as variantes dos "números da equipe" (nossos, mas sem instância).
   // Vem do servedor (prop) + adições locais desta sessão.
@@ -2816,7 +2831,7 @@ export default function WhatsappManager({
                     className="flex items-center gap-1.5 bg-[#0f1623] border border-[#1e2d45] rounded-full px-2.5 py-1"
                   >
                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${s.dot}`} />
-                    <span className="text-slate-400 text-[11px] max-w-[80px] truncate">{inst.instanceName}</span>
+                    <span className="text-slate-400 text-[11px] max-w-[80px] truncate">{instDisplay(inst.instanceName)}</span>
                   </div>
                 );
               })}
@@ -2872,7 +2887,7 @@ export default function WhatsappManager({
               >
                 <option value="">Instância automática (conectada)</option>
                 {instances.filter((i) => i.status === "CONNECTED").map((i) => (
-                  <option key={i.id} value={i.id}>{i.instanceName}</option>
+                  <option key={i.id} value={i.id}>{instDisplay(i.instanceName)}</option>
                 ))}
               </select>
             )}
@@ -3283,7 +3298,7 @@ export default function WhatsappManager({
                           )}
                           {instanceName && (
                             <span className={`text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${getInstanceBadgeColor(instanceName)}`}>
-                              {instanceName}
+                              {instDisplay(instanceName)}
                             </span>
                           )}
                           {/* Responsável: chip compacto com inicial do atendente.
@@ -4566,7 +4581,7 @@ export default function WhatsappManager({
                                 vindas do webhook ficam só com a instância). */}
                             {isOut && msg.instance && !isTeamOutbound && (
                               <div className={`text-[10px] font-semibold mb-1 truncate ${getInstanceBadgeColor(msg.instance.instanceName).split(" ").filter(c => c.startsWith("text-")).join(" ")}`}>
-                                Via {msg.instance.instanceName}
+                                Via {instDisplay(msg.instance.instanceName)}
                                 {msg.sentBy?.name && (
                                   <span className="text-slate-400 font-normal"> · {msg.sentBy.name.split(" ")[0]}</span>
                                 )}
@@ -4777,7 +4792,7 @@ export default function WhatsappManager({
                                 <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${isConnected ? "bg-green-400" : "bg-slate-600"}`} />
                                 <div className="flex-1 min-w-0">
                                   <p className={`text-xs font-semibold truncate ${badgeColor.split(" ").filter((c) => c.startsWith("text-")).join(" ")}`}>
-                                    {inst.instanceName}
+                                    {instDisplay(inst.instanceName)}
                                   </p>
                                   {inst.phone ? (
                                     <p className="text-slate-400 text-[10px] font-mono truncate">
@@ -5062,7 +5077,7 @@ export default function WhatsappManager({
                                       <p className="text-slate-600 text-[9px] font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5"><Send className="w-3 h-3" strokeWidth={2.5} /> Envio</p>
                                       <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5">
                                         <span className="text-slate-500">Via</span>
-                                        <span className="text-slate-200 font-medium">{currentSendInstance?.instanceName ?? "—"}</span>
+                                        <span className="text-slate-200 font-medium">{instDisplay(currentSendInstance?.instanceName) || "—"}</span>
                                         <span className="ml-auto text-[9px] text-slate-600">🔒 fixo nesta conversa</span>
                                       </div>
                                     </div>
@@ -5088,7 +5103,7 @@ export default function WhatsappManager({
                                     >
                                       {eligibleInstances.map((i) => (
                                         <option key={i.id} value={i.id}>
-                                          {i.instanceName} {i.status === "CONNECTED" ? "✓" : "⚠"}
+                                          {instDisplay(i.instanceName)} {i.status === "CONNECTED" ? "✓" : "⚠"}
                                         </option>
                                       ))}
                                     </select>
@@ -5445,7 +5460,7 @@ export default function WhatsappManager({
                         pendingMedia
                           ? "Adicione uma legenda (opcional)..."
                           : currentSendInstance
-                          ? `Escreva via ${currentSendInstance.instanceName}... (Enter envia)`
+                          ? `Escreva via ${instDisplay(currentSendInstance.instanceName)}... (Enter envia)`
                           : "Digite uma mensagem... (Enter envia · Ctrl+Enter nova linha)"
                       }
                       disabled={sendingReply}
