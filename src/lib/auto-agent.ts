@@ -2,7 +2,7 @@ import { LeadStatus } from "@/generated/prisma";
 import { prisma } from "./prisma";
 import { runAssistant, getAssistantForInstance, getServicesCatalogBlock, type ChatMessage } from "./assistant";
 import { evolutionSendText } from "./evolution";
-import { upsertConversation } from "./whatsapp";
+import { upsertConversation, isTerminalMessage } from "./whatsapp";
 import { sendPushToUser } from "./push";
 import {
   getAgentCalendarConnection, connectionCanWrite, computeAvailableSlots,
@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v13-chamado-por-rota";
+export const AUTO_AGENT_REV = "v14-cortesia-minima";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -391,7 +391,9 @@ Identidade:
 - Emojis: no máximo 1 por RESPOSTA (não por bolha), e varie (😊 🚀 👍 🤝 ✨ 😉) — a maioria das mensagens fica SEM emoji. Repetir o mesmo emoji toda hora entrega robô.
 - NUNCA repita um convite ou proposta que o contato já recusou ou ignorou (ex.: agendar reunião). Recusou? Mude a abordagem: explique em 1 frase POR QUE precisa entender o contexto e siga coletando as informações pela própria conversa.
 - Não repita o nome do contato em toda mensagem — soa robótico. Use no máximo 1x a cada 3-4 mensagens.
-- Não comece as frases sempre do mesmo jeito ("Assim, ..." / "Perfeito!") — varie a abertura.`);
+- Não comece as frases sempre do mesmo jeito ("Assim, ..." / "Perfeito!") — varie a abertura.
+- Agradecimento/encerramento do contato ("obrigado", "ok", "blz", "👍"): responda com NO MÁXIMO 1 bolha curta de cortesia, SEM pergunta nova — e se um atendente humano acabou de se despedir na conversa, NÃO repita a despedida (responda [] = nada).
+- NUNCA duplique o que um atendente humano acabou de dizer nas últimas mensagens — complemente ou fique em silêncio.`);
 
   parts.push(`# MANUAL DO AGENTE (siga à risca)\n${manual.trim()}`);
 
@@ -494,6 +496,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   });
   if (!last || last.direction !== "INBOUND") return { ok: false, skipped: "last_not_inbound" };
   if (!last.instanceId) return { ok: false, skipped: "no_instance" };
+
+  // Mensagem terminal ("obrigado", "ok", "blz") → resposta mínima ou nenhuma.
+  const lastIsTerminal = isTerminalMessage(last.body ?? "");
 
   const instance = await prisma.whatsappInstance.findUnique({
     where: { id: last.instanceId },
@@ -613,7 +618,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     // de volta pro textão se não reforçar aqui.
     {
       role: "system",
-      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}`,
+      content: `LEMBRETE FINAL (obrigatório): responda SOMENTE o JSON. "reply" = 1 a 3 bolhas CURTAS (máx ~2 frases / ${MAX_BUBBLE_CHARS} caracteres cada) — NUNCA um parágrafo único longo, mesmo que as mensagens antigas do histórico sejam longas. VARIE: resposta simples = 1 bolha só; não feche sempre em 3. No máximo 1 emoji na resposta inteira (varie o emoji; quase sempre nenhum). UMA pergunta só, na última bolha. Não use o nome do contato se já usou nas últimas mensagens. NUNCA repita convite/link que o contato já recusou ou ignorou.${scheduling ? ` ATENÇÃO: você TEM a seção AGENDAMENTO DIRETO com horários livres da agenda — ofereça horários DELA; NUNCA diga que um gestor vai verificar disponibilidade e NUNCA envie link de agenda. Ao confirmar reunião use action "AGENDAR" COM os campos "agendarInicio" (código [S...] do horário) e "agendarEmail" dentro do JSON.` : ""}${lastIsTerminal ? ` O contato APENAS agradeceu/encerrou: responda no máximo 1 bolha curta de cortesia SEM pergunta — e se um atendente humano já se despediu logo acima, responda [] (nada).` : ""}`,
     },
   ];
 
@@ -638,6 +643,12 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     console.warn(`[AutoAgent] resposta sem JSON utilizável conv=${conv.id}: "${result.text.slice(0, 200)}"`);
     return { ok: false, skipped: "bad_json" };
   }
+  // Trava mecânica: em mensagem terminal a resposta é NO MÁXIMO 1 bolha —
+  // mesmo que o modelo mande mais (evita o bot "tagarela" no obrigado).
+  if (lastIsTerminal && decision.replies.length > 1) {
+    decision.replies = decision.replies.slice(0, 1);
+  }
+
   diag.modelAction = decision.action;
   diag.bolhas = decision.replies.length;
   if (decision.agendarInicio) diag.agendarInicio = decision.agendarInicio;
