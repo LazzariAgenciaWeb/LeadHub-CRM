@@ -259,6 +259,11 @@ export type SecureNoteAccessLog = $Result.DefaultSelection<Prisma.$SecureNoteAcc
  */
 export type MarketingIntegration = $Result.DefaultSelection<Prisma.$MarketingIntegrationPayload>
 /**
+ * Model BlingIntegration
+ * 
+ */
+export type BlingIntegration = $Result.DefaultSelection<Prisma.$BlingIntegrationPayload>
+/**
  * Model MetaConversionConfig
  * 
  */
@@ -1997,6 +2002,16 @@ export class PrismaClient<
   get marketingIntegration(): Prisma.MarketingIntegrationDelegate<ExtArgs>;
 
   /**
+   * `prisma.blingIntegration`: Exposes CRUD operations for the **BlingIntegration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BlingIntegrations
+    * const blingIntegrations = await prisma.blingIntegration.findMany()
+    * ```
+    */
+  get blingIntegration(): Prisma.BlingIntegrationDelegate<ExtArgs>;
+
+  /**
    * `prisma.metaConversionConfig`: Exposes CRUD operations for the **MetaConversionConfig** model.
     * Example usage:
     * ```ts
@@ -3135,6 +3150,7 @@ export namespace Prisma {
     CompanySecureNote: 'CompanySecureNote',
     SecureNoteAccessLog: 'SecureNoteAccessLog',
     MarketingIntegration: 'MarketingIntegration',
+    BlingIntegration: 'BlingIntegration',
     MetaConversionConfig: 'MetaConversionConfig',
     MetaConversionLog: 'MetaConversionLog',
     InstagramAccount: 'InstagramAccount',
@@ -3215,7 +3231,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6646,6 +6662,76 @@ export namespace Prisma {
           count: {
             args: Prisma.MarketingIntegrationCountArgs<ExtArgs>
             result: $Utils.Optional<MarketingIntegrationCountAggregateOutputType> | number
+          }
+        }
+      }
+      BlingIntegration: {
+        payload: Prisma.$BlingIntegrationPayload<ExtArgs>
+        fields: Prisma.BlingIntegrationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BlingIntegrationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BlingIntegrationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          findFirst: {
+            args: Prisma.BlingIntegrationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BlingIntegrationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          findMany: {
+            args: Prisma.BlingIntegrationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>[]
+          }
+          create: {
+            args: Prisma.BlingIntegrationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          createMany: {
+            args: Prisma.BlingIntegrationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BlingIntegrationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>[]
+          }
+          delete: {
+            args: Prisma.BlingIntegrationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          update: {
+            args: Prisma.BlingIntegrationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          deleteMany: {
+            args: Prisma.BlingIntegrationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BlingIntegrationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BlingIntegrationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlingIntegrationPayload>
+          }
+          aggregate: {
+            args: Prisma.BlingIntegrationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBlingIntegration>
+          }
+          groupBy: {
+            args: Prisma.BlingIntegrationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BlingIntegrationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BlingIntegrationCountArgs<ExtArgs>
+            result: $Utils.Optional<BlingIntegrationCountAggregateOutputType> | number
           }
         }
       }
@@ -19667,6 +19753,8 @@ export namespace Prisma {
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    document: string | null
+    blingContactId: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -19682,6 +19770,7 @@ export namespace Prisma {
     serpapiKey: string | null
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
+    moduleBling: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
@@ -19708,6 +19797,8 @@ export namespace Prisma {
     status: $Enums.CompanyStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    document: string | null
+    blingContactId: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -19723,6 +19814,7 @@ export namespace Prisma {
     serpapiKey: string | null
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
+    moduleBling: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
@@ -19749,6 +19841,8 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    document: number
+    blingContactId: number
     hasSystemAccess: number
     fullSystemAccess: number
     moduleWhatsapp: number
@@ -19764,6 +19858,7 @@ export namespace Prisma {
     serpapiKey: number
     moduleClickup: number
     moduleCampanhas: number
+    moduleBling: number
     moduleLinks: number
     moduleInstagram: number
     moduleEspacoCliente: number
@@ -19802,6 +19897,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    document?: true
+    blingContactId?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -19817,6 +19914,7 @@ export namespace Prisma {
     serpapiKey?: true
     moduleClickup?: true
     moduleCampanhas?: true
+    moduleBling?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -19843,6 +19941,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    document?: true
+    blingContactId?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -19858,6 +19958,7 @@ export namespace Prisma {
     serpapiKey?: true
     moduleClickup?: true
     moduleCampanhas?: true
+    moduleBling?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -19884,6 +19985,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    document?: true
+    blingContactId?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -19899,6 +20002,7 @@ export namespace Prisma {
     serpapiKey?: true
     moduleClickup?: true
     moduleCampanhas?: true
+    moduleBling?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -20012,6 +20116,8 @@ export namespace Prisma {
     status: $Enums.CompanyStatus
     createdAt: Date
     updatedAt: Date
+    document: string | null
+    blingContactId: string | null
     hasSystemAccess: boolean
     fullSystemAccess: boolean
     moduleWhatsapp: boolean
@@ -20027,6 +20133,7 @@ export namespace Prisma {
     serpapiKey: string | null
     moduleClickup: boolean
     moduleCampanhas: boolean
+    moduleBling: boolean
     moduleLinks: boolean
     moduleInstagram: boolean
     moduleEspacoCliente: boolean
@@ -20072,6 +20179,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    document?: boolean
+    blingContactId?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -20087,6 +20196,7 @@ export namespace Prisma {
     serpapiKey?: boolean
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20181,6 +20291,7 @@ export namespace Prisma {
     timeOffEntries?: boolean | Company$timeOffEntriesArgs<ExtArgs>
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
+    blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -20196,6 +20307,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    document?: boolean
+    blingContactId?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -20211,6 +20324,7 @@ export namespace Prisma {
     serpapiKey?: boolean
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20238,6 +20352,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    document?: boolean
+    blingContactId?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -20253,6 +20369,7 @@ export namespace Prisma {
     serpapiKey?: boolean
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20350,6 +20467,7 @@ export namespace Prisma {
     timeOffEntries?: boolean | Company$timeOffEntriesArgs<ExtArgs>
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
+    blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20441,6 +20559,7 @@ export namespace Prisma {
       timeOffEntries: Prisma.$TimeOffEntryPayload<ExtArgs>[]
       punchAdjustRequests: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
+      blingIntegration: Prisma.$BlingIntegrationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20454,6 +20573,8 @@ export namespace Prisma {
       status: $Enums.CompanyStatus
       createdAt: Date
       updatedAt: Date
+      document: string | null
+      blingContactId: string | null
       hasSystemAccess: boolean
       fullSystemAccess: boolean
       moduleWhatsapp: boolean
@@ -20469,6 +20590,7 @@ export namespace Prisma {
       serpapiKey: string | null
       moduleClickup: boolean
       moduleCampanhas: boolean
+      moduleBling: boolean
       moduleLinks: boolean
       moduleInstagram: boolean
       moduleEspacoCliente: boolean
@@ -20927,6 +21049,7 @@ export namespace Prisma {
     timeOffEntries<T extends Company$timeOffEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$timeOffEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeOffEntryPayload<ExtArgs>, T, "findMany"> | Null>
     punchAdjustRequests<T extends Company$punchAdjustRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$punchAdjustRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     timesheetSignatures<T extends Company$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, Company$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
+    blingIntegration<T extends Company$blingIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$blingIntegrationArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20967,6 +21090,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Company", 'CompanyStatus'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
+    readonly document: FieldRef<"Company", 'String'>
+    readonly blingContactId: FieldRef<"Company", 'String'>
     readonly hasSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly fullSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
@@ -20982,6 +21107,7 @@ export namespace Prisma {
     readonly serpapiKey: FieldRef<"Company", 'String'>
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
     readonly moduleCampanhas: FieldRef<"Company", 'Boolean'>
+    readonly moduleBling: FieldRef<"Company", 'Boolean'>
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
     readonly moduleInstagram: FieldRef<"Company", 'Boolean'>
     readonly moduleEspacoCliente: FieldRef<"Company", 'Boolean'>
@@ -22929,6 +23055,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TimesheetSignatureScalarFieldEnum | TimesheetSignatureScalarFieldEnum[]
+  }
+
+  /**
+   * Company.blingIntegration
+   */
+  export type Company$blingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    where?: BlingIntegrationWhereInput
   }
 
   /**
@@ -68729,6 +68870,1085 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MarketingIntegrationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BlingIntegration
+   */
+
+  export type AggregateBlingIntegration = {
+    _count: BlingIntegrationCountAggregateOutputType | null
+    _avg: BlingIntegrationAvgAggregateOutputType | null
+    _sum: BlingIntegrationSumAggregateOutputType | null
+    _min: BlingIntegrationMinAggregateOutputType | null
+    _max: BlingIntegrationMaxAggregateOutputType | null
+  }
+
+  export type BlingIntegrationAvgAggregateOutputType = {
+    lastClientsSynced: number | null
+    lastInvoicesSynced: number | null
+  }
+
+  export type BlingIntegrationSumAggregateOutputType = {
+    lastClientsSynced: number | null
+    lastInvoicesSynced: number | null
+  }
+
+  export type BlingIntegrationMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: $Enums.IntegrationStatus | null
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    lastClientsSynced: number | null
+    lastInvoicesSynced: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type BlingIntegrationMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: $Enums.IntegrationStatus | null
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    lastClientsSynced: number | null
+    lastInvoicesSynced: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type BlingIntegrationCountAggregateOutputType = {
+    id: number
+    companyId: number
+    accessTokenEnc: number
+    refreshTokenEnc: number
+    tokenExpiresAt: number
+    status: number
+    lastSyncAt: number
+    lastSyncStatus: number
+    lastError: number
+    lastClientsSynced: number
+    lastInvoicesSynced: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type BlingIntegrationAvgAggregateInputType = {
+    lastClientsSynced?: true
+    lastInvoicesSynced?: true
+  }
+
+  export type BlingIntegrationSumAggregateInputType = {
+    lastClientsSynced?: true
+    lastInvoicesSynced?: true
+  }
+
+  export type BlingIntegrationMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    lastClientsSynced?: true
+    lastInvoicesSynced?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type BlingIntegrationMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    lastClientsSynced?: true
+    lastInvoicesSynced?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type BlingIntegrationCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    accessTokenEnc?: true
+    refreshTokenEnc?: true
+    tokenExpiresAt?: true
+    status?: true
+    lastSyncAt?: true
+    lastSyncStatus?: true
+    lastError?: true
+    lastClientsSynced?: true
+    lastInvoicesSynced?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type BlingIntegrationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlingIntegration to aggregate.
+     */
+    where?: BlingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlingIntegrations to fetch.
+     */
+    orderBy?: BlingIntegrationOrderByWithRelationInput | BlingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BlingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BlingIntegrations
+    **/
+    _count?: true | BlingIntegrationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BlingIntegrationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BlingIntegrationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BlingIntegrationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BlingIntegrationMaxAggregateInputType
+  }
+
+  export type GetBlingIntegrationAggregateType<T extends BlingIntegrationAggregateArgs> = {
+        [P in keyof T & keyof AggregateBlingIntegration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBlingIntegration[P]>
+      : GetScalarType<T[P], AggregateBlingIntegration[P]>
+  }
+
+
+
+
+  export type BlingIntegrationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlingIntegrationWhereInput
+    orderBy?: BlingIntegrationOrderByWithAggregationInput | BlingIntegrationOrderByWithAggregationInput[]
+    by: BlingIntegrationScalarFieldEnum[] | BlingIntegrationScalarFieldEnum
+    having?: BlingIntegrationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BlingIntegrationCountAggregateInputType | true
+    _avg?: BlingIntegrationAvgAggregateInputType
+    _sum?: BlingIntegrationSumAggregateInputType
+    _min?: BlingIntegrationMinAggregateInputType
+    _max?: BlingIntegrationMaxAggregateInputType
+  }
+
+  export type BlingIntegrationGroupByOutputType = {
+    id: string
+    companyId: string
+    accessTokenEnc: string | null
+    refreshTokenEnc: string | null
+    tokenExpiresAt: Date | null
+    status: $Enums.IntegrationStatus
+    lastSyncAt: Date | null
+    lastSyncStatus: string | null
+    lastError: string | null
+    lastClientsSynced: number
+    lastInvoicesSynced: number
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: BlingIntegrationCountAggregateOutputType | null
+    _avg: BlingIntegrationAvgAggregateOutputType | null
+    _sum: BlingIntegrationSumAggregateOutputType | null
+    _min: BlingIntegrationMinAggregateOutputType | null
+    _max: BlingIntegrationMaxAggregateOutputType | null
+  }
+
+  type GetBlingIntegrationGroupByPayload<T extends BlingIntegrationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BlingIntegrationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BlingIntegrationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BlingIntegrationGroupByOutputType[P]>
+            : GetScalarType<T[P], BlingIntegrationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BlingIntegrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    lastClientsSynced?: boolean
+    lastInvoicesSynced?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blingIntegration"]>
+
+  export type BlingIntegrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    lastClientsSynced?: boolean
+    lastInvoicesSynced?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blingIntegration"]>
+
+  export type BlingIntegrationSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    accessTokenEnc?: boolean
+    refreshTokenEnc?: boolean
+    tokenExpiresAt?: boolean
+    status?: boolean
+    lastSyncAt?: boolean
+    lastSyncStatus?: boolean
+    lastError?: boolean
+    lastClientsSynced?: boolean
+    lastInvoicesSynced?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type BlingIntegrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type BlingIntegrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $BlingIntegrationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BlingIntegration"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      accessTokenEnc: string | null
+      refreshTokenEnc: string | null
+      tokenExpiresAt: Date | null
+      status: $Enums.IntegrationStatus
+      lastSyncAt: Date | null
+      lastSyncStatus: string | null
+      lastError: string | null
+      lastClientsSynced: number
+      lastInvoicesSynced: number
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["blingIntegration"]>
+    composites: {}
+  }
+
+  type BlingIntegrationGetPayload<S extends boolean | null | undefined | BlingIntegrationDefaultArgs> = $Result.GetResult<Prisma.$BlingIntegrationPayload, S>
+
+  type BlingIntegrationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BlingIntegrationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BlingIntegrationCountAggregateInputType | true
+    }
+
+  export interface BlingIntegrationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BlingIntegration'], meta: { name: 'BlingIntegration' } }
+    /**
+     * Find zero or one BlingIntegration that matches the filter.
+     * @param {BlingIntegrationFindUniqueArgs} args - Arguments to find a BlingIntegration
+     * @example
+     * // Get one BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BlingIntegrationFindUniqueArgs>(args: SelectSubset<T, BlingIntegrationFindUniqueArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one BlingIntegration that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BlingIntegrationFindUniqueOrThrowArgs} args - Arguments to find a BlingIntegration
+     * @example
+     * // Get one BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BlingIntegrationFindUniqueOrThrowArgs>(args: SelectSubset<T, BlingIntegrationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first BlingIntegration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationFindFirstArgs} args - Arguments to find a BlingIntegration
+     * @example
+     * // Get one BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BlingIntegrationFindFirstArgs>(args?: SelectSubset<T, BlingIntegrationFindFirstArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first BlingIntegration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationFindFirstOrThrowArgs} args - Arguments to find a BlingIntegration
+     * @example
+     * // Get one BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BlingIntegrationFindFirstOrThrowArgs>(args?: SelectSubset<T, BlingIntegrationFindFirstOrThrowArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more BlingIntegrations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BlingIntegrations
+     * const blingIntegrations = await prisma.blingIntegration.findMany()
+     * 
+     * // Get first 10 BlingIntegrations
+     * const blingIntegrations = await prisma.blingIntegration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const blingIntegrationWithIdOnly = await prisma.blingIntegration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BlingIntegrationFindManyArgs>(args?: SelectSubset<T, BlingIntegrationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a BlingIntegration.
+     * @param {BlingIntegrationCreateArgs} args - Arguments to create a BlingIntegration.
+     * @example
+     * // Create one BlingIntegration
+     * const BlingIntegration = await prisma.blingIntegration.create({
+     *   data: {
+     *     // ... data to create a BlingIntegration
+     *   }
+     * })
+     * 
+     */
+    create<T extends BlingIntegrationCreateArgs>(args: SelectSubset<T, BlingIntegrationCreateArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many BlingIntegrations.
+     * @param {BlingIntegrationCreateManyArgs} args - Arguments to create many BlingIntegrations.
+     * @example
+     * // Create many BlingIntegrations
+     * const blingIntegration = await prisma.blingIntegration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BlingIntegrationCreateManyArgs>(args?: SelectSubset<T, BlingIntegrationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BlingIntegrations and returns the data saved in the database.
+     * @param {BlingIntegrationCreateManyAndReturnArgs} args - Arguments to create many BlingIntegrations.
+     * @example
+     * // Create many BlingIntegrations
+     * const blingIntegration = await prisma.blingIntegration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BlingIntegrations and only return the `id`
+     * const blingIntegrationWithIdOnly = await prisma.blingIntegration.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BlingIntegrationCreateManyAndReturnArgs>(args?: SelectSubset<T, BlingIntegrationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a BlingIntegration.
+     * @param {BlingIntegrationDeleteArgs} args - Arguments to delete one BlingIntegration.
+     * @example
+     * // Delete one BlingIntegration
+     * const BlingIntegration = await prisma.blingIntegration.delete({
+     *   where: {
+     *     // ... filter to delete one BlingIntegration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BlingIntegrationDeleteArgs>(args: SelectSubset<T, BlingIntegrationDeleteArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one BlingIntegration.
+     * @param {BlingIntegrationUpdateArgs} args - Arguments to update one BlingIntegration.
+     * @example
+     * // Update one BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BlingIntegrationUpdateArgs>(args: SelectSubset<T, BlingIntegrationUpdateArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more BlingIntegrations.
+     * @param {BlingIntegrationDeleteManyArgs} args - Arguments to filter BlingIntegrations to delete.
+     * @example
+     * // Delete a few BlingIntegrations
+     * const { count } = await prisma.blingIntegration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BlingIntegrationDeleteManyArgs>(args?: SelectSubset<T, BlingIntegrationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BlingIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BlingIntegrations
+     * const blingIntegration = await prisma.blingIntegration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BlingIntegrationUpdateManyArgs>(args: SelectSubset<T, BlingIntegrationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BlingIntegration.
+     * @param {BlingIntegrationUpsertArgs} args - Arguments to update or create a BlingIntegration.
+     * @example
+     * // Update or create a BlingIntegration
+     * const blingIntegration = await prisma.blingIntegration.upsert({
+     *   create: {
+     *     // ... data to create a BlingIntegration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BlingIntegration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BlingIntegrationUpsertArgs>(args: SelectSubset<T, BlingIntegrationUpsertArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of BlingIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationCountArgs} args - Arguments to filter BlingIntegrations to count.
+     * @example
+     * // Count the number of BlingIntegrations
+     * const count = await prisma.blingIntegration.count({
+     *   where: {
+     *     // ... the filter for the BlingIntegrations we want to count
+     *   }
+     * })
+    **/
+    count<T extends BlingIntegrationCountArgs>(
+      args?: Subset<T, BlingIntegrationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BlingIntegrationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BlingIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BlingIntegrationAggregateArgs>(args: Subset<T, BlingIntegrationAggregateArgs>): Prisma.PrismaPromise<GetBlingIntegrationAggregateType<T>>
+
+    /**
+     * Group by BlingIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlingIntegrationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BlingIntegrationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BlingIntegrationGroupByArgs['orderBy'] }
+        : { orderBy?: BlingIntegrationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BlingIntegrationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBlingIntegrationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BlingIntegration model
+   */
+  readonly fields: BlingIntegrationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BlingIntegration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BlingIntegrationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BlingIntegration model
+   */ 
+  interface BlingIntegrationFieldRefs {
+    readonly id: FieldRef<"BlingIntegration", 'String'>
+    readonly companyId: FieldRef<"BlingIntegration", 'String'>
+    readonly accessTokenEnc: FieldRef<"BlingIntegration", 'String'>
+    readonly refreshTokenEnc: FieldRef<"BlingIntegration", 'String'>
+    readonly tokenExpiresAt: FieldRef<"BlingIntegration", 'DateTime'>
+    readonly status: FieldRef<"BlingIntegration", 'IntegrationStatus'>
+    readonly lastSyncAt: FieldRef<"BlingIntegration", 'DateTime'>
+    readonly lastSyncStatus: FieldRef<"BlingIntegration", 'String'>
+    readonly lastError: FieldRef<"BlingIntegration", 'String'>
+    readonly lastClientsSynced: FieldRef<"BlingIntegration", 'Int'>
+    readonly lastInvoicesSynced: FieldRef<"BlingIntegration", 'Int'>
+    readonly createdAt: FieldRef<"BlingIntegration", 'DateTime'>
+    readonly updatedAt: FieldRef<"BlingIntegration", 'DateTime'>
+    readonly createdById: FieldRef<"BlingIntegration", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BlingIntegration findUnique
+   */
+  export type BlingIntegrationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which BlingIntegration to fetch.
+     */
+    where: BlingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * BlingIntegration findUniqueOrThrow
+   */
+  export type BlingIntegrationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which BlingIntegration to fetch.
+     */
+    where: BlingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * BlingIntegration findFirst
+   */
+  export type BlingIntegrationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which BlingIntegration to fetch.
+     */
+    where?: BlingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlingIntegrations to fetch.
+     */
+    orderBy?: BlingIntegrationOrderByWithRelationInput | BlingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlingIntegrations.
+     */
+    cursor?: BlingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlingIntegrations.
+     */
+    distinct?: BlingIntegrationScalarFieldEnum | BlingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * BlingIntegration findFirstOrThrow
+   */
+  export type BlingIntegrationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which BlingIntegration to fetch.
+     */
+    where?: BlingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlingIntegrations to fetch.
+     */
+    orderBy?: BlingIntegrationOrderByWithRelationInput | BlingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlingIntegrations.
+     */
+    cursor?: BlingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlingIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlingIntegrations.
+     */
+    distinct?: BlingIntegrationScalarFieldEnum | BlingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * BlingIntegration findMany
+   */
+  export type BlingIntegrationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which BlingIntegrations to fetch.
+     */
+    where?: BlingIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlingIntegrations to fetch.
+     */
+    orderBy?: BlingIntegrationOrderByWithRelationInput | BlingIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BlingIntegrations.
+     */
+    cursor?: BlingIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlingIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlingIntegrations.
+     */
+    skip?: number
+    distinct?: BlingIntegrationScalarFieldEnum | BlingIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * BlingIntegration create
+   */
+  export type BlingIntegrationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BlingIntegration.
+     */
+    data: XOR<BlingIntegrationCreateInput, BlingIntegrationUncheckedCreateInput>
+  }
+
+  /**
+   * BlingIntegration createMany
+   */
+  export type BlingIntegrationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BlingIntegrations.
+     */
+    data: BlingIntegrationCreateManyInput | BlingIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BlingIntegration createManyAndReturn
+   */
+  export type BlingIntegrationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many BlingIntegrations.
+     */
+    data: BlingIntegrationCreateManyInput | BlingIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BlingIntegration update
+   */
+  export type BlingIntegrationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BlingIntegration.
+     */
+    data: XOR<BlingIntegrationUpdateInput, BlingIntegrationUncheckedUpdateInput>
+    /**
+     * Choose, which BlingIntegration to update.
+     */
+    where: BlingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * BlingIntegration updateMany
+   */
+  export type BlingIntegrationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BlingIntegrations.
+     */
+    data: XOR<BlingIntegrationUpdateManyMutationInput, BlingIntegrationUncheckedUpdateManyInput>
+    /**
+     * Filter which BlingIntegrations to update
+     */
+    where?: BlingIntegrationWhereInput
+  }
+
+  /**
+   * BlingIntegration upsert
+   */
+  export type BlingIntegrationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BlingIntegration to update in case it exists.
+     */
+    where: BlingIntegrationWhereUniqueInput
+    /**
+     * In case the BlingIntegration found by the `where` argument doesn't exist, create a new BlingIntegration with this data.
+     */
+    create: XOR<BlingIntegrationCreateInput, BlingIntegrationUncheckedCreateInput>
+    /**
+     * In case the BlingIntegration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BlingIntegrationUpdateInput, BlingIntegrationUncheckedUpdateInput>
+  }
+
+  /**
+   * BlingIntegration delete
+   */
+  export type BlingIntegrationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter which BlingIntegration to delete.
+     */
+    where: BlingIntegrationWhereUniqueInput
+  }
+
+  /**
+   * BlingIntegration deleteMany
+   */
+  export type BlingIntegrationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlingIntegrations to delete
+     */
+    where?: BlingIntegrationWhereInput
+  }
+
+  /**
+   * BlingIntegration without action
+   */
+  export type BlingIntegrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlingIntegration
+     */
+    select?: BlingIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlingIntegrationInclude<ExtArgs> | null
   }
 
 
@@ -137121,6 +138341,8 @@ export namespace Prisma {
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    document: 'document',
+    blingContactId: 'blingContactId',
     hasSystemAccess: 'hasSystemAccess',
     fullSystemAccess: 'fullSystemAccess',
     moduleWhatsapp: 'moduleWhatsapp',
@@ -137136,6 +138358,7 @@ export namespace Prisma {
     serpapiKey: 'serpapiKey',
     moduleClickup: 'moduleClickup',
     moduleCampanhas: 'moduleCampanhas',
+    moduleBling: 'moduleBling',
     moduleLinks: 'moduleLinks',
     moduleInstagram: 'moduleInstagram',
     moduleEspacoCliente: 'moduleEspacoCliente',
@@ -137895,6 +139118,26 @@ export namespace Prisma {
   };
 
   export type MarketingIntegrationScalarFieldEnum = (typeof MarketingIntegrationScalarFieldEnum)[keyof typeof MarketingIntegrationScalarFieldEnum]
+
+
+  export const BlingIntegrationScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    accessTokenEnc: 'accessTokenEnc',
+    refreshTokenEnc: 'refreshTokenEnc',
+    tokenExpiresAt: 'tokenExpiresAt',
+    status: 'status',
+    lastSyncAt: 'lastSyncAt',
+    lastSyncStatus: 'lastSyncStatus',
+    lastError: 'lastError',
+    lastClientsSynced: 'lastClientsSynced',
+    lastInvoicesSynced: 'lastInvoicesSynced',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type BlingIntegrationScalarFieldEnum = (typeof BlingIntegrationScalarFieldEnum)[keyof typeof BlingIntegrationScalarFieldEnum]
 
 
   export const MetaConversionConfigScalarFieldEnum: {
@@ -140435,6 +141678,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    document?: StringNullableFilter<"Company"> | string | null
+    blingContactId?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -140450,6 +141695,7 @@ export namespace Prisma {
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
+    moduleBling?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -140544,6 +141790,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryListRelationFilter
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
+    blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -140558,6 +141805,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    document?: SortOrderInput | SortOrder
+    blingContactId?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -140573,6 +141822,7 @@ export namespace Prisma {
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
+    moduleBling?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -140667,11 +141917,13 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryOrderByRelationAggregateInput
     punchAdjustRequests?: PunchAdjustRequestOrderByRelationAggregateInput
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
+    blingIntegration?: BlingIntegrationOrderByWithRelationInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
+    blingContactId?: string
     webhookToken?: string
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
@@ -140685,6 +141937,7 @@ export namespace Prisma {
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    document?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -140700,6 +141953,7 @@ export namespace Prisma {
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
+    moduleBling?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -140793,7 +142047,8 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryListRelationFilter
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
-  }, "id" | "slug" | "webhookToken">
+    blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
+  }, "id" | "slug" | "webhookToken" | "blingContactId">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
@@ -140807,6 +142062,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    document?: SortOrderInput | SortOrder
+    blingContactId?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -140822,6 +142079,7 @@ export namespace Prisma {
     serpapiKey?: SortOrderInput | SortOrder
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
+    moduleBling?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -140856,6 +142114,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusWithAggregatesFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+    document?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    blingContactId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     hasSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     fullSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -140871,6 +142131,7 @@ export namespace Prisma {
     serpapiKey?: StringNullableWithAggregatesFilter<"Company"> | string | null
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCampanhas?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleBling?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleInstagram?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -144931,6 +146192,108 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MarketingIntegration"> | Date | string
     createdById?: StringNullableWithAggregatesFilter<"MarketingIntegration"> | string | null
+  }
+
+  export type BlingIntegrationWhereInput = {
+    AND?: BlingIntegrationWhereInput | BlingIntegrationWhereInput[]
+    OR?: BlingIntegrationWhereInput[]
+    NOT?: BlingIntegrationWhereInput | BlingIntegrationWhereInput[]
+    id?: StringFilter<"BlingIntegration"> | string
+    companyId?: StringFilter<"BlingIntegration"> | string
+    accessTokenEnc?: StringNullableFilter<"BlingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"BlingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"BlingIntegration"> | Date | string | null
+    status?: EnumIntegrationStatusFilter<"BlingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableFilter<"BlingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableFilter<"BlingIntegration"> | string | null
+    lastError?: StringNullableFilter<"BlingIntegration"> | string | null
+    lastClientsSynced?: IntFilter<"BlingIntegration"> | number
+    lastInvoicesSynced?: IntFilter<"BlingIntegration"> | number
+    createdAt?: DateTimeFilter<"BlingIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"BlingIntegration"> | Date | string
+    createdById?: StringNullableFilter<"BlingIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type BlingIntegrationOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    lastSyncStatus?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type BlingIntegrationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    AND?: BlingIntegrationWhereInput | BlingIntegrationWhereInput[]
+    OR?: BlingIntegrationWhereInput[]
+    NOT?: BlingIntegrationWhereInput | BlingIntegrationWhereInput[]
+    accessTokenEnc?: StringNullableFilter<"BlingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableFilter<"BlingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableFilter<"BlingIntegration"> | Date | string | null
+    status?: EnumIntegrationStatusFilter<"BlingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableFilter<"BlingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableFilter<"BlingIntegration"> | string | null
+    lastError?: StringNullableFilter<"BlingIntegration"> | string | null
+    lastClientsSynced?: IntFilter<"BlingIntegration"> | number
+    lastInvoicesSynced?: IntFilter<"BlingIntegration"> | number
+    createdAt?: DateTimeFilter<"BlingIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"BlingIntegration"> | Date | string
+    createdById?: StringNullableFilter<"BlingIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId">
+
+  export type BlingIntegrationOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accessTokenEnc?: SortOrderInput | SortOrder
+    refreshTokenEnc?: SortOrderInput | SortOrder
+    tokenExpiresAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    lastSyncStatus?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: BlingIntegrationCountOrderByAggregateInput
+    _avg?: BlingIntegrationAvgOrderByAggregateInput
+    _max?: BlingIntegrationMaxOrderByAggregateInput
+    _min?: BlingIntegrationMinOrderByAggregateInput
+    _sum?: BlingIntegrationSumOrderByAggregateInput
+  }
+
+  export type BlingIntegrationScalarWhereWithAggregatesInput = {
+    AND?: BlingIntegrationScalarWhereWithAggregatesInput | BlingIntegrationScalarWhereWithAggregatesInput[]
+    OR?: BlingIntegrationScalarWhereWithAggregatesInput[]
+    NOT?: BlingIntegrationScalarWhereWithAggregatesInput | BlingIntegrationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BlingIntegration"> | string
+    companyId?: StringWithAggregatesFilter<"BlingIntegration"> | string
+    accessTokenEnc?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
+    refreshTokenEnc?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
+    tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"BlingIntegration"> | Date | string | null
+    status?: EnumIntegrationStatusWithAggregatesFilter<"BlingIntegration"> | $Enums.IntegrationStatus
+    lastSyncAt?: DateTimeNullableWithAggregatesFilter<"BlingIntegration"> | Date | string | null
+    lastSyncStatus?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
+    lastError?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
+    lastClientsSynced?: IntWithAggregatesFilter<"BlingIntegration"> | number
+    lastInvoicesSynced?: IntWithAggregatesFilter<"BlingIntegration"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"BlingIntegration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BlingIntegration"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
   }
 
   export type MetaConversionConfigWhereInput = {
@@ -151479,6 +152842,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -151494,6 +152859,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -151587,6 +152953,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -151601,6 +152968,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -151616,6 +152985,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -151709,6 +153079,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -151723,6 +153094,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -151738,6 +153111,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -151831,6 +153205,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -151845,6 +153220,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -151860,6 +153237,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -151953,6 +153331,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -151967,6 +153346,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -151982,6 +153363,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -152008,6 +153390,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -152023,6 +153407,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -152048,6 +153433,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -152063,6 +153450,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -156495,6 +157883,124 @@ export namespace Prisma {
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BlingIntegrationCreateInput = {
+    id?: string
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    lastClientsSynced?: number
+    lastInvoicesSynced?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    company: CompanyCreateNestedOneWithoutBlingIntegrationInput
+  }
+
+  export type BlingIntegrationUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    lastClientsSynced?: number
+    lastInvoicesSynced?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type BlingIntegrationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutBlingIntegrationNestedInput
+  }
+
+  export type BlingIntegrationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BlingIntegrationCreateManyInput = {
+    id?: string
+    companyId: string
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    lastClientsSynced?: number
+    lastInvoicesSynced?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type BlingIntegrationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BlingIntegrationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164185,6 +165691,11 @@ export namespace Prisma {
     none?: VideoCategoryReleaseWhereInput
   }
 
+  export type BlingIntegrationNullableRelationFilter = {
+    is?: BlingIntegrationWhereInput | null
+    isNot?: BlingIntegrationWhereInput | null
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -164437,6 +165948,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    document?: SortOrder
+    blingContactId?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -164452,6 +165965,7 @@ export namespace Prisma {
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
+    moduleBling?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -164483,6 +165997,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    document?: SortOrder
+    blingContactId?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -164498,6 +166014,7 @@ export namespace Prisma {
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
+    moduleBling?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -164524,6 +166041,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    document?: SortOrder
+    blingContactId?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -164539,6 +166058,7 @@ export namespace Prisma {
     serpapiKey?: SortOrder
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
+    moduleBling?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -167443,6 +168963,67 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumIntegrationStatusFilter<$PrismaModel>
     _max?: NestedEnumIntegrationStatusFilter<$PrismaModel>
+  }
+
+  export type BlingIntegrationCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type BlingIntegrationAvgOrderByAggregateInput = {
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+  }
+
+  export type BlingIntegrationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type BlingIntegrationMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    accessTokenEnc?: SortOrder
+    refreshTokenEnc?: SortOrder
+    tokenExpiresAt?: SortOrder
+    status?: SortOrder
+    lastSyncAt?: SortOrder
+    lastSyncStatus?: SortOrder
+    lastError?: SortOrder
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type BlingIntegrationSumOrderByAggregateInput = {
+    lastClientsSynced?: SortOrder
+    lastInvoicesSynced?: SortOrder
   }
 
   export type MetaConversionConfigCountOrderByAggregateInput = {
@@ -173689,6 +175270,12 @@ export namespace Prisma {
     connect?: TimesheetSignatureWhereUniqueInput | TimesheetSignatureWhereUniqueInput[]
   }
 
+  export type BlingIntegrationCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: BlingIntegrationWhereUniqueInput
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -174251,6 +175838,12 @@ export namespace Prisma {
     connectOrCreate?: TimesheetSignatureCreateOrConnectWithoutCompanyInput | TimesheetSignatureCreateOrConnectWithoutCompanyInput[]
     createMany?: TimesheetSignatureCreateManyCompanyInputEnvelope
     connect?: TimesheetSignatureWhereUniqueInput | TimesheetSignatureWhereUniqueInput[]
+  }
+
+  export type BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: BlingIntegrationWhereUniqueInput
   }
 
   export type EnumCompanyStatusFieldUpdateOperationsInput = {
@@ -175393,6 +176986,16 @@ export namespace Prisma {
     deleteMany?: TimesheetSignatureScalarWhereInput | TimesheetSignatureScalarWhereInput[]
   }
 
+  export type BlingIntegrationUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: BlingIntegrationUpsertWithoutCompanyInput
+    disconnect?: BlingIntegrationWhereInput | boolean
+    delete?: BlingIntegrationWhereInput | boolean
+    connect?: BlingIntegrationWhereUniqueInput
+    update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
     create?: XOR<CompanyCreateWithoutParentCompanyInput, CompanyUncheckedCreateWithoutParentCompanyInput> | CompanyCreateWithoutParentCompanyInput[] | CompanyUncheckedCreateWithoutParentCompanyInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutParentCompanyInput | CompanyCreateOrConnectWithoutParentCompanyInput[]
@@ -176513,6 +178116,16 @@ export namespace Prisma {
     update?: TimesheetSignatureUpdateWithWhereUniqueWithoutCompanyInput | TimesheetSignatureUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TimesheetSignatureUpdateManyWithWhereWithoutCompanyInput | TimesheetSignatureUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: TimesheetSignatureScalarWhereInput | TimesheetSignatureScalarWhereInput[]
+  }
+
+  export type BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: BlingIntegrationUpsertWithoutCompanyInput
+    disconnect?: BlingIntegrationWhereInput | boolean
+    delete?: BlingIntegrationWhereInput | boolean
+    connect?: BlingIntegrationWhereUniqueInput
+    update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
   }
 
   export type CompanyCreateNestedOneWithoutCampaignsInput = {
@@ -180025,6 +181638,20 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutMarketingIntegrationsInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutMarketingIntegrationsInput, CompanyUpdateWithoutMarketingIntegrationsInput>, CompanyUncheckedUpdateWithoutMarketingIntegrationsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutBlingIntegrationInput = {
+    create?: XOR<CompanyCreateWithoutBlingIntegrationInput, CompanyUncheckedCreateWithoutBlingIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBlingIntegrationInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutBlingIntegrationNestedInput = {
+    create?: XOR<CompanyCreateWithoutBlingIntegrationInput, CompanyUncheckedCreateWithoutBlingIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBlingIntegrationInput
+    upsert?: CompanyUpsertWithoutBlingIntegrationInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBlingIntegrationInput, CompanyUpdateWithoutBlingIntegrationInput>, CompanyUncheckedUpdateWithoutBlingIntegrationInput>
   }
 
   export type CompanyCreateNestedOneWithoutMetaConversionConfigInput = {
@@ -183899,6 +185526,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -183914,6 +185543,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -184006,6 +185636,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -184020,6 +185651,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -184035,6 +185668,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -184127,6 +185761,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -185489,6 +187124,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -185504,6 +187141,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -185596,6 +187234,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -185610,6 +187249,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -185625,6 +187266,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -185717,6 +187359,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -186756,6 +188399,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -186771,6 +188416,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -186863,6 +188509,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutQuickRepliesInput = {
@@ -186877,6 +188524,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -186892,6 +188541,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -186984,6 +188634,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutQuickRepliesInput = {
@@ -187119,6 +188770,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -187134,6 +188787,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -187226,6 +188880,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutQuickRepliesInput = {
@@ -187240,6 +188895,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -187255,6 +188912,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -187347,6 +189005,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutQuickRepliesInput = {
@@ -188120,6 +189779,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -188135,6 +189796,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -188227,6 +189889,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubCompaniesInput = {
@@ -188241,6 +189904,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -188256,6 +189921,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -188348,6 +190014,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubCompaniesInput = {
@@ -188367,6 +190034,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -188382,6 +190051,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -188474,6 +190144,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutParentCompanyInput = {
@@ -188488,6 +190159,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -188503,6 +190176,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -188595,6 +190269,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutParentCompanyInput = {
@@ -191984,6 +193659,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BlingIntegrationCreateWithoutCompanyInput = {
+    id?: string
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    lastClientsSynced?: number
+    lastInvoicesSynced?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type BlingIntegrationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    accessTokenEnc?: string | null
+    refreshTokenEnc?: string | null
+    tokenExpiresAt?: Date | string | null
+    status?: $Enums.IntegrationStatus
+    lastSyncAt?: Date | string | null
+    lastSyncStatus?: string | null
+    lastError?: string | null
+    lastClientsSynced?: number
+    lastInvoicesSynced?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type BlingIntegrationCreateOrConnectWithoutCompanyInput = {
+    where: BlingIntegrationWhereUniqueInput
+    create: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -192007,6 +193719,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -192022,6 +193736,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -192114,6 +193829,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubCompaniesInput = {
@@ -192128,6 +193844,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -192143,6 +193861,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -192235,6 +193954,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUpsertWithWhereUniqueWithoutParentCompanyInput = {
@@ -192268,6 +193988,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFilter<"Company"> | $Enums.CompanyStatus
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    document?: StringNullableFilter<"Company"> | string | null
+    blingContactId?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -192283,6 +194005,7 @@ export namespace Prisma {
     serpapiKey?: StringNullableFilter<"Company"> | string | null
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
+    moduleBling?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -194752,6 +196475,49 @@ export namespace Prisma {
     data: XOR<TimesheetSignatureUpdateManyMutationInput, TimesheetSignatureUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type BlingIntegrationUpsertWithoutCompanyInput = {
+    update: XOR<BlingIntegrationUpdateWithoutCompanyInput, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
+    where?: BlingIntegrationWhereInput
+  }
+
+  export type BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: BlingIntegrationWhereInput
+    data: XOR<BlingIntegrationUpdateWithoutCompanyInput, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type BlingIntegrationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BlingIntegrationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSyncStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    lastClientsSynced?: IntFieldUpdateOperationsInput | number
+    lastInvoicesSynced?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CompanyCreateWithoutCampaignsInput = {
     id?: string
     name: string
@@ -194764,6 +196530,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -194779,6 +196547,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -194871,6 +196640,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCampaignsInput = {
@@ -194885,6 +196655,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -194900,6 +196672,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -194992,6 +196765,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCampaignsInput = {
@@ -195270,6 +197044,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -195285,6 +197061,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -195377,6 +197154,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCampaignsInput = {
@@ -195391,6 +197169,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -195406,6 +197186,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -195498,6 +197279,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -195617,6 +197399,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -195632,6 +197416,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -195724,6 +197509,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTrackingLinksInput = {
@@ -195738,6 +197524,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -195753,6 +197541,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -195845,6 +197634,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTrackingLinksInput = {
@@ -196062,6 +197852,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -196077,6 +197869,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -196169,6 +197962,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTrackingLinksInput = {
@@ -196183,6 +197977,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -196198,6 +197994,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -196290,6 +198087,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutTrackingLinkInput = {
@@ -196432,6 +198230,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -196447,6 +198247,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -196539,6 +198340,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeadsInput = {
@@ -196553,6 +198355,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -196568,6 +198372,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -196660,6 +198465,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeadsInput = {
@@ -197212,6 +199018,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -197227,6 +199035,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -197319,6 +199128,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeadsInput = {
@@ -197333,6 +199143,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -197348,6 +199160,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -197440,6 +199253,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutLeadsInput = {
@@ -197863,6 +199677,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -197878,6 +199694,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -197970,6 +199787,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTagsInput = {
@@ -197984,6 +199802,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -197999,6 +199819,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -198091,6 +199912,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTagsInput = {
@@ -198141,6 +199963,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -198156,6 +199980,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -198248,6 +200073,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTagsInput = {
@@ -198262,6 +200088,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -198277,6 +200105,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -198369,6 +200198,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type LeadTagUpsertWithWhereUniqueWithoutTagInput = {
@@ -198679,6 +200509,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -198694,6 +200526,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -198786,6 +200619,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCustomFieldDefsInput = {
@@ -198800,6 +200634,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -198815,6 +200651,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -198907,6 +200744,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCustomFieldDefsInput = {
@@ -198963,6 +200801,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -198978,6 +200818,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199070,6 +200911,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCustomFieldDefsInput = {
@@ -199084,6 +200926,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -199099,6 +200943,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199191,6 +201036,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type LeadCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -199513,6 +201359,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -199528,6 +201376,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -199620,6 +201469,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyFieldDefsInput = {
@@ -199634,6 +201484,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -199649,6 +201501,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -199741,6 +201594,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyFieldDefsInput = {
@@ -199797,6 +201651,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -199812,6 +201668,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199904,6 +201761,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyFieldDefsInput = {
@@ -199918,6 +201776,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -199933,6 +201793,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -200025,6 +201886,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCustomValueUpsertWithWhereUniqueWithoutFieldInput = {
@@ -200055,6 +201917,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200070,6 +201934,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200162,6 +202027,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCompanyCustomValuesInput = {
@@ -200176,6 +202042,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200191,6 +202059,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200283,6 +202152,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCompanyCustomValuesInput = {
@@ -200342,6 +202212,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -200357,6 +202229,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -200449,6 +202322,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCompanyCustomValuesInput = {
@@ -200463,6 +202337,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -200478,6 +202354,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -200570,6 +202447,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCustomFieldDefUpsertWithoutValuesInput = {
@@ -200728,6 +202606,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200743,6 +202623,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200835,6 +202716,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -200849,6 +202731,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -200864,6 +202748,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200956,6 +202841,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -201311,6 +203197,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -201326,6 +203214,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -201418,6 +203307,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -201432,6 +203322,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -201447,6 +203339,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -201539,6 +203432,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksAssignedInput = {
@@ -201999,6 +203893,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -202014,6 +203910,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202106,6 +204003,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPipelineStagesInput = {
@@ -202120,6 +204018,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -202135,6 +204035,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202227,6 +204128,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPipelineStagesInput = {
@@ -202257,6 +204159,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -202272,6 +204176,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202364,6 +204269,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPipelineStagesInput = {
@@ -202378,6 +204284,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -202393,6 +204301,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202485,6 +204394,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutContactsInput = {
@@ -202499,6 +204409,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -202514,6 +204426,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202606,6 +204519,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutContactsInput = {
@@ -202620,6 +204534,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -202635,6 +204551,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202727,6 +204644,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -202862,6 +204780,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -202877,6 +204797,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202969,6 +204890,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutContactsInput = {
@@ -202983,6 +204905,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -202998,6 +204922,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -203090,6 +205015,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCompanyContactInput = {
@@ -203320,6 +205246,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -203335,6 +205263,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -203427,6 +205356,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWhatsappInstancesInput = {
@@ -203441,6 +205371,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -203456,6 +205388,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -203548,6 +205481,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWhatsappInstancesInput = {
@@ -203939,6 +205873,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -203954,6 +205890,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -204046,6 +205983,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWhatsappInstancesInput = {
@@ -204060,6 +205998,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -204075,6 +206015,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -204167,6 +206108,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutInstanceInput = {
@@ -204269,6 +206211,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -204284,6 +206228,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -204376,6 +206321,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMessagesInput = {
@@ -204390,6 +206336,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -204405,6 +206353,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -204497,6 +206446,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMessagesInput = {
@@ -204892,6 +206842,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -204907,6 +206859,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -204999,6 +206952,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMessagesInput = {
@@ -205013,6 +206967,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -205028,6 +206984,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -205120,6 +207077,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutMessagesInput = {
@@ -205529,6 +207487,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -205544,6 +207504,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -205636,6 +207597,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutKeywordRulesInput = {
@@ -205650,6 +207612,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -205665,6 +207629,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -205757,6 +207722,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutKeywordRulesInput = {
@@ -205828,6 +207794,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -205843,6 +207811,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -205935,6 +207904,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutKeywordRulesInput = {
@@ -205949,6 +207919,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -205964,6 +207936,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -206056,6 +208029,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CampaignUpsertWithoutKeywordRulesInput = {
@@ -206338,6 +208312,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -206353,6 +208329,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -206445,6 +208422,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutConversationsInput = {
@@ -206459,6 +208437,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -206474,6 +208454,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -206566,6 +208547,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutConversationsInput = {
@@ -207073,6 +209055,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -207088,6 +209072,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -207180,6 +209165,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutConversationsInput = {
@@ -207194,6 +209180,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -207209,6 +209197,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -207301,6 +209290,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -207761,6 +209751,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -207776,6 +209768,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -207868,6 +209861,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutActivitiesInput = {
@@ -207882,6 +209876,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -207897,6 +209893,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -207989,6 +209986,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutActivitiesInput = {
@@ -208270,6 +210268,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -208285,6 +210285,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -208377,6 +210378,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutActivitiesInput = {
@@ -208391,6 +210393,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -208406,6 +210410,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -208498,6 +210503,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutTicketsAsClientInput = {
@@ -208512,6 +210518,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208527,6 +210535,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -208619,6 +210628,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsAsClientInput = {
@@ -208633,6 +210643,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208648,6 +210660,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -208740,6 +210753,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsAsClientInput = {
@@ -208864,6 +210878,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -208879,6 +210895,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -208971,6 +210988,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -208985,6 +211003,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -209000,6 +211020,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -209092,6 +211113,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -209525,6 +211547,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -209540,6 +211564,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -209632,6 +211657,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsAsClientInput = {
@@ -209646,6 +211672,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -209661,6 +211689,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -209753,6 +211782,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsAssignedInput = {
@@ -209889,6 +211919,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -209904,6 +211936,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -209996,6 +212029,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -210010,6 +212044,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -210025,6 +212061,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -210117,6 +212154,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsCreatedInput = {
@@ -210603,6 +212641,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -210618,6 +212658,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -210710,6 +212751,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetoresInput = {
@@ -210724,6 +212766,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -210739,6 +212783,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -210831,6 +212876,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetoresInput = {
@@ -211163,6 +213209,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -211178,6 +213226,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -211270,6 +213319,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetoresInput = {
@@ -211284,6 +213334,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -211299,6 +213351,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -211391,6 +213444,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type SetorUserUpsertWithWhereUniqueWithoutSetorInput = {
@@ -211901,6 +213955,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -211916,6 +213972,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -212008,6 +214065,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSetorClickupListsAsClientInput = {
@@ -212022,6 +214080,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -212037,6 +214097,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -212129,6 +214190,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSetorClickupListsAsClientInput = {
@@ -212583,6 +214645,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -212598,6 +214662,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -212690,6 +214755,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSetorClickupListsAsClientInput = {
@@ -212704,6 +214770,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -212719,6 +214787,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -212811,6 +214880,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutProjectsInput = {
@@ -216330,6 +218400,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -216345,6 +218417,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -216437,6 +218510,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -216451,6 +218525,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -216466,6 +218542,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -216558,6 +218635,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -216638,6 +218716,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -216653,6 +218733,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -216745,6 +218826,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -216759,6 +218841,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -216774,6 +218858,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -216866,6 +218951,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCredentialUpsertWithWhereUniqueWithoutAssetInput = {
@@ -217102,6 +219188,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217117,6 +219205,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -217209,6 +219298,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCredentialAccessLogsInput = {
@@ -217223,6 +219313,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217238,6 +219330,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -217330,6 +219423,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCredentialAccessLogsInput = {
@@ -217411,6 +219505,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -217426,6 +219522,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -217518,6 +219615,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCredentialAccessLogsInput = {
@@ -217532,6 +219630,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -217547,6 +219647,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -217639,6 +219740,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSecureNotesInput = {
@@ -217653,6 +219755,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217668,6 +219772,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -217760,6 +219865,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNotesInput = {
@@ -217774,6 +219880,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -217789,6 +219897,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -217881,6 +219990,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNotesInput = {
@@ -217945,6 +220055,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -217960,6 +220072,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -218052,6 +220165,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNotesInput = {
@@ -218066,6 +220180,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -218081,6 +220197,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -218173,6 +220290,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type SecureNoteAccessLogUpsertWithWhereUniqueWithoutNoteInput = {
@@ -218234,6 +220352,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218249,6 +220369,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -218341,6 +220462,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSecureNoteAccessLogsInput = {
@@ -218355,6 +220477,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218370,6 +220494,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -218462,6 +220587,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSecureNoteAccessLogsInput = {
@@ -218529,6 +220655,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -218544,6 +220672,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -218636,6 +220765,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSecureNoteAccessLogsInput = {
@@ -218650,6 +220780,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -218665,6 +220797,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -218757,6 +220890,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingIntegrationsInput = {
@@ -218771,6 +220905,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218786,6 +220922,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -218878,6 +221015,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingIntegrationsInput = {
@@ -218892,6 +221030,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -218907,6 +221047,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -218999,6 +221140,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingIntegrationsInput = {
@@ -219029,6 +221171,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219044,6 +221188,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -219136,6 +221281,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingIntegrationsInput = {
@@ -219150,6 +221296,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219165,6 +221313,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -219219,6 +221368,523 @@ export namespace Prisma {
     credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
     secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
     secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutBlingIntegrationInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutBlingIntegrationInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutBlingIntegrationInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutBlingIntegrationInput, CompanyUncheckedCreateWithoutBlingIntegrationInput>
+  }
+
+  export type CompanyUpsertWithoutBlingIntegrationInput = {
+    update: XOR<CompanyUpdateWithoutBlingIntegrationInput, CompanyUncheckedUpdateWithoutBlingIntegrationInput>
+    create: XOR<CompanyCreateWithoutBlingIntegrationInput, CompanyUncheckedCreateWithoutBlingIntegrationInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutBlingIntegrationInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutBlingIntegrationInput, CompanyUncheckedUpdateWithoutBlingIntegrationInput>
+  }
+
+  export type CompanyUpdateWithoutBlingIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutBlingIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
     metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
     metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
     instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
@@ -219271,6 +221937,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219286,6 +221954,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -219378,6 +222047,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionConfigInput = {
@@ -219392,6 +222062,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219407,6 +222079,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -219499,6 +222172,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionConfigInput = {
@@ -219529,6 +222203,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219544,6 +222220,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -219636,6 +222313,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionConfigInput = {
@@ -219650,6 +222328,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -219665,6 +222345,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -219757,6 +222438,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMetaConversionLogsInput = {
@@ -219771,6 +222453,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219786,6 +222470,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -219878,6 +222563,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMetaConversionLogsInput = {
@@ -219892,6 +222578,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -219907,6 +222595,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -219999,6 +222688,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMetaConversionLogsInput = {
@@ -220029,6 +222719,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -220044,6 +222736,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220136,6 +222829,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMetaConversionLogsInput = {
@@ -220150,6 +222844,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -220165,6 +222861,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220257,6 +222954,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutInstagramAccountsInput = {
@@ -220271,6 +222969,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -220286,6 +222986,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -220378,6 +223079,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInstagramAccountsInput = {
@@ -220392,6 +223094,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -220407,6 +223111,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -220499,6 +223204,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInstagramAccountsInput = {
@@ -220673,6 +223379,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -220688,6 +223396,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220780,6 +223489,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInstagramAccountsInput = {
@@ -220794,6 +223504,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -220809,6 +223521,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220901,6 +223614,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type IgAutomationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -220963,6 +223677,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -220978,6 +223694,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221070,6 +223787,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationsInput = {
@@ -221084,6 +223802,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -221099,6 +223819,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221191,6 +223912,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationsInput = {
@@ -221310,6 +224032,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -221325,6 +224049,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -221417,6 +224142,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationsInput = {
@@ -221431,6 +224157,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -221446,6 +224174,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -221538,6 +224267,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutAutomationsInput = {
@@ -221619,6 +224349,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -221634,6 +224366,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221726,6 +224459,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgAutomationRunsInput = {
@@ -221740,6 +224474,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -221755,6 +224491,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221847,6 +224584,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgAutomationRunsInput = {
@@ -221973,6 +224711,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -221988,6 +224728,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222080,6 +224821,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgAutomationRunsInput = {
@@ -222094,6 +224836,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -222109,6 +224853,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222201,6 +224946,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutRunsInput = {
@@ -222323,6 +225069,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -222338,6 +225086,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -222430,6 +225179,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIgConversationsInput = {
@@ -222444,6 +225194,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -222459,6 +225211,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -222551,6 +225304,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIgConversationsInput = {
@@ -222656,6 +225410,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -222671,6 +225427,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222763,6 +225520,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIgConversationsInput = {
@@ -222777,6 +225535,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -222792,6 +225552,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222884,6 +225645,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InstagramAccountUpsertWithoutConversationsInput = {
@@ -223063,6 +225825,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223078,6 +225842,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223170,6 +225935,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutFacebookPagesInput = {
@@ -223184,6 +225950,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223199,6 +225967,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223291,6 +226060,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutFacebookPagesInput = {
@@ -223321,6 +226091,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -223336,6 +226108,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223428,6 +226201,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutFacebookPagesInput = {
@@ -223442,6 +226216,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -223457,6 +226233,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223549,6 +226326,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsSnapshotsInput = {
@@ -223563,6 +226341,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223578,6 +226358,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223670,6 +226451,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsSnapshotsInput = {
@@ -223684,6 +226466,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -223699,6 +226483,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223791,6 +226576,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsSnapshotsInput = {
@@ -223821,6 +226607,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -223836,6 +226624,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223928,6 +226717,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsSnapshotsInput = {
@@ -223942,6 +226732,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -223957,6 +226749,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224049,6 +226842,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTopPagesInput = {
@@ -224063,6 +226857,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -224078,6 +226874,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224170,6 +226967,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTopPagesInput = {
@@ -224184,6 +226982,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -224199,6 +226999,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224291,6 +227092,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTopPagesInput = {
@@ -224321,6 +227123,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224336,6 +227140,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224428,6 +227233,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTopPagesInput = {
@@ -224442,6 +227248,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224457,6 +227265,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224549,6 +227358,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -224563,6 +227373,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -224578,6 +227390,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224670,6 +227483,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsTrafficSourcesInput = {
@@ -224684,6 +227498,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -224699,6 +227515,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224791,6 +227608,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsTrafficSourcesInput = {
@@ -224821,6 +227639,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224836,6 +227656,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224928,6 +227749,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsTrafficSourcesInput = {
@@ -224942,6 +227764,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -224957,6 +227781,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225049,6 +227874,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsGeoDataInput = {
@@ -225063,6 +227889,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -225078,6 +227906,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225170,6 +227999,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsGeoDataInput = {
@@ -225184,6 +228014,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -225199,6 +228031,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225291,6 +228124,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsGeoDataInput = {
@@ -225321,6 +228155,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -225336,6 +228172,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225428,6 +228265,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsGeoDataInput = {
@@ -225442,6 +228280,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -225457,6 +228297,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225549,6 +228390,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAnalyticsEventDailyInput = {
@@ -225563,6 +228405,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -225578,6 +228422,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225670,6 +228515,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAnalyticsEventDailyInput = {
@@ -225684,6 +228530,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -225699,6 +228547,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225791,6 +228640,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAnalyticsEventDailyInput = {
@@ -225821,6 +228671,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -225836,6 +228688,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225928,6 +228781,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput = {
@@ -225942,6 +228796,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -225957,6 +228813,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226049,6 +228906,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutMarketingEventConfigInput = {
@@ -226063,6 +228921,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226078,6 +228938,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226170,6 +229031,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutMarketingEventConfigInput = {
@@ -226184,6 +229046,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226199,6 +229063,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226291,6 +229156,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutMarketingEventConfigInput = {
@@ -226321,6 +229187,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -226336,6 +229204,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226428,6 +229297,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutMarketingEventConfigInput = {
@@ -226442,6 +229312,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -226457,6 +229329,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226549,6 +229422,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSearchConsoleQueriesInput = {
@@ -226563,6 +229437,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226578,6 +229454,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226670,6 +229547,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSearchConsoleQueriesInput = {
@@ -226684,6 +229562,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -226699,6 +229579,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226791,6 +229672,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSearchConsoleQueriesInput = {
@@ -226821,6 +229703,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -226836,6 +229720,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226928,6 +229813,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSearchConsoleQueriesInput = {
@@ -226942,6 +229828,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -226957,6 +229845,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227049,6 +229938,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpInsightsInput = {
@@ -227063,6 +229953,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -227078,6 +229970,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227170,6 +230063,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpInsightsInput = {
@@ -227184,6 +230078,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -227199,6 +230095,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227291,6 +230188,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpInsightsInput = {
@@ -227321,6 +230219,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -227336,6 +230236,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227428,6 +230329,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpInsightsInput = {
@@ -227442,6 +230344,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -227457,6 +230361,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227549,6 +230454,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpReviewsInput = {
@@ -227563,6 +230469,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -227578,6 +230486,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227670,6 +230579,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpReviewsInput = {
@@ -227684,6 +230594,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -227699,6 +230611,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227791,6 +230704,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpReviewsInput = {
@@ -227821,6 +230735,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -227836,6 +230752,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227928,6 +230845,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpReviewsInput = {
@@ -227942,6 +230860,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -227957,6 +230877,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228049,6 +230970,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpSearchKeywordsInput = {
@@ -228063,6 +230985,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -228078,6 +231002,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228170,6 +231095,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpSearchKeywordsInput = {
@@ -228184,6 +231110,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -228199,6 +231127,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228291,6 +231220,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpSearchKeywordsInput = {
@@ -228321,6 +231251,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -228336,6 +231268,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228428,6 +231361,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpSearchKeywordsInput = {
@@ -228442,6 +231376,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -228457,6 +231393,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228549,6 +231486,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutGbpProfileSnapshotsInput = {
@@ -228563,6 +231501,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -228578,6 +231518,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228670,6 +231611,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGbpProfileSnapshotsInput = {
@@ -228684,6 +231626,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -228699,6 +231643,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228791,6 +231736,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGbpProfileSnapshotsInput = {
@@ -228821,6 +231767,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -228836,6 +231784,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228928,6 +231877,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGbpProfileSnapshotsInput = {
@@ -228942,6 +231892,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -228957,6 +231909,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229049,6 +232002,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCampaignDailiesInput = {
@@ -229063,6 +232017,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -229078,6 +232034,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229170,6 +232127,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCampaignDailiesInput = {
@@ -229184,6 +232142,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -229199,6 +232159,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229291,6 +232252,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCampaignDailiesInput = {
@@ -229321,6 +232283,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -229336,6 +232300,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229428,6 +232393,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCampaignDailiesInput = {
@@ -229442,6 +232408,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -229457,6 +232425,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229549,6 +232518,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdSearchTermDailiesInput = {
@@ -229563,6 +232533,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -229578,6 +232550,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229670,6 +232643,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdSearchTermDailiesInput = {
@@ -229684,6 +232658,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -229699,6 +232675,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229791,6 +232768,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdSearchTermDailiesInput = {
@@ -229821,6 +232799,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -229836,6 +232816,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229928,6 +232909,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdSearchTermDailiesInput = {
@@ -229942,6 +232924,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -229957,6 +232941,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230049,6 +233034,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativesInput = {
@@ -230063,6 +233049,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -230078,6 +233066,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230170,6 +233159,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativesInput = {
@@ -230184,6 +233174,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -230199,6 +233191,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230291,6 +233284,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativesInput = {
@@ -230321,6 +233315,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -230336,6 +233332,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230428,6 +233425,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativesInput = {
@@ -230442,6 +233440,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -230457,6 +233457,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230549,6 +233550,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAdCreativeDailiesInput = {
@@ -230563,6 +233565,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -230578,6 +233582,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230670,6 +233675,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAdCreativeDailiesInput = {
@@ -230684,6 +233690,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -230699,6 +233707,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230791,6 +233800,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAdCreativeDailiesInput = {
@@ -230821,6 +233831,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -230836,6 +233848,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230928,6 +233941,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAdCreativeDailiesInput = {
@@ -230942,6 +233956,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -230957,6 +233973,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231049,6 +234066,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutSubscriptionInput = {
@@ -231063,6 +234081,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231078,6 +234098,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231170,6 +234191,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSubscriptionInput = {
@@ -231184,6 +234206,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231199,6 +234223,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231291,6 +234316,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSubscriptionInput = {
@@ -231321,6 +234347,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231336,6 +234364,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231428,6 +234457,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
@@ -231442,6 +234472,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231457,6 +234489,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231549,6 +234582,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutBusinessHoursInput = {
@@ -231563,6 +234597,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231578,6 +234614,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231670,6 +234707,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBusinessHoursInput = {
@@ -231684,6 +234722,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -231699,6 +234739,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231791,6 +234832,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBusinessHoursInput = {
@@ -231845,6 +234887,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231860,6 +234904,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231952,6 +234997,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBusinessHoursInput = {
@@ -231966,6 +235012,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -231981,6 +235029,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232073,6 +235122,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type BusinessHoursIntervalUpsertWithWhereUniqueWithoutConfigInput = {
@@ -232174,6 +235224,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232189,6 +235241,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232281,6 +235334,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardsInput = {
@@ -232295,6 +235349,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232310,6 +235366,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232402,6 +235459,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardsInput = {
@@ -232468,6 +235526,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -232483,6 +235543,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232575,6 +235636,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardsInput = {
@@ -232589,6 +235651,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -232604,6 +235668,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232696,6 +235761,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type RewardRedemptionUpsertWithWhereUniqueWithoutRewardInput = {
@@ -232831,6 +235897,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232846,6 +235914,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232938,6 +236007,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -232952,6 +236022,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -232967,6 +236039,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233059,6 +236132,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -233231,6 +236305,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233246,6 +236322,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -233338,6 +236415,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -233352,6 +236430,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233367,6 +236447,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -233459,6 +236540,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type RewardUpsertWithoutRedemptionsInput = {
@@ -233615,6 +236697,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233630,6 +236714,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233722,6 +236807,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserScoresInput = {
@@ -233736,6 +236822,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -233751,6 +236839,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233843,6 +236932,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserScoresInput = {
@@ -233984,6 +237074,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -233999,6 +237091,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234091,6 +237184,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserScoresInput = {
@@ -234105,6 +237199,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234120,6 +237216,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234212,6 +237309,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutUserBadgesInput = {
@@ -234331,6 +237429,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -234346,6 +237446,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234438,6 +237539,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserBadgesInput = {
@@ -234452,6 +237554,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -234467,6 +237571,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234559,6 +237664,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserBadgesInput = {
@@ -234700,6 +237806,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234715,6 +237823,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234807,6 +237916,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserBadgesInput = {
@@ -234821,6 +237931,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -234836,6 +237948,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234928,6 +238041,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutScoreEventsInput = {
@@ -235047,6 +238161,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235062,6 +238178,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235154,6 +238271,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreEventsInput = {
@@ -235168,6 +238286,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235183,6 +238303,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235275,6 +238396,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreEventsInput = {
@@ -235416,6 +238538,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -235431,6 +238555,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235523,6 +238648,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreEventsInput = {
@@ -235537,6 +238663,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -235552,6 +238680,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235644,6 +238773,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutScoreRuleConfigsInput = {
@@ -235658,6 +238788,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235673,6 +238805,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235765,6 +238898,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScoreRuleConfigsInput = {
@@ -235779,6 +238913,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -235794,6 +238930,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235886,6 +239023,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScoreRuleConfigsInput = {
@@ -235916,6 +239054,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -235931,6 +239071,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236023,6 +239164,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScoreRuleConfigsInput = {
@@ -236037,6 +239179,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236052,6 +239196,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236144,6 +239289,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -236590,6 +239736,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -236605,6 +239753,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -236697,6 +239846,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailConfigInput = {
@@ -236711,6 +239861,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -236726,6 +239878,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -236818,6 +239971,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailConfigInput = {
@@ -236848,6 +240002,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236863,6 +240019,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236955,6 +240112,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailConfigInput = {
@@ -236969,6 +240127,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -236984,6 +240144,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237076,6 +240237,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailTemplatesInput = {
@@ -237090,6 +240252,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237105,6 +240269,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237197,6 +240362,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
@@ -237211,6 +240377,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237226,6 +240394,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237318,6 +240487,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailTemplatesInput = {
@@ -237410,6 +240580,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -237425,6 +240597,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237517,6 +240690,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
@@ -237531,6 +240705,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -237546,6 +240722,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237638,6 +240815,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type EmailCampaignUpsertWithWhereUniqueWithoutTemplateInput = {
@@ -237695,6 +240873,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237710,6 +240890,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237802,6 +240983,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailCampaignsInput = {
@@ -237816,6 +240998,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -237831,6 +241015,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237923,6 +241108,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailCampaignsInput = {
@@ -238251,6 +241437,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -238266,6 +241454,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -238358,6 +241547,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailCampaignsInput = {
@@ -238372,6 +241562,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -238387,6 +241579,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -238479,6 +241672,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutEmailCampaignsCreatedInput = {
@@ -239125,6 +242319,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239140,6 +242336,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239232,6 +242429,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailUnsubscribesInput = {
@@ -239246,6 +242444,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239261,6 +242461,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239353,6 +242554,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailUnsubscribesInput = {
@@ -239383,6 +242585,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239398,6 +242602,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -239490,6 +242695,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailUnsubscribesInput = {
@@ -239504,6 +242710,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239519,6 +242727,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -239611,6 +242820,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutEmailAccountsInput = {
@@ -239625,6 +242835,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239640,6 +242852,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239732,6 +242945,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutEmailAccountsInput = {
@@ -239746,6 +242960,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239761,6 +242977,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239853,6 +243070,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutEmailAccountsInput = {
@@ -239969,6 +243187,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -239984,6 +243204,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240076,6 +243297,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutEmailAccountsInput = {
@@ -240090,6 +243312,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240105,6 +243329,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240197,6 +243422,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutAccountInput = {
@@ -240243,6 +243469,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240258,6 +243486,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -240350,6 +243579,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailsInput = {
@@ -240364,6 +243594,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -240379,6 +243611,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -240471,6 +243704,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailsInput = {
@@ -240785,6 +244019,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240800,6 +244036,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240892,6 +244129,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailsInput = {
@@ -240906,6 +244144,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -240921,6 +244161,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241013,6 +244254,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type EmailAccountUpsertWithoutEmailsInput = {
@@ -241325,6 +244567,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241340,6 +244584,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -241432,6 +244677,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxSenderRulesInput = {
@@ -241446,6 +244692,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241461,6 +244709,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -241553,6 +244802,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxSenderRulesInput = {
@@ -241583,6 +244833,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241598,6 +244850,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241690,6 +244943,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxSenderRulesInput = {
@@ -241704,6 +244958,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241719,6 +244975,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241811,6 +245068,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InboxEmailCreateWithoutAttachmentsInput = {
@@ -241949,6 +245207,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -241964,6 +245224,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242056,6 +245317,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutInboxEmailTagsInput = {
@@ -242070,6 +245332,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242085,6 +245349,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242177,6 +245442,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutInboxEmailTagsInput = {
@@ -242266,6 +245532,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242281,6 +245549,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242373,6 +245642,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutInboxEmailTagsInput = {
@@ -242387,6 +245657,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242402,6 +245674,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242494,6 +245767,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type InboxEmailUpsertWithWhereUniqueWithoutTagsInput = {
@@ -242524,6 +245798,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242539,6 +245815,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242631,6 +245908,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBillingEventsInput = {
@@ -242645,6 +245923,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -242660,6 +245940,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242752,6 +246033,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBillingEventsInput = {
@@ -242782,6 +246064,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242797,6 +246081,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242889,6 +246174,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBillingEventsInput = {
@@ -242903,6 +246189,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -242918,6 +246206,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -243010,6 +246299,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAddonsInput = {
@@ -243024,6 +246314,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243039,6 +246331,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243131,6 +246424,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAddonsInput = {
@@ -243145,6 +246439,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243160,6 +246456,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243252,6 +246549,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAddonsInput = {
@@ -243282,6 +246580,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243297,6 +246597,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -243389,6 +246690,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAddonsInput = {
@@ -243403,6 +246705,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243418,6 +246722,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -243510,6 +246815,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CouponRedemptionCreateWithoutCouponInput = {
@@ -243607,6 +246913,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243622,6 +246930,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243714,6 +247023,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCouponRedemptionsInput = {
@@ -243728,6 +247038,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -243743,6 +247055,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243835,6 +247148,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCouponRedemptionsInput = {
@@ -243912,6 +247226,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -243927,6 +247243,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -244019,6 +247336,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCouponRedemptionsInput = {
@@ -244033,6 +247351,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244048,6 +247368,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -244140,6 +247461,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutAssistantsInput = {
@@ -244154,6 +247476,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244169,6 +247493,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -244261,6 +247586,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssistantsInput = {
@@ -244275,6 +247601,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244290,6 +247618,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -244382,6 +247711,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssistantsInput = {
@@ -244733,6 +248063,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244748,6 +248080,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -244840,6 +248173,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssistantsInput = {
@@ -244854,6 +248188,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244869,6 +248205,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -244961,6 +248298,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutAssistantCalendarsInput = {
@@ -245280,6 +248618,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245295,6 +248635,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245387,6 +248728,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutScheduledMessagesInput = {
@@ -245401,6 +248743,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245416,6 +248760,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245508,6 +248853,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutScheduledMessagesInput = {
@@ -245583,6 +248929,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245598,6 +248946,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -245690,6 +249039,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutScheduledMessagesInput = {
@@ -245704,6 +249054,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -245719,6 +249071,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -245811,6 +249164,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type WhatsappInstanceUpsertWithoutScheduledMessagesInput = {
@@ -246148,6 +249502,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246163,6 +249519,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -246255,6 +249612,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAiUsageLogsInput = {
@@ -246269,6 +249627,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246284,6 +249644,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -246376,6 +249737,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAiUsageLogsInput = {
@@ -246465,6 +249827,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246480,6 +249844,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -246572,6 +249937,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAiUsageLogsInput = {
@@ -246586,6 +249952,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -246601,6 +249969,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -246693,6 +250062,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type AssistantUpsertWithoutUsageLogsInput = {
@@ -246772,6 +250142,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246787,6 +250159,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -246879,6 +250252,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutServicesInput = {
@@ -246893,6 +250267,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246908,6 +250284,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -247000,6 +250377,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutServicesInput = {
@@ -247178,6 +250556,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247193,6 +250573,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247285,6 +250666,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutServicesInput = {
@@ -247299,6 +250681,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247314,6 +250698,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247406,6 +250791,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -247468,6 +250854,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247483,6 +250871,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -247575,6 +250964,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientServicesInput = {
@@ -247589,6 +250979,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -247604,6 +250996,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -247696,6 +251089,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientServicesInput = {
@@ -247813,6 +251207,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247828,6 +251224,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247920,6 +251317,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientServicesInput = {
@@ -247934,6 +251332,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -247949,6 +251349,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248041,6 +251442,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type ServiceUpsertWithoutClientInstancesInput = {
@@ -248118,6 +251520,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248133,6 +251537,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248225,6 +251630,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutClientInvoicesInput = {
@@ -248239,6 +251645,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248254,6 +251662,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248346,6 +251755,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutClientInvoicesInput = {
@@ -248411,6 +251821,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -248426,6 +251838,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248518,6 +251931,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutClientInvoicesInput = {
@@ -248532,6 +251946,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -248547,6 +251963,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248639,6 +252056,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type ClientServiceUpsertWithoutInvoicesInput = {
@@ -248694,6 +252112,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248709,6 +252129,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248801,6 +252222,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoCategoriesInput = {
@@ -248815,6 +252237,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -248830,6 +252254,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248922,6 +252347,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoCategoriesInput = {
@@ -249010,6 +252436,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249025,6 +252453,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249117,6 +252546,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoCategoriesInput = {
@@ -249131,6 +252561,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249146,6 +252578,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249238,6 +252671,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type VideoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -249338,6 +252772,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -249353,6 +252789,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249445,6 +252882,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutVideoReleasesInput = {
@@ -249459,6 +252897,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -249474,6 +252914,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249566,6 +253007,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutVideoReleasesInput = {
@@ -249639,6 +253081,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249654,6 +253098,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249746,6 +253191,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutVideoReleasesInput = {
@@ -249760,6 +253206,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -249775,6 +253223,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249867,6 +253316,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type VideoCategoryCreateWithoutVideosInput = {
@@ -249961,6 +253411,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -249976,6 +253428,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250068,6 +253521,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimePunchesInput = {
@@ -250082,6 +253536,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250097,6 +253553,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250189,6 +253646,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimePunchesInput = {
@@ -250324,6 +253782,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250339,6 +253799,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -250431,6 +253892,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimePunchesInput = {
@@ -250445,6 +253907,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250460,6 +253924,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -250552,6 +254017,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimePunchesInput = {
@@ -250677,6 +254143,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250692,6 +254160,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250784,6 +254253,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkScheduleDaysInput = {
@@ -250798,6 +254268,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -250813,6 +254285,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250905,6 +254378,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkScheduleDaysInput = {
@@ -251040,6 +254514,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251055,6 +254531,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -251147,6 +254624,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkScheduleDaysInput = {
@@ -251161,6 +254639,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251176,6 +254656,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -251268,6 +254749,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkScheduleDaysInput = {
@@ -251393,6 +254875,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -251408,6 +254892,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -251500,6 +254985,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimeOffEntriesInput = {
@@ -251514,6 +255000,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -251529,6 +255017,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -251621,6 +255110,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimeOffEntriesInput = {
@@ -251861,6 +255351,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251876,6 +255368,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -251968,6 +255461,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimeOffEntriesInput = {
@@ -251982,6 +255476,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -251997,6 +255493,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -252089,6 +255586,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimeOffEntriesInput = {
@@ -252325,6 +255823,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -252340,6 +255840,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -252432,6 +255933,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPunchAdjustRequestsInput = {
@@ -252446,6 +255948,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -252461,6 +255965,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -252553,6 +256058,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPunchAdjustRequestsInput = {
@@ -252793,6 +256299,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252808,6 +256316,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -252900,6 +256409,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPunchAdjustRequestsInput = {
@@ -252914,6 +256424,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -252929,6 +256441,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -253021,6 +256534,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutPunchAdjustRequestsInput = {
@@ -253257,6 +256771,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -253272,6 +256788,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253364,6 +256881,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTimesheetSignaturesInput = {
@@ -253378,6 +256896,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -253393,6 +256913,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253485,6 +257006,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTimesheetSignaturesInput = {
@@ -253620,6 +257142,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -253635,6 +257159,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -253727,6 +257252,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTimesheetSignaturesInput = {
@@ -253741,6 +257267,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -253756,6 +257284,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -253848,6 +257377,7 @@ export namespace Prisma {
     workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTimesheetSignaturesInput = {
@@ -255847,6 +259377,8 @@ export namespace Prisma {
     status?: $Enums.CompanyStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255862,6 +259394,7 @@ export namespace Prisma {
     serpapiKey?: string | null
     moduleClickup?: boolean
     moduleCampanhas?: boolean
+    moduleBling?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -257022,6 +260555,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257037,6 +260572,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -257129,6 +260665,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
@@ -257143,6 +260680,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257158,6 +260697,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -257250,6 +260790,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
@@ -257264,6 +260805,8 @@ export namespace Prisma {
     status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257279,6 +260822,7 @@ export namespace Prisma {
     serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -266194,6 +269738,10 @@ export namespace Prisma {
      * @deprecated Use MarketingIntegrationDefaultArgs instead
      */
     export type MarketingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketingIntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BlingIntegrationDefaultArgs instead
+     */
+    export type BlingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BlingIntegrationDefaultArgs<ExtArgs>
     /**
      * @deprecated Use MetaConversionConfigDefaultArgs instead
      */

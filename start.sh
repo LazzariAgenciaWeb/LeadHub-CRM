@@ -107,6 +107,26 @@ echo "📊 Cron Marketing Sync habilitado — rodará a cada ${MARKETING_SYNC_IN
   done
 ) &
 
+# Cron: Bling Sync (ERP) — espelha cadastro de clientes (mão dupla) + importa
+# boletos/NF pro financeiro, pra todas as conexões Bling ACTIVE. Roda 1x ao dia.
+# Frequência: 24h (config: BLING_SYNC_INTERVAL_SECONDS)
+BLING_SYNC_INTERVAL_SECONDS="${BLING_SYNC_INTERVAL_SECONDS:-86400}"
+echo "🧾 Cron Bling Sync habilitado — rodará a cada ${BLING_SYNC_INTERVAL_SECONDS}s (1ª execução em ~180s)"
+(
+  sleep 180
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/bling-sync" --max-time 600 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    BODY=$(echo "$RES" | sed '$d')
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "[Cron Bling Sync] $(date) — OK · $BODY"
+    else
+      echo "[Cron Bling Sync] $(date) — falha HTTP $HTTP_CODE · $BODY"
+    fi
+    sleep "$BLING_SYNC_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Email Marketing — processa fila de EmailRecipient PENDING das campanhas
 # em SENDING, respeitando cadência (janela horária, dias da semana, quota/h).
 # Frequência: a cada 60 segundos (config: EMAIL_WORKER_INTERVAL_SECONDS).
