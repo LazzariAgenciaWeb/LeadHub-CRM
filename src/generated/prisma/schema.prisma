@@ -194,6 +194,15 @@ model Company {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
+  // CNPJ/CPF (só dígitos, sem máscara) — chave de casamento com o cadastro do
+  // Bling. É por essa string que o sync Bling↔LeadHub decide se um contato do
+  // Bling é a mesma empresa que já existe aqui (evita duplicar).
+  document       String?
+  // ID do contato correspondente no Bling (integração da AZZ). Quando presente,
+  // é o vínculo forte usado pra casar cadastro e trazer boletos/NF pro
+  // financeiro. Preenchido pelo sync (ver src/lib/bling-sync.ts).
+  blingContactId String?
+
   // Acesso ao sistema e módulos habilitados
   hasSystemAccess      Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
   fullSystemAccess     Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
@@ -222,6 +231,10 @@ model Company {
   moduleClickup        Boolean @default(false)
   // Módulo Campanhas (gerenciar campanhas + UTMs vinculadas a leads)
   moduleCampanhas      Boolean @default(false)
+  // Integração Bling (ERP) — espelho de clientes + financeiro. Só a AZZ usa;
+  // gateia a visibilidade do menu Configurações → Bling pro ADMIN da empresa
+  // (SUPER_ADMIN vê sempre). Habilitado por empresa pelo SUPER_ADMIN.
+  moduleBling          Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
   moduleLinks          Boolean @default(false)
   // Módulo Instagram (automação estilo ManyChat): conecta a conta IG
@@ -349,7 +362,12 @@ model Company {
   triggerOnly             Boolean                  @default(false)
   webhookToken            String?                  @unique // token público para receber leads via webhook
 
+  // Integração Bling (só a AZZ conecta — 1 conexão por empresa, na prática singleton).
+  blingIntegration BlingIntegration?
+
+  @@unique([blingContactId])
   @@index([parentCompanyId])
+  @@index([document])
 }
 
 enum CompanyStatus {
@@ -1839,6 +1857,43 @@ enum IntegrationStatus {
   EXPIRED // refresh token inválido / revogado
   ERROR // falha repetida no sync
   DISCONNECTED // usuário desconectou manualmente
+}
+
+// ─── Bling (ERP) — integração da AZZ ────────────────────────────────────────────
+// Conexão OAuth 2.0 com o Bling v3. É por EMPRESA (@@unique companyId) mas na
+// prática singleton: só a AZZ conecta a própria conta pra:
+//   1. espelhar o cadastro de clientes (Bling ↔ sub-empresas da AZZ), e
+//   2. trazer boletos (contas a receber) + NF emitidas pro financeiro
+//      (ClientInvoice com provider="bling").
+//
+// Tokens do Bling: access_token dura ~6h, refresh_token ~30 dias. Guardados
+// cifrados (AES-256-GCM via src/lib/crypto.ts), nunca retornados ao cliente.
+// Renovação automática em src/lib/bling.ts (getBlingAccessToken).
+model BlingIntegration {
+  id        String  @id @default(cuid())
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  // OAuth tokens (cifrados)
+  accessTokenEnc  String?   @db.Text
+  refreshTokenEnc String?   @db.Text
+  tokenExpiresAt  DateTime? // quando o access_token expira
+
+  status IntegrationStatus @default(ACTIVE)
+
+  // Telemetria do último sync (mesmo padrão do MarketingIntegration)
+  lastSyncAt         DateTime?
+  lastSyncStatus     String? // "ok" | "error: ..."
+  lastError          String?   @db.Text
+  // Contadores do último sync (pra mostrar na UI)
+  lastClientsSynced  Int       @default(0)
+  lastInvoicesSynced Int       @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?
+
+  @@index([status, lastSyncAt])
 }
 
 // ─── Meta Conversions API (CAPI) — conversões offline do CRM ────────────────────
@@ -3645,14 +3700,18 @@ model ClientInvoice {
   invoiceUrl     String? // link da nota fiscal (NF)
   notes          String?   @db.Text
 
-  externalId String? // nosso número / id do boleto no sistema/banco
-  provider   String? // origem (ex.: "manual", "banco X")
+  externalId String? // nosso número / id do boleto no sistema/banco (id do Bling quando provider="bling")
+  provider   String? // origem (ex.: "manual", "bling")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([clientCompanyId, status])
   @@index([clientServiceId])
+  // Lookup/dedup do sync Bling: casa a fatura importada por (provider, externalId).
+  // Um índice UNIQUE parcial (só provider='bling') é criado na migration SQL —
+  // não dá pra expressar índice parcial no schema Prisma.
+  @@index([provider, externalId])
 }
 
 // ─── Vídeos (módulo moduleVideos) ────────────────────────────────────────────

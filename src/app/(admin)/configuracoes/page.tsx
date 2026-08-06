@@ -22,6 +22,8 @@ import EmailSettings from "./EmailSettings";
 import MeuPerfilSettings from "./MeuPerfilSettings";
 import ProspectaApiSettings from "./ProspectaApiSettings";
 import MetaCapiSettings from "./MetaCapiSettings";
+import BlingSettings from "./BlingSettings";
+import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
 import CompanySubscription from "../empresas/[id]/CompanySubscription";
 
@@ -360,6 +362,47 @@ export default async function ConfiguracoesPage({
         />
       );
     }
+  } else if (secao === "integracoes-bling") {
+    // Bling (ERP) — só a AZZ conecta. SUPER_ADMIN escolhe a empresa num seletor
+    // (mesmo padrão da integração Google); ADMIN usa a própria empresa.
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    const companies = isSuperAdmin
+      ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+      : [];
+
+    const integ = targetCompanyId
+      ? await prisma.blingIntegration.findUnique({
+          where: { companyId: targetCompanyId },
+          select: {
+            status: true, lastSyncAt: true, lastSyncStatus: true, lastError: true,
+            lastClientsSynced: true, lastInvoicesSynced: true,
+          },
+        })
+      : null;
+
+    const spAny = sp as any;
+    const flash = spAny.bling_success
+      ? { ok: true }
+      : spAny.bling_error
+      ? { error: String(spAny.bling_error) }
+      : null;
+
+    content = (
+      <BlingSettings
+        companyId={targetCompanyId ?? ""}
+        isSuperAdmin={isSuperAdmin}
+        companies={companies}
+        configured={isBlingConfigured()}
+        redirectUri={BLING_REDIRECT_URI}
+        status={integ?.status ?? null}
+        lastSyncAt={integ?.lastSyncAt?.toISOString() ?? null}
+        lastSyncStatus={integ?.lastSyncStatus ?? null}
+        lastError={integ?.lastError ?? null}
+        lastClientsSynced={integ?.lastClientsSynced ?? 0}
+        lastInvoicesSynced={integ?.lastInvoicesSynced ?? 0}
+        flash={flash}
+      />
+    );
   } else if (secao === "pipeline") {
     // SuperAdmin pode escolher empresa via ?companyId=X
     // Se não informado, usa o companyId da sessão (quando impersonando ou é ADMIN)
@@ -644,7 +687,7 @@ export default async function ConfiguracoesPage({
   let enabledSections: EnabledSections = {
     whatsapp:   true, crm: true, tickets: true, ai: true,
     clickup:    true, gamificacao: true, projetos: true,
-    prospeccao: true, marketing: true,
+    prospeccao: true, marketing: true, bling: true,
   };
   if (!isSuperAdmin && layoutCompanyId) {
     const [company, ctx] = await Promise.all([
@@ -653,7 +696,7 @@ export default async function ConfiguracoesPage({
         select: {
           moduleWhatsapp: true, moduleCrm: true, moduleTickets: true,
           moduleAI: true, moduleClickup: true, moduleGamificacao: true,
-          moduleProjetos: true, moduleProspeccao: true,
+          moduleProjetos: true, moduleProspeccao: true, moduleBling: true,
         },
       }),
       // Features que vivem em PlanFeatures (sem flag em Company): marketing.
@@ -670,6 +713,7 @@ export default async function ConfiguracoesPage({
       projetos:    !!(company as any)?.moduleProjetos,
       prospeccao:  !!(company as any)?.moduleProspeccao,
       marketing:   !!ctx?.effectiveFeatures.marketingDashboard,
+      bling:       !!(company as any)?.moduleBling,
     };
   }
 

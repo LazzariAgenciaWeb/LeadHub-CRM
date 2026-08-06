@@ -198,6 +198,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  document: 'document',
+  blingContactId: 'blingContactId',
   hasSystemAccess: 'hasSystemAccess',
   fullSystemAccess: 'fullSystemAccess',
   moduleWhatsapp: 'moduleWhatsapp',
@@ -213,6 +215,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   serpapiKey: 'serpapiKey',
   moduleClickup: 'moduleClickup',
   moduleCampanhas: 'moduleCampanhas',
+  moduleBling: 'moduleBling',
   moduleLinks: 'moduleLinks',
   moduleInstagram: 'moduleInstagram',
   moduleEspacoCliente: 'moduleEspacoCliente',
@@ -837,6 +840,23 @@ exports.Prisma.MarketingIntegrationScalarFieldEnum = {
   lastSyncAt: 'lastSyncAt',
   lastSyncStatus: 'lastSyncStatus',
   lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.BlingIntegrationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  accessTokenEnc: 'accessTokenEnc',
+  refreshTokenEnc: 'refreshTokenEnc',
+  tokenExpiresAt: 'tokenExpiresAt',
+  status: 'status',
+  lastSyncAt: 'lastSyncAt',
+  lastSyncStatus: 'lastSyncStatus',
+  lastError: 'lastError',
+  lastClientsSynced: 'lastClientsSynced',
+  lastInvoicesSynced: 'lastInvoicesSynced',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById'
@@ -2292,6 +2312,7 @@ exports.Prisma.ModelName = {
   CompanySecureNote: 'CompanySecureNote',
   SecureNoteAccessLog: 'SecureNoteAccessLog',
   MarketingIntegration: 'MarketingIntegration',
+  BlingIntegration: 'BlingIntegration',
   MetaConversionConfig: 'MetaConversionConfig',
   MetaConversionLog: 'MetaConversionLog',
   InstagramAccount: 'InstagramAccount',

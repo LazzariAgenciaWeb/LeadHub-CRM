@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
-  UserCircle, Search, Bot, Target,
+  UserCircle, Search, Bot, Target, Receipt,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -56,6 +56,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-prospeccao",Icon: Search,     grad: "pipeline",  label: "Prospecta IA · SerpAPI", desc: "Busca de prospects no Google Maps" },
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
       { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta · Conversões", desc: "Avisa o Meta quando o lead vira venda" },
+      { key: "integracoes-bling",     Icon: Receipt,    grad: "oportunidades", label: "Bling · ERP",   desc: "Clientes e financeiro (boletos + NF)" },
     ],
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
@@ -86,12 +87,13 @@ export interface EnabledSections {
   projetos: boolean;
   prospeccao: boolean;
   marketing: boolean;
+  bling: boolean;
 }
 
 const ALL_ENABLED: EnabledSections = {
   whatsapp: true, crm: true, tickets: true, ai: true,
   clickup: true, gamificacao: true, projetos: true,
-  prospeccao: true, marketing: true,
+  prospeccao: true, marketing: true, bling: true,
 };
 
 // Mapeia cada chave de seção/sub-item do menu pro flag de modulo que a libera.
@@ -121,6 +123,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "integracoes-prospeccao": "prospeccao",
   "integracoes-webhook":    "crm",
   "integracoes-meta":       "crm",
+  "integracoes-bling":      "bling", // AZZ (moduleBling) + SUPER_ADMIN
 };
 
 // Itens visíveis APENAS pro SUPER_ADMIN (Lazzari) — porque referem a config
