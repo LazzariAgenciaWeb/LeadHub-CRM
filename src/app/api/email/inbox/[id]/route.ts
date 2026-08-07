@@ -66,7 +66,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const existing = await prisma.inboxEmail.findFirst({
     where: { id, companyId: ctx.companyId },
-    select: { id: true, folder: true, direction: true, fromEmail: true, accountId: true },
+    select: { id: true, folder: true, direction: true, fromEmail: true, accountId: true, messageId: true },
   });
   if (!existing) return NextResponse.json({ error: "Email não encontrado" }, { status: 404 });
   if (ctx.allowed && (!existing.accountId || !ctx.allowed.includes(existing.accountId))) {
@@ -104,6 +104,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     select: { id: true, folder: true, seen: true, leadId: true, ticketId: true },
   });
 
+  // ── Propagação entre cópias: o MESMO email pode existir em várias caixas
+  // (redirecionamento). Mover de pasta (resolver/lixeira/spam/restaurar)
+  // aplica em todas as cópias da empresa — resolve uma vez só. ─────────────
+  let propagated = 0;
+  const newFolderForCopies = data.folder as InboxEmailFolder | undefined;
+  if (newFolderForCopies && existing.messageId) {
+    const r = await prisma.inboxEmail.updateMany({
+      where: { companyId: ctx.companyId, messageId: existing.messageId, id: { not: existing.id } },
+      data: { folder: newFolderForCopies },
+    });
+    propagated = r.count;
+  }
+
   // ── Regras de remetente (blacklist automática) ──────────────────────────
   let ruleCreated: string | null = null;
   let ruleRemoved: string | null = null;
@@ -130,5 +143,5 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (del.count > 0) ruleRemoved = sender;
   }
 
-  return NextResponse.json({ ok: true, email: updated, ruleCreated, ruleRemoved, movedToSpam });
+  return NextResponse.json({ ok: true, email: updated, ruleCreated, ruleRemoved, movedToSpam, propagated });
 }

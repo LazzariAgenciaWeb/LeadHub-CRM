@@ -3151,6 +3151,9 @@ model EmailAccount {
   imapUser    String?
   imapPassEnc String?
 
+  // Assinatura anexada ao fim de todo email enviado por esta conta.
+  signature String? @db.Text
+
   // Liga/desliga o poller/envio sem apagar a conta.
   active Boolean @default(true)
 
@@ -3202,6 +3205,8 @@ model InboxEmail {
   fromEmail String
   fromName  String?
   toEmail   String // destinatários To separados por vírgula
+  ccEmail   String? // cópia (Cc) separados por vírgula
+  bccEmail  String? // cópia oculta (Cco) separados por vírgula
   subject   String  @default("")
   snippet   String  @default("") // primeiros ~180 chars do texto, pra lista
   textBody  String? @db.Text
