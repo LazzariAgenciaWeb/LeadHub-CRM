@@ -35,6 +35,7 @@ type EmailRow = {
   sentAt: string;
   aiImportance: "ALTA" | "NORMAL" | "BAIXA" | null;
   aiSummary: string | null;
+  suspicious: boolean;
   tags: EmailTag[];
   _count?: { attachments: number };
   leadId: string | null;
@@ -1123,6 +1124,11 @@ export default function EmailInbox() {
                   <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
                   <div className="flex items-center gap-1.5">
                     <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
+                    {e.suspicious && (
+                      <span className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded bg-red-500/25 text-red-300 flex-shrink-0 font-semibold" title="Possível golpe/phishing — confira o remetente antes de clicar ou pagar">
+                        ⚠️ suspeito
+                      </span>
+                    )}
                     {e.aiImportance && e.direction === "IN" && IMPORTANCE_BADGE[e.aiImportance] && (() => {
                       const b = IMPORTANCE_BADGE[e.aiImportance];
                       return (
@@ -1256,6 +1262,17 @@ export default function EmailInbox() {
                   </div>
                 </div>
               </div>
+              {selected.suspicious && (
+                <div className="px-4 py-2.5 bg-red-500/15 border-b border-red-500/30 flex items-start gap-2">
+                  <span className="text-red-300 text-sm flex-shrink-0">⚠️</span>
+                  <p className="text-red-200 text-xs leading-relaxed">
+                    <b>Possível golpe:</b> o remetente aparenta se passar por outra instituição
+                    (<span className="font-mono">{selected.fromEmail}</span>). Não clique em links,
+                    não baixe anexos e não pague boletos deste email. Se confirmar, marque como spam —
+                    o remetente entra na blacklist (e dá pra bloquear o domínio inteiro nas Regras).
+                  </p>
+                </div>
+              )}
               {selected.attachments?.length > 0 && (
                 <div className="px-4 py-2 border-b border-white/10 flex flex-wrap gap-1.5">
                   {selected.attachments.map((a) => (

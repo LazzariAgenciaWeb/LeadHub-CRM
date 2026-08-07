@@ -113194,6 +113194,7 @@ export namespace Prisma {
     ticketId: string | null
     aiImportance: string | null
     aiSummary: string | null
+    suspicious: boolean | null
     seen: boolean | null
     sentAt: Date | null
     createdAt: Date | null
@@ -113222,6 +113223,7 @@ export namespace Prisma {
     ticketId: string | null
     aiImportance: string | null
     aiSummary: string | null
+    suspicious: boolean | null
     seen: boolean | null
     sentAt: Date | null
     createdAt: Date | null
@@ -113250,6 +113252,7 @@ export namespace Prisma {
     ticketId: number
     aiImportance: number
     aiSummary: number
+    suspicious: number
     seen: number
     sentAt: number
     createdAt: number
@@ -113288,6 +113291,7 @@ export namespace Prisma {
     ticketId?: true
     aiImportance?: true
     aiSummary?: true
+    suspicious?: true
     seen?: true
     sentAt?: true
     createdAt?: true
@@ -113316,6 +113320,7 @@ export namespace Prisma {
     ticketId?: true
     aiImportance?: true
     aiSummary?: true
+    suspicious?: true
     seen?: true
     sentAt?: true
     createdAt?: true
@@ -113344,6 +113349,7 @@ export namespace Prisma {
     ticketId?: true
     aiImportance?: true
     aiSummary?: true
+    suspicious?: true
     seen?: true
     sentAt?: true
     createdAt?: true
@@ -113459,6 +113465,7 @@ export namespace Prisma {
     ticketId: string | null
     aiImportance: string | null
     aiSummary: string | null
+    suspicious: boolean
     seen: boolean
     sentAt: Date
     createdAt: Date
@@ -113506,6 +113513,7 @@ export namespace Prisma {
     ticketId?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
+    suspicious?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -113541,6 +113549,7 @@ export namespace Prisma {
     ticketId?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
+    suspicious?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -113573,6 +113582,7 @@ export namespace Prisma {
     ticketId?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
+    suspicious?: boolean
     seen?: boolean
     sentAt?: boolean
     createdAt?: boolean
@@ -113627,6 +113637,7 @@ export namespace Prisma {
       ticketId: string | null
       aiImportance: string | null
       aiSummary: string | null
+      suspicious: boolean
       seen: boolean
       sentAt: Date
       createdAt: Date
@@ -114051,6 +114062,7 @@ export namespace Prisma {
     readonly ticketId: FieldRef<"InboxEmail", 'String'>
     readonly aiImportance: FieldRef<"InboxEmail", 'String'>
     readonly aiSummary: FieldRef<"InboxEmail", 'String'>
+    readonly suspicious: FieldRef<"InboxEmail", 'Boolean'>
     readonly seen: FieldRef<"InboxEmail", 'Boolean'>
     readonly sentAt: FieldRef<"InboxEmail", 'DateTime'>
     readonly createdAt: FieldRef<"InboxEmail", 'DateTime'>
@@ -139936,6 +139948,7 @@ export namespace Prisma {
     ticketId: 'ticketId',
     aiImportance: 'aiImportance',
     aiSummary: 'aiSummary',
+    suspicious: 'suspicious',
     seen: 'seen',
     sentAt: 'sentAt',
     createdAt: 'createdAt',
@@ -150197,6 +150210,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
+    suspicious?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -150231,6 +150245,7 @@ export namespace Prisma {
     ticketId?: SortOrderInput | SortOrder
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
+    suspicious?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -150269,6 +150284,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
+    suspicious?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -150303,6 +150319,7 @@ export namespace Prisma {
     ticketId?: SortOrderInput | SortOrder
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
+    suspicious?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -150339,6 +150356,7 @@ export namespace Prisma {
     ticketId?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    suspicious?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     seen?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"InboxEmail"> | Date | string
@@ -162382,6 +162400,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -162416,6 +162435,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -162442,6 +162462,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162476,6 +162497,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162506,6 +162528,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -162530,6 +162553,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162558,6 +162582,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -171883,6 +171908,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
+    suspicious?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -171915,6 +171941,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
+    suspicious?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -171943,6 +171970,7 @@ export namespace Prisma {
     ticketId?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
+    suspicious?: SortOrder
     seen?: SortOrder
     sentAt?: SortOrder
     createdAt?: SortOrder
@@ -191295,6 +191323,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -191327,6 +191356,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -194731,6 +194761,7 @@ export namespace Prisma {
     ticketId?: StringNullableFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
+    suspicious?: BoolFilter<"InboxEmail"> | boolean
     seen?: BoolFilter<"InboxEmail"> | boolean
     sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
     createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
@@ -199042,6 +199073,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -199074,6 +199106,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -211575,6 +211608,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -211607,6 +211641,7 @@ export namespace Prisma {
     leadId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -243201,6 +243236,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -243233,6 +243269,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -245202,6 +245239,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -245235,6 +245273,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -245276,6 +245315,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -245309,6 +245349,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -245589,6 +245630,7 @@ export namespace Prisma {
     inReplyTo?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -245622,6 +245664,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -259837,6 +259880,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -261957,6 +262001,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -261989,6 +262034,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -262018,6 +262064,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265327,6 +265374,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -265629,6 +265677,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265661,6 +265710,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -265690,6 +265740,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266599,6 +266650,7 @@ export namespace Prisma {
     leadId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -266713,6 +266765,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266745,6 +266798,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266774,6 +266828,7 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268819,6 +268874,7 @@ export namespace Prisma {
     ticketId?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
+    suspicious?: boolean
     seen?: boolean
     sentAt: Date | string
     createdAt?: Date | string
@@ -268849,6 +268905,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268881,6 +268938,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -268910,6 +268968,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269012,6 +269071,7 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269045,6 +269105,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -269074,6 +269135,7 @@ export namespace Prisma {
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
     seen?: BoolFieldUpdateOperationsInput | boolean
     sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

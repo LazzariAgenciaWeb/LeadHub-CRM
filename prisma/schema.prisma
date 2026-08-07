@@ -3227,6 +3227,9 @@ model InboxEmail {
   // importância "ALTA" | "NORMAL" | "BAIXA" + resumo de 1 linha.
   aiImportance String?
   aiSummary    String? @db.Text
+  // Suspeita de golpe/phishing: heurística na chegada (nome de órgão/banco com
+  // domínio aleatório) OU sinalizada pela triagem IA. Nunca desliga sozinha.
+  suspicious   Boolean @default(false)
 
   // Tags livres da empresa (classificação manual, m2m implícito).
   tags InboxEmailTag[] @relation("InboxEmailTags")

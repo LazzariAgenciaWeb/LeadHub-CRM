@@ -102,7 +102,7 @@ export async function GET(req: NextRequest) {
         id: true, direction: true, folder: true,
         fromEmail: true, fromName: true, toEmail: true,
         subject: true, snippet: true, seen: true, sentAt: true,
-        aiImportance: true, aiSummary: true,
+        aiImportance: true, aiSummary: true, suspicious: true,
         leadId: true, ticketId: true, accountId: true,
         tags: { select: { id: true, name: true, color: true } },
         _count: { select: { attachments: true } },

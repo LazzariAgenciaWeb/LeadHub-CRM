@@ -43,6 +43,7 @@ export async function runEmailTriage(
     select: {
       id: true, fromEmail: true, fromName: true, subject: true,
       snippet: true, textBody: true, seen: true, sentAt: true,
+      suspicious: true,
       tags: { select: { name: true } },
       lead: { select: { name: true } },
       ticket: { select: { title: true } },
@@ -61,6 +62,7 @@ export async function runEmailTriage(
   const list = emails.map((e, i) => {
     const bodyText = (e.textBody || e.snippet || "").replace(/\s+/g, " ").slice(0, BODY_CHARS);
     const flags = [
+      e.suspicious ? "⚠️ HEURÍSTICA JÁ MARCOU COMO SUSPEITO" : null,
       e.seen ? null : "não lido",
       e.tags.length ? `tags atuais: ${e.tags.map((t) => t.name).join(", ")}` : null,
       e.lead ? `vinculado ao lead ${e.lead.name ?? ""}` : null,
@@ -105,6 +107,13 @@ No JSON, inclua "tags": ["Nome"] por email SOMENTE quando tiver confiança clara
 - NORMAL: relevante mas sem urgência.
 - BAIXA: newsletter, propaganda, notificação automática, spam que passou.
 
+DETECÇÃO DE GOLPE (phishing): marque "suspicious": true quando houver sinais como:
+- Nome de exibição se passando por órgão público/banco/cartório mas o DOMÍNIO do email não bate (órgão real usa .gov.br/.jus.br; banco usa o domínio oficial). Ex.: "Departamento de Licenciamento PALOTINA" <x@servidory01l46.picaq.org> = GOLPE.
+- Domínio com letras e números aleatórios ou sem relação com quem diz ser.
+- Urgência + ameaça (multa, suspensão, bloqueio) + pedido de pagamento/boleto/clique.
+- Cobrança de serviço que a empresa não contratou.
+Email suspeito NUNCA é ALTA — classifique BAIXA com resumo começando por "⚠️ Possível golpe:".
+
 O "digest" é um BRIEFING EXECUTIVO em texto puro (use \\n pra quebras de linha), neste formato — omita seções sem conteúdo:
 
 📬 E-MAILS IMPORTANTES (últimas 24h)
@@ -113,6 +122,9 @@ O "digest" é um BRIEFING EXECUTIVO em texto puro (use \\n pra quebras de linha)
 🟡 Importante
 * ... (ou "Nenhum nas últimas 24h.")
 🟢 Informativo: N email(s) sem ação necessária (uma linha explicando).
+
+🚨 SUSPEITA DE GOLPE  ← só se houver
+* Remetente <endereço> — por que parece golpe. → Ação: NÃO clicar nem pagar; bloquear @dominio nas Regras.
 
 🌐 VENCIMENTO DE DOMÍNIOS  ← só se houver emails de registro/renovação de domínio
 * dominio.com.br — situação (expirado/congelado/a vencer em X dias) — registrador → Ação: ...
@@ -126,7 +138,7 @@ O "digest" é um BRIEFING EXECUTIVO em texto puro (use \\n pra quebras de linha)
 Agrupe emails do mesmo assunto/chamado numa linha só. Seja específico: nomes, números de chamado, datas, valores.
 
 Responda APENAS com JSON válido, sem markdown, neste formato:
-{"digest":"o briefing acima","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português","tags":["Nome da tag existente"]}]}${tagsBlock}`,
+{"digest":"o briefing acima","emails":[{"id":"...","importance":"ALTA|NORMAL|BAIXA","summary":"resumo de 1 linha em português","suspicious":false,"tags":["Nome da tag existente"]}]}${tagsBlock}`,
       },
       { role: "user", content: `Data/hora atual: ${new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}\n\nEmails da caixa de entrada (mais recentes primeiro):\n\n${list}` },
     ],
@@ -135,7 +147,7 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
   if (!result.ok) return { ok: false, code: result.code as "QUOTA" | "NO_CONFIG" | "AI_ERROR", error: result.error };
 
   // Parse tolerante: modelo pode embrulhar em ```json ... ```
-  let parsed: { digest?: string; emails?: { id: string; importance: string; summary: string; tags?: string[] }[] };
+  let parsed: { digest?: string; emails?: { id: string; importance: string; summary: string; suspicious?: boolean; tags?: string[] }[] };
   try {
     const raw = result.text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
     parsed = JSON.parse(raw);
@@ -164,6 +176,8 @@ Responda APENAS com JSON válido, sem markdown, neste formato:
       data: {
         aiImportance: IMPORTANCE.has(importance) ? importance : "NORMAL",
         aiSummary: String(item.summary ?? "").slice(0, 500) || null,
+        // Suspeita só LIGA (heurística ou IA) — nunca desliga sozinha.
+        ...(item.suspicious === true ? { suspicious: true } : {}),
         ...(tagIds.length ? { tags: { connect: tagIds.map((id) => ({ id })) } } : {}),
       },
     }).catch(() => null);
