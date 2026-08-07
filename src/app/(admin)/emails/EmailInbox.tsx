@@ -1166,23 +1166,59 @@ export default function EmailInbox() {
           {detailLoading && <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">Carregando…</div>}
           {selected && (
             <>
-              <div className="px-4 py-3 border-b border-white/10">
+              <div className="px-4 py-3 border-b border-white/10 space-y-1.5">
+                {/* Linha 1: assunto + ações. Demais linhas em LARGURA TOTAL —
+                    remetente completo visível e sem vazio sob os botões. */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <h2 className="text-white text-sm font-semibold break-words">{selected.subject || "(sem assunto)"}</h2>
-                    <p className="text-xs text-slate-400 mt-0.5 truncate">
-                      {selected.direction === "IN"
-                        ? <>De: <span className="text-slate-300">{selected.fromName ? `${selected.fromName} <${selected.fromEmail}>` : selected.fromEmail}</span></>
-                        : <>Para: <span className="text-slate-300">{selected.toEmail}</span></>}
-                      <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
-                    </p>
-                    {selected.aiSummary && (
-                      <p className="text-[11px] text-indigo-200/80 mt-1 flex items-start gap-1">
-                        <Sparkles size={11} className="mt-0.5 flex-shrink-0 text-indigo-400" />
-                        <span>{selected.aiSummary}</span>
-                      </p>
+                  <h2 className="text-white text-sm font-semibold break-words min-w-0 flex-1">{selected.subject || "(sem assunto)"}</h2>
+                  <div className="flex items-center gap-1 flex-shrink-0 flex-wrap justify-end">
+                    <button onClick={() => setReaderExpanded(true)} title="Expandir (tela cheia)"
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Maximize2 size={14} /></button>
+                    <button onClick={() => startReply(selected)} title="Responder"
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
+                    <button onClick={toggleSeen} title={selected.seen ? "Marcar como não lido" : "Marcar como lido"}
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5">
+                      {selected.seen ? <EyeOff size={14} /> : <Eye size={14} />}
+                    </button>
+                    {!selected.ticket && (
+                      <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
+                        className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
                     )}
-                    <div className="flex flex-wrap gap-2 mt-1.5">
+                    {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
+                      <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquivar)"
+                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Check size={14} /></button>
+                    )}
+                    {selected.folder !== "IMPORTANT" && selected.folder !== "SENT" && (
+                      <button onClick={() => moveTo(selected.id, "IMPORTANT")} title="Marcar como importante"
+                        className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5"><Star size={14} /></button>
+                    )}
+                    {selected.folder !== "SPAM" && selected.folder !== "SENT" && selected.direction === "IN" && (
+                      <button onClick={() => moveTo(selected.id, "SPAM")} title="Spam (bloqueia o remetente)"
+                        className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5"><AlertOctagon size={14} /></button>
+                    )}
+                    {selected.folder !== "INBOX" && selected.folder !== "SENT" && (
+                      <button onClick={() => moveTo(selected.id, "INBOX")} title="Voltar pra Entrada"
+                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><ArchiveRestore size={14} /></button>
+                    )}
+                    {selected.folder !== "TRASH" && (
+                      <button onClick={() => moveTo(selected.id, "TRASH")} title="Descartar (lixeira)"
+                        className="rounded-lg border border-white/10 p-1.5 text-red-300 hover:bg-white/5"><Trash2 size={14} /></button>
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 break-all">
+                  {selected.direction === "IN"
+                    ? <>De: <span className="text-slate-300">{selected.fromName ? `${selected.fromName} <${selected.fromEmail}>` : selected.fromEmail}</span></>
+                    : <>Para: <span className="text-slate-300">{selected.toEmail}</span></>}
+                  <span className="text-slate-600"> · {fmtDate(selected.sentAt)}</span>
+                </p>
+                {selected.aiSummary && (
+                  <p className="text-[11px] text-indigo-200/80 flex items-start gap-1">
+                    <Sparkles size={11} className="mt-0.5 flex-shrink-0 text-indigo-400" />
+                    <span>{selected.aiSummary}</span>
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-2 items-center">
                       {selected.aiImportance && selected.direction === "IN" && IMPORTANCE_BADGE[selected.aiImportance] && (() => {
                         const b = IMPORTANCE_BADGE[selected.aiImportance];
                         return (
@@ -1225,42 +1261,6 @@ export default function EmailInbox() {
                         ))}
                         <option value="__new" className="bg-[#0f1623]">＋ criar nova</option>
                       </select>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <button onClick={() => setReaderExpanded(true)} title="Expandir (tela cheia)"
-                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Maximize2 size={14} /></button>
-                    <button onClick={() => startReply(selected)} title="Responder"
-                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
-                    <button onClick={toggleSeen} title={selected.seen ? "Marcar como não lido" : "Marcar como lido"}
-                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5">
-                      {selected.seen ? <EyeOff size={14} /> : <Eye size={14} />}
-                    </button>
-                    {!selected.ticket && (
-                      <button onClick={() => startCreateTicket(selected)} title="Criar chamado a partir deste email"
-                        className="rounded-lg border border-white/10 p-1.5 text-sky-300 hover:bg-white/5"><LifeBuoy size={14} /></button>
-                    )}
-                    {(selected.folder === "INBOX" || selected.folder === "IMPORTANT") && (
-                      <button onClick={() => moveTo(selected.id, "ARCHIVE")} title="Resolvido (arquivar)"
-                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><Check size={14} /></button>
-                    )}
-                    {selected.folder !== "IMPORTANT" && selected.folder !== "SENT" && (
-                      <button onClick={() => moveTo(selected.id, "IMPORTANT")} title="Marcar como importante"
-                        className="rounded-lg border border-white/10 p-1.5 text-amber-300 hover:bg-white/5"><Star size={14} /></button>
-                    )}
-                    {selected.folder !== "SPAM" && selected.folder !== "SENT" && selected.direction === "IN" && (
-                      <button onClick={() => moveTo(selected.id, "SPAM")} title="Spam (bloqueia o remetente)"
-                        className="rounded-lg border border-white/10 p-1.5 text-orange-300 hover:bg-white/5"><AlertOctagon size={14} /></button>
-                    )}
-                    {selected.folder !== "INBOX" && selected.folder !== "SENT" && (
-                      <button onClick={() => moveTo(selected.id, "INBOX")} title="Voltar pra Entrada"
-                        className="rounded-lg border border-white/10 p-1.5 text-emerald-300 hover:bg-white/5"><ArchiveRestore size={14} /></button>
-                    )}
-                    {selected.folder !== "TRASH" && (
-                      <button onClick={() => moveTo(selected.id, "TRASH")} title="Descartar (lixeira)"
-                        className="rounded-lg border border-white/10 p-1.5 text-red-300 hover:bg-white/5"><Trash2 size={14} /></button>
-                    )}
-                  </div>
                 </div>
               </div>
               {selected.suspicious && (
