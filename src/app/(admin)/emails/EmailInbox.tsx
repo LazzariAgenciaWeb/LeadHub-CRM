@@ -1123,8 +1123,10 @@ export default function EmailInbox() {
                     <span className="text-[10px] text-slate-500 flex-shrink-0">{fmtDate(e.sentAt)}</span>
                   </div>
                   <p className={`text-xs truncate ${e.seen ? "text-slate-400" : "text-slate-200"}`}>{e.subject || "(sem assunto)"}</p>
-                  <div className="flex items-center gap-1.5">
-                    <p className="text-[11px] text-slate-500 truncate flex-1">{e.aiSummary || e.snippet || "—"}</p>
+                  {/* Trecho/resumo em linha PRÓPRIA (largura toda) — badges na
+                      linha de baixo, sem brigar por espaço com o texto. */}
+                  <p className="text-[11px] text-slate-500 truncate">{e.aiSummary || e.snippet || "—"}</p>
+                  <div className="flex flex-wrap items-center gap-1 mt-0.5">
                     {e.suspicious && (
                       <span className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded bg-red-500/25 text-red-300 flex-shrink-0 font-semibold" title="Possível golpe/phishing — confira o remetente antes de clicar ou pagar">
                         ⚠️ suspeito
