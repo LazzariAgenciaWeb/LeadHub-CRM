@@ -32,7 +32,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       fromEmail: true, fromName: true, toEmail: true,
       subject: true, textBody: true, htmlBody: true,
       inReplyTo: true, seen: true, sentAt: true,
-      aiImportance: true, aiSummary: true,
+      aiImportance: true, aiSummary: true, suspicious: true,
       leadId: true, ticketId: true, accountId: true,
       tags: { select: { id: true, name: true, color: true } },
       attachments: { select: { id: true, filename: true, contentType: true, size: true } },

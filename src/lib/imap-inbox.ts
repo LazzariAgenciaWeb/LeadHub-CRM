@@ -219,6 +219,40 @@ export async function verifyEmailAccount(
   return { smtp, imap };
 }
 
+// Palavras de órgão/instituição que golpista usa no NOME de exibição.
+const IMPERSONATION_WORDS = /prefeitura|departamento|licenciamento|alvar[áa]|tribunal|justi[çc]a|receita|federal|governo|minist[ée]rio|cart[óo]rio|detran|correios|serasa|spc|banco|bradesco|ita[úu]|santander|caixa|nubank|sicoob|sicredi|nota\s*fiscal|nfe|n\.?f\.?-?e|intima[çc][ãa]o|processo|d[ée]bito|regulariza/i;
+
+/**
+ * Heurística de phishing no remetente (grátis, roda na chegada):
+ *  a) Nome de exibição se passando por órgão/banco, mas domínio sem relação
+ *     (não .gov.br/.jus.br nem domínio do próprio órgão) — padrão clássico:
+ *     "Departamento de Licenciamento" <x@servidory01l46.picaq.org>.
+ *  b) Label de domínio com mistura aleatória de letras e números.
+ *  c) Domínio punycode (xn--) imitando marca com acento.
+ * Marca `suspicious` — NÃO move pro spam sozinho (falso positivo é caro);
+ * a UI avisa e a triagem IA confirma.
+ */
+function looksSuspiciousSender(fromName: string | null, fromEmail: string, subject: string): boolean {
+  const domain = fromEmail.split("@")[1] ?? "";
+  if (!domain) return false;
+  if (domain.includes("xn--")) return true;
+
+  // Label com letra+número misturado (servidory01l46, h98x2k…) fora de
+  // provedores conhecidos com número no nome (ex: uol/bol não têm).
+  const labels = domain.split(".");
+  const randomish = labels.some((l) => l.length >= 6 && /[a-z]\d|\d[a-z]/i.test(l) && !/^(email|mail|smtp|mx)\d+$/i.test(l));
+
+  const claimsOrg = IMPERSONATION_WORDS.test(fromName ?? "") || IMPERSONATION_WORDS.test(subject);
+  const officialDomain = /\.(gov|jus|leg|mp|def)\.br$|\.gov$/.test(domain);
+
+  if (claimsOrg && randomish) return true;
+  if (claimsOrg && !officialDomain && labels.length >= 3 && randomish) return true;
+  // Nome diz órgão público mas domínio não é oficial nem corporativo comum e
+  // tem cara aleatória → já coberto acima. Sem claim, exige aleatório forte:
+  if (!claimsOrg && randomish && labels.some((l) => /\d{2,}/.test(l) && /[a-z]{3,}/i.test(l) && l.length >= 8)) return true;
+  return false;
+}
+
 function makeSnippet(text: string | null | undefined): string {
   if (!text) return "";
   return text.replace(/\s+/g, " ").trim().slice(0, 180);
@@ -373,12 +407,17 @@ async function storeMessage(
     folder = "SENT";
   }
 
+  // Suspeita de golpe (só em recebidos): heurística barata no remetente.
+  const suspicious =
+    direction === "IN" && looksSuspiciousSender(fromAddr?.name ?? null, fromEmail, parsed.subject ?? "");
+
   const created = await prisma.inboxEmail.create({
     data: {
       companyId,
       accountId,
       direction,
       folder,
+      suspicious,
       messageId,
       imapUid: uid,
       fromEmail: fromEmail || "desconhecido",
