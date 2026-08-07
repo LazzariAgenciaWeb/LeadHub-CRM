@@ -137,9 +137,10 @@ const IMPORTANCE_BADGE: Record<string, { label: string; cls: string; Icon: Lucid
 function emailSrcDoc(html: string): string {
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>
     html,body{margin:0;padding:0;}
-    body{padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111;word-break:break-word;overflow-x:hidden;}
+    body{padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111;word-break:break-word;overflow-x:auto;}
     img{max-width:100% !important;height:auto !important;}
-    table{max-width:100% !important;width:auto !important;border-collapse:collapse;}
+    table{max-width:100% !important;width:auto !important;min-width:0 !important;border-collapse:collapse;}
+    [width]{max-width:100% !important;}
     td,th{word-break:break-word;}
     pre{white-space:pre-wrap;max-width:100%;overflow-x:auto;}
     *{box-sizing:border-box;}
@@ -909,7 +910,7 @@ export default function EmailInbox() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-[170px_320px_1fr] gap-4 h-[72vh]">
+      <div className="grid grid-cols-1 md:grid-cols-[170px_320px_minmax(0,1fr)] gap-4 h-[72vh] overflow-hidden">
         {/* Coluna esquerda: Contas · Pastas · Todos · Tags */}
         <div className="rounded-xl border border-white/10 bg-white/5 p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto">
           {/* Contas (caixas) — colapsável */}
@@ -1023,7 +1024,7 @@ export default function EmailInbox() {
         </div>
 
         {/* Lista */}
-        <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0">
+        <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0 min-w-0">
           <div className="p-2 border-b border-white/10 space-y-2">
             <div className="flex items-center gap-2">
               <input type="checkbox" title="Selecionar todos"
@@ -1158,7 +1159,7 @@ export default function EmailInbox() {
         </div>
 
         {/* Leitura */}
-        <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0">
+        <div className="rounded-xl border border-white/10 bg-white/5 flex flex-col min-h-0 min-w-0 overflow-hidden">
           {!selected && !detailLoading && (
             <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">Selecione um email</div>
           )}
