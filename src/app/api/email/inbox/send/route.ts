@@ -35,10 +35,24 @@ export async function POST(req: NextRequest) {
     if (!accountId) accountId = allowed[0];
   }
 
-  const to = String(body?.to ?? "").trim();
+  // Listas de endereço: aceita vários separados por vírgula/ponto-e-vírgula.
+  const parseAddrList = (v: unknown): { ok: true; value: string | null } | { ok: false; bad: string } => {
+    const items = String(v ?? "").split(/[,;]+/).map((x) => x.trim()).filter(Boolean);
+    if (!items.length) return { ok: true, value: null };
+    for (const item of items) if (!EMAIL_RE.test(item)) return { ok: false, bad: item };
+    return { ok: true, value: items.join(", ") };
+  };
+
+  const toParsed = parseAddrList(body?.to);
+  if (!toParsed.ok) return NextResponse.json({ error: `Destinatário inválido: ${toParsed.bad}` }, { status: 400 });
+  const to = toParsed.value ?? "";
+  const ccParsed = parseAddrList(body?.cc);
+  if (!ccParsed.ok) return NextResponse.json({ error: `Cc inválido: ${ccParsed.bad}` }, { status: 400 });
+  const bccParsed = parseAddrList(body?.bcc);
+  if (!bccParsed.ok) return NextResponse.json({ error: `Cco inválido: ${bccParsed.bad}` }, { status: 400 });
   const subject = String(body?.subject ?? "").trim();
   const text = String(body?.text ?? "").trim();
-  if (!EMAIL_RE.test(to)) return NextResponse.json({ error: "Destinatário inválido" }, { status: 400 });
+  if (!to) return NextResponse.json({ error: "Destinatário inválido" }, { status: 400 });
   if (!subject) return NextResponse.json({ error: "Assunto obrigatório" }, { status: 400 });
   if (!text) return NextResponse.json({ error: "Mensagem obrigatória" }, { status: 400 });
 
@@ -76,6 +90,8 @@ export async function POST(req: NextRequest) {
   try {
     const record = await sendInboxEmail(companyId, {
       to,
+      cc: ccParsed.value,
+      bcc: bccParsed.value,
       subject,
       text,
       attachments,

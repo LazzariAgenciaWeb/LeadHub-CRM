@@ -13,6 +13,10 @@
  */
 import nodemailer from "nodemailer";
 import { ImapFlow } from "imapflow";
+// MailComposer monta o MIME bruto pro APPEND na pasta Enviados do servidor
+// (SMTP genérico não guarda cópia do enviado — só o Gmail faz sozinho).
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const MailComposer = require("nodemailer/lib/mail-composer");
 import { simpleParser, type ParsedMail } from "mailparser";
 import { prisma } from "./prisma";
 import { encryptSecret, tryDecryptSecret } from "./crypto";
@@ -33,6 +37,8 @@ export interface EmailAccountInput {
   imapSecure?: boolean;
   imapUser?: string | null;
   imapPass?: string; // idem
+  /** Assinatura anexada ao fim de todo envio desta conta. */
+  signature?: string | null;
   active?: boolean;
 }
 
@@ -105,6 +111,7 @@ export async function upsertEmailAccount(
     imapSecure: input.imapSecure ?? true,
     imapUser: input.imapUser?.trim() || null,
     imapPassEnc,
+    signature: input.signature?.trim() || null,
     active: input.active ?? true,
   };
 
@@ -699,6 +706,24 @@ export async function deleteEmailFromServer(companyId: string, inboxEmailId: str
   }
 }
 
+/** Grava o MIME bruto na pasta Enviados (\Sent) do servidor da conta. */
+async function appendSentCopy(acc: EmailAccount, raw: Buffer): Promise<void> {
+  const imapCfg = decryptedImap(acc);
+  if (!imapCfg) return;
+  const client = buildImapClient(imapCfg);
+  try {
+    await client.connect();
+    const path = (await findSentMailboxPath(client)) ?? "INBOX.Sent";
+    await client.append(path, raw, ["\\Seen"]);
+  } finally {
+    try {
+      await client.logout();
+    } catch {
+      try { client.close(); } catch {}
+    }
+  }
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -715,7 +740,12 @@ export interface SendAttachmentInput {
 }
 
 export interface SendInboxEmailInput {
+  /** Destinatários To — um ou vários, separados por vírgula. */
   to: string;
+  /** Cópia (Cc), separados por vírgula. */
+  cc?: string | null;
+  /** Cópia oculta (Cco), separados por vírgula. */
+  bcc?: string | null;
   subject: string;
   /** Corpo em texto puro (a UI manda texto; viramos HTML simples). */
   text: string;
@@ -766,7 +796,9 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
     });
   }
 
-  const text = input.text.trim();
+  // Assinatura da conta anexada ao fim do corpo (texto e HTML).
+  const signature = account?.signature?.trim();
+  const text = signature ? `${input.text.trim()}\n\n--\n${signature}` : input.text.trim();
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111">${escapeHtml(text).replace(/\n/g, "<br/>")}</div>`;
 
   // Anexos do upload → formato do nodemailer.
@@ -787,22 +819,44 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       host: smtpCfg.host, port: smtpCfg.port, secure: smtpCfg.secure,
       auth: { user: smtpCfg.user, pass: smtpCfg.pass },
     });
-    const info = await t.sendMail({
+    const mailOpts = {
       from: `${account.fromName} <${account.fromEmail}>`,
       to: input.to.trim(),
+      cc: input.cc?.trim() || undefined,
+      bcc: input.bcc?.trim() || undefined,
       subject: input.subject.trim(),
       html,
       text,
       headers: Object.keys(headers).length ? headers : undefined,
       attachments: mailAttachments.length ? mailAttachments : undefined,
-    });
+    };
+    const info = await t.sendMail(mailOpts);
     messageId = info?.messageId ?? null;
     fromEmail = account.fromEmail;
     fromName = account.fromName;
+
+    // Grava a cópia na pasta Enviados do SERVIDOR (APPEND IMAP). SMTP genérico
+    // não faz isso sozinho — sem o append, o webmail não mostra o enviado e o
+    // LeadHub não consegue referenciar os anexos. Best-effort: falha não
+    // derruba o envio (que já aconteceu).
+    if (account.imapHost) {
+      try {
+        const raw: Buffer = await new Promise((resolve, reject) => {
+          new MailComposer({ ...mailOpts, messageId: messageId ?? undefined })
+            .compile()
+            .build((err: any, msg: Buffer) => (err ? reject(err) : resolve(msg)));
+        });
+        await appendSentCopy(account, raw);
+      } catch (e) {
+        console.warn(`[imap-inbox] append na pasta Enviados falhou (${account.fromEmail})`, e);
+      }
+    }
   } else {
     // Fallback: SMTP do Email Marketing (CompanyEmailConfig).
     const sent = await sendCompanyMail(companyId, {
       to: input.to.trim(),
+      cc: input.cc?.trim() || undefined,
+      bcc: input.bcc?.trim() || undefined,
       subject: input.subject.trim(),
       html,
       text,
@@ -824,6 +878,8 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
       fromEmail,
       fromName,
       toEmail: input.to.trim(),
+      ccEmail: input.cc?.trim() || null,
+      bccEmail: input.bcc?.trim() || null,
       subject: input.subject.trim(),
       snippet: makeSnippet(text),
       textBody: text,

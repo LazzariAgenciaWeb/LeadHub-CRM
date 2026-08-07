@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
   const emailsRaw = await prisma.inboxEmail.findMany({
     where: { id: { in: ids }, companyId },
-    select: { id: true, direction: true, fromEmail: true, folder: true, accountId: true },
+    select: { id: true, direction: true, fromEmail: true, folder: true, accountId: true, messageId: true },
   });
   const emails = allowed
     ? emailsRaw.filter((e) => e.accountId && allowed.includes(e.accountId))
@@ -86,6 +86,15 @@ export async function POST(req: NextRequest) {
     where: { id: { in: validIds }, companyId },
     data: { folder },
   });
+
+  // Propagação: cópias do mesmo email em outras caixas acompanham a pasta.
+  const messageIds = [...new Set(emails.map((e) => e.messageId).filter((m): m is string => !!m))];
+  if (messageIds.length) {
+    await prisma.inboxEmail.updateMany({
+      where: { companyId, messageId: { in: messageIds }, id: { notIn: validIds } },
+      data: { folder },
+    });
+  }
 
   // SPAM em lote: blacklist de cada remetente + arrasta os da Entrada junto.
   let rulesCreated = 0;

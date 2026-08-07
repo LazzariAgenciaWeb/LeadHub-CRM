@@ -131,7 +131,7 @@ export async function verifyCompanyEmail(companyId: string): Promise<{ ok: true 
 export async function sendCompanyMail(
   companyId: string,
   opts: {
-    to: string; subject: string; html: string; text?: string;
+    to: string; cc?: string; bcc?: string; subject: string; html: string; text?: string;
     headers?: Record<string, string>;
     attachments?: { filename: string; content: Buffer; contentType?: string }[];
   }
@@ -143,6 +143,8 @@ export async function sendCompanyMail(
     from: `${cfg.fromName} <${cfg.fromEmail}>`,
     ...(cfg.replyTo ? { replyTo: cfg.replyTo } : {}),
     to: opts.to,
+    cc: opts.cc,
+    bcc: opts.bcc,
     subject: opts.subject,
     html: opts.html,
     text: opts.text,

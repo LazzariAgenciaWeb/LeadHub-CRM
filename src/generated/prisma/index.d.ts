@@ -111885,6 +111885,7 @@ export namespace Prisma {
     imapSecure: boolean | null
     imapUser: string | null
     imapPassEnc: string | null
+    signature: string | null
     active: boolean | null
     lastUid: number | null
     uidValidity: bigint | null
@@ -111915,6 +111916,7 @@ export namespace Prisma {
     imapSecure: boolean | null
     imapUser: string | null
     imapPassEnc: string | null
+    signature: string | null
     active: boolean | null
     lastUid: number | null
     uidValidity: bigint | null
@@ -111945,6 +111947,7 @@ export namespace Prisma {
     imapSecure: number
     imapUser: number
     imapPassEnc: number
+    signature: number
     active: number
     lastUid: number
     uidValidity: number
@@ -111995,6 +111998,7 @@ export namespace Prisma {
     imapSecure?: true
     imapUser?: true
     imapPassEnc?: true
+    signature?: true
     active?: true
     lastUid?: true
     uidValidity?: true
@@ -112025,6 +112029,7 @@ export namespace Prisma {
     imapSecure?: true
     imapUser?: true
     imapPassEnc?: true
+    signature?: true
     active?: true
     lastUid?: true
     uidValidity?: true
@@ -112055,6 +112060,7 @@ export namespace Prisma {
     imapSecure?: true
     imapUser?: true
     imapPassEnc?: true
+    signature?: true
     active?: true
     lastUid?: true
     uidValidity?: true
@@ -112172,6 +112178,7 @@ export namespace Prisma {
     imapSecure: boolean
     imapUser: string | null
     imapPassEnc: string | null
+    signature: string | null
     active: boolean
     lastUid: number | null
     uidValidity: bigint | null
@@ -112221,6 +112228,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: boolean
     imapPassEnc?: boolean
+    signature?: boolean
     active?: boolean
     lastUid?: boolean
     uidValidity?: boolean
@@ -112255,6 +112263,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: boolean
     imapPassEnc?: boolean
+    signature?: boolean
     active?: boolean
     lastUid?: boolean
     uidValidity?: boolean
@@ -112286,6 +112295,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: boolean
     imapPassEnc?: boolean
+    signature?: boolean
     active?: boolean
     lastUid?: boolean
     uidValidity?: boolean
@@ -112333,6 +112343,7 @@ export namespace Prisma {
       imapSecure: boolean
       imapUser: string | null
       imapPassEnc: string | null
+      signature: string | null
       active: boolean
       lastUid: number | null
       uidValidity: bigint | null
@@ -112756,6 +112767,7 @@ export namespace Prisma {
     readonly imapSecure: FieldRef<"EmailAccount", 'Boolean'>
     readonly imapUser: FieldRef<"EmailAccount", 'String'>
     readonly imapPassEnc: FieldRef<"EmailAccount", 'String'>
+    readonly signature: FieldRef<"EmailAccount", 'String'>
     readonly active: FieldRef<"EmailAccount", 'Boolean'>
     readonly lastUid: FieldRef<"EmailAccount", 'Int'>
     readonly uidValidity: FieldRef<"EmailAccount", 'BigInt'>
@@ -113171,6 +113183,8 @@ export namespace Prisma {
     fromEmail: string | null
     fromName: string | null
     toEmail: string | null
+    ccEmail: string | null
+    bccEmail: string | null
     subject: string | null
     snippet: string | null
     textBody: string | null
@@ -113197,6 +113211,8 @@ export namespace Prisma {
     fromEmail: string | null
     fromName: string | null
     toEmail: string | null
+    ccEmail: string | null
+    bccEmail: string | null
     subject: string | null
     snippet: string | null
     textBody: string | null
@@ -113223,6 +113239,8 @@ export namespace Prisma {
     fromEmail: number
     fromName: number
     toEmail: number
+    ccEmail: number
+    bccEmail: number
     subject: number
     snippet: number
     textBody: number
@@ -113259,6 +113277,8 @@ export namespace Prisma {
     fromEmail?: true
     fromName?: true
     toEmail?: true
+    ccEmail?: true
+    bccEmail?: true
     subject?: true
     snippet?: true
     textBody?: true
@@ -113285,6 +113305,8 @@ export namespace Prisma {
     fromEmail?: true
     fromName?: true
     toEmail?: true
+    ccEmail?: true
+    bccEmail?: true
     subject?: true
     snippet?: true
     textBody?: true
@@ -113311,6 +113333,8 @@ export namespace Prisma {
     fromEmail?: true
     fromName?: true
     toEmail?: true
+    ccEmail?: true
+    bccEmail?: true
     subject?: true
     snippet?: true
     textBody?: true
@@ -113424,6 +113448,8 @@ export namespace Prisma {
     fromEmail: string
     fromName: string | null
     toEmail: string
+    ccEmail: string | null
+    bccEmail: string | null
     subject: string
     snippet: string
     textBody: string | null
@@ -113469,6 +113495,8 @@ export namespace Prisma {
     fromEmail?: boolean
     fromName?: boolean
     toEmail?: boolean
+    ccEmail?: boolean
+    bccEmail?: boolean
     subject?: boolean
     snippet?: boolean
     textBody?: boolean
@@ -113502,6 +113530,8 @@ export namespace Prisma {
     fromEmail?: boolean
     fromName?: boolean
     toEmail?: boolean
+    ccEmail?: boolean
+    bccEmail?: boolean
     subject?: boolean
     snippet?: boolean
     textBody?: boolean
@@ -113532,6 +113562,8 @@ export namespace Prisma {
     fromEmail?: boolean
     fromName?: boolean
     toEmail?: boolean
+    ccEmail?: boolean
+    bccEmail?: boolean
     subject?: boolean
     snippet?: boolean
     textBody?: boolean
@@ -113584,6 +113616,8 @@ export namespace Prisma {
       fromEmail: string
       fromName: string | null
       toEmail: string
+      ccEmail: string | null
+      bccEmail: string | null
       subject: string
       snippet: string
       textBody: string | null
@@ -114006,6 +114040,8 @@ export namespace Prisma {
     readonly fromEmail: FieldRef<"InboxEmail", 'String'>
     readonly fromName: FieldRef<"InboxEmail", 'String'>
     readonly toEmail: FieldRef<"InboxEmail", 'String'>
+    readonly ccEmail: FieldRef<"InboxEmail", 'String'>
+    readonly bccEmail: FieldRef<"InboxEmail", 'String'>
     readonly subject: FieldRef<"InboxEmail", 'String'>
     readonly snippet: FieldRef<"InboxEmail", 'String'>
     readonly textBody: FieldRef<"InboxEmail", 'String'>
@@ -139860,6 +139896,7 @@ export namespace Prisma {
     imapSecure: 'imapSecure',
     imapUser: 'imapUser',
     imapPassEnc: 'imapPassEnc',
+    signature: 'signature',
     active: 'active',
     lastUid: 'lastUid',
     uidValidity: 'uidValidity',
@@ -139888,6 +139925,8 @@ export namespace Prisma {
     fromEmail: 'fromEmail',
     fromName: 'fromName',
     toEmail: 'toEmail',
+    ccEmail: 'ccEmail',
+    bccEmail: 'bccEmail',
     subject: 'subject',
     snippet: 'snippet',
     textBody: 'textBody',
@@ -149974,6 +150013,7 @@ export namespace Prisma {
     imapSecure?: BoolFilter<"EmailAccount"> | boolean
     imapUser?: StringNullableFilter<"EmailAccount"> | string | null
     imapPassEnc?: StringNullableFilter<"EmailAccount"> | string | null
+    signature?: StringNullableFilter<"EmailAccount"> | string | null
     active?: BoolFilter<"EmailAccount"> | boolean
     lastUid?: IntNullableFilter<"EmailAccount"> | number | null
     uidValidity?: BigIntNullableFilter<"EmailAccount"> | bigint | number | null
@@ -150007,6 +150047,7 @@ export namespace Prisma {
     imapSecure?: SortOrder
     imapUser?: SortOrderInput | SortOrder
     imapPassEnc?: SortOrderInput | SortOrder
+    signature?: SortOrderInput | SortOrder
     active?: SortOrder
     lastUid?: SortOrderInput | SortOrder
     uidValidity?: SortOrderInput | SortOrder
@@ -150043,6 +150084,7 @@ export namespace Prisma {
     imapSecure?: BoolFilter<"EmailAccount"> | boolean
     imapUser?: StringNullableFilter<"EmailAccount"> | string | null
     imapPassEnc?: StringNullableFilter<"EmailAccount"> | string | null
+    signature?: StringNullableFilter<"EmailAccount"> | string | null
     active?: BoolFilter<"EmailAccount"> | boolean
     lastUid?: IntNullableFilter<"EmailAccount"> | number | null
     uidValidity?: BigIntNullableFilter<"EmailAccount"> | bigint | number | null
@@ -150076,6 +150118,7 @@ export namespace Prisma {
     imapSecure?: SortOrder
     imapUser?: SortOrderInput | SortOrder
     imapPassEnc?: SortOrderInput | SortOrder
+    signature?: SortOrderInput | SortOrder
     active?: SortOrder
     lastUid?: SortOrderInput | SortOrder
     uidValidity?: SortOrderInput | SortOrder
@@ -150114,6 +150157,7 @@ export namespace Prisma {
     imapSecure?: BoolWithAggregatesFilter<"EmailAccount"> | boolean
     imapUser?: StringNullableWithAggregatesFilter<"EmailAccount"> | string | null
     imapPassEnc?: StringNullableWithAggregatesFilter<"EmailAccount"> | string | null
+    signature?: StringNullableWithAggregatesFilter<"EmailAccount"> | string | null
     active?: BoolWithAggregatesFilter<"EmailAccount"> | boolean
     lastUid?: IntNullableWithAggregatesFilter<"EmailAccount"> | number | null
     uidValidity?: BigIntNullableWithAggregatesFilter<"EmailAccount"> | bigint | number | null
@@ -150142,6 +150186,8 @@ export namespace Prisma {
     fromEmail?: StringFilter<"InboxEmail"> | string
     fromName?: StringNullableFilter<"InboxEmail"> | string | null
     toEmail?: StringFilter<"InboxEmail"> | string
+    ccEmail?: StringNullableFilter<"InboxEmail"> | string | null
+    bccEmail?: StringNullableFilter<"InboxEmail"> | string | null
     subject?: StringFilter<"InboxEmail"> | string
     snippet?: StringFilter<"InboxEmail"> | string
     textBody?: StringNullableFilter<"InboxEmail"> | string | null
@@ -150174,6 +150220,8 @@ export namespace Prisma {
     fromEmail?: SortOrder
     fromName?: SortOrderInput | SortOrder
     toEmail?: SortOrder
+    ccEmail?: SortOrderInput | SortOrder
+    bccEmail?: SortOrderInput | SortOrder
     subject?: SortOrder
     snippet?: SortOrder
     textBody?: SortOrderInput | SortOrder
@@ -150210,6 +150258,8 @@ export namespace Prisma {
     fromEmail?: StringFilter<"InboxEmail"> | string
     fromName?: StringNullableFilter<"InboxEmail"> | string | null
     toEmail?: StringFilter<"InboxEmail"> | string
+    ccEmail?: StringNullableFilter<"InboxEmail"> | string | null
+    bccEmail?: StringNullableFilter<"InboxEmail"> | string | null
     subject?: StringFilter<"InboxEmail"> | string
     snippet?: StringFilter<"InboxEmail"> | string
     textBody?: StringNullableFilter<"InboxEmail"> | string | null
@@ -150242,6 +150292,8 @@ export namespace Prisma {
     fromEmail?: SortOrder
     fromName?: SortOrderInput | SortOrder
     toEmail?: SortOrder
+    ccEmail?: SortOrderInput | SortOrder
+    bccEmail?: SortOrderInput | SortOrder
     subject?: SortOrder
     snippet?: SortOrder
     textBody?: SortOrderInput | SortOrder
@@ -150276,6 +150328,8 @@ export namespace Prisma {
     fromEmail?: StringWithAggregatesFilter<"InboxEmail"> | string
     fromName?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     toEmail?: StringWithAggregatesFilter<"InboxEmail"> | string
+    ccEmail?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    bccEmail?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     subject?: StringWithAggregatesFilter<"InboxEmail"> | string
     snippet?: StringWithAggregatesFilter<"InboxEmail"> | string
     textBody?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
@@ -162101,6 +162155,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -162134,6 +162189,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -162165,6 +162221,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -162198,6 +162255,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -162230,6 +162288,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -162259,6 +162318,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -162289,6 +162349,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -162312,6 +162373,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -162342,6 +162405,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -162368,6 +162433,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162398,6 +162465,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162426,6 +162495,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -162450,6 +162521,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162474,6 +162547,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -171657,6 +171732,7 @@ export namespace Prisma {
     imapSecure?: SortOrder
     imapUser?: SortOrder
     imapPassEnc?: SortOrder
+    signature?: SortOrder
     active?: SortOrder
     lastUid?: SortOrder
     uidValidity?: SortOrder
@@ -171696,6 +171772,7 @@ export namespace Prisma {
     imapSecure?: SortOrder
     imapUser?: SortOrder
     imapPassEnc?: SortOrder
+    signature?: SortOrder
     active?: SortOrder
     lastUid?: SortOrder
     uidValidity?: SortOrder
@@ -171726,6 +171803,7 @@ export namespace Prisma {
     imapSecure?: SortOrder
     imapUser?: SortOrder
     imapPassEnc?: SortOrder
+    signature?: SortOrder
     active?: SortOrder
     lastUid?: SortOrder
     uidValidity?: SortOrder
@@ -171794,6 +171872,8 @@ export namespace Prisma {
     fromEmail?: SortOrder
     fromName?: SortOrder
     toEmail?: SortOrder
+    ccEmail?: SortOrder
+    bccEmail?: SortOrder
     subject?: SortOrder
     snippet?: SortOrder
     textBody?: SortOrder
@@ -171824,6 +171904,8 @@ export namespace Prisma {
     fromEmail?: SortOrder
     fromName?: SortOrder
     toEmail?: SortOrder
+    ccEmail?: SortOrder
+    bccEmail?: SortOrder
     subject?: SortOrder
     snippet?: SortOrder
     textBody?: SortOrder
@@ -171850,6 +171932,8 @@ export namespace Prisma {
     fromEmail?: SortOrder
     fromName?: SortOrder
     toEmail?: SortOrder
+    ccEmail?: SortOrder
+    bccEmail?: SortOrder
     subject?: SortOrder
     snippet?: SortOrder
     textBody?: SortOrder
@@ -191134,6 +191218,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -191165,6 +191250,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -191200,6 +191286,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -191228,6 +191316,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -194585,6 +194675,7 @@ export namespace Prisma {
     imapSecure?: BoolFilter<"EmailAccount"> | boolean
     imapUser?: StringNullableFilter<"EmailAccount"> | string | null
     imapPassEnc?: StringNullableFilter<"EmailAccount"> | string | null
+    signature?: StringNullableFilter<"EmailAccount"> | string | null
     active?: BoolFilter<"EmailAccount"> | boolean
     lastUid?: IntNullableFilter<"EmailAccount"> | number | null
     uidValidity?: BigIntNullableFilter<"EmailAccount"> | bigint | number | null
@@ -194629,6 +194720,8 @@ export namespace Prisma {
     fromEmail?: StringFilter<"InboxEmail"> | string
     fromName?: StringNullableFilter<"InboxEmail"> | string | null
     toEmail?: StringFilter<"InboxEmail"> | string
+    ccEmail?: StringNullableFilter<"InboxEmail"> | string | null
+    bccEmail?: StringNullableFilter<"InboxEmail"> | string | null
     subject?: StringFilter<"InboxEmail"> | string
     snippet?: StringFilter<"InboxEmail"> | string
     textBody?: StringNullableFilter<"InboxEmail"> | string | null
@@ -198940,6 +199033,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -198969,6 +199064,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -211469,6 +211566,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -211498,6 +211597,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -213670,6 +213771,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -213702,6 +213804,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -213825,6 +213928,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -213857,6 +213961,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -243087,6 +243192,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -243115,6 +243222,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -243727,6 +243836,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -243759,6 +243869,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -244283,6 +244394,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -244315,6 +244427,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -245080,6 +245193,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -245109,6 +245224,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -245150,6 +245267,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245179,6 +245298,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -245459,6 +245580,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -245488,6 +245611,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -259676,6 +259801,7 @@ export namespace Prisma {
     imapSecure?: boolean
     imapUser?: string | null
     imapPassEnc?: string | null
+    signature?: string | null
     active?: boolean
     lastUid?: number | null
     uidValidity?: bigint | number | null
@@ -259700,6 +259826,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -261732,6 +261860,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -261763,6 +261892,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -261794,6 +261924,7 @@ export namespace Prisma {
     imapSecure?: BoolFieldUpdateOperationsInput | boolean
     imapUser?: NullableStringFieldUpdateOperationsInput | string | null
     imapPassEnc?: NullableStringFieldUpdateOperationsInput | string | null
+    signature?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     lastUid?: NullableIntFieldUpdateOperationsInput | number | null
     uidValidity?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -261817,6 +261948,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261845,6 +261978,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261872,6 +262007,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265180,6 +265317,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -265481,6 +265620,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265510,6 +265651,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265537,6 +265680,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266444,6 +266589,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -266557,6 +266704,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266586,6 +266735,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266613,6 +266764,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268655,6 +268808,8 @@ export namespace Prisma {
     fromEmail: string
     fromName?: string | null
     toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
     subject?: string
     snippet?: string
     textBody?: string | null
@@ -268685,6 +268840,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268713,6 +268870,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268740,6 +268899,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268842,6 +269003,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268871,6 +269034,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
@@ -268898,6 +269063,8 @@ export namespace Prisma {
     fromEmail?: StringFieldUpdateOperationsInput | string
     fromName?: NullableStringFieldUpdateOperationsInput | string | null
     toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
     subject?: StringFieldUpdateOperationsInput | string
     snippet?: StringFieldUpdateOperationsInput | string
     textBody?: NullableStringFieldUpdateOperationsInput | string | null

@@ -363,7 +363,7 @@ model Company {
   webhookToken            String?                  @unique // token público para receber leads via webhook
 
   // Integração Bling (só a AZZ conecta — 1 conexão por empresa, na prática singleton).
-  blingIntegration        BlingIntegration?
+  blingIntegration BlingIntegration?
 
   @@unique([blingContactId])
   @@index([parentCompanyId])
@@ -946,7 +946,7 @@ model Message {
   // true quando a mensagem OUTBOUND foi gerada pelo agente de IA (auto-agent),
   // não por um atendente humano. A UI usa pra marcar o balão com 🤖 e cor
   // diferente. (Antes só dava pra saber via rawPayload.autoAgent, que é pesado.)
-  sentByAI     Boolean @default(false)
+  sentByAI Boolean @default(false)
 
   @@index([companyId])
   // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
@@ -3151,6 +3151,9 @@ model EmailAccount {
   imapUser    String?
   imapPassEnc String?
 
+  // Assinatura anexada ao fim de todo email enviado por esta conta.
+  signature String? @db.Text
+
   // Liga/desliga o poller/envio sem apagar a conta.
   active Boolean @default(true)
 
@@ -3202,6 +3205,8 @@ model InboxEmail {
   fromEmail String
   fromName  String?
   toEmail   String // destinatários To separados por vírgula
+  ccEmail   String? // cópia (Cc) separados por vírgula
+  bccEmail  String? // cópia oculta (Cco) separados por vírgula
   subject   String  @default("")
   snippet   String  @default("") // primeiros ~180 chars do texto, pra lista
   textBody  String? @db.Text

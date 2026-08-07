@@ -35,6 +35,9 @@ export async function GET(req: NextRequest) {
   const leadId = sp.get("leadId");
   const ticketId = sp.get("ticketId");
   const accountId = sp.get("accountId");
+  // accountIds=a,b,c → caixas VISÍVEIS escolhidas pelo usuário (persistidas no
+  // navegador). Interseção com a restrição de setor quando houver.
+  const accountIdsParam = sp.get("accountIds")?.split(",").map((x) => x.trim()).filter(Boolean) ?? null;
   const tagId = sp.get("tagId");
   // Filtro pela triagem IA: ALTA | NORMAL | BAIXA | NONE (ainda sem análise)
   const importanceParam = sp.get("importance")?.toUpperCase() ?? null;
@@ -60,8 +63,12 @@ export async function GET(req: NextRequest) {
   } else if (!isAll) {
     where.folder = folder;
   }
-  const accountScope: Prisma.InboxEmailWhereInput = allowed
-    ? { accountId: accountId && allowed.includes(accountId) ? accountId : { in: allowed } }
+  let scopeIds: string[] | null = null;
+  if (allowed && accountIdsParam?.length) scopeIds = accountIdsParam.filter((x) => allowed.includes(x));
+  else if (allowed) scopeIds = allowed;
+  else if (accountIdsParam?.length) scopeIds = accountIdsParam;
+  const accountScope: Prisma.InboxEmailWhereInput = scopeIds
+    ? { accountId: scopeIds.length === 1 ? scopeIds[0] : { in: scopeIds } }
     : accountId ? { accountId } : {};
   Object.assign(where, accountScope);
   // tagId "__none" = pseudo-tag "sem tag": emails sem nenhuma marcação.

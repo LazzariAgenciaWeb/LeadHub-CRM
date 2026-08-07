@@ -13,6 +13,7 @@ export const ACCOUNT_SELECT = {
   id: true, label: true, fromName: true, fromEmail: true,
   smtpHost: true, smtpPort: true, smtpSecure: true, smtpUser: true,
   imapHost: true, imapPort: true, imapSecure: true, imapUser: true,
+  signature: true,
   active: true, smtpVerified: true, imapVerified: true,
   lastVerifiedAt: true, lastSyncedAt: true, lastError: true,
 } as const;
@@ -40,6 +41,7 @@ export function bodyToInput(body: any) {
     imapSecure: body.imapSecure !== false,
     imapUser: body.imapUser ?? null,
     imapPass: body.imapPass,
+    signature: body.signature ?? null,
     active: body.active !== false,
   };
 }

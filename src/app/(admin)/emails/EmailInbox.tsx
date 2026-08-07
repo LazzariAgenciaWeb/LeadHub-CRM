@@ -68,6 +68,7 @@ type AccountFull = AccountSummary & {
   fromName: string;
   smtpHost: string; smtpPort: number; smtpSecure: boolean; smtpUser: string;
   imapPort: number; imapSecure: boolean; imapUser: string | null;
+  signature: string | null;
   hasSmtpPassword: boolean;
 };
 
@@ -141,12 +142,16 @@ const EMPTY_ACC_FORM = {
   user: "", pass: "",
   smtpHost: "", smtpPort: "465", smtpSecure: true,
   imapHost: "", imapPort: "993", imapSecure: true,
+  signature: "",
   active: true,
 };
 
 export default function EmailInbox() {
   const [folder, setFolder] = useState<FolderSel>("INBOX");
-  const [accountFilter, setAccountFilter] = useState<string | null>(null);
+  // Caixas VISÍVEIS escolhidas pelo usuário (vazio = todas). Persistem no
+  // navegador (localStorage) — com 7+ caixas, você ativa só as que quer ver.
+  const [visibleAccounts, setVisibleAccounts] = useState<string[]>([]);
+  const [visibleLoaded, setVisibleLoaded] = useState(false);
   // Seções colapsáveis da coluna esquerda (Contas / Tags).
   const [sideAccountsOpen, setSideAccountsOpen] = useState(true);
   const [sideTagsOpen, setSideTagsOpen] = useState(true);
@@ -170,7 +175,10 @@ export default function EmailInbox() {
 
   // Compor / responder
   const [composeOpen, setComposeOpen] = useState(false);
-  const [compose, setCompose] = useState({ to: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
+  const [compose, setCompose] = useState({ to: "", cc: "", bcc: "", subject: "", text: "", replyToId: null as string | null, accountId: "" });
+  const [showCcBcc, setShowCcBcc] = useState(false);
+  const [aiInstructions, setAiInstructions] = useState("");
+  const [aiWriting, setAiWriting] = useState(false);
   const [composeAtts, setComposeAtts] = useState<{ filename: string; contentType: string; contentBase64: string; size: number }[]>([]);
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
@@ -213,12 +221,32 @@ export default function EmailInbox() {
   const accountName = (a: AccountRef | AccountSummary | null): string =>
     a ? (("label" in a && a.label) ? a.label : a.fromEmail) : "";
 
+  // Carrega/persiste a seleção de caixas visíveis.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("leadhub.emails.visibleAccounts");
+      if (saved) setVisibleAccounts(JSON.parse(saved));
+    } catch {}
+    setVisibleLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!visibleLoaded) return;
+    try { localStorage.setItem("leadhub.emails.visibleAccounts", JSON.stringify(visibleAccounts)); } catch {}
+  }, [visibleAccounts, visibleLoaded]);
+
+  function toggleVisibleAccount(id: string) {
+    setSelected(null);
+    setVisibleAccounts((prev) => (
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    ));
+  }
+
   const load = useCallback(async (opts?: { silent?: boolean }) => {
     if (!opts?.silent) setLoading(true);
     try {
       const params = new URLSearchParams({ folder });
       if (q.trim()) params.set("q", q.trim());
-      if (accountFilter) params.set("accountId", accountFilter);
+      if (visibleAccounts.length) params.set("accountIds", visibleAccounts.join(","));
       if (tagFilter) params.set("tagId", tagFilter);
       if (aiFilter) params.set("importance", aiFilter);
       const res = await fetch(`/api/email/inbox?${params}`).then((r) => r.json());
@@ -230,12 +258,12 @@ export default function EmailInbox() {
     } finally {
       if (!opts?.silent) setLoading(false);
     }
-  }, [folder, q, accountFilter, tagFilter, aiFilter]);
+  }, [folder, q, visibleAccounts, tagFilter, aiFilter]);
 
   useEffect(() => { load(); }, [load]);
 
   // Seleção zera ao trocar pasta/filtros.
-  useEffect(() => { setSelectedIds(new Set()); }, [folder, accountFilter, tagFilter, aiFilter, q]);
+  useEffect(() => { setSelectedIds(new Set()); }, [folder, visibleAccounts, tagFilter, aiFilter, q]);
 
   const loadTags = useCallback(async () => {
     const res = await fetch(`/api/email/inbox/tags`).then((r) => r.json()).catch(() => null);
@@ -321,7 +349,9 @@ export default function EmailInbox() {
 
   function startCompose() {
     const firstActive = accounts.find((a) => a.active);
-    setCompose({ to: "", subject: "", text: "", replyToId: null, accountId: firstActive?.id ?? "" });
+    setCompose({ to: "", cc: "", bcc: "", subject: "", text: "", replyToId: null, accountId: firstActive?.id ?? "" });
+    setShowCcBcc(false);
+    setAiInstructions("");
     setComposeAtts([]);
     setSendErr("");
     setComposeOpen(true);
@@ -351,10 +381,39 @@ export default function EmailInbox() {
     const subject = email.subject.toLowerCase().startsWith("re:") ? email.subject : `Re: ${email.subject}`;
     // Resposta sai pela conta que recebeu o email original.
     const accountId = email.accountId ?? accounts.find((a) => a.active)?.id ?? "";
-    setCompose({ to, subject, text: "", replyToId: email.id, accountId });
+    setCompose({ to, cc: "", bcc: "", subject, text: "", replyToId: email.id, accountId });
+    setShowCcBcc(false);
+    setAiInstructions("");
     setComposeAtts([]);
     setSendErr("");
     setComposeOpen(true);
+  }
+
+  async function aiWrite() {
+    if (!aiInstructions.trim() || aiWriting) return;
+    setAiWriting(true);
+    setSendErr("");
+    try {
+      const res = await fetch(`/api/email/inbox/ai-compose`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          instructions: aiInstructions,
+          to: compose.to || null,
+          subject: compose.subject || null,
+          replyToId: compose.replyToId,
+        }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setSendErr(j.error || "Falha na IA"); return; }
+      setCompose((c) => ({
+        ...c,
+        text: j.body || c.text,
+        subject: c.subject || j.subject || "",
+      }));
+    } finally {
+      setAiWriting(false);
+    }
   }
 
   async function send() {
@@ -656,6 +715,7 @@ export default function EmailInbox() {
       imapHost: a.imapHost ?? "",
       imapPort: String(a.imapPort),
       imapSecure: a.imapSecure,
+      signature: a.signature ?? "",
       active: a.active,
     });
     setAccMsg(null);
@@ -680,6 +740,7 @@ export default function EmailInbox() {
         imapSecure: accForm.imapSecure,
         imapUser: accForm.user || null,
         imapPass: accForm.pass || undefined,
+        signature: accForm.signature || null,
         active: accForm.active,
       };
       const isNew = editingId === "new";
@@ -730,7 +791,7 @@ export default function EmailInbox() {
     const res = await fetch(`/api/email/inbox/accounts/${id}`, { method: "DELETE" });
     if (res.ok) {
       await loadAccountsFull();
-      if (accountFilter === id) setAccountFilter(null);
+      setVisibleAccounts((prev) => prev.filter((x) => x !== id));
       load({ silent: true });
     }
   }
@@ -837,27 +898,30 @@ export default function EmailInbox() {
               <button onClick={() => setSideAccountsOpen((v) => !v)}
                 className="hidden md:flex items-center gap-1.5 px-2 py-1 text-[10px] uppercase tracking-wide text-slate-500 hover:text-slate-300">
                 {sideAccountsOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />} Caixas
-                {accountFilter && !sideAccountsOpen && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+                {visibleAccounts.length > 0 && !sideAccountsOpen && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
               </button>
               {sideAccountsOpen && (
                 <>
-                  {accounts.map((a) => (
-                    <button key={a.id} onClick={() => { setAccountFilter(accountFilter === a.id ? null : a.id); setSelected(null); }}
-                      title={`${a.fromEmail}${a.lastError ? ` · Erro: ${a.lastError}` : ""}${a.lastSyncedAt ? ` · sync ${fmtDate(a.lastSyncedAt)}` : ""}${!a.active ? " · pausada" : ""}`}
-                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] whitespace-nowrap ${
-                        accountFilter === a.id ? "bg-indigo-500/20" : "hover:bg-white/5"}`}>
-                      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] min-w-0 ${accountColor(a.id)}`}>
-                        <AtSign size={10} className="flex-shrink-0" />
-                        <span className="truncate">{accountName(a)}</span>
-                      </span>
-                      {a.lastError
-                        ? <XCircle size={11} className="text-red-400 flex-shrink-0" />
-                        : (a.imapVerified || a.smtpVerified) && <CheckCircle2 size={11} className="text-emerald-400 flex-shrink-0" />}
-                    </button>
-                  ))}
-                  {accountFilter && (
-                    <button onClick={() => setAccountFilter(null)}
-                      className="text-left px-2.5 text-[10px] text-slate-500 hover:text-white">todas as caixas</button>
+                  {accounts.map((a) => {
+                    const activeBox = visibleAccounts.length === 0 || visibleAccounts.includes(a.id);
+                    return (
+                      <button key={a.id} onClick={() => toggleVisibleAccount(a.id)}
+                        title={`${a.fromEmail}${a.lastError ? ` · Erro: ${a.lastError}` : ""}${a.lastSyncedAt ? ` · sync ${fmtDate(a.lastSyncedAt)}` : ""}${!a.active ? " · pausada" : ""} — clique pra ${visibleAccounts.includes(a.id) ? "ocultar" : "ver só as marcadas"}`}
+                        className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] whitespace-nowrap ${
+                          visibleAccounts.includes(a.id) ? "bg-indigo-500/20" : "hover:bg-white/5"} ${activeBox ? "" : "opacity-40"}`}>
+                        <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] min-w-0 ${accountColor(a.id)}`}>
+                          <AtSign size={10} className="flex-shrink-0" />
+                          <span className="truncate">{accountName(a)}</span>
+                        </span>
+                        {a.lastError
+                          ? <XCircle size={11} className="text-red-400 flex-shrink-0" />
+                          : (a.imapVerified || a.smtpVerified) && <CheckCircle2 size={11} className="text-emerald-400 flex-shrink-0" />}
+                      </button>
+                    );
+                  })}
+                  {visibleAccounts.length > 0 && (
+                    <button onClick={() => { setVisibleAccounts([]); setSelected(null); }}
+                      className="text-left px-2.5 text-[10px] text-slate-500 hover:text-white">mostrar todas as caixas</button>
                   )}
                 </>
               )}
@@ -1218,14 +1282,41 @@ export default function EmailInbox() {
                   </select>
                 </div>
               )}
-              <input value={compose.to} onChange={(e) => setCompose((c) => ({ ...c, to: e.target.value }))}
-                placeholder="Para (email)" type="email"
-                className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <div className="flex items-center gap-2">
+                <input value={compose.to} onChange={(e) => setCompose((c) => ({ ...c, to: e.target.value }))}
+                  placeholder="Para (um ou mais emails, separados por vírgula)"
+                  className="flex-1 rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                {!showCcBcc && (
+                  <button onClick={() => setShowCcBcc(true)} className="text-[11px] text-slate-500 hover:text-indigo-300 flex-shrink-0">Cc/Cco</button>
+                )}
+              </div>
+              {showCcBcc && (
+                <>
+                  <input value={compose.cc} onChange={(e) => setCompose((c) => ({ ...c, cc: e.target.value }))}
+                    placeholder="Cc (cópia — separados por vírgula)"
+                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                  <input value={compose.bcc} onChange={(e) => setCompose((c) => ({ ...c, bcc: e.target.value }))}
+                    placeholder="Cco (cópia oculta — separados por vírgula)"
+                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                </>
+              )}
               <input value={compose.subject} onChange={(e) => setCompose((c) => ({ ...c, subject: e.target.value }))}
                 placeholder="Assunto"
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              {/* Assistente de escrita: instruções → IA preenche corpo/assunto */}
+              <div className="flex items-center gap-2 rounded-lg border border-indigo-400/20 bg-indigo-500/5 px-2 py-1.5">
+                <Sparkles size={13} className="text-indigo-400 flex-shrink-0" />
+                <input value={aiInstructions} onChange={(e) => setAiInstructions(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); aiWrite(); } }}
+                  placeholder="Diga o que quer comunicar e a IA escreve (ex: cobrar boleto vencido, tom cordial)"
+                  className="flex-1 bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none" />
+                <button onClick={aiWrite} disabled={aiWriting || !aiInstructions.trim()}
+                  className="text-[11px] px-2 py-1 rounded-md bg-indigo-500 text-white hover:bg-indigo-400 disabled:opacity-40 flex-shrink-0">
+                  {aiWriting ? "Escrevendo…" : "Escrever"}
+                </button>
+              </div>
               <textarea value={compose.text} onChange={(e) => setCompose((c) => ({ ...c, text: e.target.value }))}
-                placeholder="Mensagem…" rows={8}
+                placeholder="Mensagem… (a assinatura da conta entra sozinha no final)" rows={8}
                 className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-y" />
               <div className="flex flex-wrap items-center gap-1.5">
                 <label className="flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1 text-[11px] text-slate-300 hover:bg-white/5 cursor-pointer">
@@ -1502,6 +1593,14 @@ export default function EmailInbox() {
                       SSL
                     </label>
                   </div>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-wide text-slate-500 mb-1.5">Assinatura — vai no fim de todo email enviado por esta conta</p>
+                  <textarea value={accForm.signature} onChange={(e) => setAccForm((f) => ({ ...f, signature: e.target.value }))}
+                    placeholder={"Diego R. Lazzari\nAZZ Agência de Marketing Digital\n(44) 99999-9999 · azzagencia.com.br"}
+                    rows={3}
+                    className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-y" />
                 </div>
 
                 <label className="flex items-center gap-2 text-xs text-slate-400">
