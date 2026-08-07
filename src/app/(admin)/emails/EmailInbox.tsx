@@ -7,7 +7,7 @@ import {
   PenSquare, Reply, ArchiveRestore, X, Search, LifeBuoy, Target, Plus,
   Pencil, CheckCircle2, XCircle, AtSign, Check, ShieldCheck, ShieldBan, Sparkles,
   Tag as TagIcon, Flame, Activity, ChevronsDown, Globe, ChevronDown, ChevronRight,
-  Layers, Eye, EyeOff, type LucideIcon,
+  Layers, Eye, EyeOff, Maximize2, type LucideIcon,
 } from "lucide-react";
 
 type Folder = "INBOX" | "IMPORTANT" | "SENT" | "ARCHIVE" | "SPAM" | "TRASH";
@@ -128,6 +128,23 @@ const IMPORTANCE_BADGE: Record<string, { label: string; cls: string; Icon: Lucid
   BAIXA:  { label: "baixa",  cls: "bg-slate-500/20 text-slate-400", Icon: ChevronsDown },
 };
 
+/**
+ * Embrulha o HTML do email com reset responsivo: emails vêm com tabelas de
+ * largura fixa (600px+) que estouram a coluna — forçamos max-width e imagens
+ * fluidas. !important vence os estilos inline dos templates.
+ */
+function emailSrcDoc(html: string): string {
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>
+    html,body{margin:0;padding:0;}
+    body{padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111;word-break:break-word;overflow-x:hidden;}
+    img{max-width:100% !important;height:auto !important;}
+    table{max-width:100% !important;width:auto !important;border-collapse:collapse;}
+    td,th{word-break:break-word;}
+    pre{white-space:pre-wrap;max-width:100%;overflow-x:auto;}
+    *{box-sizing:border-box;}
+  </style></head><body>${html}</body></html>`;
+}
+
 function fmtDate(iso: string): string {
   const d = new Date(iso);
   const now = new Date();
@@ -170,6 +187,8 @@ export default function EmailInbox() {
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<EmailFull | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  // Leitor expandido (modal quase tela cheia) pra email largo.
+  const [readerExpanded, setReaderExpanded] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [notice, setNotice] = useState("");
 
@@ -1202,6 +1221,8 @@ export default function EmailInbox() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
+                    <button onClick={() => setReaderExpanded(true)} title="Expandir (tela cheia)"
+                      className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Maximize2 size={14} /></button>
                     <button onClick={() => startReply(selected)} title="Responder"
                       className="rounded-lg border border-white/10 p-1.5 text-slate-300 hover:bg-white/5"><Reply size={14} /></button>
                     <button onClick={toggleSeen} title={selected.seen ? "Marcar como não lido" : "Marcar como lido"}
@@ -1250,7 +1271,7 @@ export default function EmailInbox() {
               <div className="flex-1 min-h-0 bg-white rounded-b-xl overflow-hidden">
                 {selected.htmlBody ? (
                   // sandbox sem allow-scripts: HTML de terceiros não executa nada.
-                  <iframe title="email" sandbox="" srcDoc={selected.htmlBody} className="w-full h-full border-0" />
+                  <iframe title="email" sandbox="" srcDoc={emailSrcDoc(selected.htmlBody)} className="w-full h-full border-0" />
                 ) : (
                   <pre className="w-full h-full overflow-auto p-4 text-sm text-slate-800 whitespace-pre-wrap font-sans">{selected.textBody || "—"}</pre>
                 )}
@@ -1259,6 +1280,38 @@ export default function EmailInbox() {
           )}
         </div>
       </div>
+
+      {/* Modal: leitor expandido (email largo) */}
+      {readerExpanded && selected && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-3 md:p-6" onClick={() => setReaderExpanded(false)}>
+          <div className="w-full h-full max-w-5xl rounded-xl border border-white/10 bg-[#0f1623] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 flex-shrink-0">
+              <div className="min-w-0">
+                <h3 className="text-white text-sm font-semibold truncate">{selected.subject || "(sem assunto)"}</h3>
+                <p className="text-[11px] text-slate-500 truncate">
+                  {selected.direction === "IN"
+                    ? `De: ${selected.fromName ? `${selected.fromName} <${selected.fromEmail}>` : selected.fromEmail}`
+                    : `Para: ${selected.toEmail}`} · {fmtDate(selected.sentAt)}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 flex-shrink-0 ml-3">
+                <button onClick={() => { setReaderExpanded(false); startReply(selected); }}
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-white/5">
+                  <Reply size={13} /> Responder
+                </button>
+                <button onClick={() => setReaderExpanded(false)} className="text-slate-400 hover:text-white p-1.5"><X size={18} /></button>
+              </div>
+            </div>
+            <div className="flex-1 min-h-0 bg-white">
+              {selected.htmlBody ? (
+                <iframe title="email-expandido" sandbox="" srcDoc={emailSrcDoc(selected.htmlBody)} className="w-full h-full border-0" />
+              ) : (
+                <pre className="w-full h-full overflow-auto p-6 text-sm text-slate-800 whitespace-pre-wrap font-sans">{selected.textBody || "—"}</pre>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal: compor/responder */}
       {composeOpen && (
