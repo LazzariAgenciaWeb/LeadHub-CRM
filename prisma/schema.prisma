@@ -3478,6 +3478,10 @@ model Assistant {
   // copiloto (sugestões/resumos como hoje).
   autoRespond Boolean @default(false)
 
+  // Assessor pessoal: quando true, o agente PODE (e deve) se apresentar como
+  // assistente de IA, com leveza — inverte a regra padrão de não se revelar.
+  discloseAi Boolean @default(false)
+
   // "Aprendizados" — bloco vivo injetado no prompt DEPOIS do manual. Começa
   // curado à mão (correções que o gestor anota); no futuro é alimentado por
   // revisão automática dos atendimentos (handoffs, correções de humano).
@@ -3598,6 +3602,7 @@ enum AssistantType {
   SUPORTE // atendimento a quem já é cliente
   FINANCEIRO // boletos, notas, cobranças (hospedagem/domínio)
   GESTOR // resumos e apoio à decisão do dono
+  ASSESSOR // recepcionista pessoal do dono (número particular)
 }
 
 // Log de cada chamada de IA — base do controle de consumo e relatório de custo.

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type AssistantType = "PRE_ATENDENTE" | "VENDAS" | "SUPORTE" | "FINANCEIRO" | "GESTOR";
+type AssistantType = "PRE_ATENDENTE" | "VENDAS" | "SUPORTE" | "FINANCEIRO" | "GESTOR" | "ASSESSOR";
 
 const TYPE_META: Record<AssistantType, { label: string; icon: string; desc: string }> = {
   PRE_ATENDENTE: { label: "Pré-atendente", icon: "🚪", desc: "Triagem / 1º contato / roteamento" },
@@ -11,8 +11,9 @@ const TYPE_META: Record<AssistantType, { label: string; icon: string; desc: stri
   SUPORTE:       { label: "Suporte",       icon: "🎧", desc: "Atende quem já é cliente" },
   FINANCEIRO:    { label: "Financeiro",    icon: "💰", desc: "Boletos, notas e cobranças" },
   GESTOR:        { label: "Gestor",        icon: "📊", desc: "Resumos e apoio à decisão do dono" },
+  ASSESSOR:      { label: "Assessor pessoal", icon: "🤵", desc: "Recepcionista do número particular do dono" },
 };
-const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR"];
+const TYPE_ORDER: AssistantType[] = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR", "ASSESSOR"];
 
 // Estimativa de custo por interação (só pro SUPER_ADMIN ter ideia do limite).
 // Base: gpt-4o-mini. O custo de ENTRADA varia com o tamanho do manual do agente,
@@ -52,6 +53,7 @@ interface Assistant {
   manual: string;
   isActive: boolean;
   autoRespond: boolean;
+  discloseAi: boolean;
   learnings: string | null;
   qualificationChecklist: string | null;
   instanceId: string | null;
@@ -119,6 +121,7 @@ export default function AssistantsSettings({
   const [fSchedulingLink, setFSchedulingLink] = useState("");
   const [fActive, setFActive] = useState(true);
   const [fAutoRespond, setFAutoRespond] = useState(false);
+  const [fDiscloseAi, setFDiscloseAi] = useState(false);
   const [fChecklist, setFChecklist] = useState("");
   const [fLearnings, setFLearnings] = useState("");
   const [fRoutes, setFRoutes] = useState<Route[]>([]);
@@ -149,7 +152,7 @@ export default function AssistantsSettings({
   function openNew() {
     setEditing("new");
     setFName(""); setFType("VENDAS"); setFManual(""); setFInstance(""); setFSchedulingLink(""); setFActive(true); setErr(null);
-    setFAutoRespond(false); setFChecklist(""); setFLearnings("");
+    setFAutoRespond(false); setFDiscloseAi(false); setFChecklist(""); setFLearnings("");
     setFCalendarUser(""); setFDuration(30);
     setFCourtesyDelay(5); setFCourtesyText("");
     setFReactivationWord(""); setFSendPauseNotice(true); setFPauseNoticeText("");
@@ -164,6 +167,7 @@ export default function AssistantsSettings({
     setFName(a.name); setFType(a.type); setFManual(a.manual);
     setFInstance(a.instanceId ?? ""); setFSchedulingLink(a.schedulingLink ?? ""); setFActive(a.isActive); setErr(null);
     setFAutoRespond(a.autoRespond ?? false);
+    setFDiscloseAi(a.discloseAi ?? false);
     setFChecklist(a.qualificationChecklist ?? "");
     setFLearnings(a.learnings ?? "");
     setFRoutes((a.routes ?? []).map((r) => ({ intent: r.intent, label: r.label, setorId: r.setorId, createLead: r.createLead, createTicket: r.createTicket ?? false })));
@@ -216,6 +220,7 @@ export default function AssistantsSettings({
       companyId, name: fName, type: fType, manual: fManual,
       instanceId: fInstance || null, schedulingLink: fSchedulingLink, isActive: fActive,
       autoRespond: fAutoRespond,
+      discloseAi: fDiscloseAi,
       qualificationChecklist: fChecklist,
       learnings: fLearnings,
       calendarUserId: fCalendarUser || null,
@@ -413,6 +418,16 @@ export default function AssistantsSettings({
                     Ele para de responder assim que um humano assume a conversa.
                   </span>
                 </span>
+              </label>
+
+              <label className="flex items-center gap-2 text-[11px] text-slate-400 cursor-pointer ml-7" title="Padrão: desligado — os agentes de atendimento nunca se revelam. Ligue só no assessor pessoal: ele se apresenta como assistente de IA, com personalidade e bom humor.">
+                <input
+                  type="checkbox"
+                  checked={fDiscloseAi}
+                  onChange={(e) => setFDiscloseAi(e.target.checked)}
+                  className="accent-emerald-500"
+                />
+                Pode se apresentar como assistente de IA <span className="text-slate-600">(modo assessor pessoal)</span>
               </label>
 
               {fAutoRespond && (

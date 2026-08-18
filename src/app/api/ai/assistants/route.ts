@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 
-const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR"] as const;
+const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR", "ASSESSOR"] as const;
 type AssistantTypeStr = (typeof VALID_TYPES)[number];
 
 function resolveCompanyId(session: any, fallback?: string | null): string | null {
@@ -95,6 +95,7 @@ export async function POST(req: NextRequest) {
       instanceId,
       isActive: body.isActive ?? true,
       autoRespond: body.autoRespond === true,
+      discloseAi: body.discloseAi === true,
       learnings: (body.learnings ?? "").trim() || null,
       qualificationChecklist: (body.qualificationChecklist ?? "").trim() || null,
       schedulingLink: (body.schedulingLink ?? "").trim() || null,

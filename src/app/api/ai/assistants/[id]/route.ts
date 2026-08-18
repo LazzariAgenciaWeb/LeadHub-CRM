@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { assertModule } from "@/lib/billing";
 import { prisma } from "@/lib/prisma";
 
-const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR"] as const;
+const VALID_TYPES = ["PRE_ATENDENTE", "VENDAS", "SUPORTE", "FINANCEIRO", "GESTOR", "ASSESSOR"] as const;
 
 async function loadOwned(session: any, id: string) {
   const role = session.user.role as string;
@@ -54,6 +54,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
   if (typeof body.isActive === "boolean") data.isActive = body.isActive;
   if (typeof body.autoRespond === "boolean") data.autoRespond = body.autoRespond;
+  if (typeof body.discloseAi === "boolean") data.discloseAi = body.discloseAi;
   if ("learnings" in body) data.learnings = (body.learnings ?? "").trim() || null;
   if ("qualificationChecklist" in body) data.qualificationChecklist = (body.qualificationChecklist ?? "").trim() || null;
   if ("model" in body) data.model = (body.model ?? "").trim() || null;

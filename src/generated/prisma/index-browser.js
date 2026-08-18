@@ -1603,6 +1603,7 @@ exports.Prisma.AssistantScalarFieldEnum = {
   manual: 'manual',
   isActive: 'isActive',
   autoRespond: 'autoRespond',
+  discloseAi: 'discloseAi',
   learnings: 'learnings',
   qualificationChecklist: 'qualificationChecklist',
   schedulingLink: 'schedulingLink',
@@ -2228,7 +2229,8 @@ exports.AssistantType = exports.$Enums.AssistantType = {
   VENDAS: 'VENDAS',
   SUPORTE: 'SUPORTE',
   FINANCEIRO: 'FINANCEIRO',
-  GESTOR: 'GESTOR'
+  GESTOR: 'GESTOR',
+  ASSESSOR: 'ASSESSOR'
 };
 
 exports.VideoCategoryScope = exports.$Enums.VideoCategoryScope = {

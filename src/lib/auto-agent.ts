@@ -30,7 +30,7 @@ import {
 
 // Revisão do motor — aparece no GET /api/webhook/whatsapp pra conferir em
 // segundos qual versão está no ar após um deploy.
-export const AUTO_AGENT_REV = "v14-cortesia-minima";
+export const AUTO_AGENT_REV = "v15-assessor-pessoal";
 
 // Diagnóstico: últimas execuções do motor (motivo de skip, estado da agenda,
 // action tomada). Exposto no GET /api/webhook/whatsapp — memória do processo,
@@ -362,8 +362,9 @@ function buildSystemPrompt(args: {
   routes: { intent: string; label: string | null; setorName: string; createTicket?: boolean }[];
   scheduling: SchedulingContext | null;
   knownData: string[];
+  discloseAi: boolean;
 }): string {
-  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData } = args;
+  const { manual, learnings, schedulingLink, qualificationChecklist, servicesBlock, routes, scheduling, knownData, discloseAi } = args;
 
   const routeLines = routes
     .map((r) => `- "${r.intent}" → encaminha pro setor ${r.label ?? r.setorName}${r.createTicket ? " e ABRE UM CHAMADO interno com o pedido (avise o contato que o chamado foi registrado)" : ""}. Use quando o contato foi identificado/qualificado como esse caso.`)
@@ -380,9 +381,13 @@ function buildSystemPrompt(args: {
 Você é um atendente da empresa respondendo mensagens de WhatsApp. Converse de forma natural e calorosa. Nunca invente informações, preços ou prazos que não estejam no manual/catálogo abaixo.
 
 Identidade:
-- NÃO se apresente como "assistente virtual", "IA", "bot" ou "atendimento automático". Você é simplesmente alguém do time — desenrole a conversa como uma pessoa faria.
+${discloseAi
+    ? `- Você é um ASSISTENTE DE IA e PODE se apresentar como tal — com leveza, personalidade e bom humor (nada de tom corporativo). Nunca finja ser humano se perguntarem.
+- Siga a persona definida no manual (nome, jeito, humor). A graça é ser transparente E carismático ao mesmo tempo.
+- Não use frases robóticas ("digite 1 para...", "em que posso ajudá-lo hoje?"). Fale como gente.`
+    : `- NÃO se apresente como "assistente virtual", "IA", "bot" ou "atendimento automático". Você é simplesmente alguém do time — desenrole a conversa como uma pessoa faria.
 - Não use frases robóticas ("digite 1 para...", "em que posso ajudá-lo hoje?"). Fale como gente.
-- Se o contato perguntar DIRETAMENTE se você é um robô/IA, NÃO minta: responda leve ("aqui é do time da empresa 🙂 vou te passar com alguém agora") e use action "HANDOFF".
+- Se o contato perguntar DIRETAMENTE se você é um robô/IA, NÃO minta: responda leve ("aqui é do time da empresa 🙂 vou te passar com alguém agora") e use action "HANDOFF".`}
 
 # ESTILO DAS MENSAGENS (obrigatório)
 - CURTO: cada mensagem tem 1-2 frases no máximo. Nada de parágrafos longos ou textões.
@@ -546,6 +551,9 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
   history.reverse();
 
   // Dados já cadastrados (Lead/Contato) — o agente CONFIRMA em vez de pedir.
+  // O contato pode estar cadastrado direto na agência OU numa empresa-CLIENTE
+  // (Company filha) — nesse caso o agente sabe que É cliente, se tem acesso à
+  // plataforma e qual o grupo de atendimento da empresa.
   const [leadInfo, contactInfo] = await Promise.all([
     prisma.lead.findFirst({
       where: { phone: conv.phone, companyId: conv.companyId },
@@ -553,12 +561,39 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
       select: { name: true, email: true, website: true, instagram: true },
     }),
     prisma.companyContact.findFirst({
-      where: { phone: conv.phone, companyId: conv.companyId },
-      select: { name: true },
+      where: {
+        phone: conv.phone,
+        isGroup: false,
+        OR: [{ companyId: conv.companyId }, { company: { parentCompanyId: conv.companyId } }],
+      },
+      select: {
+        name: true, hasAccess: true,
+        company: { select: { id: true, name: true, parentCompanyId: true } },
+      },
     }),
   ]);
+
+  const clientCompany =
+    contactInfo?.company && contactInfo.company.parentCompanyId === conv.companyId
+      ? contactInfo.company
+      : null;
+  let clientGroupName: string | null = null;
+  if (clientCompany) {
+    const grp = await prisma.companyContact.findFirst({
+      where: { companyId: clientCompany.id, isGroup: true },
+      select: { name: true },
+    });
+    clientGroupName = grp?.name ?? null;
+  }
+
   const knownData = [
     (leadInfo?.name || contactInfo?.name) ? `- Nome: ${leadInfo?.name ?? contactInfo?.name}` : null,
+    clientCompany
+      ? `- É CLIENTE ATIVO — empresa: ${clientCompany.name}${contactInfo?.hasAccess ? " (tem acesso à plataforma)" : ""}`
+      : null,
+    clientGroupName
+      ? `- A empresa dele tem GRUPO DE ATENDIMENTO no WhatsApp: "${clientGroupName}" — se precisar de agilidade, oriente com leveza a mandar a mensagem nesse grupo, onde o time inteiro atende mais rápido`
+      : null,
     leadInfo?.email ? `- E-mail: ${leadInfo.email}` : null,
     leadInfo?.instagram ? `- Instagram: ${leadInfo.instagram}` : null,
     leadInfo?.website ? `- Site: ${leadInfo.website}` : null,
@@ -605,6 +640,7 @@ async function runAutoAgentCore(conversationId: string, diag: Record<string, unk
     routes: routes.map((r) => ({ intent: r.intent, label: r.label, setorName: r.setor.name, createTicket: r.createTicket })),
     scheduling,
     knownData,
+    discloseAi: !!(assistant as any).discloseAi,
   });
 
   const messages: ChatMessage[] = [

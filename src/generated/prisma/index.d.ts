@@ -1120,7 +1120,8 @@ export const AssistantType: {
   VENDAS: 'VENDAS',
   SUPORTE: 'SUPORTE',
   FINANCEIRO: 'FINANCEIRO',
-  GESTOR: 'GESTOR'
+  GESTOR: 'GESTOR',
+  ASSESSOR: 'ASSESSOR'
 };
 
 export type AssistantType = (typeof AssistantType)[keyof typeof AssistantType]
@@ -122442,6 +122443,7 @@ export namespace Prisma {
     manual: string | null
     isActive: boolean | null
     autoRespond: boolean | null
+    discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
@@ -122468,6 +122470,7 @@ export namespace Prisma {
     manual: string | null
     isActive: boolean | null
     autoRespond: boolean | null
+    discloseAi: boolean | null
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
@@ -122494,6 +122497,7 @@ export namespace Prisma {
     manual: number
     isActive: number
     autoRespond: number
+    discloseAi: number
     learnings: number
     qualificationChecklist: number
     schedulingLink: number
@@ -122534,6 +122538,7 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
@@ -122560,6 +122565,7 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
@@ -122586,6 +122592,7 @@ export namespace Prisma {
     manual?: true
     isActive?: true
     autoRespond?: true
+    discloseAi?: true
     learnings?: true
     qualificationChecklist?: true
     schedulingLink?: true
@@ -122699,6 +122706,7 @@ export namespace Prisma {
     manual: string
     isActive: boolean
     autoRespond: boolean
+    discloseAi: boolean
     learnings: string | null
     qualificationChecklist: string | null
     schedulingLink: string | null
@@ -122744,6 +122752,7 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
@@ -122777,6 +122786,7 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
@@ -122807,6 +122817,7 @@ export namespace Prisma {
     manual?: boolean
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: boolean
     qualificationChecklist?: boolean
     schedulingLink?: boolean
@@ -122859,6 +122870,7 @@ export namespace Prisma {
       manual: string
       isActive: boolean
       autoRespond: boolean
+      discloseAi: boolean
       learnings: string | null
       qualificationChecklist: string | null
       schedulingLink: string | null
@@ -123281,6 +123293,7 @@ export namespace Prisma {
     readonly manual: FieldRef<"Assistant", 'String'>
     readonly isActive: FieldRef<"Assistant", 'Boolean'>
     readonly autoRespond: FieldRef<"Assistant", 'Boolean'>
+    readonly discloseAi: FieldRef<"Assistant", 'Boolean'>
     readonly learnings: FieldRef<"Assistant", 'String'>
     readonly qualificationChecklist: FieldRef<"Assistant", 'String'>
     readonly schedulingLink: FieldRef<"Assistant", 'String'>
@@ -140079,6 +140092,7 @@ export namespace Prisma {
     manual: 'manual',
     isActive: 'isActive',
     autoRespond: 'autoRespond',
+    discloseAi: 'discloseAi',
     learnings: 'learnings',
     qualificationChecklist: 'qualificationChecklist',
     schedulingLink: 'schedulingLink',
@@ -150956,6 +150970,7 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
@@ -150988,6 +151003,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
@@ -151023,6 +151039,7 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
@@ -151055,6 +151072,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    discloseAi?: SortOrder
     learnings?: SortOrderInput | SortOrder
     qualificationChecklist?: SortOrderInput | SortOrder
     schedulingLink?: SortOrderInput | SortOrder
@@ -151089,6 +151107,7 @@ export namespace Prisma {
     manual?: StringWithAggregatesFilter<"Assistant"> | string
     isActive?: BoolWithAggregatesFilter<"Assistant"> | boolean
     autoRespond?: BoolWithAggregatesFilter<"Assistant"> | boolean
+    discloseAi?: BoolWithAggregatesFilter<"Assistant"> | boolean
     learnings?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableWithAggregatesFilter<"Assistant"> | string | null
@@ -163220,6 +163239,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -163249,6 +163269,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -163276,6 +163297,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163305,6 +163327,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163333,6 +163356,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -163358,6 +163382,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163381,6 +163406,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172404,6 +172430,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
@@ -172436,6 +172463,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
@@ -172462,6 +172490,7 @@ export namespace Prisma {
     manual?: SortOrder
     isActive?: SortOrder
     autoRespond?: SortOrder
+    discloseAi?: SortOrder
     learnings?: SortOrder
     qualificationChecklist?: SortOrder
     schedulingLink?: SortOrder
@@ -186782,6 +186811,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -186810,6 +186840,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -186846,6 +186877,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -186874,6 +186906,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -188212,6 +188245,7 @@ export namespace Prisma {
     manual?: StringFilter<"Assistant"> | string
     isActive?: BoolFilter<"Assistant"> | boolean
     autoRespond?: BoolFilter<"Assistant"> | boolean
+    discloseAi?: BoolFilter<"Assistant"> | boolean
     learnings?: StringNullableFilter<"Assistant"> | string | null
     qualificationChecklist?: StringNullableFilter<"Assistant"> | string | null
     schedulingLink?: StringNullableFilter<"Assistant"> | string | null
@@ -193348,6 +193382,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -193375,6 +193410,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -205774,6 +205810,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -205802,6 +205839,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -249393,6 +249431,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -249421,6 +249460,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -249534,6 +249574,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249562,6 +249603,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -249920,6 +249962,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -249948,6 +249991,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -250251,6 +250295,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -250279,6 +250324,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -257968,6 +258014,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -257993,6 +258040,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -259057,6 +259105,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259085,6 +259134,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259112,6 +259162,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259136,6 +259187,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259164,6 +259216,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259191,6 +259244,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260570,6 +260624,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -264178,6 +264233,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264205,6 +264261,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -264232,6 +264289,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265894,6 +265952,7 @@ export namespace Prisma {
     manual: string
     isActive?: boolean
     autoRespond?: boolean
+    discloseAi?: boolean
     learnings?: string | null
     qualificationChecklist?: string | null
     schedulingLink?: string | null
@@ -266105,6 +266164,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266133,6 +266193,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266160,6 +266221,7 @@ export namespace Prisma {
     manual?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     autoRespond?: BoolFieldUpdateOperationsInput | boolean
+    discloseAi?: BoolFieldUpdateOperationsInput | boolean
     learnings?: NullableStringFieldUpdateOperationsInput | string | null
     qualificationChecklist?: NullableStringFieldUpdateOperationsInput | string | null
     schedulingLink?: NullableStringFieldUpdateOperationsInput | string | null
