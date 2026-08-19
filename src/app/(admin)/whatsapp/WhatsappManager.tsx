@@ -214,6 +214,47 @@ function getInstanceBadgeColor(instanceName: string) {
   return INSTANCE_BADGE_COLORS[Math.abs(hash) % INSTANCE_BADGE_COLORS.length];
 }
 
+/**
+ * Imagem do chat no modelo thumb-first: renderiza a versão leve (thumb) e o
+ * clique abre a CHEIA (?full=1) em nova guia — o feed nunca carrega blob
+ * gigante. Se nem a thumb carregar (mídia antiga sem preview no DB e Evolution
+ * sem o binário), mostra um bloco clicável que ainda tenta a cheia — a
+ * informação não some silenciosamente.
+ */
+function ChatImage({ msgId, isOut }: { msgId: string; isOut: boolean }) {
+  const [thumbFailed, setThumbFailed] = useState(false);
+  const fullUrl = `/api/whatsapp/messages/${msgId}/media?full=1`;
+
+  if (thumbFailed) {
+    return (
+      <button
+        type="button"
+        onClick={() => window.open(fullUrl, "_blank")}
+        className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-xs transition-colors ${
+          isOut
+            ? "border-indigo-300/40 text-indigo-100 hover:bg-indigo-500/30"
+            : "border-[#1e2d45] text-slate-300 hover:bg-white/5"
+        }`}
+        title="A prévia não carregou — clique pra tentar abrir a imagem completa"
+      >
+        🖼️ <span className="underline underline-offset-2">Ver imagem</span>
+      </button>
+    );
+  }
+
+  return (
+    <img
+      src={`/api/whatsapp/messages/${msgId}/media`}
+      alt="Imagem"
+      loading="lazy"
+      className="max-w-full rounded-lg max-h-64 object-contain cursor-pointer hover:opacity-90 transition-opacity"
+      title="Clique pra abrir em tamanho real (nova guia)"
+      onError={() => setThumbFailed(true)}
+      onClick={() => window.open(fullUrl, "_blank")}
+    />
+  );
+}
+
 const PIPELINE_BADGE: Record<string, string> = {
   PROSPECCAO:    "text-violet-400 bg-violet-500/15",
   LEADS:         "text-blue-400 bg-blue-500/15",
@@ -4678,17 +4719,9 @@ export default function WhatsappManager({
                               </div>
                             )}
 
-                            {/* Imagem inline — src aponta pra endpoint que serve binário com cache */}
+                            {/* Imagem inline — thumb leve; clique abre a cheia (?full=1) em nova guia */}
                             {msg.hasMedia && msg.mediaType?.startsWith("image/") ? (
-                              <img
-                                src={`/api/whatsapp/messages/${msg.id}/media`}
-                                alt="Imagem"
-                                loading="lazy"
-                                className="max-w-full rounded-lg max-h-64 object-contain cursor-pointer"
-                                onClick={() => {
-                                  window.open(`/api/whatsapp/messages/${msg.id}/media`, "_blank");
-                                }}
-                              />
+                              <ChatImage msgId={msg.id} isOut={isOut || isOursInGroup} />
                             ) : msg.hasMedia && msg.mediaType?.startsWith("audio/") ? (
                               /* Player de áudio — preload metadata só (não baixa o áudio inteiro até dar play) */
                               <audio controls preload="metadata" className="w-full mt-1" style={{ minWidth: 200, maxWidth: 280 }}>
