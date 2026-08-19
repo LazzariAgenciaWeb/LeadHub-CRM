@@ -110,26 +110,40 @@ export async function evolutionGetMediaBase64(
   instanceName: string,
   key: { id: string; remoteJid: string; fromMe: boolean; participant?: string | null },
   instanceToken?: string | null,
+  // data do webhook original (rawPayload.data) — contém key + message com
+  // mediaKey/directPath/url, que a Evolution precisa pra DESCRIPTOGRAFAR a
+  // mídia. Sem isso ela depende do próprio store, que às vezes já purgou →
+  // "imagem não aparece". Com o payload completo, a taxa de sucesso sobe muito.
+  rawData?: any,
 ): Promise<{ base64: string; mimetype: string | null } | null> {
   const { baseUrl, apiKey } = await getConfig();
   const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
-  try {
-    const res = await fetch(`${baseUrl}/chat/getBase64FromMediaMessage/${instanceName}`, {
-      method: "POST",
-      headers: headers(token),
-      body: JSON.stringify({
-        message: {
+
+  // Payload preferencial: a mensagem completa do webhook (key + message).
+  // Fallback: só a key (Evolution resolve pelo store interno, quando ainda tem).
+  const messagePayload =
+    rawData && rawData.key && rawData.message
+      ? { key: rawData.key, message: rawData.message }
+      : {
           key: {
             id: key.id,
             remoteJid: key.remoteJid,
             fromMe: key.fromMe,
             ...(key.participant ? { participant: key.participant } : {}),
           },
-        },
-        convertToMp4: false,
-      }),
+        };
+
+  try {
+    const res = await fetch(`${baseUrl}/chat/getBase64FromMediaMessage/${instanceName}`, {
+      method: "POST",
+      headers: headers(token),
+      body: JSON.stringify({ message: messagePayload, convertToMp4: false }),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      console.warn(`[Evolution media] ${instanceName} ${res.status}: ${err.slice(0, 200)}`);
+      return null;
+    }
     const data = await res.json();
     const base64: string | null = data?.base64 ?? data?.media ?? null;
     const mimetype: string | null = data?.mimetype ?? data?.mediaType ?? null;
