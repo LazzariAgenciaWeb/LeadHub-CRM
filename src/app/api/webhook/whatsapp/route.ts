@@ -21,6 +21,13 @@ import { guardWebhook } from "@/lib/webhook-auth";
 // Armazena os últimos payloads para diagnóstico (separados por tipo)
 const recentPayloads: { ts: string; event: string; instance: string; skipped?: string; debug?: any }[] = [];
 const recentAckPayloads: { ts: string; instance: string; debug: any }[] = [];
+// Sinais processados (revoke / delete / reação) — visíveis no GET pra
+// diagnosticar em prod sem acesso aos logs do container.
+const recentSignals: { ts: string; kind: string; msgId?: string; detail?: string }[] = [];
+function pushSignal(kind: string, msgId?: string, detail?: string) {
+  recentSignals.unshift({ ts: new Date().toISOString(), kind, msgId, detail });
+  if (recentSignals.length > 15) recentSignals.pop();
+}
 
 // Throttle de reconfiguração de webhook por instância. Sem isso, cada evento
 // connection.update(open) disparava um POST /webhook/set de volta pra Evolution
@@ -61,9 +68,12 @@ export async function POST(request: NextRequest) {
     // Log para diagnóstico — aparece nos logs do servidor independente de serverless
     const logPhone = data?.key?.remoteJid ?? data?.remoteJid ?? "?";
     const logFromMe = data?.key?.fromMe ?? "?";
-    console.log(`[Webhook WA] event=${event} instance=${instance} phone=${logPhone} fromMe=${logFromMe}`);
-    recentPayloads.unshift({ ts: new Date().toISOString(), event: event ?? "?", instance: instance ?? "?", debug: { phone: logPhone, fromMe: logFromMe } });
-    if (recentPayloads.length > 5) recentPayloads.pop();
+    // type: identifica o conteúdo (conversation, imageMessage, protocolMessage,
+    // reactionMessage...) — essencial pra diagnosticar revoke/reação sem logs.
+    const logType = data?.messageType ?? (data?.message ? Object.keys(data.message)[0] : undefined);
+    console.log(`[Webhook WA] event=${event} instance=${instance} phone=${logPhone} fromMe=${logFromMe} type=${logType ?? "?"}`);
+    recentPayloads.unshift({ ts: new Date().toISOString(), event: event ?? "?", instance: instance ?? "?", debug: { phone: logPhone, fromMe: logFromMe, type: logType } });
+    if (recentPayloads.length > 15) recentPayloads.pop();
 
     if (!event || !instance || !data) {
       return NextResponse.json({ ok: false, error: "Payload inválido" }, { status: 400 });
@@ -167,6 +177,7 @@ export async function POST(request: NextRequest) {
         updated = r.count;
       }
       console.log(`[Webhook WA] messages.delete ids=${ids.join(",") || "?"} marcadas=${updated}`);
+      pushSignal("messages.delete", ids.join(","), `marcadas=${updated}`);
       return NextResponse.json({ ok: true, event: "messages.delete", updated });
     }
 
@@ -216,6 +227,7 @@ export async function POST(request: NextRequest) {
             data: { deletedAt: new Date() },
           });
           console.log(`[Webhook WA] revoke via messages.update msg=${msgId} marcadas=${r.count}`);
+          pushSignal("revoke.update", msgId, `marcadas=${r.count}`);
           continue;
         }
 
@@ -259,6 +271,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: true });
     }
 
+    // Auto-heal da config de webhook: garante que a lista de EVENTS acompanha o
+    // deploy (ex: MESSAGES_DELETE novo) sem depender de reconexão nem do botão
+    // "reconfigurar webhooks". O Map zera a cada deploy → o 1º evento de cada
+    // instância pós-deploy reaplica a config; depois, throttle de 30min.
+    // Fire-and-forget: nunca atrasa o processamento da mensagem.
+    {
+      const nowR = Date.now();
+      const lastR = lastWebhookReconfig.get(instance) ?? 0;
+      if (nowR - lastR >= WEBHOOK_RECONFIG_INTERVAL_MS) {
+        lastWebhookReconfig.set(instance, nowR);
+        void (async () => {
+          try {
+            const { prisma } = await import("@/lib/prisma");
+            const { evolutionSetWebhookEvents } = await import("@/lib/evolution");
+            const { buildWhatsappWebhookUrl } = await import("@/lib/webhook-auth");
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "";
+            if (!baseUrl) return;
+            const inst = await prisma.whatsappInstance.findFirst({
+              where: { instanceName: instance },
+              select: { instanceToken: true },
+            });
+            await evolutionSetWebhookEvents(instance, buildWhatsappWebhookUrl(baseUrl), inst?.instanceToken ?? null);
+            console.log(`[Webhook WA] webhook auto-reconfigurado (upsert) para ${instance}`);
+            pushSignal("webhook.reconfig", undefined, instance);
+          } catch (e: any) {
+            // Mantém o throttle mesmo na falha — evita martelar a Evolution.
+            console.warn(`[Webhook WA] auto-reconfig falhou para ${instance}:`, e?.message ?? e);
+          }
+        })();
+      }
+    }
+
     const message = data?.message;
     const key = data?.key;
     const fromMe = key?.fromMe === true;
@@ -278,6 +322,7 @@ export async function POST(request: NextRequest) {
           data: { deletedAt: new Date() },
         });
         console.log(`[Webhook WA] revoke msg=${proto.key.id} marcadas=${r.count}`);
+        pushSignal("revoke.upsert", proto.key.id, `marcadas=${r.count}`);
         return NextResponse.json({ ok: true, event: "revoke", updated: r.count });
       }
     }
@@ -316,6 +361,7 @@ export async function POST(request: NextRequest) {
           }).catch(() => {});
           console.log(`[Webhook WA] reação ${emoji || "(removida)"} em ${reaction.key.id} por ${reactorKey}`);
         }
+        pushSignal("reaction", reaction.key.id, `${emoji || "(removida)"} por ${reactorKey} target=${target ? "ok" : "não-achado"}`);
         return NextResponse.json({ ok: true, event: "reaction" });
       }
     }
@@ -602,5 +648,6 @@ export async function GET() {
     recentAutoAgentRuns: getRecentAutoAgentRuns(),
     recentPayloads,
     recentAckPayloads,
+    recentSignals,
   });
 }
