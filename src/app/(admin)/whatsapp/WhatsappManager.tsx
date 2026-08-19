@@ -171,6 +171,10 @@ interface WaMessage {
   sentBy?: { id: string; name: string } | null;
   // Mensagem gerada pelo agente de IA (auto-agent) — balão diferenciado.
   sentByAI?: boolean;
+  // Apagada no WhatsApp pelo remetente (conteúdo mantido; UI mostra aviso).
+  deletedAt?: string | null;
+  // Reações emoji: reatorKey → { emoji, name, fromMe }
+  reactions?: Record<string, { emoji: string; name?: string | null; fromMe?: boolean }> | null;
   ack?: number | null;
   quotedId?: string | null;
   quotedBody?: string | null;
@@ -4710,6 +4714,20 @@ export default function WhatsappManager({
                               )
                             )}
 
+                            {/* Aviso: apagada pelo remetente no WhatsApp (conteúdo mantido) */}
+                            {msg.deletedAt && (
+                              <div
+                                className={`flex items-center gap-1 mb-1 text-[10px] font-semibold rounded-md px-1.5 py-0.5 w-fit ${
+                                  isOut || isOursInGroup
+                                    ? "bg-red-400/20 text-red-100"
+                                    : "bg-red-500/10 text-red-400 border border-red-500/20"
+                                }`}
+                                title={`Apagada no WhatsApp em ${new Date(msg.deletedAt).toLocaleString("pt-BR")} — o conteúdo permanece registrado no LeadHub`}
+                              >
+                                🗑️ Apagada pelo remetente
+                              </div>
+                            )}
+
                             {/* Bloco de citação (mensagem respondida) */}
                             {msg.quotedBody && (
                               <div className={`mb-2 pl-2 border-l-2 ${isOut || isOursInGroup ? "border-indigo-300/40" : "border-slate-500/50"} rounded-sm`}>
@@ -4730,6 +4748,38 @@ export default function WhatsappManager({
                             ) : (
                               <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
                             )}
+                            {/* Reações (emoji) — agrupadas por emoji, tooltip com quem reagiu */}
+                            {msg.reactions && Object.keys(msg.reactions).length > 0 && (() => {
+                              const grouped = new Map<string, string[]>(); // emoji → nomes
+                              for (const [rKey, r] of Object.entries(msg.reactions)) {
+                                if (!r?.emoji) continue;
+                                const who = r.fromMe ? "Você" : (r.name || rKey.replace(/@.*$/, ""));
+                                const arr = grouped.get(r.emoji) ?? [];
+                                arr.push(who);
+                                grouped.set(r.emoji, arr);
+                              }
+                              if (grouped.size === 0) return null;
+                              return (
+                                <div className={`flex items-center gap-1 mt-1.5 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
+                                  {[...grouped.entries()].map(([emoji, whos]) => (
+                                    <span
+                                      key={emoji}
+                                      title={whos.join(", ")}
+                                      className={`inline-flex items-center gap-0.5 text-[12px] leading-none rounded-full px-1.5 py-1 border ${
+                                        isOut || isOursInGroup
+                                          ? "bg-white/15 border-white/20"
+                                          : "bg-[#161f30] border-[#1e2d45]"
+                                      }`}
+                                    >
+                                      {emoji}
+                                      {whos.length > 1 && (
+                                        <span className={`text-[9px] font-semibold ${isOut || isOursInGroup ? "text-indigo-100" : "text-slate-400"}`}>{whos.length}</span>
+                                      )}
+                                    </span>
+                                  ))}
+                                </div>
+                              );
+                            })()}
                             <div className={`flex items-center gap-1.5 mt-1 flex-wrap ${isOut || isOursInGroup ? "justify-end" : "justify-start"}`}>
                               <span className={`text-[10px] ${isOut || isOursInGroup ? "text-indigo-200/60" : "text-slate-600"}`}>
                                 {new Date(msg.receivedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}

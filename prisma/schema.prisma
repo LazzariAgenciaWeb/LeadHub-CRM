@@ -332,6 +332,7 @@ model Company {
   analyticsTrafficSources AnalyticsTrafficSource[]
   analyticsGeoData        AnalyticsGeoData[]
   analyticsEventDaily     AnalyticsEventDaily[]
+  analyticsEventParamDaily AnalyticsEventParamDaily[]
   marketingEventConfig    MarketingEventConfig[]
   searchConsoleQueries    SearchConsoleQuery[]
   gbpInsights             GbpInsight[]
@@ -947,6 +948,15 @@ model Message {
   // não por um atendente humano. A UI usa pra marcar o balão com 🤖 e cor
   // diferente. (Antes só dava pra saber via rawPayload.autoAgent, que é pesado.)
   sentByAI Boolean @default(false)
+
+  // Apagada no WhatsApp (revoke/protocolMessage). MANTEMOS o conteúdo — valor
+  // pro atendimento — e a UI mostra o aviso "apagada pelo remetente".
+  deletedAt DateTime?
+
+  // Reações (emoji) recebidas nesta mensagem. Mapa reatorKey → { emoji, name,
+  // fromMe, at }. reatorKey = participant/remoteJid de quem reagiu (ou
+  // "me:<instância>" quando fomos nós). Reação removida = entrada apagada.
+  reactions Json?
 
   @@index([companyId])
   // Cobre `WHERE phone = X AND companyId = Y ORDER BY receivedAt DESC LIMIT N`
@@ -2314,6 +2324,31 @@ model AnalyticsEventDaily {
   @@unique([companyId, date, source, eventName])
   @@index([companyId, date])
   @@index([companyId, eventName])
+}
+
+// Detalhamento dos parâmetros personalizados (dimensões customEvent: do GA4) por evento/dia.
+// Só sincroniza eventos marcados como conversão (MarketingEventConfig.isConversion) —
+// ex.: whatsapp_click quebrado por wpp_produto / wpp_codigo / wpp_local.
+// Valores "(not set)" são descartados no sync (cleanGAValue).
+model AnalyticsEventParamDaily {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  source    String // "ga4"
+
+  eventName  String
+  paramName  String // parameterName da dimensão personalizada no GA4 (ex.: "wpp_produto")
+  paramValue String // valor do parâmetro (ex.: "Capota")
+  eventCount Int    @default(0)
+  users      Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, date, source, eventName, paramName, paramValue])
+  @@index([companyId, date])
+  @@index([companyId, eventName, paramName])
 }
 
 // Config por empresa: quais eventos contam como conversão no LeadHub, rótulo amigável,
