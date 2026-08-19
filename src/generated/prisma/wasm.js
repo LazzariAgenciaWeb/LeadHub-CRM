@@ -463,7 +463,9 @@ exports.Prisma.MessageScalarFieldEnum = {
   leadId: 'leadId',
   conversationId: 'conversationId',
   sentByUserId: 'sentByUserId',
-  sentByAI: 'sentByAI'
+  sentByAI: 'sentByAI',
+  deletedAt: 'deletedAt',
+  reactions: 'reactions'
 };
 
 exports.Prisma.KeywordRuleScalarFieldEnum = {
@@ -1059,6 +1061,20 @@ exports.Prisma.AnalyticsEventDailyScalarFieldEnum = {
   date: 'date',
   source: 'source',
   eventName: 'eventName',
+  eventCount: 'eventCount',
+  users: 'users',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnalyticsEventParamDailyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  source: 'source',
+  eventName: 'eventName',
+  paramName: 'paramName',
+  paramValue: 'paramValue',
   eventCount: 'eventCount',
   users: 'users',
   createdAt: 'createdAt',
@@ -2330,6 +2346,7 @@ exports.Prisma.ModelName = {
   AnalyticsTrafficSource: 'AnalyticsTrafficSource',
   AnalyticsGeoData: 'AnalyticsGeoData',
   AnalyticsEventDaily: 'AnalyticsEventDaily',
+  AnalyticsEventParamDaily: 'AnalyticsEventParamDaily',
   MarketingEventConfig: 'MarketingEventConfig',
   SearchConsoleQuery: 'SearchConsoleQuery',
   GbpInsight: 'GbpInsight',

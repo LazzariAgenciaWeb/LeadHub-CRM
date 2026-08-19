@@ -98,6 +98,8 @@ export async function GET(req: NextRequest) {
     conversationId:    true,
     sentByUserId:      true,
     sentByAI:          true, // balão de IA (🤖 + cor diferente)
+    deletedAt:         true, // aviso "apagada pelo remetente"
+    reactions:         true, // emojis de reação
     instance: { select: { instanceName: true } },
     campaign: { select: { id: true, name: true } },
     sentBy:   { select: { id: true, name: true } },

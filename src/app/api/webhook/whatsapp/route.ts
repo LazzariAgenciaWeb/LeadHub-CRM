@@ -224,6 +224,63 @@ export async function POST(request: NextRequest) {
     const key = data?.key;
     const fromMe = key?.fromMe === true;
 
+    // ── Mensagem APAGADA (revoke) ───────────────────────────────────────────
+    // O WhatsApp envia um protocolMessage (type REVOKE / 0) com a key da
+    // mensagem original. MANTEMOS o conteúdo no LeadHub (valor pro atendimento)
+    // e marcamos deletedAt — a UI mostra o aviso "apagada pelo remetente".
+    {
+      const proto = message?.protocolMessage;
+      const pType = proto?.type;
+      const isRevoke = pType === 0 || String(pType ?? "").toUpperCase() === "REVOKE";
+      if (proto?.key?.id && isRevoke) {
+        const { prisma } = await import("@/lib/prisma");
+        const r = await prisma.message.updateMany({
+          where: { externalId: proto.key.id, deletedAt: null },
+          data: { deletedAt: new Date() },
+        });
+        console.log(`[Webhook WA] revoke msg=${proto.key.id} marcadas=${r.count}`);
+        return NextResponse.json({ ok: true, event: "revoke", updated: r.count });
+      }
+    }
+
+    // ── Reação (emoji) em mensagem ──────────────────────────────────────────
+    // reactionMessage aponta pra key da mensagem alvo; text é o emoji ("" =
+    // reação removida). Guardamos por reator (participant em grupo; remoteJid
+    // em 1:1; "me:<instância>" quando fomos nós) pra render na UI.
+    {
+      const reaction = message?.reactionMessage;
+      if (reaction?.key?.id) {
+        const { prisma } = await import("@/lib/prisma");
+        const emoji: string = typeof reaction.text === "string" ? reaction.text : "";
+        const reactorKey: string = fromMe
+          ? `me:${instance ?? "?"}`
+          : (key?.participant ?? key?.remoteJid ?? "unknown");
+        const target = await prisma.message.findUnique({
+          where: { externalId: reaction.key.id },
+          select: { id: true, reactions: true },
+        }).catch(() => null);
+        if (target) {
+          const current: Record<string, any> = (target.reactions as any) ?? {};
+          if (emoji) {
+            current[reactorKey] = {
+              emoji,
+              name: fromMe ? null : (data?.pushName ?? null),
+              fromMe,
+              at: new Date().toISOString(),
+            };
+          } else {
+            delete current[reactorKey];
+          }
+          await prisma.message.update({
+            where: { id: target.id },
+            data: { reactions: current },
+          }).catch(() => {});
+          console.log(`[Webhook WA] reação ${emoji || "(removida)"} em ${reaction.key.id} por ${reactorKey}`);
+        }
+        return NextResponse.json({ ok: true, event: "reaction" });
+      }
+    }
+
     // Timestamp real da mensagem (segundos → ms); fallback: agora
     const receivedAt = data?.messageTimestamp
       ? new Date(Number(data.messageTimestamp) * 1000)

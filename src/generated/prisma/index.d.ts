@@ -329,6 +329,11 @@ export type AnalyticsGeoData = $Result.DefaultSelection<Prisma.$AnalyticsGeoData
  */
 export type AnalyticsEventDaily = $Result.DefaultSelection<Prisma.$AnalyticsEventDailyPayload>
 /**
+ * Model AnalyticsEventParamDaily
+ * 
+ */
+export type AnalyticsEventParamDaily = $Result.DefaultSelection<Prisma.$AnalyticsEventParamDailyPayload>
+/**
  * Model MarketingEventConfig
  * 
  */
@@ -2142,6 +2147,16 @@ export class PrismaClient<
   get analyticsEventDaily(): Prisma.AnalyticsEventDailyDelegate<ExtArgs>;
 
   /**
+   * `prisma.analyticsEventParamDaily`: Exposes CRUD operations for the **AnalyticsEventParamDaily** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AnalyticsEventParamDailies
+    * const analyticsEventParamDailies = await prisma.analyticsEventParamDaily.findMany()
+    * ```
+    */
+  get analyticsEventParamDaily(): Prisma.AnalyticsEventParamDailyDelegate<ExtArgs>;
+
+  /**
    * `prisma.marketingEventConfig`: Exposes CRUD operations for the **MarketingEventConfig** model.
     * Example usage:
     * ```ts
@@ -3164,6 +3179,7 @@ export namespace Prisma {
     AnalyticsTrafficSource: 'AnalyticsTrafficSource',
     AnalyticsGeoData: 'AnalyticsGeoData',
     AnalyticsEventDaily: 'AnalyticsEventDaily',
+    AnalyticsEventParamDaily: 'AnalyticsEventParamDaily',
     MarketingEventConfig: 'MarketingEventConfig',
     SearchConsoleQuery: 'SearchConsoleQuery',
     GbpInsight: 'GbpInsight',
@@ -3231,7 +3247,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7645,6 +7661,76 @@ export namespace Prisma {
           }
         }
       }
+      AnalyticsEventParamDaily: {
+        payload: Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>
+        fields: Prisma.AnalyticsEventParamDailyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnalyticsEventParamDailyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnalyticsEventParamDailyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          findFirst: {
+            args: Prisma.AnalyticsEventParamDailyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnalyticsEventParamDailyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          findMany: {
+            args: Prisma.AnalyticsEventParamDailyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>[]
+          }
+          create: {
+            args: Prisma.AnalyticsEventParamDailyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          createMany: {
+            args: Prisma.AnalyticsEventParamDailyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnalyticsEventParamDailyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>[]
+          }
+          delete: {
+            args: Prisma.AnalyticsEventParamDailyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          update: {
+            args: Prisma.AnalyticsEventParamDailyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnalyticsEventParamDailyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnalyticsEventParamDailyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnalyticsEventParamDailyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnalyticsEventParamDailyPayload>
+          }
+          aggregate: {
+            args: Prisma.AnalyticsEventParamDailyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnalyticsEventParamDaily>
+          }
+          groupBy: {
+            args: Prisma.AnalyticsEventParamDailyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsEventParamDailyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnalyticsEventParamDailyCountArgs<ExtArgs>
+            result: $Utils.Optional<AnalyticsEventParamDailyCountAggregateOutputType> | number
+          }
+        }
+      }
       MarketingEventConfig: {
         payload: Prisma.$MarketingEventConfigPayload<ExtArgs>
         fields: Prisma.MarketingEventConfigFieldRefs
@@ -11809,6 +11895,7 @@ export namespace Prisma {
     analyticsTrafficSources: number
     analyticsGeoData: number
     analyticsEventDaily: number
+    analyticsEventParamDaily: number
     marketingEventConfig: number
     searchConsoleQueries: number
     gbpInsights: number
@@ -11890,6 +11977,7 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | CompanyCountOutputTypeCountAnalyticsTrafficSourcesArgs
     analyticsGeoData?: boolean | CompanyCountOutputTypeCountAnalyticsGeoDataArgs
     analyticsEventDaily?: boolean | CompanyCountOutputTypeCountAnalyticsEventDailyArgs
+    analyticsEventParamDaily?: boolean | CompanyCountOutputTypeCountAnalyticsEventParamDailyArgs
     marketingEventConfig?: boolean | CompanyCountOutputTypeCountMarketingEventConfigArgs
     searchConsoleQueries?: boolean | CompanyCountOutputTypeCountSearchConsoleQueriesArgs
     gbpInsights?: boolean | CompanyCountOutputTypeCountGbpInsightsArgs
@@ -12297,6 +12385,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountAnalyticsEventDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AnalyticsEventDailyWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAnalyticsEventParamDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsEventParamDailyWhereInput
   }
 
   /**
@@ -20265,6 +20360,7 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
     analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
     analyticsEventDaily?: boolean | Company$analyticsEventDailyArgs<ExtArgs>
+    analyticsEventParamDaily?: boolean | Company$analyticsEventParamDailyArgs<ExtArgs>
     marketingEventConfig?: boolean | Company$marketingEventConfigArgs<ExtArgs>
     searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
     gbpInsights?: boolean | Company$gbpInsightsArgs<ExtArgs>
@@ -20441,6 +20537,7 @@ export namespace Prisma {
     analyticsTrafficSources?: boolean | Company$analyticsTrafficSourcesArgs<ExtArgs>
     analyticsGeoData?: boolean | Company$analyticsGeoDataArgs<ExtArgs>
     analyticsEventDaily?: boolean | Company$analyticsEventDailyArgs<ExtArgs>
+    analyticsEventParamDaily?: boolean | Company$analyticsEventParamDailyArgs<ExtArgs>
     marketingEventConfig?: boolean | Company$marketingEventConfigArgs<ExtArgs>
     searchConsoleQueries?: boolean | Company$searchConsoleQueriesArgs<ExtArgs>
     gbpInsights?: boolean | Company$gbpInsightsArgs<ExtArgs>
@@ -20533,6 +20630,7 @@ export namespace Prisma {
       analyticsTrafficSources: Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>[]
       analyticsGeoData: Prisma.$AnalyticsGeoDataPayload<ExtArgs>[]
       analyticsEventDaily: Prisma.$AnalyticsEventDailyPayload<ExtArgs>[]
+      analyticsEventParamDaily: Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>[]
       marketingEventConfig: Prisma.$MarketingEventConfigPayload<ExtArgs>[]
       searchConsoleQueries: Prisma.$SearchConsoleQueryPayload<ExtArgs>[]
       gbpInsights: Prisma.$GbpInsightPayload<ExtArgs>[]
@@ -21023,6 +21121,7 @@ export namespace Prisma {
     analyticsTrafficSources<T extends Company$analyticsTrafficSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsTrafficSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsTrafficSourcePayload<ExtArgs>, T, "findMany"> | Null>
     analyticsGeoData<T extends Company$analyticsGeoDataArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsGeoDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsGeoDataPayload<ExtArgs>, T, "findMany"> | Null>
     analyticsEventDaily<T extends Company$analyticsEventDailyArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsEventDailyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsEventDailyPayload<ExtArgs>, T, "findMany"> | Null>
+    analyticsEventParamDaily<T extends Company$analyticsEventParamDailyArgs<ExtArgs> = {}>(args?: Subset<T, Company$analyticsEventParamDailyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findMany"> | Null>
     marketingEventConfig<T extends Company$marketingEventConfigArgs<ExtArgs> = {}>(args?: Subset<T, Company$marketingEventConfigArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketingEventConfigPayload<ExtArgs>, T, "findMany"> | Null>
     searchConsoleQueries<T extends Company$searchConsoleQueriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$searchConsoleQueriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchConsoleQueryPayload<ExtArgs>, T, "findMany"> | Null>
     gbpInsights<T extends Company$gbpInsightsArgs<ExtArgs> = {}>(args?: Subset<T, Company$gbpInsightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GbpInsightPayload<ExtArgs>, T, "findMany"> | Null>
@@ -22540,6 +22639,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AnalyticsEventDailyScalarFieldEnum | AnalyticsEventDailyScalarFieldEnum[]
+  }
+
+  /**
+   * Company.analyticsEventParamDaily
+   */
+  export type Company$analyticsEventParamDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    where?: AnalyticsEventParamDailyWhereInput
+    orderBy?: AnalyticsEventParamDailyOrderByWithRelationInput | AnalyticsEventParamDailyOrderByWithRelationInput[]
+    cursor?: AnalyticsEventParamDailyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnalyticsEventParamDailyScalarFieldEnum | AnalyticsEventParamDailyScalarFieldEnum[]
   }
 
   /**
@@ -39201,6 +39320,7 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean | null
+    deletedAt: Date | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -39226,6 +39346,7 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean | null
+    deletedAt: Date | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -39252,6 +39373,8 @@ export namespace Prisma {
     conversationId: number
     sentByUserId: number
     sentByAI: number
+    deletedAt: number
+    reactions: number
     _all: number
   }
 
@@ -39287,6 +39410,7 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    deletedAt?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -39312,6 +39436,7 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    deletedAt?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -39338,6 +39463,8 @@ export namespace Prisma {
     conversationId?: true
     sentByUserId?: true
     sentByAI?: true
+    deletedAt?: true
+    reactions?: true
     _all?: true
   }
 
@@ -39451,6 +39578,8 @@ export namespace Prisma {
     conversationId: string | null
     sentByUserId: string | null
     sentByAI: boolean
+    deletedAt: Date | null
+    reactions: JsonValue | null
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -39496,6 +39625,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    deletedAt?: boolean
+    reactions?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -39528,6 +39659,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    deletedAt?: boolean
+    reactions?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     instance?: boolean | Message$instanceArgs<ExtArgs>
     campaign?: boolean | Message$campaignArgs<ExtArgs>
@@ -39560,6 +39693,8 @@ export namespace Prisma {
     conversationId?: boolean
     sentByUserId?: boolean
     sentByAI?: boolean
+    deletedAt?: boolean
+    reactions?: boolean
   }
 
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -39613,6 +39748,8 @@ export namespace Prisma {
       conversationId: string | null
       sentByUserId: string | null
       sentByAI: boolean
+      deletedAt: Date | null
+      reactions: Prisma.JsonValue | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -40035,6 +40172,8 @@ export namespace Prisma {
     readonly conversationId: FieldRef<"Message", 'String'>
     readonly sentByUserId: FieldRef<"Message", 'String'>
     readonly sentByAI: FieldRef<"Message", 'Boolean'>
+    readonly deletedAt: FieldRef<"Message", 'DateTime'>
+    readonly reactions: FieldRef<"Message", 'Json'>
   }
     
 
@@ -83694,6 +83833,1049 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AnalyticsEventDailyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AnalyticsEventParamDaily
+   */
+
+  export type AggregateAnalyticsEventParamDaily = {
+    _count: AnalyticsEventParamDailyCountAggregateOutputType | null
+    _avg: AnalyticsEventParamDailyAvgAggregateOutputType | null
+    _sum: AnalyticsEventParamDailySumAggregateOutputType | null
+    _min: AnalyticsEventParamDailyMinAggregateOutputType | null
+    _max: AnalyticsEventParamDailyMaxAggregateOutputType | null
+  }
+
+  export type AnalyticsEventParamDailyAvgAggregateOutputType = {
+    eventCount: number | null
+    users: number | null
+  }
+
+  export type AnalyticsEventParamDailySumAggregateOutputType = {
+    eventCount: number | null
+    users: number | null
+  }
+
+  export type AnalyticsEventParamDailyMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    eventName: string | null
+    paramName: string | null
+    paramValue: string | null
+    eventCount: number | null
+    users: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnalyticsEventParamDailyMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    date: Date | null
+    source: string | null
+    eventName: string | null
+    paramName: string | null
+    paramValue: string | null
+    eventCount: number | null
+    users: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnalyticsEventParamDailyCountAggregateOutputType = {
+    id: number
+    companyId: number
+    date: number
+    source: number
+    eventName: number
+    paramName: number
+    paramValue: number
+    eventCount: number
+    users: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AnalyticsEventParamDailyAvgAggregateInputType = {
+    eventCount?: true
+    users?: true
+  }
+
+  export type AnalyticsEventParamDailySumAggregateInputType = {
+    eventCount?: true
+    users?: true
+  }
+
+  export type AnalyticsEventParamDailyMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    eventName?: true
+    paramName?: true
+    paramValue?: true
+    eventCount?: true
+    users?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnalyticsEventParamDailyMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    eventName?: true
+    paramName?: true
+    paramValue?: true
+    eventCount?: true
+    users?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnalyticsEventParamDailyCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    date?: true
+    source?: true
+    eventName?: true
+    paramName?: true
+    paramValue?: true
+    eventCount?: true
+    users?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AnalyticsEventParamDailyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsEventParamDaily to aggregate.
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsEventParamDailies to fetch.
+     */
+    orderBy?: AnalyticsEventParamDailyOrderByWithRelationInput | AnalyticsEventParamDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnalyticsEventParamDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsEventParamDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsEventParamDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AnalyticsEventParamDailies
+    **/
+    _count?: true | AnalyticsEventParamDailyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnalyticsEventParamDailyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnalyticsEventParamDailySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnalyticsEventParamDailyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnalyticsEventParamDailyMaxAggregateInputType
+  }
+
+  export type GetAnalyticsEventParamDailyAggregateType<T extends AnalyticsEventParamDailyAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnalyticsEventParamDaily]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnalyticsEventParamDaily[P]>
+      : GetScalarType<T[P], AggregateAnalyticsEventParamDaily[P]>
+  }
+
+
+
+
+  export type AnalyticsEventParamDailyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnalyticsEventParamDailyWhereInput
+    orderBy?: AnalyticsEventParamDailyOrderByWithAggregationInput | AnalyticsEventParamDailyOrderByWithAggregationInput[]
+    by: AnalyticsEventParamDailyScalarFieldEnum[] | AnalyticsEventParamDailyScalarFieldEnum
+    having?: AnalyticsEventParamDailyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnalyticsEventParamDailyCountAggregateInputType | true
+    _avg?: AnalyticsEventParamDailyAvgAggregateInputType
+    _sum?: AnalyticsEventParamDailySumAggregateInputType
+    _min?: AnalyticsEventParamDailyMinAggregateInputType
+    _max?: AnalyticsEventParamDailyMaxAggregateInputType
+  }
+
+  export type AnalyticsEventParamDailyGroupByOutputType = {
+    id: string
+    companyId: string
+    date: Date
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount: number
+    users: number
+    createdAt: Date
+    updatedAt: Date
+    _count: AnalyticsEventParamDailyCountAggregateOutputType | null
+    _avg: AnalyticsEventParamDailyAvgAggregateOutputType | null
+    _sum: AnalyticsEventParamDailySumAggregateOutputType | null
+    _min: AnalyticsEventParamDailyMinAggregateOutputType | null
+    _max: AnalyticsEventParamDailyMaxAggregateOutputType | null
+  }
+
+  type GetAnalyticsEventParamDailyGroupByPayload<T extends AnalyticsEventParamDailyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnalyticsEventParamDailyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnalyticsEventParamDailyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnalyticsEventParamDailyGroupByOutputType[P]>
+            : GetScalarType<T[P], AnalyticsEventParamDailyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnalyticsEventParamDailySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    eventName?: boolean
+    paramName?: boolean
+    paramValue?: boolean
+    eventCount?: boolean
+    users?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsEventParamDaily"]>
+
+  export type AnalyticsEventParamDailySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    eventName?: boolean
+    paramName?: boolean
+    paramValue?: boolean
+    eventCount?: boolean
+    users?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["analyticsEventParamDaily"]>
+
+  export type AnalyticsEventParamDailySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    date?: boolean
+    source?: boolean
+    eventName?: boolean
+    paramName?: boolean
+    paramValue?: boolean
+    eventCount?: boolean
+    users?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AnalyticsEventParamDailyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AnalyticsEventParamDailyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AnalyticsEventParamDailyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AnalyticsEventParamDaily"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      date: Date
+      source: string
+      eventName: string
+      paramName: string
+      paramValue: string
+      eventCount: number
+      users: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["analyticsEventParamDaily"]>
+    composites: {}
+  }
+
+  type AnalyticsEventParamDailyGetPayload<S extends boolean | null | undefined | AnalyticsEventParamDailyDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload, S>
+
+  type AnalyticsEventParamDailyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AnalyticsEventParamDailyFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AnalyticsEventParamDailyCountAggregateInputType | true
+    }
+
+  export interface AnalyticsEventParamDailyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AnalyticsEventParamDaily'], meta: { name: 'AnalyticsEventParamDaily' } }
+    /**
+     * Find zero or one AnalyticsEventParamDaily that matches the filter.
+     * @param {AnalyticsEventParamDailyFindUniqueArgs} args - Arguments to find a AnalyticsEventParamDaily
+     * @example
+     * // Get one AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnalyticsEventParamDailyFindUniqueArgs>(args: SelectSubset<T, AnalyticsEventParamDailyFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AnalyticsEventParamDaily that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AnalyticsEventParamDailyFindUniqueOrThrowArgs} args - Arguments to find a AnalyticsEventParamDaily
+     * @example
+     * // Get one AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnalyticsEventParamDailyFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsEventParamDailyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AnalyticsEventParamDaily that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyFindFirstArgs} args - Arguments to find a AnalyticsEventParamDaily
+     * @example
+     * // Get one AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnalyticsEventParamDailyFindFirstArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyFindFirstArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AnalyticsEventParamDaily that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyFindFirstOrThrowArgs} args - Arguments to find a AnalyticsEventParamDaily
+     * @example
+     * // Get one AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnalyticsEventParamDailyFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AnalyticsEventParamDailies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AnalyticsEventParamDailies
+     * const analyticsEventParamDailies = await prisma.analyticsEventParamDaily.findMany()
+     * 
+     * // Get first 10 AnalyticsEventParamDailies
+     * const analyticsEventParamDailies = await prisma.analyticsEventParamDaily.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const analyticsEventParamDailyWithIdOnly = await prisma.analyticsEventParamDaily.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnalyticsEventParamDailyFindManyArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AnalyticsEventParamDaily.
+     * @param {AnalyticsEventParamDailyCreateArgs} args - Arguments to create a AnalyticsEventParamDaily.
+     * @example
+     * // Create one AnalyticsEventParamDaily
+     * const AnalyticsEventParamDaily = await prisma.analyticsEventParamDaily.create({
+     *   data: {
+     *     // ... data to create a AnalyticsEventParamDaily
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnalyticsEventParamDailyCreateArgs>(args: SelectSubset<T, AnalyticsEventParamDailyCreateArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AnalyticsEventParamDailies.
+     * @param {AnalyticsEventParamDailyCreateManyArgs} args - Arguments to create many AnalyticsEventParamDailies.
+     * @example
+     * // Create many AnalyticsEventParamDailies
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnalyticsEventParamDailyCreateManyArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AnalyticsEventParamDailies and returns the data saved in the database.
+     * @param {AnalyticsEventParamDailyCreateManyAndReturnArgs} args - Arguments to create many AnalyticsEventParamDailies.
+     * @example
+     * // Create many AnalyticsEventParamDailies
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AnalyticsEventParamDailies and only return the `id`
+     * const analyticsEventParamDailyWithIdOnly = await prisma.analyticsEventParamDaily.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnalyticsEventParamDailyCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AnalyticsEventParamDaily.
+     * @param {AnalyticsEventParamDailyDeleteArgs} args - Arguments to delete one AnalyticsEventParamDaily.
+     * @example
+     * // Delete one AnalyticsEventParamDaily
+     * const AnalyticsEventParamDaily = await prisma.analyticsEventParamDaily.delete({
+     *   where: {
+     *     // ... filter to delete one AnalyticsEventParamDaily
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnalyticsEventParamDailyDeleteArgs>(args: SelectSubset<T, AnalyticsEventParamDailyDeleteArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AnalyticsEventParamDaily.
+     * @param {AnalyticsEventParamDailyUpdateArgs} args - Arguments to update one AnalyticsEventParamDaily.
+     * @example
+     * // Update one AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnalyticsEventParamDailyUpdateArgs>(args: SelectSubset<T, AnalyticsEventParamDailyUpdateArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AnalyticsEventParamDailies.
+     * @param {AnalyticsEventParamDailyDeleteManyArgs} args - Arguments to filter AnalyticsEventParamDailies to delete.
+     * @example
+     * // Delete a few AnalyticsEventParamDailies
+     * const { count } = await prisma.analyticsEventParamDaily.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnalyticsEventParamDailyDeleteManyArgs>(args?: SelectSubset<T, AnalyticsEventParamDailyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AnalyticsEventParamDailies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AnalyticsEventParamDailies
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnalyticsEventParamDailyUpdateManyArgs>(args: SelectSubset<T, AnalyticsEventParamDailyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AnalyticsEventParamDaily.
+     * @param {AnalyticsEventParamDailyUpsertArgs} args - Arguments to update or create a AnalyticsEventParamDaily.
+     * @example
+     * // Update or create a AnalyticsEventParamDaily
+     * const analyticsEventParamDaily = await prisma.analyticsEventParamDaily.upsert({
+     *   create: {
+     *     // ... data to create a AnalyticsEventParamDaily
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AnalyticsEventParamDaily we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnalyticsEventParamDailyUpsertArgs>(args: SelectSubset<T, AnalyticsEventParamDailyUpsertArgs<ExtArgs>>): Prisma__AnalyticsEventParamDailyClient<$Result.GetResult<Prisma.$AnalyticsEventParamDailyPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AnalyticsEventParamDailies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyCountArgs} args - Arguments to filter AnalyticsEventParamDailies to count.
+     * @example
+     * // Count the number of AnalyticsEventParamDailies
+     * const count = await prisma.analyticsEventParamDaily.count({
+     *   where: {
+     *     // ... the filter for the AnalyticsEventParamDailies we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnalyticsEventParamDailyCountArgs>(
+      args?: Subset<T, AnalyticsEventParamDailyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnalyticsEventParamDailyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AnalyticsEventParamDaily.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnalyticsEventParamDailyAggregateArgs>(args: Subset<T, AnalyticsEventParamDailyAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsEventParamDailyAggregateType<T>>
+
+    /**
+     * Group by AnalyticsEventParamDaily.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnalyticsEventParamDailyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnalyticsEventParamDailyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnalyticsEventParamDailyGroupByArgs['orderBy'] }
+        : { orderBy?: AnalyticsEventParamDailyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnalyticsEventParamDailyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsEventParamDailyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AnalyticsEventParamDaily model
+   */
+  readonly fields: AnalyticsEventParamDailyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AnalyticsEventParamDaily.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnalyticsEventParamDailyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AnalyticsEventParamDaily model
+   */ 
+  interface AnalyticsEventParamDailyFieldRefs {
+    readonly id: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly companyId: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly date: FieldRef<"AnalyticsEventParamDaily", 'DateTime'>
+    readonly source: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly eventName: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly paramName: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly paramValue: FieldRef<"AnalyticsEventParamDaily", 'String'>
+    readonly eventCount: FieldRef<"AnalyticsEventParamDaily", 'Int'>
+    readonly users: FieldRef<"AnalyticsEventParamDaily", 'Int'>
+    readonly createdAt: FieldRef<"AnalyticsEventParamDaily", 'DateTime'>
+    readonly updatedAt: FieldRef<"AnalyticsEventParamDaily", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AnalyticsEventParamDaily findUnique
+   */
+  export type AnalyticsEventParamDailyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsEventParamDaily to fetch.
+     */
+    where: AnalyticsEventParamDailyWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily findUniqueOrThrow
+   */
+  export type AnalyticsEventParamDailyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsEventParamDaily to fetch.
+     */
+    where: AnalyticsEventParamDailyWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily findFirst
+   */
+  export type AnalyticsEventParamDailyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsEventParamDaily to fetch.
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsEventParamDailies to fetch.
+     */
+    orderBy?: AnalyticsEventParamDailyOrderByWithRelationInput | AnalyticsEventParamDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsEventParamDailies.
+     */
+    cursor?: AnalyticsEventParamDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsEventParamDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsEventParamDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsEventParamDailies.
+     */
+    distinct?: AnalyticsEventParamDailyScalarFieldEnum | AnalyticsEventParamDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsEventParamDaily findFirstOrThrow
+   */
+  export type AnalyticsEventParamDailyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsEventParamDaily to fetch.
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsEventParamDailies to fetch.
+     */
+    orderBy?: AnalyticsEventParamDailyOrderByWithRelationInput | AnalyticsEventParamDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AnalyticsEventParamDailies.
+     */
+    cursor?: AnalyticsEventParamDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsEventParamDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsEventParamDailies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AnalyticsEventParamDailies.
+     */
+    distinct?: AnalyticsEventParamDailyScalarFieldEnum | AnalyticsEventParamDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsEventParamDaily findMany
+   */
+  export type AnalyticsEventParamDailyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter, which AnalyticsEventParamDailies to fetch.
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AnalyticsEventParamDailies to fetch.
+     */
+    orderBy?: AnalyticsEventParamDailyOrderByWithRelationInput | AnalyticsEventParamDailyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AnalyticsEventParamDailies.
+     */
+    cursor?: AnalyticsEventParamDailyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AnalyticsEventParamDailies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AnalyticsEventParamDailies.
+     */
+    skip?: number
+    distinct?: AnalyticsEventParamDailyScalarFieldEnum | AnalyticsEventParamDailyScalarFieldEnum[]
+  }
+
+  /**
+   * AnalyticsEventParamDaily create
+   */
+  export type AnalyticsEventParamDailyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AnalyticsEventParamDaily.
+     */
+    data: XOR<AnalyticsEventParamDailyCreateInput, AnalyticsEventParamDailyUncheckedCreateInput>
+  }
+
+  /**
+   * AnalyticsEventParamDaily createMany
+   */
+  export type AnalyticsEventParamDailyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AnalyticsEventParamDailies.
+     */
+    data: AnalyticsEventParamDailyCreateManyInput | AnalyticsEventParamDailyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AnalyticsEventParamDaily createManyAndReturn
+   */
+  export type AnalyticsEventParamDailyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AnalyticsEventParamDailies.
+     */
+    data: AnalyticsEventParamDailyCreateManyInput | AnalyticsEventParamDailyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AnalyticsEventParamDaily update
+   */
+  export type AnalyticsEventParamDailyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AnalyticsEventParamDaily.
+     */
+    data: XOR<AnalyticsEventParamDailyUpdateInput, AnalyticsEventParamDailyUncheckedUpdateInput>
+    /**
+     * Choose, which AnalyticsEventParamDaily to update.
+     */
+    where: AnalyticsEventParamDailyWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily updateMany
+   */
+  export type AnalyticsEventParamDailyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AnalyticsEventParamDailies.
+     */
+    data: XOR<AnalyticsEventParamDailyUpdateManyMutationInput, AnalyticsEventParamDailyUncheckedUpdateManyInput>
+    /**
+     * Filter which AnalyticsEventParamDailies to update
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily upsert
+   */
+  export type AnalyticsEventParamDailyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AnalyticsEventParamDaily to update in case it exists.
+     */
+    where: AnalyticsEventParamDailyWhereUniqueInput
+    /**
+     * In case the AnalyticsEventParamDaily found by the `where` argument doesn't exist, create a new AnalyticsEventParamDaily with this data.
+     */
+    create: XOR<AnalyticsEventParamDailyCreateInput, AnalyticsEventParamDailyUncheckedCreateInput>
+    /**
+     * In case the AnalyticsEventParamDaily was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnalyticsEventParamDailyUpdateInput, AnalyticsEventParamDailyUncheckedUpdateInput>
+  }
+
+  /**
+   * AnalyticsEventParamDaily delete
+   */
+  export type AnalyticsEventParamDailyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
+    /**
+     * Filter which AnalyticsEventParamDaily to delete.
+     */
+    where: AnalyticsEventParamDailyWhereUniqueInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily deleteMany
+   */
+  export type AnalyticsEventParamDailyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AnalyticsEventParamDailies to delete
+     */
+    where?: AnalyticsEventParamDailyWhereInput
+  }
+
+  /**
+   * AnalyticsEventParamDaily without action
+   */
+  export type AnalyticsEventParamDailyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AnalyticsEventParamDaily
+     */
+    select?: AnalyticsEventParamDailySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnalyticsEventParamDailyInclude<ExtArgs> | null
   }
 
 
@@ -138702,7 +139884,9 @@ export namespace Prisma {
     leadId: 'leadId',
     conversationId: 'conversationId',
     sentByUserId: 'sentByUserId',
-    sentByAI: 'sentByAI'
+    sentByAI: 'sentByAI',
+    deletedAt: 'deletedAt',
+    reactions: 'reactions'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -139428,6 +140612,23 @@ export namespace Prisma {
   };
 
   export type AnalyticsEventDailyScalarFieldEnum = (typeof AnalyticsEventDailyScalarFieldEnum)[keyof typeof AnalyticsEventDailyScalarFieldEnum]
+
+
+  export const AnalyticsEventParamDailyScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    date: 'date',
+    source: 'source',
+    eventName: 'eventName',
+    paramName: 'paramName',
+    paramValue: 'paramValue',
+    eventCount: 'eventCount',
+    users: 'users',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AnalyticsEventParamDailyScalarFieldEnum = (typeof AnalyticsEventParamDailyScalarFieldEnum)[keyof typeof AnalyticsEventParamDailyScalarFieldEnum]
 
 
   export const MarketingEventConfigScalarFieldEnum: {
@@ -141816,6 +143017,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
     analyticsGeoData?: AnalyticsGeoDataListRelationFilter
     analyticsEventDaily?: AnalyticsEventDailyListRelationFilter
+    analyticsEventParamDaily?: AnalyticsEventParamDailyListRelationFilter
     marketingEventConfig?: MarketingEventConfigListRelationFilter
     searchConsoleQueries?: SearchConsoleQueryListRelationFilter
     gbpInsights?: GbpInsightListRelationFilter
@@ -141943,6 +143145,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceOrderByRelationAggregateInput
     analyticsGeoData?: AnalyticsGeoDataOrderByRelationAggregateInput
     analyticsEventDaily?: AnalyticsEventDailyOrderByRelationAggregateInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyOrderByRelationAggregateInput
     marketingEventConfig?: MarketingEventConfigOrderByRelationAggregateInput
     searchConsoleQueries?: SearchConsoleQueryOrderByRelationAggregateInput
     gbpInsights?: GbpInsightOrderByRelationAggregateInput
@@ -142073,6 +143276,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceListRelationFilter
     analyticsGeoData?: AnalyticsGeoDataListRelationFilter
     analyticsEventDaily?: AnalyticsEventDailyListRelationFilter
+    analyticsEventParamDaily?: AnalyticsEventParamDailyListRelationFilter
     marketingEventConfig?: MarketingEventConfigListRelationFilter
     searchConsoleQueries?: SearchConsoleQueryListRelationFilter
     gbpInsights?: GbpInsightListRelationFilter
@@ -143627,6 +144831,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
+    reactions?: JsonNullableFilter<"Message">
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -143659,6 +144865,8 @@ export namespace Prisma {
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
     sentByAI?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    reactions?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     instance?: WhatsappInstanceOrderByWithRelationInput
     campaign?: CampaignOrderByWithRelationInput
@@ -143694,6 +144902,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
+    reactions?: JsonNullableFilter<"Message">
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     instance?: XOR<WhatsappInstanceNullableRelationFilter, WhatsappInstanceWhereInput> | null
     campaign?: XOR<CampaignNullableRelationFilter, CampaignWhereInput> | null
@@ -143726,6 +144936,8 @@ export namespace Prisma {
     conversationId?: SortOrderInput | SortOrder
     sentByUserId?: SortOrderInput | SortOrder
     sentByAI?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    reactions?: SortOrderInput | SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -143760,6 +144972,8 @@ export namespace Prisma {
     conversationId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     sentByUserId?: StringNullableWithAggregatesFilter<"Message"> | string | null
     sentByAI?: BoolWithAggregatesFilter<"Message"> | boolean
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
+    reactions?: JsonNullableWithAggregatesFilter<"Message">
   }
 
   export type KeywordRuleWhereInput = {
@@ -147603,6 +148817,94 @@ export namespace Prisma {
     users?: IntWithAggregatesFilter<"AnalyticsEventDaily"> | number
     createdAt?: DateTimeWithAggregatesFilter<"AnalyticsEventDaily"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AnalyticsEventDaily"> | Date | string
+  }
+
+  export type AnalyticsEventParamDailyWhereInput = {
+    AND?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
+    OR?: AnalyticsEventParamDailyWhereInput[]
+    NOT?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
+    id?: StringFilter<"AnalyticsEventParamDaily"> | string
+    companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    source?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramValue?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventCount?: IntFilter<"AnalyticsEventParamDaily"> | number
+    users?: IntFilter<"AnalyticsEventParamDaily"> | number
+    createdAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type AnalyticsEventParamDailyOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    eventName?: SortOrder
+    paramName?: SortOrder
+    paramValue?: SortOrder
+    eventCount?: SortOrder
+    users?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AnalyticsEventParamDailyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_date_source_eventName_paramName_paramValue?: AnalyticsEventParamDailyCompanyIdDateSourceEventNameParamNameParamValueCompoundUniqueInput
+    AND?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
+    OR?: AnalyticsEventParamDailyWhereInput[]
+    NOT?: AnalyticsEventParamDailyWhereInput | AnalyticsEventParamDailyWhereInput[]
+    companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    source?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramValue?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventCount?: IntFilter<"AnalyticsEventParamDaily"> | number
+    users?: IntFilter<"AnalyticsEventParamDaily"> | number
+    createdAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId_date_source_eventName_paramName_paramValue">
+
+  export type AnalyticsEventParamDailyOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    eventName?: SortOrder
+    paramName?: SortOrder
+    paramValue?: SortOrder
+    eventCount?: SortOrder
+    users?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AnalyticsEventParamDailyCountOrderByAggregateInput
+    _avg?: AnalyticsEventParamDailyAvgOrderByAggregateInput
+    _max?: AnalyticsEventParamDailyMaxOrderByAggregateInput
+    _min?: AnalyticsEventParamDailyMinOrderByAggregateInput
+    _sum?: AnalyticsEventParamDailySumOrderByAggregateInput
+  }
+
+  export type AnalyticsEventParamDailyScalarWhereWithAggregatesInput = {
+    AND?: AnalyticsEventParamDailyScalarWhereWithAggregatesInput | AnalyticsEventParamDailyScalarWhereWithAggregatesInput[]
+    OR?: AnalyticsEventParamDailyScalarWhereWithAggregatesInput[]
+    NOT?: AnalyticsEventParamDailyScalarWhereWithAggregatesInput | AnalyticsEventParamDailyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    companyId?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    date?: DateTimeWithAggregatesFilter<"AnalyticsEventParamDaily"> | Date | string
+    source?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    eventName?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    paramName?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    paramValue?: StringWithAggregatesFilter<"AnalyticsEventParamDaily"> | string
+    eventCount?: IntWithAggregatesFilter<"AnalyticsEventParamDaily"> | number
+    users?: IntWithAggregatesFilter<"AnalyticsEventParamDaily"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"AnalyticsEventParamDaily"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AnalyticsEventParamDaily"> | Date | string
   }
 
   export type MarketingEventConfigWhereInput = {
@@ -152999,6 +154301,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -153125,6 +154428,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -153251,6 +154555,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -153377,6 +154682,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -155085,6 +156391,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -155117,6 +156425,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUpdateInput = {
@@ -155137,6 +156447,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -155169,6 +156481,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateManyInput = {
@@ -155195,6 +156509,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -155215,6 +156531,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -155241,6 +156559,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleCreateInput = {
@@ -159496,6 +160816,103 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsEventParamDailyCreateInput = {
+    id?: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAnalyticsEventParamDailyInput
+  }
+
+  export type AnalyticsEventParamDailyUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsEventParamDailyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAnalyticsEventParamDailyNestedInput
+  }
+
+  export type AnalyticsEventParamDailyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsEventParamDailyCreateManyInput = {
+    id?: string
+    companyId: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsEventParamDailyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsEventParamDailyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
     eventCount?: IntFieldUpdateOperationsInput | number
     users?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165678,6 +167095,12 @@ export namespace Prisma {
     none?: AnalyticsEventDailyWhereInput
   }
 
+  export type AnalyticsEventParamDailyListRelationFilter = {
+    every?: AnalyticsEventParamDailyWhereInput
+    some?: AnalyticsEventParamDailyWhereInput
+    none?: AnalyticsEventParamDailyWhereInput
+  }
+
   export type MarketingEventConfigListRelationFilter = {
     every?: MarketingEventConfigWhereInput
     some?: MarketingEventConfigWhereInput
@@ -165961,6 +167384,10 @@ export namespace Prisma {
   }
 
   export type AnalyticsEventDailyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -167305,6 +168732,8 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    deletedAt?: SortOrder
+    reactions?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -167334,6 +168763,7 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -167359,6 +168789,7 @@ export namespace Prisma {
     conversationId?: SortOrder
     sentByUserId?: SortOrder
     sentByAI?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
@@ -170019,6 +171450,67 @@ export namespace Prisma {
   }
 
   export type AnalyticsEventDailySumOrderByAggregateInput = {
+    eventCount?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailyCompanyIdDateSourceEventNameParamNameParamValueCompoundUniqueInput = {
+    companyId: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+  }
+
+  export type AnalyticsEventParamDailyCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    eventName?: SortOrder
+    paramName?: SortOrder
+    paramValue?: SortOrder
+    eventCount?: SortOrder
+    users?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailyAvgOrderByAggregateInput = {
+    eventCount?: SortOrder
+    users?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    eventName?: SortOrder
+    paramName?: SortOrder
+    paramValue?: SortOrder
+    eventCount?: SortOrder
+    users?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailyMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    date?: SortOrder
+    source?: SortOrder
+    eventName?: SortOrder
+    paramName?: SortOrder
+    paramValue?: SortOrder
+    eventCount?: SortOrder
+    users?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnalyticsEventParamDailySumOrderByAggregateInput = {
     eventCount?: SortOrder
     users?: SortOrder
   }
@@ -175201,6 +176693,13 @@ export namespace Prisma {
     connect?: AnalyticsEventDailyWhereUniqueInput | AnalyticsEventDailyWhereUniqueInput[]
   }
 
+  export type AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput> | AnalyticsEventParamDailyCreateWithoutCompanyInput[] | AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput | AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsEventParamDailyCreateManyCompanyInputEnvelope
+    connect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+  }
+
   export type MarketingEventConfigCreateNestedManyWithoutCompanyInput = {
     create?: XOR<MarketingEventConfigCreateWithoutCompanyInput, MarketingEventConfigUncheckedCreateWithoutCompanyInput> | MarketingEventConfigCreateWithoutCompanyInput[] | MarketingEventConfigUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: MarketingEventConfigCreateOrConnectWithoutCompanyInput | MarketingEventConfigCreateOrConnectWithoutCompanyInput[]
@@ -175769,6 +177268,13 @@ export namespace Prisma {
     connectOrCreate?: AnalyticsEventDailyCreateOrConnectWithoutCompanyInput | AnalyticsEventDailyCreateOrConnectWithoutCompanyInput[]
     createMany?: AnalyticsEventDailyCreateManyCompanyInputEnvelope
     connect?: AnalyticsEventDailyWhereUniqueInput | AnalyticsEventDailyWhereUniqueInput[]
+  }
+
+  export type AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput> | AnalyticsEventParamDailyCreateWithoutCompanyInput[] | AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput | AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput[]
+    createMany?: AnalyticsEventParamDailyCreateManyCompanyInputEnvelope
+    connect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
   }
 
   export type MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -176736,6 +178242,20 @@ export namespace Prisma {
     update?: AnalyticsEventDailyUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsEventDailyUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AnalyticsEventDailyUpdateManyWithWhereWithoutCompanyInput | AnalyticsEventDailyUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AnalyticsEventDailyScalarWhereInput | AnalyticsEventDailyScalarWhereInput[]
+  }
+
+  export type AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput> | AnalyticsEventParamDailyCreateWithoutCompanyInput[] | AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput | AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsEventParamDailyUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsEventParamDailyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsEventParamDailyCreateManyCompanyInputEnvelope
+    set?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    disconnect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    delete?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    connect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    update?: AnalyticsEventParamDailyUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsEventParamDailyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsEventParamDailyUpdateManyWithWhereWithoutCompanyInput | AnalyticsEventParamDailyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsEventParamDailyScalarWhereInput | AnalyticsEventParamDailyScalarWhereInput[]
   }
 
   export type MarketingEventConfigUpdateManyWithoutCompanyNestedInput = {
@@ -177868,6 +179388,20 @@ export namespace Prisma {
     update?: AnalyticsEventDailyUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsEventDailyUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AnalyticsEventDailyUpdateManyWithWhereWithoutCompanyInput | AnalyticsEventDailyUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AnalyticsEventDailyScalarWhereInput | AnalyticsEventDailyScalarWhereInput[]
+  }
+
+  export type AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput> | AnalyticsEventParamDailyCreateWithoutCompanyInput[] | AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput | AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput[]
+    upsert?: AnalyticsEventParamDailyUpsertWithWhereUniqueWithoutCompanyInput | AnalyticsEventParamDailyUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AnalyticsEventParamDailyCreateManyCompanyInputEnvelope
+    set?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    disconnect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    delete?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    connect?: AnalyticsEventParamDailyWhereUniqueInput | AnalyticsEventParamDailyWhereUniqueInput[]
+    update?: AnalyticsEventParamDailyUpdateWithWhereUniqueWithoutCompanyInput | AnalyticsEventParamDailyUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AnalyticsEventParamDailyUpdateManyWithWhereWithoutCompanyInput | AnalyticsEventParamDailyUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AnalyticsEventParamDailyScalarWhereInput | AnalyticsEventParamDailyScalarWhereInput[]
   }
 
   export type MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -182286,6 +183820,20 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsEventDailyInput, CompanyUpdateWithoutAnalyticsEventDailyInput>, CompanyUncheckedUpdateWithoutAnalyticsEventDailyInput>
   }
 
+  export type CompanyCreateNestedOneWithoutAnalyticsEventParamDailyInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsEventParamDailyInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAnalyticsEventParamDailyNestedInput = {
+    create?: XOR<CompanyCreateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAnalyticsEventParamDailyInput
+    upsert?: CompanyUpsertWithoutAnalyticsEventParamDailyInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAnalyticsEventParamDailyInput, CompanyUpdateWithoutAnalyticsEventParamDailyInput>, CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput>
+  }
+
   export type CompanyCreateNestedOneWithoutMarketingEventConfigInput = {
     create?: XOR<CompanyCreateWithoutMarketingEventConfigInput, CompanyUncheckedCreateWithoutMarketingEventConfigInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutMarketingEventConfigInput
@@ -185722,6 +187270,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -185847,6 +187396,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -186390,6 +187940,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -186420,6 +187972,8 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutSentByInput = {
@@ -187320,6 +188874,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -187445,6 +189000,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -187924,6 +189480,8 @@ export namespace Prisma {
     conversationId?: StringNullableFilter<"Message"> | string | null
     sentByUserId?: StringNullableFilter<"Message"> | string | null
     sentByAI?: BoolFilter<"Message"> | boolean
+    deletedAt?: DateTimeNullableFilter<"Message"> | Date | string | null
+    reactions?: JsonNullableFilter<"Message">
   }
 
   export type TaskUpsertWithWhereUniqueWithoutAssigneeInput = {
@@ -188596,6 +190154,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -188721,6 +190280,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -188967,6 +190527,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -189092,6 +190653,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -189975,6 +191537,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -190100,6 +191663,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -190230,6 +191794,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -190355,6 +191920,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -191553,6 +193119,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -191583,6 +193151,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutCompanyInput = {
@@ -192814,6 +194384,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AnalyticsEventParamDailyCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnalyticsEventParamDailyCreateOrConnectWithoutCompanyInput = {
+    where: AnalyticsEventParamDailyWhereUniqueInput
+    create: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsEventParamDailyCreateManyCompanyInputEnvelope = {
+    data: AnalyticsEventParamDailyCreateManyCompanyInput | AnalyticsEventParamDailyCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MarketingEventConfigCreateWithoutCompanyInput = {
     id?: string
     source: string
@@ -193923,6 +195529,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -194048,6 +195655,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -195837,6 +197445,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AnalyticsEventDaily"> | Date | string
   }
 
+  export type AnalyticsEventParamDailyUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsEventParamDailyWhereUniqueInput
+    update: XOR<AnalyticsEventParamDailyUpdateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AnalyticsEventParamDailyCreateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AnalyticsEventParamDailyUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AnalyticsEventParamDailyWhereUniqueInput
+    data: XOR<AnalyticsEventParamDailyUpdateWithoutCompanyInput, AnalyticsEventParamDailyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AnalyticsEventParamDailyUpdateManyWithWhereWithoutCompanyInput = {
+    where: AnalyticsEventParamDailyScalarWhereInput
+    data: XOR<AnalyticsEventParamDailyUpdateManyMutationInput, AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AnalyticsEventParamDailyScalarWhereInput = {
+    AND?: AnalyticsEventParamDailyScalarWhereInput | AnalyticsEventParamDailyScalarWhereInput[]
+    OR?: AnalyticsEventParamDailyScalarWhereInput[]
+    NOT?: AnalyticsEventParamDailyScalarWhereInput | AnalyticsEventParamDailyScalarWhereInput[]
+    id?: StringFilter<"AnalyticsEventParamDaily"> | string
+    companyId?: StringFilter<"AnalyticsEventParamDaily"> | string
+    date?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    source?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramName?: StringFilter<"AnalyticsEventParamDaily"> | string
+    paramValue?: StringFilter<"AnalyticsEventParamDaily"> | string
+    eventCount?: IntFilter<"AnalyticsEventParamDaily"> | number
+    users?: IntFilter<"AnalyticsEventParamDaily"> | number
+    createdAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+    updatedAt?: DateTimeFilter<"AnalyticsEventParamDaily"> | Date | string
+  }
+
   export type MarketingEventConfigUpsertWithWhereUniqueWithoutCompanyInput = {
     where: MarketingEventConfigWhereUniqueInput
     update: XOR<MarketingEventConfigUpdateWithoutCompanyInput, MarketingEventConfigUncheckedUpdateWithoutCompanyInput>
@@ -196738,6 +198379,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -196863,6 +198505,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -197029,6 +198672,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -197059,6 +198704,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutCampaignInput = {
@@ -197252,6 +198899,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -197377,6 +199025,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -197607,6 +199256,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -197732,6 +199382,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -198060,6 +199711,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -198185,6 +199837,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -198438,6 +200091,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -198563,6 +200217,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -198817,6 +200472,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -198847,6 +200504,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutLeadInput = {
@@ -199232,6 +200891,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -199357,6 +201017,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -199891,6 +201552,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -200016,6 +201678,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -200177,6 +201840,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -200302,6 +201966,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -200723,6 +202388,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -200848,6 +202514,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -201015,6 +202682,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -201140,6 +202808,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -201573,6 +203242,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -201698,6 +203368,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -201865,6 +203536,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -201990,6 +203662,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -202131,6 +203804,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -202256,6 +203930,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -202426,6 +204101,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -202551,6 +204227,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -202820,6 +204497,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -202945,6 +204623,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -203411,6 +205090,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -203536,6 +205216,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -204107,6 +205788,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -204232,6 +205914,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -204373,6 +206056,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -204498,6 +206182,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -204623,6 +206308,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -204748,6 +206434,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -204994,6 +206681,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -205119,6 +206807,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -205460,6 +207149,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -205585,6 +207275,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -205637,6 +207328,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
     lead?: LeadCreateNestedOneWithoutMessagesInput
@@ -205667,6 +207360,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutInstanceInput = {
@@ -206087,6 +207782,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -206212,6 +207908,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -206425,6 +208122,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -206550,6 +208248,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -207056,6 +208755,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -207181,6 +208881,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -207701,6 +209402,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -207826,6 +209528,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -208008,6 +209711,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -208133,6 +209837,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -208526,6 +210231,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -208651,6 +210357,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -208703,6 +210410,8 @@ export namespace Prisma {
     mediaBase64?: string | null
     mediaType?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company: CompanyCreateNestedOneWithoutMessagesInput
     instance?: WhatsappInstanceCreateNestedOneWithoutMessagesInput
     campaign?: CampaignCreateNestedOneWithoutMessagesInput
@@ -208733,6 +210442,8 @@ export namespace Prisma {
     leadId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageCreateOrConnectWithoutConversationInput = {
@@ -209269,6 +210980,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -209394,6 +211106,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -209965,6 +211678,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -210090,6 +211804,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -210482,6 +212197,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -210607,6 +212323,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -210732,6 +212449,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -210857,6 +212575,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -211092,6 +212811,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -211217,6 +212937,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -211767,6 +213488,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -211892,6 +213614,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -212139,6 +213862,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -212264,6 +213988,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -212861,6 +214586,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -212986,6 +214712,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -213429,6 +215156,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -213554,6 +215282,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -214179,6 +215908,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -214304,6 +216034,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -214869,6 +216600,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -214994,6 +216726,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -218624,6 +220357,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -218749,6 +220483,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -218940,6 +220675,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -219065,6 +220801,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -219412,6 +221149,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -219537,6 +221275,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -219729,6 +221468,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -219854,6 +221594,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -219979,6 +221720,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -220104,6 +221846,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -220279,6 +222022,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -220404,6 +222148,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -220576,6 +222321,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -220701,6 +222447,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -220879,6 +222626,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -221004,6 +222752,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -221129,6 +222878,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -221254,6 +223004,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -221395,6 +223146,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -221520,6 +223272,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -221646,6 +223399,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -221771,6 +223525,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -221912,6 +223667,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -222037,6 +223793,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -222161,6 +223918,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -222286,6 +224044,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -222427,6 +224186,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -222552,6 +224312,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -222677,6 +224438,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -222802,6 +224564,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -222943,6 +224706,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -223068,6 +224832,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -223193,6 +224958,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -223318,6 +225084,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -223603,6 +225370,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -223728,6 +225496,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -223901,6 +225670,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -224026,6 +225796,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -224256,6 +226027,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -224381,6 +226153,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -224573,6 +226346,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -224698,6 +226472,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -224935,6 +226710,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -225060,6 +226836,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -225293,6 +227070,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -225418,6 +227196,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -225634,6 +227413,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -225759,6 +227539,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -226049,6 +227830,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -226174,6 +227956,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -226315,6 +228098,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -226440,6 +228224,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -226565,6 +228350,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -226690,6 +228476,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -226831,6 +228618,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -226956,6 +228744,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227081,6 +228870,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -227206,6 +228996,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -227347,6 +229138,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -227472,6 +229264,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227597,6 +229390,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -227722,6 +229516,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -227863,6 +229658,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -227988,6 +229784,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -228113,6 +229910,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -228238,6 +230036,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -228379,6 +230178,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -228504,6 +230304,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -228629,6 +230430,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -228754,6 +230556,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -228895,6 +230698,7 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -229020,6 +230824,527 @@ export namespace Prisma {
     analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutAnalyticsEventParamDailyInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAnalyticsEventParamDailyInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput>
+  }
+
+  export type CompanyUpsertWithoutAnalyticsEventParamDailyInput = {
+    update: XOR<CompanyUpdateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput>
+    create: XOR<CompanyCreateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedCreateWithoutAnalyticsEventParamDailyInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAnalyticsEventParamDailyInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAnalyticsEventParamDailyInput, CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput>
+  }
+
+  export type CompanyUpdateWithoutAnalyticsEventParamDailyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAnalyticsEventParamDailyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229146,6 +231471,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
@@ -229271,6 +231597,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
@@ -229412,6 +231739,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
@@ -229537,6 +231865,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229662,6 +231991,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
@@ -229787,6 +232117,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
@@ -229928,6 +232259,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
@@ -230053,6 +232385,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
@@ -230178,6 +232511,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
@@ -230303,6 +232637,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
@@ -230444,6 +232779,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
@@ -230569,6 +232905,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
@@ -230694,6 +233031,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -230819,6 +233157,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -230960,6 +233299,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -231085,6 +233425,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -231210,6 +233551,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -231335,6 +233677,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -231476,6 +233819,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -231601,6 +233945,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -231726,6 +234071,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -231851,6 +234197,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -231992,6 +234339,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -232117,6 +234465,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -232242,6 +234591,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -232367,6 +234717,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -232508,6 +234859,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -232633,6 +234985,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -232758,6 +235111,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -232883,6 +235237,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -233024,6 +235379,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -233149,6 +235505,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -233274,6 +235631,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -233399,6 +235757,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -233540,6 +235899,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -233665,6 +236025,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -233790,6 +236151,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -233915,6 +236277,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -234056,6 +236419,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -234181,6 +236545,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -234306,6 +236671,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -234431,6 +236797,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -234572,6 +236939,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -234697,6 +237065,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -234821,6 +237190,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -234946,6 +237316,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -235111,6 +237482,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -235236,6 +237608,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -235448,6 +237821,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -235573,6 +237947,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -235750,6 +238125,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -235875,6 +238251,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -236121,6 +238498,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -236246,6 +238624,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -236529,6 +238908,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -236654,6 +239034,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -236921,6 +239302,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -237046,6 +239428,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -237298,6 +239681,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -237423,6 +239807,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -237653,6 +240038,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -237778,6 +240164,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -238030,6 +240417,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -238155,6 +240543,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -238385,6 +240774,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -238510,6 +240900,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -238762,6 +241153,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -238887,6 +241279,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -239012,6 +241405,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -239137,6 +241531,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -239278,6 +241673,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -239403,6 +241799,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -239960,6 +242357,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -240085,6 +242483,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -240226,6 +242625,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -240351,6 +242751,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -240476,6 +242877,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -240601,6 +243003,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -240804,6 +243207,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -240929,6 +243333,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -241097,6 +243502,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -241222,6 +243628,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -241661,6 +244068,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -241786,6 +244194,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -242543,6 +244952,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -242668,6 +245078,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -242809,6 +245220,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -242934,6 +245346,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -243059,6 +245472,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -243184,6 +245598,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -243417,6 +245832,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -243542,6 +245958,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -243699,6 +246116,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -243824,6 +246242,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -244251,6 +246670,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -244376,6 +246796,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -244801,6 +247222,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -244926,6 +247348,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -245067,6 +247490,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -245192,6 +247616,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -245453,6 +247878,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -245578,6 +248004,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -245784,6 +248211,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -245909,6 +248337,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -246051,6 +248480,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -246176,6 +248606,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -246317,6 +248748,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -246442,6 +248874,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -246567,6 +249000,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -246692,6 +249126,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -246833,6 +249268,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -246958,6 +249394,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -247166,6 +249603,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -247291,6 +249729,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -247479,6 +249918,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -247604,6 +250044,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -247729,6 +250170,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -247854,6 +250296,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -248316,6 +250759,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -248441,6 +250885,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -248871,6 +251316,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -248996,6 +251442,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -249182,6 +251629,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -249307,6 +251755,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -249755,6 +252204,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -249880,6 +252330,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -250080,6 +252531,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -250205,6 +252657,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -250395,6 +252848,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -250520,6 +252974,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -250809,6 +253264,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -250934,6 +253390,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -251106,6 +253563,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -251231,6 +253689,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -251459,6 +253918,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -251584,6 +254044,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -251772,6 +254233,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -251897,6 +254359,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -252073,6 +254536,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -252198,6 +254662,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -252365,6 +254830,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -252490,6 +254956,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -252689,6 +255156,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -252814,6 +255282,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253025,6 +255494,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -253150,6 +255620,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -253334,6 +255805,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -253459,6 +255931,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253664,6 +256137,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -253789,6 +256263,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -254035,6 +256510,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -254160,6 +256636,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -254396,6 +256873,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -254521,6 +256999,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -254767,6 +257246,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -254892,6 +257372,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -255128,6 +257609,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -255253,6 +257735,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -255604,6 +258087,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -255729,6 +258213,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -256076,6 +258561,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -256201,6 +258687,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -256552,6 +259039,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -256677,6 +259165,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -257024,6 +259513,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
@@ -257149,6 +259639,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
     marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
     gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
@@ -257395,6 +259886,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -257520,6 +260012,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -257841,6 +260334,8 @@ export namespace Prisma {
     leadId?: string | null
     conversationId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskCreateManyAssigneeInput = {
@@ -258634,6 +261129,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -258664,6 +261161,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutSentByInput = {
@@ -258689,6 +261188,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskUpdateWithoutAssigneeInput = {
@@ -259958,6 +262459,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleCreateManyCompanyInput = {
@@ -260389,6 +262892,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AnalyticsEventParamDailyCreateManyCompanyInput = {
+    id?: string
+    date: Date | string
+    source: string
+    eventName: string
+    paramName: string
+    paramValue: string
+    eventCount?: number
+    users?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MarketingEventConfigCreateManyCompanyInput = {
     id?: string
     source: string
@@ -260811,6 +263327,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
@@ -260936,6 +263453,7 @@ export namespace Prisma {
     analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
     analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
     marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
     searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
     gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262247,6 +264765,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -262277,6 +264797,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutCompanyInput = {
@@ -262302,6 +264824,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type KeywordRuleUpdateWithoutCompanyInput = {
@@ -263649,6 +266173,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AnalyticsEventParamDailyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsEventParamDailyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    paramName?: StringFieldUpdateOperationsInput | string
+    paramValue?: StringFieldUpdateOperationsInput | string
+    eventCount?: IntFieldUpdateOperationsInput | number
+    users?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MarketingEventConfigUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     source?: StringFieldUpdateOperationsInput | string
@@ -264708,6 +267271,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TrackingLinkCreateManyCampaignInput = {
@@ -264901,6 +267466,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -264931,6 +267498,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutCampaignInput = {
@@ -264956,6 +267525,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TrackingLinkUpdateWithoutCampaignInput = {
@@ -265284,6 +267855,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type LeadCommentCreateManyLeadInput = {
@@ -265399,6 +267972,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -265429,6 +268004,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutLeadInput = {
@@ -265454,6 +268031,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type LeadCommentUpdateWithoutLeadInput = {
@@ -265854,6 +268433,8 @@ export namespace Prisma {
     conversationId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationCreateManyInstanceInput = {
@@ -265943,6 +268524,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
     lead?: LeadUpdateOneWithoutMessagesNestedInput
@@ -265973,6 +268556,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutInstanceInput = {
@@ -265998,6 +268583,8 @@ export namespace Prisma {
     conversationId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationUpdateWithoutInstanceInput = {
@@ -266242,6 +268829,8 @@ export namespace Prisma {
     leadId?: string | null
     sentByUserId?: string | null
     sentByAI?: boolean
+    deletedAt?: Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationNoteCreateManyConversationInput = {
@@ -266328,6 +268917,8 @@ export namespace Prisma {
     mediaBase64?: NullableStringFieldUpdateOperationsInput | string | null
     mediaType?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
     company?: CompanyUpdateOneRequiredWithoutMessagesNestedInput
     instance?: WhatsappInstanceUpdateOneWithoutMessagesNestedInput
     campaign?: CampaignUpdateOneWithoutMessagesNestedInput
@@ -266358,6 +268949,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type MessageUncheckedUpdateManyWithoutConversationInput = {
@@ -266383,6 +268976,8 @@ export namespace Prisma {
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     sentByAI?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reactions?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ConversationNoteUpdateWithoutConversationInput = {
@@ -270023,6 +272618,10 @@ export namespace Prisma {
      * @deprecated Use AnalyticsEventDailyDefaultArgs instead
      */
     export type AnalyticsEventDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsEventDailyDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AnalyticsEventParamDailyDefaultArgs instead
+     */
+    export type AnalyticsEventParamDailyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AnalyticsEventParamDailyDefaultArgs<ExtArgs>
     /**
      * @deprecated Use MarketingEventConfigDefaultArgs instead
      */
