@@ -148,6 +148,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, event: "connection_update", state });
     }
 
+    // ── MESSAGES_DELETE → mensagem apagada no WhatsApp ──────────────────────
+    // Formatos possíveis do payload conforme a versão: uma key única
+    // { id, remoteJid, fromMe }, um array de keys, ou { keys: [...] }.
+    // Mantemos o conteúdo e marcamos deletedAt (aviso na UI).
+    if (normalizedEvent === "messages.delete") {
+      const { prisma } = await import("@/lib/prisma");
+      const items: any[] = Array.isArray(data) ? data : Array.isArray(data?.keys) ? data.keys : (data ? [data] : []);
+      const ids = items
+        .map((k: any) => k?.id ?? k?.key?.id ?? k?.keyId)
+        .filter((x: any): x is string => typeof x === "string" && x.length > 0);
+      let updated = 0;
+      if (ids.length > 0) {
+        const r = await prisma.message.updateMany({
+          where: { externalId: { in: ids }, deletedAt: null },
+          data: { deletedAt: new Date() },
+        });
+        updated = r.count;
+      }
+      console.log(`[Webhook WA] messages.delete ids=${ids.join(",") || "?"} marcadas=${updated}`);
+      return NextResponse.json({ ok: true, event: "messages.delete", updated });
+    }
+
     // ── MESSAGES_UPDATE → atualizar ACK (entregue / lido) ───────────────────
     if (normalizedEvent === "messages.update") {
       const { prisma } = await import("@/lib/prisma");
@@ -179,6 +201,23 @@ export async function POST(request: NextRequest) {
       for (const item of updates) {
         const msgId = extractMsgId(item);
         const rawAck = extractRawAck(item);
+
+        // Algumas versões sinalizam a EXCLUSÃO via messages.update:
+        // update.messageStubType = 1/"REVOKE", status "DELETED", ou
+        // update.message = null. Marca deletedAt (conteúdo mantido) e segue.
+        const stub = item?.update?.messageStubType ?? item?.messageStubType;
+        const isRevokeUpdate =
+          stub === 1 || String(stub ?? "").toUpperCase() === "REVOKE" ||
+          String(rawAck ?? "").toUpperCase() === "DELETED" ||
+          (item?.update && "message" in item.update && item.update.message === null);
+        if (msgId && isRevokeUpdate) {
+          const r = await prisma.message.updateMany({
+            where: { externalId: msgId, deletedAt: null },
+            data: { deletedAt: new Date() },
+          });
+          console.log(`[Webhook WA] revoke via messages.update msg=${msgId} marcadas=${r.count}`);
+          continue;
+        }
 
         if (!msgId || rawAck === undefined) {
           console.log(`[ACK] payload sem msgId/status — item=${JSON.stringify(item).slice(0, 300)}`);

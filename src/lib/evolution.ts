@@ -88,7 +88,7 @@ export async function evolutionCreateInstance(instanceName: string, webhookUrl: 
         // no processo, derrubando sockets de outras instâncias). A mídia é
         // buscada sob demanda via evolutionGetMediaBase64 quando a UI renderiza.
         base64: false,
-        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "MESSAGES_DELETE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
   });
@@ -152,6 +152,39 @@ export async function evolutionGetMediaBase64(
   } catch {
     return null;
   }
+}
+
+/**
+ * Envia uma reação (emoji) a uma mensagem existente.
+ * `reaction` vazio ("") REMOVE a reação. A key é a da mensagem ALVO
+ * (remoteJid da conversa, fromMe se a mensagem é nossa, id = externalId).
+ */
+export async function evolutionSendReaction(
+  instanceName: string,
+  key: { remoteJid: string; fromMe: boolean; id: string; participant?: string | null },
+  reaction: string,
+  instanceToken?: string | null,
+) {
+  const { baseUrl, apiKey } = await getConfig();
+  const token = instanceToken ?? await evolutionGetInstanceToken(instanceName) ?? apiKey;
+  const res = await fetch(`${baseUrl}/message/sendReaction/${instanceName}`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify({
+      key: {
+        remoteJid: key.remoteJid,
+        fromMe: key.fromMe,
+        id: key.id,
+        ...(key.participant ? { participant: key.participant } : {}),
+      },
+      reaction,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Evolution sendReaction: ${res.status} ${err}`);
+  }
+  return res.json();
 }
 
 /** Busca token da instância via fetchInstances (para autenticar endpoints que precisam do token) */
@@ -313,7 +346,7 @@ export async function evolutionSetWebhookEvents(instanceName: string, webhookUrl
         // base64:false — mídia buscada sob demanda (ver evolutionGetMediaBase64).
         // Evita o pico de memória da Evolution ao codificar mídia grande inline.
         base64: false,
-        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
+        events: ["MESSAGES_UPSERT", "MESSAGES_UPDATE", "MESSAGES_DELETE", "CONNECTION_UPDATE", "QRCODE_UPDATED"],
       },
     }),
   });
