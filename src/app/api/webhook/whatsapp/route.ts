@@ -318,15 +318,30 @@ export async function POST(request: NextRequest) {
     const isImageMsg = messageType === "imageMessage" || !!message?.imageMessage;
     const isAudioMsg = messageType === "audioMessage" || messageType === "pttMessage" || !!message?.audioMessage || !!message?.pttMessage;
 
+    // Normaliza um candidato a base64: aceita string; converte Buffer serializado
+    // em JSON ({ type: "Buffer", data: [...] } — é assim que o jpegThumbnail
+    // chega quando o webhook está com base64:false). Qualquer outro formato →
+    // null. Sem isso, um OBJETO ia parar em Message.mediaBase64 (coluna string),
+    // o Prisma rejeitava e a MENSAGEM INTEIRA se perdia — imagens recebidas do
+    // WhatsApp simplesmente não apareciam no LeadHub.
+    const coerceBase64 = (v: any): string | null => {
+      if (!v) return null;
+      if (typeof v === "string") return v;
+      if (typeof v === "object" && Array.isArray(v.data)) {
+        try { return Buffer.from(v.data).toString("base64"); } catch { return null; }
+      }
+      return null;
+    };
+
     // Evolution API pode colocar o base64 em locais diferentes dependendo da versão.
     // jpegThumbnail é sempre presente em imageMessage (preview de baixa resolução).
     const rawBase64: string | null =
-      data?.base64 ??
-      data?.message?.base64 ??
-      message?.imageMessage?.base64 ??
-      message?.imageMessage?.jpegThumbnail ??   // preview sempre disponível
-      message?.audioMessage?.base64 ??
-      message?.pttMessage?.base64 ??
+      coerceBase64(data?.base64) ??
+      coerceBase64(data?.message?.base64) ??
+      coerceBase64(message?.imageMessage?.base64) ??
+      coerceBase64(message?.imageMessage?.jpegThumbnail) ??   // preview sempre disponível
+      coerceBase64(message?.audioMessage?.base64) ??
+      coerceBase64(message?.pttMessage?.base64) ??
       null;
 
     // Só salvar base64 para imagem e áudio (ignorar vídeo e documento).
