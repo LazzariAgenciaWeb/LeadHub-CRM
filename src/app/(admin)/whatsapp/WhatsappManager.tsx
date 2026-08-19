@@ -506,6 +506,29 @@ export default function WhatsappManager({
   // Citação (responder mensagem específica)
   const [replyingTo, setReplyingTo] = useState<WaMessage | null>(null);
 
+  // Reagir (emoji) a uma mensagem — picker rápido no hover do balão
+  const [reactionPickerFor, setReactionPickerFor] = useState<string | null>(null);
+  const QUICK_REACTIONS = ["👍", "❤️", "😂", "😮", "😢", "🙏"];
+
+  async function handleReact(msg: WaMessage, emoji: string) {
+    setReactionPickerFor(null);
+    // Toggle: se minha reação atual já é esse emoji, remove (envia vazio)
+    const mine = Object.values(msg.reactions ?? {}).find((r) => r?.fromMe);
+    const sendEmoji = mine?.emoji === emoji ? "" : emoji;
+    const res = await fetch(`/api/whatsapp/messages/${msg.id}/react`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emoji: sendEmoji }),
+    });
+    if (res.ok) {
+      const d = await res.json();
+      setConvMessages((prev) => prev.map((m) => (m.id === msg.id ? { ...m, reactions: d.reactions } : m)));
+    } else {
+      const d = await res.json().catch(() => ({}));
+      setReplyError(d.error ?? "Não consegui enviar a reação");
+    }
+  }
+
   // Anexo de mídia (imagem) pendente pra envio. Suporta tanto file picker quanto Ctrl+V.
   // Imagem é comprimida client-side (canvas → JPEG 1920px max, 0.85 quality)
   // antes de virar base64 — economiza payload e DB sem perder qualidade aparente.
@@ -4657,6 +4680,38 @@ export default function WhatsappManager({
                           </button>
                         )}
 
+                        {/* Botão Reagir — hover em qualquer mensagem (some em modo Visão) */}
+                        {modoAtendimento !== "VISAO" && msg.externalId && (
+                          <div className="relative flex-shrink-0 mb-1">
+                            <button
+                              onClick={() => setReactionPickerFor(reactionPickerFor === msg.id ? null : msg.id)}
+                              className={`transition-opacity w-6 h-6 rounded-full bg-[#1e2d45] hover:bg-[#2a3d5a] flex items-center justify-center text-slate-400 hover:text-white text-[11px] ${
+                                reactionPickerFor === msg.id ? "opacity-100" : "opacity-0 group-hover/msg:opacity-100"
+                              }`}
+                              title="Reagir com emoji"
+                            >
+                              😊
+                            </button>
+                            {reactionPickerFor === msg.id && (
+                              <div className={`absolute bottom-full mb-1.5 z-40 flex items-center gap-0.5 bg-[#0d1525] border border-[#1e2d45] rounded-full px-1.5 py-1 shadow-2xl ${isOut || isOursInGroup ? "right-0" : "left-0"}`}>
+                                {QUICK_REACTIONS.map((e) => {
+                                  const mine = Object.values(msg.reactions ?? {}).find((r) => r?.fromMe)?.emoji === e;
+                                  return (
+                                    <button
+                                      key={e}
+                                      onClick={() => handleReact(msg, e)}
+                                      className={`text-base leading-none rounded-full p-1 hover:scale-125 transition-transform ${mine ? "bg-indigo-500/30" : "hover:bg-white/10"}`}
+                                      title={mine ? "Remover minha reação" : `Reagir com ${e}`}
+                                    >
+                                      {e}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         <div className={`flex flex-col ${bubbleAlign} max-w-[75%]`}>
                           <div className={`rounded-2xl px-4 py-2.5 ${bubbleStyle}`}>
 
@@ -4753,7 +4808,16 @@ export default function WhatsappManager({
                               const grouped = new Map<string, string[]>(); // emoji → nomes
                               for (const [rKey, r] of Object.entries(msg.reactions)) {
                                 if (!r?.emoji) continue;
-                                const who = r.fromMe ? "Você" : (r.name || rKey.replace(/@.*$/, ""));
+                                // Nome de quem reagiu: nós → "Você"; contato → nome salvo/
+                                // pushName via resolveParticipant (mesma resolução dos balões),
+                                // fallback pro nome do webhook ou telefone formatado.
+                                let who: string;
+                                if (r.fromMe) {
+                                  who = "Você";
+                                } else {
+                                  const rp = resolveParticipant(rKey, r.name ?? null);
+                                  who = rp?.label || r.name || rKey.replace(/@.*$/, "");
+                                }
                                 const arr = grouped.get(r.emoji) ?? [];
                                 arr.push(who);
                                 grouped.set(r.emoji, arr);
