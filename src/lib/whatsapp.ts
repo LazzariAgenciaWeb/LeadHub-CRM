@@ -539,21 +539,38 @@ async function saveWAContactName(phone: string, name: string, companyId: string)
  * Sem externalId faz create normal.
  */
 async function safeCreateMessage(data: Prisma.MessageUncheckedCreateInput) {
-  const externalId = data.externalId ?? undefined;
-  if (externalId) {
-    try {
-      return await prisma.message.upsert({
-        where: { externalId },
-        create: data,
-        update: {}, // já existe → ignorar silenciosamente
-      });
-    } catch (e: any) {
-      // P2002 = race condition: outra instância inseriu antes (grupos com várias instâncias)
-      if (e?.code === "P2002") return null;
-      throw e;
+  const write = async (d: Prisma.MessageUncheckedCreateInput) => {
+    const externalId = d.externalId ?? undefined;
+    if (externalId) {
+      try {
+        return await prisma.message.upsert({
+          where: { externalId },
+          create: d,
+          update: {}, // já existe → ignorar silenciosamente
+        });
+      } catch (e: any) {
+        // P2002 = race condition: outra instância inseriu antes (grupos com várias instâncias)
+        if (e?.code === "P2002") return null;
+        throw e;
+      }
     }
+    return prisma.message.create({ data: d });
+  };
+
+  try {
+    return await write(data);
+  } catch (e: any) {
+    // Mídia em formato inesperado NUNCA pode custar a mensagem inteira: re-tenta
+    // sem o blob. A linha ainda registra mediaType (hasMedia na UI) e o binário
+    // é buscado sob demanda pelo endpoint /media. Sem esta rede, um mediaBase64
+    // inválido perdia a mensagem toda (imagem "não chegava" no LeadHub).
+    if ((data as any).mediaBase64) {
+      console.warn(`[safeCreateMessage] falha com mediaBase64 (${e?.message?.slice(0, 120)}) — regravando sem o blob`);
+      const { mediaBase64: _drop, ...rest } = data as any;
+      return write(rest);
+    }
+    throw e;
   }
-  return prisma.message.create({ data });
 }
 
 /**
