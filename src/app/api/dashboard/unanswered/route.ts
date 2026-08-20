@@ -73,7 +73,7 @@ export async function GET() {
       }),
       prisma.conversation.findUnique({
         where: { companyId_phone: { companyId: g.companyId, phone: g.phone } },
-        select: { status: true },
+        select: { status: true, syncBlocked: true },
       }),
       // Grupos têm nome em CompanyContact (isGroup=true); pessoais também podem ter
       prisma.companyContact.findUnique({
@@ -91,6 +91,9 @@ export async function GET() {
       const allowed = perms.instanceIds ?? [];
       if (!lastMsg.instanceId || !allowed.includes(lastMsg.instanceId)) continue;
     }
+
+    // Conversa bloqueada (syncBlocked) some da inbox inteira — aqui também.
+    if (conversation?.syncBlocked) continue;
 
     // Status real vem da Conversation. Conversa CLOSED ou SCHEDULED não é
     // "não respondida" — foi atendida ou tem retorno marcado.
