@@ -4,9 +4,13 @@
 # arquivo local, fora do repo. Uso: scripts/deploy.sh
 set -euo pipefail
 
-ENV_FILE="$HOME/.leadhub-deploy.env"
-[[ -f "$ENV_FILE" ]] || { echo "erro: $ENV_FILE não existe"; exit 1; }
-source "$ENV_FILE"
+# Credenciais: aceita PORTAINER_URL/PORTAINER_TOKEN já no ambiente (CI usa
+# secrets do GitHub); senão carrega do arquivo local.
+if [[ -z "${PORTAINER_URL:-}" || -z "${PORTAINER_TOKEN:-}" ]]; then
+  ENV_FILE="$HOME/.leadhub-deploy.env"
+  [[ -f "$ENV_FILE" ]] || { echo "erro: defina PORTAINER_URL/PORTAINER_TOKEN ou crie $ENV_FILE"; exit 1; }
+  source "$ENV_FILE"
+fi
 
 STACK_ID=35
 ENDPOINT_ID=2

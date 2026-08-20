@@ -43,3 +43,17 @@ jobs:
           # Cache entre builds — mais rápido e estável.
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Deploy automático: re-pull + redeploy da stack no Portainer via API.
+      # Precisa dos secrets PORTAINER_URL e PORTAINER_TOKEN configurados no
+      # repositório. Sem eles, pula silenciosamente (deploy fica manual).
+      - name: Deploy no Portainer
+        env:
+          PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+          PORTAINER_TOKEN: ${{ secrets.PORTAINER_TOKEN }}
+        run: |
+          if [ -z "$PORTAINER_TOKEN" ]; then
+            echo "Secrets do Portainer não configurados — pulando deploy automático."
+            exit 0
+          fi
+          bash scripts/deploy.sh
