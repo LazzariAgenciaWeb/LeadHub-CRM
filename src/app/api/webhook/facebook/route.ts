@@ -60,7 +60,24 @@ export async function POST(req: NextRequest) {
         recordFbWebhookEvent({ type: "no_messaging", pageId, keys: Object.keys(entry) });
       }
       for (const m of entry.messaging ?? []) {
-        if (m.message?.is_echo) continue;
+        // Echo = mensagem que a PÁGINA enviou (Business Suite, app ou API).
+        // Persiste como OUT; o mid deduplica contra o registro do envio pelo
+        // LeadHub. Sem match → foi enviada fora do LeadHub (EXTERNAL).
+        if (m.message?.is_echo) {
+          const recipientId = m.recipient?.id;
+          if (!recipientId || recipientId === pageId) continue;
+          await recordIgMessage({
+            companyId: page.companyId,
+            channel: "MESSENGER",
+            connectionId: pageId,
+            participantId: recipientId,
+            direction: "OUT",
+            source: "EXTERNAL",
+            text: m.message?.text ?? null,
+            mid: m.message?.mid ?? null,
+          }).catch((e) => console.error("[FB] persist echo:", e?.message));
+          continue;
+        }
         const psid = m.sender?.id;
         if (!psid || psid === pageId) continue;
         const text = m.message?.text ?? (m.postback?.payload ? `[botão] ${m.postback.payload}` : null);

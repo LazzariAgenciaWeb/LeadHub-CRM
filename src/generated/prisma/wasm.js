@@ -2079,7 +2079,8 @@ exports.IgMsgDirection = exports.$Enums.IgMsgDirection = {
 exports.IgMsgSource = exports.$Enums.IgMsgSource = {
   ORGANIC: 'ORGANIC',
   AUTOMATION: 'AUTOMATION',
-  AGENT: 'AGENT'
+  AGENT: 'AGENT',
+  EXTERNAL: 'EXTERNAL'
 };
 
 exports.PlanTier = exports.$Enums.PlanTier = {
