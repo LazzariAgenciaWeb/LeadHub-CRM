@@ -51,6 +51,10 @@ interface MarketingData {
   events: { eventName: string; label: string; count: number; users: number; isConversion: boolean; hidden: boolean }[];
   conversionEvents: { eventName: string; label: string; count: number; users: number; isConversion: boolean; hidden: boolean }[];
   conversionsLeadHub: number;
+  conversionParams?: {
+    eventName: string;
+    params: { paramName: string; values: { value: string; count: number; users: number }[] }[];
+  }[];
   funnel: {
     profile: "basico" | "captacao" | "completo";
     stages: { key: string; label: string; value: number }[];
@@ -261,6 +265,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         events={data.events}
         conversionEvents={data.conversionEvents}
         conversionsLeadHub={data.conversionsLeadHub}
+        conversionParams={data.conversionParams}
         onConfigSaved={() => void load()}
       />
 

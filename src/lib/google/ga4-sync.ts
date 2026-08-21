@@ -18,6 +18,7 @@ import { googleFetch } from "./token";
 import { classifyTrafficSource } from "../traffic-classifier";
 
 const DATA_API = "https://analyticsdata.googleapis.com/v1beta";
+const ADMIN_API = "https://analyticsadmin.googleapis.com/v1beta";
 
 interface RunReportArgs {
   propertyId: string;       // ex: "properties/123456789"
@@ -27,6 +28,7 @@ interface RunReportArgs {
   metrics: string[];
   limit?: number;
   orderBy?: { metric: string; desc?: boolean };
+  eventNameIn?: string[];   // dimensionFilter: só linhas desses eventos
 }
 
 interface RunReportRow {
@@ -51,6 +53,11 @@ async function runReport(integrationId: string, args: RunReportArgs): Promise<Ru
   if (args.orderBy) {
     body.orderBys = [{ metric: { metricName: args.orderBy.metric }, desc: args.orderBy.desc ?? true }];
   }
+  if (args.eventNameIn && args.eventNameIn.length > 0) {
+    body.dimensionFilter = {
+      filter: { fieldName: "eventName", inListFilter: { values: args.eventNameIn } },
+    };
+  }
 
   const r = await googleFetch(
     integrationId,
@@ -69,6 +76,32 @@ async function runReport(integrationId: string, args: RunReportArgs): Promise<Ru
 }
 
 /**
+ * Lista os parameterName das dimensões personalizadas de escopo EVENT registradas
+ * na propriedade (Admin API). São elas que a Data API expõe como "customEvent:X".
+ * Falha aqui não derruba o sync — parâmetros são um extra, não o dado principal.
+ */
+async function listEventScopedCustomDimensions(
+  integrationId: string,
+  propertyId: string
+): Promise<string[]> {
+  try {
+    const r = await googleFetch(
+      integrationId,
+      `${ADMIN_API}/${propertyId}/customDimensions?pageSize=200`
+    );
+    if (!r.ok) return [];
+    const data = (await r.json()) as {
+      customDimensions?: { parameterName: string; scope: string }[];
+    };
+    return (data.customDimensions ?? [])
+      .filter((d) => d.scope === "EVENT" && d.parameterName)
+      .map((d) => d.parameterName);
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Roda o sync completo de uma integração GA4.
  * Por padrão sincroniza os últimos 35 dias (cobre 30d + buffer).
  */
@@ -78,6 +111,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
   trafficSources: number;
   geoRows: number;
   events: number;
+  eventParams: number;
 }> {
   const integ = await prisma.marketingIntegration.findUnique({
     where: { id: integrationId },
@@ -96,6 +130,7 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
   let trafficCount = 0;
   let geoCount = 0;
   let eventsCount = 0;
+  let eventParamsCount = 0;
 
   try {
     // ─── 1. KPIs diários (sessions, users, pageviews, bounceRate, conversions, sessionDuration) ───
@@ -378,13 +413,81 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       eventsCount++;
     }
 
+    // ─── 6. Parâmetros personalizados dos eventos de conversão ──────────────
+    // A Data API expõe cada dimensão personalizada (escopo EVENT) registrada na
+    // propriedade como "customEvent:<parameterName>" — ex.: customEvent:wpp_produto.
+    // Um report por parâmetro (combinar vários numa chamada multiplica linhas
+    // "(not set)" e distorce a agregação). Só consulta os eventos que o cliente
+    // marcou como conversão — é o detalhamento que o dashboard mostra.
+    const conversionEventNames = (
+      await prisma.marketingEventConfig.findMany({
+        where: { companyId: integ.companyId, source: "ga4", isConversion: true },
+        select: { eventName: true },
+      })
+    ).map((c) => c.eventName);
+
+    if (conversionEventNames.length > 0) {
+      const customParams = await listEventScopedCustomDimensions(integrationId, propertyId);
+
+      if (customParams.length > 0) {
+        await prisma.analyticsEventParamDaily.deleteMany({
+          where: { companyId: integ.companyId, source: "ga4", date: { gte: parseGADate(compactDate(daysAgo(daysBack))) } },
+        });
+
+        for (const paramName of customParams) {
+          let paramRows: RunReportRow[] = [];
+          try {
+            paramRows = await runReport(integrationId, {
+              propertyId,
+              startDate,
+              endDate,
+              dimensions: ["date", "eventName", `customEvent:${paramName}`],
+              metrics: ["eventCount", "totalUsers"],
+              limit: 10000,
+              eventNameIn: conversionEventNames,
+            });
+          } catch {
+            // Dimensão pode ter sido arquivada entre o list e o report — segue o sync.
+            continue;
+          }
+
+          const rows = paramRows
+            .map((row) => ({
+              date: parseGADate(row.dimensionValues[0].value),
+              eventName: row.dimensionValues[1].value || "(unknown)",
+              paramValue: cleanGAValue(row.dimensionValues[2]?.value),
+              eventCount: parseInt(row.metricValues[0].value, 10) || 0,
+              users: parseInt(row.metricValues[1].value, 10) || 0,
+            }))
+            .filter((r): r is typeof r & { paramValue: string } => r.paramValue !== null);
+
+          if (rows.length > 0) {
+            await prisma.analyticsEventParamDaily.createMany({
+              data: rows.map((r) => ({
+                companyId: integ.companyId,
+                source: "ga4",
+                date: r.date,
+                eventName: r.eventName,
+                paramName,
+                paramValue: r.paramValue,
+                eventCount: r.eventCount,
+                users: r.users,
+              })),
+              skipDuplicates: true,
+            });
+            eventParamsCount += rows.length;
+          }
+        }
+      }
+    }
+
     // Marca como ok
     await prisma.marketingIntegration.update({
       where: { id: integrationId },
       data: { lastSyncAt: new Date(), lastSyncStatus: "ok", lastError: null, status: "ACTIVE" },
     });
 
-    return { snapshots: snapshotsCount, topPages: topPagesCount, trafficSources: trafficCount, geoRows: geoCount, events: eventsCount };
+    return { snapshots: snapshotsCount, topPages: topPagesCount, trafficSources: trafficCount, geoRows: geoCount, events: eventsCount, eventParams: eventParamsCount };
   } catch (e: any) {
     await prisma.marketingIntegration.update({
       where: { id: integrationId },

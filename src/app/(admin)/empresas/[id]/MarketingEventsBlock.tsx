@@ -12,6 +12,11 @@ type Event = {
   hidden: boolean;
 };
 
+type ConversionParams = {
+  eventName: string;
+  params: { paramName: string; values: { value: string; count: number; users: number }[] }[];
+};
+
 type ConfigEvent = {
   eventName: string;
   count30d: number;
@@ -26,17 +31,20 @@ export default function MarketingEventsBlock({
   events,
   conversionEvents,
   conversionsLeadHub,
+  conversionParams = [],
   onConfigSaved,
 }: {
   companyId: string;
   events: Event[];
   conversionEvents: Event[];
   conversionsLeadHub: number;
+  conversionParams?: ConversionParams[];
   onConfigSaved: () => void;
 }) {
   const [configOpen, setConfigOpen] = useState(false);
   const visibleEvents = events.filter((e) => !e.hidden);
   const topEvents = visibleEvents.slice(0, 10);
+  const paramsWithData = conversionParams.filter((cp) => cp.params.length > 0);
 
   return (
     <>
@@ -78,6 +86,50 @@ export default function MarketingEventsBlock({
                 </div>
               ))}
             </div>
+
+            {/* Detalhamento por parâmetro personalizado (customEvent: do GA4) —
+                ex.: whatsapp_click quebrado por wpp_produto / wpp_codigo / wpp_local */}
+            {paramsWithData.length > 0 && (
+              <div className="mt-3 space-y-3">
+                {paramsWithData.map((cp) => {
+                  const evLabel =
+                    conversionEvents.find((e) => e.eventName === cp.eventName)?.label ?? cp.eventName;
+                  return (
+                    <div key={cp.eventName} className="bg-white/[0.03] border border-[#1e2d45] rounded-lg p-3">
+                      <div className="text-slate-400 text-[11px] font-semibold uppercase tracking-wide mb-2">
+                        Detalhamento — {evLabel}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {cp.params.map((p) => (
+                          <div key={p.paramName} className="min-w-0">
+                            <code className="text-emerald-300/80 text-[11px] block mb-1.5">{p.paramName}</code>
+                            {p.values.length === 0 ? (
+                              <p className="text-slate-500 text-[11px]">Sem valores no período.</p>
+                            ) : (
+                              <div className="space-y-0.5">
+                                {p.values.map((v) => (
+                                  <div
+                                    key={v.value}
+                                    className="flex items-center justify-between gap-2 py-0.5 px-1.5 rounded hover:bg-white/5"
+                                  >
+                                    <span className="text-slate-300 text-xs truncate" title={v.value}>
+                                      {v.value}
+                                    </span>
+                                    <span className="text-white text-xs font-semibold tabular-nums shrink-0">
+                                      {v.count.toLocaleString("pt-BR")}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : (
           <div className="mb-5 p-3 bg-amber-500/5 border border-amber-500/20 rounded-lg">

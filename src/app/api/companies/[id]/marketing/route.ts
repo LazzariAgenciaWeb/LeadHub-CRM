@@ -349,8 +349,14 @@ export async function GET(
   // Série diária de conversões LeadHub (data → contagem somada dos eventos marcados).
   const conversionsByDay = new Map<string, number>();
 
+  // Detalhamento por parâmetro personalizado (customEvent: sincronizado pelo ga4-sync):
+  // [{ eventName, params: [{ paramName, values: [{ value, count, users }] }] }]
+  type ParamValueAgg = { value: string; count: number; users: number };
+  type ConversionParams = { eventName: string; params: { paramName: string; values: ParamValueAgg[] }[] };
+  let conversionParams: ConversionParams[] = [];
+
   if (conversionEventNames.length > 0) {
-    const [prevAgg, dailyAgg] = await Promise.all([
+    const [prevAgg, dailyAgg, paramAggRows] = await Promise.all([
       prisma.analyticsEventDaily.aggregate({
         where: {
           companyId,
@@ -370,12 +376,44 @@ export async function GET(
         },
         _sum: { eventCount: true },
       }),
+      prisma.analyticsEventParamDaily.groupBy({
+        by: ["eventName", "paramName", "paramValue"],
+        where: {
+          companyId,
+          source: "ga4",
+          date: { gte: periodStart, lte: periodEnd },
+          eventName: { in: conversionEventNames },
+        },
+        _sum: { eventCount: true, users: true },
+      }),
     ]);
     conversionsLeadHubPrev = prevAgg._sum.eventCount ?? 0;
     for (const row of dailyAgg) {
       const key = row.date.toISOString().slice(0, 10);
       conversionsByDay.set(key, row._sum.eventCount ?? 0);
     }
+
+    // eventName → paramName → valores agregados no período
+    const byEvent = new Map<string, Map<string, ParamValueAgg[]>>();
+    for (const row of paramAggRows) {
+      if (!byEvent.has(row.eventName)) byEvent.set(row.eventName, new Map());
+      const byParam = byEvent.get(row.eventName)!;
+      if (!byParam.has(row.paramName)) byParam.set(row.paramName, []);
+      byParam.get(row.paramName)!.push({
+        value: row.paramValue,
+        count: row._sum.eventCount ?? 0,
+        users: row._sum.users ?? 0,
+      });
+    }
+    conversionParams = Array.from(byEvent.entries()).map(([eventName, byParam]) => ({
+      eventName,
+      params: Array.from(byParam.entries())
+        .map(([paramName, values]) => ({
+          paramName,
+          values: values.sort((a, b) => b.count - a.count).slice(0, 10),
+        }))
+        .sort((a, b) => a.paramName.localeCompare(b.paramName)),
+    }));
   }
 
   // ─── 7. Funil adaptativo + Ganho/Perdido ────────────────────────────────
@@ -508,6 +546,7 @@ export async function GET(
     events,
     conversionEvents,
     conversionsLeadHub,
+    conversionParams,
     funnel,
     integrationStatus,
     hasData: (snapsCurrent._sum.sessions ?? 0) > 0 || scRows.length > 0,
