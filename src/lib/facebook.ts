@@ -143,15 +143,22 @@ export async function fbGetPageToken(pageId: string, userToken: string): Promise
 
 /** Assina a Página aos webhooks do app. */
 export async function fbSubscribePage(pageId: string, pageToken: string): Promise<{ ok: boolean; body: any }> {
-  const params = new URLSearchParams({
-    subscribed_fields: "messages,messaging_postbacks",
-    access_token: pageToken,
-  });
-  const r = await fetch(`${GRAPH}/${pageId}/subscribed_apps?${params.toString()}`, { method: "POST" });
-  const txt = await r.text();
-  let body: any = txt;
-  try { body = JSON.parse(txt); } catch { /* texto */ }
-  return { ok: r.ok, body };
+  const attempt = async (fields: string) => {
+    const params = new URLSearchParams({ subscribed_fields: fields, access_token: pageToken });
+    const r = await fetch(`${GRAPH}/${pageId}/subscribed_apps?${params.toString()}`, { method: "POST" });
+    const txt = await r.text();
+    let body: any = txt;
+    try { body = JSON.parse(txt); } catch { /* texto */ }
+    return { ok: r.ok, body };
+  };
+
+  const first = await attempt("messages,messaging_postbacks,message_echoes");
+  // Se message_echoes for recusado, garante ao menos os campos essenciais.
+  if (!first.ok) {
+    const fallback = await attempt("messages,messaging_postbacks");
+    if (fallback.ok) return fallback;
+  }
+  return first;
 }
 
 /** Lê as assinaturas de webhook da Página (diagnóstico). */
@@ -170,13 +177,16 @@ export async function fbUnsubscribePage(pageId: string, pageToken: string): Prom
 }
 
 /** Manda DM no Messenger (recipient.id = PSID). Janela de 24h. */
-export async function fbSendMessage(pageId: string, psid: string, text: string, pageToken: string): Promise<void> {
+export async function fbSendMessage(pageId: string, psid: string, text: string, pageToken: string): Promise<string | null> {
   const r = await fetch(`${GRAPH}/${pageId}/messages?access_token=${encodeURIComponent(pageToken)}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ recipient: { id: psid }, messaging_type: "RESPONSE", message: { text } }),
   });
   if (!r.ok) throw new Error(`FB send falhou: ${r.status} ${await r.text()}`);
+  // mid da mensagem enviada — idempotência contra o echo do webhook.
+  const j: any = await r.json().catch(() => null);
+  return j?.message_id ?? null;
 }
 
 /** Nome do participante do Messenger (User Profile API). Best-effort. */

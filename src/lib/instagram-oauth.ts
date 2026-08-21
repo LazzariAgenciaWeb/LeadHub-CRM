@@ -189,17 +189,29 @@ export async function fetchProfile(accessToken: string): Promise<IgProfile> {
  */
 export async function subscribeAccountWebhooks(
   accessToken: string,
-  fields: string[] = ["comments", "messages", "messaging_postbacks"],
+  fields: string[] = ["comments", "messages", "messaging_postbacks", "message_echoes"],
 ): Promise<{ ok: boolean; status: number; body: any }> {
-  const params = new URLSearchParams({
-    subscribed_fields: fields.join(","),
-    access_token: accessToken,
-  });
-  const r = await fetch(`${GRAPH}/me/subscribed_apps?${params.toString()}`, { method: "POST" });
-  const txt = await r.text();
-  let body: any = txt;
-  try { body = JSON.parse(txt); } catch { /* mantém texto */ }
-  return { ok: r.ok, status: r.status, body };
+  const attempt = async (fs: string[]) => {
+    const params = new URLSearchParams({
+      subscribed_fields: fs.join(","),
+      access_token: accessToken,
+    });
+    const r = await fetch(`${GRAPH}/me/subscribed_apps?${params.toString()}`, { method: "POST" });
+    const txt = await r.text();
+    let body: any = txt;
+    try { body = JSON.parse(txt); } catch { /* mantém texto */ }
+    return { ok: r.ok, status: r.status, body };
+  };
+
+  const first = await attempt(fields);
+  // Nem toda versão da API expõe message_echoes como campo assinável (os echoes
+  // podem vir pelo próprio `messages`). Se a assinatura completa for recusada,
+  // garante ao menos os campos essenciais em vez de quebrar a conexão.
+  if (!first.ok && fields.includes("message_echoes")) {
+    const fallback = await attempt(fields.filter((f) => f !== "message_echoes"));
+    if (fallback.ok) return fallback;
+  }
+  return first;
 }
 
 /** Lê o estado atual de assinatura da conta (quais campos estão ativos). */

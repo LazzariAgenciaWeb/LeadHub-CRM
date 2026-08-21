@@ -917,7 +917,8 @@ export type IgMsgDirection = (typeof IgMsgDirection)[keyof typeof IgMsgDirection
 export const IgMsgSource: {
   ORGANIC: 'ORGANIC',
   AUTOMATION: 'AUTOMATION',
-  AGENT: 'AGENT'
+  AGENT: 'AGENT',
+  EXTERNAL: 'EXTERNAL'
 };
 
 export type IgMsgSource = (typeof IgMsgSource)[keyof typeof IgMsgSource]

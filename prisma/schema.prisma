@@ -2182,6 +2182,7 @@ model IgMessage {
   createdAt      DateTime       @default(now())
 
   @@index([conversationId, createdAt])
+  @@index([companyId, mid])
 }
 
 enum IgMsgDirection {
@@ -2193,6 +2194,7 @@ enum IgMsgSource {
   ORGANIC // contato iniciou / mensagem fora de automação
   AUTOMATION // enviada/recebida no contexto de automação
   AGENT // enviada manualmente pelo atendente na inbox
+  EXTERNAL // enviada fora do LeadHub (app do Instagram / Business Suite) — registrada via echo do webhook
 }
 
 enum InboxChannel {

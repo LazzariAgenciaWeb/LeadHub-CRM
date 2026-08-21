@@ -17,12 +17,12 @@ type Convo = {
 type Msg = {
   id: string;
   direction: "IN" | "OUT";
-  source: "ORGANIC" | "AUTOMATION" | "AGENT";
+  source: "ORGANIC" | "AUTOMATION" | "AGENT" | "EXTERNAL";
   text: string | null;
   createdAt: string;
 };
 
-const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", ORGANIC: "" };
+const SOURCE_LABEL: Record<string, string> = { AUTOMATION: "automação", AGENT: "atendente", EXTERNAL: "fora do LeadHub", ORGANIC: "" };
 const CHANNEL: Record<string, { label: string; cls: string }> = {
   INSTAGRAM: { label: "Instagram", cls: "bg-pink-500/20 text-pink-300" },
   MESSENGER: { label: "Messenger", cls: "bg-blue-500/20 text-blue-300" },

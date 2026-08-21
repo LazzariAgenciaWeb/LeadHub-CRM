@@ -11,7 +11,8 @@ import { processInstagramWebhook, type IgWebhookBody } from "@/lib/instagram";
  * POST → eventos. Assinados com X-Hub-Signature-256 (HMAC do App Secret sobre
  *        o corpo cru). Validamos a assinatura ANTES de processar.
  *
- * Campos assinados no painel: `comments` e `messages`.
+ * Campos assinados no painel: `comments`, `messages` e `message_echoes`
+ * (echoes = mensagens que a conta enviou; alimentam o lado OUT da inbox).
  *
  * Multi-tenant: o payload traz `entry[].id` = id da conta IG; resolvemos a
  * empresa dona via InstagramAccount.igUserId dentro de processInstagramWebhook.

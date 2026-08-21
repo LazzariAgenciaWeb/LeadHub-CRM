@@ -19,6 +19,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const text = String((await req.json().catch(() => ({})))?.text || "").trim();
   if (!text) return NextResponse.json({ error: "Texto vazio" }, { status: 400 });
 
+  // mid do envio — deduplica contra o echo do webhook (message_echoes).
+  let mid: string | null = null;
   try {
     if (convo.channel === "MESSENGER") {
       const page = await prisma.facebookPage.findUnique({
@@ -27,7 +29,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       });
       const token = fbTokenCrypto.decrypt(page?.pageAccessTokenEnc);
       if (!page || !token) return NextResponse.json({ error: "Página sem token" }, { status: 400 });
-      await fbSendMessage(page.pageId, convo.participantId, text, token);
+      mid = await fbSendMessage(page.pageId, convo.participantId, text, token);
     } else {
       const account = await prisma.instagramAccount.findUnique({
         where: { id: convo.accountId ?? convo.connectionId ?? "" },
@@ -35,7 +37,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       });
       const token = decryptAccountToken(account?.accessTokenEnc);
       if (!token) return NextResponse.json({ error: "Conta sem token" }, { status: 400 });
-      await sendMessageToUser(convo.participantId, text, token);
+      mid = await sendMessageToUser(convo.participantId, text, token);
     }
   } catch (e: any) {
     return NextResponse.json({ error: e?.message?.slice(0, 200) || "Falha ao enviar" }, { status: 502 });
@@ -50,6 +52,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     direction: "OUT",
     source: "AGENT",
     text,
+    mid,
   });
 
   return NextResponse.json({ ok: true });
