@@ -2364,6 +2364,10 @@ model MarketingEventConfig {
   eventName String
 
   isConversion Boolean @default(false)
+  // Evento em destaque: aparece como card no topo do bloco, pra listagem e
+  // relatório (ex.: acesso a página, clique no WhatsApp, pedido de catálogo).
+  // Independe de isConversion — nem todo destaque é conversão.
+  featured     Boolean @default(false)
   displayLabel String? // "Lead WhatsApp" / "Formulário enviado" — usado nos cards
   hidden       Boolean @default(false)
 

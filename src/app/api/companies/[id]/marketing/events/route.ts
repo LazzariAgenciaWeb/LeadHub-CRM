@@ -8,7 +8,7 @@ import { assertModule } from "@/lib/billing";
 // GET  /api/companies/[id]/marketing/events
 //   Lista todos os eventos detectados nos últimos 30 dias + config (isConversion, displayLabel, hidden).
 // PATCH /api/companies/[id]/marketing/events
-//   Body: { events: [{ eventName, isConversion?, displayLabel?, hidden? }, ...] }
+//   Body: { events: [{ eventName, isConversion?, featured?, displayLabel?, hidden? }, ...] }
 //   Upserta MarketingEventConfig pra cada item.
 
 const SOURCE = "ga4";
@@ -55,6 +55,7 @@ export async function GET(
       count30d: r._sum.eventCount ?? 0,
       users30d: r._sum.users ?? 0,
       isConversion: cfg?.isConversion ?? false,
+      featured: cfg?.featured ?? false,
       displayLabel: cfg?.displayLabel ?? null,
       hidden: cfg?.hidden ?? false,
     };
@@ -71,7 +72,7 @@ export async function PATCH(
   const gate = await authorize(companyId);
   if (!gate.ok) return gate.response;
 
-  let body: { events?: Array<{ eventName: string; isConversion?: boolean; displayLabel?: string | null; hidden?: boolean }> };
+  let body: { events?: Array<{ eventName: string; isConversion?: boolean; featured?: boolean; displayLabel?: string | null; hidden?: boolean }> };
   try {
     body = await req.json();
   } catch {
@@ -85,6 +86,7 @@ export async function PATCH(
     if (!ev.eventName || typeof ev.eventName !== "string") continue;
     const data = {
       isConversion: ev.isConversion ?? false,
+      featured: ev.featured ?? false,
       displayLabel: ev.displayLabel === "" ? null : (ev.displayLabel ?? null),
       hidden: ev.hidden ?? false,
     };

@@ -20,6 +20,30 @@ import { classifyTrafficSource } from "../traffic-classifier";
 const DATA_API = "https://analyticsdata.googleapis.com/v1beta";
 const ADMIN_API = "https://analyticsadmin.googleapis.com/v1beta";
 
+/**
+ * Busca interna do site. O GA4 com medição avançada dispara view_search_results;
+ * implementações próprias variam o nome (busca_site, pesquisa, filtro_busca...).
+ */
+export const SEARCH_EVENT_RE = /search|busca|pesquisa|filtro/i;
+
+/** Sentinela pros termos vindos da dimensão nativa `searchTerm` (não é um evento real do GA4). */
+export const SITE_SEARCH_EVENT = "__site_search__";
+export const SITE_SEARCH_PARAM = "searchTerm";
+
+/**
+ * Sentinela pros termos que NÃO acharam resultado. Vem do cruzamento
+ * termo × "encontrou" no mesmo report — os parâmetros são gravados um por linha,
+ * então sem esse cruzamento dá pra saber quantas buscas falharam, mas não quais.
+ */
+export const SITE_SEARCH_MISS_EVENT = "__site_search_miss__";
+
+/** Parâmetro que guarda o texto digitado (search_term, termo_busca, query...). */
+export const SEARCH_TERM_PARAM_RE = /term|termo|query|keyword|palavra/i;
+/** Parâmetro que diz se a busca achou algo (search_encontrou, found...). */
+export const SEARCH_FOUND_PARAM_RE = /encontr|found/i;
+/** Valores que significam "não achou". */
+export const SEARCH_NO_RE = /^(n[aã]o|no|false|0|nenhum|vazio)$/i;
+
 interface RunReportArgs {
   propertyId: string;       // ex: "properties/123456789"
   startDate: string;        // "YYYY-MM-DD" ou "Ndaysago"
@@ -413,12 +437,14 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       eventsCount++;
     }
 
-    // ─── 6. Parâmetros personalizados dos eventos de conversão ──────────────
+    // ─── 6. Parâmetros personalizados: conversões + busca interna ───────────
     // A Data API expõe cada dimensão personalizada (escopo EVENT) registrada na
     // propriedade como "customEvent:<parameterName>" — ex.: customEvent:wpp_produto.
     // Um report por parâmetro (combinar vários numa chamada multiplica linhas
-    // "(not set)" e distorce a agregação). Só consulta os eventos que o cliente
-    // marcou como conversão — é o detalhamento que o dashboard mostra.
+    // "(not set)" e distorce a agregação). Detalha os eventos que o cliente marcou
+    // como conversão + os de busca interna do site.
+    const windowStart = parseGADate(compactDate(daysAgo(daysBack)));
+
     const conversionEventNames = (
       await prisma.marketingEventConfig.findMany({
         where: { companyId: integ.companyId, source: "ga4", isConversion: true },
@@ -426,40 +452,115 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
       })
     ).map((c) => c.eventName);
 
-    if (conversionEventNames.length > 0) {
+    // Busca interna: o GA4 com medição avançada dispara view_search_results;
+    // implementações próprias costumam nomear o evento com search/busca/pesquisa.
+    // Descobre pelos eventos já sincronizados no passo 5.
+    const searchEventNames = (
+      await prisma.analyticsEventDaily.findMany({
+        where: { companyId: integ.companyId, source: "ga4", date: { gte: windowStart } },
+        select: { eventName: true },
+        distinct: ["eventName"],
+      })
+    )
+      .map((e) => e.eventName)
+      .filter((n) => SEARCH_EVENT_RE.test(n));
+
+    const detailEventNames = Array.from(new Set([...conversionEventNames, ...searchEventNames]));
+
+    if (detailEventNames.length > 0) {
       const customParams = await listEventScopedCustomDimensions(integrationId, propertyId);
 
-      if (customParams.length > 0) {
+      for (const paramName of customParams) {
+        let paramRows: RunReportRow[] = [];
+        try {
+          paramRows = await runReport(integrationId, {
+            propertyId,
+            startDate,
+            endDate,
+            dimensions: ["date", "eventName", `customEvent:${paramName}`],
+            metrics: ["eventCount", "totalUsers"],
+            limit: 10000,
+            eventNameIn: detailEventNames,
+          });
+        } catch {
+          // Dimensão pode ter sido arquivada entre o list e o report — segue o sync.
+          continue;
+        }
+
+        const rows = paramRows
+          .map((row) => ({
+            date: parseGADate(row.dimensionValues[0].value),
+            eventName: row.dimensionValues[1].value || "(unknown)",
+            paramValue: cleanGAValue(row.dimensionValues[2]?.value),
+            eventCount: parseInt(row.metricValues[0].value, 10) || 0,
+            users: parseInt(row.metricValues[1].value, 10) || 0,
+          }))
+          .filter((r): r is typeof r & { paramValue: string } => r.paramValue !== null);
+
+        // Limpa só a janela DESTE parâmetro: falha parcial não derruba o que já
+        // estava gravado dos outros.
         await prisma.analyticsEventParamDaily.deleteMany({
-          where: { companyId: integ.companyId, source: "ga4", date: { gte: parseGADate(compactDate(daysAgo(daysBack))) } },
+          where: { companyId: integ.companyId, source: "ga4", paramName, date: { gte: windowStart } },
         });
 
-        for (const paramName of customParams) {
-          let paramRows: RunReportRow[] = [];
-          try {
-            paramRows = await runReport(integrationId, {
-              propertyId,
-              startDate,
-              endDate,
-              dimensions: ["date", "eventName", `customEvent:${paramName}`],
-              metrics: ["eventCount", "totalUsers"],
-              limit: 10000,
-              eventNameIn: conversionEventNames,
-            });
-          } catch {
-            // Dimensão pode ter sido arquivada entre o list e o report — segue o sync.
-            continue;
-          }
+        if (rows.length > 0) {
+          await prisma.analyticsEventParamDaily.createMany({
+            data: rows.map((r) => ({
+              companyId: integ.companyId,
+              source: "ga4",
+              date: r.date,
+              eventName: r.eventName,
+              paramName,
+              paramValue: r.paramValue,
+              eventCount: r.eventCount,
+              users: r.users,
+            })),
+            skipDuplicates: true,
+          });
+          eventParamsCount += rows.length;
+        }
+      }
+    }
 
-          const rows = paramRows
+    // ─── 6a-bis. Quais termos NÃO acharam resultado ─────────────────────────
+    // Os parâmetros são gravados um por linha, então "41 buscas sem resultado"
+    // não diz QUAIS. Um report cruzando termo × encontrou resolve — é o dado
+    // que vira decisão (produto que falta no catálogo, sinônimo não indexado).
+    if (searchEventNames.length > 0) {
+      const params = await listEventScopedCustomDimensions(integrationId, propertyId);
+      const termParam = params.find((p) => SEARCH_TERM_PARAM_RE.test(p));
+      const foundParam = params.find((p) => SEARCH_FOUND_PARAM_RE.test(p));
+
+      if (termParam && foundParam) {
+        try {
+          const missRows = await runReport(integrationId, {
+            propertyId,
+            startDate,
+            endDate,
+            dimensions: ["date", `customEvent:${termParam}`, `customEvent:${foundParam}`],
+            metrics: ["eventCount", "totalUsers"],
+            limit: 10000,
+            eventNameIn: searchEventNames,
+          });
+
+          const rows = missRows
             .map((row) => ({
               date: parseGADate(row.dimensionValues[0].value),
-              eventName: row.dimensionValues[1].value || "(unknown)",
-              paramValue: cleanGAValue(row.dimensionValues[2]?.value),
+              term: cleanGAValue(row.dimensionValues[1]?.value),
+              found: (row.dimensionValues[2]?.value ?? "").trim(),
               eventCount: parseInt(row.metricValues[0].value, 10) || 0,
               users: parseInt(row.metricValues[1].value, 10) || 0,
             }))
-            .filter((r): r is typeof r & { paramValue: string } => r.paramValue !== null);
+            .filter((r): r is typeof r & { term: string } => r.term !== null && SEARCH_NO_RE.test(r.found));
+
+          await prisma.analyticsEventParamDaily.deleteMany({
+            where: {
+              companyId: integ.companyId,
+              source: "ga4",
+              eventName: SITE_SEARCH_MISS_EVENT,
+              date: { gte: windowStart },
+            },
+          });
 
           if (rows.length > 0) {
             await prisma.analyticsEventParamDaily.createMany({
@@ -467,9 +568,9 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
                 companyId: integ.companyId,
                 source: "ga4",
                 date: r.date,
-                eventName: r.eventName,
-                paramName,
-                paramValue: r.paramValue,
+                eventName: SITE_SEARCH_MISS_EVENT,
+                paramName: termParam,
+                paramValue: r.term,
                 eventCount: r.eventCount,
                 users: r.users,
               })),
@@ -477,8 +578,63 @@ export async function syncGA4(integrationId: string, daysBack = 35): Promise<{
             });
             eventParamsCount += rows.length;
           }
+        } catch {
+          // Cruzamento de duas dimensões personalizadas pode ser recusado
+          // (cardinalidade/amostragem) — o total de falhas continua vindo do 6a.
         }
       }
+    }
+
+    // ─── 6b. Termos da busca interna (dimensão nativa searchTerm) ───────────
+    // Cobre a medição avançada do GA4 (view_search_results a partir da query
+    // string). Guardado sob um eventName sentinela pra UI achar sem depender do
+    // nome que a propriedade usa.
+    try {
+      const searchRows = await runReport(integrationId, {
+        propertyId,
+        startDate,
+        endDate,
+        dimensions: ["date", "searchTerm"],
+        metrics: ["eventCount", "totalUsers"],
+        limit: 5000,
+      });
+
+      const rows = searchRows
+        .map((row) => ({
+          date: parseGADate(row.dimensionValues[0].value),
+          paramValue: cleanGAValue(row.dimensionValues[1]?.value),
+          eventCount: parseInt(row.metricValues[0].value, 10) || 0,
+          users: parseInt(row.metricValues[1].value, 10) || 0,
+        }))
+        .filter((r): r is typeof r & { paramValue: string } => r.paramValue !== null);
+
+      await prisma.analyticsEventParamDaily.deleteMany({
+        where: {
+          companyId: integ.companyId,
+          source: "ga4",
+          eventName: SITE_SEARCH_EVENT,
+          date: { gte: windowStart },
+        },
+      });
+
+      if (rows.length > 0) {
+        await prisma.analyticsEventParamDaily.createMany({
+          data: rows.map((r) => ({
+            companyId: integ.companyId,
+            source: "ga4",
+            date: r.date,
+            eventName: SITE_SEARCH_EVENT,
+            paramName: SITE_SEARCH_PARAM,
+            paramValue: r.paramValue,
+            eventCount: r.eventCount,
+            users: r.users,
+          })),
+          skipDuplicates: true,
+        });
+        eventParamsCount += rows.length;
+      }
+    } catch {
+      // Propriedade sem busca interna configurada — não é erro de sync.
     }
 
     // Marca como ok

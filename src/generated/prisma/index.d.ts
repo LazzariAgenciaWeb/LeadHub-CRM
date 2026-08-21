@@ -84897,6 +84897,7 @@ export namespace Prisma {
     source: string | null
     eventName: string | null
     isConversion: boolean | null
+    featured: boolean | null
     displayLabel: string | null
     hidden: boolean | null
     createdAt: Date | null
@@ -84909,6 +84910,7 @@ export namespace Prisma {
     source: string | null
     eventName: string | null
     isConversion: boolean | null
+    featured: boolean | null
     displayLabel: string | null
     hidden: boolean | null
     createdAt: Date | null
@@ -84921,6 +84923,7 @@ export namespace Prisma {
     source: number
     eventName: number
     isConversion: number
+    featured: number
     displayLabel: number
     hidden: number
     createdAt: number
@@ -84935,6 +84938,7 @@ export namespace Prisma {
     source?: true
     eventName?: true
     isConversion?: true
+    featured?: true
     displayLabel?: true
     hidden?: true
     createdAt?: true
@@ -84947,6 +84951,7 @@ export namespace Prisma {
     source?: true
     eventName?: true
     isConversion?: true
+    featured?: true
     displayLabel?: true
     hidden?: true
     createdAt?: true
@@ -84959,6 +84964,7 @@ export namespace Prisma {
     source?: true
     eventName?: true
     isConversion?: true
+    featured?: true
     displayLabel?: true
     hidden?: true
     createdAt?: true
@@ -85044,6 +85050,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion: boolean
+    featured: boolean
     displayLabel: string | null
     hidden: boolean
     createdAt: Date
@@ -85073,6 +85080,7 @@ export namespace Prisma {
     source?: boolean
     eventName?: boolean
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: boolean
     hidden?: boolean
     createdAt?: boolean
@@ -85086,6 +85094,7 @@ export namespace Prisma {
     source?: boolean
     eventName?: boolean
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: boolean
     hidden?: boolean
     createdAt?: boolean
@@ -85099,6 +85108,7 @@ export namespace Prisma {
     source?: boolean
     eventName?: boolean
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: boolean
     hidden?: boolean
     createdAt?: boolean
@@ -85123,6 +85133,7 @@ export namespace Prisma {
       source: string
       eventName: string
       isConversion: boolean
+      featured: boolean
       displayLabel: string | null
       hidden: boolean
       createdAt: Date
@@ -85526,6 +85537,7 @@ export namespace Prisma {
     readonly source: FieldRef<"MarketingEventConfig", 'String'>
     readonly eventName: FieldRef<"MarketingEventConfig", 'String'>
     readonly isConversion: FieldRef<"MarketingEventConfig", 'Boolean'>
+    readonly featured: FieldRef<"MarketingEventConfig", 'Boolean'>
     readonly displayLabel: FieldRef<"MarketingEventConfig", 'String'>
     readonly hidden: FieldRef<"MarketingEventConfig", 'Boolean'>
     readonly createdAt: FieldRef<"MarketingEventConfig", 'DateTime'>
@@ -140651,6 +140663,7 @@ export namespace Prisma {
     source: 'source',
     eventName: 'eventName',
     isConversion: 'isConversion',
+    featured: 'featured',
     displayLabel: 'displayLabel',
     hidden: 'hidden',
     createdAt: 'createdAt',
@@ -148931,6 +148944,7 @@ export namespace Prisma {
     source?: StringFilter<"MarketingEventConfig"> | string
     eventName?: StringFilter<"MarketingEventConfig"> | string
     isConversion?: BoolFilter<"MarketingEventConfig"> | boolean
+    featured?: BoolFilter<"MarketingEventConfig"> | boolean
     displayLabel?: StringNullableFilter<"MarketingEventConfig"> | string | null
     hidden?: BoolFilter<"MarketingEventConfig"> | boolean
     createdAt?: DateTimeFilter<"MarketingEventConfig"> | Date | string
@@ -148944,6 +148958,7 @@ export namespace Prisma {
     source?: SortOrder
     eventName?: SortOrder
     isConversion?: SortOrder
+    featured?: SortOrder
     displayLabel?: SortOrderInput | SortOrder
     hidden?: SortOrder
     createdAt?: SortOrder
@@ -148961,6 +148976,7 @@ export namespace Prisma {
     source?: StringFilter<"MarketingEventConfig"> | string
     eventName?: StringFilter<"MarketingEventConfig"> | string
     isConversion?: BoolFilter<"MarketingEventConfig"> | boolean
+    featured?: BoolFilter<"MarketingEventConfig"> | boolean
     displayLabel?: StringNullableFilter<"MarketingEventConfig"> | string | null
     hidden?: BoolFilter<"MarketingEventConfig"> | boolean
     createdAt?: DateTimeFilter<"MarketingEventConfig"> | Date | string
@@ -148974,6 +148990,7 @@ export namespace Prisma {
     source?: SortOrder
     eventName?: SortOrder
     isConversion?: SortOrder
+    featured?: SortOrder
     displayLabel?: SortOrderInput | SortOrder
     hidden?: SortOrder
     createdAt?: SortOrder
@@ -148992,6 +149009,7 @@ export namespace Prisma {
     source?: StringWithAggregatesFilter<"MarketingEventConfig"> | string
     eventName?: StringWithAggregatesFilter<"MarketingEventConfig"> | string
     isConversion?: BoolWithAggregatesFilter<"MarketingEventConfig"> | boolean
+    featured?: BoolWithAggregatesFilter<"MarketingEventConfig"> | boolean
     displayLabel?: StringNullableWithAggregatesFilter<"MarketingEventConfig"> | string | null
     hidden?: BoolWithAggregatesFilter<"MarketingEventConfig"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"MarketingEventConfig"> | Date | string
@@ -160944,6 +160962,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -160957,6 +160976,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -160968,6 +160988,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -160981,6 +161002,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -160993,6 +161015,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -161004,6 +161027,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -161016,6 +161040,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -171554,6 +171579,7 @@ export namespace Prisma {
     source?: SortOrder
     eventName?: SortOrder
     isConversion?: SortOrder
+    featured?: SortOrder
     displayLabel?: SortOrder
     hidden?: SortOrder
     createdAt?: SortOrder
@@ -171566,6 +171592,7 @@ export namespace Prisma {
     source?: SortOrder
     eventName?: SortOrder
     isConversion?: SortOrder
+    featured?: SortOrder
     displayLabel?: SortOrder
     hidden?: SortOrder
     createdAt?: SortOrder
@@ -171578,6 +171605,7 @@ export namespace Prisma {
     source?: SortOrder
     eventName?: SortOrder
     isConversion?: SortOrder
+    featured?: SortOrder
     displayLabel?: SortOrder
     hidden?: SortOrder
     createdAt?: SortOrder
@@ -194460,6 +194488,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -194471,6 +194500,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -197540,6 +197570,7 @@ export namespace Prisma {
     source?: StringFilter<"MarketingEventConfig"> | string
     eventName?: StringFilter<"MarketingEventConfig"> | string
     isConversion?: BoolFilter<"MarketingEventConfig"> | boolean
+    featured?: BoolFilter<"MarketingEventConfig"> | boolean
     displayLabel?: StringNullableFilter<"MarketingEventConfig"> | string | null
     hidden?: BoolFilter<"MarketingEventConfig"> | boolean
     createdAt?: DateTimeFilter<"MarketingEventConfig"> | Date | string
@@ -262965,6 +262996,7 @@ export namespace Prisma {
     source: string
     eventName: string
     isConversion?: boolean
+    featured?: boolean
     displayLabel?: string | null
     hidden?: boolean
     createdAt?: Date | string
@@ -266273,6 +266305,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266284,6 +266317,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -266295,6 +266329,7 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
     eventName?: StringFieldUpdateOperationsInput | string
     isConversion?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
     displayLabel?: NullableStringFieldUpdateOperationsInput | string | null
     hidden?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import {
+  SEARCH_EVENT_RE,
+  SEARCH_TERM_PARAM_RE,
+  SEARCH_FOUND_PARAM_RE,
+  SEARCH_NO_RE,
+  SITE_SEARCH_EVENT,
+  SITE_SEARCH_MISS_EVENT,
+} from "@/lib/google/ga4-sync";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { classifyTrafficSource, type TrafficBucket } from "@/lib/traffic-classifier";
 import { assertModule } from "@/lib/billing";
@@ -327,6 +335,7 @@ export async function GET(
         count: r._sum.eventCount ?? 0,
         users: r._sum.users ?? 0,
         isConversion: cfg?.isConversion ?? false,
+        featured: cfg?.featured ?? false,
         hidden: cfg?.hidden ?? false,
       };
     })
@@ -337,6 +346,13 @@ export async function GET(
     .reduce((sum, e) => sum + e.count, 0);
 
   const conversionEvents = events.filter((e) => e.isConversion);
+
+  // Eventos em destaque: o que o cliente quer ver de cara na listagem/relatório
+  // (ex.: acesso a página, clique no WhatsApp, pedido de catálogo). Conversões
+  // entram por padrão enquanto ninguém marcar destaque nenhum.
+  const featuredEvents = events.some((e) => e.featured)
+    ? events.filter((e) => e.featured)
+    : conversionEvents;
 
   // Nomes dos eventos marcados como conversão — usados pra (a) calcular o total
   // do período anterior (delta) e (b) montar série diária pro gráfico de tráfego.
@@ -410,11 +426,82 @@ export async function GET(
       params: Array.from(byParam.entries())
         .map(([paramName, values]) => ({
           paramName,
-          values: values.sort((a, b) => b.count - a.count).slice(0, 10),
+          // Lista inteira (limite de sanidade): o bloco mostra o topo, o
+          // relatório detalhado no modal mostra tudo.
+          values: values.sort((a, b) => b.count - a.count).slice(0, 300),
         }))
         .sort((a, b) => a.paramName.localeCompare(b.paramName)),
     }));
   }
+
+  // ─── 6b. Busca interna do site ───────────────────────────────────────────
+  // Fontes: a dimensão nativa searchTerm (medição avançada) e os parâmetros
+  // personalizados do evento próprio — ex.: view_search_results com search_term
+  // (o que digitaram) + search_encontrou (sim/nao). Independe de o evento estar
+  // marcado como conversão. Manda a lista inteira: o relatório detalhado abre
+  // num modal e precisa de tudo, não só do topo.
+  const YES_RE = /^(sim|yes|true|1)$/i;
+
+  const searchEventNames = events.map((e) => e.eventName).filter((n) => SEARCH_EVENT_RE.test(n));
+  const searchRows = await prisma.analyticsEventParamDaily.groupBy({
+    by: ["eventName", "paramName", "paramValue"],
+    where: {
+      companyId,
+      source: "ga4",
+      date: { gte: periodStart, lte: periodEnd },
+      eventName: { in: [SITE_SEARCH_EVENT, SITE_SEARCH_MISS_EVENT, ...searchEventNames] },
+    },
+    _sum: { eventCount: true, users: true },
+  });
+
+  type TermAgg = { term: string; count: number; users: number };
+  const sumByTerm = (rows: typeof searchRows): TermAgg[] => {
+    const acc = new Map<string, TermAgg>();
+    for (const row of rows) {
+      const key = row.paramValue.trim().toLowerCase();
+      if (!key) continue;
+      const cur = acc.get(key) ?? { term: row.paramValue.trim(), count: 0, users: 0 };
+      cur.count += row._sum.eventCount ?? 0;
+      cur.users += row._sum.users ?? 0;
+      acc.set(key, cur);
+    }
+    return Array.from(acc.values()).sort((a, b) => b.count - a.count);
+  };
+
+  // Termos buscados: dimensão nativa + parâmetro próprio, somados pelo texto
+  // (o mesmo termo pode chegar pelos dois caminhos).
+  const allTerms = sumByTerm(
+    searchRows.filter(
+      (r) =>
+        r.eventName === SITE_SEARCH_EVENT ||
+        (r.eventName !== SITE_SEARCH_MISS_EVENT && SEARCH_TERM_PARAM_RE.test(r.paramName))
+    )
+  );
+
+  // Termos que não acharam nada — vem do cruzamento feito no sync.
+  const missTerms = sumByTerm(searchRows.filter((r) => r.eventName === SITE_SEARCH_MISS_EVENT));
+
+  // Total de buscas com/sem resultado (parâmetro "encontrou", sem cruzamento).
+  let searchFound = 0;
+  let searchNotFound = 0;
+  for (const row of searchRows) {
+    if (row.eventName === SITE_SEARCH_MISS_EVENT) continue;
+    if (!SEARCH_FOUND_PARAM_RE.test(row.paramName)) continue;
+    const v = row.paramValue.trim();
+    if (SEARCH_NO_RE.test(v)) searchNotFound += row._sum.eventCount ?? 0;
+    else if (YES_RE.test(v)) searchFound += row._sum.eventCount ?? 0;
+  }
+  // Sem o parâmetro "encontrou", o cruzamento ainda dá o total de falhas.
+  if (searchNotFound === 0) searchNotFound = missTerms.reduce((sum, t) => sum + t.count, 0);
+
+  const siteSearch = {
+    total: allTerms.reduce((sum, t) => sum + t.count, 0),
+    distinct: allTerms.length,
+    found: searchFound,
+    notFound: searchNotFound,
+    terms: allTerms.slice(0, 300),
+    missTerms: missTerms.slice(0, 300),
+  };
 
   // ─── 7. Funil adaptativo + Ganho/Perdido ────────────────────────────────
   // Perfil detectado pelos módulos contratados:
@@ -546,7 +633,9 @@ export async function GET(
     events,
     conversionEvents,
     conversionsLeadHub,
+    featuredEvents,
     conversionParams,
+    siteSearch,
     funnel,
     integrationStatus,
     hasData: (snapsCurrent._sum.sessions ?? 0) > 0 || scRows.length > 0,

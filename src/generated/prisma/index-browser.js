@@ -1087,6 +1087,7 @@ exports.Prisma.MarketingEventConfigScalarFieldEnum = {
   source: 'source',
   eventName: 'eventName',
   isConversion: 'isConversion',
+  featured: 'featured',
   displayLabel: 'displayLabel',
   hidden: 'hidden',
   createdAt: 'createdAt',
