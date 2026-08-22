@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { blockClientPortalWrite } from "@/lib/client-portal";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { assertModule } from "@/lib/billing";
 import { syncGA4 } from "@/lib/google/ga4-sync";
@@ -35,6 +36,10 @@ export async function POST(
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "marketing");
   if (!gate.ok) return gate.response;
+
+  // Portal do cliente é somente leitura — não dispara sync.
+  const blocked = await blockClientPortalWrite(session);
+  if (blocked) return blocked;
 
   const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });

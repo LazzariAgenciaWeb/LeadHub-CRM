@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { blockClientPortalWrite } from "@/lib/client-portal";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { syncGA4 } from "@/lib/google/ga4-sync";
 import { syncSearchConsole } from "@/lib/google/search-console-sync";
@@ -16,6 +19,10 @@ export async function POST(
   const { id: companyId, integrationId } = await params;
   // checkCofreModule: false — sync de integração Marketing não exige Cofre.
   // O gate de plano correto é "marketing" (a integração já vive sob este módulo).
+  // Portal do cliente é somente leitura — não dispara sync de integração.
+  const blocked = await blockClientPortalWrite(await getServerSession(authOptions));
+  if (blocked) return blocked;
+
   const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });
   if (!auth.canWrite) return NextResponse.json({ error: "Sem permissão" }, { status: 403 });

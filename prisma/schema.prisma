@@ -235,6 +235,10 @@ model Company {
   // gateia a visibilidade do menu Configurações → Bling pro ADMIN da empresa
   // (SUPER_ADMIN vê sempre). Habilitado por empresa pelo SUPER_ADMIN.
   moduleBling          Boolean @default(false)
+  // Portal do cliente → aba "Marketing": deixa a sub-empresa abrir o próprio
+  // dashboard em vez de a agência mandar relatório. Sempre sem os números de
+  // custo (ver mode="client" em CompanyMarketing).
+  moduleRelatorioMarketing Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
   moduleLinks          Boolean @default(false)
   // Módulo Instagram (automação estilo ManyChat): conecta a conta IG

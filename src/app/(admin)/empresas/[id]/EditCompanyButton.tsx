@@ -31,6 +31,7 @@ interface Company {
   moduleEspacoCliente: boolean;
   moduleVideos: boolean;
   moduleBling: boolean;
+  moduleRelatorioMarketing: boolean;
   parentCompanyId?: string | null;
   modoAtendimento: "VISAO" | "ATENDE";
 }
@@ -73,6 +74,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
     moduleEspacoCliente: company.moduleEspacoCliente,
     moduleVideos: company.moduleVideos,
     moduleBling: (company as any).moduleBling ?? false,
+    moduleRelatorioMarketing: (company as any).moduleRelatorioMarketing ?? false,
     modoAtendimento: company.modoAtendimento,
   });
 
@@ -115,6 +117,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
         payload.moduleEspacoCliente = form.moduleEspacoCliente;
         payload.moduleVideos = form.moduleVideos;
         payload.moduleBling = form.moduleBling;
+        payload.moduleRelatorioMarketing = form.moduleRelatorioMarketing;
         payload.modoAtendimento = form.modoAtendimento;
       }
 
@@ -318,6 +321,7 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                             { title: "Integrações", items: [
                               { key: "moduleClickup", label: "ClickUp" },
                               { key: "moduleBling", label: "Bling · ERP (clientes + financeiro)" },
+                              { key: "moduleRelatorioMarketing", label: "Relatório de Marketing no portal do cliente (sem custos)" },
                             ] },
                           ].map((group) => (
                             <div key={group.title}>

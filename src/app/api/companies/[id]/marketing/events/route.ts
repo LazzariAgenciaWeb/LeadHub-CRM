@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { blockClientPortalWrite } from "@/lib/client-portal";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { assertModule } from "@/lib/billing";
 
@@ -71,6 +72,9 @@ export async function PATCH(
   const { id: companyId } = await params;
   const gate = await authorize(companyId);
   if (!gate.ok) return gate.response;
+  // Cliente no portal vê o relatório, mas não escolhe o que conta como conversão.
+  const blocked = await blockClientPortalWrite(await getServerSession(authOptions));
+  if (blocked) return blocked;
 
   let body: { events?: Array<{ eventName: string; isConversion?: boolean; featured?: boolean; displayLabel?: string | null; hidden?: boolean }> };
   try {

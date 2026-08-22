@@ -87,6 +87,7 @@ type ConfigEvent = {
 };
 
 export default function MarketingEventsBlock({
+  readOnly = false,
   companyId,
   events,
   conversionEvents,
@@ -104,6 +105,8 @@ export default function MarketingEventsBlock({
   featuredEvents?: Event[];
   siteSearch?: SiteSearch;
   onConfigSaved: () => void;
+  /** Portal do cliente: sem configurar quais eventos contam como conversão. */
+  readOnly?: boolean;
 }) {
   const [configOpen, setConfigOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
@@ -138,13 +141,15 @@ export default function MarketingEventsBlock({
                 )}
               </button>
             )}
-            <button
-              onClick={() => setConfigOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-medium"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              Configurar
-            </button>
+            {!readOnly && (
+              <button
+                onClick={() => setConfigOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-medium"
+              >
+                <Settings className="w-3.5 h-3.5" />
+                Configurar
+              </button>
+            )}
           </div>
         </div>
 

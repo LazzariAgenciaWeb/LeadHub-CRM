@@ -19868,6 +19868,7 @@ export namespace Prisma {
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
     moduleBling: boolean | null
+    moduleRelatorioMarketing: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
@@ -19912,6 +19913,7 @@ export namespace Prisma {
     moduleClickup: boolean | null
     moduleCampanhas: boolean | null
     moduleBling: boolean | null
+    moduleRelatorioMarketing: boolean | null
     moduleLinks: boolean | null
     moduleInstagram: boolean | null
     moduleEspacoCliente: boolean | null
@@ -19956,6 +19958,7 @@ export namespace Prisma {
     moduleClickup: number
     moduleCampanhas: number
     moduleBling: number
+    moduleRelatorioMarketing: number
     moduleLinks: number
     moduleInstagram: number
     moduleEspacoCliente: number
@@ -20012,6 +20015,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleBling?: true
+    moduleRelatorioMarketing?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -20056,6 +20060,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleBling?: true
+    moduleRelatorioMarketing?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -20100,6 +20105,7 @@ export namespace Prisma {
     moduleClickup?: true
     moduleCampanhas?: true
     moduleBling?: true
+    moduleRelatorioMarketing?: true
     moduleLinks?: true
     moduleInstagram?: true
     moduleEspacoCliente?: true
@@ -20231,6 +20237,7 @@ export namespace Prisma {
     moduleClickup: boolean
     moduleCampanhas: boolean
     moduleBling: boolean
+    moduleRelatorioMarketing: boolean
     moduleLinks: boolean
     moduleInstagram: boolean
     moduleEspacoCliente: boolean
@@ -20294,6 +20301,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20423,6 +20431,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20468,6 +20477,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -20691,6 +20701,7 @@ export namespace Prisma {
       moduleClickup: boolean
       moduleCampanhas: boolean
       moduleBling: boolean
+      moduleRelatorioMarketing: boolean
       moduleLinks: boolean
       moduleInstagram: boolean
       moduleEspacoCliente: boolean
@@ -21209,6 +21220,7 @@ export namespace Prisma {
     readonly moduleClickup: FieldRef<"Company", 'Boolean'>
     readonly moduleCampanhas: FieldRef<"Company", 'Boolean'>
     readonly moduleBling: FieldRef<"Company", 'Boolean'>
+    readonly moduleRelatorioMarketing: FieldRef<"Company", 'Boolean'>
     readonly moduleLinks: FieldRef<"Company", 'Boolean'>
     readonly moduleInstagram: FieldRef<"Company", 'Boolean'>
     readonly moduleEspacoCliente: FieldRef<"Company", 'Boolean'>
@@ -139639,6 +139651,7 @@ export namespace Prisma {
     moduleClickup: 'moduleClickup',
     moduleCampanhas: 'moduleCampanhas',
     moduleBling: 'moduleBling',
+    moduleRelatorioMarketing: 'moduleRelatorioMarketing',
     moduleLinks: 'moduleLinks',
     moduleInstagram: 'moduleInstagram',
     moduleEspacoCliente: 'moduleEspacoCliente',
@@ -143003,6 +143016,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleBling?: BoolFilter<"Company"> | boolean
+    moduleRelatorioMarketing?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -143131,6 +143145,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleBling?: SortOrder
+    moduleRelatorioMarketing?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -143263,6 +143278,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleBling?: BoolFilter<"Company"> | boolean
+    moduleRelatorioMarketing?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -143390,6 +143406,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleBling?: SortOrder
+    moduleRelatorioMarketing?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -143442,6 +143459,7 @@ export namespace Prisma {
     moduleClickup?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleCampanhas?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleBling?: BoolWithAggregatesFilter<"Company"> | boolean
+    moduleRelatorioMarketing?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleLinks?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleInstagram?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -154308,6 +154326,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -154435,6 +154454,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -154562,6 +154582,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -154689,6 +154710,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -154816,6 +154838,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -154860,6 +154883,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -154903,6 +154927,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -167595,6 +167620,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleBling?: SortOrder
+    moduleRelatorioMarketing?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -167644,6 +167670,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleBling?: SortOrder
+    moduleRelatorioMarketing?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -167688,6 +167715,7 @@ export namespace Prisma {
     moduleClickup?: SortOrder
     moduleCampanhas?: SortOrder
     moduleBling?: SortOrder
+    moduleRelatorioMarketing?: SortOrder
     moduleLinks?: SortOrder
     moduleInstagram?: SortOrder
     moduleEspacoCliente?: SortOrder
@@ -187318,6 +187346,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -187444,6 +187473,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -188926,6 +188956,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -189052,6 +189083,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -190206,6 +190238,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -190332,6 +190365,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -190579,6 +190613,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -190705,6 +190740,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -191590,6 +191626,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -191716,6 +191753,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -191847,6 +191885,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -191973,6 +192012,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -195590,6 +195630,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -195716,6 +195757,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -195861,6 +195903,7 @@ export namespace Prisma {
     moduleClickup?: BoolFilter<"Company"> | boolean
     moduleCampanhas?: BoolFilter<"Company"> | boolean
     moduleBling?: BoolFilter<"Company"> | boolean
+    moduleRelatorioMarketing?: BoolFilter<"Company"> | boolean
     moduleLinks?: BoolFilter<"Company"> | boolean
     moduleInstagram?: BoolFilter<"Company"> | boolean
     moduleEspacoCliente?: BoolFilter<"Company"> | boolean
@@ -198443,6 +198486,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -198569,6 +198613,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -198963,6 +199008,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199089,6 +199135,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199320,6 +199367,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -199446,6 +199494,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -199775,6 +199824,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -199901,6 +199951,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -200155,6 +200206,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200281,6 +200333,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -200955,6 +201008,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -201081,6 +201135,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -201616,6 +201671,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -201742,6 +201798,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -201904,6 +201961,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202030,6 +202088,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202452,6 +202511,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202578,6 +202638,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -202746,6 +202807,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -202872,6 +202934,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -203306,6 +203369,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -203432,6 +203496,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -203600,6 +203665,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -203726,6 +203792,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -203868,6 +203935,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -203994,6 +204062,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -204165,6 +204234,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -204291,6 +204361,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -204561,6 +204632,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -204687,6 +204759,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -205154,6 +205227,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -205280,6 +205354,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -205852,6 +205927,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -205978,6 +206054,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -206120,6 +206197,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -206246,6 +206324,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -206372,6 +206451,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -206498,6 +206578,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -206745,6 +206826,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -206871,6 +206953,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -207213,6 +207296,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -207339,6 +207423,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -207848,6 +207933,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -207974,6 +208060,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -208188,6 +208275,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -208314,6 +208402,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -208821,6 +208910,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -208947,6 +209037,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -209468,6 +209559,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -209594,6 +209686,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -209777,6 +209870,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -209903,6 +209997,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -210297,6 +210392,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -210423,6 +210519,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -211046,6 +211143,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -211172,6 +211270,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -211744,6 +211843,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -211870,6 +211970,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -212263,6 +212364,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -212389,6 +212491,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -212515,6 +212618,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -212641,6 +212745,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -212877,6 +212982,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -213003,6 +213109,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -213554,6 +213661,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -213680,6 +213788,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -213928,6 +214037,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -214054,6 +214164,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -214652,6 +214763,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -214778,6 +214890,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -215222,6 +215335,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -215348,6 +215462,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -215974,6 +216089,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -216100,6 +216216,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -216666,6 +216783,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -216792,6 +216910,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220423,6 +220542,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -220549,6 +220669,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -220741,6 +220862,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -220867,6 +220989,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -221215,6 +221338,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221341,6 +221465,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221534,6 +221659,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -221660,6 +221786,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -221786,6 +221913,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -221912,6 +222040,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -222088,6 +222217,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222214,6 +222344,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222387,6 +222518,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -222513,6 +222645,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -222692,6 +222825,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222818,6 +222952,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -222944,6 +223079,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223070,6 +223206,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223212,6 +223349,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223338,6 +223476,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223464,6 +223603,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223590,6 +223730,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -223732,6 +223873,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223858,6 +224000,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -223984,6 +224127,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224110,6 +224254,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224252,6 +224397,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224378,6 +224524,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224504,6 +224651,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224630,6 +224778,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -224772,6 +224921,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -224898,6 +225048,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225024,6 +225175,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225150,6 +225302,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225436,6 +225589,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225562,6 +225716,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -225736,6 +225891,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -225862,6 +226018,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226093,6 +226250,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226219,6 +226377,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226412,6 +226571,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226538,6 +226698,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -226776,6 +226937,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -226902,6 +227064,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227136,6 +227299,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227262,6 +227426,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -227479,6 +227644,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227605,6 +227771,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -227896,6 +228063,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228022,6 +228190,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228164,6 +228333,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228290,6 +228460,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228416,6 +228587,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228542,6 +228714,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -228684,6 +228857,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228810,6 +228984,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -228936,6 +229111,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229062,6 +229238,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229204,6 +229381,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229330,6 +229508,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229456,6 +229635,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229582,6 +229762,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -229724,6 +229905,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229850,6 +230032,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -229976,6 +230159,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230102,6 +230286,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230244,6 +230429,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230370,6 +230556,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230496,6 +230683,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230622,6 +230810,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -230764,6 +230953,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -230890,6 +231080,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231016,6 +231207,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231142,6 +231334,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231284,6 +231477,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231410,6 +231604,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231536,6 +231731,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231662,6 +231858,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -231804,6 +232001,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -231930,6 +232128,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232056,6 +232255,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232182,6 +232382,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232324,6 +232525,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232450,6 +232652,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232576,6 +232779,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232702,6 +232906,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -232844,6 +233049,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -232970,6 +233176,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -233096,6 +233303,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233222,6 +233430,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233364,6 +233573,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -233490,6 +233700,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -233616,6 +233827,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233742,6 +233954,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -233884,6 +234097,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234010,6 +234224,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234136,6 +234351,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234262,6 +234478,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234404,6 +234621,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234530,6 +234748,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -234656,6 +234875,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234782,6 +235002,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -234924,6 +235145,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235050,6 +235272,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235176,6 +235399,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235302,6 +235526,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235444,6 +235669,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235570,6 +235796,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -235696,6 +235923,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235822,6 +236050,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -235964,6 +236193,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236090,6 +236320,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236216,6 +236447,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -236342,6 +236574,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -236484,6 +236717,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236610,6 +236844,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -236736,6 +236971,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -236862,6 +237098,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237004,6 +237241,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237130,6 +237368,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237256,6 +237495,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237382,6 +237622,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -237548,6 +237789,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237674,6 +237916,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -237887,6 +238130,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -238013,6 +238257,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -238191,6 +238436,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -238317,6 +238563,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -238564,6 +238811,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -238690,6 +238938,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -238974,6 +239223,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -239100,6 +239350,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -239368,6 +239619,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239494,6 +239746,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -239747,6 +240000,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -239873,6 +240127,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240104,6 +240359,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -240230,6 +240486,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -240483,6 +240740,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240609,6 +240867,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -240840,6 +241099,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -240966,6 +241226,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -241219,6 +241480,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241345,6 +241607,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241471,6 +241734,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -241597,6 +241861,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -241739,6 +242004,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -241865,6 +242131,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242423,6 +242690,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242549,6 +242817,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -242691,6 +242960,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242817,6 +243087,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -242943,6 +243214,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243069,6 +243341,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243273,6 +243546,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -243399,6 +243673,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -243568,6 +243843,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -243694,6 +243970,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -244134,6 +244411,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -244260,6 +244538,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -245018,6 +245297,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245144,6 +245424,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245286,6 +245567,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -245412,6 +245694,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -245538,6 +245821,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245664,6 +245948,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -245898,6 +246183,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -246024,6 +246310,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -246182,6 +246469,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -246308,6 +246596,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -246736,6 +247025,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -246862,6 +247152,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247288,6 +247579,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -247414,6 +247706,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -247556,6 +247849,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247682,6 +247976,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -247944,6 +248239,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248070,6 +248366,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248277,6 +248574,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248403,6 +248701,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248545,6 +248844,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248671,6 +248971,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -248813,6 +249114,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -248939,6 +249241,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249065,6 +249368,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249191,6 +249495,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249333,6 +249638,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249459,6 +249765,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -249668,6 +249975,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249794,6 +250102,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -249983,6 +250292,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -250109,6 +250419,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -250235,6 +250546,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250361,6 +250673,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -250824,6 +251137,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -250950,6 +251264,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -251381,6 +251696,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -251507,6 +251823,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -251694,6 +252011,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -251820,6 +252138,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -252273,6 +252592,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -252399,6 +252719,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -252602,6 +252923,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -252728,6 +253050,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -252921,6 +253244,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253047,6 +253371,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253337,6 +253662,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -253463,6 +253789,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -253637,6 +253964,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253763,6 +254091,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -253992,6 +254321,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -254118,6 +254448,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -254307,6 +254638,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -254433,6 +254765,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -254610,6 +254943,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -254736,6 +255070,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -254903,6 +255238,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -255029,6 +255365,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -255229,6 +255566,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -255355,6 +255693,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -255567,6 +255906,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -255693,6 +256033,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -255878,6 +256219,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -256004,6 +256346,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -256210,6 +256553,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -256336,6 +256680,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -256583,6 +256928,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -256709,6 +257055,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -256946,6 +257293,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -257072,6 +257420,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -257319,6 +257668,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -257445,6 +257795,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -257682,6 +258033,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -257808,6 +258160,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -258160,6 +258513,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -258286,6 +258640,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -258634,6 +258989,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -258760,6 +259116,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -259112,6 +259469,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -259238,6 +259596,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -259586,6 +259945,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -259712,6 +260072,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -259959,6 +260320,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -260085,6 +260447,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -262212,6 +262575,7 @@ export namespace Prisma {
     moduleClickup?: boolean
     moduleCampanhas?: boolean
     moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
     moduleLinks?: boolean
     moduleInstagram?: boolean
     moduleEspacoCliente?: boolean
@@ -263413,6 +263777,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -263539,6 +263904,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
@@ -263665,6 +264031,7 @@ export namespace Prisma {
     moduleClickup?: BoolFieldUpdateOperationsInput | boolean
     moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
     moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
     moduleLinks?: BoolFieldUpdateOperationsInput | boolean
     moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
     moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean

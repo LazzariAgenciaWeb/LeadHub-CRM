@@ -113,7 +113,20 @@ const BUCKET_HEX: Record<TrafficBucket, string> = {
   OTHER:          "#64748b",
 };
 
-export default function CompanyMarketing({ companyId }: { companyId: string }) {
+/**
+ * mode="client": o mesmo dashboard renderizado dentro do portal do cliente
+ * (/meu-espaco/marketing). Diferenças: nenhum controle de escrita (sync, config
+ * de eventos) e nenhum número de custo — investimento, CPC, CPA e ROAS ficam só
+ * pra agência. O bloqueio de escrita também é feito no servidor; esconder botão
+ * não basta.
+ */
+export default function CompanyMarketing({
+  companyId, mode = "agency",
+}: {
+  companyId: string;
+  mode?: "agency" | "client";
+}) {
+  const isClient = mode === "client";
   const [data, setData] = useState<MarketingData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +147,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
   // background. Sem força — o endpoint /sync respeita o throttle de 2h pra
   // evitar estouro de cota das APIs do Google.
   useEffect(() => {
-    if (!data) return;
+    if (!data || isClient) return; // cliente não dispara sync
     const THRESHOLD_MS = 2 * 60 * 60 * 1000;
     const now = Date.now();
     const stale = (["ga4", "sc", "gbp"] as const).some((k) => {
@@ -255,12 +268,14 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         </div>
       )}
 
-      {/* Status das integrações — botão refresh por bloco */}
-      <IntegrationStatusBar
-        companyId={companyId}
-        status={data.integrationStatus}
-        onSynced={() => void load()}
-      />
+      {/* Status das integrações — botão refresh por bloco (só agência) */}
+      {!isClient && (
+        <IntegrationStatusBar
+          companyId={companyId}
+          status={data.integrationStatus}
+          onSynced={() => void load()}
+        />
+      )}
 
       {/* Abas: entrada · orgânico · patrocinado */}
       <div className="flex gap-1 border-b border-[#1e2d45] overflow-x-auto">
@@ -291,6 +306,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
           days={days}
           organic={{ kpis: data.kpis, trafficBuckets: data.trafficBuckets }}
           onGoToTab={(t) => setTab(t)}
+          hideCost={isClient}
         />
       )}
 
@@ -326,6 +342,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         conversionParams={data.conversionParams}
         siteSearch={data.siteSearch}
         onConfigSaved={() => void load()}
+        readOnly={isClient}
       />
 
       {/* Série diária — multi-linha (visualizações + sessões + conversões) */}
@@ -629,10 +646,10 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
       <div className="space-y-6">
 
       {/* Seção Google Ads */}
-      <CompanyAdsSection companyId={companyId} days={days} provider="GOOGLE_ADS" />
+      <CompanyAdsSection companyId={companyId} days={days} provider="GOOGLE_ADS" hideCost={isClient} readOnly={isClient} />
 
       {/* Seção Meta Ads */}
-      <CompanyAdsSection companyId={companyId} days={days} provider="META_ADS" />
+      <CompanyAdsSection companyId={companyId} days={days} provider="META_ADS" hideCost={isClient} readOnly={isClient} />
 
       </div>
       )}

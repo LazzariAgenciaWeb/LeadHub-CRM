@@ -50,12 +50,14 @@ interface AdsSummary {
 const PROVIDER_LABEL = { GOOGLE_ADS: "Google Ads", META_ADS: "Meta Ads" } as const;
 
 export default function MarketingOverview({
-  companyId, days, organic, onGoToTab,
+  companyId, days, organic, onGoToTab, hideCost = false,
 }: {
   companyId: string;
   days: number;
   organic: OverviewOrganic;
   onGoToTab: (tab: "organico" | "pago") => void;
+  /** Portal do cliente: sem o card de investimento em mídia. */
+  hideCost?: boolean;
 }) {
   const [ads, setAds] = useState<AdsSummary | null>(null);
 
@@ -140,7 +142,7 @@ export default function MarketingOverview({
       </div>
 
       {/* Investimento — só quando há mídia conectada */}
-      {ads?.anyConnected && (
+      {ads?.anyConnected && !hideCost && (
         <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
           <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
             <div className="flex items-center gap-2">

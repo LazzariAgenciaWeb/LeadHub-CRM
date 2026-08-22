@@ -65,11 +65,15 @@ interface AdsResponse {
 const LABEL = { GOOGLE_ADS: "Google Ads", META_ADS: "Meta Ads" } as const;
 
 export default function CompanyAdsSection({
-  companyId, days = 30, provider = "GOOGLE_ADS",
+  companyId, days = 30, provider = "GOOGLE_ADS", hideCost = false, readOnly = false,
 }: {
   companyId: string;
   days?: number;
   provider?: "GOOGLE_ADS" | "META_ADS";
+  /** Portal do cliente: esconde investimento, CPC, CPA e ROAS. */
+  hideCost?: boolean;
+  /** Portal do cliente: sem "Sincronizar agora". */
+  readOnly?: boolean;
 }) {
   const [data, setData] = useState<AdsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -181,15 +185,23 @@ export default function CompanyAdsSection({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-white font-semibold text-sm mb-1">{LABEL[provider]} não conectado</h3>
-            <p className="text-slate-500 text-xs mb-3">
-              Conecte para acompanhar investimento, cliques, conversões, CPC, CPA e ROAS por campanha.
-            </p>
-            <a
-              href={`/empresas/${companyId}?tab=integracoes`}
-              className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-semibold"
-            >
-              Configurar integração →
-            </a>
+            {readOnly ? (
+              <p className="text-slate-500 text-xs">
+                Ainda não há campanhas desta plataforma neste relatório.
+              </p>
+            ) : (
+              <>
+                <p className="text-slate-500 text-xs mb-3">
+                  Conecte para acompanhar investimento, cliques, conversões, CPC, CPA e ROAS por campanha.
+                </p>
+                <a
+                  href={`/empresas/${companyId}?tab=integracoes`}
+                  className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-semibold"
+                >
+                  Configurar integração →
+                </a>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -216,18 +228,20 @@ export default function CompanyAdsSection({
             </p>
           </div>
         </div>
-        <button
-          onClick={handleSync}
-          disabled={syncing}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold disabled:opacity-50"
-        >
-          <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
-          {syncing ? "Sincronizando…" : "Sincronizar agora"}
-        </button>
+        {!readOnly && (
+          <button
+            onClick={handleSync}
+            disabled={syncing}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold disabled:opacity-50"
+          >
+            <RefreshCw className={`w-3 h-3 ${syncing ? "animate-spin" : ""}`} />
+            {syncing ? "Sincronizando…" : "Sincronizar agora"}
+          </button>
+        )}
       </div>
 
       {/* Aviso de erro do último sync */}
-      {integration?.lastSyncStatus === "error" && integration.lastError && (
+      {!readOnly && integration?.lastSyncStatus === "error" && integration.lastError && (
         <div className="rounded-lg p-3 flex items-start gap-2 bg-red-500/5 border border-red-500/30">
           <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-400" />
           <div className="text-xs text-red-300">
@@ -237,7 +251,7 @@ export default function CompanyAdsSection({
       )}
 
       {/* Conectado mas sem dados ainda */}
-      {!data.hasData && (
+      {!data.hasData && !readOnly && (
         <div className="rounded-lg p-3 flex items-start gap-2 bg-amber-500/5 border border-amber-500/30">
           <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
           <div className="text-xs text-amber-300">
@@ -251,12 +265,14 @@ export default function CompanyAdsSection({
       {kpis && (
         <>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {!hideCost && (<>
             <KpiCard icon={<DollarSign className="w-4 h-4" strokeWidth={2.25} />} color="amber"
               label="Investimento" value={fmtMoney(kpis.cost.current)} deltaPct={kpis.cost.deltaPct} deltaGood="down" />
             <KpiCard icon={<MousePointerClick className="w-4 h-4" strokeWidth={2.25} />} color="amber"
               label="CPC médio" value={fmtMoney(kpis.cpc.current)} deltaPct={kpis.cpc.deltaPct} deltaGood="down" />
             <KpiCard icon={<Target className="w-4 h-4" strokeWidth={2.25} />} color="amber"
               label="Custo / conversão" value={fmtMoney(kpis.cpa.current)} deltaPct={kpis.cpa.deltaPct} deltaGood="down" />
+            </>)}
             <KpiCard icon={<Eye className="w-4 h-4" strokeWidth={2.25} />} color="blue"
               label="Impressões" value={fmtNum(kpis.impressions.current)} deltaPct={kpis.impressions.deltaPct} deltaGood="up" />
             <KpiCard icon={<MousePointerClick className="w-4 h-4" strokeWidth={2.25} />} color="cyan"
@@ -264,7 +280,7 @@ export default function CompanyAdsSection({
               subtitle={`CTR ${(kpis.ctr.current * 100).toFixed(2)}%`} />
             <KpiCard icon={<Target className="w-4 h-4" strokeWidth={2.25} />} color="emerald"
               label="Conversões" value={fmtNum(Math.round(kpis.conversions.current * 100) / 100)} deltaPct={kpis.conversions.deltaPct} deltaGood="up"
-              subtitle={kpis.roas.current > 0 ? `ROAS ${kpis.roas.current.toFixed(2)}x` : undefined} />
+              subtitle={!hideCost && kpis.roas.current > 0 ? `ROAS ${kpis.roas.current.toFixed(2)}x` : undefined} />
           </div>
 
           {/* Funil Impressões → Cliques → Conversões */}
@@ -285,7 +301,7 @@ export default function CompanyAdsSection({
             <h3 className="text-white font-semibold text-sm">Desempenho diário</h3>
           </div>
           <div className="flex items-center gap-3 text-[11px] flex-wrap">
-            <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400" /> Custo</span>
+            {!hideCost && <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400" /> Custo</span>}
             <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-cyan-400" /> Cliques</span>
             <span className="inline-flex items-center gap-1 text-slate-500"><span className="w-2 h-2 rounded-full bg-pink-400" /> Conversões</span>
           </div>
@@ -305,7 +321,7 @@ export default function CompanyAdsSection({
                   labelStyle={{ color: "#cbd5e1" }}
                   formatter={(v: any, name: any) => (name === "Custo" ? fmtMoney(Number(v)) : fmtNum(Number(v)))}
                 />
-                <Bar  yAxisId="money" dataKey="cost"        name="Custo"      fill="#f59e0b" opacity={0.55} radius={[2, 2, 0, 0]} />
+                {!hideCost && <Bar yAxisId="money" dataKey="cost" name="Custo" fill="#f59e0b" opacity={0.55} radius={[2, 2, 0, 0]} />}
                 <Line yAxisId="count" type="monotone" dataKey="clicks"      name="Cliques"    stroke="#22d3ee" strokeWidth={2} dot={false} />
                 <Line yAxisId="count" type="monotone" dataKey="conversions" name="Conversões" stroke="#f472b6" strokeWidth={2} dot={false} />
               </ComposedChart>
@@ -334,10 +350,10 @@ export default function CompanyAdsSection({
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Impr.</th>
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Cliques</th>
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CTR</th>
-                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Custo</th>
+                  {!hideCost && <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Custo</th>}
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Conv.</th>
-                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CPA</th>
-                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">ROAS</th>
+                  {!hideCost && <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CPA</th>}
+                  {!hideCost && <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">ROAS</th>}
                 </tr>
               </thead>
               <tbody>
@@ -367,19 +383,20 @@ export default function CompanyAdsSection({
                       <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{fmtNum(c.impressions)}</td>
                       <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{fmtNum(c.clicks)}</td>
                       <td className={`py-2 px-2 text-xs font-mono font-semibold text-right ${ctrColor}`}>{ctrPct.toFixed(2)}%</td>
-                      <td className="py-2 px-2 text-slate-200 text-xs font-mono text-right">{fmtMoney(c.cost)}</td>
+                      {!hideCost && <td className="py-2 px-2 text-slate-200 text-xs font-mono text-right">{fmtMoney(c.cost)}</td>}
                       <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{(Math.round(c.conversions * 100) / 100).toLocaleString("pt-BR")}</td>
-                      <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{c.conversions > 0 ? fmtMoney(c.cpa) : "—"}</td>
-                      <td className="py-2 px-2 text-xs font-mono text-right text-violet-300">{c.roas > 0 ? `${c.roas.toFixed(2)}x` : "—"}</td>
+                      {!hideCost && <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{c.conversions > 0 ? fmtMoney(c.cpa) : "—"}</td>}
+                      {!hideCost && <td className="py-2 px-2 text-xs font-mono text-right text-violet-300">{c.roas > 0 ? `${c.roas.toFixed(2)}x` : "—"}</td>}
                     </tr>
                     {expanded === c.id && (
                       <tr>
-                        <td colSpan={8} className="p-0">
+                        <td colSpan={hideCost ? 5 : 8} className="p-0">
                           <BreakdownPanel
                             state={breakdowns[c.id]}
                             fmtNum={fmtNum}
                             fmtMoney={fmtMoney}
                             provider={provider}
+                            hideCost={hideCost}
                           />
                         </td>
                       </tr>
@@ -405,11 +422,11 @@ export default function CompanyAdsSection({
             <AdPreview ad={topAds[0]} />
             <div className="grid grid-cols-2 gap-2.5">
               <MiniStat label="Conversões" value={(Math.round(topAds[0].conversions * 100) / 100).toLocaleString("pt-BR")} accent="emerald" />
-              <MiniStat label="Custo / conv." value={topAds[0].conversions > 0 ? fmtMoney(topAds[0].cpa) : "—"} accent="amber" />
+              {!hideCost && <MiniStat label="Custo / conv." value={topAds[0].conversions > 0 ? fmtMoney(topAds[0].cpa) : "—"} accent="amber" />}
               <MiniStat label="Cliques" value={fmtNum(topAds[0].clicks)} accent="cyan" />
               <MiniStat label="CTR" value={`${(topAds[0].ctr * 100).toFixed(2)}%`} accent="blue" />
               <MiniStat label="Impressões" value={fmtNum(topAds[0].impressions)} accent="blue" />
-              <MiniStat label="Investimento" value={fmtMoney(topAds[0].cost)} accent="amber" />
+              {!hideCost && <MiniStat label="Investimento" value={fmtMoney(topAds[0].cost)} accent="amber" />}
             </div>
           </div>
           {topAds[0].campaignName && (
@@ -447,7 +464,7 @@ export default function CompanyAdsSection({
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Impr.</th>
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Cliques</th>
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CTR</th>
-                  <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CPC</th>
+                  {!hideCost && <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">CPC</th>}
                   <th className="text-right text-[10px] uppercase tracking-wider text-slate-600 font-bold pb-2 px-2">Conv.</th>
                 </tr>
               </thead>
@@ -461,7 +478,7 @@ export default function CompanyAdsSection({
                       <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{fmtNum(t.impressions)}</td>
                       <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{fmtNum(t.clicks)}</td>
                       <td className={`py-2 px-2 text-xs font-mono font-semibold text-right ${ctrColor}`}>{ctrPct.toFixed(2)}%</td>
-                      <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{t.clicks > 0 ? fmtMoney(t.cpc) : "—"}</td>
+                      {!hideCost && <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{t.clicks > 0 ? fmtMoney(t.cpc) : "—"}</td>}
                       <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{(Math.round(t.conversions * 100) / 100).toLocaleString("pt-BR")}</td>
                     </tr>
                   );
@@ -517,12 +534,13 @@ function statusLabel(status: string): string {
 }
 
 function BreakdownPanel({
-  state, fmtNum, fmtMoney, provider,
+  state, fmtNum, fmtMoney, provider, hideCost = false,
 }: {
   state: Breakdown | "loading" | "error" | undefined;
   fmtNum: (v: number) => string;
   fmtMoney: (v: number) => string;
   provider: "GOOGLE_ADS" | "META_ADS";
+  hideCost?: boolean;
 }) {
   const setLabel = provider === "META_ADS" ? "conjunto" : "grupo de anúncios";
 
@@ -570,11 +588,11 @@ function BreakdownPanel({
             <div className="flex items-center gap-3 text-[10px] font-mono flex-shrink-0">
               <span className="text-slate-500">{fmtNum(g.impressions)} impr.</span>
               <span className="text-slate-400">{fmtNum(g.clicks)} cliques</span>
-              <span className="text-slate-300">{fmtMoney(g.cost)}</span>
+              {!hideCost && <span className="text-slate-300">{fmtMoney(g.cost)}</span>}
               <span className="text-emerald-300">
                 {(Math.round(g.conversions * 100) / 100).toLocaleString("pt-BR")} conv.
               </span>
-              <span className="text-amber-300">{g.conversions > 0 ? fmtMoney(g.cpa) : "—"}</span>
+              {!hideCost && <span className="text-amber-300">{g.conversions > 0 ? fmtMoney(g.cpa) : "—"}</span>}
             </div>
           </div>
 
@@ -607,7 +625,7 @@ function BreakdownPanel({
                   <span className="text-slate-600 w-16 text-right">{fmtNum(ad.impressions)}</span>
                   <span className="text-slate-400 w-14 text-right">{fmtNum(ad.clicks)}</span>
                   <span className="text-slate-500 w-12 text-right">{(ad.ctr * 100).toFixed(1)}%</span>
-                  <span className="text-slate-300 w-20 text-right">{fmtMoney(ad.cost)}</span>
+                  {!hideCost && <span className="text-slate-300 w-20 text-right">{fmtMoney(ad.cost)}</span>}
                   <span className="text-emerald-300 w-12 text-right">
                     {(Math.round(ad.conversions * 100) / 100).toLocaleString("pt-BR")}
                   </span>

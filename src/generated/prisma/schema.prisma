@@ -204,52 +204,56 @@ model Company {
   blingContactId String?
 
   // Acesso ao sistema e módulos habilitados
-  hasSystemAccess      Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
-  fullSystemAccess     Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
-  moduleWhatsapp       Boolean @default(false)
-  moduleCrm            Boolean @default(true)
-  moduleTickets        Boolean @default(false)
-  moduleAI             Boolean @default(false)
-  moduleGamificacao    Boolean @default(false)
-  moduleProjetos       Boolean @default(false)
-  moduleCalendario     Boolean @default(false)
+  hasSystemAccess          Boolean @default(false) // pode fazer login? (vê o "Meu Espaço" — painel do cliente)
+  fullSystemAccess         Boolean @default(false) // além do Meu Espaço, acessa o LeadHub completo (módulos/menus). Se false = só o painel.
+  moduleWhatsapp           Boolean @default(false)
+  moduleCrm                Boolean @default(true)
+  moduleTickets            Boolean @default(false)
+  moduleAI                 Boolean @default(false)
+  moduleGamificacao        Boolean @default(false)
+  moduleProjetos           Boolean @default(false)
+  moduleCalendario         Boolean @default(false)
   // Disparo de email em massa (campanhas). Quando ligado, a empresa configura
   // o próprio SMTP em CompanyEmailConfig e dispara campanhas pros leads.
-  moduleEmailMarketing Boolean @default(false)
+  moduleEmailMarketing     Boolean @default(false)
   // Caixa de E-mail (Atender → E-mail): separado do E-mail Marketing pra
   // liberar um sem o outro por empresa.
-  moduleEmailInbox     Boolean @default(false)
+  moduleEmailInbox         Boolean @default(false)
   // Habilita busca de prospects via SerpAPI (Google Maps + scraper inline)
   // na página /crm/prospeccao. Cada empresa traz a própria `serpapiKey`.
-  moduleProspeccao     Boolean @default(false)
+  moduleProspeccao         Boolean @default(false)
   // API key SerpAPI da empresa (texto plano, mesmo padrão dos tokens de
   // integração atuais). Sem key, o botão "Buscar prospects" não aparece.
-  serpapiKey           String?
+  serpapiKey               String?
   // Habilita a integração com ClickUp pra esta empresa. Quando false, a UI
   // de configuração e a sincronização (push + webhook) ficam desligadas.
   // Cada empresa-cliente liga o módulo e configura a própria conta ClickUp.
-  moduleClickup        Boolean @default(false)
+  moduleClickup            Boolean @default(false)
   // Módulo Campanhas (gerenciar campanhas + UTMs vinculadas a leads)
-  moduleCampanhas      Boolean @default(false)
+  moduleCampanhas          Boolean @default(false)
   // Integração Bling (ERP) — espelho de clientes + financeiro. Só a AZZ usa;
   // gateia a visibilidade do menu Configurações → Bling pro ADMIN da empresa
   // (SUPER_ADMIN vê sempre). Habilitado por empresa pelo SUPER_ADMIN.
-  moduleBling          Boolean @default(false)
+  moduleBling              Boolean @default(false)
+  // Portal do cliente → aba "Marketing": deixa a sub-empresa abrir o próprio
+  // dashboard em vez de a agência mandar relatório. Sempre sem os números de
+  // custo (ver mode="client" em CompanyMarketing).
+  moduleRelatorioMarketing Boolean @default(false)
   // Módulo Links de rastreio (gera tracking links com pixel)
-  moduleLinks          Boolean @default(false)
+  moduleLinks              Boolean @default(false)
   // Módulo Instagram (automação estilo ManyChat): conecta a conta IG
   // Profissional via "API com Login do Instagram" e dispara respostas a
   // comentários + DM (private reply). Cada empresa conecta a própria conta.
-  moduleInstagram      Boolean @default(false)
+  moduleInstagram          Boolean @default(false)
   // Módulo "Espaço do Cliente": permite a AGÊNCIA oferecer o painel do cliente —
   // gerar o link público /c/[token] e liberar login no Meu Espaço pros clientes
   // dela (sub-empresas). Habilitado pelo SUPER_ADMIN por agência.
-  moduleEspacoCliente  Boolean @default(false)
+  moduleEspacoCliente      Boolean @default(false)
   // Módulo "Vídeos" (biblioteca estilo Netflix): material de apoio em vídeo
   // (YouTube embed) organizado em trilhas. SUPER_ADMIN mantém a biblioteca
   // central e libera trilhas por empresa; agências com o módulo podem criar
   // trilhas próprias pros clientes delas. Cliente assiste no /meu-espaco/videos.
-  moduleVideos         Boolean @default(false)
+  moduleVideos             Boolean @default(false)
 
   // Define se a empresa usa WhatsApp em modo VISAO (read-only / painel de contexto)
   // ou ATENDE (completo, envia pelo painel). Default ATENDE preserva comportamento
