@@ -74,7 +74,35 @@ const PROVIDER_META: Record<Provider, { label: string; Icon: typeof BarChart3; c
   },
 };
 
-const PROVIDER_ORDER: Provider[] = ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE", "GOOGLE_ADS", "META_ADS"];
+// Agrupado por PLATAFORMA. Antes era uma lista única, e o card do Meta Ads
+// ficava no fim de uma sequência toda Google — parecia integração do Google.
+const PLATFORMS: {
+  id: string; label: string; hint: string; accent: string; providers: Provider[];
+}[] = [
+  {
+    id: "google",
+    label: "Google",
+    hint: "Uma autorização por serviço, na conta Google que tem acesso.",
+    accent: "text-blue-300",
+    providers: ["GA4", "SEARCH_CONSOLE", "BUSINESS_PROFILE", "GOOGLE_ADS"],
+  },
+  {
+    id: "meta",
+    label: "Meta",
+    hint: "Facebook e Instagram — mesmo app, autorizações separadas.",
+    accent: "text-violet-300",
+    providers: ["META_ADS"],
+  },
+];
+
+// Integrações da Meta que existem, mas são gerenciadas em outra tela (têm
+// webhook, caixa de entrada e config próprios). Aparecem aqui só como atalho,
+// pra ninguém procurar Instagram/Messenger nesta aba e achar que falta.
+const META_ELSEWHERE: { label: string; desc: string; href: string }[] = [
+  { label: "Instagram · Direct",      desc: "Mensagens e automações do Direct.", href: "/instagram" },
+  { label: "Facebook · Messenger",    desc: "Conversas da Página no Inbox.",     href: "/instagram/inbox" },
+  { label: "Conversions API (CAPI)",  desc: "Envio de conversões do site pra Meta.", href: "/configuracoes?secao=integracoes-meta" },
+];
 
 const STATUS_META: Record<Status, { label: string; color: string }> = {
   ACTIVE:       { label: "Conectado",    color: "text-emerald-400" },
@@ -219,8 +247,15 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
         </div>
       )}
 
-      <div className="space-y-3">
-        {PROVIDER_ORDER.map((provider) => {
+      <div className="space-y-6">
+        {PLATFORMS.map((platform) => (
+        <div key={platform.id} className="space-y-3">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <h3 className={`text-xs font-bold uppercase tracking-wide ${platform.accent}`}>{platform.label}</h3>
+            <span className="text-slate-600 text-[11px]">{platform.hint}</span>
+          </div>
+
+        {platform.providers.map((provider) => {
           const meta = PROVIDER_META[provider];
           const items = byProvider.get(provider) || [];
           const hasActive = items.some((i) => i.status === "ACTIVE");
@@ -352,6 +387,27 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
             </div>
           );
         })}
+
+        {/* Atalhos: integrações da Meta que moram em outra tela */}
+        {platform.id === "meta" && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            {META_ELSEWHERE.map((m) => (
+              <a
+                key={m.href + m.label}
+                href={m.href}
+                className="bg-black/20 hover:bg-black/40 border border-white/5 rounded-lg p-2.5 transition-colors group"
+              >
+                <p className="text-slate-300 group-hover:text-white text-[11px] font-semibold">{m.label}</p>
+                <p className="text-slate-600 text-[10px] mt-0.5">{m.desc}</p>
+                <span className="text-violet-400/70 group-hover:text-violet-300 text-[10px] font-semibold mt-1 inline-block">
+                  Gerenciar →
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+        </div>
+        ))}
       </div>
 
       <div className="mt-5 text-[11px] text-slate-600 space-y-1">

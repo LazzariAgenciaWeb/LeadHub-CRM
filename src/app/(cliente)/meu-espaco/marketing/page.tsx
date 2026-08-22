@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { redirect } from "next/navigation";
 import CompanyMarketing from "@/app/(admin)/empresas/[id]/CompanyMarketing";
+import { assertModule } from "@/lib/billing";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,11 @@ export default async function ClienteMarketingPage() {
   // …e só quando a agência liberou o relatório pra ela.
   if (!company.moduleRelatorioMarketing) redirect("/meu-espaco");
 
+  // O plano da empresa pode não incluir o módulo marketing — nesse caso as APIs
+  // do dashboard respondem 403 e a tela mostraria erro cru. Checamos antes e
+  // explicamos, em vez de deixar o cliente achar que quebrou.
+  const gate = await assertModule(session, "marketing");
+
   return (
     <div className="mkwrap">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
@@ -39,9 +45,21 @@ export default async function ClienteMarketingPage() {
         <h1>Marketing</h1>
         <p>Resultados do seu site e das campanhas, atualizados diariamente.</p>
       </header>
-      <div className="mkbody">
-        <CompanyMarketing companyId={companyId} mode="client" />
-      </div>
+
+      {gate.ok ? (
+        <div className="mkbody">
+          <CompanyMarketing companyId={companyId} mode="client" />
+        </div>
+      ) : (
+        <div className="mkoff">
+          <span className="mkoffi">📊</span>
+          <h2>Relatório ainda não disponível</h2>
+          <p>
+            O acompanhamento de marketing não faz parte do seu plano atual. Fale com a
+            agência para liberar — assim que ligarem, os dados aparecem aqui sozinhos.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -53,4 +71,9 @@ const CSS = `
 .mkhead h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
 .mkhead p{margin:4px 0 18px;font-size:13px;color:#94a3b8}
 .mkbody{background:#070b14;border:1px solid #1e2d45;border-radius:16px;overflow:hidden}
+.mkoff{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;
+  padding:44px 28px;text-align:center;max-width:520px;margin:0 auto}
+.mkoffi{font-size:34px;display:block;margin-bottom:10px}
+.mkoff h2{margin:0 0 8px;font-size:16px;font-weight:700}
+.mkoff p{margin:0;font-size:13px;line-height:1.6;color:#94a3b8}
 `;
