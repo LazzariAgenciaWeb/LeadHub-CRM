@@ -13,6 +13,7 @@ import {
   type PlanLimits,
   type PlanFeatures,
 } from "@/lib/plans";
+import CompanyModulesPanel from "./CompanyModulesPanel";
 import {
   moduleSyncFromTier,
   diffModuleSync,
@@ -523,13 +524,22 @@ export default function CompanySubscription({
         </div>
       </div>
 
-      {/* Overrides de features — agrupadas em accordion */}
+      {/* Módulos — a visão comercial, e o lugar único de liberar acesso */}
+      <CompanyModulesPanel
+        tier={plan}
+        customFeatures={customFeatures}
+        onChange={setCustomFeatures}
+      />
+
+      {/* Todas as features — o controle fino que sobra fora dos módulos
+          (LGPD, magic link, multi-unidade, itens enterprise). Fica fechado
+          por padrão: no dia a dia se resolve tudo pela lista de módulos. */}
       <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-emerald-400" strokeWidth={2.25} />
-          <h3 className="text-white text-sm font-semibold">Features personalizadas</h3>
+          <h3 className="text-white text-sm font-semibold">Todas as features (avançado)</h3>
           <span className="text-[10px] text-slate-600 bg-white/5 px-1.5 py-0.5 rounded">
-            Toggle só se quiser sobrescrever o default · 🧩 = add-on (cobrança extra)
+            Mesma exceção da lista de módulos, vista chave por chave · 🧩 = add-on
           </span>
         </div>
 

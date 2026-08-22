@@ -1,0 +1,92 @@
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { backfillExceptions, MODULES, type CompanyModuleField } from "@/lib/modules";
+import type { PlanFeatures, PlanTier } from "@/lib/plans";
+
+/**
+ * Backfill idempotente: converte `Company.module*` em exceções explícitas.
+ *
+ * Roda no BOOT do container (start.sh), antes de o servidor começar a atender.
+ * Sem isso, o primeiro request com o código novo já negaria módulo pra toda
+ * empresa cujo acesso vinha de flag manual fora do plano — `assertModule`
+ * deixou de olhar as flags e passou a usar só plano + exceções.
+ *
+ * É seguro rodar quantas vezes quiser: só grava onde a flag atual diverge do
+ * que o plano dá, e nunca sobrescreve exceção já registrada.
+ *
+ * Protegido por CRON_SECRET, igual aos demais jobs internos.
+ */
+
+const FLAG_FIELDS = Array.from(
+  new Set(
+    MODULES.flatMap((m) => [
+      ...(m.companyField ? [m.companyField] : []),
+      ...(m.advanced ?? []).flatMap((a) => (a.companyField ? [a.companyField] : [])),
+    ])
+  )
+) as CompanyModuleField[];
+
+export async function POST(req: NextRequest) {
+  const secret = process.env.CRON_SECRET;
+  if (secret) {
+    const auth = req.headers.get("authorization");
+    if (auth !== `Bearer ${secret}`) {
+      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    }
+  }
+
+  const companies = await prisma.company.findMany({
+    select: {
+      id: true,
+      name: true,
+      ...Object.fromEntries(FLAG_FIELDS.map((f) => [f, true])),
+      subscription: { select: { id: true, plan: true, customFeatures: true } },
+    } as any,
+  });
+
+  const migrated: string[] = [];
+  let unchanged = 0;
+
+  for (const c of companies as any[]) {
+    const flags: Partial<Record<CompanyModuleField, boolean>> = {};
+    for (const f of FLAG_FIELDS) flags[f] = c[f] ?? undefined;
+
+    // Empresa sem assinatura: no modelo antigo a flag ligada bastava. Cria a
+    // assinatura FREE carregando o acesso de hoje como exceção.
+    if (!c.subscription) {
+      const next = backfillExceptions("FREE", flags, null);
+      await prisma.subscription.create({
+        data: {
+          companyId: c.id,
+          plan: "FREE",
+          status: "ACTIVE",
+          customFeatures: Object.keys(next).length ? (next as any) : undefined,
+        },
+      });
+      migrated.push(`${c.name} (criou FREE, ${Object.keys(next).length} exceções)`);
+      continue;
+    }
+
+    const tier = (c.subscription.plan as PlanTier) ?? "FREE";
+    const custom = (c.subscription.customFeatures as Partial<PlanFeatures> | null) ?? null;
+    const next = backfillExceptions(tier, flags, custom);
+
+    if (JSON.stringify(custom ?? {}) === JSON.stringify(next)) {
+      unchanged++;
+      continue;
+    }
+    await prisma.subscription.update({
+      where: { id: c.subscription.id },
+      data: { customFeatures: next as any },
+    });
+    migrated.push(`${c.name} (${Object.keys(next).length} exceções)`);
+  }
+
+  return NextResponse.json({
+    ok: true,
+    total: companies.length,
+    migrated: migrated.length,
+    unchanged,
+    details: migrated,
+  });
+}

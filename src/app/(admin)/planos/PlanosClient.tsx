@@ -90,6 +90,8 @@ const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
   bannerLgpd: "Banner LGPD",
   multiUnidade: "Multi-unidade",
   clickupSync: "ClickUp Sync",
+  blingErp: "Bling (ERP)",
+  relatorioClienteMarketing: "Relatório de Marketing (cliente)",
   apiAccess: "API completa",
   whiteLabel: "White-label",
   customDomain: "Domínio próprio",

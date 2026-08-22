@@ -102,22 +102,6 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
         payload.triggerOnly = form.triggerOnly;
         payload.hasSystemAccess = form.hasSystemAccess;
         payload.fullSystemAccess = form.fullSystemAccess;
-        payload.moduleWhatsapp = form.moduleWhatsapp;
-        payload.moduleCrm = form.moduleCrm;
-        payload.moduleTickets = form.moduleTickets;
-        payload.moduleAI = form.moduleAI;
-        payload.moduleClickup = form.moduleClickup;
-        payload.moduleGamificacao = form.moduleGamificacao;
-        payload.moduleProjetos = form.moduleProjetos;
-        payload.moduleCalendario = form.moduleCalendario;
-        payload.moduleProspeccao = form.moduleProspeccao;
-        payload.moduleEmailMarketing = form.moduleEmailMarketing;
-        payload.moduleEmailInbox = form.moduleEmailInbox;
-        payload.moduleInstagram = form.moduleInstagram;
-        payload.moduleEspacoCliente = form.moduleEspacoCliente;
-        payload.moduleVideos = form.moduleVideos;
-        payload.moduleBling = form.moduleBling;
-        payload.moduleRelatorioMarketing = form.moduleRelatorioMarketing;
         payload.modoAtendimento = form.modoAtendimento;
       }
 
@@ -289,7 +273,16 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
 
                     {form.hasSystemAccess && form.fullSystemAccess && (
                       <div>
-                        <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">Módulos por etapa</p>
+                        <div className="mb-2">
+                          <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">
+                            Módulos ativos <span className="text-slate-600 normal-case font-normal">(somente leitura)</span>
+                          </p>
+                          <p className="text-[11px] text-slate-600 mt-0.5">
+                            Quem decide isso é o plano contratado, na aba <strong className="text-slate-400">Plano</strong>.
+                            Antes dava pra ligar módulo aqui e no plano, e as duas telas se contradiziam — agora existe
+                            um lugar só.
+                          </p>
+                        </div>
                         {/* Agrupados pela mesma jornada do menu (Sidebar): Atrair →
                             Atender → Vender → Analisar → Gestão → Integrações.
                             Mantém 1 vocabulário só entre menu, toggles e plano. */}
@@ -328,10 +321,16 @@ export default function EditCompanyButton({ company, isSuperAdmin = false, canOf
                               <p className="text-[10px] text-slate-600 font-semibold uppercase tracking-wide mb-1">{group.title}</p>
                               <div className="flex flex-col gap-0.5">
                                 {group.items.map(({ key, label }) => (
-                                  <label key={key} className="flex items-center gap-3 cursor-pointer py-1 px-2 rounded-lg hover:bg-white/5 transition-colors">
-                                    <input type="checkbox" checked={(form as any)[key]} onChange={(e) => set(key, e.target.checked)} className="w-4 h-4 accent-indigo-500" />
-                                    <span className="text-sm text-white">{label}</span>
-                                  </label>
+                                  <div key={key} className="flex items-center gap-3 py-1 px-2 rounded-lg">
+                                    <span
+                                      className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                                        (form as any)[key] ? "bg-emerald-400" : "bg-slate-700"
+                                      }`}
+                                    />
+                                    <span className={`text-sm ${(form as any)[key] ? "text-white" : "text-slate-600"}`}>
+                                      {label}
+                                    </span>
+                                  </div>
                                 ))}
                               </div>
                             </div>

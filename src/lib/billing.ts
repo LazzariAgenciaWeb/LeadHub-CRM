@@ -22,10 +22,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "./prisma";
 import {
-  PLANS,
   type PlanFeatures,
   type PlanTier,
 } from "./plans";
+import { MODULE_BY_ID, effectiveFeatures } from "./modules";
 
 // Módulos visíveis na Sidebar — chaves usadas pelo `Company.module*`.
 export type ModuleName =
@@ -48,24 +48,6 @@ export type ModuleName =
 export type ModuleGateResult =
   | { ok: true }
   | { ok: false; reason: string; response: NextResponse };
-
-const FEATURE_BY_MODULE: Record<ModuleName, keyof PlanFeatures | null> = {
-  whatsapp:    null,                // controlado por moduleWhatsapp + plano (Inbox base sempre)
-  crm:         "crmPipelineLeads",  // base do CRM — pipeline Leads é o mínimo
-  tickets:     "tickets",
-  ai:          "assistenteIA",
-  gamificacao: null,                // por enquanto livre quando empresa habilitou
-  marketing:   "marketingDashboard",
-  cofre:       "cofreCredenciais",
-  calendario:  "calendario",
-  projetos:    "projetos",
-  clickup:     null,                // integração — habilitada manualmente, sem feature de plano
-  emailMarketing: "emailMassa",     // feature do plano (PlanFeatures.emailMassa) + override custom
-  emailInbox:  "caixaEmail",        // feature do plano (PlanFeatures.caixaEmail) + override custom + toggle
-  instagram:   null,                // integração — habilitada manualmente (moduleInstagram), sem feature de plano (por ora)
-  espacoCliente: null,              // toggle manual do super-admin por agência (sem feature de plano por ora)
-  videos:      null,                // biblioteca de vídeos — toggle manual por empresa (sem feature de plano por ora)
-};
 
 function denied(reason: string): ModuleGateResult {
   return {
@@ -104,76 +86,30 @@ export async function assertModule(
   const company = await prisma.company.findUnique({
     where: { id: companyId },
     select: {
-      moduleWhatsapp: true,
-      moduleCrm: true,
-      moduleTickets: true,
-      moduleAI: true,
-      moduleGamificacao: true,
-      moduleProjetos: true,
-      moduleCalendario: true,
-      moduleClickup: true,
-      moduleEmailMarketing: true,
-      moduleEmailInbox: true,
-      moduleInstagram: true,
-      moduleEspacoCliente: true,
-      moduleVideos: true,
-      subscription: {
-        select: {
-          plan: true,
-          status: true,
-          customFeatures: true,
-        },
-      },
+      subscription: { select: { plan: true, status: true, customFeatures: true } },
     },
   });
   if (!company) return denied("empresa não encontrada");
 
-  // 1) Flag explícita do módulo na empresa (toggle do super admin)
-  const flagMap: Record<ModuleName, boolean | null> = {
-    whatsapp:    company.moduleWhatsapp,
-    crm:         company.moduleCrm,
-    tickets:     company.moduleTickets,
-    ai:          company.moduleAI,
-    gamificacao: company.moduleGamificacao,
-    projetos:    company.moduleProjetos,
-    calendario:  company.moduleCalendario,
-    clickup:     (company as any).moduleClickup ?? false,
-    emailMarketing: (company as any).moduleEmailMarketing ?? false,
-    emailInbox:  (company as any).moduleEmailInbox ?? false,
-    instagram:   (company as any).moduleInstagram ?? false,
-    espacoCliente: (company as any).moduleEspacoCliente ?? false,
-    videos:      (company as any).moduleVideos ?? false,
-    marketing:   null,
-    cofre:       null,
-  };
-  const flag = flagMap[module];
+  // Fonte ÚNICA: plano + exceções da assinatura. Os `Company.module*` deixaram
+  // de ser entrada — viraram cache derivado deste mesmo cálculo (ver
+  // src/lib/modules.ts). Antes eram uma terceira fonte, e a precedência entre
+  // as três é o que tornava o comportamento imprevisível: `moduleX = false`
+  // era ao mesmo tempo default do schema e "desliguei de propósito".
+  const tier: PlanTier = (company.subscription?.plan as PlanTier) ?? "FREE";
+  const custom = (company.subscription?.customFeatures as Partial<PlanFeatures> | null) ?? null;
+  const features = effectiveFeatures(tier, custom);
 
-  // 2) Feature do plano (com override custom)
-  const featureKey = FEATURE_BY_MODULE[module];
-  let planEnabled: boolean | null = null;
-  if (featureKey) {
-    const plan: PlanTier = (company.subscription?.plan as PlanTier) ?? "FREE";
-    const customFeatures = (company.subscription?.customFeatures as Partial<PlanFeatures> | null) ?? null;
-    const planFeatures = PLANS[plan]?.features ?? PLANS.FREE.features;
-    planEnabled = !!(customFeatures?.[featureKey] ?? planFeatures[featureKey]);
+  const def = MODULE_BY_ID[module];
+  if (def) {
+    const keys = [def.primary, ...(def.alsoEnabledBy ?? [])];
+    if (!keys.some((k) => features[k])) {
+      return denied(`módulo ${def.label} não liberado para esta empresa`);
+    }
   }
 
-  // Decisão: a flag explícita em Company.module* tem precedência quando ON
-  // (super admin ligou manualmente, mesmo cliente em plano sem feature).
-  // Quando flag=false (default do schema), só nega se o plano também não
-  // inclui a feature — assim flag=false não bloqueia indevidamente quando o
-  // plano já garante o módulo.
-  if (flag === true) {
-    // override do super admin → libera
-  } else if (flag === false) {
-    if (planEnabled !== true) return denied("módulo desabilitado para a empresa");
-  } else if (featureKey && planEnabled === false) {
-    return denied(`feature ${featureKey} não incluída no plano`);
-  }
-
-  // 3) Bloqueia se assinatura está cancelada/inadimplente
-  const status = company.subscription?.status;
-  if (status === "UNPAID") return denied("assinatura inadimplente");
+  // Bloqueia se assinatura está cancelada/inadimplente
+  if (company.subscription?.status === "UNPAID") return denied("assinatura inadimplente");
 
   return { ok: true };
 }

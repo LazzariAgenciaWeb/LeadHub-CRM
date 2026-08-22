@@ -102,6 +102,10 @@ export interface PlanFeatures {
 
   // ── 🔌 Integrações ──
   clickupSync: boolean;
+  /** Bling (ERP): espelho de clientes + boletos/NF no financeiro. */
+  blingErp: boolean;
+  /** Relatório de Marketing dentro do portal do cliente (sem custos de mídia). */
+  relatorioClienteMarketing: boolean;
 
   // ── 🏢 Enterprise ──
   apiAccess: boolean;
@@ -177,6 +181,8 @@ function feat(overrides: Partial<PlanFeatures>): PlanFeatures {
     bannerLgpd: false,
     multiUnidade: false,
     clickupSync: false,
+    blingErp: false,
+    relatorioClienteMarketing: false,
     apiAccess: false,
     whiteLabel: false,
     customDomain: false,

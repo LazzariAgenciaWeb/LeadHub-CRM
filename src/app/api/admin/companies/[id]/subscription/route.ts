@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PLANS, type PlanTier } from "@/lib/plans";
+import { companyFlagsFromFeatures } from "@/lib/modules";
 import { getCompanyPlan } from "@/lib/limits";
 
 /**
@@ -166,24 +167,12 @@ export async function PATCH(
     ? PLANS[ctx.tier].modoAtendimentoDefault
     : undefined;
 
+  // Cache derivado: uma única definição, no catálogo (src/lib/modules.ts).
+  // Antes esse mapa era escrito à mão aqui e não cobria todos os módulos —
+  // caixa de e-mail, Bling e relatório do cliente ficavam de fora e só
+  // funcionavam via toggle manual, que era a origem da redundância.
   const modulesUpdate: Record<string, unknown> = {
-    moduleWhatsapp:    ctx.effectiveFeatures.whatsapp,
-    moduleCrm:         ctx.effectiveFeatures.crmPipelineLeads
-                       || ctx.effectiveFeatures.crmPipelineOportunidades
-                       || ctx.effectiveFeatures.crmPipelineProspeccao,
-    moduleTickets:     ctx.effectiveFeatures.tickets,
-    moduleAI:          ctx.effectiveFeatures.assistenteIA,
-    moduleClickup:     ctx.effectiveFeatures.clickupSync,
-    moduleGamificacao: ctx.effectiveFeatures.gamificacao,
-    moduleProjetos:    ctx.effectiveFeatures.projetos,
-    moduleCalendario:  ctx.effectiveFeatures.calendario,
-    moduleProspeccao:  ctx.effectiveFeatures.prospectaIa,
-    moduleCampanhas:   ctx.effectiveFeatures.campanhas,
-    moduleLinks:       ctx.effectiveFeatures.links,
-    moduleVideos:      ctx.effectiveFeatures.videos,
-    moduleEmailMarketing: ctx.effectiveFeatures.emailMassa,
-    moduleInstagram:      ctx.effectiveFeatures.socialInbox,
-    moduleEspacoCliente:  ctx.effectiveFeatures.meuEspaco,
+    ...companyFlagsFromFeatures(ctx.effectiveFeatures),
   };
   if (modoAtendimentoToApply !== undefined) {
     modulesUpdate.modoAtendimento = modoAtendimentoToApply;

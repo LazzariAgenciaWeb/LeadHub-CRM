@@ -6,6 +6,24 @@ node /app/node_modules/prisma/build/index.js db push --skip-generate --accept-da
   node /app/node_modules/.bin/prisma db push --skip-generate --accept-data-loss 2>/dev/null || \
   echo "⚠️  Could not run prisma db push — skipping (schema may already be up to date)"
 
+# Backfill de módulos → exceções da assinatura.
+# Precisa rodar ANTES de o servidor atender: `assertModule` deixou de olhar os
+# Company.module* e passou a usar só plano + exceções, então empresa cujo acesso
+# vinha de flag manual perderia o módulo no primeiro request. Idempotente:
+# só grava onde a flag diverge do plano e nunca sobrescreve exceção existente.
+# Roda contra o servidor já no ar (sleep curto) — a janela é de segundos.
+(
+  sleep 12
+  echo "[Backfill módulos] iniciando..."
+  if [ -n "$CRON_SECRET" ]; then
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/migrate-module-exceptions" \
+      -H "Authorization: Bearer ${CRON_SECRET}" --max-time 120 2>&1)
+  else
+    RES=$(curl -s -X POST "http://localhost:3000/api/admin/migrate-module-exceptions" --max-time 120 2>&1)
+  fi
+  echo "[Backfill módulos] $RES"
+) &
+
 # Helper de curl que adiciona Authorization SE CRON_SECRET estiver definido.
 # Antes mandávamos -H "" quando o secret estava vazio — curl quebra silenciosamente
 # com header vazio, fazendo as cron pararem sem aviso.
