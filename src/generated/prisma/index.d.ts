@@ -93406,6 +93406,8 @@ export namespace Prisma {
     companyId: string | null
     provider: $Enums.IntegrationProvider | null
     externalAdId: string | null
+    externalCampaignId: string | null
+    externalAdSetId: string | null
     campaignName: string | null
     adGroupName: string | null
     adType: string | null
@@ -93422,6 +93424,8 @@ export namespace Prisma {
     companyId: string | null
     provider: $Enums.IntegrationProvider | null
     externalAdId: string | null
+    externalCampaignId: string | null
+    externalAdSetId: string | null
     campaignName: string | null
     adGroupName: string | null
     adType: string | null
@@ -93438,6 +93442,8 @@ export namespace Prisma {
     companyId: number
     provider: number
     externalAdId: number
+    externalCampaignId: number
+    externalAdSetId: number
     campaignName: number
     adGroupName: number
     adType: number
@@ -93458,6 +93464,8 @@ export namespace Prisma {
     companyId?: true
     provider?: true
     externalAdId?: true
+    externalCampaignId?: true
+    externalAdSetId?: true
     campaignName?: true
     adGroupName?: true
     adType?: true
@@ -93474,6 +93482,8 @@ export namespace Prisma {
     companyId?: true
     provider?: true
     externalAdId?: true
+    externalCampaignId?: true
+    externalAdSetId?: true
     campaignName?: true
     adGroupName?: true
     adType?: true
@@ -93490,6 +93500,8 @@ export namespace Prisma {
     companyId?: true
     provider?: true
     externalAdId?: true
+    externalCampaignId?: true
+    externalAdSetId?: true
     campaignName?: true
     adGroupName?: true
     adType?: true
@@ -93581,6 +93593,8 @@ export namespace Prisma {
     companyId: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId: string | null
+    externalAdSetId: string | null
     campaignName: string | null
     adGroupName: string | null
     adType: string | null
@@ -93616,6 +93630,8 @@ export namespace Prisma {
     companyId?: boolean
     provider?: boolean
     externalAdId?: boolean
+    externalCampaignId?: boolean
+    externalAdSetId?: boolean
     campaignName?: boolean
     adGroupName?: boolean
     adType?: boolean
@@ -93635,6 +93651,8 @@ export namespace Prisma {
     companyId?: boolean
     provider?: boolean
     externalAdId?: boolean
+    externalCampaignId?: boolean
+    externalAdSetId?: boolean
     campaignName?: boolean
     adGroupName?: boolean
     adType?: boolean
@@ -93654,6 +93672,8 @@ export namespace Prisma {
     companyId?: boolean
     provider?: boolean
     externalAdId?: boolean
+    externalCampaignId?: boolean
+    externalAdSetId?: boolean
     campaignName?: boolean
     adGroupName?: boolean
     adType?: boolean
@@ -93684,6 +93704,8 @@ export namespace Prisma {
       companyId: string
       provider: $Enums.IntegrationProvider
       externalAdId: string
+      externalCampaignId: string | null
+      externalAdSetId: string | null
       campaignName: string | null
       adGroupName: string | null
       adType: string | null
@@ -94093,6 +94115,8 @@ export namespace Prisma {
     readonly companyId: FieldRef<"AdCreative", 'String'>
     readonly provider: FieldRef<"AdCreative", 'IntegrationProvider'>
     readonly externalAdId: FieldRef<"AdCreative", 'String'>
+    readonly externalCampaignId: FieldRef<"AdCreative", 'String'>
+    readonly externalAdSetId: FieldRef<"AdCreative", 'String'>
     readonly campaignName: FieldRef<"AdCreative", 'String'>
     readonly adGroupName: FieldRef<"AdCreative", 'String'>
     readonly adType: FieldRef<"AdCreative", 'String'>
@@ -140810,6 +140834,8 @@ export namespace Prisma {
     companyId: 'companyId',
     provider: 'provider',
     externalAdId: 'externalAdId',
+    externalCampaignId: 'externalCampaignId',
+    externalAdSetId: 'externalAdSetId',
     campaignName: 'campaignName',
     adGroupName: 'adGroupName',
     adType: 'adType',
@@ -149703,6 +149729,8 @@ export namespace Prisma {
     companyId?: StringFilter<"AdCreative"> | string
     provider?: EnumIntegrationProviderFilter<"AdCreative"> | $Enums.IntegrationProvider
     externalAdId?: StringFilter<"AdCreative"> | string
+    externalCampaignId?: StringNullableFilter<"AdCreative"> | string | null
+    externalAdSetId?: StringNullableFilter<"AdCreative"> | string | null
     campaignName?: StringNullableFilter<"AdCreative"> | string | null
     adGroupName?: StringNullableFilter<"AdCreative"> | string | null
     adType?: StringNullableFilter<"AdCreative"> | string | null
@@ -149722,6 +149750,8 @@ export namespace Prisma {
     companyId?: SortOrder
     provider?: SortOrder
     externalAdId?: SortOrder
+    externalCampaignId?: SortOrderInput | SortOrder
+    externalAdSetId?: SortOrderInput | SortOrder
     campaignName?: SortOrderInput | SortOrder
     adGroupName?: SortOrderInput | SortOrder
     adType?: SortOrderInput | SortOrder
@@ -149745,6 +149775,8 @@ export namespace Prisma {
     companyId?: StringFilter<"AdCreative"> | string
     provider?: EnumIntegrationProviderFilter<"AdCreative"> | $Enums.IntegrationProvider
     externalAdId?: StringFilter<"AdCreative"> | string
+    externalCampaignId?: StringNullableFilter<"AdCreative"> | string | null
+    externalAdSetId?: StringNullableFilter<"AdCreative"> | string | null
     campaignName?: StringNullableFilter<"AdCreative"> | string | null
     adGroupName?: StringNullableFilter<"AdCreative"> | string | null
     adType?: StringNullableFilter<"AdCreative"> | string | null
@@ -149764,6 +149796,8 @@ export namespace Prisma {
     companyId?: SortOrder
     provider?: SortOrder
     externalAdId?: SortOrder
+    externalCampaignId?: SortOrderInput | SortOrder
+    externalAdSetId?: SortOrderInput | SortOrder
     campaignName?: SortOrderInput | SortOrder
     adGroupName?: SortOrderInput | SortOrder
     adType?: SortOrderInput | SortOrder
@@ -149788,6 +149822,8 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"AdCreative"> | string
     provider?: EnumIntegrationProviderWithAggregatesFilter<"AdCreative"> | $Enums.IntegrationProvider
     externalAdId?: StringWithAggregatesFilter<"AdCreative"> | string
+    externalCampaignId?: StringNullableWithAggregatesFilter<"AdCreative"> | string | null
+    externalAdSetId?: StringNullableWithAggregatesFilter<"AdCreative"> | string | null
     campaignName?: StringNullableWithAggregatesFilter<"AdCreative"> | string | null
     adGroupName?: StringNullableWithAggregatesFilter<"AdCreative"> | string | null
     adType?: StringNullableWithAggregatesFilter<"AdCreative"> | string | null
@@ -161821,6 +161857,8 @@ export namespace Prisma {
     id?: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -161840,6 +161878,8 @@ export namespace Prisma {
     companyId: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -161857,6 +161897,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161876,6 +161918,8 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161894,6 +161938,8 @@ export namespace Prisma {
     companyId: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -161911,6 +161957,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161929,6 +161977,8 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172146,6 +172196,8 @@ export namespace Prisma {
     companyId?: SortOrder
     provider?: SortOrder
     externalAdId?: SortOrder
+    externalCampaignId?: SortOrder
+    externalAdSetId?: SortOrder
     campaignName?: SortOrder
     adGroupName?: SortOrder
     adType?: SortOrder
@@ -172164,6 +172216,8 @@ export namespace Prisma {
     companyId?: SortOrder
     provider?: SortOrder
     externalAdId?: SortOrder
+    externalCampaignId?: SortOrder
+    externalAdSetId?: SortOrder
     campaignName?: SortOrder
     adGroupName?: SortOrder
     adType?: SortOrder
@@ -172180,6 +172234,8 @@ export namespace Prisma {
     companyId?: SortOrder
     provider?: SortOrder
     externalAdId?: SortOrder
+    externalCampaignId?: SortOrder
+    externalAdSetId?: SortOrder
     campaignName?: SortOrder
     adGroupName?: SortOrder
     adType?: SortOrder
@@ -194799,6 +194855,8 @@ export namespace Prisma {
     id?: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -194816,6 +194874,8 @@ export namespace Prisma {
     id?: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -197845,6 +197905,8 @@ export namespace Prisma {
     companyId?: StringFilter<"AdCreative"> | string
     provider?: EnumIntegrationProviderFilter<"AdCreative"> | $Enums.IntegrationProvider
     externalAdId?: StringFilter<"AdCreative"> | string
+    externalCampaignId?: StringNullableFilter<"AdCreative"> | string | null
+    externalAdSetId?: StringNullableFilter<"AdCreative"> | string | null
     campaignName?: StringNullableFilter<"AdCreative"> | string | null
     adGroupName?: StringNullableFilter<"AdCreative"> | string | null
     adType?: StringNullableFilter<"AdCreative"> | string | null
@@ -263111,6 +263173,8 @@ export namespace Prisma {
     id?: string
     provider: $Enums.IntegrationProvider
     externalAdId: string
+    externalCampaignId?: string | null
+    externalAdSetId?: string | null
     campaignName?: string | null
     adGroupName?: string | null
     adType?: string | null
@@ -266652,6 +266716,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266669,6 +266735,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266686,6 +266754,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumIntegrationProviderFieldUpdateOperationsInput | $Enums.IntegrationProvider
     externalAdId?: StringFieldUpdateOperationsInput | string
+    externalCampaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    externalAdSetId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignName?: NullableStringFieldUpdateOperationsInput | string | null
     adGroupName?: NullableStringFieldUpdateOperationsInput | string | null
     adType?: NullableStringFieldUpdateOperationsInput | string | null

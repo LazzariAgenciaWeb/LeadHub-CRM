@@ -1210,6 +1210,8 @@ exports.Prisma.AdCreativeScalarFieldEnum = {
   companyId: 'companyId',
   provider: 'provider',
   externalAdId: 'externalAdId',
+  externalCampaignId: 'externalCampaignId',
+  externalAdSetId: 'externalAdSetId',
   campaignName: 'campaignName',
   adGroupName: 'adGroupName',
   adType: 'adType',

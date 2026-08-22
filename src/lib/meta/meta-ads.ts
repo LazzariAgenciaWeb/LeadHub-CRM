@@ -442,7 +442,7 @@ async function syncMetaAdCreatives(
   // Conteúdo dos criativos — uma chamada só pra conta inteira.
   const adRows = await graphGetAll(token, `${actId}/ads`, {
     fields:
-      "id,name,effective_status,adset{name},campaign{name}," +
+      "id,name,effective_status,adset{id,name},campaign{id,name}," +
       "creative{title,body,object_type,link_url,object_story_spec,asset_feed_spec{titles,bodies,link_urls}}",
     limit: "200",
   });
@@ -472,6 +472,8 @@ async function syncMetaAdCreatives(
       null;
 
     const contentPayload = {
+      externalCampaignId: ad.campaign?.id ? String(ad.campaign.id) : null,
+      externalAdSetId: ad.adset?.id ? String(ad.adset.id) : null,
       campaignName: ad.campaign?.name ? String(ad.campaign.name) : null,
       // Meta não tem "grupo de anúncios" — o equivalente é o conjunto (ad set).
       adGroupName: ad.adset?.name ? String(ad.adset.name) : null,

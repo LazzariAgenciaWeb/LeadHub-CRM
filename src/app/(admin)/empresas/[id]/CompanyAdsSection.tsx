@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Megaphone, DollarSign, MousePointerClick, Eye, Target, TrendingUp,
   TrendingDown, RefreshCw, AlertCircle, Percent, Search, Award, ExternalLink,
+  ChevronRight, ChevronDown, Layers, Loader2,
 } from "lucide-react";
 import {
   ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
@@ -74,6 +75,9 @@ export default function CompanyAdsSection({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
+  // Drill-down campanha → conjuntos → anúncios (uma campanha aberta por vez).
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [breakdowns, setBreakdowns] = useState<Record<string, Breakdown | "loading" | "error">>({});
 
   async function load() {
     setLoading(true);
@@ -110,6 +114,33 @@ export default function CompanyAdsSection({
       setSyncing(false);
     }
   }
+
+  async function toggleCampaign(c: { id: string; name: string }) {
+    if (expanded === c.id) { setExpanded(null); return; }
+    setExpanded(c.id);
+    if (breakdowns[c.id] && breakdowns[c.id] !== "error") return; // já carregado
+    setBreakdowns((b) => ({ ...b, [c.id]: "loading" }));
+    try {
+      const qs = new URLSearchParams({
+        provider, days: String(days), campaignId: c.id, campaignName: c.name,
+      });
+      const r = await fetch(`/api/companies/${companyId}/marketing/ads/breakdown?${qs}`);
+      if (!r.ok) throw new Error(String(r.status));
+      const json: Breakdown = await r.json();
+      setBreakdowns((b) => ({ ...b, [c.id]: json }));
+    } catch {
+      setBreakdowns((b) => ({ ...b, [c.id]: "error" }));
+    }
+  }
+
+  // Abre sozinho a campanha ativa (a primeira, que é a de maior gasto) — é o
+  // que o usuário quer ver ao entrar. Só na primeira carga de cada período.
+  useEffect(() => {
+    if (!data?.campaigns?.length) return;
+    const active = data.campaigns.find((c) => isRunning(c.status));
+    if (active && expanded === null) void toggleCampaign({ id: active.id, name: active.name });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.campaigns]);
 
   const fmtMoney = (v: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: data?.currency || "BRL" }).format(v || 0);
@@ -314,12 +345,24 @@ export default function CompanyAdsSection({
                   const ctrPct = c.ctr * 100;
                   const ctrColor = ctrPct >= 5 ? "text-emerald-400" : ctrPct >= 1 ? "text-yellow-400" : "text-red-400";
                   return (
-                    <tr key={c.id} className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
-                      <td className="py-2 px-2 text-slate-200 text-xs truncate max-w-[220px]" title={c.name}>
-                        {c.name}
-                        {c.status && c.status !== "ENABLED" && (
-                          <span className="ml-1.5 text-[9px] uppercase text-slate-500">({c.status.toLowerCase()})</span>
-                        )}
+                    <Fragment key={c.id}>
+                    <tr className="border-b border-[#1e2d45]/50 hover:bg-white/[0.02]">
+                      <td className="py-2 px-2 text-slate-200 text-xs max-w-[240px]">
+                        <button
+                          onClick={() => void toggleCampaign(c)}
+                          className="flex items-center gap-1.5 text-left w-full group"
+                          title="Ver conjuntos e anúncios"
+                        >
+                          {expanded === c.id
+                            ? <ChevronDown className="w-3 h-3 flex-shrink-0 text-amber-400" />
+                            : <ChevronRight className="w-3 h-3 flex-shrink-0 text-slate-600 group-hover:text-amber-400" />}
+                          <span className="truncate group-hover:text-white" title={c.name}>{c.name}</span>
+                          {c.status && !isRunning(c.status) && (
+                            <span className="text-[9px] uppercase text-slate-500 flex-shrink-0">
+                              ({statusLabel(c.status)})
+                            </span>
+                          )}
+                        </button>
                       </td>
                       <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{fmtNum(c.impressions)}</td>
                       <td className="py-2 px-2 text-slate-300 text-xs font-mono text-right">{fmtNum(c.clicks)}</td>
@@ -329,6 +372,19 @@ export default function CompanyAdsSection({
                       <td className="py-2 px-2 text-slate-400 text-xs font-mono text-right">{c.conversions > 0 ? fmtMoney(c.cpa) : "—"}</td>
                       <td className="py-2 px-2 text-xs font-mono text-right text-violet-300">{c.roas > 0 ? `${c.roas.toFixed(2)}x` : "—"}</td>
                     </tr>
+                    {expanded === c.id && (
+                      <tr>
+                        <td colSpan={8} className="p-0">
+                          <BreakdownPanel
+                            state={breakdowns[c.id]}
+                            fmtNum={fmtNum}
+                            fmtMoney={fmtMoney}
+                            provider={provider}
+                          />
+                        </td>
+                      </tr>
+                    )}
+                    </Fragment>
                   );
                 })}
               </tbody>
@@ -416,6 +472,151 @@ export default function CompanyAdsSection({
         )}
       </div>
       )}
+    </div>
+  );
+}
+
+// ─── Drill-down: conjuntos (ad sets) e anúncios de uma campanha ──────────────
+
+interface BreakdownAd {
+  id: string; title: string; headlines: string[]; descriptions: string[];
+  adType: string | null; status: string | null; finalUrl: string | null;
+  impressions: number; clicks: number; cost: number; conversions: number;
+  conversionValue: number; ctr: number; cpc: number; cpa: number;
+}
+interface BreakdownAdSet {
+  id: string | null; name: string;
+  impressions: number; clicks: number; cost: number; conversions: number;
+  conversionValue: number; ctr: number; cpc: number; cpa: number; roas: number;
+  ads: BreakdownAd[];
+}
+interface Breakdown {
+  provider: string;
+  campaign: { id: string | null; name: string | null };
+  totals?: { adSets: number; ads: number };
+  adSets: BreakdownAdSet[];
+  message?: string;
+}
+
+/** Campanha/conjunto/anúncio rodando. Google usa ENABLED, Meta usa ACTIVE. */
+function isRunning(status: string | null | undefined): boolean {
+  if (!status) return false;
+  const s = status.toUpperCase();
+  return s === "ENABLED" || s === "ACTIVE";
+}
+
+/** Rótulo curto do status (Meta manda coisas como CAMPAIGN_PAUSED). */
+function statusLabel(status: string): string {
+  const s = status.toUpperCase();
+  if (s.includes("ARCHIV")) return "arquivada";
+  if (s.includes("DELET") || s === "REMOVED") return "removida";
+  if (s.includes("PAUSED")) return "pausada";
+  if (s.includes("PENDING") || s.includes("REVIEW")) return "em análise";
+  if (s.includes("DISAPPROV")) return "reprovada";
+  return s.toLowerCase().replace(/_/g, " ");
+}
+
+function BreakdownPanel({
+  state, fmtNum, fmtMoney, provider,
+}: {
+  state: Breakdown | "loading" | "error" | undefined;
+  fmtNum: (v: number) => string;
+  fmtMoney: (v: number) => string;
+  provider: "GOOGLE_ADS" | "META_ADS";
+}) {
+  const setLabel = provider === "META_ADS" ? "conjunto" : "grupo de anúncios";
+
+  if (state === "loading" || state === undefined) {
+    return (
+      <div className="bg-black/30 border-y border-[#1e2d45] px-4 py-6 flex items-center justify-center gap-2 text-slate-500 text-xs">
+        <Loader2 className="w-3.5 h-3.5 animate-spin" /> Carregando {setLabel}s…
+      </div>
+    );
+  }
+  if (state === "error") {
+    return (
+      <div className="bg-black/30 border-y border-[#1e2d45] px-4 py-5 text-center text-red-400 text-xs">
+        Falha ao carregar os {setLabel}s desta campanha.
+      </div>
+    );
+  }
+  if (!state.adSets.length) {
+    return (
+      <div className="bg-black/30 border-y border-[#1e2d45] px-4 py-5 text-center text-slate-500 text-xs">
+        {state.message ?? `Nenhum ${setLabel} com dados no período.`}
+        <p className="text-slate-600 text-[10px] mt-1">
+          Se a campanha é nova, rode &quot;Sincronizar agora&quot; — os anúncios entram no próximo sync.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-black/30 border-y border-[#1e2d45] px-3 py-3 space-y-2.5">
+      <div className="flex items-center gap-1.5 text-[10px] text-slate-500 uppercase tracking-wide font-bold">
+        <Layers className="w-3 h-3" />
+        {state.totals?.adSets ?? state.adSets.length} {setLabel}
+        {(state.totals?.adSets ?? state.adSets.length) !== 1 ? "s" : ""}
+        {state.totals?.ads != null && <span>· {state.totals.ads} anúncio{state.totals.ads !== 1 ? "s" : ""}</span>}
+      </div>
+
+      {state.adSets.map((g) => (
+        <div key={g.id ?? g.name} className="bg-[#0a1220] border border-[#1e2d45] rounded-lg overflow-hidden">
+          {/* Cabeçalho do conjunto */}
+          <div className="px-3 py-2 flex items-center justify-between gap-3 flex-wrap border-b border-[#1e2d45]">
+            <p className="text-slate-200 text-xs font-semibold truncate max-w-[280px]" title={g.name}>
+              {g.name}
+            </p>
+            <div className="flex items-center gap-3 text-[10px] font-mono flex-shrink-0">
+              <span className="text-slate-500">{fmtNum(g.impressions)} impr.</span>
+              <span className="text-slate-400">{fmtNum(g.clicks)} cliques</span>
+              <span className="text-slate-300">{fmtMoney(g.cost)}</span>
+              <span className="text-emerald-300">
+                {(Math.round(g.conversions * 100) / 100).toLocaleString("pt-BR")} conv.
+              </span>
+              <span className="text-amber-300">{g.conversions > 0 ? fmtMoney(g.cpa) : "—"}</span>
+            </div>
+          </div>
+
+          {/* Anúncios do conjunto */}
+          <div className="divide-y divide-[#1e2d45]/50">
+            {g.ads.map((ad) => (
+              <div key={ad.id} className="px-3 py-2 flex items-center justify-between gap-3 hover:bg-white/[0.02]">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-slate-300 text-[11px] truncate" title={ad.title}>{ad.title}</p>
+                    {ad.status && !isRunning(ad.status) && (
+                      <span className="text-[9px] uppercase text-slate-600 flex-shrink-0">
+                        ({statusLabel(ad.status)})
+                      </span>
+                    )}
+                  </div>
+                  {ad.finalUrl && (
+                    <a
+                      href={ad.finalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-slate-600 hover:text-cyan-400 inline-flex items-center gap-1 truncate max-w-[280px]"
+                    >
+                      <ExternalLink className="w-2.5 h-2.5 flex-shrink-0" />
+                      <span className="truncate">{ad.finalUrl.replace(/^https?:\/\//, "")}</span>
+                    </a>
+                  )}
+                </div>
+                <div className="flex items-center gap-3 text-[10px] font-mono flex-shrink-0">
+                  <span className="text-slate-600 w-16 text-right">{fmtNum(ad.impressions)}</span>
+                  <span className="text-slate-400 w-14 text-right">{fmtNum(ad.clicks)}</span>
+                  <span className="text-slate-500 w-12 text-right">{(ad.ctr * 100).toFixed(1)}%</span>
+                  <span className="text-slate-300 w-20 text-right">{fmtMoney(ad.cost)}</span>
+                  <span className="text-emerald-300 w-12 text-right">
+                    {(Math.round(ad.conversions * 100) / 100).toLocaleString("pt-BR")}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

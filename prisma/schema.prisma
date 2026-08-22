@@ -2589,8 +2589,14 @@ model AdCreative {
   provider     IntegrationProvider
   externalAdId String
 
+  // IDs da plataforma — permitem montar a árvore campanha → conjunto → anúncio
+  // sem casar por nome (nome muda e quebra o agrupamento). Preenchidos pelo
+  // sync do Meta Ads; nulos nas linhas antigas e no Google Ads.
+  externalCampaignId String?
+  externalAdSetId    String?
+
   campaignName String?
-  adGroupName  String?
+  adGroupName  String? // Google: grupo de anúncios · Meta: conjunto (ad set)
   adType       String? // RESPONSIVE_SEARCH_AD, etc.
   status       String?
 
@@ -2605,6 +2611,7 @@ model AdCreative {
 
   @@unique([companyId, provider, externalAdId])
   @@index([companyId, provider])
+  @@index([companyId, provider, externalCampaignId])
 }
 
 // Métricas diárias por anúncio — pra eleger o "anúncio destaque" no período.

@@ -24,6 +24,16 @@ export type TrafficBucket =
   | "REFERRAL"       // outros sites
   | "OTHER";
 
+// Baldes que representam clique PAGO — são os que trazem ad click id
+// (gclid/msclkid → PAID_SEARCH, fbclid → META_ADS). Usado pelo painel de
+// entrada do Marketing pra separar "veio de anúncio" de "veio orgânico" sem
+// depender do que as plataformas de mídia reportam por conta própria.
+export const PAID_BUCKETS: readonly TrafficBucket[] = ["PAID_SEARCH", "META_ADS"];
+
+export function isPaidBucket(b: TrafficBucket): boolean {
+  return PAID_BUCKETS.includes(b);
+}
+
 export interface BucketMeta {
   label: string;
   color: string;     // tailwind text color

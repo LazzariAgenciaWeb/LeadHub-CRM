@@ -17,6 +17,7 @@ import CompanyGbpSection from "./CompanyGbpSection";
 import CompanyAdsSection from "./CompanyAdsSection";
 import MarketingEventsBlock from "./MarketingEventsBlock";
 import MarketingFunnel from "./MarketingFunnel";
+import MarketingOverview from "./MarketingOverview";
 
 interface Kpi { value: number; delta?: number | null }
 interface MarketingData {
@@ -78,6 +79,16 @@ interface MarketingData {
   hasData: boolean;
 }
 
+// Abas do dashboard. "geral" é o painel de entrada (resumo); "organico" reúne
+// site + busca + Meu Negócio; "pago" reúne as plataformas de mídia.
+type MktTab = "geral" | "organico" | "pago";
+
+const MKT_TABS: { id: MktTab; label: string; icon: string; hint: string }[] = [
+  { id: "geral",    label: "Visão geral",  icon: "📊", hint: "Resumo de visualizações, pessoas e conversões" },
+  { id: "organico", label: "Orgânico",     icon: "🌱", hint: "Site, busca, origens e Meu Negócio" },
+  { id: "pago",     label: "Patrocinado",  icon: "📣", hint: "Google Ads e Meta Ads" },
+];
+
 const PERIODS = [
   { days: 7,  label: "7d" },
   { days: 30, label: "30d" },
@@ -107,6 +118,7 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [days, setDays] = useState(30);
+  const [tab, setTab] = useState<MktTab>("geral");
   const [activeBucket, setActiveBucket] = useState<TrafficBucket | null>(null);
   const [querySort, setQuerySort] = useState<{ key: "clicks" | "impressions" | "ctr" | "position"; dir: "asc" | "desc" }>({
     key: "clicks",
@@ -249,6 +261,42 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
         status={data.integrationStatus}
         onSynced={() => void load()}
       />
+
+      {/* Abas: entrada · orgânico · patrocinado */}
+      <div className="flex gap-1 border-b border-[#1e2d45] overflow-x-auto">
+        {MKT_TABS.map((t) => {
+          const on = tab === t.id;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              title={t.hint}
+              className={`px-4 py-2.5 text-xs font-semibold whitespace-nowrap border-b-2 -mb-px transition-colors ${
+                on
+                  ? "border-blue-500 text-white"
+                  : "border-transparent text-slate-500 hover:text-slate-300"
+              }`}
+            >
+              <span className="mr-1.5">{t.icon}</span>
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ─── Aba: Visão geral ─────────────────────────────────────────────── */}
+      {tab === "geral" && (
+        <MarketingOverview
+          companyId={companyId}
+          days={days}
+          organic={{ kpis: data.kpis, trafficBuckets: data.trafficBuckets }}
+          onGoToTab={(t) => setTab(t)}
+        />
+      )}
+
+      {/* ─── Aba: Orgânico ────────────────────────────────────────────────── */}
+      {tab === "organico" && (
+      <div className="space-y-6">
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -573,11 +621,21 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
       {/* Seção Google Meu Negócio */}
       <CompanyGbpSection companyId={companyId} days={days} />
 
+      </div>
+      )}
+
+      {/* ─── Aba: Patrocinado ─────────────────────────────────────────────── */}
+      {tab === "pago" && (
+      <div className="space-y-6">
+
       {/* Seção Google Ads */}
       <CompanyAdsSection companyId={companyId} days={days} provider="GOOGLE_ADS" />
 
       {/* Seção Meta Ads */}
       <CompanyAdsSection companyId={companyId} days={days} provider="META_ADS" />
+
+      </div>
+      )}
     </div>
   );
 }
