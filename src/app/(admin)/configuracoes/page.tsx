@@ -22,6 +22,7 @@ import EmailSettings from "./EmailSettings";
 import MeuPerfilSettings from "./MeuPerfilSettings";
 import ProspectaApiSettings from "./ProspectaApiSettings";
 import MetaCapiSettings from "./MetaCapiSettings";
+import IntegracoesMetaSection from "./IntegracoesMetaSection";
 import BlingSettings from "./BlingSettings";
 import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
@@ -349,16 +350,26 @@ export default async function ConfiguracoesPage({
           },
         }),
       ]);
+      const metaCompanies = isSuperAdmin
+        ? await prisma.company.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } })
+        : [];
       content = (
-        <MetaCapiSettings
-          companyId={targetCompanyId}
+        <IntegracoesMetaSection
           isSuperAdmin={isSuperAdmin}
-          initialConfig={
-            cfg
-              ? { ...cfg, lastEventAt: cfg.lastEventAt ? cfg.lastEventAt.toISOString() : null, hasToken: true }
-              : null
+          selectedCompanyId={targetCompanyId}
+          companies={metaCompanies}
+          capiBlock={
+            <MetaCapiSettings
+              companyId={targetCompanyId}
+              isSuperAdmin={isSuperAdmin}
+              initialConfig={
+                cfg
+                  ? { ...cfg, lastEventAt: cfg.lastEventAt ? cfg.lastEventAt.toISOString() : null, hasToken: true }
+                  : null
+              }
+              logs={logs.map((l) => ({ ...l, createdAt: l.createdAt.toISOString() }))}
+            />
           }
-          logs={logs.map((l) => ({ ...l, createdAt: l.createdAt.toISOString() }))}
         />
       );
     }

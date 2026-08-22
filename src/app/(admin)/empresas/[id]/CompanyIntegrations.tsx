@@ -111,7 +111,17 @@ const STATUS_META: Record<Status, { label: string; color: string }> = {
   DISCONNECTED: { label: "Desconectado", color: "text-slate-400" },
 };
 
-export default function CompanyIntegrations({ companyId }: { companyId: string }) {
+/**
+ * `platform` filtra por plataforma. A aba Integrações da empresa mostra tudo
+ * ("all"); as seções de Configurações mostram só a sua — assim o Meta Ads
+ * deixa de aparecer no meio de uma lista Google.
+ */
+export default function CompanyIntegrations({
+  companyId, platformFilter = "all",
+}: {
+  companyId: string;
+  platformFilter?: "google" | "meta" | "all";
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [integrations, setIntegrations] = useState<Integration[]>([]);
@@ -225,7 +235,11 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
       <div className="flex items-center gap-2.5 mb-5">
         <Plug className="w-5 h-5 text-indigo-400" strokeWidth={2.25} />
         <div>
-          <h2 className="text-white font-bold text-sm">Integrações de Marketing</h2>
+          <h2 className="text-white font-bold text-sm">
+            {platformFilter === "all" ? "Integrações de Marketing"
+              : platformFilter === "meta" ? "Integrações Meta"
+              : "Integrações Google"}
+          </h2>
           <p className="text-slate-500 text-[11px]">
             Conecte as fontes de dados pra alimentar o painel desta empresa.
           </p>
@@ -248,7 +262,7 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
       )}
 
       <div className="space-y-6">
-        {PLATFORMS.map((platform) => (
+        {PLATFORMS.filter((pf) => platformFilter === "all" || pf.id === platformFilter).map((platform) => (
         <div key={platform.id} className="space-y-3">
           <div className="flex items-baseline gap-2 flex-wrap">
             <h3 className={`text-xs font-bold uppercase tracking-wide ${platform.accent}`}>{platform.label}</h3>

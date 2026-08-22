@@ -75,7 +75,7 @@ export default function IntegracoesGoogleSection({
         </div>
       )}
 
-      <CompanyIntegrations companyId={companyId} />
+      <CompanyIntegrations companyId={companyId} platformFilter="google" />
     </div>
   );
 }

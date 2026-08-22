@@ -195,7 +195,11 @@ export default function CompanyAdsSection({
                   Conecte para acompanhar investimento, cliques, conversões, CPC, CPA e ROAS por campanha.
                 </p>
                 <a
-                  href={`/empresas/${companyId}?tab=integracoes`}
+                  href={
+                    provider === "META_ADS"
+                      ? `/configuracoes?secao=integracoes-meta&companyId=${companyId}`
+                      : `/configuracoes?secao=integracoes-google&companyId=${companyId}`
+                  }
                   className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-semibold"
                 >
                   Configurar integração →

@@ -55,7 +55,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-openai",    Icon: Sparkles,   grad: "openai",    label: "OpenAI",          desc: "IA e automação" },
       { key: "integracoes-prospeccao",Icon: Search,     grad: "pipeline",  label: "Prospecta IA · SerpAPI", desc: "Busca de prospects no Google Maps" },
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
-      { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta · Conversões", desc: "Avisa o Meta quando o lead vira venda" },
+      { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta", desc: "Facebook, Instagram, Pixel e Meta Ads" },
       { key: "integracoes-bling",     Icon: Receipt,    grad: "oportunidades", label: "Bling · ERP",   desc: "Clientes e financeiro (boletos + NF)" },
     ],
   },
@@ -98,7 +98,10 @@ const ALL_ENABLED: EnabledSections = {
 
 // Mapeia cada chave de seção/sub-item do menu pro flag de modulo que a libera.
 // `null` = sempre visível (base que toda empresa tem).
-const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
+// `null` = sempre visível. Array = basta UM dos módulos liberar — usado onde a
+// seção junta assuntos de módulos diferentes (a de Meta tem Pixel, que é de
+// CRM, e Meta Ads, que é de marketing).
+const SECTION_GATE: Record<string, keyof EnabledSections | (keyof EnabledSections)[] | null> = {
   // Top-level
   "meu-perfil":    null,
   "instancias":    "whatsapp",
@@ -122,7 +125,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | null> = {
   "integracoes-openai":     "ai",
   "integracoes-prospeccao": "prospeccao",
   "integracoes-webhook":    "crm",
-  "integracoes-meta":       "crm",
+  "integracoes-meta":       ["crm", "marketing"],
   "integracoes-bling":      "bling", // AZZ (moduleBling) + SUPER_ADMIN
 };
 
@@ -149,7 +152,8 @@ export default function SettingsLayout({
   function isVisible(key: string): boolean {
     if (SUPER_ADMIN_ONLY.has(key) && !isSuperAdmin) return false;
     const gate = SECTION_GATE[key];
-    return gate === null || gate === undefined ? true : en[gate];
+    if (gate === null || gate === undefined) return true;
+    return Array.isArray(gate) ? gate.some((g) => en[g]) : en[gate];
   }
 
   // Filtra sub-itens e remove grupos que ficaram vazios.
