@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { googleFetch } from "@/lib/google/token";
 import { listGoogleAdsAccounts } from "@/lib/google/google-ads-sync";
+import { listMetaAdAccounts } from "@/lib/meta/meta-ads";
 import { assertModule } from "@/lib/billing";
 
 /**
@@ -14,6 +15,8 @@ import { assertModule } from "@/lib/billing";
  *   - GA4 → properties (Analytics Admin API)
  *   - SEARCH_CONSOLE → sites (webmasters API)
  *   - BUSINESS_PROFILE → locations (Business Profile — pode falhar se app não aprovado)
+ *   - GOOGLE_ADS → contas-cliente (expande MCC)
+ *   - META_ADS → contas de anúncio (diretas + as do Business Manager)
  */
 export async function GET(
   _req: NextRequest,
@@ -127,6 +130,26 @@ export async function GET(
         label: a.currency ? `${a.label} (${a.currency})` : a.label,
         group: a.group,
       }));
+      return NextResponse.json({ items });
+    }
+
+    if (integ.provider === "META_ADS") {
+      // Contas de anúncio da Meta. id = "act_<account_id>".
+      const accounts = await listMetaAdAccounts(integrationId);
+      const items = accounts.map((a) => ({
+        id: a.id,
+        label: a.currency ? `${a.label} (${a.currency})` : a.label,
+        group: a.group,
+      }));
+      if (items.length === 0) {
+        return NextResponse.json(
+          {
+            error: "Nenhuma conta de anúncios visível para este login do Meta.",
+            hint: "Confirme que a permissão ads_read foi concedida e que o usuário tem acesso à conta no Gerenciador de Negócios. Sem Acesso Avançado aprovado, só contas de quem tem papel no app aparecem.",
+          },
+          { status: 502 }
+        );
+      }
       return NextResponse.json({ items });
     }
 

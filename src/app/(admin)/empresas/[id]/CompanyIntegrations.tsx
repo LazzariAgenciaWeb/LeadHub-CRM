@@ -69,8 +69,8 @@ const PROVIDER_META: Record<Provider, { label: string; Icon: typeof BarChart3; c
     Icon: Share2,
     color: "text-violet-300",
     bg: "bg-violet-500/10 border-violet-500/30",
-    description: "Performance de anúncios no Facebook e Instagram.",
-    oauth: null,
+    description: "Investimento, cliques, conversões e ROAS por campanha no Facebook e Instagram.",
+    oauth: "meta", // fluxo próprio: /api/integrations/meta-ads/connect (não usa `service`)
   },
 };
 
@@ -160,9 +160,14 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
     }
   }
 
-  function handleConnect(service: string) {
-    // Redireciona pro endpoint /connect que monta a URL e manda pro Google
-    window.location.href = `/api/integrations/google/connect?companyId=${companyId}&services=${service}`;
+  function handleConnect(provider: Provider) {
+    // Cada provedor de OAuth tem seu /connect, que monta a URL e redireciona.
+    const meta = PROVIDER_META[provider];
+    if (meta.oauth === "meta") {
+      window.location.href = `/api/integrations/meta-ads/connect?companyId=${companyId}`;
+      return;
+    }
+    window.location.href = `/api/integrations/google/connect?companyId=${companyId}&services=${meta.service}`;
   }
 
   async function handleDisconnect(integrationId: string, label: string) {
@@ -244,7 +249,7 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                 <div className="flex-shrink-0 flex items-center gap-2">
                   {isAvailable && canWrite && (
                     <button
-                      onClick={() => handleConnect(meta.service!)}
+                      onClick={() => handleConnect(provider)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                         hasActive
                           ? "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10"
@@ -267,8 +272,8 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 text-xs">
                             <span className={`font-semibold ${stMeta.color}`}>● {stMeta.label}</span>
-                            {integ.googleEmail && (
-                              <span className="text-slate-500">· {integ.googleEmail}</span>
+                            {(integ.googleEmail || integ.googleName) && (
+                              <span className="text-slate-500">· {integ.googleEmail || integ.googleName}</span>
                             )}
                           </div>
                           {integ.accountLabel ? (
@@ -289,11 +294,11 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                                 onClick={() => setPicker({ integration: integ })}
                                 className="text-amber-400 hover:text-amber-300 text-[11px] mt-0.5 italic font-semibold underline decoration-dotted"
                               >
-                                ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" ? "conta" : "perfil"} sincronizar →
+                                ⚠️ Selecione qual {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" || provider === "META_ADS" ? "conta" : "perfil"} sincronizar →
                               </button>
                             ) : (
                               <p className="text-amber-400 text-[11px] mt-0.5 italic">
-                                ⚠️ Aguardando seleção da {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" ? "conta" : "perfil"}
+                                ⚠️ Aguardando seleção da {provider === "GA4" ? "propriedade" : provider === "SEARCH_CONSOLE" ? "site" : provider === "GOOGLE_ADS" || provider === "META_ADS" ? "conta" : "perfil"}
                               </p>
                             )
                           )}
@@ -310,7 +315,7 @@ export default function CompanyIntegrations({ companyId }: { companyId: string }
                             </p>
                           )}
                         </div>
-                        {canWrite && integ.accountId && (provider === "GA4" || provider === "SEARCH_CONSOLE" || provider === "GOOGLE_ADS") && (
+                        {canWrite && integ.accountId && (provider === "GA4" || provider === "SEARCH_CONSOLE" || provider === "GOOGLE_ADS" || provider === "META_ADS") && (
                           <button
                             onClick={() => handleSyncNow(integ)}
                             disabled={syncing === integ.id}

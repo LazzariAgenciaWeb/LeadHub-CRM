@@ -5,6 +5,7 @@ import { syncGA4 } from "@/lib/google/ga4-sync";
 import { syncSearchConsole } from "@/lib/google/search-console-sync";
 import { syncGbp } from "@/lib/google/gbp-sync";
 import { syncGoogleAds } from "@/lib/google/google-ads-sync";
+import { syncMetaAds } from "@/lib/meta/meta-ads";
 
 // POST /api/companies/[id]/integrations/[integrationId]/sync
 // Dispara um sync manual ("sincronizar agora").
@@ -43,6 +44,8 @@ export async function POST(
       result = await syncGbp(integrationId);
     } else if (integ.provider === "GOOGLE_ADS") {
       result = await syncGoogleAds(integrationId);
+    } else if (integ.provider === "META_ADS") {
+      result = await syncMetaAds(integrationId);
     } else {
       return NextResponse.json({ error: `Sync de ${integ.provider} não implementado` }, { status: 400 });
     }

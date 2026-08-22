@@ -575,6 +575,9 @@ export default function CompanyMarketing({ companyId }: { companyId: string }) {
 
       {/* Seção Google Ads */}
       <CompanyAdsSection companyId={companyId} days={days} provider="GOOGLE_ADS" />
+
+      {/* Seção Meta Ads */}
+      <CompanyAdsSection companyId={companyId} days={days} provider="META_ADS" />
     </div>
   );
 }

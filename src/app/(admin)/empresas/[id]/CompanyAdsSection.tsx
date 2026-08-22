@@ -10,10 +10,10 @@ import {
 } from "recharts";
 
 /**
- * Seção "Google Ads" (e futuramente Meta Ads) do Dashboard de Marketing.
+ * Seção de Ads (Google Ads / Meta Ads) do Dashboard de Marketing.
  *
  * Espelha o padrão do CompanyGbpSection: busca seu próprio endpoint
- * (/marketing/ads) e renderiza, quando há integração GOOGLE_ADS conectada:
+ * (/marketing/ads) e renderiza, quando há integração do provider conectada:
  *  1. KPIs (Custo, CPC, Custo/conv, Impressões, Cliques, Conversões) + ROAS, com delta
  *  2. Funil Impressões → Cliques → Conversões
  *  3. Gráfico diário: Custo × Cliques × Conversões
@@ -359,13 +359,15 @@ export default function CompanyAdsSection({
           {topAds[0].campaignName && (
             <p className="text-[10px] text-slate-600 mt-3">
               Campanha: {topAds[0].campaignName}
-              {topAds[0].adGroupName && ` · Grupo: ${topAds[0].adGroupName}`}
+              {topAds[0].adGroupName && ` · ${provider === "META_ADS" ? "Conjunto" : "Grupo"}: ${topAds[0].adGroupName}`}
             </p>
           )}
         </div>
       )}
 
-      {/* Termos de pesquisa — o que as pessoas digitaram */}
+      {/* Termos de pesquisa — o que as pessoas digitaram.
+          Só existe no Google Ads: a Meta não expõe consulta de pesquisa. */}
+      {provider === "GOOGLE_ADS" && (
       <div className="bg-[#0a1220] border border-[#1e2d45] rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -413,6 +415,7 @@ export default function CompanyAdsSection({
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }
