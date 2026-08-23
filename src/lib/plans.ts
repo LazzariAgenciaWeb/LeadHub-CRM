@@ -214,12 +214,11 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 100,
     },
     features: feat({
+      // Isca: mostra o produto sem entregar o diferencial.
+      // O Dashboard de Marketing saiu daqui de propósito — é o motivo de subir.
       meuEspaco: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
       videos: true,
-    }),
+}),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Grátis pra sempre, sem cartão",
@@ -283,20 +282,20 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 1000,
     },
     features: feat({
-      // herda Organization
       meuEspaco: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
       videos: true,
       calendario: true,
       cofreCredenciais: true,
-      googleBusinessProfile: true,
-      // + diferenciais
+      // Atender
       whatsapp: true,
+      whatsappGrupos: true,
       inboxAvancado: true,
+      tickets: true,
+      tarefasInternas: true,
+      // Vender
       crmPipelineLeads: true,
-    }),
+      crmPipelineOportunidades: true,
+}),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Organization +",
@@ -326,26 +325,35 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       // herda Essencial
       meuEspaco: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
       videos: true,
       calendario: true,
       cofreCredenciais: true,
-      googleBusinessProfile: true,
       whatsapp: true,
-      inboxAvancado: true,
-      crmPipelineLeads: true,
-      // + diferenciais
       whatsappGrupos: true,
-      crmPipelineProspeccao: true,
+      inboxAvancado: true,
+      tickets: true,
+      tarefasInternas: true,
+      crmPipelineLeads: true,
       crmPipelineOportunidades: true,
-      multiUnidade: true,   // "Empresas" — cadastro dos clientes do cliente
-      links: true,
+      // + o diferencial: marketing de ponta a ponta
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+      googleAds: true,
+      metaAds: true,
+      relatorioClienteMarketing: true,
       campanhas: true,
+      links: true,
+      emailMassa: true,
+      // + canais e IA
+      socialInbox: true,
+      assistenteIA: true,
+      crmPipelineProspeccao: true,
+      multiUnidade: true,
       magicLink: true,
       suportePrioritario: true,
-    }),
+}),
     modoAtendimentoDefault: "ATENDE",   // Caixa de Entrada completa
     highlights: [
       "Tudo do Essencial +",
@@ -377,34 +385,41 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
     features: feat({
       // herda Marketing
       meuEspaco: true,
-      marketingDashboard: true,
-      googleAnalytics: true,
-      googleSearchConsole: true,
       videos: true,
       calendario: true,
       cofreCredenciais: true,
-      googleBusinessProfile: true,
       whatsapp: true,
       whatsappGrupos: true,
       inboxAvancado: true,
-      crmPipelineProspeccao: true,
+      tickets: true,
+      tarefasInternas: true,
       crmPipelineLeads: true,
       crmPipelineOportunidades: true,
-      multiUnidade: true,
-      links: true,
+      crmPipelineProspeccao: true,
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+      googleAds: true,
+      metaAds: true,
+      relatorioClienteMarketing: true,
       campanhas: true,
+      links: true,
+      emailMassa: true,
+      socialInbox: true,
+      assistenteIA: true,
+      multiUnidade: true,
       magicLink: true,
       suportePrioritario: true,
-      // + diferenciais
-      emailMassa: true,        // e-mail marketing
-      caixaEmail: true,        // caixa de e-mail (Atender)
-      socialInbox: true,       // Instagram + Facebook na inbox
+      // + operação pesada
+      caixaEmail: true,
       projetos: true,
-      tickets: true,           // chamados
-      tarefasInternas: true,
       gamificacao: true,
-      clickupSync: true,       // integrações
-    }),
+      clickupSync: true,
+      prospectaIa: true,
+      blingErp: true,
+      bannerLgpd: true,
+}),
     modoAtendimentoDefault: "ATENDE",
     highlights: [
       "Tudo do Marketing +",
@@ -556,10 +571,13 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
  * Lançamento: só FREE e ESSENCIAL. Pra publicar MARKETING/PREMIUM, adicione-os
  * de volta aqui — as definições já estão prontas em PLANS.
  */
-export const PLAN_ORDER: PlanTier[] = ["FREE", "ORGANIZATION", "ESSENCIAL", "MARKETING", "PREMIUM"];
+// Vitrine: 3 pagos + Free. ORGANIZATION foi aposentado — competia de frente
+// com o Essencial (R$49,90 × R$97) e confundia a escolha. Quem já assina segue
+// nele via LEGACY_TIERS, sem perder nada.
+export const PLAN_ORDER: PlanTier[] = ["FREE", "ESSENCIAL", "MARKETING", "PREMIUM"];
 
 /** Planos legados/internos — não aparecem na pricing page. */
-export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO"];
+export const LEGACY_TIERS: PlanTier[] = ["TRIAL", "CRESCIMENTO", "ORGANIZATION"];
 
 /** Planos não-públicos atribuídos manualmente (não aparecem na pricing page). */
 export const INTERNAL_TIERS: PlanTier[] = ["ENTERPRISE"];

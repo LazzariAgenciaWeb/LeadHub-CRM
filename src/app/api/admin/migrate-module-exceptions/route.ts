@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { backfillExceptions, MODULES, type CompanyModuleField } from "@/lib/modules";
+import { backfillExceptions, effectiveFeatures, MODULES, type CompanyModuleField } from "@/lib/modules";
 import type { PlanFeatures, PlanTier } from "@/lib/plans";
 
 /**
@@ -82,11 +82,54 @@ export async function POST(req: NextRequest) {
     migrated.push(`${c.name} (${Object.keys(next).length} exceções)`);
   }
 
+  // ── Passe 2: direito adquirido do Dashboard de Marketing ────────────────
+  //
+  // Até 2026-08-23 TODOS os planos incluíam marketingDashboard (Free inclusive).
+  // A reorganização tirou do Free e do Essencial pra virar argumento de upgrade
+  // — mas quem já usava perderia a tela no instante do deploy, sem aviso.
+  //
+  // Regra: empresa criada ANTES do corte mantém o que tinha, como exceção
+  // explícita (aparece na aba Plano como "exceção ON", e você pode revogar caso
+  // a caso quando negociar o upgrade). Empresa nova entra na regra do plano.
+  const CUTOFF = new Date("2026-08-23T00:00:00Z");
+  const GRANDFATHER: (keyof PlanFeatures)[] = [
+    "marketingDashboard", "googleAnalytics", "googleSearchConsole", "googleBusinessProfile",
+  ];
+
+  const antigas = await prisma.company.findMany({
+    where: { createdAt: { lt: CUTOFF } },
+    select: { id: true, name: true, subscription: { select: { id: true, plan: true, customFeatures: true } } },
+  });
+
+  const grandfathered: string[] = [];
+  for (const c of antigas) {
+    if (!c.subscription) continue;
+    const tier = (c.subscription.plan as PlanTier) ?? "FREE";
+    const custom = (c.subscription.customFeatures as Partial<PlanFeatures> | null) ?? {};
+    const eff = effectiveFeatures(tier, custom);
+
+    const next = { ...custom };
+    let mudou = false;
+    for (const k of GRANDFATHER) {
+      // Só concede o que o plano novo NÃO dá e que ainda não tem exceção.
+      if (!eff[k] && next[k] === undefined) { (next as any)[k] = true; mudou = true; }
+    }
+    if (!mudou) continue;
+
+    await prisma.subscription.update({
+      where: { id: c.subscription.id },
+      data: { customFeatures: next as any },
+    });
+    grandfathered.push(`${c.name} [${tier}]`);
+  }
+
   return NextResponse.json({
     ok: true,
     total: companies.length,
     migrated: migrated.length,
     unchanged,
     details: migrated,
+    grandfatheredMarketing: grandfathered.length,
+    grandfatheredDetails: grandfathered,
   });
 }
