@@ -215,6 +215,7 @@ export default function PlanosClient({ rows }: { rows: Row[] }) {
                 <tr className="border-b border-[#1e2d45] bg-[#0f1623]">
                   <th className="text-left py-2.5 px-4 text-xs uppercase tracking-wider text-slate-500 font-bold">Empresa</th>
                   <th className="text-left py-2.5 px-3 text-xs uppercase tracking-wider text-slate-500 font-bold">Plano</th>
+                  <th className="text-right py-2.5 px-3 text-xs uppercase tracking-wider text-slate-500 font-bold">Valor</th>
                   <th className="text-left py-2.5 px-3 text-xs uppercase tracking-wider text-slate-500 font-bold">Status</th>
                   <th className="text-center py-2.5 px-3 text-xs uppercase tracking-wider text-slate-500 font-bold">Usuários</th>
                   <th className="text-center py-2.5 px-3 text-xs uppercase tracking-wider text-slate-500 font-bold">Leads</th>
@@ -238,6 +239,31 @@ export default function PlanosClient({ rows }: { rows: Row[] }) {
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${PLAN_BADGE[r.plan]}`}>
                           {PLANS[r.plan]?.label ?? r.plan}
                         </span>
+                      </td>
+                      <td className="py-2.5 px-3 text-right">
+                        {(() => {
+                          const def = PLANS[r.plan];
+                          if (!def || def.priceMonthly === 0) {
+                            return <span className="text-slate-600 text-xs">—</span>;
+                          }
+                          const anual = r.billingCycle === "annual";
+                          // Sempre o equivalente MENSAL, pra dar pra somar a
+                          // coluna e bater com o MRR do topo. O total do ano
+                          // fica embaixo, pra não parecer que o anual é barato.
+                          const mensal = anual ? def.priceAnnualPerMonth : def.priceMonthly;
+                          return (
+                            <div>
+                              <div className="text-white font-semibold text-xs font-mono">
+                                {formatPriceBRL(mensal)}<span className="text-slate-600 font-normal">/mês</span>
+                              </div>
+                              <div className="text-[10px] text-slate-600">
+                                {anual
+                                  ? `anual · ${formatPriceBRL(def.priceAnnualTotal)}/ano`
+                                  : "mensal"}
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="py-2.5 px-3">
                         {st ? (
