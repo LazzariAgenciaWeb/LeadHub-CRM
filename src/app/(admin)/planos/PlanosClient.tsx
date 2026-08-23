@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import PlanosMatriz from "./PlanosMatriz";
 import Link from "next/link";
 import {
-  CreditCard, Users, Search, TrendingUp, Settings2, Check, Sparkles,
+  CreditCard, Users, Search, TrendingUp, Settings2, Sparkles,
 } from "lucide-react";
 import {
-  PLANS, PLAN_ORDER, formatPriceBRL,
-  type PlanTier, type PlanFeatures, type PlanLimits,
+  PLANS, formatPriceBRL,
+  type PlanTier,
 } from "@/lib/plans";
 
 type SubStatus = "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "UNPAID" | "INCOMPLETE" | null;
@@ -50,58 +51,9 @@ const STATUS_BADGE: Record<string, { label: string; cls: string }> = {
   INCOMPLETE: { label: "Incompleto",     cls: "bg-slate-500/15 text-slate-300 border-slate-500/25" },
 };
 
-const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
-  whatsappInstances: "WhatsApp",
-  atendentes: "Atendentes",
-  unidades: "Unidades",
-  leadsPerMonth: "Leads/mês",
-};
 
 // Labels legíveis de cada feature (pro catálogo). Espelha PlanFeatures.
-const FEATURE_LABELS: Record<keyof PlanFeatures, string> = {
-  meuEspaco: "Meu Espaço",
-  whatsapp: "WhatsApp (Inbox)",
-  whatsappGrupos: "Ver grupos no inbox",
-  inboxAvancado: "Inbox avançado (SLA, transferência)",
-  socialInbox: "Instagram + Facebook na inbox",
-  tickets: "Tickets / Chamados",
-  tarefasInternas: "Tarefas internas",
-  crmPipelineProspeccao: "CRM — Prospecção",
-  crmPipelineLeads: "CRM — Leads",
-  crmPipelineOportunidades: "CRM — Oportunidades",
-  prospectaIa: "LeadHub Prospecta",
-  emailMassa: "Email em massa",
-  caixaEmail: "Caixa de E-mail",
-  projetos: "Projetos",
-  calendario: "Calendário",
-  gamificacao: "Gamificação",
-  assistenteIA: "Assistente IA",
-  campanhas: "Campanhas",
-  links: "Links de rastreio",
-  videos: "Biblioteca de vídeos",
-  marketingDashboard: "Dashboard Marketing",
-  googleAnalytics: "Google Analytics",
-  googleSearchConsole: "Search Console",
-  googleBusinessProfile: "Google Meu Negócio",
-  googleAds: "Google Ads",
-  metaAds: "Meta Ads",
-  cofreCredenciais: "Cofre de credenciais",
-  magicLink: "Magic Link",
-  bannerLgpd: "Banner LGPD",
-  multiUnidade: "Multi-unidade",
-  clickupSync: "ClickUp Sync",
-  blingErp: "Bling (ERP)",
-  relatorioClienteMarketing: "Relatório de Marketing (cliente)",
-  apiAccess: "API completa",
-  whiteLabel: "White-label",
-  customDomain: "Domínio próprio",
-  suportePrioritario: "Suporte prioritário",
-  accountManager: "Account manager",
-};
 
-function limitFmt(v: number) {
-  return v === -1 ? "Ilimitado" : v.toLocaleString("pt-BR");
-}
 
 function relativeTime(iso: string | null): { label: string; stale: boolean } {
   if (!iso) return { label: "Nunca", stale: true };
@@ -292,7 +244,7 @@ export default function PlanosClient({ rows }: { rows: Row[] }) {
             </table>
           </div>
           <p className="text-slate-600 text-xs mt-3">
-            "Configurar" abre a empresa — use a aba <strong className="text-slate-400">💳 Plano</strong> pra trocar o plano, status e limites.
+            &quot;Configurar&quot; abre a empresa — use a aba <strong className="text-slate-400">💳 Plano</strong> pra trocar o plano, status e limites.
           </p>
         </>
       ) : (
@@ -305,72 +257,14 @@ export default function PlanosClient({ rows }: { rows: Row[] }) {
 // ─── Catálogo de planos (read-only, lê de plans.ts) ──────────────────────────
 
 function CatalogoTab() {
-  const featureKeys = Object.keys(FEATURE_LABELS) as (keyof PlanFeatures)[];
-
   return (
     <div>
       <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4 mb-5 text-sm text-slate-400">
-        Esta é a configuração de cada plano (preço, limites e recursos). A fonte é o
-        catálogo do sistema — pra mudar um preço ou recurso, ajuste em{" "}
-        <code className="text-indigo-300 text-xs">src/lib/plans.ts</code> ou peça pro time.
-        Os planos <strong className="text-slate-300">Marketing</strong> e{" "}
-        <strong className="text-slate-300">Premium</strong> existem mas estão ocultos da
-        página pública por ora.
+        O que cada plano entrega, com as variantes dentro de cada módulo e a capacidade
+        contratada. Sai direto do catálogo do sistema — se mudou no código, mudou aqui.
+        Pra ajustar preço ou recurso: <code className="text-indigo-300 text-xs">src/lib/plans.ts</code>.
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {(Object.keys(PLANS) as PlanTier[])
-          .filter((t) => t !== "TRIAL" && t !== "CRESCIMENTO")
-          .map((tier) => {
-            const p = PLANS[tier];
-            const isPublic = PLAN_ORDER.includes(tier);
-            const activeFeatures = featureKeys.filter((k) => p.features[k]);
-            return (
-              <div key={tier} className="bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-white font-bold text-lg">{p.label}</h3>
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${PLAN_BADGE[tier]}`}>
-                        {isPublic ? "Público" : tier === "ENTERPRISE" ? "Sob consulta" : "Oculto"}
-                      </span>
-                    </div>
-                    <p className="text-slate-500 text-xs mt-0.5">{p.tagline}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-white font-bold text-xl">{formatPriceBRL(p.priceMonthly)}</div>
-                    <div className="text-slate-600 text-[10px]">/mês</div>
-                  </div>
-                </div>
-
-                {/* Limites */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  {(Object.keys(LIMIT_LABELS) as (keyof PlanLimits)[]).map((k) => (
-                    <div key={k} className="bg-[#161f30] rounded-lg px-3 py-2 flex items-center justify-between">
-                      <span className="text-slate-500 text-xs">{LIMIT_LABELS[k]}</span>
-                      <span className="text-slate-200 text-xs font-mono font-semibold">{limitFmt(p.limits[k])}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Features ativas */}
-                <div className="text-slate-500 text-[10px] uppercase tracking-wide mb-2">
-                  Recursos incluídos ({activeFeatures.length})
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {activeFeatures.length === 0 ? (
-                    <span className="text-slate-600 text-xs">Nenhum recurso ligado.</span>
-                  ) : activeFeatures.map((k) => (
-                    <span key={k} className="inline-flex items-center gap-1 text-[11px] text-slate-300 bg-[#161f30] border border-[#1e2d45] rounded-full px-2 py-0.5">
-                      <Check className="w-3 h-3 text-emerald-400" strokeWidth={3} />
-                      {FEATURE_LABELS[k]}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-      </div>
+      <PlanosMatriz />
     </div>
   );
 }
