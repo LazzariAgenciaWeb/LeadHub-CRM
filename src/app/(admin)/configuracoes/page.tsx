@@ -23,6 +23,7 @@ import MeuPerfilSettings from "./MeuPerfilSettings";
 import ProspectaApiSettings from "./ProspectaApiSettings";
 import MetaCapiSettings from "./MetaCapiSettings";
 import IntegracoesMetaSection from "./IntegracoesMetaSection";
+import BillingActions from "./BillingActions";
 import BlingSettings from "./BlingSettings";
 import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
@@ -192,8 +193,17 @@ export default async function ConfiguracoesPage({
     } else {
       // ADMIN visualiza, mas não edita — mudança passa por solicitação ao suporte.
       // SUPER_ADMIN, mesmo nessa rota, fica em modo edição.
+      const planSub = await prisma.subscription.findUnique({
+        where: { companyId: userCompanyId },
+        select: { plan: true, stripeCustomerId: true, billingCycle: true },
+      });
       content = (
         <div className="p-2">
+          <BillingActions
+            currentTier={(planSub?.plan as any) ?? "FREE"}
+            hasStripeCustomer={!!planSub?.stripeCustomerId}
+            billingCycle={planSub?.billingCycle ?? "monthly"}
+          />
           <CompanySubscription companyId={userCompanyId} readOnly={!isSuperAdmin} />
         </div>
       );
