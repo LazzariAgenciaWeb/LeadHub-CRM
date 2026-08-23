@@ -208,6 +208,7 @@ export default function PlanosMatriz() {
                 ["Atendentes", "atendentes"],
                 ["Unidades / filiais", "unidades"],
                 ["Leads por mês", "leadsPerMonth"],
+                ["Interações de IA / mês", "aiInteractions"],
               ] as const).map(([label, key]) => (
                 <tr key={key} className="border-b border-[#1e2d45]/60">
                   <th className="text-left px-3 py-2 text-slate-200 text-xs font-medium sticky left-0 bg-[#0f1623]">

@@ -173,6 +173,10 @@ export async function PATCH(
   // funcionavam via toggle manual, que era a origem da redundância.
   const modulesUpdate: Record<string, unknown> = {
     ...companyFlagsFromFeatures(ctx.effectiveFeatures),
+    // A cota de IA também é derivada: vem do limite do plano, com exceção em
+    // customLimits. Antes era um número solto que ninguém atualizava quando o
+    // plano mudava — cliente subia de plano e continuava com a cota antiga.
+    aiMonthlyQuota: ctx.effectiveLimits.aiInteractions,
   };
   if (modoAtendimentoToApply !== undefined) {
     modulesUpdate.modoAtendimento = modoAtendimentoToApply;

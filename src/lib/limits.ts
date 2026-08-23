@@ -47,6 +47,7 @@ function mergeLimits(base: PlanLimits, overrides: any): PlanLimits {
     atendentes:        typeof overrides.atendentes === "number"        ? overrides.atendentes        : base.atendentes,
     unidades:          typeof overrides.unidades === "number"          ? overrides.unidades          : base.unidades,
     leadsPerMonth:     typeof overrides.leadsPerMonth === "number"     ? overrides.leadsPerMonth     : base.leadsPerMonth,
+    aiInteractions:    typeof overrides.aiInteractions === "number"    ? overrides.aiInteractions    : base.aiInteractions,
   };
 }
 

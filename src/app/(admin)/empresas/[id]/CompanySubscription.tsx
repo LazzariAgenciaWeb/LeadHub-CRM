@@ -61,6 +61,7 @@ const LIMIT_LABELS: Record<keyof PlanLimits, string> = {
   atendentes: "Atendentes",
   unidades: "Unidades / Filiais",
   leadsPerMonth: "Leads / mês",
+  aiInteractions: "Interações de IA / mês",
 };
 
 // ─── Features agrupadas por categoria (5 acordeões) ─────────────────────────

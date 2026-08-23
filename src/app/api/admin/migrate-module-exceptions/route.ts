@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
 import { backfillExceptions, effectiveFeatures, MODULES, type CompanyModuleField } from "@/lib/modules";
-import type { PlanFeatures, PlanTier } from "@/lib/plans";
+import { PLANS, type PlanFeatures, type PlanTier } from "@/lib/plans";
 
 /**
  * Backfill idempotente: converte `Company.module*` em exceções explícitas.
@@ -124,6 +124,31 @@ export async function POST(req: NextRequest) {
     grandfathered.push(`${c.name} [${tier}]`);
   }
 
+  // ── Passe 2b: preserva cota de IA definida na mão ───────────────────────
+  //
+  // `aiMonthlyQuota` virou cache derivado do limite do plano. Empresa que teve
+  // a cota ajustada manualmente pelo super admin perderia o ajuste no próximo
+  // save da assinatura. Divergência vira exceção em customLimits.
+  const comCota = await prisma.company.findMany({
+    where: { aiMonthlyQuota: { gt: 0 } },
+    select: { id: true, name: true, aiMonthlyQuota: true,
+              subscription: { select: { id: true, plan: true, customLimits: true } } },
+  });
+  let cotasPreservadas = 0;
+  for (const c of comCota) {
+    if (!c.subscription) continue;
+    const limits = (c.subscription.customLimits as Record<string, unknown> | null) ?? {};
+    if (typeof limits.aiInteractions === "number") continue; // já tem exceção
+    const doPlano = PLANS[(c.subscription.plan as PlanTier) ?? "FREE"]?.limits.aiInteractions ?? 0;
+    if (c.aiMonthlyQuota === doPlano) continue;
+
+    await prisma.subscription.update({
+      where: { id: c.subscription.id },
+      data: { customLimits: { ...limits, aiInteractions: c.aiMonthlyQuota } as any },
+    });
+    cotasPreservadas++;
+  }
+
   // ── Passe 3: limpa exceção redundante ───────────────────────────────────
   //
   // Exceção que diz a mesma coisa que o plano só polui: aparece como
@@ -155,6 +180,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     redundantesLimpas: limpas,
+    cotasIaPreservadas: cotasPreservadas,
     total: companies.length,
     migrated: migrated.length,
     unchanged,

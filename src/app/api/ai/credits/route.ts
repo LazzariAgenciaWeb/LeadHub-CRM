@@ -47,6 +47,20 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "Cota inválida (inteiro >= 0)" }, { status: 400 });
   }
 
+  // Grava como EXCEÇÃO de limite na assinatura, não direto na Company:
+  // `aiMonthlyQuota` é cache derivado (plano + exceção) e seria sobrescrito no
+  // próximo save da assinatura. Espelhamos no cache aqui pra valer na hora.
+  const sub = await prisma.subscription.findUnique({
+    where: { companyId },
+    select: { id: true, customLimits: true },
+  });
+  if (sub) {
+    const limits = (sub.customLimits as Record<string, unknown> | null) ?? {};
+    await prisma.subscription.update({
+      where: { id: sub.id },
+      data: { customLimits: { ...limits, aiInteractions: quota } as any },
+    });
+  }
   await prisma.company.update({
     where: { id: companyId },
     data: { aiMonthlyQuota: quota },

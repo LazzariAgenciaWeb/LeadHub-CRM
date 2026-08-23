@@ -35,6 +35,8 @@ export interface PlanLimits {
   atendentes: number;            // usuários CLIENT na empresa (não conta admin)
   unidades: number;              // multi-unidade / filiais
   leadsPerMonth: number;         // limite soft de leads recebidos via webhook
+  /** Interações de IA por mês (1 interação = 1 chamada de sugestão/resposta). */
+  aiInteractions: number;
 }
 
 export interface PlanFeatures {
@@ -212,6 +214,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 1,
       unidades: 1,
       leadsPerMonth: 100,
+          aiInteractions: 0,
     },
     features: feat({
       meuEspaco: true,
@@ -249,6 +252,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 2,
       unidades: 1,
       leadsPerMonth: 300,
+          aiInteractions: 0,
     },
     features: feat({
       // herda Free
@@ -286,6 +290,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 2,
       unidades: 1,
       leadsPerMonth: 1000,
+          aiInteractions: 0,
     },
     features: feat({
       // herda Free
@@ -331,6 +336,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 5,
       unidades: 1,
       leadsPerMonth: 5000,
+          aiInteractions: 1000,
     },
     features: feat({
       // herda Essencial
@@ -391,6 +397,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 10,
       unidades: -1,
       leadsPerMonth: -1,
+          aiInteractions: 5000,
     },
     features: feat({
       // herda Marketing
@@ -456,6 +463,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: -1,
       unidades: -1,
       leadsPerMonth: -1,
+          aiInteractions: -1,
     },
     features: feat({
       meuEspaco: true,
@@ -520,6 +528,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 2,
       unidades: 1,
       leadsPerMonth: 200,
+          aiInteractions: 100,
     },
     features: feat({
       whatsapp: true,
@@ -546,6 +555,7 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       atendentes: 15,
       unidades: 5,
       leadsPerMonth: 20000,
+          aiInteractions: 500,
     },
     features: feat({
       whatsapp: true,
@@ -691,7 +701,7 @@ export const ADDONS: Record<AddonKey, AddonDefinition> = {
 
 /** Add-ons unitários quantificáveis (cobrados por unidade extra). */
 export interface UnitAddon {
-  key: "whatsappExtra" | "atendenteExtra" | "unidadeExtra";
+  key: "whatsappExtra" | "atendenteExtra" | "unidadeExtra" | "aiExtra";
   label: string;
   description: string;
   priceMonthly: number;
@@ -716,6 +726,14 @@ export const UNIT_ADDONS: Record<UnitAddon["key"], UnitAddon> = {
     priceMonthly: 19.90,
     minTier: "ESSENCIAL",
     resource: "atendentes",
+  },
+  aiExtra: {
+    key: "aiExtra",
+    label: "Pacote de IA",
+    description: "1.000 interações de IA adicionais por mês.",
+    priceMonthly: 49,
+    minTier: "MARKETING",
+    resource: "aiInteractions",
   },
   unidadeExtra: {
     key: "unidadeExtra",
