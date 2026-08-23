@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { MessageCircle, Target, Megaphone, ArrowUpRight, Settings2 } from "lucide-react";
+import { MessageCircle, Target, Megaphone, ChevronDown, ChevronRight } from "lucide-react";
 import CompanyIntegrations from "@/app/(admin)/empresas/[id]/CompanyIntegrations";
+import MetaConnectionPanel from "./MetaConnectionPanel";
 
 /**
  * Integrações Meta — um lugar só para tudo que fala com Facebook/Instagram.
@@ -34,6 +35,11 @@ export default function IntegracoesMetaSection({
 }) {
   const router = useRouter();
   const [companyId, setCompanyId] = useState(selectedCompanyId);
+  // Todos abertos por padrão; fechar é pra quem já resolveu aquele bloco.
+  const [open, setOpen] = useState<Record<string, boolean>>({
+    conexao: true, pixel: true, ads: true,
+  });
+  const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
 
   function changeCompany(newId: string) {
     setCompanyId(newId);
@@ -81,87 +87,79 @@ export default function IntegracoesMetaSection({
         )}
       </div>
 
-      {/* 1. Conexão de Página e Instagram — gerida na tela própria */}
-      <LinkCard
+      <Block
+        id="conexao"
+        open={open.conexao}
+        onToggle={toggle}
         icon={<MessageCircle className="w-5 h-5" strokeWidth={2} />}
-        accent="text-pink-300 bg-pink-500/10 border-pink-500/30"
-        title="Facebook & Instagram · Inbox e automações"
-        description="Conecta a Página e a conta do Instagram para receber Direct e Messenger no inbox, e para rodar as automações."
-        note="A conexão tem webhook e caixa de entrada próprios, então é gerida na tela do Instagram."
-        href="/instagram"
-        cta="Abrir conexão"
-      />
+        accentText="text-pink-300"
+        accentBg="bg-pink-500/10"
+        title="Facebook & Instagram · conexão"
+        subtitle="Autoriza a Página e a conta do Instagram — habilita Direct, Messenger e as automações."
+      >
+        <MetaConnectionPanel />
+      </Block>
 
-      {/* 2. Pixel + Conversions API — mora aqui mesmo */}
-      <div className="rounded-xl border border-violet-500/30 bg-violet-500/[0.04] p-4">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-300">
-            <Target className="w-5 h-5" strokeWidth={2} />
-          </div>
-          <div>
-            <h3 className="text-white font-semibold text-sm">Pixel & Conversions API</h3>
-            <p className="text-slate-500 text-[11px]">
-              Avisa o Meta quando o lead vira venda, direto do servidor.
-            </p>
-          </div>
-        </div>
+      <Block
+        id="pixel"
+        open={open.pixel}
+        onToggle={toggle}
+        icon={<Target className="w-5 h-5" strokeWidth={2} />}
+        accentText="text-violet-300"
+        accentBg="bg-violet-500/10"
+        title="Pixel & Conversions API"
+        subtitle="Avisa o Meta quando o lead vira venda, direto do servidor."
+      >
         {capiBlock}
-      </div>
+      </Block>
 
-      {/* 3. Meta Ads — o card conectável, agora fora da lista do Google */}
-      <div className="rounded-xl border border-[#1e2d45] overflow-hidden">
-        <div className="flex items-center gap-2.5 px-4 pt-4">
-          <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-300">
-            <Megaphone className="w-5 h-5" strokeWidth={2} />
-          </div>
-          <div>
-            <h3 className="text-white font-semibold text-sm">Meta Ads</h3>
-            <p className="text-slate-500 text-[11px]">
-              Investimento, cliques, conversões e ROAS por campanha no Dashboard de Marketing.
-            </p>
-          </div>
-        </div>
+      <Block
+        id="ads"
+        open={open.ads}
+        onToggle={toggle}
+        icon={<Megaphone className="w-5 h-5" strokeWidth={2} />}
+        accentText="text-amber-300"
+        accentBg="bg-amber-500/10"
+        title="Meta Ads"
+        subtitle="Investimento, cliques, conversões e ROAS por campanha no Dashboard de Marketing."
+      >
         <CompanyIntegrations companyId={companyId} platformFilter="meta" />
-      </div>
+      </Block>
     </div>
   );
 }
 
-function LinkCard({
-  icon, accent, title, description, note, href, cta,
+function Block({
+  id, open, onToggle, icon, accentText, accentBg, title, subtitle, children,
 }: {
+  id: string;
+  open: boolean;
+  onToggle: (id: string) => void;
   icon: React.ReactNode;
-  accent: string;
+  accentText: string;
+  accentBg: string;
   title: string;
-  description: string;
-  note?: string;
-  href: string;
-  cta: string;
+  subtitle: string;
+  children: React.ReactNode;
 }) {
-  const [iconColor, iconBg, border] = accent.split(" ");
   return (
-    <div className={`rounded-xl border ${border} bg-white/[0.02] p-4`}>
-      <div className="flex items-start gap-3">
-        <div className={`w-9 h-9 rounded-lg ${iconBg} flex items-center justify-center ${iconColor} flex-shrink-0`}>
+    <div className="rounded-xl border border-[#1e2d45] bg-white/[0.02] overflow-hidden">
+      <button
+        onClick={() => onToggle(id)}
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.03] transition-colors text-left"
+      >
+        <div className={`w-9 h-9 rounded-lg ${accentBg} flex items-center justify-center ${accentText} flex-shrink-0`}>
           {icon}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-semibold text-sm">{title}</h3>
-          <p className="text-slate-400 text-xs mt-0.5">{description}</p>
-          {note && (
-            <p className="text-slate-600 text-[11px] mt-1.5 flex items-start gap-1.5">
-              <Settings2 className="w-3 h-3 mt-0.5 flex-shrink-0" />
-              {note}
-            </p>
-          )}
+          <p className="text-slate-500 text-[11px]">{subtitle}</p>
         </div>
-        <a
-          href={href}
-          className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-semibold transition-colors"
-        >
-          {cta} <ArrowUpRight className="w-3 h-3" />
-        </a>
-      </div>
+        {open
+          ? <ChevronDown className="w-4 h-4 text-slate-500 flex-shrink-0" />
+          : <ChevronRight className="w-4 h-4 text-slate-500 flex-shrink-0" />}
+      </button>
+      {open && <div className="px-4 pb-4">{children}</div>}
     </div>
   );
 }
