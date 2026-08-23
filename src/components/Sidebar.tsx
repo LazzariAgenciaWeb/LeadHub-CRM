@@ -119,6 +119,20 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
     // 1. Pathname precisa bater (exato ou descendente)
     if (pathname !== hrefPath && !pathname.startsWith(hrefPath + "/")) return false;
 
+    // 1b. Match por descendência não vale quando existe item MAIS específico no
+    //     menu. "/instagram" (Atrair) é prefixo de "/instagram/inbox" (Atender):
+    //     sem isto os dois acendem ao mesmo tempo. Vence sempre o href mais
+    //     longo que casa com a URL atual.
+    if (pathname !== hrefPath) {
+      const maisEspecifico = navGroups.some((g) =>
+        g.items.some((i) => {
+          const p = i.href.split("?")[0];
+          return p.length > hrefPath.length && (pathname === p || pathname.startsWith(p + "/"));
+        })
+      );
+      if (maisEspecifico) return false;
+    }
+
     // 2. Se href tem query string, todos os params declarados precisam bater na URL atual.
     //    Ex: "/relatorios?secao=marketing" só ativa quando secao=marketing está na URL.
     if (hrefQuery) {
