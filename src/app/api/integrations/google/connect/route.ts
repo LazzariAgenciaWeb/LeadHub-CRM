@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { buildAuthorizeUrl, type GoogleService } from "@/lib/google-oauth";
-import { assertModule } from "@/lib/billing";
+import { assertModule, assertFeature } from "@/lib/billing";
 
 // GET /api/integrations/google/connect?companyId=X&services=ga4,sc[,gbp]
 //
@@ -36,6 +36,13 @@ export async function GET(req: NextRequest) {
     .split(",")
     .map((s) => s.trim().toLowerCase())
     .filter((s): s is GoogleService => s === "ga4" || s === "sc" || s === "gbp" || s === "gads");
+
+  // Conectar Google Ads exige a feature, não só o módulo Marketing: senão o
+  // plano Free conectaria a conta e veria investimento e ROAS.
+  if (services.includes("gads")) {
+    const adsGate = await assertFeature(session, "googleAds");
+    if (!adsGate.ok) return adsGate.response;
+  }
 
   if (services.length === 0) {
     return NextResponse.json({ error: "services inválidos (use: ga4,sc,gbp,gads)" }, { status: 400 });

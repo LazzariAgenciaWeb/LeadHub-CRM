@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { assertModule } from "@/lib/billing";
+import { assertModule, assertFeature } from "@/lib/billing";
 
 // GET /api/companies/[id]/marketing/ads/breakdown
 //        ?provider=META_ADS&campaignId=123[&campaignName=X]&days=30
@@ -14,6 +14,10 @@ import { assertModule } from "@/lib/billing";
 // `campaignName` é fallback: as linhas de AdCreative sincronizadas antes da
 // migration 20260822_ad_creative_ids não têm externalCampaignId. Sem ele a
 // tela viria vazia até o próximo sync.
+
+/** Ads é feature de plano; o módulo Marketing sozinho não basta. */
+const ADS_FEATURE = { GOOGLE_ADS: "googleAds", META_ADS: "metaAds" } as const;
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -30,6 +34,12 @@ export async function GET(
 
   const url = new URL(req.url);
   const provider = (url.searchParams.get("provider") || "").toUpperCase() === "META_ADS" ? "META_ADS" : "GOOGLE_ADS";
+
+  // Google Ads e Meta Ads são features do plano, não do módulo: o Dashboard de
+  // Marketing existe em todos, o dado pago não.
+  const adsGate = await assertFeature(session, ADS_FEATURE[provider]);
+  if (!adsGate.ok) return adsGate.response;
+
   const campaignId = url.searchParams.get("campaignId");
   const campaignName = url.searchParams.get("campaignName");
   const days = Math.max(7, Math.min(90, parseInt(url.searchParams.get("days") || "30", 10)));

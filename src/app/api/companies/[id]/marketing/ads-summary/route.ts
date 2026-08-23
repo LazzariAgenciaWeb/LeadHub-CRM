@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { assertModule } from "@/lib/billing";
+import { assertModule, assertFeature } from "@/lib/billing";
 
 // GET /api/companies/[id]/marketing/ads-summary?days=30
 //
@@ -64,7 +64,13 @@ export async function GET(
   const byProviderPrev = new Map(prevRows.map((r) => [r.provider, r]));
   const integByProvider = new Map(integrations.map((i) => [i.provider, i]));
 
-  const PROVIDERS = ["GOOGLE_ADS", "META_ADS"] as const;
+  // Só entra no resumo o provedor que o plano libera — senão o Free veria
+  // investimento de mídia no painel de entrada.
+  const allowed = {
+    GOOGLE_ADS: (await assertFeature(session, "googleAds")).ok,
+    META_ADS: (await assertFeature(session, "metaAds")).ok,
+  };
+  const PROVIDERS = (["GOOGLE_ADS", "META_ADS"] as const).filter((pv) => allowed[pv]);
   const providers = PROVIDERS.map((provider) => {
     const cur = curRows.find((r) => r.provider === provider);
     const prev = byProviderPrev.get(provider);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma";
 import { backfillExceptions, effectiveFeatures, MODULES, type CompanyModuleField } from "@/lib/modules";
 import type { PlanFeatures, PlanTier } from "@/lib/plans";
 
@@ -123,8 +124,37 @@ export async function POST(req: NextRequest) {
     grandfathered.push(`${c.name} [${tier}]`);
   }
 
+  // ── Passe 3: limpa exceção redundante ───────────────────────────────────
+  //
+  // Exceção que diz a mesma coisa que o plano só polui: aparece como
+  // "exceção ON" na tela pra algo que o plano já dá, e infla o contador. Isso
+  // acontece naturalmente quando um módulo é promovido pra dentro do plano
+  // (foi o caso do marketing orgânico entrando no Free).
+  const todas = await prisma.subscription.findMany({
+    select: { id: true, plan: true, customFeatures: true, company: { select: { name: true } } },
+  });
+  let limpas = 0;
+  for (const sub of todas) {
+    const custom = (sub.customFeatures as Partial<PlanFeatures> | null) ?? null;
+    if (!custom || Object.keys(custom).length === 0) continue;
+    const planFeatures = effectiveFeatures((sub.plan as PlanTier) ?? "FREE", null);
+
+    const next: Partial<PlanFeatures> = {};
+    for (const [k, v] of Object.entries(custom)) {
+      if (planFeatures[k as keyof PlanFeatures] !== v) (next as any)[k] = v;
+    }
+    if (Object.keys(next).length === Object.keys(custom).length) continue;
+
+    await prisma.subscription.update({
+      where: { id: sub.id },
+      data: { customFeatures: Object.keys(next).length ? (next as any) : Prisma.JsonNull },
+    });
+    limpas++;
+  }
+
   return NextResponse.json({
     ok: true,
+    redundantesLimpas: limpas,
     total: companies.length,
     migrated: migrated.length,
     unchanged,

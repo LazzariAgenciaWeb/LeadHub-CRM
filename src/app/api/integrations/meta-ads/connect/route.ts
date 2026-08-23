@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { assertModule } from "@/lib/billing";
+import { assertModule, assertFeature } from "@/lib/billing";
 import { buildMetaAdsAuthorizeUrl } from "@/lib/meta/meta-ads";
 
 // GET /api/integrations/meta-ads/connect?companyId=X
@@ -19,6 +19,10 @@ export async function GET(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   const gate = await assertModule(session, "marketing");
   if (!gate.ok) return gate.response;
+
+  // Mesma razão do Google Ads: Meta Ads é feature de plano.
+  const adsGate = await assertFeature(session, "metaAds");
+  if (!adsGate.ok) return adsGate.response;
 
   const auth = await authorizeVaultAccess(companyId, { checkCofreModule: false });
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: auth.status });

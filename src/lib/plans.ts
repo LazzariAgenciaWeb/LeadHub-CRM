@@ -214,11 +214,17 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 100,
     },
     features: feat({
-      // Isca: mostra o produto sem entregar o diferencial.
-      // O Dashboard de Marketing saiu daqui de propósito — é o motivo de subir.
       meuEspaco: true,
       videos: true,
-}),
+      cofreCredenciais: true,
+      // Marketing ORGÂNICO entra no Free de propósito: é a amostra que mostra
+      // o valor do produto. O que fica de fora — e é o argumento de upgrade —
+      // são as campanhas pagas (googleAds/metaAds).
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+    }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Grátis pra sempre, sem cartão",
@@ -282,20 +288,24 @@ export const PLANS: Record<PlanTier, PlanDefinition> = {
       leadsPerMonth: 1000,
     },
     features: feat({
+      // herda Free
       meuEspaco: true,
       videos: true,
-      calendario: true,
       cofreCredenciais: true,
-      // Atender
+      marketingDashboard: true,
+      googleAnalytics: true,
+      googleSearchConsole: true,
+      googleBusinessProfile: true,
+      // + operação
+      calendario: true,
       whatsapp: true,
       whatsappGrupos: true,
       inboxAvancado: true,
       tickets: true,
       tarefasInternas: true,
-      // Vender
       crmPipelineLeads: true,
       crmPipelineOportunidades: true,
-}),
+    }),
     modoAtendimentoDefault: "VISAO",
     highlights: [
       "Tudo do Organization +",

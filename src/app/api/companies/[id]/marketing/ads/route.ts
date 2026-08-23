@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
-import { assertModule } from "@/lib/billing";
+import { assertModule, assertFeature } from "@/lib/billing";
 
 // GET /api/companies/[id]/marketing/ads?days=30&provider=GOOGLE_ADS
 //
@@ -15,6 +15,10 @@ import { assertModule } from "@/lib/billing";
 //           com comparação vs período anterior
 //   - dailySeries: custo × cliques × conversões por dia
 //   - campaigns: tabela agregada por campanha
+
+/** Ads é feature de plano; o módulo Marketing sozinho não basta. */
+const ADS_FEATURE = { GOOGLE_ADS: "googleAds", META_ADS: "metaAds" } as const;
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -33,6 +37,11 @@ export async function GET(
   const days = Math.max(7, Math.min(90, parseInt(url.searchParams.get("days") || "30", 10)));
   const providerParam = (url.searchParams.get("provider") || "GOOGLE_ADS").toUpperCase();
   const provider = providerParam === "META_ADS" ? "META_ADS" : "GOOGLE_ADS";
+
+  // Google Ads e Meta Ads são features do plano, não do módulo: o Dashboard de
+  // Marketing existe em todos, o dado pago não.
+  const adsGate = await assertFeature(session, ADS_FEATURE[provider]);
+  if (!adsGate.ok) return adsGate.response;
 
   // ─── Janelas de período ────────────────────────────────────────────────────
   const today = new Date();
