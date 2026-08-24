@@ -398,6 +398,59 @@ export async function mergeCompany(
         transferred[String(t)] = res.count;
       }
 
+      // ── 12b) Financeiro ──────────────────────────────────────────────────
+      // Estas apontam pro cliente por `clientCompanyId`, não por `companyId`,
+      // então não entram na varredura genérica acima. Sem mover aqui, o passo
+      // 13 apagaria a empresa de origem e levaria contratos e cobranças junto
+      // por cascata — perda silenciosa, no meio de uma operação que a pessoa
+      // fez justamente pra NÃO perder nada.
+      transferred["clientService"] = (
+        await tx.clientService.updateMany({
+          where: { clientCompanyId: sourceId },
+          data: { clientCompanyId: targetId },
+        })
+      ).count;
+      transferred["clientInvoice"] = (
+        await tx.clientInvoice.updateMany({
+          where: { clientCompanyId: sourceId },
+          data: { clientCompanyId: targetId },
+        })
+      ).count;
+      // Sale aponta pros dois lados: o cliente que a venda virou e a agência
+      // dona da venda. Merge de sub-empresa mexe no primeiro; o segundo só
+      // importa quando se mescla a própria agência, mas custa nada cobrir.
+      transferred["sale.cliente"] = (
+        await tx.sale.updateMany({
+          where: { clientCompanyId: sourceId },
+          data: { clientCompanyId: targetId },
+        })
+      ).count;
+      transferred["sale.agencia"] = (
+        await tx.sale.updateMany({
+          where: { companyId: sourceId },
+          data: { companyId: targetId },
+        })
+      ).count;
+
+      // MonthlyTarget tem unique (companyId, month): onde as duas empresas têm
+      // meta do mesmo mês, a do destino prevalece e a da origem é descartada.
+      const mesesDoDestino = (
+        await tx.monthlyTarget.findMany({
+          where: { companyId: targetId },
+          select: { month: true },
+        })
+      ).map((m) => m.month);
+      const metasDescartadas = await tx.monthlyTarget.deleteMany({
+        where: { companyId: sourceId, month: { in: mesesDoDestino } },
+      });
+      conflicts["MonthlyTarget"] = metasDescartadas.count;
+      transferred["monthlyTarget"] = (
+        await tx.monthlyTarget.updateMany({
+          where: { companyId: sourceId },
+          data: { companyId: targetId },
+        })
+      ).count;
+
       // ── 13) Finalmente, deleta a empresa origem ──────────────────────────
       await tx.company.delete({ where: { id: sourceId } });
     },
