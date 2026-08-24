@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Download, AlertTriangle, Check, Loader2, ArrowLeft, Users, Repeat } from "lucide-react";
@@ -40,6 +40,10 @@ export default function ImportarClickup({
   const [listId, setListId] = useState(listaPadrao);
   const [incluirEncerrados, setIncluirEncerrados] = useState(encerradosIniciais);
   const [importando, setImportando] = useState(false);
+  // Navegar pra um server component lento NÃO dá retorno visual nenhum: a tela
+  // fica parada até o servidor responder, e parece que o clique não pegou.
+  // useTransition expõe esse "estou indo" pra virar spinner no botão.
+  const [navegando, iniciarPrevia] = useTransition();
   const [erro, setErro] = useState("");
   const [resultado, setResultado] = useState<{ criados: number; atualizados: number; clientesNovos: number } | null>(null);
 
@@ -122,19 +126,21 @@ export default function ImportarClickup({
               />
               Incluir encerrados
             </label>
-            {/* Link, não botão: a prévia é uma navegação normal e o relatório
-                vem montado do servidor. Sem fetch, sem JSON grande no browser. */}
-            <Link
-              href={urlPrevia}
-              prefetch={false}
-              className="px-4 py-2 rounded-lg border border-[#1e2d45] text-slate-200 hover:border-indigo-500 text-sm flex items-center gap-1.5"
+            {/* Navegação (o relatório vem montado do servidor), mas disparada
+                por botão em transition pra existir estado de "carregando". */}
+            <button
+              type="button"
+              onClick={() => iniciarPrevia(() => router.push(urlPrevia))}
+              disabled={navegando}
+              className="px-4 py-2 rounded-lg border border-[#1e2d45] text-slate-200 hover:border-indigo-500 disabled:opacity-60 text-sm flex items-center gap-1.5"
             >
-              <Download className="w-4 h-4" />
-              Ver prévia
-            </Link>
+              {navegando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              {navegando ? "Lendo o ClickUp…" : "Ver prévia"}
+            </button>
           </div>
           <p className="text-xs text-slate-600 -mt-2">
             A prévia só lê o ClickUp. Nada é gravado até você confirmar.
+            {navegando && " A leitura é paginada e pode levar alguns segundos."}
           </p>
         </>
       )}
