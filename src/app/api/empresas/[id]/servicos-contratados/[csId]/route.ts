@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
+import { cleanCobranca } from "@/lib/client-service-billing";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -50,6 +51,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     data.renewsAt = d && !Number.isNaN(d.getTime()) ? d : null;
   }
   if (body.details !== undefined) data.details = cleanDetails(body.details) ?? Prisma.DbNull;
+  // Cobrança vem em bloco: mexer em "é recorrente" sem revisar ciclo e dia
+  // deixaria combinação inválida (pontual guardando dia de vencimento).
+  if (body.isRecurring !== undefined || body.amountCents !== undefined) {
+    Object.assign(data, cleanCobranca(body));
+  }
   if (body.serviceId !== undefined) {
     if (body.serviceId) {
       const svc = await prisma.service.findFirst({ where: { id: String(body.serviceId), companyId: res.catalogOwnerId }, select: { id: true } });

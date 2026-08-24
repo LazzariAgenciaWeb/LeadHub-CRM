@@ -9,8 +9,14 @@ type Item = {
   id: string; serviceId: string | null; serviceName: string | null;
   label: string; status: string; renewsAt: string | null;
   url: string | null; notes: string | null; details: Detail[] | null;
+  amountCents: number | null; isRecurring: boolean;
+  billingCycle: string | null; billingDay: number | null;
 };
 type Catalog = { id: string; name: string };
+
+const CICLO_LABEL: Record<string, string> = {
+  MENSAL: "mês", TRIMESTRAL: "trimestre", ANUAL: "ano",
+};
 
 const STATUS: Record<string, { label: string; cls: string }> = {
   ATIVO:          { label: "Ativo",          cls: "bg-emerald-500/15 text-emerald-400" },
@@ -38,16 +44,27 @@ export default function CompanyContractedServices({
   const [fUrl, setFUrl] = useState("");
   const [fNotes, setFNotes] = useState("");
   const [fDetails, setFDetails] = useState<Detail[]>([]);
+  // Cobrança: é isto que faz o contrato existir pro Financeiro. Sem valor e
+  // sem recorrência ele não entra na previsão do mês nem na fila "a faturar".
+  const [fRecorrente, setFRecorrente] = useState(false);
+  const [fValor, setFValor] = useState("");
+  const [fCiclo, setFCiclo] = useState("MENSAL");
+  const [fDia, setFDia] = useState("");
 
   function openNew() {
     setEditing("new"); setErr("");
     setFServiceId(""); setFLabel(""); setFStatus("ATIVO"); setFRenews(""); setFUrl(""); setFNotes(""); setFDetails([]);
+    setFRecorrente(false); setFValor(""); setFCiclo("MENSAL"); setFDia("");
   }
   function openEdit(it: Item) {
     setEditing(it); setErr("");
     setFServiceId(it.serviceId ?? ""); setFLabel(it.label); setFStatus(it.status);
     setFRenews(it.renewsAt ? it.renewsAt.slice(0, 10) : ""); setFUrl(it.url ?? ""); setFNotes(it.notes ?? "");
     setFDetails(it.details ?? []);
+    setFRecorrente(it.isRecurring);
+    setFValor(it.amountCents != null ? (it.amountCents / 100).toFixed(2).replace(".", ",") : "");
+    setFCiclo(it.billingCycle ?? "MENSAL");
+    setFDia(it.billingDay != null ? String(it.billingDay) : "");
   }
   function close() { setEditing(null); setErr(""); }
 
@@ -68,6 +85,13 @@ export default function CompanyContractedServices({
       renewsAt: fRenews ? new Date(fRenews).toISOString() : null,
       url: fUrl.trim() || null, notes: fNotes.trim() || null,
       details: fDetails.filter((d) => d.label.trim() || d.value.trim()),
+      amountCents: (() => {
+        const n = parseFloat(fValor.replace(/\./g, "").replace(",", "."));
+        return Number.isFinite(n) ? Math.round(n * 100) : null;
+      })(),
+      isRecurring: fRecorrente,
+      billingCycle: fCiclo,
+      billingDay: fDia ? parseInt(fDia, 10) : null,
     };
     const isNew = editing === "new";
     const url = isNew
@@ -81,6 +105,8 @@ export default function CompanyContractedServices({
       id: data.id, serviceId: data.serviceId ?? null, serviceName: data.service?.name ?? null,
       label: data.label, status: data.status, renewsAt: data.renewsAt ?? null,
       url: data.url ?? null, notes: data.notes ?? null, details: (data.details as Detail[]) ?? null,
+      amountCents: data.amountCents ?? null, isRecurring: data.isRecurring ?? false,
+      billingCycle: data.billingCycle ?? null, billingDay: data.billingDay ?? null,
     };
     setItems((prev) => isNew ? [norm, ...prev] : prev.map((x) => x.id === norm.id ? norm : x));
     close();
@@ -123,6 +149,62 @@ export default function CompanyContractedServices({
               <input value={fLabel} onChange={(e) => setFLabel(e.target.value)} placeholder="Ex.: Hospedagem site principal" className={input + " mt-1"} />
             </div>
           </div>
+          {/* Cobrança — o bloco que liga este contrato ao Financeiro. */}
+          <div className="rounded-lg border border-[#1e2d45] bg-white/[0.02] p-3 space-y-3">
+            <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={fRecorrente}
+                onChange={(e) => setFRecorrente(e.target.checked)}
+                className="accent-indigo-500"
+              />
+              Cobrança recorrente
+              <span className="text-xs text-slate-600">— entra na previsão do mês e na fila &ldquo;a faturar&rdquo;</span>
+            </label>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-slate-400 text-xs">
+                  {fRecorrente ? "Valor por ciclo (R$)" : "Valor (R$)"}
+                </label>
+                <input
+                  value={fValor}
+                  onChange={(e) => setFValor(e.target.value)}
+                  placeholder="0,00"
+                  className={input + " mt-1"}
+                />
+              </div>
+              {fRecorrente && (
+                <>
+                  <div>
+                    <label className="text-slate-400 text-xs">Periodicidade</label>
+                    <select value={fCiclo} onChange={(e) => setFCiclo(e.target.value)} className={input + " mt-1"}>
+                      <option value="MENSAL">Mensal</option>
+                      <option value="TRIMESTRAL">Trimestral</option>
+                      <option value="ANUAL">Anual</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-slate-400 text-xs">Dia do vencimento</label>
+                    <input
+                      type="number" min={1} max={31}
+                      value={fDia}
+                      onChange={(e) => setFDia(e.target.value)}
+                      placeholder="10"
+                      className={input + " mt-1"}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+            {fRecorrente && fCiclo !== "MENSAL" && (
+              // Trimestral e anual precisam de âncora pra saber em QUAL mês caem.
+              <p className="text-xs text-amber-400/90">
+                Contrato {fCiclo === "ANUAL" ? "anual" : "trimestral"}: preencha a
+                &ldquo;Renovação / vencimento&rdquo; abaixo — é ela que define em quais meses a cobrança cai.
+              </p>
+            )}
+          </div>
+
           <div className="grid sm:grid-cols-3 gap-3">
             <div>
               <label className="text-slate-400 text-xs">Status</label>
@@ -184,6 +266,24 @@ export default function CompanyContractedServices({
                     <span className="text-white text-sm font-semibold">{it.label}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${st.cls}`}>{st.label}</span>
                     {it.serviceName && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-500/10 text-slate-400">{it.serviceName}</span>}
+                    {it.amountCents != null && (
+                      <span className="text-[11px] text-emerald-400 font-medium">
+                        {(it.amountCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        {it.isRecurring && (
+                          <span className="text-slate-500 font-normal">
+                            {" "}/ {CICLO_LABEL[it.billingCycle ?? "MENSAL"]}
+                            {it.billingDay ? ` · dia ${it.billingDay}` : ""}
+                          </span>
+                        )}
+                      </span>
+                    )}
+                    {/* Recorrente sem valor não aparece na previsão — avisa aqui,
+                        que é onde a pessoa consegue consertar. */}
+                    {it.isRecurring && it.amountCents == null && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400">
+                        sem valor
+                      </span>
+                    )}
                   </div>
                   <div className="text-slate-500 text-[11px] mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
                     {it.renewsAt && <span>🔁 renova {new Date(it.renewsAt).toLocaleDateString("pt-BR")}</span>}

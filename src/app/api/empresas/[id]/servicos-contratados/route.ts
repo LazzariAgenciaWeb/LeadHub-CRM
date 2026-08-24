@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { cleanCobranca } from "@/lib/client-service-billing";
 
 const STATUSES = ["ATIVO", "EM_IMPLANTACAO", "PAUSADO", "ENCERRADO"];
 
@@ -37,7 +38,8 @@ async function authorize(session: any, companyId: string) {
 }
 
 // POST /api/empresas/[id]/servicos-contratados
-// Body: { serviceId?, label, status?, renewsAt?, url?, notes?, details? }
+// Body: { serviceId?, label, status?, renewsAt?, url?, notes?, details?,
+//         amountCents?, isRecurring?, billingCycle?, billingDay? }
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -71,6 +73,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       url:    body?.url ? String(body.url).trim() : null,
       notes:  body?.notes ? String(body.notes) : null,
       details: cleanDetails(body?.details) ?? undefined,
+      ...cleanCobranca(body),
+      provider: "manual",
     },
     include: { service: { select: { id: true, name: true } } },
   });

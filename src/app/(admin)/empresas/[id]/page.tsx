@@ -118,6 +118,8 @@ export default async function EmpresaDetailPage({
     id: c.id, serviceId: c.serviceId, serviceName: c.service?.name ?? null,
     label: c.label, status: c.status, renewsAt: c.renewsAt?.toISOString() ?? null,
     url: c.url, notes: c.notes, details: (c.details as any) ?? null,
+    amountCents: c.amountCents, isRecurring: c.isRecurring,
+    billingCycle: c.billingCycle, billingDay: c.billingDay,
   }));
   const invoices = invoicesRaw.map((v) => ({
     id: v.id, clientServiceId: v.clientServiceId, serviceLabel: v.clientService?.label ?? null,
