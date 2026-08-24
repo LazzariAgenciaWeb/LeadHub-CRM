@@ -46,6 +46,7 @@ model User {
   userScores            UserScore[]
   userBadges            UserBadge[]
   scoreEvents           ScoreEvent[]
+  bonuses               Bonus[]
   projectMemberships    ProjectMember[]
   rankingCategory       RankingCategory        @default(PRODUCAO)
   // Timestamp da última vez que o user "viu" os badges — pra toast de novidades
@@ -314,6 +315,7 @@ model Company {
   clientServices          ClientService[]          @relation("ClientServiceClient")
   clientInvoices          ClientInvoice[]          @relation("ClientInvoiceClient")
   monthlyTargets          MonthlyTarget[]
+  bonuses                 Bonus[]
   salesAsAgency           Sale[]                   @relation("SaleAgency")
   salesAsClient           Sale[]                   @relation("SaleClient")
   trackingLinks           TrackingLink[]
@@ -3782,6 +3784,7 @@ model ClientService {
   externalClientName String?
 
   invoices ClientInvoice[] // cobranças ligadas a este serviço
+  bonuses  Bonus[] // bonificações geradas por este contrato, por competência
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -3871,18 +3874,70 @@ model Sale {
   // ─── Esteira pós-venda ────────────────────────────────────────────────────
   contractStatus   String    @default("PENDENTE") // PENDENTE | ENVIADO | ASSINADO | DISPENSADO
   contractAt       DateTime?
-  billingStatus    String    @default("PENDENTE") // PENDENTE | FATURADO | DISPENSADO
+  billingStatus    String    @default("PENDENTE") // PENDENTE (a faturar) | FATURADO | DISPENSADO
   billedAt         DateTime?
-  productionStatus String    @default("PENDENTE") // PENDENTE | LIBERADO | DISPENSADO
-  releasedAt       DateTime?
+  // Produção tem TRÊS estágios porque são três perguntas diferentes: o que
+  // ainda preciso encaminhar, o que está sendo feito, e o que já foi entregue
+  // (que é o que libera a bonificação).
+  productionStatus String    @default("PENDENTE") // PENDENTE (a encaminhar) | LIBERADO (em produção) | ENTREGUE | DISPENSADO
+  releasedAt       DateTime? // encaminhado pra produção
+  deliveredAt      DateTime? // entregue ao cliente
 
   notes String? @db.Text
+
+  bonuses Bonus[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId, closedAt])
   @@index([companyId, clientCompanyId])
+}
+
+// Bonificação de UM colaborador, numa competência, por UMA origem.
+//
+// Tabela própria (e não campos na venda) porque o mesmo serviço pode remunerar
+// mais de uma pessoa com valores diferentes — dois colaboradores no mesmo site,
+// cada um com sua parte. Campo único obrigaria a eleger um "dono" e resolver o
+// resto por fora, que é a planilha que isto veio substituir.
+//
+// Duas origens possíveis, e os gatilhos são DIFERENTES:
+//   sale            → serviço pontual: bonifica quando é entregue.
+//   clientService   → contrato mensal: bonifica quando é faturado e o cliente
+//                     está ativo, entregue ou não.
+// Por isso `month` é obrigatório mesmo na venda pontual: é a competência em que
+// aquele pagamento entra, e é a chave que impede pagar duas vezes o mesmo mês.
+model Bonus {
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+
+  month String // competência "YYYY-MM"
+
+  sale   Sale?   @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  saleId String?
+
+  clientService   ClientService? @relation(fields: [clientServiceId], references: [id], onDelete: Cascade)
+  clientServiceId String?
+
+  // Vínculo com o login quando existe; `name` é cópia congelada, pra continuar
+  // legível se a pessoa sair da empresa — e pra bonificar quem ainda não tem
+  // conta no sistema.
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+  name   String
+
+  amountCents Int       @default(0)
+  paidAt      DateTime?
+  notes       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, month])
+  @@index([saleId])
+  @@index([clientServiceId])
+  @@index([userId, paidAt])
 }
 
 // Meta mensal da agência: quanto se pretende faturar e quanto se pretende

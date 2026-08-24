@@ -6,7 +6,7 @@ import { can } from "@/lib/permissions";
 
 const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"];
 const BILLING = ["PENDENTE", "FATURADO", "DISPENSADO"];
-const PRODUCTION = ["PENDENTE", "LIBERADO", "DISPENSADO"];
+const PRODUCTION = ["PENDENTE", "LIBERADO", "ENTREGUE", "DISPENSADO"];
 
 /**
  * A data do checkpoint acompanha o status: sair de PENDENTE carimba agora,
@@ -65,8 +65,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (productionStatus !== undefined) {
     if (!PRODUCTION.includes(productionStatus)) return NextResponse.json({ error: "Status de produção inválido" }, { status: 400 });
     data.productionStatus = productionStatus;
-    const s = stamp(productionStatus, sale.productionStatus, sale.releasedAt);
-    if ("at" in s) data.releasedAt = s.at;
+    // Duas datas, porque respondem perguntas diferentes: quando saiu pra
+    // produção e quando chegou ao cliente. A segunda é a que conta pro
+    // fechamento de bonificação.
+    if (productionStatus === "PENDENTE") {
+      data.releasedAt = null;
+      data.deliveredAt = null;
+    } else {
+      if (!sale.releasedAt) data.releasedAt = new Date();
+      data.deliveredAt = productionStatus === "ENTREGUE" ? (sale.deliveredAt ?? new Date()) : null;
+    }
   }
 
   if (body?.kind !== undefined) {

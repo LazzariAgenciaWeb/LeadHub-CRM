@@ -1760,6 +1760,22 @@ exports.Prisma.SaleScalarFieldEnum = {
   billedAt: 'billedAt',
   productionStatus: 'productionStatus',
   releasedAt: 'releasedAt',
+  deliveredAt: 'deliveredAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BonusScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  month: 'month',
+  saleId: 'saleId',
+  clientServiceId: 'clientServiceId',
+  userId: 'userId',
+  name: 'name',
+  amountCents: 'amountCents',
+  paidAt: 'paidAt',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2443,6 +2459,7 @@ exports.Prisma.ModelName = {
   ClientService: 'ClientService',
   ClientInvoice: 'ClientInvoice',
   Sale: 'Sale',
+  Bonus: 'Bonus',
   MonthlyTarget: 'MonthlyTarget',
   VideoCategory: 'VideoCategory',
   VideoCategoryRelease: 'VideoCategoryRelease',

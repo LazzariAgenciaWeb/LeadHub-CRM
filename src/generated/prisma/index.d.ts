@@ -559,6 +559,11 @@ export type ClientInvoice = $Result.DefaultSelection<Prisma.$ClientInvoicePayloa
  */
 export type Sale = $Result.DefaultSelection<Prisma.$SalePayload>
 /**
+ * Model Bonus
+ * 
+ */
+export type Bonus = $Result.DefaultSelection<Prisma.$BonusPayload>
+/**
  * Model MonthlyTarget
  * 
  */
@@ -2619,6 +2624,16 @@ export class PrismaClient<
   get sale(): Prisma.SaleDelegate<ExtArgs>;
 
   /**
+   * `prisma.bonus`: Exposes CRUD operations for the **Bonus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bonuses
+    * const bonuses = await prisma.bonus.findMany()
+    * ```
+    */
+  get bonus(): Prisma.BonusDelegate<ExtArgs>;
+
+  /**
    * `prisma.monthlyTarget`: Exposes CRUD operations for the **MonthlyTarget** model.
     * Example usage:
     * ```ts
@@ -3257,6 +3272,7 @@ export namespace Prisma {
     ClientService: 'ClientService',
     ClientInvoice: 'ClientInvoice',
     Sale: 'Sale',
+    Bonus: 'Bonus',
     MonthlyTarget: 'MonthlyTarget',
     VideoCategory: 'VideoCategory',
     VideoCategoryRelease: 'VideoCategoryRelease',
@@ -3281,7 +3297,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "sale" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
+      modelProps: "user" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectService" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "clientInvoice" | "sale" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -10915,6 +10931,76 @@ export namespace Prisma {
           }
         }
       }
+      Bonus: {
+        payload: Prisma.$BonusPayload<ExtArgs>
+        fields: Prisma.BonusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BonusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BonusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          findFirst: {
+            args: Prisma.BonusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BonusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          findMany: {
+            args: Prisma.BonusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>[]
+          }
+          create: {
+            args: Prisma.BonusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          createMany: {
+            args: Prisma.BonusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BonusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>[]
+          }
+          delete: {
+            args: Prisma.BonusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          update: {
+            args: Prisma.BonusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          deleteMany: {
+            args: Prisma.BonusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BonusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BonusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonusPayload>
+          }
+          aggregate: {
+            args: Prisma.BonusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBonus>
+          }
+          groupBy: {
+            args: Prisma.BonusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BonusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BonusCountArgs<ExtArgs>
+            result: $Utils.Optional<BonusCountAggregateOutputType> | number
+          }
+        }
+      }
       MonthlyTarget: {
         payload: Prisma.$MonthlyTargetPayload<ExtArgs>
         fields: Prisma.MonthlyTargetFieldRefs
@@ -11716,6 +11802,7 @@ export namespace Prisma {
     userScores: number
     userBadges: number
     scoreEvents: number
+    bonuses: number
     projectMemberships: number
     rewardRedemptions: number
     messagesSent: number
@@ -11751,6 +11838,7 @@ export namespace Prisma {
     userScores?: boolean | UserCountOutputTypeCountUserScoresArgs
     userBadges?: boolean | UserCountOutputTypeCountUserBadgesArgs
     scoreEvents?: boolean | UserCountOutputTypeCountScoreEventsArgs
+    bonuses?: boolean | UserCountOutputTypeCountBonusesArgs
     projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
     rewardRedemptions?: boolean | UserCountOutputTypeCountRewardRedemptionsArgs
     messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
@@ -11854,6 +11942,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountScoreEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ScoreEventWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonusWhereInput
   }
 
   /**
@@ -12048,6 +12143,7 @@ export namespace Prisma {
     clientServices: number
     clientInvoices: number
     monthlyTargets: number
+    bonuses: number
     salesAsAgency: number
     salesAsClient: number
     trackingLinks: number
@@ -12133,6 +12229,7 @@ export namespace Prisma {
     clientServices?: boolean | CompanyCountOutputTypeCountClientServicesArgs
     clientInvoices?: boolean | CompanyCountOutputTypeCountClientInvoicesArgs
     monthlyTargets?: boolean | CompanyCountOutputTypeCountMonthlyTargetsArgs
+    bonuses?: boolean | CompanyCountOutputTypeCountBonusesArgs
     salesAsAgency?: boolean | CompanyCountOutputTypeCountSalesAsAgencyArgs
     salesAsClient?: boolean | CompanyCountOutputTypeCountSalesAsClientArgs
     trackingLinks?: boolean | CompanyCountOutputTypeCountTrackingLinksArgs
@@ -12418,6 +12515,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountMonthlyTargetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MonthlyTargetWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonusWhereInput
   }
 
   /**
@@ -14085,10 +14189,12 @@ export namespace Prisma {
 
   export type ClientServiceCountOutputType = {
     invoices: number
+    bonuses: number
   }
 
   export type ClientServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoices?: boolean | ClientServiceCountOutputTypeCountInvoicesArgs
+    bonuses?: boolean | ClientServiceCountOutputTypeCountBonusesArgs
   }
 
   // Custom InputTypes
@@ -14107,6 +14213,44 @@ export namespace Prisma {
    */
   export type ClientServiceCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClientInvoiceWhereInput
+  }
+
+  /**
+   * ClientServiceCountOutputType without action
+   */
+  export type ClientServiceCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonusWhereInput
+  }
+
+
+  /**
+   * Count Type SaleCountOutputType
+   */
+
+  export type SaleCountOutputType = {
+    bonuses: number
+  }
+
+  export type SaleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bonuses?: boolean | SaleCountOutputTypeCountBonusesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SaleCountOutputType without action
+   */
+  export type SaleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SaleCountOutputType
+     */
+    select?: SaleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SaleCountOutputType without action
+   */
+  export type SaleCountOutputTypeCountBonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonusWhereInput
   }
 
 
@@ -14402,6 +14546,7 @@ export namespace Prisma {
     userScores?: boolean | User$userScoresArgs<ExtArgs>
     userBadges?: boolean | User$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
+    bonuses?: boolean | User$bonusesArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
@@ -14476,6 +14621,7 @@ export namespace Prisma {
     userScores?: boolean | User$userScoresArgs<ExtArgs>
     userBadges?: boolean | User$userBadgesArgs<ExtArgs>
     scoreEvents?: boolean | User$scoreEventsArgs<ExtArgs>
+    bonuses?: boolean | User$bonusesArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     rewardRedemptions?: boolean | User$rewardRedemptionsArgs<ExtArgs>
     messagesSent?: boolean | User$messagesSentArgs<ExtArgs>
@@ -14520,6 +14666,7 @@ export namespace Prisma {
       userScores: Prisma.$UserScorePayload<ExtArgs>[]
       userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
       scoreEvents: Prisma.$ScoreEventPayload<ExtArgs>[]
+      bonuses: Prisma.$BonusPayload<ExtArgs>[]
       projectMemberships: Prisma.$ProjectMemberPayload<ExtArgs>[]
       rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
       messagesSent: Prisma.$MessagePayload<ExtArgs>[]
@@ -14935,6 +15082,7 @@ export namespace Prisma {
     userScores<T extends User$userScoresArgs<ExtArgs> = {}>(args?: Subset<T, User$userScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany"> | Null>
     userBadges<T extends User$userBadgesArgs<ExtArgs> = {}>(args?: Subset<T, User$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany"> | Null>
     scoreEvents<T extends User$scoreEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$scoreEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScoreEventPayload<ExtArgs>, T, "findMany"> | Null>
+    bonuses<T extends User$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, User$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     projectMemberships<T extends User$projectMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     rewardRedemptions<T extends User$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany"> | Null>
     messagesSent<T extends User$messagesSentArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany"> | Null>
@@ -15546,6 +15694,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ScoreEventScalarFieldEnum | ScoreEventScalarFieldEnum[]
+  }
+
+  /**
+   * User.bonuses
+   */
+  export type User$bonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    where?: BonusWhereInput
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    cursor?: BonusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
   }
 
   /**
@@ -20547,6 +20715,7 @@ export namespace Prisma {
     clientServices?: boolean | Company$clientServicesArgs<ExtArgs>
     clientInvoices?: boolean | Company$clientInvoicesArgs<ExtArgs>
     monthlyTargets?: boolean | Company$monthlyTargetsArgs<ExtArgs>
+    bonuses?: boolean | Company$bonusesArgs<ExtArgs>
     salesAsAgency?: boolean | Company$salesAsAgencyArgs<ExtArgs>
     salesAsClient?: boolean | Company$salesAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
@@ -20729,6 +20898,7 @@ export namespace Prisma {
     clientServices?: boolean | Company$clientServicesArgs<ExtArgs>
     clientInvoices?: boolean | Company$clientInvoicesArgs<ExtArgs>
     monthlyTargets?: boolean | Company$monthlyTargetsArgs<ExtArgs>
+    bonuses?: boolean | Company$bonusesArgs<ExtArgs>
     salesAsAgency?: boolean | Company$salesAsAgencyArgs<ExtArgs>
     salesAsClient?: boolean | Company$salesAsClientArgs<ExtArgs>
     trackingLinks?: boolean | Company$trackingLinksArgs<ExtArgs>
@@ -20825,6 +20995,7 @@ export namespace Prisma {
       clientServices: Prisma.$ClientServicePayload<ExtArgs>[]
       clientInvoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
       monthlyTargets: Prisma.$MonthlyTargetPayload<ExtArgs>[]
+      bonuses: Prisma.$BonusPayload<ExtArgs>[]
       salesAsAgency: Prisma.$SalePayload<ExtArgs>[]
       salesAsClient: Prisma.$SalePayload<ExtArgs>[]
       trackingLinks: Prisma.$TrackingLinkPayload<ExtArgs>[]
@@ -21320,6 +21491,7 @@ export namespace Prisma {
     clientServices<T extends Company$clientServicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findMany"> | Null>
     clientInvoices<T extends Company$clientInvoicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientInvoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     monthlyTargets<T extends Company$monthlyTargetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$monthlyTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonthlyTargetPayload<ExtArgs>, T, "findMany"> | Null>
+    bonuses<T extends Company$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, Company$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     salesAsAgency<T extends Company$salesAsAgencyArgs<ExtArgs> = {}>(args?: Subset<T, Company$salesAsAgencyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
     salesAsClient<T extends Company$salesAsClientArgs<ExtArgs> = {}>(args?: Subset<T, Company$salesAsClientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
     trackingLinks<T extends Company$trackingLinksArgs<ExtArgs> = {}>(args?: Subset<T, Company$trackingLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrackingLinkPayload<ExtArgs>, T, "findMany"> | Null>
@@ -22429,6 +22601,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MonthlyTargetScalarFieldEnum | MonthlyTargetScalarFieldEnum[]
+  }
+
+  /**
+   * Company.bonuses
+   */
+  export type Company$bonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    where?: BonusWhereInput
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    cursor?: BonusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
   }
 
   /**
@@ -129815,6 +130007,7 @@ export namespace Prisma {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
+    bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
     _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clientService"]>
 
@@ -129868,6 +130061,7 @@ export namespace Prisma {
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
     service?: boolean | ClientService$serviceArgs<ExtArgs>
     invoices?: boolean | ClientService$invoicesArgs<ExtArgs>
+    bonuses?: boolean | ClientService$bonusesArgs<ExtArgs>
     _count?: boolean | ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -129881,6 +130075,7 @@ export namespace Prisma {
       clientCompany: Prisma.$CompanyPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs> | null
       invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
+      bonuses: Prisma.$BonusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -130269,6 +130464,7 @@ export namespace Prisma {
     clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     service<T extends ClientService$serviceArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$serviceArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     invoices<T extends ClientService$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
+    bonuses<T extends ClientService$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, ClientService$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -130667,6 +130863,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClientInvoiceScalarFieldEnum | ClientInvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * ClientService.bonuses
+   */
+  export type ClientService$bonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    where?: BonusWhereInput
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    cursor?: BonusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
   }
 
   /**
@@ -131842,6 +132058,7 @@ export namespace Prisma {
     billedAt: Date | null
     productionStatus: string | null
     releasedAt: Date | null
+    deliveredAt: Date | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -131865,6 +132082,7 @@ export namespace Prisma {
     billedAt: Date | null
     productionStatus: string | null
     releasedAt: Date | null
+    deliveredAt: Date | null
     notes: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -131888,6 +132106,7 @@ export namespace Prisma {
     billedAt: number
     productionStatus: number
     releasedAt: number
+    deliveredAt: number
     notes: number
     createdAt: number
     updatedAt: number
@@ -131921,6 +132140,7 @@ export namespace Prisma {
     billedAt?: true
     productionStatus?: true
     releasedAt?: true
+    deliveredAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -131944,6 +132164,7 @@ export namespace Prisma {
     billedAt?: true
     productionStatus?: true
     releasedAt?: true
+    deliveredAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -131967,6 +132188,7 @@ export namespace Prisma {
     billedAt?: true
     productionStatus?: true
     releasedAt?: true
+    deliveredAt?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -132077,6 +132299,7 @@ export namespace Prisma {
     billedAt: Date | null
     productionStatus: string
     releasedAt: Date | null
+    deliveredAt: Date | null
     notes: string | null
     createdAt: Date
     updatedAt: Date
@@ -132119,12 +132342,15 @@ export namespace Prisma {
     billedAt?: boolean
     productionStatus?: boolean
     releasedAt?: boolean
+    deliveredAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
+    _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
   export type SaleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -132145,6 +132371,7 @@ export namespace Prisma {
     billedAt?: boolean
     productionStatus?: boolean
     releasedAt?: boolean
+    deliveredAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -132171,6 +132398,7 @@ export namespace Prisma {
     billedAt?: boolean
     productionStatus?: boolean
     releasedAt?: boolean
+    deliveredAt?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -132180,6 +132408,8 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
+    _count?: boolean | SaleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SaleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -132193,6 +132423,7 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       lead: Prisma.$LeadPayload<ExtArgs> | null
       clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
+      bonuses: Prisma.$BonusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -132212,6 +132443,7 @@ export namespace Prisma {
       billedAt: Date | null
       productionStatus: string
       releasedAt: Date | null
+      deliveredAt: Date | null
       notes: string | null
       createdAt: Date
       updatedAt: Date
@@ -132582,6 +132814,7 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     lead<T extends Sale$leadArgs<ExtArgs> = {}>(args?: Subset<T, Sale$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     clientCompany<T extends Sale$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Sale$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    bonuses<T extends Sale$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -132628,6 +132861,7 @@ export namespace Prisma {
     readonly billedAt: FieldRef<"Sale", 'DateTime'>
     readonly productionStatus: FieldRef<"Sale", 'String'>
     readonly releasedAt: FieldRef<"Sale", 'DateTime'>
+    readonly deliveredAt: FieldRef<"Sale", 'DateTime'>
     readonly notes: FieldRef<"Sale", 'String'>
     readonly createdAt: FieldRef<"Sale", 'DateTime'>
     readonly updatedAt: FieldRef<"Sale", 'DateTime'>
@@ -132979,6 +133213,26 @@ export namespace Prisma {
   }
 
   /**
+   * Sale.bonuses
+   */
+  export type Sale$bonusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    where?: BonusWhereInput
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    cursor?: BonusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
+  }
+
+  /**
    * Sale without action
    */
   export type SaleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -132990,6 +133244,1120 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SaleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Bonus
+   */
+
+  export type AggregateBonus = {
+    _count: BonusCountAggregateOutputType | null
+    _avg: BonusAvgAggregateOutputType | null
+    _sum: BonusSumAggregateOutputType | null
+    _min: BonusMinAggregateOutputType | null
+    _max: BonusMaxAggregateOutputType | null
+  }
+
+  export type BonusAvgAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type BonusSumAggregateOutputType = {
+    amountCents: number | null
+  }
+
+  export type BonusMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    month: string | null
+    saleId: string | null
+    clientServiceId: string | null
+    userId: string | null
+    name: string | null
+    amountCents: number | null
+    paidAt: Date | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BonusMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    month: string | null
+    saleId: string | null
+    clientServiceId: string | null
+    userId: string | null
+    name: string | null
+    amountCents: number | null
+    paidAt: Date | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BonusCountAggregateOutputType = {
+    id: number
+    companyId: number
+    month: number
+    saleId: number
+    clientServiceId: number
+    userId: number
+    name: number
+    amountCents: number
+    paidAt: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BonusAvgAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type BonusSumAggregateInputType = {
+    amountCents?: true
+  }
+
+  export type BonusMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    month?: true
+    saleId?: true
+    clientServiceId?: true
+    userId?: true
+    name?: true
+    amountCents?: true
+    paidAt?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BonusMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    month?: true
+    saleId?: true
+    clientServiceId?: true
+    userId?: true
+    name?: true
+    amountCents?: true
+    paidAt?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BonusCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    month?: true
+    saleId?: true
+    clientServiceId?: true
+    userId?: true
+    name?: true
+    amountCents?: true
+    paidAt?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BonusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bonus to aggregate.
+     */
+    where?: BonusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonuses to fetch.
+     */
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BonusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Bonuses
+    **/
+    _count?: true | BonusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BonusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BonusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BonusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BonusMaxAggregateInputType
+  }
+
+  export type GetBonusAggregateType<T extends BonusAggregateArgs> = {
+        [P in keyof T & keyof AggregateBonus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBonus[P]>
+      : GetScalarType<T[P], AggregateBonus[P]>
+  }
+
+
+
+
+  export type BonusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonusWhereInput
+    orderBy?: BonusOrderByWithAggregationInput | BonusOrderByWithAggregationInput[]
+    by: BonusScalarFieldEnum[] | BonusScalarFieldEnum
+    having?: BonusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BonusCountAggregateInputType | true
+    _avg?: BonusAvgAggregateInputType
+    _sum?: BonusSumAggregateInputType
+    _min?: BonusMinAggregateInputType
+    _max?: BonusMaxAggregateInputType
+  }
+
+  export type BonusGroupByOutputType = {
+    id: string
+    companyId: string
+    month: string
+    saleId: string | null
+    clientServiceId: string | null
+    userId: string | null
+    name: string
+    amountCents: number
+    paidAt: Date | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BonusCountAggregateOutputType | null
+    _avg: BonusAvgAggregateOutputType | null
+    _sum: BonusSumAggregateOutputType | null
+    _min: BonusMinAggregateOutputType | null
+    _max: BonusMaxAggregateOutputType | null
+  }
+
+  type GetBonusGroupByPayload<T extends BonusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BonusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BonusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BonusGroupByOutputType[P]>
+            : GetScalarType<T[P], BonusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BonusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    month?: boolean
+    saleId?: boolean
+    clientServiceId?: boolean
+    userId?: boolean
+    name?: boolean
+    amountCents?: boolean
+    paidAt?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    sale?: boolean | Bonus$saleArgs<ExtArgs>
+    clientService?: boolean | Bonus$clientServiceArgs<ExtArgs>
+    user?: boolean | Bonus$userArgs<ExtArgs>
+  }, ExtArgs["result"]["bonus"]>
+
+  export type BonusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    month?: boolean
+    saleId?: boolean
+    clientServiceId?: boolean
+    userId?: boolean
+    name?: boolean
+    amountCents?: boolean
+    paidAt?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    sale?: boolean | Bonus$saleArgs<ExtArgs>
+    clientService?: boolean | Bonus$clientServiceArgs<ExtArgs>
+    user?: boolean | Bonus$userArgs<ExtArgs>
+  }, ExtArgs["result"]["bonus"]>
+
+  export type BonusSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    month?: boolean
+    saleId?: boolean
+    clientServiceId?: boolean
+    userId?: boolean
+    name?: boolean
+    amountCents?: boolean
+    paidAt?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BonusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    sale?: boolean | Bonus$saleArgs<ExtArgs>
+    clientService?: boolean | Bonus$clientServiceArgs<ExtArgs>
+    user?: boolean | Bonus$userArgs<ExtArgs>
+  }
+  export type BonusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    sale?: boolean | Bonus$saleArgs<ExtArgs>
+    clientService?: boolean | Bonus$clientServiceArgs<ExtArgs>
+    user?: boolean | Bonus$userArgs<ExtArgs>
+  }
+
+  export type $BonusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Bonus"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      sale: Prisma.$SalePayload<ExtArgs> | null
+      clientService: Prisma.$ClientServicePayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      month: string
+      saleId: string | null
+      clientServiceId: string | null
+      userId: string | null
+      name: string
+      amountCents: number
+      paidAt: Date | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bonus"]>
+    composites: {}
+  }
+
+  type BonusGetPayload<S extends boolean | null | undefined | BonusDefaultArgs> = $Result.GetResult<Prisma.$BonusPayload, S>
+
+  type BonusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<BonusFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: BonusCountAggregateInputType | true
+    }
+
+  export interface BonusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Bonus'], meta: { name: 'Bonus' } }
+    /**
+     * Find zero or one Bonus that matches the filter.
+     * @param {BonusFindUniqueArgs} args - Arguments to find a Bonus
+     * @example
+     * // Get one Bonus
+     * const bonus = await prisma.bonus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BonusFindUniqueArgs>(args: SelectSubset<T, BonusFindUniqueArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Bonus that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {BonusFindUniqueOrThrowArgs} args - Arguments to find a Bonus
+     * @example
+     * // Get one Bonus
+     * const bonus = await prisma.bonus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BonusFindUniqueOrThrowArgs>(args: SelectSubset<T, BonusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Bonus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusFindFirstArgs} args - Arguments to find a Bonus
+     * @example
+     * // Get one Bonus
+     * const bonus = await prisma.bonus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BonusFindFirstArgs>(args?: SelectSubset<T, BonusFindFirstArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Bonus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusFindFirstOrThrowArgs} args - Arguments to find a Bonus
+     * @example
+     * // Get one Bonus
+     * const bonus = await prisma.bonus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BonusFindFirstOrThrowArgs>(args?: SelectSubset<T, BonusFindFirstOrThrowArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Bonuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bonuses
+     * const bonuses = await prisma.bonus.findMany()
+     * 
+     * // Get first 10 Bonuses
+     * const bonuses = await prisma.bonus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bonusWithIdOnly = await prisma.bonus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BonusFindManyArgs>(args?: SelectSubset<T, BonusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Bonus.
+     * @param {BonusCreateArgs} args - Arguments to create a Bonus.
+     * @example
+     * // Create one Bonus
+     * const Bonus = await prisma.bonus.create({
+     *   data: {
+     *     // ... data to create a Bonus
+     *   }
+     * })
+     * 
+     */
+    create<T extends BonusCreateArgs>(args: SelectSubset<T, BonusCreateArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Bonuses.
+     * @param {BonusCreateManyArgs} args - Arguments to create many Bonuses.
+     * @example
+     * // Create many Bonuses
+     * const bonus = await prisma.bonus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BonusCreateManyArgs>(args?: SelectSubset<T, BonusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Bonuses and returns the data saved in the database.
+     * @param {BonusCreateManyAndReturnArgs} args - Arguments to create many Bonuses.
+     * @example
+     * // Create many Bonuses
+     * const bonus = await prisma.bonus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Bonuses and only return the `id`
+     * const bonusWithIdOnly = await prisma.bonus.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BonusCreateManyAndReturnArgs>(args?: SelectSubset<T, BonusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Bonus.
+     * @param {BonusDeleteArgs} args - Arguments to delete one Bonus.
+     * @example
+     * // Delete one Bonus
+     * const Bonus = await prisma.bonus.delete({
+     *   where: {
+     *     // ... filter to delete one Bonus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BonusDeleteArgs>(args: SelectSubset<T, BonusDeleteArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Bonus.
+     * @param {BonusUpdateArgs} args - Arguments to update one Bonus.
+     * @example
+     * // Update one Bonus
+     * const bonus = await prisma.bonus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BonusUpdateArgs>(args: SelectSubset<T, BonusUpdateArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Bonuses.
+     * @param {BonusDeleteManyArgs} args - Arguments to filter Bonuses to delete.
+     * @example
+     * // Delete a few Bonuses
+     * const { count } = await prisma.bonus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BonusDeleteManyArgs>(args?: SelectSubset<T, BonusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bonuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bonuses
+     * const bonus = await prisma.bonus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BonusUpdateManyArgs>(args: SelectSubset<T, BonusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Bonus.
+     * @param {BonusUpsertArgs} args - Arguments to update or create a Bonus.
+     * @example
+     * // Update or create a Bonus
+     * const bonus = await prisma.bonus.upsert({
+     *   create: {
+     *     // ... data to create a Bonus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bonus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BonusUpsertArgs>(args: SelectSubset<T, BonusUpsertArgs<ExtArgs>>): Prisma__BonusClient<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Bonuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusCountArgs} args - Arguments to filter Bonuses to count.
+     * @example
+     * // Count the number of Bonuses
+     * const count = await prisma.bonus.count({
+     *   where: {
+     *     // ... the filter for the Bonuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends BonusCountArgs>(
+      args?: Subset<T, BonusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BonusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bonus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BonusAggregateArgs>(args: Subset<T, BonusAggregateArgs>): Prisma.PrismaPromise<GetBonusAggregateType<T>>
+
+    /**
+     * Group by Bonus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BonusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BonusGroupByArgs['orderBy'] }
+        : { orderBy?: BonusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BonusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBonusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Bonus model
+   */
+  readonly fields: BonusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Bonus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BonusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    sale<T extends Bonus$saleArgs<ExtArgs> = {}>(args?: Subset<T, Bonus$saleArgs<ExtArgs>>): Prisma__SaleClient<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    clientService<T extends Bonus$clientServiceArgs<ExtArgs> = {}>(args?: Subset<T, Bonus$clientServiceArgs<ExtArgs>>): Prisma__ClientServiceClient<$Result.GetResult<Prisma.$ClientServicePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    user<T extends Bonus$userArgs<ExtArgs> = {}>(args?: Subset<T, Bonus$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Bonus model
+   */ 
+  interface BonusFieldRefs {
+    readonly id: FieldRef<"Bonus", 'String'>
+    readonly companyId: FieldRef<"Bonus", 'String'>
+    readonly month: FieldRef<"Bonus", 'String'>
+    readonly saleId: FieldRef<"Bonus", 'String'>
+    readonly clientServiceId: FieldRef<"Bonus", 'String'>
+    readonly userId: FieldRef<"Bonus", 'String'>
+    readonly name: FieldRef<"Bonus", 'String'>
+    readonly amountCents: FieldRef<"Bonus", 'Int'>
+    readonly paidAt: FieldRef<"Bonus", 'DateTime'>
+    readonly notes: FieldRef<"Bonus", 'String'>
+    readonly createdAt: FieldRef<"Bonus", 'DateTime'>
+    readonly updatedAt: FieldRef<"Bonus", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Bonus findUnique
+   */
+  export type BonusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonus to fetch.
+     */
+    where: BonusWhereUniqueInput
+  }
+
+  /**
+   * Bonus findUniqueOrThrow
+   */
+  export type BonusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonus to fetch.
+     */
+    where: BonusWhereUniqueInput
+  }
+
+  /**
+   * Bonus findFirst
+   */
+  export type BonusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonus to fetch.
+     */
+    where?: BonusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonuses to fetch.
+     */
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bonuses.
+     */
+    cursor?: BonusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bonuses.
+     */
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
+  }
+
+  /**
+   * Bonus findFirstOrThrow
+   */
+  export type BonusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonus to fetch.
+     */
+    where?: BonusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonuses to fetch.
+     */
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bonuses.
+     */
+    cursor?: BonusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bonuses.
+     */
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
+  }
+
+  /**
+   * Bonus findMany
+   */
+  export type BonusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonuses to fetch.
+     */
+    where?: BonusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonuses to fetch.
+     */
+    orderBy?: BonusOrderByWithRelationInput | BonusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Bonuses.
+     */
+    cursor?: BonusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonuses.
+     */
+    skip?: number
+    distinct?: BonusScalarFieldEnum | BonusScalarFieldEnum[]
+  }
+
+  /**
+   * Bonus create
+   */
+  export type BonusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Bonus.
+     */
+    data: XOR<BonusCreateInput, BonusUncheckedCreateInput>
+  }
+
+  /**
+   * Bonus createMany
+   */
+  export type BonusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Bonuses.
+     */
+    data: BonusCreateManyInput | BonusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bonus createManyAndReturn
+   */
+  export type BonusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Bonuses.
+     */
+    data: BonusCreateManyInput | BonusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Bonus update
+   */
+  export type BonusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Bonus.
+     */
+    data: XOR<BonusUpdateInput, BonusUncheckedUpdateInput>
+    /**
+     * Choose, which Bonus to update.
+     */
+    where: BonusWhereUniqueInput
+  }
+
+  /**
+   * Bonus updateMany
+   */
+  export type BonusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Bonuses.
+     */
+    data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyInput>
+    /**
+     * Filter which Bonuses to update
+     */
+    where?: BonusWhereInput
+  }
+
+  /**
+   * Bonus upsert
+   */
+  export type BonusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Bonus to update in case it exists.
+     */
+    where: BonusWhereUniqueInput
+    /**
+     * In case the Bonus found by the `where` argument doesn't exist, create a new Bonus with this data.
+     */
+    create: XOR<BonusCreateInput, BonusUncheckedCreateInput>
+    /**
+     * In case the Bonus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BonusUpdateInput, BonusUncheckedUpdateInput>
+  }
+
+  /**
+   * Bonus delete
+   */
+  export type BonusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
+    /**
+     * Filter which Bonus to delete.
+     */
+    where: BonusWhereUniqueInput
+  }
+
+  /**
+   * Bonus deleteMany
+   */
+  export type BonusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bonuses to delete
+     */
+    where?: BonusWhereInput
+  }
+
+  /**
+   * Bonus.sale
+   */
+  export type Bonus$saleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sale
+     */
+    select?: SaleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaleInclude<ExtArgs> | null
+    where?: SaleWhereInput
+  }
+
+  /**
+   * Bonus.clientService
+   */
+  export type Bonus$clientServiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientService
+     */
+    select?: ClientServiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientServiceInclude<ExtArgs> | null
+    where?: ClientServiceWhereInput
+  }
+
+  /**
+   * Bonus.user
+   */
+  export type Bonus$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Bonus without action
+   */
+  export type BonusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bonus
+     */
+    select?: BonusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonusInclude<ExtArgs> | null
   }
 
 
@@ -144118,12 +145486,31 @@ export namespace Prisma {
     billedAt: 'billedAt',
     productionStatus: 'productionStatus',
     releasedAt: 'releasedAt',
+    deliveredAt: 'deliveredAt',
     notes: 'notes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type SaleScalarFieldEnum = (typeof SaleScalarFieldEnum)[keyof typeof SaleScalarFieldEnum]
+
+
+  export const BonusScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    month: 'month',
+    saleId: 'saleId',
+    clientServiceId: 'clientServiceId',
+    userId: 'userId',
+    name: 'name',
+    amountCents: 'amountCents',
+    paidAt: 'paidAt',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BonusScalarFieldEnum = (typeof BonusScalarFieldEnum)[keyof typeof BonusScalarFieldEnum]
 
 
   export const MonthlyTargetScalarFieldEnum: {
@@ -145172,6 +146559,7 @@ export namespace Prisma {
     userScores?: UserScoreListRelationFilter
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
+    bonuses?: BonusListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
     messagesSent?: MessageListRelationFilter
@@ -145224,6 +146612,7 @@ export namespace Prisma {
     userScores?: UserScoreOrderByRelationAggregateInput
     userBadges?: UserBadgeOrderByRelationAggregateInput
     scoreEvents?: ScoreEventOrderByRelationAggregateInput
+    bonuses?: BonusOrderByRelationAggregateInput
     projectMemberships?: ProjectMemberOrderByRelationAggregateInput
     rewardRedemptions?: RewardRedemptionOrderByRelationAggregateInput
     messagesSent?: MessageOrderByRelationAggregateInput
@@ -145279,6 +146668,7 @@ export namespace Prisma {
     userScores?: UserScoreListRelationFilter
     userBadges?: UserBadgeListRelationFilter
     scoreEvents?: ScoreEventListRelationFilter
+    bonuses?: BonusListRelationFilter
     projectMemberships?: ProjectMemberListRelationFilter
     rewardRedemptions?: RewardRedemptionListRelationFilter
     messagesSent?: MessageListRelationFilter
@@ -145727,6 +147117,7 @@ export namespace Prisma {
     clientServices?: ClientServiceListRelationFilter
     clientInvoices?: ClientInvoiceListRelationFilter
     monthlyTargets?: MonthlyTargetListRelationFilter
+    bonuses?: BonusListRelationFilter
     salesAsAgency?: SaleListRelationFilter
     salesAsClient?: SaleListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
@@ -145859,6 +147250,7 @@ export namespace Prisma {
     clientServices?: ClientServiceOrderByRelationAggregateInput
     clientInvoices?: ClientInvoiceOrderByRelationAggregateInput
     monthlyTargets?: MonthlyTargetOrderByRelationAggregateInput
+    bonuses?: BonusOrderByRelationAggregateInput
     salesAsAgency?: SaleOrderByRelationAggregateInput
     salesAsClient?: SaleOrderByRelationAggregateInput
     trackingLinks?: TrackingLinkOrderByRelationAggregateInput
@@ -145994,6 +147386,7 @@ export namespace Prisma {
     clientServices?: ClientServiceListRelationFilter
     clientInvoices?: ClientInvoiceListRelationFilter
     monthlyTargets?: MonthlyTargetListRelationFilter
+    bonuses?: BonusListRelationFilter
     salesAsAgency?: SaleListRelationFilter
     salesAsClient?: SaleListRelationFilter
     trackingLinks?: TrackingLinkListRelationFilter
@@ -155581,6 +156974,7 @@ export namespace Prisma {
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
+    bonuses?: BonusListRelationFilter
   }
 
   export type ClientServiceOrderByWithRelationInput = {
@@ -155606,6 +157000,7 @@ export namespace Prisma {
     clientCompany?: CompanyOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     invoices?: ClientInvoiceOrderByRelationAggregateInput
+    bonuses?: BonusOrderByRelationAggregateInput
   }
 
   export type ClientServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -155634,6 +157029,7 @@ export namespace Prisma {
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
     invoices?: ClientInvoiceListRelationFilter
+    bonuses?: BonusListRelationFilter
   }, "id">
 
   export type ClientServiceOrderByWithAggregationInput = {
@@ -155824,12 +157220,14 @@ export namespace Prisma {
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    bonuses?: BonusListRelationFilter
   }
 
   export type SaleOrderByWithRelationInput = {
@@ -155850,12 +157248,14 @@ export namespace Prisma {
     billedAt?: SortOrderInput | SortOrder
     productionStatus?: SortOrder
     releasedAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     clientCompany?: CompanyOrderByWithRelationInput
+    bonuses?: BonusOrderByRelationAggregateInput
   }
 
   export type SaleWhereUniqueInput = Prisma.AtLeast<{
@@ -155879,12 +157279,14 @@ export namespace Prisma {
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    bonuses?: BonusListRelationFilter
   }, "id" | "leadId">
 
   export type SaleOrderByWithAggregationInput = {
@@ -155905,6 +157307,7 @@ export namespace Prisma {
     billedAt?: SortOrderInput | SortOrder
     productionStatus?: SortOrder
     releasedAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -155936,9 +157339,111 @@ export namespace Prisma {
     billedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     productionStatus?: StringWithAggregatesFilter<"Sale"> | string
     releasedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+    deliveredAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
+  }
+
+  export type BonusWhereInput = {
+    AND?: BonusWhereInput | BonusWhereInput[]
+    OR?: BonusWhereInput[]
+    NOT?: BonusWhereInput | BonusWhereInput[]
+    id?: StringFilter<"Bonus"> | string
+    companyId?: StringFilter<"Bonus"> | string
+    month?: StringFilter<"Bonus"> | string
+    saleId?: StringNullableFilter<"Bonus"> | string | null
+    clientServiceId?: StringNullableFilter<"Bonus"> | string | null
+    userId?: StringNullableFilter<"Bonus"> | string | null
+    name?: StringFilter<"Bonus"> | string
+    amountCents?: IntFilter<"Bonus"> | number
+    paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
+    notes?: StringNullableFilter<"Bonus"> | string | null
+    createdAt?: DateTimeFilter<"Bonus"> | Date | string
+    updatedAt?: DateTimeFilter<"Bonus"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
+    clientService?: XOR<ClientServiceNullableRelationFilter, ClientServiceWhereInput> | null
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }
+
+  export type BonusOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    month?: SortOrder
+    saleId?: SortOrderInput | SortOrder
+    clientServiceId?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    amountCents?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    sale?: SaleOrderByWithRelationInput
+    clientService?: ClientServiceOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BonusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BonusWhereInput | BonusWhereInput[]
+    OR?: BonusWhereInput[]
+    NOT?: BonusWhereInput | BonusWhereInput[]
+    companyId?: StringFilter<"Bonus"> | string
+    month?: StringFilter<"Bonus"> | string
+    saleId?: StringNullableFilter<"Bonus"> | string | null
+    clientServiceId?: StringNullableFilter<"Bonus"> | string | null
+    userId?: StringNullableFilter<"Bonus"> | string | null
+    name?: StringFilter<"Bonus"> | string
+    amountCents?: IntFilter<"Bonus"> | number
+    paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
+    notes?: StringNullableFilter<"Bonus"> | string | null
+    createdAt?: DateTimeFilter<"Bonus"> | Date | string
+    updatedAt?: DateTimeFilter<"Bonus"> | Date | string
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
+    clientService?: XOR<ClientServiceNullableRelationFilter, ClientServiceWhereInput> | null
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type BonusOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    month?: SortOrder
+    saleId?: SortOrderInput | SortOrder
+    clientServiceId?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    amountCents?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BonusCountOrderByAggregateInput
+    _avg?: BonusAvgOrderByAggregateInput
+    _max?: BonusMaxOrderByAggregateInput
+    _min?: BonusMinOrderByAggregateInput
+    _sum?: BonusSumOrderByAggregateInput
+  }
+
+  export type BonusScalarWhereWithAggregatesInput = {
+    AND?: BonusScalarWhereWithAggregatesInput | BonusScalarWhereWithAggregatesInput[]
+    OR?: BonusScalarWhereWithAggregatesInput[]
+    NOT?: BonusScalarWhereWithAggregatesInput | BonusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Bonus"> | string
+    companyId?: StringWithAggregatesFilter<"Bonus"> | string
+    month?: StringWithAggregatesFilter<"Bonus"> | string
+    saleId?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
+    clientServiceId?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
+    userId?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
+    name?: StringWithAggregatesFilter<"Bonus"> | string
+    amountCents?: IntWithAggregatesFilter<"Bonus"> | number
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Bonus"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Bonus"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Bonus"> | Date | string
   }
 
   export type MonthlyTargetWhereInput = {
@@ -156681,6 +158186,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -156732,6 +158238,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -156783,6 +158290,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -156834,6 +158342,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -157309,6 +158818,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -157440,6 +158950,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -157571,6 +159082,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -157702,6 +159214,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -168335,6 +169848,7 @@ export namespace Prisma {
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateInput = {
@@ -168358,6 +169872,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUpdateInput = {
@@ -168381,6 +169896,7 @@ export namespace Prisma {
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateInput = {
@@ -168404,6 +169920,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceCreateManyInput = {
@@ -168616,12 +170133,14 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateInput = {
@@ -168642,9 +170161,11 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUpdateInput = {
@@ -168662,12 +170183,14 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateInput = {
@@ -168688,9 +170211,11 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleCreateManyInput = {
@@ -168711,6 +170236,7 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -168731,6 +170257,7 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -168754,6 +170281,108 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusCreateInput = {
+    id?: string
+    month: string
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBonusesInput
+    sale?: SaleCreateNestedOneWithoutBonusesInput
+    clientService?: ClientServiceCreateNestedOneWithoutBonusesInput
+    user?: UserCreateNestedOneWithoutBonusesInput
+  }
+
+  export type BonusUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBonusesNestedInput
+    sale?: SaleUpdateOneWithoutBonusesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutBonusesNestedInput
+    user?: UserUpdateOneWithoutBonusesNestedInput
+  }
+
+  export type BonusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusCreateManyInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -169634,6 +171263,12 @@ export namespace Prisma {
     none?: ScoreEventWhereInput
   }
 
+  export type BonusListRelationFilter = {
+    every?: BonusWhereInput
+    some?: BonusWhereInput
+    none?: BonusWhereInput
+  }
+
   export type ProjectMemberListRelationFilter = {
     every?: ProjectMemberWhereInput
     some?: ProjectMemberWhereInput
@@ -169779,6 +171414,10 @@ export namespace Prisma {
   }
 
   export type ScoreEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BonusOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -177786,6 +179425,7 @@ export namespace Prisma {
     billedAt?: SortOrder
     productionStatus?: SortOrder
     releasedAt?: SortOrder
+    deliveredAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -177813,6 +179453,7 @@ export namespace Prisma {
     billedAt?: SortOrder
     productionStatus?: SortOrder
     releasedAt?: SortOrder
+    deliveredAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -177836,6 +179477,7 @@ export namespace Prisma {
     billedAt?: SortOrder
     productionStatus?: SortOrder
     releasedAt?: SortOrder
+    deliveredAt?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -177843,6 +179485,59 @@ export namespace Prisma {
 
   export type SaleSumOrderByAggregateInput = {
     valueCents?: SortOrder
+  }
+
+  export type BonusCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    month?: SortOrder
+    saleId?: SortOrder
+    clientServiceId?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    amountCents?: SortOrder
+    paidAt?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BonusAvgOrderByAggregateInput = {
+    amountCents?: SortOrder
+  }
+
+  export type BonusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    month?: SortOrder
+    saleId?: SortOrder
+    clientServiceId?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    amountCents?: SortOrder
+    paidAt?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BonusMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    month?: SortOrder
+    saleId?: SortOrder
+    clientServiceId?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    amountCents?: SortOrder
+    paidAt?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BonusSumOrderByAggregateInput = {
+    amountCents?: SortOrder
   }
 
   export type MonthlyTargetCompanyIdMonthCompoundUniqueInput = {
@@ -178428,6 +180123,13 @@ export namespace Prisma {
     connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
   }
 
+  export type BonusCreateNestedManyWithoutUserInput = {
+    create?: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput> | BonusCreateWithoutUserInput[] | BonusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutUserInput | BonusCreateOrConnectWithoutUserInput[]
+    createMany?: BonusCreateManyUserInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
   export type ProjectMemberCreateNestedManyWithoutUserInput = {
     create?: XOR<ProjectMemberCreateWithoutUserInput, ProjectMemberUncheckedCreateWithoutUserInput> | ProjectMemberCreateWithoutUserInput[] | ProjectMemberUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutUserInput | ProjectMemberCreateOrConnectWithoutUserInput[]
@@ -178662,6 +180364,13 @@ export namespace Prisma {
     connectOrCreate?: ScoreEventCreateOrConnectWithoutUserInput | ScoreEventCreateOrConnectWithoutUserInput[]
     createMany?: ScoreEventCreateManyUserInputEnvelope
     connect?: ScoreEventWhereUniqueInput | ScoreEventWhereUniqueInput[]
+  }
+
+  export type BonusUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput> | BonusCreateWithoutUserInput[] | BonusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutUserInput | BonusCreateOrConnectWithoutUserInput[]
+    createMany?: BonusCreateManyUserInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
   export type ProjectMemberUncheckedCreateNestedManyWithoutUserInput = {
@@ -179010,6 +180719,20 @@ export namespace Prisma {
     update?: ScoreEventUpdateWithWhereUniqueWithoutUserInput | ScoreEventUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ScoreEventUpdateManyWithWhereWithoutUserInput | ScoreEventUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type BonusUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput> | BonusCreateWithoutUserInput[] | BonusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutUserInput | BonusCreateOrConnectWithoutUserInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutUserInput | BonusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BonusCreateManyUserInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutUserInput | BonusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutUserInput | BonusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
   export type ProjectMemberUpdateManyWithoutUserNestedInput = {
@@ -179478,6 +181201,20 @@ export namespace Prisma {
     update?: ScoreEventUpdateWithWhereUniqueWithoutUserInput | ScoreEventUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ScoreEventUpdateManyWithWhereWithoutUserInput | ScoreEventUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ScoreEventScalarWhereInput | ScoreEventScalarWhereInput[]
+  }
+
+  export type BonusUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput> | BonusCreateWithoutUserInput[] | BonusUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutUserInput | BonusCreateOrConnectWithoutUserInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutUserInput | BonusUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BonusCreateManyUserInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutUserInput | BonusUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutUserInput | BonusUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
   export type ProjectMemberUncheckedUpdateManyWithoutUserNestedInput = {
@@ -180123,6 +181860,13 @@ export namespace Prisma {
     connect?: MonthlyTargetWhereUniqueInput | MonthlyTargetWhereUniqueInput[]
   }
 
+  export type BonusCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput> | BonusCreateWithoutCompanyInput[] | BonusUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutCompanyInput | BonusCreateOrConnectWithoutCompanyInput[]
+    createMany?: BonusCreateManyCompanyInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
   export type SaleCreateNestedManyWithoutCompanyInput = {
     create?: XOR<SaleCreateWithoutCompanyInput, SaleUncheckedCreateWithoutCompanyInput> | SaleCreateWithoutCompanyInput[] | SaleUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: SaleCreateOrConnectWithoutCompanyInput | SaleCreateOrConnectWithoutCompanyInput[]
@@ -180719,6 +182463,13 @@ export namespace Prisma {
     connectOrCreate?: MonthlyTargetCreateOrConnectWithoutCompanyInput | MonthlyTargetCreateOrConnectWithoutCompanyInput[]
     createMany?: MonthlyTargetCreateManyCompanyInputEnvelope
     connect?: MonthlyTargetWhereUniqueInput | MonthlyTargetWhereUniqueInput[]
+  }
+
+  export type BonusUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput> | BonusCreateWithoutCompanyInput[] | BonusUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutCompanyInput | BonusCreateOrConnectWithoutCompanyInput[]
+    createMany?: BonusCreateManyCompanyInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
   export type SaleUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -181563,6 +183314,20 @@ export namespace Prisma {
     update?: MonthlyTargetUpdateWithWhereUniqueWithoutCompanyInput | MonthlyTargetUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MonthlyTargetUpdateManyWithWhereWithoutCompanyInput | MonthlyTargetUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MonthlyTargetScalarWhereInput | MonthlyTargetScalarWhereInput[]
+  }
+
+  export type BonusUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput> | BonusCreateWithoutCompanyInput[] | BonusUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutCompanyInput | BonusCreateOrConnectWithoutCompanyInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutCompanyInput | BonusUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BonusCreateManyCompanyInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutCompanyInput | BonusUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutCompanyInput | BonusUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
   export type SaleUpdateManyWithoutCompanyNestedInput = {
@@ -182751,6 +184516,20 @@ export namespace Prisma {
     update?: MonthlyTargetUpdateWithWhereUniqueWithoutCompanyInput | MonthlyTargetUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: MonthlyTargetUpdateManyWithWhereWithoutCompanyInput | MonthlyTargetUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: MonthlyTargetScalarWhereInput | MonthlyTargetScalarWhereInput[]
+  }
+
+  export type BonusUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput> | BonusCreateWithoutCompanyInput[] | BonusUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutCompanyInput | BonusCreateOrConnectWithoutCompanyInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutCompanyInput | BonusUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BonusCreateManyCompanyInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutCompanyInput | BonusUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutCompanyInput | BonusUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
   export type SaleUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -189213,11 +190992,25 @@ export namespace Prisma {
     connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
   }
 
+  export type BonusCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput> | BonusCreateWithoutClientServiceInput[] | BonusUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutClientServiceInput | BonusCreateOrConnectWithoutClientServiceInput[]
+    createMany?: BonusCreateManyClientServiceInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
   export type ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput = {
     create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
     connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
     createMany?: ClientInvoiceCreateManyClientServiceInputEnvelope
     connect?: ClientInvoiceWhereUniqueInput | ClientInvoiceWhereUniqueInput[]
+  }
+
+  export type BonusUncheckedCreateNestedManyWithoutClientServiceInput = {
+    create?: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput> | BonusCreateWithoutClientServiceInput[] | BonusUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutClientServiceInput | BonusCreateOrConnectWithoutClientServiceInput[]
+    createMany?: BonusCreateManyClientServiceInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
   }
 
   export type CompanyUpdateOneRequiredWithoutClientServicesNestedInput = {
@@ -189252,6 +191045,20 @@ export namespace Prisma {
     deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
   }
 
+  export type BonusUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput> | BonusCreateWithoutClientServiceInput[] | BonusUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutClientServiceInput | BonusCreateOrConnectWithoutClientServiceInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutClientServiceInput | BonusUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: BonusCreateManyClientServiceInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutClientServiceInput | BonusUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutClientServiceInput | BonusUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
+  }
+
   export type ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput = {
     create?: XOR<ClientInvoiceCreateWithoutClientServiceInput, ClientInvoiceUncheckedCreateWithoutClientServiceInput> | ClientInvoiceCreateWithoutClientServiceInput[] | ClientInvoiceUncheckedCreateWithoutClientServiceInput[]
     connectOrCreate?: ClientInvoiceCreateOrConnectWithoutClientServiceInput | ClientInvoiceCreateOrConnectWithoutClientServiceInput[]
@@ -189264,6 +191071,20 @@ export namespace Prisma {
     update?: ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput | ClientInvoiceUpdateWithWhereUniqueWithoutClientServiceInput[]
     updateMany?: ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput | ClientInvoiceUpdateManyWithWhereWithoutClientServiceInput[]
     deleteMany?: ClientInvoiceScalarWhereInput | ClientInvoiceScalarWhereInput[]
+  }
+
+  export type BonusUncheckedUpdateManyWithoutClientServiceNestedInput = {
+    create?: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput> | BonusCreateWithoutClientServiceInput[] | BonusUncheckedCreateWithoutClientServiceInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutClientServiceInput | BonusCreateOrConnectWithoutClientServiceInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutClientServiceInput | BonusUpsertWithWhereUniqueWithoutClientServiceInput[]
+    createMany?: BonusCreateManyClientServiceInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutClientServiceInput | BonusUpdateWithWhereUniqueWithoutClientServiceInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutClientServiceInput | BonusUpdateManyWithWhereWithoutClientServiceInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutClientInvoicesInput = {
@@ -189314,6 +191135,20 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type BonusCreateNestedManyWithoutSaleInput = {
+    create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
+    createMany?: BonusCreateManySaleInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
+  export type BonusUncheckedCreateNestedManyWithoutSaleInput = {
+    create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
+    createMany?: BonusCreateManySaleInputEnvelope
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+  }
+
   export type CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput = {
     create?: XOR<CompanyCreateWithoutSalesAsAgencyInput, CompanyUncheckedCreateWithoutSalesAsAgencyInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSalesAsAgencyInput
@@ -189340,6 +191175,96 @@ export namespace Prisma {
     delete?: CompanyWhereInput | boolean
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSalesAsClientInput, CompanyUpdateWithoutSalesAsClientInput>, CompanyUncheckedUpdateWithoutSalesAsClientInput>
+  }
+
+  export type BonusUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutSaleInput | BonusUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: BonusCreateManySaleInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutSaleInput | BonusUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutSaleInput | BonusUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
+  }
+
+  export type BonusUncheckedUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
+    upsert?: BonusUpsertWithWhereUniqueWithoutSaleInput | BonusUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: BonusCreateManySaleInputEnvelope
+    set?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    disconnect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    delete?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    connect?: BonusWhereUniqueInput | BonusWhereUniqueInput[]
+    update?: BonusUpdateWithWhereUniqueWithoutSaleInput | BonusUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: BonusUpdateManyWithWhereWithoutSaleInput | BonusUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: BonusScalarWhereInput | BonusScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutBonusesInput = {
+    create?: XOR<CompanyCreateWithoutBonusesInput, CompanyUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBonusesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type SaleCreateNestedOneWithoutBonusesInput = {
+    create?: XOR<SaleCreateWithoutBonusesInput, SaleUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutBonusesInput
+    connect?: SaleWhereUniqueInput
+  }
+
+  export type ClientServiceCreateNestedOneWithoutBonusesInput = {
+    create?: XOR<ClientServiceCreateWithoutBonusesInput, ClientServiceUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutBonusesInput
+    connect?: ClientServiceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBonusesInput = {
+    create?: XOR<UserCreateWithoutBonusesInput, UserUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBonusesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutBonusesNestedInput = {
+    create?: XOR<CompanyCreateWithoutBonusesInput, CompanyUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBonusesInput
+    upsert?: CompanyUpsertWithoutBonusesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBonusesInput, CompanyUpdateWithoutBonusesInput>, CompanyUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type SaleUpdateOneWithoutBonusesNestedInput = {
+    create?: XOR<SaleCreateWithoutBonusesInput, SaleUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutBonusesInput
+    upsert?: SaleUpsertWithoutBonusesInput
+    disconnect?: SaleWhereInput | boolean
+    delete?: SaleWhereInput | boolean
+    connect?: SaleWhereUniqueInput
+    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutBonusesInput, SaleUpdateWithoutBonusesInput>, SaleUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type ClientServiceUpdateOneWithoutBonusesNestedInput = {
+    create?: XOR<ClientServiceCreateWithoutBonusesInput, ClientServiceUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: ClientServiceCreateOrConnectWithoutBonusesInput
+    upsert?: ClientServiceUpsertWithoutBonusesInput
+    disconnect?: ClientServiceWhereInput | boolean
+    delete?: ClientServiceWhereInput | boolean
+    connect?: ClientServiceWhereUniqueInput
+    update?: XOR<XOR<ClientServiceUpdateToOneWithWhereWithoutBonusesInput, ClientServiceUpdateWithoutBonusesInput>, ClientServiceUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type UserUpdateOneWithoutBonusesNestedInput = {
+    create?: XOR<UserCreateWithoutBonusesInput, UserUncheckedCreateWithoutBonusesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBonusesInput
+    upsert?: UserUpsertWithoutBonusesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBonusesInput, UserUpdateWithoutBonusesInput>, UserUncheckedUpdateWithoutBonusesInput>
   }
 
   export type CompanyCreateNestedOneWithoutMonthlyTargetsInput = {
@@ -191050,6 +192975,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -191180,6 +193106,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -191670,6 +193597,44 @@ export namespace Prisma {
 
   export type ScoreEventCreateManyUserInputEnvelope = {
     data: ScoreEventCreateManyUserInput | ScoreEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BonusCreateWithoutUserInput = {
+    id?: string
+    month: string
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBonusesInput
+    sale?: SaleCreateNestedOneWithoutBonusesInput
+    clientService?: ClientServiceCreateNestedOneWithoutBonusesInput
+  }
+
+  export type BonusUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusCreateOrConnectWithoutUserInput = {
+    where: BonusWhereUniqueInput
+    create: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput>
+  }
+
+  export type BonusCreateManyUserInputEnvelope = {
+    data: BonusCreateManyUserInput | BonusCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -192666,6 +194631,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -192796,6 +194762,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -193197,6 +195164,40 @@ export namespace Prisma {
     authorId?: StringNullableFilter<"ScoreEvent"> | string | null
     authorName?: StringNullableFilter<"ScoreEvent"> | string | null
     createdAt?: DateTimeFilter<"ScoreEvent"> | Date | string
+  }
+
+  export type BonusUpsertWithWhereUniqueWithoutUserInput = {
+    where: BonusWhereUniqueInput
+    update: XOR<BonusUpdateWithoutUserInput, BonusUncheckedUpdateWithoutUserInput>
+    create: XOR<BonusCreateWithoutUserInput, BonusUncheckedCreateWithoutUserInput>
+  }
+
+  export type BonusUpdateWithWhereUniqueWithoutUserInput = {
+    where: BonusWhereUniqueInput
+    data: XOR<BonusUpdateWithoutUserInput, BonusUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BonusUpdateManyWithWhereWithoutUserInput = {
+    where: BonusScalarWhereInput
+    data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BonusScalarWhereInput = {
+    AND?: BonusScalarWhereInput | BonusScalarWhereInput[]
+    OR?: BonusScalarWhereInput[]
+    NOT?: BonusScalarWhereInput | BonusScalarWhereInput[]
+    id?: StringFilter<"Bonus"> | string
+    companyId?: StringFilter<"Bonus"> | string
+    month?: StringFilter<"Bonus"> | string
+    saleId?: StringNullableFilter<"Bonus"> | string | null
+    clientServiceId?: StringNullableFilter<"Bonus"> | string | null
+    userId?: StringNullableFilter<"Bonus"> | string | null
+    name?: StringFilter<"Bonus"> | string
+    amountCents?: IntFilter<"Bonus"> | number
+    paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
+    notes?: StringNullableFilter<"Bonus"> | string | null
+    createdAt?: DateTimeFilter<"Bonus"> | Date | string
+    updatedAt?: DateTimeFilter<"Bonus"> | Date | string
   }
 
   export type ProjectMemberUpsertWithWhereUniqueWithoutUserInput = {
@@ -193955,6 +195956,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -194085,6 +196087,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -194170,6 +196173,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -194220,6 +196224,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -194336,6 +196341,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -194466,6 +196472,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -194557,6 +196564,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -194607,6 +196615,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -194656,6 +196665,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -194706,6 +196716,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -194772,6 +196783,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -194822,6 +196834,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -194872,6 +196885,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -194922,6 +196936,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -194988,6 +197003,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -195038,6 +197054,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -195088,6 +197105,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -195138,6 +197156,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -195204,6 +197223,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -195254,6 +197274,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -195354,6 +197375,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -195484,6 +197506,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -195619,6 +197642,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -195749,6 +197773,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -195839,6 +197864,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -195889,6 +197915,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -197203,6 +199230,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutClientCompanyInput = {
@@ -197225,6 +199253,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutClientCompanyInput = {
@@ -197313,6 +199342,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BonusCreateWithoutCompanyInput = {
+    id?: string
+    month: string
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sale?: SaleCreateNestedOneWithoutBonusesInput
+    clientService?: ClientServiceCreateNestedOneWithoutBonusesInput
+    user?: UserCreateNestedOneWithoutBonusesInput
+  }
+
+  export type BonusUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusCreateOrConnectWithoutCompanyInput = {
+    where: BonusWhereUniqueInput
+    create: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BonusCreateManyCompanyInputEnvelope = {
+    data: BonusCreateManyCompanyInput | BonusCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SaleCreateWithoutCompanyInput = {
     id?: string
     title: string
@@ -197328,11 +199395,13 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutCompanyInput = {
@@ -197352,9 +199421,11 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutCompanyInput = {
@@ -197382,11 +199453,13 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutClientCompanyInput = {
@@ -197406,9 +199479,11 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutClientCompanyInput = {
@@ -199530,6 +201605,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -199660,6 +201736,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -200725,6 +202802,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MonthlyTarget"> | Date | string
   }
 
+  export type BonusUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: BonusWhereUniqueInput
+    update: XOR<BonusUpdateWithoutCompanyInput, BonusUncheckedUpdateWithoutCompanyInput>
+    create: XOR<BonusCreateWithoutCompanyInput, BonusUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BonusUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: BonusWhereUniqueInput
+    data: XOR<BonusUpdateWithoutCompanyInput, BonusUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type BonusUpdateManyWithWhereWithoutCompanyInput = {
+    where: BonusScalarWhereInput
+    data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutCompanyInput>
+  }
+
   export type SaleUpsertWithWhereUniqueWithoutCompanyInput = {
     where: SaleWhereUniqueInput
     update: XOR<SaleUpdateWithoutCompanyInput, SaleUncheckedUpdateWithoutCompanyInput>
@@ -200762,6 +202855,7 @@ export namespace Prisma {
     billedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     productionStatus?: StringFilter<"Sale"> | string
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
@@ -202490,6 +204584,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -202620,6 +204715,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -203024,6 +205120,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -203154,6 +205251,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -203390,6 +205488,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
@@ -203520,6 +205619,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
@@ -203859,6 +205959,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
@@ -203989,6 +206090,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
@@ -204246,6 +206348,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -204376,6 +206479,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -204653,11 +206757,13 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
   }
 
   export type SaleUncheckedCreateWithoutLeadInput = {
@@ -204677,9 +206783,11 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
   export type SaleCreateOrConnectWithoutLeadInput = {
@@ -205103,6 +207211,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -205233,6 +207342,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -205540,11 +207650,13 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutLeadInput = {
@@ -205564,9 +207676,11 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutLeadInput = {
@@ -205827,6 +207941,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -205957,6 +208072,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -206123,6 +208239,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -206253,6 +208370,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -206691,6 +208809,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -206821,6 +208940,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -206993,6 +209113,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -207123,6 +209244,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -207573,6 +209695,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -207703,6 +209826,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -207875,6 +209999,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -208005,6 +210130,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -208151,6 +210277,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -208281,6 +210408,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -208456,6 +210584,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -208586,6 +210715,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -208866,6 +210996,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -208996,6 +211127,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -209082,6 +211214,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -209132,6 +211265,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -209187,6 +211321,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -209237,6 +211372,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -209473,6 +211609,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -209603,6 +211740,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -209695,6 +211833,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -209745,6 +211884,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -209806,6 +211946,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -209856,6 +211997,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -210192,6 +212334,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -210322,6 +212465,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -210468,6 +212612,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -210598,6 +212743,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -210728,6 +212874,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -210858,6 +213005,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -210942,6 +213090,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -210992,6 +213141,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -211109,6 +213259,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -211239,6 +213390,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -211329,6 +213481,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -211379,6 +213532,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -211430,6 +213584,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -211480,6 +213635,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -211584,6 +213740,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -211714,6 +213871,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -212067,6 +214225,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -212117,6 +214276,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -212227,6 +214387,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -212357,6 +214518,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -212575,6 +214737,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -212705,6 +214868,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -213057,6 +215221,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
@@ -213107,6 +215272,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
@@ -213222,6 +215388,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -213352,6 +215519,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -213734,6 +215902,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
@@ -213784,6 +215953,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -213883,6 +216053,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -214013,6 +216184,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -214200,6 +216372,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -214330,6 +216503,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -214457,6 +216631,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -214507,6 +216682,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -214731,6 +216907,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -214861,6 +217038,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -215204,6 +217382,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -215254,6 +217433,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -215496,6 +217676,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -215626,6 +217807,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -216208,6 +218390,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -216338,6 +218521,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -216741,6 +218925,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -216871,6 +219056,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -217000,6 +219186,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -217130,6 +219317,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -217215,6 +219403,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -217265,6 +219454,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -217370,6 +219560,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -217500,6 +219691,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -217585,6 +219777,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -217635,6 +219828,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -218057,6 +220251,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -218187,6 +220382,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -218278,6 +220474,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -218328,6 +220525,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -218439,6 +220637,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -218569,6 +220768,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -218660,6 +220860,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -218710,6 +220911,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -219174,6 +221376,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -219304,6 +221507,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -219752,6 +221956,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -219882,6 +222087,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -220517,6 +222723,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -220647,6 +222854,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -221219,6 +223427,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -221349,6 +223558,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -221771,6 +223981,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -221821,6 +224032,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -221876,6 +224088,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -221926,6 +224139,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -222148,6 +224362,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -222198,6 +224413,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -222259,6 +224475,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -222309,6 +224526,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -222746,6 +224964,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -222796,6 +225015,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -222927,6 +225147,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -222977,6 +225198,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -223100,6 +225322,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -223150,6 +225373,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -223295,6 +225519,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -223345,6 +225570,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -223772,6 +225998,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
@@ -223822,6 +226049,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
@@ -223967,6 +226195,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
@@ -224017,6 +226246,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -224399,6 +226629,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -224449,6 +226680,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -224594,6 +226826,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -224644,6 +226877,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -224993,6 +227227,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -225123,6 +227358,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -225319,6 +227555,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -225449,6 +227686,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -225801,6 +228039,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -225931,6 +228170,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -226128,6 +228368,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -226258,6 +228499,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -226388,6 +228630,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -226518,6 +228761,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -226698,6 +228942,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -226828,6 +229073,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227005,6 +229251,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -227135,6 +229382,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -227318,6 +229566,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -227448,6 +229697,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -227578,6 +229828,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -227708,6 +229959,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -227854,6 +230106,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -227984,6 +230237,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -228114,6 +230368,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -228244,6 +230499,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -228390,6 +230646,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -228520,6 +230777,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -228650,6 +230908,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -228780,6 +231039,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -228926,6 +231186,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -229056,6 +231317,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229186,6 +231448,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -229316,6 +231579,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -229462,6 +231726,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -229592,6 +231857,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -229722,6 +231988,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -229852,6 +232119,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -230142,6 +232410,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -230272,6 +232541,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -230450,6 +232720,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -230580,6 +232851,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -230815,6 +233087,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -230945,6 +233218,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -231142,6 +233416,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -231272,6 +233547,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -231514,6 +233790,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -231644,6 +233921,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -231882,6 +234160,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -232012,6 +234291,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -232233,6 +234513,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -232363,6 +234644,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -232658,6 +234940,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -232788,6 +235071,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -232934,6 +235218,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -233064,6 +235349,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -233194,6 +235480,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -233324,6 +235611,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -233470,6 +235758,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -233600,6 +235889,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -233730,6 +236020,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -233860,6 +236151,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -234006,6 +236298,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -234136,6 +236429,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -234266,6 +236560,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -234396,6 +236691,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -234542,6 +236838,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -234672,6 +236969,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -234802,6 +237100,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -234932,6 +237231,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -235078,6 +237378,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -235208,6 +237509,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -235338,6 +237640,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -235468,6 +237771,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -235614,6 +237918,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -235744,6 +238049,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -235874,6 +238180,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -236004,6 +238311,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -236150,6 +238458,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -236280,6 +238589,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -236410,6 +238720,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -236540,6 +238851,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -236686,6 +238998,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -236816,6 +239129,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -236946,6 +239260,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -237076,6 +239391,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -237222,6 +239538,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -237352,6 +239669,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -237482,6 +239800,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -237612,6 +239931,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -237758,6 +240078,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -237888,6 +240209,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -238018,6 +240340,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -238148,6 +240471,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -238294,6 +240618,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -238424,6 +240749,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -238554,6 +240880,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -238684,6 +241011,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -238830,6 +241158,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -238960,6 +241289,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -239090,6 +241420,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -239220,6 +241551,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -239366,6 +241698,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -239496,6 +241829,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -239626,6 +241960,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -239756,6 +242091,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -239902,6 +242238,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -240032,6 +242369,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -240162,6 +242500,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -240292,6 +242631,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -240438,6 +242778,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -240568,6 +242909,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -240698,6 +243040,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -240828,6 +243171,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -240974,6 +243318,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -241104,6 +243449,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -241234,6 +243580,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -241364,6 +243711,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -241510,6 +243858,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -241640,6 +243989,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -241770,6 +244120,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -241900,6 +244251,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -242046,6 +244398,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -242176,6 +244529,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -242305,6 +244659,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -242435,6 +244790,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -242605,6 +244961,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -242735,6 +245092,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -242952,6 +245310,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -243082,6 +245441,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -243264,6 +245624,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -243394,6 +245755,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -243491,6 +245853,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
     tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
@@ -243541,6 +245904,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
     tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
@@ -243645,6 +246009,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -243775,6 +246140,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -243903,6 +246269,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
     tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
@@ -243953,6 +246320,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
     tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
@@ -244063,6 +246431,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -244193,6 +246562,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -244310,6 +246680,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -244360,6 +246731,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -244465,6 +246837,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -244595,6 +246968,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -244691,6 +247065,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -244741,6 +247116,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -244852,6 +247228,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -244982,6 +247359,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -245062,6 +247440,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -245112,6 +247491,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -245217,6 +247597,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -245347,6 +247728,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -245443,6 +247825,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -245493,6 +247876,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -245604,6 +247988,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -245734,6 +248119,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -245814,6 +248200,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -245864,6 +248251,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -245969,6 +248357,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -246099,6 +248488,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -246195,6 +248585,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -246245,6 +248636,7 @@ export namespace Prisma {
     vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -246356,6 +248748,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -246486,6 +248879,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -246616,6 +249010,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -246746,6 +249141,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -246892,6 +249288,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -247022,6 +249419,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -247103,6 +249501,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -247153,6 +249552,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -247219,6 +249619,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -247269,6 +249670,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -247319,6 +249721,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -247369,6 +249772,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -247435,6 +249839,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -247485,6 +249890,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -247584,6 +249990,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -247714,6 +250121,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -247860,6 +250268,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -247990,6 +250399,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -248120,6 +250530,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -248250,6 +250661,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -248458,6 +250870,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -248588,6 +251001,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -248761,6 +251175,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -248891,6 +251306,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -248977,6 +251393,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -249027,6 +251444,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -249341,6 +251759,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -249471,6 +251890,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -249563,6 +251983,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -249613,6 +252034,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -250245,6 +252667,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -250375,6 +252798,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -250521,6 +252945,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -250651,6 +253076,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -250781,6 +253207,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -250911,6 +253338,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -251149,6 +253577,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -251279,6 +253708,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -251441,6 +253871,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -251571,6 +254002,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -252009,6 +254441,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -252139,6 +254572,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -252575,6 +255009,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -252705,6 +255140,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -252851,6 +255287,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -252981,6 +255418,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253247,6 +255685,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -253377,6 +255816,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -253588,6 +256028,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -253718,6 +256159,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -253865,6 +256307,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -253995,6 +256438,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -254141,6 +256585,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -254271,6 +256716,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -254401,6 +256847,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -254531,6 +256978,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -254677,6 +257125,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -254807,6 +257256,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -255020,6 +257470,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -255150,6 +257601,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -255343,6 +257795,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -255473,6 +257926,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -255603,6 +258057,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -255733,6 +258188,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -255818,6 +258274,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -255868,6 +258325,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -256034,6 +258492,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -256084,6 +258543,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -256200,6 +258660,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -256330,6 +258791,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -256421,6 +258883,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -256471,6 +258934,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -256615,6 +259079,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -256665,6 +259130,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -256765,6 +259231,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -256895,6 +259362,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -257086,6 +259554,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -257216,6 +259685,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -257677,6 +260147,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -257807,6 +260278,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -258014,6 +260486,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -258144,6 +260617,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -258341,6 +260815,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -258471,6 +260946,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -258550,6 +261026,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutServiceInput = {
@@ -258572,6 +261049,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutServiceInput = {
@@ -258779,6 +261257,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -258909,6 +261388,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -259086,6 +261566,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -259216,6 +261697,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -259363,6 +261845,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BonusCreateWithoutClientServiceInput = {
+    id?: string
+    month: string
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBonusesInput
+    sale?: SaleCreateNestedOneWithoutBonusesInput
+    user?: UserCreateNestedOneWithoutBonusesInput
+  }
+
+  export type BonusUncheckedCreateWithoutClientServiceInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusCreateOrConnectWithoutClientServiceInput = {
+    where: BonusWhereUniqueInput
+    create: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type BonusCreateManyClientServiceInputEnvelope = {
+    data: BonusCreateManyClientServiceInput | BonusCreateManyClientServiceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutClientServicesInput = {
     update: XOR<CompanyUpdateWithoutClientServicesInput, CompanyUncheckedUpdateWithoutClientServicesInput>
     create: XOR<CompanyCreateWithoutClientServicesInput, CompanyUncheckedCreateWithoutClientServicesInput>
@@ -259449,6 +261969,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -259579,6 +262100,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -259697,6 +262219,22 @@ export namespace Prisma {
     data: XOR<ClientInvoiceUpdateManyMutationInput, ClientInvoiceUncheckedUpdateManyWithoutClientServiceInput>
   }
 
+  export type BonusUpsertWithWhereUniqueWithoutClientServiceInput = {
+    where: BonusWhereUniqueInput
+    update: XOR<BonusUpdateWithoutClientServiceInput, BonusUncheckedUpdateWithoutClientServiceInput>
+    create: XOR<BonusCreateWithoutClientServiceInput, BonusUncheckedCreateWithoutClientServiceInput>
+  }
+
+  export type BonusUpdateWithWhereUniqueWithoutClientServiceInput = {
+    where: BonusWhereUniqueInput
+    data: XOR<BonusUpdateWithoutClientServiceInput, BonusUncheckedUpdateWithoutClientServiceInput>
+  }
+
+  export type BonusUpdateManyWithWhereWithoutClientServiceInput = {
+    where: BonusScalarWhereInput
+    data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutClientServiceInput>
+  }
+
   export type CompanyCreateWithoutClientInvoicesInput = {
     id?: string
     name: string
@@ -259772,6 +262310,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -259902,6 +262441,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -259982,6 +262522,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    bonuses?: BonusCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceUncheckedCreateWithoutInvoicesInput = {
@@ -260004,6 +262545,7 @@ export namespace Prisma {
     externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutClientServiceInput
   }
 
   export type ClientServiceCreateOrConnectWithoutInvoicesInput = {
@@ -260097,6 +262639,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -260227,6 +262770,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -260313,6 +262857,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutInvoicesInput = {
@@ -260335,6 +262880,7 @@ export namespace Prisma {
     externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type CompanyCreateWithoutSalesAsAgencyInput = {
@@ -260413,6 +262959,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
@@ -260543,6 +263090,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
@@ -260793,6 +263341,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
@@ -260923,6 +263472,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
     pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
@@ -260980,6 +263530,44 @@ export namespace Prisma {
   export type CompanyCreateOrConnectWithoutSalesAsClientInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutSalesAsClientInput, CompanyUncheckedCreateWithoutSalesAsClientInput>
+  }
+
+  export type BonusCreateWithoutSaleInput = {
+    id?: string
+    month: string
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBonusesInput
+    clientService?: ClientServiceCreateNestedOneWithoutBonusesInput
+    user?: UserCreateNestedOneWithoutBonusesInput
+  }
+
+  export type BonusUncheckedCreateWithoutSaleInput = {
+    id?: string
+    companyId: string
+    month: string
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusCreateOrConnectWithoutSaleInput = {
+    where: BonusWhereUniqueInput
+    create: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput>
+  }
+
+  export type BonusCreateManySaleInputEnvelope = {
+    data: BonusCreateManySaleInput | BonusCreateManySaleInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutSalesAsAgencyInput = {
@@ -261069,6 +263657,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
@@ -261199,6 +263788,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261461,6 +264051,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
@@ -261591,6 +264182,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
     pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261643,6 +264235,1002 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type BonusUpsertWithWhereUniqueWithoutSaleInput = {
+    where: BonusWhereUniqueInput
+    update: XOR<BonusUpdateWithoutSaleInput, BonusUncheckedUpdateWithoutSaleInput>
+    create: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput>
+  }
+
+  export type BonusUpdateWithWhereUniqueWithoutSaleInput = {
+    where: BonusWhereUniqueInput
+    data: XOR<BonusUpdateWithoutSaleInput, BonusUncheckedUpdateWithoutSaleInput>
+  }
+
+  export type BonusUpdateManyWithWhereWithoutSaleInput = {
+    where: BonusScalarWhereInput
+    data: XOR<BonusUpdateManyMutationInput, BonusUncheckedUpdateManyWithoutSaleInput>
+  }
+
+  export type CompanyCreateWithoutBonusesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutBonusesInput = {
+    id?: string
+    name: string
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutBonusesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutBonusesInput, CompanyUncheckedCreateWithoutBonusesInput>
+  }
+
+  export type SaleCreateWithoutBonusesInput = {
+    id?: string
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
+    lead?: LeadCreateNestedOneWithoutSaleInput
+    clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+  }
+
+  export type SaleUncheckedCreateWithoutBonusesInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SaleCreateOrConnectWithoutBonusesInput = {
+    where: SaleWhereUniqueInput
+    create: XOR<SaleCreateWithoutBonusesInput, SaleUncheckedCreateWithoutBonusesInput>
+  }
+
+  export type ClientServiceCreateWithoutBonusesInput = {
+    id?: string
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
+    service?: ServiceCreateNestedOneWithoutClientInstancesInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceUncheckedCreateWithoutBonusesInput = {
+    id?: string
+    clientCompanyId: string
+    serviceId?: string | null
+    label: string
+    status?: string
+    renewsAt?: Date | string | null
+    url?: string | null
+    notes?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: number
+    amountCents?: number | null
+    isRecurring?: boolean
+    billingCycle?: string | null
+    billingDay?: number | null
+    externalId?: string | null
+    provider?: string | null
+    externalClientName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
+  }
+
+  export type ClientServiceCreateOrConnectWithoutBonusesInput = {
+    where: ClientServiceWhereUniqueInput
+    create: XOR<ClientServiceCreateWithoutBonusesInput, ClientServiceUncheckedCreateWithoutBonusesInput>
+  }
+
+  export type UserCreateWithoutBonusesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ticketsCreated?: TicketCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactCreateNestedOneWithoutUserInput
+    setores?: SetorUserCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionCreateNestedManyWithoutUserInput
+    userScores?: UserScoreCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutBonusesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    whatsappSignature?: string | null
+    whatsappSignatureDefault?: boolean
+    companyId?: string | null
+    rankingCategory?: $Enums.RankingCategory
+    lastBadgeSeenAt?: Date | string | null
+    ticketsCreated?: TicketUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    companyContact?: CompanyContactUncheckedCreateNestedOneWithoutUserInput
+    setores?: SetorUserUncheckedCreateNestedManyWithoutUserInput
+    conversationsAssigned?: ConversationUncheckedCreateNestedManyWithoutAssigneeInput
+    googleConnections?: UserGoogleConnectionUncheckedCreateNestedManyWithoutUserInput
+    vaultChallenges?: VaultEmailChallengeUncheckedCreateNestedManyWithoutUserInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedCreateNestedManyWithoutUserInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
+    tasksAssigned?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    tasksCreated?: TaskUncheckedCreateNestedManyWithoutCreatedByInput
+    projectTasksAssigned?: ProjectTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    projectTasksCreated?: ProjectTaskUncheckedCreateNestedManyWithoutCreatedByInput
+    ticketAccess?: TicketAccessUserUncheckedCreateNestedManyWithoutUserInput
+    projectAccess?: ProjectAccessUserUncheckedCreateNestedManyWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifPreferences?: UserNotifPreferencesUncheckedCreateNestedOneWithoutUserInput
+    emailCampaignsCreated?: EmailCampaignUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantsCreated?: AssistantUncheckedCreateNestedManyWithoutCreatedByInput
+    assistantCalendars?: AssistantUncheckedCreateNestedManyWithoutCalendarUserInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutUserInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutUserInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutUserInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutUserInput
+    timeOffsCreated?: TimeOffEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutUserInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutUserInput
+    ownedInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutBonusesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBonusesInput, UserUncheckedCreateWithoutBonusesInput>
+  }
+
+  export type CompanyUpsertWithoutBonusesInput = {
+    update: XOR<CompanyUpdateWithoutBonusesInput, CompanyUncheckedUpdateWithoutBonusesInput>
+    create: XOR<CompanyCreateWithoutBonusesInput, CompanyUncheckedCreateWithoutBonusesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutBonusesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutBonusesInput, CompanyUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type CompanyUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+  }
+
+  export type SaleUpsertWithoutBonusesInput = {
+    update: XOR<SaleUpdateWithoutBonusesInput, SaleUncheckedUpdateWithoutBonusesInput>
+    create: XOR<SaleCreateWithoutBonusesInput, SaleUncheckedCreateWithoutBonusesInput>
+    where?: SaleWhereInput
+  }
+
+  export type SaleUpdateToOneWithWhereWithoutBonusesInput = {
+    where?: SaleWhereInput
+    data: XOR<SaleUpdateWithoutBonusesInput, SaleUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type SaleUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
+    lead?: LeadUpdateOneWithoutSaleNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+  }
+
+  export type SaleUncheckedUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientServiceUpsertWithoutBonusesInput = {
+    update: XOR<ClientServiceUpdateWithoutBonusesInput, ClientServiceUncheckedUpdateWithoutBonusesInput>
+    create: XOR<ClientServiceCreateWithoutBonusesInput, ClientServiceUncheckedCreateWithoutBonusesInput>
+    where?: ClientServiceWhereInput
+  }
+
+  export type ClientServiceUpdateToOneWithWhereWithoutBonusesInput = {
+    where?: ClientServiceWhereInput
+    data: XOR<ClientServiceUpdateWithoutBonusesInput, ClientServiceUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type ClientServiceUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
+    service?: ServiceUpdateOneWithoutClientInstancesNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+  }
+
+  export type ClientServiceUncheckedUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    serviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    renewsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    order?: IntFieldUpdateOperationsInput | number
+    amountCents?: NullableIntFieldUpdateOperationsInput | number | null
+    isRecurring?: BoolFieldUpdateOperationsInput | boolean
+    billingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    billingDay?: NullableIntFieldUpdateOperationsInput | number | null
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+  }
+
+  export type UserUpsertWithoutBonusesInput = {
+    update: XOR<UserUpdateWithoutBonusesInput, UserUncheckedUpdateWithoutBonusesInput>
+    create: XOR<UserCreateWithoutBonusesInput, UserUncheckedCreateWithoutBonusesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBonusesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBonusesInput, UserUncheckedUpdateWithoutBonusesInput>
+  }
+
+  export type UserUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ticketsCreated?: TicketUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBonusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    whatsappSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappSignatureDefault?: BoolFieldUpdateOperationsInput | boolean
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rankingCategory?: EnumRankingCategoryFieldUpdateOperationsInput | $Enums.RankingCategory
+    lastBadgeSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ticketsCreated?: TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    companyContact?: CompanyContactUncheckedUpdateOneWithoutUserNestedInput
+    setores?: SetorUserUncheckedUpdateManyWithoutUserNestedInput
+    conversationsAssigned?: ConversationUncheckedUpdateManyWithoutAssigneeNestedInput
+    googleConnections?: UserGoogleConnectionUncheckedUpdateManyWithoutUserNestedInput
+    vaultChallenges?: VaultEmailChallengeUncheckedUpdateManyWithoutUserNestedInput
+    vaultTrustedSessions?: VaultTrustedSessionUncheckedUpdateManyWithoutUserNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
+    tasksAssigned?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    tasksCreated?: TaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectTasksAssigned?: ProjectTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    projectTasksCreated?: ProjectTaskUncheckedUpdateManyWithoutCreatedByNestedInput
+    ticketAccess?: TicketAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    projectAccess?: ProjectAccessUserUncheckedUpdateManyWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifPreferences?: UserNotifPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    emailCampaignsCreated?: EmailCampaignUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantsCreated?: AssistantUncheckedUpdateManyWithoutCreatedByNestedInput
+    assistantCalendars?: AssistantUncheckedUpdateManyWithoutCalendarUserNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutUserNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutUserNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutUserNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutUserNestedInput
+    timeOffsCreated?: TimeOffEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutUserNestedInput
+    punchAdjustsReviewed?: PunchAdjustRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutUserNestedInput
+    ownedInstances?: WhatsappInstanceUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type CompanyCreateWithoutMonthlyTargetsInput = {
@@ -261720,6 +265308,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -261850,6 +265439,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -261996,6 +265586,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -262126,6 +265717,7 @@ export namespace Prisma {
     ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262257,6 +265849,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -262387,6 +265980,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -262591,6 +266185,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -262721,6 +266316,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262937,6 +266533,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -263067,6 +266664,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -263256,6 +266854,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -263386,6 +266985,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -263596,6 +267196,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -263726,6 +267327,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -263811,6 +267413,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -263861,6 +267464,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -263977,6 +267581,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -264107,6 +267712,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264198,6 +267804,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -264248,6 +267855,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -264348,6 +267956,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -264478,6 +268087,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -264563,6 +268173,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -264613,6 +268224,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -264729,6 +268341,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -264859,6 +268472,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264950,6 +268564,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -265000,6 +268615,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -265100,6 +268716,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -265230,6 +268847,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -265315,6 +268933,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -265365,6 +268984,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -265420,6 +269040,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -265470,6 +269091,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -265586,6 +269208,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -265716,6 +269339,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -265807,6 +269431,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -265857,6 +269482,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -265918,6 +269544,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -265968,6 +269595,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -266068,6 +269696,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -266198,6 +269827,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -266283,6 +269913,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -266333,6 +269964,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -266388,6 +270020,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -266438,6 +270071,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -266554,6 +270188,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -266684,6 +270319,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -266775,6 +270411,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -266825,6 +270462,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -266886,6 +270524,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -266936,6 +270575,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -267036,6 +270676,7 @@ export namespace Prisma {
     clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
@@ -267166,6 +270807,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
     clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
     monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
     salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
     salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
     trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
@@ -267251,6 +270893,7 @@ export namespace Prisma {
     userScores?: UserScoreCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventCreateNestedManyWithoutUserInput
+    bonuses?: BonusCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutUserInput
     messagesSent?: MessageCreateNestedManyWithoutSentByInput
@@ -267301,6 +270944,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedCreateNestedManyWithoutUserInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
     scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutUserInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutUserInput
     messagesSent?: MessageUncheckedCreateNestedManyWithoutSentByInput
@@ -267417,6 +271061,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -267547,6 +271192,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -267638,6 +271284,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -267688,6 +271335,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -267850,6 +271498,20 @@ export namespace Prisma {
     authorId?: string | null
     authorName?: string | null
     createdAt?: Date | string
+  }
+
+  export type BonusCreateManyUserInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProjectMemberCreateManyUserInput = {
@@ -268614,6 +272276,48 @@ export namespace Prisma {
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBonusesNestedInput
+    sale?: SaleUpdateOneWithoutBonusesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutBonusesNestedInput
+  }
+
+  export type BonusUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectMemberUpdateWithoutUserInput = {
@@ -270139,6 +273843,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BonusCreateManyCompanyInput = {
+    id?: string
+    month: string
+    saleId?: string | null
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SaleCreateManyCompanyInput = {
     id?: string
     leadId?: string | null
@@ -270156,6 +273874,7 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -270178,6 +273897,7 @@ export namespace Prisma {
     billedAt?: Date | string | null
     productionStatus?: string
     releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
     notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -270943,6 +274663,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
@@ -271073,6 +274794,7 @@ export namespace Prisma {
     clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
     monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
     salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
     trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
@@ -271197,6 +274919,7 @@ export namespace Prisma {
     userScores?: UserScoreUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUpdateManyWithoutSentByNestedInput
@@ -271247,6 +274970,7 @@ export namespace Prisma {
     userScores?: UserScoreUncheckedUpdateManyWithoutUserNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
     scoreEvents?: ScoreEventUncheckedUpdateManyWithoutUserNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutUserNestedInput
     messagesSent?: MessageUncheckedUpdateManyWithoutSentByNestedInput
@@ -272686,6 +276410,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutClientCompanyInput = {
@@ -272708,6 +276433,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -272815,6 +276541,48 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BonusUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sale?: SaleUpdateOneWithoutBonusesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutBonusesNestedInput
+    user?: UserUpdateOneWithoutBonusesNestedInput
+  }
+
+  export type BonusUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SaleUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -272830,11 +276598,13 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutCompanyInput = {
@@ -272854,9 +276624,11 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateManyWithoutCompanyInput = {
@@ -272876,6 +276648,7 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -272896,11 +276669,13 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateWithoutClientCompanyInput = {
@@ -272920,9 +276695,11 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
   }
 
   export type SaleUncheckedUpdateManyWithoutClientCompanyInput = {
@@ -272942,6 +276719,7 @@ export namespace Prisma {
     billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     productionStatus?: StringFieldUpdateOperationsInput | string
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -279833,6 +283611,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateWithoutServiceInput = {
@@ -279855,6 +283634,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutClientServiceNestedInput
   }
 
   export type ClientServiceUncheckedUpdateManyWithoutServiceInput = {
@@ -280019,6 +283799,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BonusCreateManyClientServiceInput = {
+    id?: string
+    companyId: string
+    month: string
+    saleId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ClientInvoiceUpdateWithoutClientServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -280069,6 +283863,104 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBonusesNestedInput
+    sale?: SaleUpdateOneWithoutBonusesNestedInput
+    user?: UserUpdateOneWithoutBonusesNestedInput
+  }
+
+  export type BonusUncheckedUpdateWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUncheckedUpdateManyWithoutClientServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusCreateManySaleInput = {
+    id?: string
+    companyId: string
+    month: string
+    clientServiceId?: string | null
+    userId?: string | null
+    name: string
+    amountCents?: number
+    paidAt?: Date | string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BonusUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBonusesNestedInput
+    clientService?: ClientServiceUpdateOneWithoutBonusesNestedInput
+    user?: UserUpdateOneWithoutBonusesNestedInput
+  }
+
+  export type BonusUncheckedUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BonusUncheckedUpdateManyWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    amountCents?: IntFieldUpdateOperationsInput | number
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -280286,6 +284178,10 @@ export namespace Prisma {
      * @deprecated Use ClientServiceCountOutputTypeDefaultArgs instead
      */
     export type ClientServiceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientServiceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SaleCountOutputTypeDefaultArgs instead
+     */
+    export type SaleCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SaleCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use VideoCategoryCountOutputTypeDefaultArgs instead
      */
@@ -280726,6 +284622,10 @@ export namespace Prisma {
      * @deprecated Use SaleDefaultArgs instead
      */
     export type SaleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SaleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use BonusDefaultArgs instead
+     */
+    export type BonusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BonusDefaultArgs<ExtArgs>
     /**
      * @deprecated Use MonthlyTargetDefaultArgs instead
      */

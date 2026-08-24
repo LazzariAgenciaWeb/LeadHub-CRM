@@ -44,20 +44,25 @@ const CHECKPOINTS = [
     done: ["FATURADO", "DISPENSADO"],
   },
   {
+    // Três estágios, não dois: "o que preciso encaminhar", "o que está sendo
+    // feito" e "o que já foi entregue" são perguntas diferentes — e só a
+    // última libera bonificação do serviço pontual.
     key: "productionStatus" as const,
     label: "Produção",
-    options: ["PENDENTE", "LIBERADO", "DISPENSADO"],
-    done: ["LIBERADO", "DISPENSADO"],
+    options: ["PENDENTE", "LIBERADO", "ENTREGUE", "DISPENSADO"],
+    done: ["ENTREGUE", "DISPENSADO"],
   },
 ];
 
-const STATUS_LABEL: Record<string, string> = {
-  PENDENTE: "Pendente",
-  ENVIADO: "Enviado",
-  ASSINADO: "Assinado",
-  FATURADO: "Faturado",
-  LIBERADO: "Liberado",
-  DISPENSADO: "Não se aplica",
+// Rótulo por checkpoint: "Pendente" quer dizer coisas diferentes em cada um —
+// contrato pendente é "ainda não mandei", faturamento pendente é "a faturar",
+// produção pendente é "preciso encaminhar". Um rótulo só apagaria a diferença.
+const STATUS_LABEL: Record<string, Record<string, string>> = {
+  contractStatus: { PENDENTE: "Pendente", ENVIADO: "Enviado", ASSINADO: "Assinado", DISPENSADO: "Não se aplica" },
+  billingStatus: { PENDENTE: "A faturar", FATURADO: "Faturado", DISPENSADO: "Não se aplica" },
+  productionStatus: {
+    PENDENTE: "A encaminhar", LIBERADO: "Em produção", ENTREGUE: "Entregue", DISPENSADO: "Não se aplica",
+  },
 };
 
 type FilterKey = "pendentes" | "sem-cliente" | "contrato" | "faturar" | "producao" | "todas";
@@ -152,7 +157,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     { key: "sem-cliente", label: "Sem cliente", count: counts.semCliente, tone: "text-indigo-400" },
     { key: "contrato", label: "Falta contrato", count: counts.contrato, tone: "text-amber-400" },
     { key: "faturar", label: "Falta faturar", count: counts.faturar, tone: "text-amber-400" },
-    { key: "producao", label: "Falta liberar", count: counts.producao, tone: "text-amber-400" },
+    { key: "producao", label: "Falta entregar", count: counts.producao, tone: "text-amber-400" },
     { key: "todas", label: "Todas" },
   ];
 
@@ -352,7 +357,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                         }`}
                       >
                         {cp.options.map((o) => (
-                          <option key={o} value={o}>{STATUS_LABEL[o]}</option>
+                          <option key={o} value={o}>{STATUS_LABEL[cp.key][o]}</option>
                         ))}
                       </select>
                     </label>

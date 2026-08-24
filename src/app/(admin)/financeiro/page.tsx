@@ -131,7 +131,7 @@ export default async function FinanceiroPage({
       semCliente: somaSe((g) => g.clientCompanyId === null),
       semContrato: somaSe((g) => g.contractStatus === "PENDENTE" || g.contractStatus === "ENVIADO"),
       semFatura: somaSe((g) => g.billingStatus === "PENDENTE"),
-      semProducao: somaSe((g) => g.productionStatus === "PENDENTE"),
+      semProducao: somaSe((g) => g.productionStatus === "PENDENTE" || g.productionStatus === "LIBERADO"),
     },
     month,
     prevMonth: shiftMonth(month, -1),

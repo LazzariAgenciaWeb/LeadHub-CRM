@@ -416,7 +416,7 @@ export default function FinanceiroVisaoGeral({ data }: { data: VisaoGeralData })
           <Pendencia label="Sem cliente vinculado" n={data.esteira.semCliente} />
           <Pendencia label="Falta contrato" n={data.esteira.semContrato} />
           <Pendencia label="Falta faturar" n={data.esteira.semFatura} />
-          <Pendencia label="Falta liberar produção" n={data.esteira.semProducao} />
+          <Pendencia label="Falta entregar" n={data.esteira.semProducao} />
         </div>
         <p className="text-[11px] text-slate-600 mt-3">
           Contagem sobre todas as vendas, não só as do mês — pendência antiga continua sendo pendência.

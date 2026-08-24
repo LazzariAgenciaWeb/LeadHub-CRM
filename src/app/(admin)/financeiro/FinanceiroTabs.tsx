@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wallet, ListChecks, Download } from "lucide-react";
+import { Wallet, ListChecks, Download, Award } from "lucide-react";
 
 const TABS = [
   { href: "/financeiro", label: "Visão geral", Icon: Wallet },
   { href: "/financeiro/esteira", label: "Esteira pós-venda", Icon: ListChecks },
+  { href: "/financeiro/bonificacao", label: "Bonificação", Icon: Award },
   { href: "/financeiro/importar", label: "Importar do ClickUp", Icon: Download },
 ];
 
