@@ -18,6 +18,7 @@ export interface RelatorioTela {
   clientesExistentes: { clickup: string; empresaId: string; empresaNome: string; temCnpj: boolean }[];
   clientesNovos: { nome: string; parecidos: { id: string; nome: string }[] }[];
   nomesParecidos: [string, string][];
+  servicos: { nome: string; n: number; noCatalogo: boolean }[];
   itens: {
     taskId: string; cliente: string; label: string;
     amountCents: number | null; billingCycle: string; billingDay: number | null;
@@ -46,12 +47,13 @@ export default function ImportarClickup({
   // useTransition expõe esse "estou indo" pra virar spinner no botão.
   const [navegando, iniciarPrevia] = useTransition();
   const [erro, setErro] = useState("");
-  const [resultado, setResultado] = useState<{ criados: number; atualizados: number; clientesNovos: number } | null>(null);
+  const [resultado, setResultado] = useState<{ criados: number; atualizados: number; clientesNovos: number; comCatalogo: number } | null>(null);
 
   const rel = relatorio;
   const bloqueado = !temEmpresa || !temToken;
   const semCnpj = rel ? rel.clientesExistentes.filter((c) => !c.temCnpj).length + rel.clientesNovos.length : 0;
   const comSugestao = rel ? rel.clientesNovos.filter((c) => c.parecidos.length > 0).length : 0;
+  const foraDoCatalogo = rel ? rel.servicos.filter((sv) => !sv.noCatalogo).length : 0;
   const urlPrevia = `/financeiro/importar?previa=1&lista=${encodeURIComponent(listId)}${incluirEncerrados ? "&encerrados=1" : ""}`;
 
   /**
@@ -160,7 +162,7 @@ export default function ImportarClickup({
           </div>
           <p className="text-sm text-slate-300 mt-1">
             {resultado.criados} contrato(s) criado(s) · {resultado.atualizados} atualizado(s) ·{" "}
-            {resultado.clientesNovos} cliente(s) novo(s).
+            {resultado.clientesNovos} cliente(s) novo(s) · {resultado.comCatalogo} vinculado(s) ao catálogo.
           </p>
           <Link href="/financeiro" className="text-indigo-400 hover:text-indigo-300 text-sm mt-2 inline-flex items-center gap-1">
             <ArrowLeft className="w-3.5 h-3.5" /> Ver a previsão do mês
@@ -207,6 +209,23 @@ export default function ImportarClickup({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div className={card}>
+              <h2 className="text-white font-semibold text-sm mb-3">Serviços × catálogo</h2>
+              <p className="text-xs text-slate-600 mb-3">
+                O que casar com o Catálogo de Serviços entra vinculado; o resto entra como avulso —
+                funciona igual, só não aparece organizado no painel do cliente.
+              </p>
+              <div className="space-y-1.5 mb-5">
+                {rel.servicos.map((sv) => (
+                  <div key={sv.nome} className="flex items-center justify-between gap-2 text-sm">
+                    <span className={sv.noCatalogo ? "text-slate-300" : "text-amber-300"}>
+                      {sv.nome}
+                      {!sv.noCatalogo && <span className="text-[10px] text-amber-500/80 ml-1.5">fora do catálogo</span>}
+                    </span>
+                    <span className="text-slate-500 flex-shrink-0">{sv.n}</span>
+                  </div>
+                ))}
+              </div>
+
               <h2 className="text-white font-semibold text-sm mb-3">Por categoria</h2>
               <div className="space-y-1.5">
                 {rel.porCategoria.map((c) => (
@@ -223,6 +242,16 @@ export default function ImportarClickup({
             <div className={card}>
               <h2 className="text-white font-semibold text-sm mb-3">O que precisa de atenção</h2>
               <ul className="space-y-2 text-sm">
+                {foraDoCatalogo > 0 && (
+                  <li className="flex gap-2 text-slate-400">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-slate-600" />
+                    <span>
+                      <b>{foraDoCatalogo}</b> serviço(s) não existem no Catálogo de Serviços. Os contratos
+                      entram como avulsos. Se quiser vinculados, crie no catálogo com o mesmo nome e
+                      reimporte — a importação atualiza o que já existe.
+                    </span>
+                  </li>
+                )}
                 {comSugestao > 0 && (
                   <li className="flex gap-2 text-amber-300">
                     <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -260,7 +289,7 @@ export default function ImportarClickup({
                     </div>
                   </li>
                 )}
-                {semCnpj === 0 && rel.semValor === 0 && rel.nomesParecidos.length === 0 && comSugestao === 0 && (
+                {semCnpj === 0 && rel.semValor === 0 && rel.nomesParecidos.length === 0 && comSugestao === 0 && foraDoCatalogo === 0 && (
                   <li className="text-slate-500">Nada pendente. Pode importar.</li>
                 )}
               </ul>

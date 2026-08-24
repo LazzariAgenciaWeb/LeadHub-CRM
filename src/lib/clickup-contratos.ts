@@ -206,6 +206,8 @@ export interface ContratoMapeado {
   codigo: string;
   cliente: string;
   label: string;
+  /** Valor do dropdown SERVICO na origem — casado com o Catálogo de Serviços. */
+  servicoOrigem: string | null;
   amountCents: number | null;
   billingCycle: string;
   billingDay: number | null;
@@ -230,6 +232,7 @@ export function mapearContrato(t: CuTask): ContratoMapeado {
     taskUrl: t.url,
     codigo: t.custom_id ?? t.id,
     cliente: nomeCliente(t.name),
+    servicoOrigem: servico ?? null,
     label: [servico ?? nomeStatus, detalhe].filter(Boolean).join(" — ") || "Contrato mensal",
     amountCents: Number.isFinite(valor) && valor > 0 ? Math.round(valor * 100) : null,
     billingCycle: CICLO[dropdown(t, "Periodicidade") ?? "Mensal"] ?? "MENSAL",
@@ -278,6 +281,8 @@ export interface RelatorioImportacao {
    */
   clientesNovos: { nome: string; parecidos: { id: string; nome: string }[] }[];
   nomesParecidos: [string, string][];
+  /** Servicos da origem x Catalogo de Servicos da agencia. */
+  servicos: { nome: string; n: number; noCatalogo: boolean }[];
   itens: ContratoMapeado[];
 }
 
@@ -411,6 +416,22 @@ export async function analisarImportacao(
     }
   }
 
+  // Servicos da origem confrontados com o catalogo. Quem nao casar entra como
+  // contrato avulso -- funciona, mas nao aparece direito no painel do cliente.
+  const catalogo = await prisma.service.findMany({
+    where: { companyId: agencyId },
+    select: { name: true },
+  });
+  const nomesCatalogo = new Set(catalogo.map((c) => normalizarNome(c.name)));
+  const contagemServico = new Map<string, number>();
+  for (const i of itens) {
+    const nome = i.servicoOrigem ?? "(sem servico na origem)";
+    contagemServico.set(nome, (contagemServico.get(nome) ?? 0) + 1);
+  }
+  const servicos = [...contagemServico]
+    .map(([nome, n]) => ({ nome, n, noCatalogo: nomesCatalogo.has(normalizarNome(nome)) }))
+    .sort((a, b) => b.n - a.n);
+
   return {
     totalTasks: tasks.length,
     encerradas: tasks.length - vivos.length,
@@ -422,6 +443,7 @@ export async function analisarImportacao(
     clientesExistentes,
     clientesNovos,
     nomesParecidos,
+    servicos,
     itens,
   };
 }
@@ -441,10 +463,21 @@ function slugify(name: string) {
 export async function aplicarImportacao(
   agencyId: string,
   itens: ContratoMapeado[]
-): Promise<{ criados: number; atualizados: number; clientesNovos: number }> {
+): Promise<{ criados: number; atualizados: number; clientesNovos: number; comCatalogo: number }> {
   let criados = 0;
   let atualizados = 0;
   let clientesNovos = 0;
+  let comCatalogo = 0;
+
+  // Catálogo de Serviços da agência. Vincular o contrato ao item do catálogo é
+  // o que faz ele aparecer direito no painel do cliente e se ligar a projetos —
+  // sem isso o contrato entra como "avulso" mesmo tendo o serviço preenchido
+  // na origem.
+  const catalogo = await prisma.service.findMany({
+    where: { companyId: agencyId },
+    select: { id: true, name: true },
+  });
+  const catalogoPorNome = new Map(catalogo.map((c) => [normalizarNome(c.name), c.id] as const));
 
   for (const i of itens) {
     // Contrato que já foi importado antes: o vínculo com a empresa é decisão
@@ -483,9 +516,18 @@ export async function aplicarImportacao(
       clientesNovos++;
     }
 
+    // Casa o SERVICO da origem com o catálogo. Só por nome normalizado — sem
+    // aproximação: apontar pro serviço errado do catálogo bagunçaria o painel
+    // do cliente, e "avulso" é um estado honesto.
+    const serviceId = i.servicoOrigem
+      ? catalogoPorNome.get(normalizarNome(i.servicoOrigem)) ?? null
+      : null;
+    if (serviceId) comCatalogo++;
+
     const dados = {
       clientCompanyId: company.id,
       externalClientName: i.cliente,
+      serviceId,
       label: i.label,
       status: i.status,
       isRecurring: true,
@@ -507,5 +549,5 @@ export async function aplicarImportacao(
     }
   }
 
-  return { criados, atualizados, clientesNovos };
+  return { criados, atualizados, clientesNovos, comCatalogo };
 }

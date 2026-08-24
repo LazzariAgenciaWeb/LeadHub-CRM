@@ -83,6 +83,7 @@ function paraTela(r: RelatorioImportacao): RelatorioTela {
     clientesExistentes: r.clientesExistentes,
     clientesNovos: r.clientesNovos,
     nomesParecidos: r.nomesParecidos,
+    servicos: r.servicos,
     // `url` é o site do cliente. Vai pra tela porque é o que identifica de qual
     // domínio é aquela hospedagem — sem ele a linha "hospedagem R$ 65" não diz
     // de quem é.
