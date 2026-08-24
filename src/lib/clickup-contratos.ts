@@ -64,30 +64,74 @@ function dropdown(t: CuTask, name: string): string | undefined {
   return (f.type_config?.options ?? []).find((o) => o.orderindex === idx)?.name;
 }
 
-/** Teto de páginas. 100 tasks por página — 30 páginas cobrem 3000 contratos. */
-const MAX_PAGINAS = 30;
+/** Teto de páginas. 100 tasks por página — 20 páginas cobrem 2000 contratos. */
+const MAX_PAGINAS = 20;
 
-export async function fetchContratos(token: string, listId: string): Promise<CuTask[]> {
-  const out: CuTask[] = [];
-  const t0 = Date.now();
-  for (let page = 0; page < MAX_PAGINAS; page++) {
-    const res = await fetch(
-      `https://api.clickup.com/api/v2/list/${listId}/task?page=${page}&include_closed=true&subtasks=false`,
-      // Sem timeout, uma página lenta trava a requisição inteira até o proxy
-      // derrubar a conexão — e aí o erro chega como "conexão caiu", que não
-      // diz nada sobre a causa.
-      { headers: { Authorization: token }, signal: AbortSignal.timeout(30_000) }
-    );
-    if (!res.ok) {
-      throw new Error(`ClickUp respondeu ${res.status} na página ${page}: ${(await res.text()).slice(0, 200)}`);
-    }
-    const body = (await res.json()) as { tasks?: CuTask[]; last_page?: boolean };
-    const tasks = body.tasks ?? [];
-    out.push(...tasks);
-    // Log de progresso: quando a leitura demora, é isto que mostra ONDE parou.
-    console.log(`[Contratos ClickUp] página ${page}: ${tasks.length} task(s), ${out.length} no total`);
-    if (body.last_page || tasks.length === 0) break;
+/** Páginas buscadas ao mesmo tempo. */
+const LOTE = 5;
+
+/**
+ * Orçamento total da leitura. Existe pra SEMPRE responder antes do proxy
+ * desistir: estourando isto, a página mostra um erro explicativo, em vez de
+ * a conexão morrer e o navegador exibir "This page couldn't load" — que não
+ * diz nada a ninguém.
+ */
+const ORCAMENTO_MS = 25_000;
+
+/** `ultima` separado das tasks: página cheia PODE ser a última, e misturar os
+ *  dois num só valor de retorno já me fez perder o fim da lista uma vez. */
+async function buscarPagina(
+  token: string,
+  listId: string,
+  page: number
+): Promise<{ tasks: CuTask[]; ultima: boolean }> {
+  const res = await fetch(
+    `https://api.clickup.com/api/v2/list/${listId}/task?page=${page}&include_closed=true&subtasks=false`,
+    { headers: { Authorization: token }, signal: AbortSignal.timeout(20_000) }
+  );
+  if (!res.ok) {
+    throw new Error(`ClickUp respondeu ${res.status} na página ${page}: ${(await res.text()).slice(0, 200)}`);
   }
+  const body = (await res.json()) as { tasks?: CuTask[]; last_page?: boolean };
+  const tasks = body.tasks ?? [];
+  return { tasks, ultima: body.last_page === true || tasks.length < 100 };
+}
+
+/**
+ * Lê a lista inteira em lotes PARALELOS.
+ *
+ * Era sequencial — pede página 0, espera, pede a 1, espera. Com várias páginas
+ * isso somava dezenas de segundos e a requisição morria no proxy antes de
+ * responder qualquer coisa. Como a API do ClickUp aceita pedir uma página
+ * arbitrária, dá pra buscar cinco de uma vez: o tempo passa a ser o da página
+ * mais lenta do lote, não a soma de todas.
+ */
+export async function fetchContratos(token: string, listId: string): Promise<CuTask[]> {
+  const t0 = Date.now();
+  const out: CuTask[] = [];
+
+  for (let inicio = 0; inicio < MAX_PAGINAS; inicio += LOTE) {
+    if (Date.now() - t0 > ORCAMENTO_MS) {
+      throw new Error(
+        `A leitura do ClickUp passou de ${ORCAMENTO_MS / 1000}s (${out.length} contratos lidos). ` +
+        `A lista pode estar grande demais para ler de uma vez — use o script no servidor: npm run import:contratos-clickup`
+      );
+    }
+
+    const paginas = Array.from({ length: LOTE }, (_, k) => inicio + k).filter((n) => n < MAX_PAGINAS);
+    const lote = await Promise.all(paginas.map((n) => buscarPagina(token, listId, n)));
+
+    let acabou = false;
+    for (const { tasks, ultima } of lote) {
+      out.push(...tasks);
+      if (ultima) acabou = true;
+    }
+    console.log(
+      `[Contratos ClickUp] lote ${inicio}-${inicio + LOTE - 1}: ${out.length} task(s) acumulada(s), ${Date.now() - t0}ms`
+    );
+    if (acabou) break;
+  }
+
   console.log(`[Contratos ClickUp] ${out.length} task(s) em ${Date.now() - t0}ms`);
   return out;
 }
