@@ -3772,8 +3772,14 @@ model ClientService {
   // Origem do cadastro, mesmo padrão da ClientInvoice. Serve pra idempotência
   // da importação: reimportar a lista do ClickUp atualiza o contrato existente
   // em vez de duplicar. `externalId` = id da task de origem.
-  externalId String?
-  provider   String? // "manual" | "clickup" | "bling"
+  externalId         String?
+  provider           String? // "manual" | "clickup" | "bling"
+  // Nome do cliente COMO ESTÁ NA ORIGEM (ex.: a razão social na task do
+  // ClickUp). Guarda o vínculo que a pessoa estabeleceu: depois de mesclar
+  // duas empresas, é por aqui que a próxima importação sabe que
+  // "TECNURBE … LTDA." é o cadastro "Tecnurbe" — sem isso ela recriaria a
+  // duplicata que acabou de ser mesclada.
+  externalClientName String?
 
   invoices ClientInvoice[] // cobranças ligadas a este serviço
 
@@ -3784,6 +3790,7 @@ model ClientService {
   @@index([serviceId])
   @@index([isRecurring, status])
   @@index([provider, externalId])
+  @@index([provider, externalClientName])
 }
 
 // Cobrança (fatura/boleto/NF) que a agência EMITE para um cliente. Alimentada

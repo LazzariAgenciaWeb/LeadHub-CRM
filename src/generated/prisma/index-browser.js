@@ -1718,6 +1718,7 @@ exports.Prisma.ClientServiceScalarFieldEnum = {
   billingDay: 'billingDay',
   externalId: 'externalId',
   provider: 'provider',
+  externalClientName: 'externalClientName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

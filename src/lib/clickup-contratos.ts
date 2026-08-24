@@ -369,8 +369,20 @@ export async function analisarImportacao(
 
   const clientesExistentes: RelatorioImportacao["clientesExistentes"] = [];
   const clientesNovos: RelatorioImportacao["clientesNovos"] = [];
+  // Vínculos já estabelecidos: nome de origem que uma importação anterior
+  // resolveu. Sobrevive a mesclagem, porque o contrato migra junto com a
+  // empresa. É o que faz a prévia parar de anunciar como "novo" um cliente
+  // que você já resolveu na mão.
+  const vinculados = new Map<string, { id: string; name: string; document: string | null }>();
+  for (const v of await prisma.clientService.findMany({
+    where: { provider: "clickup", externalClientName: { in: nomes } },
+    select: { externalClientName: true, clientCompany: { select: { id: true, name: true, document: true } } },
+  })) {
+    if (v.externalClientName && v.clientCompany) vinculados.set(v.externalClientName, v.clientCompany);
+  }
+
   for (const n of nomes) {
-    const exato = porNome.get(n.toUpperCase());
+    const exato = porNome.get(n.toUpperCase()) ?? vinculados.get(n);
     if (exato) {
       clientesExistentes.push({
         clickup: n,
@@ -435,10 +447,30 @@ export async function aplicarImportacao(
   let clientesNovos = 0;
 
   for (const i of itens) {
-    let company = await prisma.company.findFirst({
-      where: { parentCompanyId: agencyId, name: { equals: i.cliente, mode: "insensitive" } },
-      select: { id: true },
+    // Contrato que já foi importado antes: o vínculo com a empresa é decisão
+    // humana (pode ter havido mesclagem depois), então NÃO se mexe nele.
+    const existente = await prisma.clientService.findFirst({
+      where: { provider: "clickup", externalId: i.taskId },
+      select: { id: true, clientCompanyId: true },
     });
+
+    // Task nova, mas de um cliente cujo nome de origem já foi resolvido antes.
+    // É o que impede a duplicata de renascer depois de uma mesclagem.
+    const porNomeDeOrigem = existente
+      ? null
+      : await prisma.clientService.findFirst({
+          where: { provider: "clickup", externalClientName: i.cliente },
+          select: { clientCompanyId: true },
+        });
+
+    let company: { id: string } | null = existente
+      ? { id: existente.clientCompanyId }
+      : porNomeDeOrigem
+        ? { id: porNomeDeOrigem.clientCompanyId }
+        : await prisma.company.findFirst({
+            where: { parentCompanyId: agencyId, name: { equals: i.cliente, mode: "insensitive" } },
+            select: { id: true },
+          });
     if (!company) {
       const base = slugify(i.cliente) || "cliente";
       let slug = base;
@@ -453,6 +485,7 @@ export async function aplicarImportacao(
 
     const dados = {
       clientCompanyId: company.id,
+      externalClientName: i.cliente,
       label: i.label,
       status: i.status,
       isRecurring: true,
@@ -465,10 +498,6 @@ export async function aplicarImportacao(
       externalId: i.taskId,
     };
 
-    const existente = await prisma.clientService.findFirst({
-      where: { provider: "clickup", externalId: i.taskId },
-      select: { id: true },
-    });
     if (existente) {
       await prisma.clientService.update({ where: { id: existente.id }, data: dados });
       atualizados++;

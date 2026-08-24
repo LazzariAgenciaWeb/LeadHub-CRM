@@ -129538,6 +129538,7 @@ export namespace Prisma {
     billingDay: number | null
     externalId: string | null
     provider: string | null
+    externalClientName: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -129558,6 +129559,7 @@ export namespace Prisma {
     billingDay: number | null
     externalId: string | null
     provider: string | null
+    externalClientName: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -129579,6 +129581,7 @@ export namespace Prisma {
     billingDay: number
     externalId: number
     provider: number
+    externalClientName: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -129613,6 +129616,7 @@ export namespace Prisma {
     billingDay?: true
     externalId?: true
     provider?: true
+    externalClientName?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -129633,6 +129637,7 @@ export namespace Prisma {
     billingDay?: true
     externalId?: true
     provider?: true
+    externalClientName?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -129654,6 +129659,7 @@ export namespace Prisma {
     billingDay?: true
     externalId?: true
     provider?: true
+    externalClientName?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -129762,6 +129768,7 @@ export namespace Prisma {
     billingDay: number | null
     externalId: string | null
     provider: string | null
+    externalClientName: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClientServiceCountAggregateOutputType | null
@@ -129802,6 +129809,7 @@ export namespace Prisma {
     billingDay?: boolean
     externalId?: boolean
     provider?: boolean
+    externalClientName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -129827,6 +129835,7 @@ export namespace Prisma {
     billingDay?: boolean
     externalId?: boolean
     provider?: boolean
+    externalClientName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -129850,6 +129859,7 @@ export namespace Prisma {
     billingDay?: boolean
     externalId?: boolean
     provider?: boolean
+    externalClientName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -129889,6 +129899,7 @@ export namespace Prisma {
       billingDay: number | null
       externalId: string | null
       provider: string | null
+      externalClientName: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clientService"]>
@@ -130303,6 +130314,7 @@ export namespace Prisma {
     readonly billingDay: FieldRef<"ClientService", 'Int'>
     readonly externalId: FieldRef<"ClientService", 'String'>
     readonly provider: FieldRef<"ClientService", 'String'>
+    readonly externalClientName: FieldRef<"ClientService", 'String'>
     readonly createdAt: FieldRef<"ClientService", 'DateTime'>
     readonly updatedAt: FieldRef<"ClientService", 'DateTime'>
   }
@@ -144058,6 +144070,7 @@ export namespace Prisma {
     billingDay: 'billingDay',
     externalId: 'externalId',
     provider: 'provider',
+    externalClientName: 'externalClientName',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -155562,6 +155575,7 @@ export namespace Prisma {
     billingDay?: IntNullableFilter<"ClientService"> | number | null
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
+    externalClientName?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -155586,6 +155600,7 @@ export namespace Prisma {
     billingDay?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    externalClientName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     clientCompany?: CompanyOrderByWithRelationInput
@@ -155613,6 +155628,7 @@ export namespace Prisma {
     billingDay?: IntNullableFilter<"ClientService"> | number | null
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
+    externalClientName?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
     clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
@@ -155637,6 +155653,7 @@ export namespace Prisma {
     billingDay?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    externalClientName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClientServiceCountOrderByAggregateInput
@@ -155666,6 +155683,7 @@ export namespace Prisma {
     billingDay?: IntNullableWithAggregatesFilter<"ClientService"> | number | null
     externalId?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     provider?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
+    externalClientName?: StringNullableWithAggregatesFilter<"ClientService"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientService"> | Date | string
   }
@@ -168311,6 +168329,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -168335,6 +168354,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -168355,6 +168375,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -168379,6 +168400,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -168401,6 +168423,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -168420,6 +168443,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -168441,6 +168465,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -177614,6 +177639,7 @@ export namespace Prisma {
     billingDay?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    externalClientName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -177640,6 +177666,7 @@ export namespace Prisma {
     billingDay?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    externalClientName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -177660,6 +177687,7 @@ export namespace Prisma {
     billingDay?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    externalClientName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -197170,6 +197198,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     service?: ServiceCreateNestedOneWithoutClientInstancesInput
@@ -197192,6 +197221,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -200622,6 +200652,7 @@ export namespace Prisma {
     billingDay?: IntNullableFilter<"ClientService"> | number | null
     externalId?: StringNullableFilter<"ClientService"> | string | null
     provider?: StringNullableFilter<"ClientService"> | string | null
+    externalClientName?: StringNullableFilter<"ClientService"> | string | null
     createdAt?: DateTimeFilter<"ClientService"> | Date | string
     updatedAt?: DateTimeFilter<"ClientService"> | Date | string
   }
@@ -258514,6 +258545,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -258536,6 +258568,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientServiceInput
@@ -259944,6 +259977,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientCompany: CompanyCreateNestedOneWithoutClientServicesInput
@@ -259967,6 +260001,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -260273,6 +260308,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -260296,6 +260332,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -270069,6 +270106,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -272643,6 +272681,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutClientInstancesNestedInput
@@ -272665,6 +272704,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -272686,6 +272726,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -279732,6 +279773,7 @@ export namespace Prisma {
     billingDay?: number | null
     externalId?: string | null
     provider?: string | null
+    externalClientName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -279786,6 +279828,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientCompany?: CompanyUpdateOneRequiredWithoutClientServicesNestedInput
@@ -279808,6 +279851,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutClientServiceNestedInput
@@ -279829,6 +279873,7 @@ export namespace Prisma {
     billingDay?: NullableIntFieldUpdateOperationsInput | number | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    externalClientName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
