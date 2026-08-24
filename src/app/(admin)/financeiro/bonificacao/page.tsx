@@ -105,7 +105,9 @@ export default async function BonificacaoPage({
       id: b.id,
       nome: b.name,
       amountCents: b.amountCents,
+      serviceValueCents: b.serviceValueCents,
       pago: !!b.paidAt,
+      pagoEm: b.paidAt?.toISOString() ?? null,
       origem: b.sale
         ? { tipo: "venda" as const, id: b.sale.id, descricao: b.sale.title }
         : b.clientService

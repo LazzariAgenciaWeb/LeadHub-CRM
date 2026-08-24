@@ -3927,9 +3927,15 @@ model Bonus {
   userId String?
   name   String
 
-  amountCents Int       @default(0)
-  paidAt      DateTime?
-  notes       String?
+  // Valor do SERVIÇO na origem, congelado no lançamento. É referência de
+  // cálculo, não o que se paga — e fica congelado porque o contrato pode mudar
+  // de preço depois, e isso não pode reescrever o histórico do que já foi pago.
+  serviceValueCents Int       @default(0)
+  // Valor da BONIFICAÇÃO. Nasce zerado: o Diego calcula depois, na régua dele,
+  // e lança aqui.
+  amountCents       Int       @default(0)
+  paidAt            DateTime?
+  notes             String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -133260,10 +133260,12 @@ export namespace Prisma {
   }
 
   export type BonusAvgAggregateOutputType = {
+    serviceValueCents: number | null
     amountCents: number | null
   }
 
   export type BonusSumAggregateOutputType = {
+    serviceValueCents: number | null
     amountCents: number | null
   }
 
@@ -133275,6 +133277,7 @@ export namespace Prisma {
     clientServiceId: string | null
     userId: string | null
     name: string | null
+    serviceValueCents: number | null
     amountCents: number | null
     paidAt: Date | null
     notes: string | null
@@ -133290,6 +133293,7 @@ export namespace Prisma {
     clientServiceId: string | null
     userId: string | null
     name: string | null
+    serviceValueCents: number | null
     amountCents: number | null
     paidAt: Date | null
     notes: string | null
@@ -133305,6 +133309,7 @@ export namespace Prisma {
     clientServiceId: number
     userId: number
     name: number
+    serviceValueCents: number
     amountCents: number
     paidAt: number
     notes: number
@@ -133315,10 +133320,12 @@ export namespace Prisma {
 
 
   export type BonusAvgAggregateInputType = {
+    serviceValueCents?: true
     amountCents?: true
   }
 
   export type BonusSumAggregateInputType = {
+    serviceValueCents?: true
     amountCents?: true
   }
 
@@ -133330,6 +133337,7 @@ export namespace Prisma {
     clientServiceId?: true
     userId?: true
     name?: true
+    serviceValueCents?: true
     amountCents?: true
     paidAt?: true
     notes?: true
@@ -133345,6 +133353,7 @@ export namespace Prisma {
     clientServiceId?: true
     userId?: true
     name?: true
+    serviceValueCents?: true
     amountCents?: true
     paidAt?: true
     notes?: true
@@ -133360,6 +133369,7 @@ export namespace Prisma {
     clientServiceId?: true
     userId?: true
     name?: true
+    serviceValueCents?: true
     amountCents?: true
     paidAt?: true
     notes?: true
@@ -133462,6 +133472,7 @@ export namespace Prisma {
     clientServiceId: string | null
     userId: string | null
     name: string
+    serviceValueCents: number
     amountCents: number
     paidAt: Date | null
     notes: string | null
@@ -133496,6 +133507,7 @@ export namespace Prisma {
     clientServiceId?: boolean
     userId?: boolean
     name?: boolean
+    serviceValueCents?: boolean
     amountCents?: boolean
     paidAt?: boolean
     notes?: boolean
@@ -133515,6 +133527,7 @@ export namespace Prisma {
     clientServiceId?: boolean
     userId?: boolean
     name?: boolean
+    serviceValueCents?: boolean
     amountCents?: boolean
     paidAt?: boolean
     notes?: boolean
@@ -133534,6 +133547,7 @@ export namespace Prisma {
     clientServiceId?: boolean
     userId?: boolean
     name?: boolean
+    serviceValueCents?: boolean
     amountCents?: boolean
     paidAt?: boolean
     notes?: boolean
@@ -133570,6 +133584,7 @@ export namespace Prisma {
       clientServiceId: string | null
       userId: string | null
       name: string
+      serviceValueCents: number
       amountCents: number
       paidAt: Date | null
       notes: string | null
@@ -133979,6 +133994,7 @@ export namespace Prisma {
     readonly clientServiceId: FieldRef<"Bonus", 'String'>
     readonly userId: FieldRef<"Bonus", 'String'>
     readonly name: FieldRef<"Bonus", 'String'>
+    readonly serviceValueCents: FieldRef<"Bonus", 'Int'>
     readonly amountCents: FieldRef<"Bonus", 'Int'>
     readonly paidAt: FieldRef<"Bonus", 'DateTime'>
     readonly notes: FieldRef<"Bonus", 'String'>
@@ -145503,6 +145519,7 @@ export namespace Prisma {
     clientServiceId: 'clientServiceId',
     userId: 'userId',
     name: 'name',
+    serviceValueCents: 'serviceValueCents',
     amountCents: 'amountCents',
     paidAt: 'paidAt',
     notes: 'notes',
@@ -157356,6 +157373,7 @@ export namespace Prisma {
     clientServiceId?: StringNullableFilter<"Bonus"> | string | null
     userId?: StringNullableFilter<"Bonus"> | string | null
     name?: StringFilter<"Bonus"> | string
+    serviceValueCents?: IntFilter<"Bonus"> | number
     amountCents?: IntFilter<"Bonus"> | number
     paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
     notes?: StringNullableFilter<"Bonus"> | string | null
@@ -157375,6 +157393,7 @@ export namespace Prisma {
     clientServiceId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
     paidAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
@@ -157397,6 +157416,7 @@ export namespace Prisma {
     clientServiceId?: StringNullableFilter<"Bonus"> | string | null
     userId?: StringNullableFilter<"Bonus"> | string | null
     name?: StringFilter<"Bonus"> | string
+    serviceValueCents?: IntFilter<"Bonus"> | number
     amountCents?: IntFilter<"Bonus"> | number
     paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
     notes?: StringNullableFilter<"Bonus"> | string | null
@@ -157416,6 +157436,7 @@ export namespace Prisma {
     clientServiceId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     name?: SortOrder
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
     paidAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
@@ -157439,6 +157460,7 @@ export namespace Prisma {
     clientServiceId?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
     userId?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
     name?: StringWithAggregatesFilter<"Bonus"> | string
+    serviceValueCents?: IntWithAggregatesFilter<"Bonus"> | number
     amountCents?: IntWithAggregatesFilter<"Bonus"> | number
     paidAt?: DateTimeNullableWithAggregatesFilter<"Bonus"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Bonus"> | string | null
@@ -170291,6 +170313,7 @@ export namespace Prisma {
     id?: string
     month: string
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -170310,6 +170333,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -170321,6 +170345,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170340,6 +170365,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170355,6 +170381,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -170366,6 +170393,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170381,6 +170409,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179495,6 +179524,7 @@ export namespace Prisma {
     clientServiceId?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
     paidAt?: SortOrder
     notes?: SortOrder
@@ -179503,6 +179533,7 @@ export namespace Prisma {
   }
 
   export type BonusAvgOrderByAggregateInput = {
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
   }
 
@@ -179514,6 +179545,7 @@ export namespace Prisma {
     clientServiceId?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
     paidAt?: SortOrder
     notes?: SortOrder
@@ -179529,6 +179561,7 @@ export namespace Prisma {
     clientServiceId?: SortOrder
     userId?: SortOrder
     name?: SortOrder
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
     paidAt?: SortOrder
     notes?: SortOrder
@@ -179537,6 +179570,7 @@ export namespace Prisma {
   }
 
   export type BonusSumOrderByAggregateInput = {
+    serviceValueCents?: SortOrder
     amountCents?: SortOrder
   }
 
@@ -193604,6 +193638,7 @@ export namespace Prisma {
     id?: string
     month: string
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -193621,6 +193656,7 @@ export namespace Prisma {
     saleId?: string | null
     clientServiceId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -195193,6 +195229,7 @@ export namespace Prisma {
     clientServiceId?: StringNullableFilter<"Bonus"> | string | null
     userId?: StringNullableFilter<"Bonus"> | string | null
     name?: StringFilter<"Bonus"> | string
+    serviceValueCents?: IntFilter<"Bonus"> | number
     amountCents?: IntFilter<"Bonus"> | number
     paidAt?: DateTimeNullableFilter<"Bonus"> | Date | string | null
     notes?: StringNullableFilter<"Bonus"> | string | null
@@ -199346,6 +199383,7 @@ export namespace Prisma {
     id?: string
     month: string
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -199363,6 +199401,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -261849,6 +261888,7 @@ export namespace Prisma {
     id?: string
     month: string
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -261866,6 +261906,7 @@ export namespace Prisma {
     saleId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -263536,6 +263577,7 @@ export namespace Prisma {
     id?: string
     month: string
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -263553,6 +263595,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -271507,6 +271550,7 @@ export namespace Prisma {
     saleId?: string | null
     clientServiceId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -272282,6 +272326,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272299,6 +272344,7 @@ export namespace Prisma {
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -272313,6 +272359,7 @@ export namespace Prisma {
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -273850,6 +273897,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -276545,6 +276593,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276562,6 +276611,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -276576,6 +276626,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283806,6 +283857,7 @@ export namespace Prisma {
     saleId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -283871,6 +283923,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283888,6 +283941,7 @@ export namespace Prisma {
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283902,6 +283956,7 @@ export namespace Prisma {
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283916,6 +283971,7 @@ export namespace Prisma {
     clientServiceId?: string | null
     userId?: string | null
     name: string
+    serviceValueCents?: number
     amountCents?: number
     paidAt?: Date | string | null
     notes?: string | null
@@ -283927,6 +283983,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     month?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283944,6 +284001,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283958,6 +284016,7 @@ export namespace Prisma {
     clientServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
+    serviceValueCents?: IntFieldUpdateOperationsInput | number
     amountCents?: IntFieldUpdateOperationsInput | number
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null

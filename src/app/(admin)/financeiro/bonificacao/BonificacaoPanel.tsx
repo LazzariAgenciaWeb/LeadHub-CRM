@@ -17,12 +17,22 @@ export interface BonificacaoData {
   recorrentes: { id: string; cliente: string; label: string; tipo: string; amountCents: number; faturado: boolean }[];
   pontuais: { id: string; titulo: string; cliente: string | null; valorCents: number; entregueEm: string }[];
   lancados: {
-    id: string; nome: string; amountCents: number; pago: boolean;
+    id: string; nome: string; amountCents: number; serviceValueCents: number;
+    pago: boolean; pagoEm: string | null;
     origem: { tipo: "venda" | "contrato" | "avulso"; id: string; descricao: string };
   }[];
 }
 
 const card = "bg-[#0f1623] border border-[#1e2d45] rounded-xl p-5";
+
+/**
+ * Mês em que a bonificação foi PAGA — que normalmente não é a competência.
+ * Bonificação de agosto sai em setembro, e sem mostrar isso a lista fica
+ * ambígua sobre qual pagamento já saiu.
+ */
+function mesCurto(iso: string) {
+  return new Date(iso).toLocaleDateString("pt-BR", { month: "short", year: "numeric" }).replace(".", "");
+}
 const input =
   "bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
@@ -33,7 +43,6 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   // Origem escolhida pra lançar: qual linha está com o formulário aberto.
   const [abrindo, setAbrindo] = useState<string | null>(null);
   const [quem, setQuem] = useState("");
-  const [quanto, setQuanto] = useState("");
   const [filtroTipo, setFiltroTipo] = useState<string | null>(null);
 
   if (!data) {
@@ -65,7 +74,6 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
         month: data!.month,
         ...origem,
         ...(colab ? { userId: colab.id } : { name: quem }),
-        amountCents: toCents(quanto),
       }),
     });
     setOcupado(null);
@@ -74,7 +82,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
       setErro(e.error ?? "Não foi possível lançar.");
       return;
     }
-    setAbrindo(null); setQuem(""); setQuanto("");
+    setAbrindo(null); setQuem("");
     router.refresh();
   }
 
@@ -99,11 +107,16 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
 
   // Totais por colaborador — é o número que vira pagamento no mês seguinte.
   const porColaborador = (() => {
-    const m = new Map<string, { total: number; pago: number }>();
+    const m = new Map<string, { total: number; pago: number; pagoEm: string | null }>();
     for (const b of data.lancados) {
-      const cur = m.get(b.nome) ?? { total: 0, pago: 0 };
+      const cur = m.get(b.nome) ?? { total: 0, pago: 0, pagoEm: null as string | null };
       cur.total += b.amountCents;
-      if (b.pago) cur.pago += b.amountCents;
+      if (b.pago) {
+        cur.pago += b.amountCents;
+        // Guarda o pagamento mais recente: se saiu em parcelas, o que interessa
+        // saber de relance é quando foi a última.
+        if (!cur.pagoEm || (b.pagoEm && b.pagoEm > cur.pagoEm)) cur.pagoEm = b.pagoEm;
+      }
       m.set(b.nome, cur);
     }
     return [...m].map(([nome, v]) => ({ nome, ...v })).sort((a, b) => b.total - a.total);
@@ -115,15 +128,48 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
   const tipos = [...new Set(data.recorrentes.map((r) => r.tipo))].sort();
   const recorrentesVisiveis = data.recorrentes.filter((r) => !filtroTipo || r.tipo === filtroTipo);
 
-  // Origem que já tem lançamento: some da lista de candidatos, pra não lançar
-  // duas vezes sem perceber.
-  const jaLancado = new Set(data.lancados.map((b) => `${b.origem.tipo}:${b.origem.id}`));
+  // Lançamentos por origem, mostrados na própria linha pra você ver quem já
+  // recebeu sem descer até a lista.
+  //
+  // As duas origens têm regras DIFERENTES de propósito:
+  //   contrato mensal → um colaborador por cliente. Depois de lançado o botão
+  //                     some, que é a trava contra pagar duas vezes. Pra
+  //                     trocar, apague o lançamento e refaça.
+  //   serviço pontual → aceita vários, com valores diferentes: mais de uma
+  //                     pessoa pode ter trabalhado no mesmo serviço.
+  const lancadosPorOrigem = new Map<string, { nome: string; amountCents: number; pago: boolean; pagoEm: string | null }[]>();
+  for (const b of data.lancados) {
+    const chave = `${b.origem.tipo}:${b.origem.id}`;
+    const lista = lancadosPorOrigem.get(chave) ?? [];
+    lista.push({ nome: b.nome, amountCents: b.amountCents, pago: b.pago, pagoEm: b.pagoEm });
+    lancadosPorOrigem.set(chave, lista);
+  }
+
+  function JaLancados({ chave }: { chave: string }) {
+    const lista = lancadosPorOrigem.get(chave);
+    if (!lista?.length) return null;
+    return (
+      <div className="mt-1 flex flex-wrap gap-1">
+        {lista.map((l, i) => (
+          <span
+            key={i}
+            className={`text-[10px] px-1.5 py-0.5 rounded ${
+              l.pago ? "bg-emerald-500/15 text-emerald-400" : "bg-amber-500/15 text-amber-400"
+            }`}
+          >
+            {l.nome} · {brlFromCents(l.amountCents)}
+            {l.pagoEm && ` · pago ${mesCurto(l.pagoEm)}`}
+          </span>
+        ))}
+      </div>
+    );
+  }
 
   function FormLancar({ origem, chave }: { origem: { saleId?: string; clientServiceId?: string }; chave: string }) {
     if (abrindo !== chave) {
       return (
         <button
-          onClick={() => { setAbrindo(chave); setQuem(""); setQuanto(""); setErro(""); }}
+          onClick={() => { setAbrindo(chave); setQuem(""); setErro(""); }}
           className="flex items-center gap-1 px-2 py-1 rounded-lg border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-xs hover:bg-indigo-500/20 flex-shrink-0"
         >
           <Plus className="w-3 h-3" /> Bonificar
@@ -132,11 +178,12 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
     }
     return (
       <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
+        {/* Só o colaborador. O valor da bonificação você calcula depois e lança
+            na lista — aqui só se registra QUEM entra no fechamento. */}
         <select value={quem} onChange={(e) => setQuem(e.target.value)} className={input}>
           <option value="">Colaborador…</option>
           {data!.colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
         </select>
-        <input value={quanto} onChange={(e) => setQuanto(e.target.value)} placeholder="0,00" className={input + " w-24"} />
         <button
           onClick={() => lancar(origem)}
           disabled={ocupado === "novo"}
@@ -199,7 +246,10 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                 <div className="text-sm text-white">{c.nome}</div>
                 <div className="text-lg font-bold text-amber-400">{brlFromCents(c.total)}</div>
                 {c.pago > 0 && (
-                  <div className="text-[11px] text-emerald-400/80">{brlFromCents(c.pago)} já pago</div>
+                  <div className="text-[11px] text-emerald-400/80">
+                    {brlFromCents(c.pago)} já pago
+                    {c.pagoEm && <span className="text-slate-600"> · {mesCurto(c.pagoEm)}</span>}
+                  </div>
                 )}
               </div>
             ))}
@@ -223,9 +273,26 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   </div>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-sm font-medium ${b.pago ? "text-emerald-400" : "text-amber-400"}`}>
-                    {brlFromCents(b.amountCents)}
+                  <span className="text-[11px] text-slate-500">
+                    serviço <b className="text-slate-400 font-medium">{brlFromCents(b.serviceValueCents)}</b>
                   </span>
+                  {/* A bonificação é digitada aqui: é o número que você calcula
+                      fora e lança. Salva ao sair do campo. */}
+                  <label className="flex items-center gap-1.5">
+                    <span className="text-[11px] text-slate-500">bonif.</span>
+                    <input
+                      defaultValue={b.amountCents ? (b.amountCents / 100).toFixed(2).replace(".", ",") : ""}
+                      onBlur={(e) => {
+                        const novo = toCents(e.target.value);
+                        if (novo !== b.amountCents) alterar(b.id, { amountCents: novo });
+                      }}
+                      placeholder="0,00"
+                      className={input + ` w-24 text-right ${b.pago ? "text-emerald-400" : "text-amber-400"}`}
+                    />
+                  </label>
+                  {b.pagoEm && (
+                    <span className="text-[11px] text-emerald-400/70">pago em {mesCurto(b.pagoEm)}</span>
+                  )}
                   <label className="flex items-center gap-1.5 text-xs text-slate-400 cursor-pointer">
                     <input
                       type="checkbox"
@@ -278,9 +345,7 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
           {recorrentesVisiveis.map((r) => (
             <div
               key={r.id}
-              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${
-                jaLancado.has(`contrato:${r.id}`) ? "bg-emerald-500/[0.04]" : "bg-white/[0.02]"
-              }`}
+              className="flex items-start justify-between gap-3 px-3 py-2 rounded-lg bg-white/[0.02]"
             >
               <div className="min-w-0">
                 <div className="text-sm text-slate-200 truncate">{r.cliente}</div>
@@ -290,9 +355,10 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                     ? <span className="text-emerald-400/80"> · faturado</span>
                     : <span className="text-amber-500/80"> · não faturado</span>}
                 </div>
+                <JaLancados chave={`contrato:${r.id}`} />
               </div>
-              {jaLancado.has(`contrato:${r.id}`) ? (
-                <span className="text-[11px] text-emerald-400 flex-shrink-0">lançado</span>
+              {lancadosPorOrigem.has(`contrato:${r.id}`) ? (
+                <span className="text-[11px] text-slate-600 flex-shrink-0">lançado</span>
               ) : (
                 <FormLancar origem={{ clientServiceId: r.id }} chave={`c-${r.id}`} />
               )}
@@ -326,9 +392,9 @@ export default function BonificacaoPanel({ data }: { data: BonificacaoData | nul
                   <div className="text-xs text-slate-600">
                     vendido por {brlFromCents(v.valorCents)} · entregue {new Date(v.entregueEm).toLocaleDateString("pt-BR")}
                   </div>
+                  <JaLancados chave={`venda:${v.id}`} />
                 </div>
-                {/* Pontual aceita MAIS DE UM colaborador: o botão continua
-                    disponível mesmo depois do primeiro lançamento. */}
+    
                 <FormLancar origem={{ saleId: v.id }} chave={`v-${v.id}`} />
               </div>
             ))}

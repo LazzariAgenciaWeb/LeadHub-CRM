@@ -1774,6 +1774,7 @@ exports.Prisma.BonusScalarFieldEnum = {
   clientServiceId: 'clientServiceId',
   userId: 'userId',
   name: 'name',
+  serviceValueCents: 'serviceValueCents',
   amountCents: 'amountCents',
   paidAt: 'paidAt',
   notes: 'notes',

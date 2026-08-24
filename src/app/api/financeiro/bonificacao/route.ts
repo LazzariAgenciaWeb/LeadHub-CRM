@@ -33,7 +33,9 @@ const centavos = (v: unknown) => {
 };
 
 // POST /api/financeiro/bonificacao
-// Body: { month, saleId? | clientServiceId?, userId? | name, amountCents }
+// Body: { month, saleId? | clientServiceId?, userId? | name, amountCents? }
+// O valor do serviço NÃO vem do corpo: é lido da origem, pra ninguém informar
+// um valor de referência que não corresponde ao que está cadastrado.
 export async function POST(req: NextRequest) {
   const auth = await autorizar();
   if ("erro" in auth) return auth.erro;
@@ -50,17 +52,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Informe a venda ou o contrato de origem" }, { status: 400 });
   }
 
-  // Origem tem de ser da carteira de quem está logado.
+  // Origem tem de ser da carteira de quem está logado. Já aproveita e captura o
+  // valor do serviço — congelado aqui, pra mudança de preço no contrato não
+  // reescrever o histórico do que já foi bonificado.
+  let serviceValueCents = 0;
   if (saleId) {
-    const s = await prisma.sale.findFirst({ where: { id: saleId, companyId: auth.agencyId }, select: { id: true } });
+    const s = await prisma.sale.findFirst({
+      where: { id: saleId, companyId: auth.agencyId },
+      select: { valueCents: true },
+    });
     if (!s) return NextResponse.json({ error: "Venda não encontrada nesta carteira" }, { status: 400 });
+    serviceValueCents = s.valueCents;
   }
   if (clientServiceId) {
     const cs = await prisma.clientService.findFirst({
       where: { id: clientServiceId, clientCompany: { parentCompanyId: auth.agencyId } },
-      select: { id: true },
+      select: { amountCents: true },
     });
     if (!cs) return NextResponse.json({ error: "Contrato não encontrado nesta carteira" }, { status: 400 });
+    serviceValueCents = cs.amountCents ?? 0;
   }
 
   const userId = body?.userId ? String(body.userId) : null;
@@ -99,6 +109,7 @@ export async function POST(req: NextRequest) {
       clientServiceId,
       userId,
       name,
+      serviceValueCents,
       amountCents: centavos(body?.amountCents),
       notes: body?.notes ? String(body.notes) : null,
     },
