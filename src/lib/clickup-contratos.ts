@@ -83,10 +83,12 @@ const ORCAMENTO_MS = 25_000;
 async function buscarPagina(
   token: string,
   listId: string,
-  page: number
+  page: number,
+  incluirFechadas: boolean
 ): Promise<{ tasks: CuTask[]; ultima: boolean }> {
   const res = await fetch(
-    `https://api.clickup.com/api/v2/list/${listId}/task?page=${page}&include_closed=true&subtasks=false`,
+    `https://api.clickup.com/api/v2/list/${listId}/task` +
+      `?page=${page}&include_closed=${incluirFechadas}&subtasks=false`,
     { headers: { Authorization: token }, signal: AbortSignal.timeout(20_000) }
   );
   if (!res.ok) {
@@ -106,7 +108,11 @@ async function buscarPagina(
  * arbitrária, dá pra buscar cinco de uma vez: o tempo passa a ser o da página
  * mais lenta do lote, não a soma de todas.
  */
-export async function fetchContratos(token: string, listId: string): Promise<CuTask[]> {
+export async function fetchContratos(
+  token: string,
+  listId: string,
+  incluirFechadas = false
+): Promise<CuTask[]> {
   const t0 = Date.now();
   const out: CuTask[] = [];
 
@@ -119,7 +125,7 @@ export async function fetchContratos(token: string, listId: string): Promise<CuT
     }
 
     const paginas = Array.from({ length: LOTE }, (_, k) => inicio + k).filter((n) => n < MAX_PAGINAS);
-    const lote = await Promise.all(paginas.map((n) => buscarPagina(token, listId, n)));
+    const lote = await Promise.all(paginas.map((n) => buscarPagina(token, listId, n, incluirFechadas)));
 
     let acabou = false;
     for (const { tasks, ultima } of lote) {

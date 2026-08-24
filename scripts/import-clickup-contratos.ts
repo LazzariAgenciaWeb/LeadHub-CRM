@@ -46,7 +46,7 @@ async function main() {
   const listId = opt("lista") ?? LISTA_CONTRATOS_PADRAO;
   console.log(`Agência: ${agency?.name}\nLista: ${listId}\n`);
 
-  const tasks = await fetchContratos(token, listId);
+  const tasks = await fetchContratos(token, listId, flag("incluir-encerrados"));
   const r = await analisarImportacao(agencyId, tasks, flag("incluir-encerrados"));
 
   console.log(`${r.totalTasks} task(s) · ${r.encerradas} encerrada(s) fora · ${r.contratos} contrato(s).`);

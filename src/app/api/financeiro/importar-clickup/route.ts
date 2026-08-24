@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
   let tasks;
   try {
-    tasks = await fetchContratos(token, listId);
+    tasks = await fetchContratos(token, listId, incluirEncerrados);
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 502 });
   }

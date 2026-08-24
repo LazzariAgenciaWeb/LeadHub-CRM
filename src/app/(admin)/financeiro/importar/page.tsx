@@ -47,7 +47,7 @@ export default async function ImportarPage({
 
   if (sp.previa === "1" && agencyId && token) {
     try {
-      const tasks = await fetchContratos(token, listId);
+      const tasks = await fetchContratos(token, listId, incluirEncerrados);
       relatorio = paraTela(await analisarImportacao(agencyId, tasks, incluirEncerrados));
     } catch (e) {
       erro = (e as Error).message;
